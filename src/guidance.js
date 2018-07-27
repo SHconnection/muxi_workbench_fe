@@ -7,9 +7,9 @@ class guidance extends Component{
       return (
         <div>
           <ul>
-            <li><Link to="/project">项目</Link></li>
-            <li><Link to="/dynamic">动态</Link></li>
-            <li><Link to="/progress">进度</Link></li>
+            <li><Link to="/file">项目</Link></li>
+            <li><Link to="/dynamic_list">动态</Link></li>
+            <li><Link to="/progress_list">进度</Link></li>
             <li><Link to="/number">成员</Link></li>
           </ul>
           {this.props.children}
