@@ -1,3 +1,10 @@
+/*
+该组件用于选择成员，
+自定义成员members:{name:'',selected:false}，
+selMembers:[]存储已选择成员，
+transferMsg = (mem, selMem) => {this.setState({members: mem,selMembers: selMem});}返回数据
+*/
+
 import React, { Component } from 'react';
 import './member.css';
 
@@ -6,8 +13,36 @@ class SelectMem extends Component {
     super(props);
   }
 
-  select(member){
-    this.props.select(member);
+  componentWillMount(){
+    let arr1 = this.props.members,
+        arr2 = this.props.selMembers;
+    
+    arr1.map(function(item){
+      let index = arr2.indexOf(item);
+      if(item.selected && index === -1){
+        arr2.push(item);
+      }
+    });
+
+    this.props.transferMsg(arr1, arr2);
+  }
+
+  select(item){
+    let arr1 = this.props.members,
+        arr2 = this.props.selMembers;
+
+    item.selected = !item.selected;
+
+    let index = arr2.indexOf(item);
+
+    if(item.selected && index === -1){
+      arr2.push(item);
+    }
+    else if(!item.selected && index !== -1){
+      arr2.splice(index, 1);
+    }
+    
+    this.props.transferMsg(arr1, arr2);
   }
 
   render() {
@@ -18,7 +53,7 @@ class SelectMem extends Component {
           return (
             <div className = "nowrap" key = {index}>
               <input type = "checkbox" checked = {item.selected} onChange = {this.select.bind(this, item)} id = {"check" + index}/>
-              <label for = {"check" + index}>{item.name}</label>
+              <label htmlFor = {"check" + index}>{item.name}</label>
             </div>
           );
         })
