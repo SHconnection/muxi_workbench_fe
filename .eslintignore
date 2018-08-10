@@ -1,0 +1,3 @@
+src/assets/*
+src/service/*
+registerServiceWorker.js
