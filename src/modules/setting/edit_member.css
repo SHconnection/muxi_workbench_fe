@@ -1,0 +1,25 @@
+.littleSize{
+  font-size: 20px;
+  color: #1D4CB5;
+}
+.tip{
+  margin-top: 2px;
+  font-size: 14px;
+  color: #919191;
+}
+.vice{
+  display: inline-block;
+  margin: 16px 484px 17px 0;
+}
+.select{
+  display: inline-block;
+  margin-top: 237px;
+  margin-bottom: 188px;
+}
+.littleFont{
+  font-size: 14px;
+}
+.marg{
+  margin-top: 71px;
+  margin-bottom: 363px;
+}

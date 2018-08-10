@@ -53,7 +53,7 @@ class SelectMem extends Component {
           return (
             <div className = "nowrap" key = {index}>
               <input type = "checkbox" checked = {item.selected} onChange = {this.select.bind(this, item)} id = {"check" + index}/>
-              <label htmlFor = {"check" + index}>{item.name}</label>
+              <label htmlFor = {"check" + index} className = "fontColor">{item.name}</label>
             </div>
           );
         })
