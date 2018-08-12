@@ -4,9 +4,9 @@
 接收项目信息参数
 */
 import React, { Component } from 'react';
-import './project_setting.css';
+import SelectMem from '../../../components/common/member.jsx';
+import '../../../static/css/common.css';
 import './edit_member.css';
-import SelectMem from '../../components/common/member.jsx';
 
 class EditMem extends Component {
   constructor(props){

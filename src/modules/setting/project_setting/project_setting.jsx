@@ -3,6 +3,7 @@
 为项目设置首页，下接编辑成员页面
 */
 import React, { Component } from 'react';
+import '../../../static/css/common.css';
 import './project_setting.css';
 import { Link } from 'react-router-dom';
 

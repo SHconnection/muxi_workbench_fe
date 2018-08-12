@@ -1,4 +1,4 @@
-import React from 'react'
+import React from 'react';
 import ReactDOM from 'react-dom';
 import { BrowserRouter as Router, Route, IndexRoute } from 'react-router-dom'
 import registerServiceWorker from './registerServiceWorker';
@@ -21,4 +21,7 @@ ReactDOM.render((
   </Router>
 ),document.getElementById('root'));
 
+ReactDOM.render(
+    <App />, document.getElementById('root')
+);
 registerServiceWorker();
