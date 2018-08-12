@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { BrowserRouter as Router, Route, IndexRoute } from 'react-router-dom'
+import { BrowserRouter as Router, Route} from 'react-router-dom'
 import registerServiceWorker from './registerServiceWorker';
 import Project from './modules/project/project'
 import dynamic_list from './modules/status/status'
@@ -20,8 +20,4 @@ ReactDOM.render((
     </div>
   </Router>
 ),document.getElementById('root'));
-
-ReactDOM.render(
-    <App />, document.getElementById('root')
-);
 registerServiceWorker();

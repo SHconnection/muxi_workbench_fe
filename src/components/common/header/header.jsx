@@ -8,48 +8,48 @@ class Header extends Component {
     super(props);
     this.state = {
       currentIndex: 0,
-      routers: [
-        {
-          tabName: "项目",
-          url: "project",
-          index: 0
-        },
-        {
-          tabName: "进度",
-          url: "progress_list",
-          index: 1
-        },
-        {
-          tabName: "动态",
-          url: "dynamic_list",
-          index: 2
-        },
-        {
-          tabName: "成员",
-          url: "member",
-          index: 3
-        }
-      ]
+      // routers: [
+      //   {
+      //     tabName: "项目",
+      //     url: "project",
+      //     index: 0
+      //   },
+      //   {
+      //     tabName: "进度",
+      //     url: "progress_list",
+      //     index: 1
+      //   },
+      //   {
+      //     tabName: "动态",
+      //     url: "dynamic_list",
+      //     index: 2
+      //   },
+      //   {
+      //     tabName: "成员",
+      //     url: "member",
+      //     index: 3
+      //   }
+      // ]
     }
   }
 
-  onChange(res) {
-    console.log(res)
-    this.setState({
-      currentIndex: res.index
-    })
-    console.log(this.state.currentIndex)
-    window.location.href = './' + res.url
-  }
+  // onChange(res) {
+  //   console.log(res)
+  //   this.setState({
+  //     currentIndex: res.index
+  //   })
+  //   console.log(this.state.currentIndex)
+  //   window.location.href = './' + res.url
+  // }
 
   render() {
-    const tabList = this.state.routers.map((res, index) => {
-      let tabStyle = res.index==this.state.currentIndex ? 'tab-item tab-item-active' : 'tab-item'
-      return 
+    // const tabList = this.state.routers.map((res, index) => {
+    //   let tabStyle = res.index==this.state.currentIndex ? 'tab-item tab-item-active' : 'tab-item'
+    //   return 
       // <div onClick={this.onChange.bind(this, res)} key={index} className={tabStyle}>
       // {res.tabName}
       // </div>
-    })
+    // })
     return (
       <div className="container">
         <img className="logo-img" src={logo} alt={"logo"}/>
