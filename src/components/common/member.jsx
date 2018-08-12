@@ -7,6 +7,7 @@ transferMsg = (mem, selMem) => {this.setState({members: mem,selMembers: selMem})
 
 import React, { Component } from 'react';
 import './member.css';
+import '../../static/css/common.css';
 
 class SelectMem extends Component {
   constructor(props){
