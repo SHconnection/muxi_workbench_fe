@@ -40,14 +40,14 @@ class EditMem extends Component {
   render() {
     return (
       <div className = "subject">
-        <div className = "title">编辑项目成员</div>
+        <div className = "title">编辑项目成员</div><br/>
         <div className = "vice">
           <div className = "title littleSize">设置项目成员</div>
           <div className = "tip">选择你要设置的成员</div>
         </div>
-        <button className = "btn certain littltFont littleBtn">全选</button>
+        <button className = "certain littltFont littleBtn">全选</button>
         <SelectMem members = {this.state.members} selMembers = {this.state.selMembers} transferMsg = {this.transferMsg.bind(this)} />
-        <button className = "btn certain marg">保存项目成员</button>
+        <button className = "certain marg">保存项目成员</button>
         <span className = "cancel">取消</span>
       </div>
     );

@@ -1,0 +1,45 @@
+.main{
+    margin-right: 75px;
+    padding: 39px 0 54px 35px;
+    border-bottom: 1px solid #979797;
+}
+.avatar{
+    display: inline-block;
+    width: 114px;
+    height: 114px;
+    margin: 0 27px 42px 0;
+}
+.avaTip{
+    display: inline-block;
+    vertical-align: top;
+    width: 400px;
+    margin-top: 26px;
+}
+.avaForm{
+    color: #919191;
+    font-size: 10px;
+}
+.writeTip{
+    width: 360px;
+    height: 40px;
+    margin-left: 15px;
+    margin-bottom: 20px;
+    border: 1px solid rgba(0,0,0,0.15);
+}
+.footer{
+    padding: 39px 0 40px 35px;
+}
+.sel{
+    display: inline-block;
+    vertical-align: top;
+    width: 400px;
+    margin-left: 31px;
+}
+.weight{
+    font-weight:bold;
+}
+.saveBtn{
+    background-color: #1D4CB5;
+    color: #FBFBFB;
+    margin-left: 9px;
+}

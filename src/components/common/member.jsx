@@ -2,6 +2,7 @@
 该组件用于选择成员，
 自定义成员members:{name:'',selected:false}，
 selMembers:[]存储已选择成员，
+wrap用于标记是否换行，默认不换行
 transferMsg = (mem, selMem) => {this.setState({members: mem,selMembers: selMem});}返回数据
 */
 
@@ -46,13 +47,13 @@ class SelectMem extends Component {
     this.props.transferMsg(arr1, arr2);
   }
 
-  render() {
+  render() { 
     return (
       <div className = "selectMem">
       {
         this.props.members.map((item, index) => {
           return (
-            <div className = "nowrap" key = {index}>
+            <div className = {this.props.wrap ? "unit" : "unit nowrap"} key = {index}>
               <input type = "checkbox" checked = {item.selected} onChange = {this.select.bind(this, item)} id = {"check" + index}/>
               <label htmlFor = {"check" + index} className = "fontColor">{item.name}</label>
             </div>

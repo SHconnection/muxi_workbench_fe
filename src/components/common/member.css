@@ -1,5 +1,7 @@
 .nowrap{
     display: inline-block;
+}
+.unit{
     width: 144px;
     margin-bottom: 21px;
 }
