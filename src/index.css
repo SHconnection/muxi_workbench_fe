@@ -1,0 +1,16 @@
+.app-container {
+  min-width: 1200px;
+}
+.header {
+  position: fixed;
+  top: 0%;
+}
+.card-container {
+  position: relative;
+  width: 962px;
+  min-height: 716px;
+  margin: 52px auto;
+  background-color: #fbfbfb;
+  border-radius: 6px;
+  box-shadow: 0px 1px 15px #888888;
+}
