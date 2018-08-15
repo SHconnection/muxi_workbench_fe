@@ -16,16 +16,24 @@ html, body{
   margin: 54px auto 0 auto;
   border-radius: 6px;
   background-color: #FBFBFB;
-  padding-top: 43px;
-  padding-left: 75px;
+  padding: 43px 75px 0 75px;
   -moz-box-shadow: 0px 2px 8px rgba(0,0,0,0.1);/* for firefox */
   -webkit-box-shadow: 0px 2px 8px rgba(0,0,0,0.1);/* for safari or chrome */
   box-shadow: 0px 2px 8px rgba(0,0,0,0.1);/* for opera or ie9 */ 
 }
+.minH{
+  min-height: 716px;
+}
 .title{
   display: inline-block;
-  font-size:24px;
+  font-size: 24px;
   color:#1D4CB5;
+}
+.littleSize{
+  font-size: 20px;
+}
+.llSize{
+  font-size: 16px;
 }
 .reArrow::after {
   content: "";
@@ -56,6 +64,12 @@ input[type = "text"], textarea{
   /* IE10+ */
   color: #919191;
 }
+.inputSize{
+  width:585px;
+  height:40px;
+  border:1px solid #1D4CB5;
+  margin-top: 18px;
+}
 textarea{
   resize: none;
 }
@@ -63,4 +77,25 @@ button{
   padding: 5px 20px;
   margin-right: 20px;
   border-radius: 4px;
+}
+.saveBtn{
+  background-color: #1D4CB5;
+  color: white;
+}
+.delBtn{
+  background-color: white;
+  border: 1px solid #D9D9D9;
+}
+.fakeBtn{
+  font-size: 14px;
+  color: #108EE9;
+}
+.none{
+  display: none;
+}
+.present{
+  margin: 25px 0 0 43px;
+}
+.clear{
+  clear: both;
 }

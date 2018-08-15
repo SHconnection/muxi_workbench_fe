@@ -35,11 +35,33 @@
     width: 400px;
     margin-left: 31px;
 }
-.weight{
-    font-weight:bold;
+.isSave{
+    position: absolute;
+    top: 23px;
+    left: 373px;
+    margin: 0;
+    padding: 0;
+    width: 290px;
+    height: 37px;
+    line-height: 37px;
+    text-align: center;
+    font-size: 14px;
+    color: rgba(0,0,0,0.65);
 }
-.saveBtn{
-    background-color: #1D4CB5;
-    color: #FBFBFB;
-    margin-left: 9px;
+.circle {
+    position: relative;
+    top: 3px;
+    display: inline-block;
+	border-radius: 50%;
+	width: 16px;
+    height: 16px; 
+    border: 1px solid #108EE9;
+    margin-right: 9px;
+}
+.circle::after{
+    position: absolute;
+    top: -10px;
+    left: 1px;
+    content: '\2713';
+    color: #108EE9;
 }

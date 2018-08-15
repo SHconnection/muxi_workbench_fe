@@ -1,0 +1,23 @@
+.btnFlo{
+    float: right;
+    margin-bottom: 23px;
+}
+.cell{
+    display: flex;
+    position: relative;
+    justify-content: space-between;
+    border-top: 1px solid #979797;
+    width: 820px;
+    height: 90px;
+    line-height: 90px;
+    padding: 0 10px; 
+}
+.litSel{
+    display: flex;
+    justify-content: space-between;
+    width: 100px;
+}
+.pos{
+    position: absolute;
+    left: 350px;
+}
