@@ -89,6 +89,7 @@ button{
 .fakeBtn{
   font-size: 14px;
   color: #108EE9;
+  cursor: pointer;
 }
 .none{
   display: none;

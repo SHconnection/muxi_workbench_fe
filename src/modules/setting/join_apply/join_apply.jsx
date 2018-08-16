@@ -14,36 +14,26 @@ class JoinApp extends Component {
     super(props);
   }
 
-  cancel(mem, arr){
+  cancel(mem){
     let arr1 = this.props.members,
-        arr2 = arr || this.props.selMembers,
-        index = arr1.indexOf(mem);
-    arr1[index].selected = ;
+        arr2 = this.props.selMembers;
+    if(!mem.dealed)
+      mem.dealed = true;
+
     this.props.transferMsg(arr1, arr2);
   }
 
   save(mem){
-    let arr2 = this.props.selMembers,
+    let arr1 = this.props.members,
+        arr2 = this.props.selMembers,
         index = arr2.indexOf(mem);
 
     if(index === -1){
+      mem.dealed = true;
       arr2.push(mem);
     }
-    
-    this.cancel(mem, arr2);
-  }
 
-  func(mem){
-    return(
-      <div className = "cell">
-        <b>{mem.name}</b>
-        <span className = "llSize pos">{mem.mailbox}</span>
-        <div className = "litSel">
-          <span className = "fakeBtn" onClick = {this.cancel(mem)}>不同意</span>
-          <span className = "fakeBtn" onClick = {this.save(mem)}>同意</span>
-        </div>
-      </div>
-    )
+    this.props.transferMsg(arr1, arr2);
   }
 
   render() {
@@ -54,23 +44,14 @@ class JoinApp extends Component {
         <button className = "saveBtn btnFlo">全部同意</button>
         <div className = "clear present">
           {
-            // (() => {
-						// 	let len = this.props.members.length,
-						// 			arr = this.props.members;
-							
-						// 	for(let i = 0;i < len;i++){
-						// 		console.log(arr[i])
-						// 		this.func(arr[i])
-						// 	}
-						// })()
-						this.state.members.map(function(mem){
+						this.props.members.map(function(mem){
 							return(
 								<div className = {mem.dealed ? "none" : "cell"}>
 									<b>{mem.name}</b>
 									<span className = "llSize pos">{mem.mailbox}</span>
 									<div className = "litSel">
-										<span className = "fakeBtn" onClick = {this.cancel(mem)}>不同意</span>
-										<span className = "fakeBtn" onClick = {this.save(mem)}>同意</span>
+										<span className = "fakeBtn" onClick = {this.cancel.bind(this, mem)}>不同意</span>
+										<span className = "fakeBtn" onClick = {this.save.bind(this, mem)}>同意</span>
 									</div>
 								</div>
 							)
