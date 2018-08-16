@@ -10,7 +10,7 @@ module.exports = {
 
       "import/no-extraneous-dependencies": ["error", { "devDependencies": true }],
 
-      "react/destructuring-assignment": [<enabled>, "always", { "ignoreClassFields": <boolean> }]
+      // "react/destructuring-assignment": [<enabled>, "always", { "ignoreClassFields": <boolean> }]
     },
     "env": {
       "jest": true,

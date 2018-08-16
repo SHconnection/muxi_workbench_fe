@@ -1,0 +1,46 @@
+
+<svg width="119px" height="79px" viewBox="0 0 119 79" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 49.2 (51160) - http://www.bohemiancoding.com/sketch -->
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <rect id="path-1" x="8" y="5" width="119" height="74" rx="2"></rect>
+        <rect id="path-2" x="8" y="15" width="119" height="14" rx="2"></rect>
+        <rect id="path-3" x="8" y="27" width="119" height="14" rx="2"></rect>
+        <rect id="path-4" x="8" y="39" width="119" height="14" rx="2"></rect>
+        <rect id="path-5" x="14" y="0" width="22" height="7" rx="1"></rect>
+    </defs>
+    <g id="高保真原型" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="首页" transform="translate(-427.000000, -236.000000)" fill-rule="nonzero">
+            <g id="项目文件夹" transform="translate(194.000000, 234.000000)">
+                <g id="项目2" transform="translate(225.000000, 0.000000)">
+                    <g transform="translate(0.000000, 2.000000)">
+                        <g id="Rectangle-67">
+                            <use fill="#FFFFFF" fill-rule="evenodd" xlink:href="#path-1"></use>
+                            <rect stroke="#2654B9" stroke-width="2" x="9" y="6" width="117" height="72" rx="2"></rect>
+                        </g>
+                        <g id="Rectangle-67">
+                            <!-- <use fill="#B6E4FF" fill-rule="evenodd" xlink:href="#path-2"></use> -->
+                            <rect stroke="#2654B9" stroke-width="2" x="9" y="16" width="117" height="12" rx="2"></rect>
+                        </g>
+                        <g id="Rectangle-66">
+                            <!-- <use fill="#62C7FF" fill-rule="evenodd" xlink:href="#path-3"></use> -->
+                            <rect stroke="#2654B9" stroke-width="2" x="9" y="28" width="117" height="12" rx="2"></rect>
+                        </g>
+                        <g id="Rectangle-67">
+                            <use fill="#4A90E2" fill-rule="evenodd" xlink:href="#path-4"></use>
+                            <rect stroke="#2654B9" stroke-width="2" x="9" y="40" width="117" height="12" rx="2"></rect>
+                        </g>
+                        <circle id="Oval-72" stroke="#2654B9" stroke-width="2" fill="#62C7FF" cx="68" cy="43" r="32"></circle>
+                        <circle id="Oval-72" stroke="#2654B9" stroke-width="2" fill="#FFFFFF" cx="68" cy="43" r="26"></circle>
+                        <circle id="Oval-72" stroke="#2654B9" stroke-width="2" fill="#2654B9" cx="68" cy="43" r="15"></circle>
+                        <circle id="Oval-72" stroke="#2654B9" stroke-width="2" fill="#FFFFFF" cx="76.5" cy="36.5" r="3.5"></circle>
+                        <g id="Rectangle-65">
+                            <use fill="#FFFFFF" fill-rule="evenodd" xlinkHref="#path-5"></use>
+                            <rect stroke="#2654B9" stroke-width="2" x="15" y="1" width="20" height="5" rx="1"></rect>
+                        </g>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

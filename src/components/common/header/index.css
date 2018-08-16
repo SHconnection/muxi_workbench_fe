@@ -94,7 +94,9 @@
   margin-left: 28px;
   width: 74px;
   height: 74px;
-  background-color: #1D4CB5;
+  background: rgba(29, 76, 181, 100);
+  -webkit-transition-duration: 0.4s; /* Safari */
+  transition-duration: 0.4s;
   border-radius: 0 0 7px 7px;
   display: flex;
   flex-direction: column;
@@ -104,4 +106,8 @@
   color: #FBFBFB;
   font-weight: regular;
   cursor: pointer;
+}
+
+.header-write-progress:hover {
+  background: rgba(29, 76, 181, 0.9);
 }

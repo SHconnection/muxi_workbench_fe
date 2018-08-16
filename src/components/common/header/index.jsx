@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
-import './header.css'
+import './index.css'
 import logo from '../../../assets/img/logo@2x.png'
 import searchIcon from '../../../assets/img/search@2x.png'
 import infoRemindIcon from '../../../assets/img/info-remind@2x.png'
 import { NavLink } from 'react-router-dom'
-import Avatar from '../avatar/avatar'
+import AvatarImg from '../../../assets/img/avatar.png'
+import Avatar from '../avatar/index'
 
 class Header extends Component {
   constructor(props){
@@ -35,7 +36,7 @@ class Header extends Component {
         </div>
         <div className="header-function">
           <div className="header-avatar">
-            <Avatar src="https://avatars1.githubusercontent.com/u/28833259?s=400&u=54f2a88cb0f8733fffc430df3d313b3a2747ac3c&v=4" />
+            <Avatar src={AvatarImg} />
           </div>
           <img className="header-info-icon" src={infoRemindIcon} alt={"info-remind"}/>
           {this.state.showInput && (<input className="header-search-input" type="text" autoFocus={true}/>)}
