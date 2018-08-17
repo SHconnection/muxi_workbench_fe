@@ -27,11 +27,13 @@ class SetProject extends Component {
           <button className = "delBtn" onClick = {() => {this.setState({delete: true})}}>删除项目</button>
           <span className = "fakeBtn">取消</span>
         </div>
-        <div className = {this.state.delete ? "subject alert" : "none"}>
-          <span>确认要删除该项目吗?</span>
-          <div className = "alertMarg">
-            <button className = "delBtn btnMarg" onClick = {() => {this.setState({delete: false})}}>取消</button>
-            <button className = "saveBtn btnMarg">确定</button>
+        <div className = {this.state.delete ? "contain minH" : "none"}>
+          <div className = {"subject alert"}>
+            <span>确认要删除该项目吗?</span>
+            <div className = "SetProject_alertMarg">
+              <button className = "delBtn SetProject_btnMarg" onClick = {() => {this.setState({delete: false})}}>取消</button>
+              <button className = "saveBtn SetProject_btnMarg">确定</button>
+            </div>
           </div>
         </div>
       </div>

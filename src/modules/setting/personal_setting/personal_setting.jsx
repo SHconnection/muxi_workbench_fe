@@ -4,7 +4,7 @@
 import React, { Component } from 'react';
 import '../../../static/css/common.css';
 import './personal_setting.css';
-import SelectMem from '../../../components/common/member.jsx';
+import Mem from '../../../components/common/member.jsx';
 import { Link } from 'react-router-dom';
 
 class PerSet extends Component {
@@ -31,6 +31,10 @@ class PerSet extends Component {
 
   save(){
     this.setState({ifSave: true})
+
+    setTimeout(() => {
+      this.setState({ifSave: false})
+    }, 1000);
   }
 
   render() {
@@ -55,7 +59,7 @@ class PerSet extends Component {
         <div className = "footer">
           <b>通知设置</b>
           <div className = "sel">
-            <SelectMem members = {this.state.members} selMembers = {this.state.selMembers} wrap = {true} transferMsg = {this.transferMsg.bind(this)} />
+            <Mem members = {this.state.members} selMembers = {this.state.selMembers} wrap = {true} transferMsg = {this.transferMsg.bind(this)} />
           </div><br/>
           <button className = "saveBtn" onClick = {this.save.bind(this)}>{this.state.ifSave ? "已保存" : "保存设置"}</button>
         </div>

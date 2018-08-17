@@ -1,0 +1,20 @@
+.move{
+    display: inline-block;
+    margin-top: 34px;
+    margin-bottom: 30px;
+}
+.SelMem_FS{
+    font-size: 12px;
+}
+.SelMem_FC{
+    color: #1D4CB5;
+}
+.SelMem_btnMArg{
+    position: relative;
+    top: -10px;
+    margin-left: 31px;
+}
+.SelMem_titleMarg{
+    margin-bottom: 15px;
+    margin-right: 600px;
+}

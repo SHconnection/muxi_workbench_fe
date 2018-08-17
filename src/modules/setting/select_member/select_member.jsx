@@ -6,9 +6,10 @@
 import React, { Component } from 'react';
 import Mem from '../../../components/common/member.jsx';
 import '../../../static/css/common.css';
-import './edit_member.css';
+import './select_member.css';
+import '../edit_member/edit_member.css';
 
-class EditMem extends Component {
+class SelMem extends Component {
   constructor(props){
     super(props);
     this.state = {
@@ -59,19 +60,14 @@ class EditMem extends Component {
 
   render() {
     return (
-      <div className = "subject minH">
-        <div className = "title">编辑项目成员</div><br/>
-        <div className = "EditMem_vice">
-          <div className = "title littleSize">设置项目成员</div>
-          <div className = "EditMem_tip">选择你要设置的成员</div>
-        </div>
-        <button className = "saveBtn EditMem_FS" onClick = {this.selAll.bind(this)}>全选</button>
+      <div className = "present">
+        <b className = "title littleSize SelMem_vice">选择成员</b>
+        <span className = "fakeBtn" onClick = {this.selAll.bind(this)}>全选</span>
         <Mem members = {this.state.members} selMembers = {this.state.selMembers} transferMsg = {this.transferMsg.bind(this)} />
-        <button className = "saveBtn footerBtn">保存项目成员</button>
-        <span className = "fakeBtn footerBtn EditMem_btnMarg">取消</span>
+        <button className = "saveBtn footerBtn">保存设置</button>
       </div>
     );
   }
 }
 
-export default EditMem;
+export default SelMem;
