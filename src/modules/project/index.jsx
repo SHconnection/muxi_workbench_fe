@@ -43,30 +43,31 @@ class Project extends Component {
       }
   }
 
-  componentWillMount() {
-      //do something
-  }
+  // componentWillMount() {
+  //     //do something
+  // }
 
-  componentDidMount() {
-      //do something
-  }
+  // componentDidMount() {
+  //     //do something
+  // }
 
   render() {
+      const {project} = this.state
       return (
-          <div className="project">
-            <div className="project-create-bt">
-              <Button text="新建项目" />
-            </div>
-            <div className="projects-container">
-              {this.state.project.map(el => {
-                return (
-                  <div key={el.id} className="project-item">
-                    <ProjectItem item={el} />
-                  </div>
-                )
-              })}
-            </div>
+        <div className="project">
+          <div className="project-create-bt">
+            <Button text="新建项目" />
           </div>
+          <div className="projects-container">
+            {project.map(el => 
+              (
+                <div key={el.id} className="project-item">
+                  <ProjectItem index={el.index} name={el.name} />
+                </div>
+              )
+            )}
+          </div>
+        </div>
       )
   }
 }

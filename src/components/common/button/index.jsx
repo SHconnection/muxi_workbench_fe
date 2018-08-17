@@ -1,10 +1,9 @@
 import React from 'react';
+import PropTypes from 'prop-types'
 import './index.css'
 
-function Button(props) {
-  const width = props.width ? props.width + "px" : "96px"
-  const height = props.height ? props.height + "px" : "40px"
-  const text = props.text ? props.text : "Button"
+const Button = ({width, height, text}) => {
+  
   const style = {
     width,
     height,
@@ -20,5 +19,17 @@ function Button(props) {
     </div>
   );
 }
+
+Button.propTypes = {
+  width: PropTypes.string,
+  height: PropTypes.string,
+  text: PropTypes.string
+}
+
+Button.defaultProps = {
+  width: "96px",
+  height: "40px",
+  text: "Button"
+};
 
 export default Button;

@@ -1,20 +1,32 @@
 import React from 'react';
+import PropTypes from 'prop-types'
 import AvatarSrc from '../../../assets/img/avatar.png'
 
-function Avatar(props) {
-  const width = props.width ? props.width + "px" : "44px"
-  const height = props.height ? props.height + "px" : "44px"
-  const square = props.square ? "0" : "100%"
-  const src = props.src ? props.src : AvatarSrc
+const Avatar = ({width, height, square, src}) => {
+  
   const style = {
     width,
     height,
-    borderRadius: square
+    borderRadius: square ? "0" : "100%"
   }
 
   return (
     <img style={style} src={src} alt="avatar" />
   );
 }
+
+Avatar.propTypes = {
+  width: PropTypes.string,
+  height: PropTypes.string,
+  square: PropTypes.bool,
+  src: PropTypes.string
+}
+
+Avatar.defaultProps = {
+  width: "44px",
+  height: "44px",
+  square: false,
+  src: AvatarSrc
+};
 
 export default Avatar;

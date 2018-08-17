@@ -3,37 +3,37 @@
     <!-- Generator: Sketch 49.2 (51160) - http://www.bohemiancoding.com/sketch -->
     <desc>Created with Sketch.</desc>
     <defs>
-        <path d="M48.3539974,60 L67.6454316,60 C68.5068543,60 69.2714983,60.5515677 69.5432803,61.3689926 L75.8605071,80.3689926 C76.2090029,81.4171455 75.6418187,82.5493529 74.5936658,82.8978487 C74.390167,82.9655091 74.1771106,83 73.9626584,83 L42.0367706,83 C40.9322011,83 40.0367706,82.1045695 40.0367706,81 C40.0367706,80.7855479 40.0712615,80.5724915 40.1389219,80.3689926 L46.4561487,61.3689926 C46.7279308,60.5515677 47.4925748,60 48.3539974,60 Z" id="path-1"></path>
-        <rect id="path-2" x="0" y="0" width="115" height="74" rx="2"></rect>
-        <rect id="path-3" x="4" y="8" width="106" height="60" rx="2"></rect>
-        <rect id="path-4" x="0" y="61" width="115" height="13" rx="2"></rect>
-        <rect id="path-5" x="21" y="23" width="5" height="33" rx="2"></rect>
+        <path d="M48.3539974,60 L67.6454316,60 C68.5068543,60 69.2714983,60.5515677 69.5432803,61.3689926 L75.8605071,80.3689926 C76.2090029,81.4171455 75.6418187,82.5493529 74.5936658,82.8978487 C74.390167,82.9655091 74.1771106,83 73.9626584,83 L42.0367706,83 C40.9322011,83 40.0367706,82.1045695 40.0367706,81 C40.0367706,80.7855479 40.0712615,80.5724915 40.1389219,80.3689926 L46.4561487,61.3689926 C46.7279308,60.5515677 47.4925748,60 48.3539974,60 Z" id="path4-1"></path>
+        <rect id="path4-2" x="0" y="0" width="115" height="74" rx="2"></rect>
+        <rect id="path4-3" x="4" y="8" width="106" height="60" rx="2"></rect>
+        <rect id="path4-4" x="0" y="61" width="115" height="13" rx="2"></rect>
+        <rect id="path4-5" x="21" y="23" width="5" height="33" rx="2"></rect>
     </defs>
-    <g id="高保真原型" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+    <g id="icon4" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
         <g id="首页" transform="translate(-879.000000, -234.000000)" fill-rule="nonzero">
             <g id="项目文件夹" transform="translate(194.000000, 234.000000)">
                 <g id="项目1" transform="translate(675.000000, 0.000000)">
                     <g id="Group-32" transform="translate(10.000000, 0.000000)">
                         <g id="Rectangle-68">
-                            <use fill="#62C7FF" fill-rule="evenodd" xlink:href="#path-1"></use>
+                            <use fill="#62C7FF" fill-rule="evenodd" xlink:href="#path4-1"></use>
                             <path stroke="#2654B9" stroke-width="2" d="M48.3539974,61 C47.9232861,61 47.5409641,61.2757838 47.4050731,61.6844963 L41.0878463,80.6844963 C41.0540161,80.7862457 41.0367706,80.8927739 41.0367706,81 C41.0367706,81.5522847 41.4844859,82 42.0367706,82 L73.9626584,82 C74.0698845,82 74.1764127,81.9827546 74.2781621,81.9489243 C74.8022386,81.7746765 75.0858307,81.2085727 74.9115828,80.6844963 L68.594356,61.6844963 C68.458465,61.2757838 68.076143,61 67.6454316,61 L48.3539974,61 Z"></path>
                         </g>
                         <g id="Rectangle-67">
-                            <use fill="#62C7FF" fill-rule="evenodd" xlink:href="#path-2"></use>
+                            <use fill="#62C7FF" fill-rule="evenodd" xlink:href="#path4-2"></use>
                             <rect stroke="#2654B9" stroke-width="2" x="1" y="1" width="113" height="72" rx="2"></rect>
                         </g>
                         <g id="Rectangle-67">
-                            <use fill="#B6E4FF" fill-rule="evenodd" xlink:href="#path-3"></use>
+                            <use fill="#B6E4FF" fill-rule="evenodd" xlink:href="#path4-3"></use>
                             <rect stroke="#2654B9" stroke-width="2" x="5" y="9" width="104" height="58" rx="2"></rect>
                         </g>
                         <g id="Rectangle-67">
-                            <use fill="#FFFFFF" fill-rule="evenodd" xlink:href="#path-4"></use>
+                            <use fill="#FFFFFF" fill-rule="evenodd" xlink:href="#path4-4"></use>
                             <rect stroke="#2654B9" stroke-width="2" x="1" y="62" width="113" height="11" rx="2"></rect>
                         </g>
                     </g>
                     <circle id="Oval-71" stroke="#2654B9" stroke-width="2" fill="#D7F0FF" cx="24" cy="18" r="2"></circle>
                     <g id="Rectangle-4">
-                        <use fill="#D7F0FF" fill-rule="evenodd" xlink:href="#path-5"></use>
+                        <use fill="#D7F0FF" fill-rule="evenodd" xlink:href="#path4-5"></use>
                         <rect stroke="#2654B9" stroke-width="2" x="22" y="24" width="3" height="31" rx="1.5"></rect>
                     </g>
                 </g>
