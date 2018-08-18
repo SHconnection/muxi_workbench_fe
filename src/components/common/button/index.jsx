@@ -5,8 +5,8 @@ import './index.css'
 const Button = ({width, height, text}) => {
   
   const style = {
-    width,
-    height,
+    width: `${width}px`,
+    height: `${height}px`,
   }
 
   return (
@@ -27,8 +27,8 @@ Button.propTypes = {
 }
 
 Button.defaultProps = {
-  width: "96px",
-  height: "40px",
+  width: "96",
+  height: "40",
   text: "Button"
 };
 

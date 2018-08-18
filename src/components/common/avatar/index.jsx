@@ -5,8 +5,8 @@ import AvatarSrc from '../../../assets/img/avatar.png'
 const Avatar = ({width, height, square, src}) => {
   
   const style = {
-    width,
-    height,
+    width: `${width}px`,
+    height: `${height}px`,
     borderRadius: square ? "0" : "100%"
   }
 
@@ -23,8 +23,8 @@ Avatar.propTypes = {
 }
 
 Avatar.defaultProps = {
-  width: "44px",
-  height: "44px",
+  width: "44",
+  height: "44",
   square: false,
   src: AvatarSrc
 };
