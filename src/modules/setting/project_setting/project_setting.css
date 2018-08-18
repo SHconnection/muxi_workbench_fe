@@ -1,29 +1,13 @@
-.textareaSize{
-    width:585px;
-    height:101px;
+.textareaSize {
+  width: 585px;
+  height: 101px;
 }
-.select{
-    display: inline-block;
-    margin-top: 237px;
-    margin-bottom: 188px;
+.select {
+  display: inline-block;
+  margin-top: 237px;
+  margin-bottom: 188px;
 }
-.alert{
-    position: absolute;
-    left: 299px;
-    top: 201px;
-    width: 437px;
-    height: 192px;
-    margin: 0;
-    padding: 62px 107px 0 104px;
-    text-align: center;
-}
-.SetProject_btnMarg{
-    margin: 19px;
-}
-.SetProject_alertMarg{
-    margin-top: 26px; 
-}
-.link{
-    color: white;
-    text-decoration: none;
+.link {
+  color: white;
+  text-decoration: none;
 }

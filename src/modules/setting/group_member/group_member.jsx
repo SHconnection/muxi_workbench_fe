@@ -3,22 +3,23 @@
 承接自项目设置--项目信息页面
 接收项目信息参数
 */
-import React, { Component } from 'react';
-import SelMem from '../select_member/select_member.jsx';
-import '../../../static/css/common.css';
-import './group_member.css';
+import React, { Component } from "react";
+import SelMem from "../../../components/setting/select_member/select_member.jsx";
+import "../../../static/css/common.css";
+import "./group_member.css";
 
 class GroupMem extends Component {
-  constructor(props){
+  constructor(props) {
     super(props);
   }
 
   render() {
     return (
-      <div className = "subject minH">
-        <span className = "reArrow"></span>
-        <b className = "title">分组管理</b>
-        <div className = "groupName">{this.props.groupName}</div><br/>
+      <div className="subject minH">
+        <span className="reArrow" />
+        <b className="title">分组管理</b>
+        <div className="groupName">{this.props.groupName}</div>
+        <br />
         <SelMem />
       </div>
     );

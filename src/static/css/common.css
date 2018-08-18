@@ -1,4 +1,4 @@
-*{
+* {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
@@ -6,33 +6,34 @@
   font-size: 16px;
   color: #404040;
 }
-html, body{
+html,
+body {
   width: 100%;
   height: 100%;
 }
-.subject{
+.subject {
   position: relative;
   width: 1035px;
   margin: 54px auto 0 auto;
   border-radius: 6px;
-  background-color: #FBFBFB;
+  background-color: #fbfbfb;
   padding: 43px 75px 0 75px;
-  -moz-box-shadow: 0px 2px 8px rgba(0,0,0,0.1);/* for firefox */
-  -webkit-box-shadow: 0px 2px 8px rgba(0,0,0,0.1);/* for safari or chrome */
-  box-shadow: 0px 2px 8px rgba(0,0,0,0.1);/* for opera or ie9 */ 
+  -moz-box-shadow: 0px 2px 8px rgba(8, 5, 5, 0.1); /* for firefox */
+  -webkit-box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.1); /* for safari or chrome */
+  box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.1); /* for opera or ie9 */
 }
-.minH{
+.minH {
   min-height: 716px;
 }
-.title{
+.title {
   display: inline-block;
   font-size: 24px;
-  color:#1D4CB5;
+  color: #1d4cb5;
 }
-.littleSize{
+.littleSize {
   font-size: 20px;
 }
-.llSize{
+.llSize {
   font-size: 16px;
 }
 .reArrow::after {
@@ -42,14 +43,15 @@ html, body{
   height: 16px;
   width: 16px;
   border-width: 3px 3px 0 0;
-  border-color: #1D4CB5;
+  border-color: #1d4cb5;
   border-style: solid;
   -webkit-transform: matrix(-0.71, -0.71, 0.71, -0.71, 0, 0);
   transform: matrix(-0.71, -0.71, 0.71, -0.71, 0, 0);
 }
-input[type = "text"], textarea{
+input[type="text"],
+textarea {
   border-radius: 4px;
-  padding: 8px 0 8px 12px; 
+  padding: 8px 0 8px 12px;
 }
 *::-webkit-input-placeholder {
   color: #919191;
@@ -64,79 +66,79 @@ input[type = "text"], textarea{
   /* IE10+ */
   color: #919191;
 }
-.inputSize{
-  width:585px;
-  height:40px;
-  border:1px solid #1D4CB5;
+.inputSize {
+  width: 585px;
+  height: 40px;
+  border: 1px solid #1d4cb5;
   margin-top: 18px;
 }
-textarea{
+textarea {
   resize: none;
 }
-button{
+button {
   padding: 5px 20px;
   margin-right: 20px;
   border-radius: 4px;
   cursor: pointer;
 }
-.saveBtn{
-  background-color: #1D4CB5;
+.saveBtn {
+  background-color: #1d4cb5;
   color: white;
 }
-.delBtn{
+.delBtn {
   background-color: white;
-  border: 1px solid #D9D9D9;
+  border: 1px solid #d9d9d9;
 }
-.fakeBtn{
+.fakeBtn {
   font-size: 14px;
-  color: #108EE9;
+  color: #108ee9;
   cursor: pointer;
 }
-.moveBtn{
-  background-color: #F5222D;
+.moveBtn {
+  background-color: #f5222d;
   color: white;
   font-size: 12px;
 }
-.footerBtn{
+.footerBtn {
   position: absolute;
-  top: 90%;  
+  top: 90%;
   margin-bottom: 40px;
 }
-.none{
+.none {
   display: none;
 }
-.present{
+.present {
   margin: 25px 0 0 43px;
 }
-.clear{
+.clear {
   clear: both;
 }
-.contain{
+.contain {
   position: absolute;
   left: 0;
   top: 0;
   width: 100%;
   height: 100%;
 }
-.tip{
+.tip {
   display: inline-block;
   color: #919191;
   font-size: 14px;
 }
-.circle{
+.circle {
   position: relative;
   top: 3px;
   display: inline-block;
-border-radius: 50%;
-width: 16px;
-  height: 16px; 
-  border: 1px solid #108EE9;
+  border-radius: 50%;
+  width: 16px;
+  height: 16px;
+  border: 1px solid #108ee9;
   margin-right: 9px;
 }
-.circle::after{
+.circle::after {
   position: absolute;
   top: -10px;
   left: 1px;
-  content: '\2713';
-  color: #108EE9;
+  content: "\2713";
+  color: #108ee9;
 }

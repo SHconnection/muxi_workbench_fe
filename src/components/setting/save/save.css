@@ -1,0 +1,13 @@
+.isSave {
+  position: absolute;
+  top: 23px;
+  left: 373px;
+  margin: 0;
+  padding: 0;
+  width: 290px;
+  height: 37px;
+  line-height: 37px;
+  text-align: center;
+  font-size: 14px;
+  color: rgba(0, 0, 0, 0.65);
+}

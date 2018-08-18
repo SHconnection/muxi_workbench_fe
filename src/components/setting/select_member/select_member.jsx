@@ -4,11 +4,12 @@
 接收项目信息参数
 */
 import React, { Component } from "react";
-import Mem from "../../../components/setting/member/member.jsx";
+import Mem from "../member/member.jsx";
+import Save from "../save/save.jsx";
 import "../../../static/css/common.css";
-import "./edit_member.css";
+import "./select_member.css";
 
-class EditMem extends Component {
+class SelMem extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -74,7 +75,8 @@ class EditMem extends Component {
         { name: "AXX", selected: false },
         { name: "AXX", selected: false },
         { name: "AXX", selected: false }
-      ]
+      ],
+      select: false
     };
   }
 
@@ -103,28 +105,34 @@ class EditMem extends Component {
     this.setState({ members: arr });
   }
 
+  save() {
+    this.setState({ ifSave: true });
+
+    setTimeout(() => {
+      this.setState({ ifSave: false });
+    }, 1000);
+  }
+
   render() {
     return (
-      <div className="subject minH">
-        <div className="title">编辑项目成员</div>
-        <br />
-        <div className="EditMem_vice">
-          <div className="title littleSize">设置项目成员</div>
-          <div className="EditMem_tip">选择你要设置的成员</div>
-        </div>
-        <button className="saveBtn EditMem_FS" onClick={this.selAll.bind(this)}>
+      <div className="present">
+        <b className="title littleSize SelMem_vice">选择成员</b>
+        <span className="fakeBtn" onClick={this.selAll.bind(this)}>
           全选
-        </button>
+        </span>
         <Mem
           members={this.state.members}
           selMembers={this.state.selMembers}
           transferMsg={this.transferMsg.bind(this)}
         />
-        <button className="saveBtn footerBtn">保存项目成员</button>
-        <span className="fakeBtn footerBtn EditMem_btnMarg">取消</span>
+        <button className="saveBtn footerBtn" onClick={this.save.bind(this)}>
+          {this.state.ifSave ? "已保存" : "保存设置"}
+        </button>
+
+        <Save ifSave={this.state.ifSave} />
       </div>
     );
   }
 }
 
-export default EditMem;
+export default SelMem;

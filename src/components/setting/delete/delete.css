@@ -1,0 +1,16 @@
+.alert {
+  position: absolute;
+  left: 299px;
+  top: 201px;
+  width: 437px;
+  height: 192px;
+  margin: 0;
+  padding: 62px 107px 0 104px;
+  text-align: center;
+}
+.Del_btnMarg {
+  margin: 19px;
+}
+.Del_alertMarg {
+  margin-top: 26px;
+}
