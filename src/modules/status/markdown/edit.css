@@ -1,0 +1,17 @@
+.edit{
+    display: flex;
+}
+/* .last{
+    width: 33px;
+    height: 33px;
+} */
+.status-write-input{
+    width: 600px;
+    height: 35px;
+    outline:none;
+}
+.status-save-bt {
+    position: absolute;
+    top: 15px;
+    right: 163px;
+  }
