@@ -15,17 +15,15 @@ ReactDOM.render((
   <Router> 
     <div className="app-container">
       <Header className="header" />
-      <div className="card-container">
-        <Switch>
-          <Route exact path="/" component={Project} />
-          <Route path="/project" component={Project} />
-          <Route path="/dynamic_list" component={Dynamic} />
-          <Route path="/progress_list" component={Progress} />
-          <Route path="/member" component={member} />
-          <Route path="/edit" component={edit} />
-          <Route component={NoMatch} />
-        </Switch>
-      </div>
+      <Switch>
+        <Route exact path="/" component={Project} />
+        <Route path="/project" component={Project} />
+        <Route path="/dynamic_list" component={Dynamic} />
+        <Route path="/progress_list" component={Progress} />
+        <Route path="/member" component={member} />
+        <Route path="/edit" component={edit} />
+        <Route component={NoMatch} />
+      </Switch>
     </div>
   </Router>
 ),document.getElementById('root'));
