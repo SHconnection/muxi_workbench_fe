@@ -7,6 +7,7 @@ transferMsg = (mem, selMem) => {this.setState({members: mem,selMembers: selMem})
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import Del from "../../../components/setting/delete/delete";
+import Func from "../../../components/common/function/function";
 import "../../../static/css/common.css";
 import "./group_manage.css";
 import "../join_apply/join_apply.css";
@@ -17,6 +18,8 @@ class GroupMana extends Component {
     this.state = {
       deleteX: undefined
     };
+
+    Func.transferMsgDel = Func.transferMsgDel.bind(this);
   }
 
   componentWillUnmount() {
@@ -35,12 +38,6 @@ class GroupMana extends Component {
     if (!mem.dealed) mem.dealed = true;
 
     transferMsg(arr);
-  }
-
-  transferDel(del) {
-    this.setState({
-      deleteX: del
-    });
   }
 
   render() {
@@ -66,7 +63,9 @@ class GroupMana extends Component {
                   <span className="fakeBtn">编辑</span>
                   <span
                     className="fakeBtn"
-                    onClick={this.transferDel.bind(this, mem)}
+                    onClick={() => {
+                      Func.transferMsgDel(mem);
+                    }}
                     onKeyDown={this.handleClick}
                     role="button"
                     tabIndex="-1"
@@ -83,7 +82,7 @@ class GroupMana extends Component {
           name="确认要移除该组吗?"
           delete={deleteX}
           transferMsg={del => {
-            this.transferDel(del);
+            Func.transferMsgDel(del);
           }}
           del={mem1 => {
             this.del(mem1);

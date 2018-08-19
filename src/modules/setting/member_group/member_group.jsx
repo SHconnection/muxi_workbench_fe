@@ -2,9 +2,10 @@
 成员分组页面组件
 */
 import React, { Component } from "react";
+import Mem from "../../../components/setting/member/member";
+import Func from "../../../components/common/function/function";
 import "../../../static/css/common.css";
 import "./member_group.css";
-import Mem from "../../../components/setting/member/member";
 
 class MemGroup extends Component {
   constructor(props) {
@@ -20,13 +21,8 @@ class MemGroup extends Component {
         { name: "安卓组", selected: false }
       ]
     };
-  }
 
-  transferMsg(mem, selMem) {
-    this.setState({
-      members: mem,
-      selMembers: selMem
-    });
+    Func.transferMsgMem = Func.transferMsgMem.bind(this);
   }
 
   render() {
@@ -41,7 +37,7 @@ class MemGroup extends Component {
             members={members}
             selMembers={selMembers}
             transferMsg={(mem, selMem) => {
-              this.transferMsg(mem, selMem);
+              Func.transferMsgMem(mem, selMem);
             }}
             dis
           />

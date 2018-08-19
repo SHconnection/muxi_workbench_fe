@@ -3,10 +3,12 @@
 为项目设置首页，下接编辑成员页面
 */
 import React, { Component } from "react";
+import { Link } from "react-router-dom";
+import Func from "../../../components/common/function/function";
+import Del from "../../../components/setting/delete/delete";
+import ProSetFir from "../../../components/project/project_setFirst/project_setFirst";
 import "../../../static/css/common.css";
 import "./project_setting.css";
-import { Link } from "react-router-dom";
-import Del from "../../../components/setting/delete/delete";
 
 class SetProject extends Component {
   constructor(props) {
@@ -14,12 +16,8 @@ class SetProject extends Component {
     this.state = {
       deleteX: false
     };
-  }
 
-  transferDel(del) {
-    this.setState({
-      deleteX: del
-    });
+    Func.transferMsgDel = Func.transferMsgDel.bind(this);
   }
 
   render() {
@@ -27,14 +25,8 @@ class SetProject extends Component {
 
     return (
       <div className="subject minH">
-        <div className="title">项目设置</div>
-        <br />
-        <input type="text" className="inputSize" placeholder="项目名称" />
-        <textarea
-          className="inputSize textareaSize"
-          placeholder="简单描述项目，便于其他人了解（选填）"
-        />
-        <br />
+        <ProSetFir />
+
         <div className="select">
           <button type="button" className="saveBtn">
             <Link to="/editMem" className="link">
@@ -45,7 +37,7 @@ class SetProject extends Component {
             type="button"
             className="delBtn"
             onClick={() => {
-              this.transferDel(true);
+              Func.transferMsgDel(true);
             }}
           >
             删除项目
@@ -56,8 +48,8 @@ class SetProject extends Component {
         <Del
           name="确认要移除该项目吗?"
           delete={deleteX}
-          transferMsg={() => {
-            this.transferDel();
+          transferMsg={del => {
+            Func.transferMsgDel(del);
           }}
         />
       </div>

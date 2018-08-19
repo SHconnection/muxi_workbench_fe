@@ -2,9 +2,9 @@
 设置管理员页面组件
 */
 import React from "react";
+import SelMem from "../../../components/setting/select_member/select_member";
 import "../../../static/css/common.css";
 import "./set_manager.css";
-import SelMem from "../../../components/setting/select_member/select_member";
 
 const SetManager = () => (
   <div className="subject minH">
