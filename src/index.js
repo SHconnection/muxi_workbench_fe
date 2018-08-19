@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import { BrowserRouter as Router, Route} from 'react-router-dom'
 import registerServiceWorker from './registerServiceWorker'
 import Project from './modules/project/index'
-import Dynamic from './modules/dynamic/dynamic'
+import Dynamic from './modules/feed/dynamic'
 import Progress from './modules/status/progress'
 import member from './modules/member/member'
 import Header from './components/common/header/index'
