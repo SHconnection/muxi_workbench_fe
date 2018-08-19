@@ -4,8 +4,8 @@
 import React, { Component } from "react";
 import "../../../static/css/common.css";
 import "./personal_setting.css";
-import Mem from "../../../components/setting/member/member.jsx";
-import Save from "../../../components/setting/save/save.jsx";
+import Mem from "../../../components/setting/member/member";
+import Save from "../../../components/setting/save/save";
 
 class PerSet extends Component {
   constructor(props) {
@@ -37,13 +37,14 @@ class PerSet extends Component {
   }
 
   render() {
+    const { members, selMembers, ifSave } = this.state;
     return (
       <div className="subject minH">
         <span className="reArrow" />
         <b className="title">个人设置</b>
 
         <div className="main">
-          <img src="" className="avatar" />
+          <img src="" className="avatar" alt="" />
           <div className="avaTip">
             <b>选择新头像</b>
             <p className="avaForm">你可以选择png/jpg图片作为头像</p>
@@ -69,19 +70,27 @@ class PerSet extends Component {
           <b>通知设置</b>
           <div className="sel">
             <Mem
-              members={this.state.members}
-              selMembers={this.state.selMembers}
+              members={members}
+              selMembers={selMembers}
               wrap
-              transferMsg={this.transferMsg.bind(this)}
+              transferMsg={(mem, selMem) => {
+                this.transferMsg(mem, selMem);
+              }}
             />
           </div>
           <br />
-          <button className="saveBtn" onClick={this.save.bind(this)}>
-            {this.state.ifSave ? "已保存" : "保存设置"}
+          <button
+            type="button"
+            className="saveBtn"
+            onClick={() => {
+              this.save();
+            }}
+          >
+            {ifSave ? "已保存" : "保存设置"}
           </button>
         </div>
 
-        <Save ifSave={this.state.ifSave} />
+        <Save ifSave={ifSave} />
       </div>
     );
   }

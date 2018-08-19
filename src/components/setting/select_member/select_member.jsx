@@ -4,8 +4,8 @@
 接收项目信息参数
 */
 import React, { Component } from "react";
-import Mem from "../member/member.jsx";
-import Save from "../save/save.jsx";
+import Mem from "../member/member";
+import Save from "../save/save";
 import "../../../static/css/common.css";
 import "./select_member.css";
 
@@ -75,8 +75,7 @@ class SelMem extends Component {
         { name: "AXX", selected: false },
         { name: "AXX", selected: false },
         { name: "AXX", selected: false }
-      ],
-      select: false
+      ]
     };
   }
 
@@ -88,21 +87,33 @@ class SelMem extends Component {
   }
 
   selAll() {
-    let arr = this.state.members,
-      num = 0;
-    arr.map(i => {
-      if (i.selected) num++;
+    this.setState(prevState => {
+      const { members: arr } = prevState;
+      let num = 0;
+
+      if (arr) {
+        arr.map(i => {
+          if (i.selected) num += 1;
+          return true;
+        });
+
+        if (num === arr.length) {
+          arr.map(i => {
+            const j = i;
+            j.selected = false;
+            return j;
+          });
+        } else {
+          arr.map(i => {
+            const j = i;
+            j.selected = true;
+            return j;
+          });
+        }
+      }
+
+      return { members: arr };
     });
-    if (num === arr.length) {
-      arr.map(i => {
-        i.selected = false;
-      });
-    } else {
-      arr.map(i => {
-        i.selected = true;
-      });
-    }
-    this.setState({ members: arr });
   }
 
   save() {
@@ -114,22 +125,37 @@ class SelMem extends Component {
   }
 
   render() {
+    const { members, selMembers, ifSave } = this.state;
     return (
       <div className="present">
         <b className="title littleSize SelMem_vice">选择成员</b>
-        <span className="fakeBtn" onClick={this.selAll.bind(this)}>
+        <span
+          className="fakeBtn"
+          onClick={this.selAll.bind(this)}
+          onKeyDown={this.handleClick}
+          role="button"
+          tabIndex="-1"
+        >
           全选
         </span>
         <Mem
-          members={this.state.members}
-          selMembers={this.state.selMembers}
-          transferMsg={this.transferMsg.bind(this)}
+          members={members}
+          selMembers={selMembers}
+          transferMsg={(mem, selMem) => {
+            this.transferMsg(mem, selMem);
+          }}
         />
-        <button className="saveBtn footerBtn" onClick={this.save.bind(this)}>
-          {this.state.ifSave ? "已保存" : "保存设置"}
+        <button
+          type="button"
+          className="saveBtn footerBtn"
+          onClick={() => {
+            this.save();
+          }}
+        >
+          {ifSave ? "已保存" : "保存设置"}
         </button>
 
-        <Save ifSave={this.state.ifSave} />
+        <Save ifSave={ifSave} />
       </div>
     );
   }

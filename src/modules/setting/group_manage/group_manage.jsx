@@ -5,51 +5,59 @@
 transferMsg = (mem, selMem) => {this.setState({members: mem,selMembers: selMem});}返回数据
 */
 import React, { Component } from "react";
+import PropTypes from "prop-types";
+import Del from "../../../components/setting/delete/delete";
 import "../../../static/css/common.css";
 import "./group_manage.css";
 import "../join_apply/join_apply.css";
-import Del from "../../../components/setting/delete/delete.jsx";
 
 class GroupMana extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      delete: undefined
+      deleteX: undefined
     };
   }
 
-  del(mem) {
-    const arr = this.props.members;
-
-    if (!mem.dealed) mem.dealed = true;
-
-    this.props.transferMsg(arr);
-  }
-
   componentWillUnmount() {
-    const arr = this.props.members;
+    const { members: arr, transferMsg } = this.props;
 
     arr.filter(item => !item.dealed);
 
-    this.props.transferMsg(arr);
+    transferMsg(arr);
+  }
+
+  del(mem1) {
+    const mem = mem1;
+
+    const { members: arr, transferMsg } = this.props;
+
+    if (!mem.dealed) mem.dealed = true;
+
+    transferMsg(arr);
   }
 
   transferDel(del) {
     this.setState({
-      delete: del
+      deleteX: del
     });
   }
 
   render() {
+    const { members } = this.props;
+    const { deleteX } = this.state;
     return (
       <div className="subject minH">
         <span className="reArrow" />
         <b className="title">分组管理</b>
         <br />
         <span className="GroupMana_tip tip">上下拖动对分组排序</span>
-        <button className="saveBtn btnFlo">添加分组</button>
+        <button type="button" className="saveBtn btnFlo">
+          添加分组
+        </button>
         <div className="clear present">
-          {this.props.members.map(function(mem) {
+          {members.map(function Map(mem1) {
+            const mem = mem1;
             return (
               <div className={mem.dealed ? "none" : "cell GroupMana_reCell"}>
                 <b>{mem.name}</b>
@@ -59,6 +67,9 @@ class GroupMana extends Component {
                   <span
                     className="fakeBtn"
                     onClick={this.transferDel.bind(this, mem)}
+                    onKeyDown={this.handleClick}
+                    role="button"
+                    tabIndex="-1"
                   >
                     删除
                   </span>
@@ -70,9 +81,13 @@ class GroupMana extends Component {
 
         <Del
           name="确认要移除该组吗?"
-          delete={this.state.delete}
-          transferMsg={this.transferDel.bind(this)}
-          del={this.del.bind(this)}
+          delete={deleteX}
+          transferMsg={del => {
+            this.transferDel(del);
+          }}
+          del={mem1 => {
+            this.del(mem1);
+          }}
         />
       </div>
     );
@@ -80,3 +95,13 @@ class GroupMana extends Component {
 }
 
 export default GroupMana;
+
+GroupMana.propTypes = {
+  members: PropTypes.arrayOf,
+  transferMsg: PropTypes.func
+};
+
+GroupMana.defaultProps = {
+  members: [],
+  transferMsg: () => {}
+};

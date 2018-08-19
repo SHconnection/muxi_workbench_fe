@@ -12,6 +12,14 @@ module.exports = {
 
     "react/prefer-stateless-function": [2, { "ignorePureComponents": true }],
 
+    "jsx-a11y/label-has-for": [ 2, {
+      "components": [ "Label" ],
+      "required": {
+          "some": [ "nesting", "id" ]
+      },
+      "allowChildren": false
+    }]
+
   },
   "env": {
     "jest": true,

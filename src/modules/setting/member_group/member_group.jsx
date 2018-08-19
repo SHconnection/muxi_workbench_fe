@@ -4,7 +4,7 @@
 import React, { Component } from "react";
 import "../../../static/css/common.css";
 import "./member_group.css";
-import Mem from "../../../components/setting/member/member.jsx";
+import Mem from "../../../components/setting/member/member";
 
 class MemGroup extends Component {
   constructor(props) {
@@ -30,6 +30,7 @@ class MemGroup extends Component {
   }
 
   render() {
+    const { selMembers, members } = this.state;
     return (
       <div className="subject minH">
         <span className="reArrow" />
@@ -37,13 +38,17 @@ class MemGroup extends Component {
         <div className="present MemGroup_preMarg">
           <span className="MemGroup_tip tip">请选择该成员所属分组</span>
           <Mem
-            members={this.state.members}
-            selMembers={this.state.selMembers}
-            transferMsg={this.transferMsg.bind(this)}
+            members={members}
+            selMembers={selMembers}
+            transferMsg={(mem, selMem) => {
+              this.transferMsg(mem, selMem);
+            }}
             dis
           />
         </div>
-        <button className="saveBtn MemGroup_btnMarg">下一步</button>
+        <button type="button" className="saveBtn MemGroup_btnMarg">
+          下一步
+        </button>
       </div>
     );
   }

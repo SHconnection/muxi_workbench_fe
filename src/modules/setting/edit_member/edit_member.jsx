@@ -4,7 +4,7 @@
 接收项目信息参数
 */
 import React, { Component } from "react";
-import Mem from "../../../components/setting/member/member.jsx";
+import Mem from "../../../components/setting/member/member";
 import "../../../static/css/common.css";
 import "./edit_member.css";
 
@@ -86,24 +86,38 @@ class EditMem extends Component {
   }
 
   selAll() {
-    let arr = this.state.members,
-      num = 0;
-    arr.map(i => {
-      if (i.selected) num++;
+    this.setState(prevState => {
+      const { members: arr } = prevState;
+      let num = 0;
+
+      if (arr) {
+        arr.map(i => {
+          if (i.selected) num += 1;
+          return true;
+        });
+
+        if (num === arr.length) {
+          arr.map(i => {
+            const j = i;
+            j.selected = false;
+            return j;
+          });
+        } else {
+          arr.map(i => {
+            const j = i;
+            j.selected = "selected";
+            return j;
+          });
+        }
+      }
+
+      return { members: arr };
     });
-    if (num === arr.length) {
-      arr.map(i => {
-        i.selected = false;
-      });
-    } else {
-      arr.map(i => {
-        i.selected = true;
-      });
-    }
-    this.setState({ members: arr });
   }
 
   render() {
+    const { members, selMembers } = this.state;
+
     return (
       <div className="subject minH">
         <div className="title">编辑项目成员</div>
@@ -112,15 +126,25 @@ class EditMem extends Component {
           <div className="title littleSize">设置项目成员</div>
           <div className="EditMem_tip">选择你要设置的成员</div>
         </div>
-        <button className="saveBtn EditMem_FS" onClick={this.selAll.bind(this)}>
+        <button
+          type="button"
+          className="saveBtn EditMem_FS"
+          onClick={() => {
+            this.selAll();
+          }}
+        >
           全选
         </button>
         <Mem
-          members={this.state.members}
-          selMembers={this.state.selMembers}
-          transferMsg={this.transferMsg.bind(this)}
+          members={members}
+          selMembers={selMembers}
+          transferMsg={(mem, selMem) => {
+            this.transferMsg(mem, selMem);
+          }}
         />
-        <button className="saveBtn footerBtn">保存项目成员</button>
+        <button type="button" className="saveBtn footerBtn">
+          保存项目成员
+        </button>
         <span className="fakeBtn footerBtn EditMem_btnMarg">取消</span>
       </div>
     );

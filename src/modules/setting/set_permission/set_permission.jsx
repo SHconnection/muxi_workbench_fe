@@ -4,8 +4,8 @@
 import React, { Component } from "react";
 import "../../../static/css/common.css";
 import "./set_permission.css";
-import Mem from "../../../components/setting/member/member.jsx";
-import Save from "../../../components/setting/save/save.jsx";
+import Mem from "../../../components/setting/member/member";
+import Save from "../../../components/setting/save/save";
 
 class SetPerm extends Component {
   constructor(props) {
@@ -47,6 +47,7 @@ class SetPerm extends Component {
   }
 
   render() {
+    const { members, selMembers, ifSave } = this.state;
     return (
       <div className="subject minH">
         <span className="reArrow" />
@@ -54,19 +55,24 @@ class SetPerm extends Component {
         <div className="present SetPerm_preMarg">
           <span className="tip SetPerm_tip">请选择该成员可参与的项目</span>
           <Mem
-            members={this.state.members}
-            selMembers={this.state.selMembers}
-            transferMsg={this.transferMsg.bind(this)}
+            members={members}
+            selMembers={selMembers}
+            transferMsg={(mem, selMem) => {
+              this.transferMsg(mem, selMem);
+            }}
           />
 
           <button
+            type="button"
             className="saveBtn footerBtn SetPerm_btnMarg"
-            onClick={this.save.bind(this)}
+            onClick={() => {
+              this.save();
+            }}
           >
-            {this.state.ifSave ? "已保存" : "保存设置"}
+            {ifSave ? "已保存" : "保存设置"}
           </button>
         </div>
-        <Save ifSave={this.state.ifSave} />
+        <Save ifSave={ifSave} />
       </div>
     );
   }

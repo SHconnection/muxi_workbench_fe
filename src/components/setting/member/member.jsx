@@ -8,31 +8,49 @@ transferMsg = (mem, selMem) => {this.setState({members: mem,selMembers: selMem})
 */
 
 import React, { Component } from "react";
+import PropTypes from "prop-types";
 import "./member.css";
 import "../../../static/css/common.css";
 
 class Mem extends Component {
-  constructor(props) {
-    super(props);
-  }
-
   componentWillMount() {
-    let arr1 = this.props.members,
-      arr2 = this.props.selMembers;
+    const { members: arr1, selMembers: arr2, transferMsg } = this.props;
 
-    arr1.map(item => {
+    arr1.map(item1 => {
+      const item = item1;
       const index = arr2.indexOf(item);
       if (item.selected && index === -1) {
         arr2.push(item);
       }
+      return item1;
     });
-
-    this.props.transferMsg(arr1, arr2);
+    transferMsg(arr1, arr2);
   }
 
-  select(item) {
-    let arr1 = this.props.members,
-      arr2 = this.props.selMembers;
+  onlyOne(item1) {
+    const item2 = item1;
+    const { members: arr1, transferMsg } = this.props;
+    let { selMembers: arr2 } = this.props;
+
+    if (arr2) {
+      arr2.map(item3 => {
+        const item = item3;
+        item.selected = false;
+        return item;
+      });
+    }
+
+    arr2 = [];
+    item2.selected = true;
+
+    arr2.push(item2);
+
+    transferMsg(arr1, arr2);
+  }
+
+  select(item1) {
+    const item = item1;
+    const { members: arr1, selMembers: arr2, transferMsg } = this.props;
 
     item.selected = !item.selected;
 
@@ -44,49 +62,67 @@ class Mem extends Component {
       arr2.splice(index, 1);
     }
 
-    this.props.transferMsg(arr1, arr2);
-  }
-
-  onlyOne(item) {
-    let arr1 = this.props.members,
-      arr2 = this.props.selMembers;
-    if (arr2) {
-      arr2.map(item => {
-        item.selected = false;
-      });
-    }
-
-    arr2 = [];
-    item.selected = true;
-
-    arr2.push(item);
-
-    this.props.transferMsg(arr1, arr2);
+    transferMsg(arr1, arr2);
   }
 
   render() {
+    const { wrap, members, dis } = this.props;
+
     return (
       <div className="selectMem">
-        {this.props.members.map((item, index) => (
-          <div className={this.props.wrap ? "unit" : "unit nowrap"} key={index}>
-            <input
-              type="checkbox"
-              checked={item.selected}
-              onChange={
-                this.props.dis
-                  ? this.onlyOne.bind(this, item)
-                  : this.select.bind(this, item)
-              }
-              id={`check${item.name}${index}`}
-            />
-            <label htmlFor={`check${item.name}${index}`} className="fontColor">
-              {item.name}
-            </label>
-          </div>
-        ))}
+        {members.map((item1, index) => {
+          const item = item1;
+
+          return (
+            <div className={wrap ? "unit" : "unit nowrap"}>
+              <input
+                type="checkbox"
+                checked={item.selected}
+                onChange={
+                  dis
+                    ? this.onlyOne.bind(this, item)
+                    : this.select.bind(this, item)
+                }
+                id={`check${item.name}${index}`}
+              />
+              <label
+                htmlFor={`check${item.name}${index}`}
+                className="fontColor"
+                id="lab"
+              >
+                {item.name}
+              </label>
+            </div>
+          );
+        })}
       </div>
     );
   }
 }
 
 export default Mem;
+
+Mem.propTypes = {
+  members: PropTypes.arrayOf(
+    PropTypes.shape({
+      name: PropTypes.string,
+      selected: PropTypes.bool
+    })
+  ),
+  selMembers: PropTypes.arrayOf(
+    PropTypes.shape({
+      name: PropTypes.string,
+      selected: PropTypes.bool
+    })
+  ),
+  transferMsg: PropTypes.func,
+  wrap: PropTypes.bool,
+  dis: PropTypes.bool
+};
+Mem.defaultProps = {
+  members: [],
+  selMembers: [],
+  transferMsg: () => {},
+  wrap: false,
+  dis: false
+};

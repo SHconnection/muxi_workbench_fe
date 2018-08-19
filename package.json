@@ -16,10 +16,10 @@
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject",
     "lint": "eslint --ext .js,.jsx src",
-    "precommit": "lint-staged"
+    "precommit": "lint-staged && npm run lint"
   },
   "lint-staged": {
-    "src/**/*.{js,jsx,css}": [
+    "src/**/*.{js,jsx}": [
       "prettier --write",
       "eslint --fix",
       "git add"

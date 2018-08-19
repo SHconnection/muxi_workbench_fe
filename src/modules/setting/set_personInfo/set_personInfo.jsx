@@ -4,11 +4,12 @@
 接收项目信息参数
 */
 import React, { Component } from "react";
-import Mem from "../../../components/setting/member/member.jsx";
+import PropTypes from "prop-types";
+import Mem from "../../../components/setting/member/member";
+import Del from "../../../components/setting/delete/delete";
+import Save from "../../../components/setting/save/save";
 import "../../../static/css/common.css";
 import "./set_personInfo.css";
-import Del from "../../../components/setting/delete/delete.jsx";
-import Save from "../../../components/setting/save/save.jsx";
 
 class SelMem extends Component {
   constructor(props) {
@@ -41,8 +42,7 @@ class SelMem extends Component {
         { name: "AXX", selected: false }
       ],
       ifSave: false,
-      delete: false,
-      deled: false
+      deleteX: false
     };
   }
 
@@ -61,23 +61,33 @@ class SelMem extends Component {
   }
 
   selAll() {
-    let arr = this.state.members,
-      num = 0;
-    if (arr) {
-      arr.map(i => {
-        if (i.selected) num++;
-      });
-    }
-    if (num === arr.length) {
-      arr.map(i => {
-        i.selected = false;
-      });
-    } else {
-      arr.map(i => {
-        i.selected = true;
-      });
-    }
-    this.setState({ members: arr });
+    this.setState(prevState => {
+      const { members: arr } = prevState;
+      let num = 0;
+
+      if (arr) {
+        arr.map(i => {
+          if (i.selected) num += 1;
+          return true;
+        });
+
+        if (num === arr.length) {
+          arr.map(i => {
+            const j = i;
+            j.selected = false;
+            return j;
+          });
+        } else {
+          arr.map(i => {
+            const j = i;
+            j.selected = true;
+            return j;
+          });
+        }
+      }
+
+      return { members: arr };
+    });
   }
 
   save() {
@@ -88,24 +98,28 @@ class SelMem extends Component {
     }, 1000);
   }
 
-  transferDel(del) {
+  transferMsgDel(del) {
     this.setState({
-      delete: del
-    });
-  }
-
-  transferDeled(del) {
-    this.setState({
-      deled: del
+      deleteX: del
     });
   }
 
   render() {
+    const { personName } = this.props;
+    const {
+      identity,
+      selIdentities,
+      members,
+      selMembers,
+      ifSave,
+      deleteX,
+      deled
+    } = this.state;
     return (
       <div className="subject minH">
         <span className="reArrow" />
         <b className="title">
-          {this.props.personName}
+          {personName}
           的设置
         </b>
 
@@ -117,9 +131,10 @@ class SelMem extends Component {
             </p>
           </div>
           <button
+            type="button"
             className="moveBtn SelMem_btnMArg"
             onClick={() => {
-              this.setState({ delete: true });
+              this.setState({ deleteX: true });
             }}
           >
             确认移除
@@ -128,35 +143,50 @@ class SelMem extends Component {
 
           <b className="littleSize title SelMem_titleMarg">设置</b>
           <Mem
-            members={this.state.identity}
-            selMembers={this.state.selIdentities}
-            transferMsg={this.transferMsgIden.bind(this)}
+            members={identity}
+            selMembers={selIdentities}
+            transferMsg={(mem, selMem) => {
+              this.transferMsgIden(mem, selMem);
+            }}
             dis
           />
 
           <b className="littleSize title SelMem_titleMarg">参与的项目</b>
-          <span className="fakeBtn" onClick={this.selAll.bind(this)}>
+          <span
+            className="fakeBtn"
+            onClick={this.selAll.bind(this)}
+            onKeyDown={this.handleClick}
+            role="button"
+            tabIndex="-1"
+          >
             全选
           </span>
           <Mem
-            members={this.state.members}
-            selMembers={this.state.selMembers}
-            transferMsg={this.transferMsgMem.bind(this)}
+            members={members}
+            selMembers={selMembers}
+            transferMsg={(mem, selMem) => {
+              this.transferMsgMem(mem, selMem);
+            }}
           />
 
-          <button className="footerBtn saveBtn" onClick={this.save.bind(this)}>
-            {this.state.ifSave ? "已保存" : "保存设置"}
+          <button
+            type="button"
+            className="footerBtn saveBtn"
+            onClick={this.save.bind(this)}
+          >
+            {ifSave ? "已保存" : "保存设置"}
           </button>
 
-          <Save ifSave={this.state.ifSave} />
+          <Save ifSave={ifSave} />
 
           <Del
             name="确认要移除XXA吗?"
-            delete={this.state.delete}
-            transferMsg={this.transferDel.bind(this)}
-            transferMsgAft={this.transferDeled.bind(this)}
+            delete={deleteX}
+            transferMsg={del => {
+              this.transferMsgDel(del);
+            }}
           />
-          <Del name="移除成功" cancel delete={this.state.deled} />
+          <Del name="移除成功" cancel delete={deled} />
         </div>
       </div>
     );
@@ -164,3 +194,11 @@ class SelMem extends Component {
 }
 
 export default SelMem;
+
+SelMem.propTypes = {
+  personName: PropTypes.string
+};
+
+SelMem.defaultProps = {
+  personName: ""
+};
