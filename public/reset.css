@@ -11,15 +11,12 @@ center, u, b, i {
     padding: 0; 
     border: 0; 
     outline: 0; 
-    font-weight: normal; 
-    font-style: normal; 
-    font-size: 100%; 
-    font-family: inherit; 
-    vertical-align: baseline 
+    box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    font-family: "Microsoft YaHei",  Arial,  "WenQuanYi Micro Hei";
 }
 body {
-  font-family: Helvetica, Tahoma, Arial, "Microsoft YaHei", "Hiragino Sans GB", "WenQuanYi Micro Hei", sans-serif;
-  background-color: #f2f2f2;
+    background-color: #F2F2F2;
 }
 a {
     text-decoration: none;
@@ -35,10 +32,10 @@ table {
     border-spacing: 0 
 } 
 blockquote:before, blockquote:after, q:before, q:after { 
-    content: “” 
+    content: ""
 } 
 blockquote, q { 
-    quotes: “” “” 
+    quotes: '"' '"' "'" "'"
 } 
 input, textarea { 
     margin: 0; 
