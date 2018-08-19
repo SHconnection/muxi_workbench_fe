@@ -9,8 +9,8 @@ transferMsg = (mem, selMem) => {this.setState({members: mem,selMembers: selMem})
 
 import React, { Component } from "react";
 import PropTypes from "prop-types";
-import "./member.css";
 import "../../../static/css/common.css";
+import "./member.css";
 
 class Mem extends Component {
   componentWillMount() {

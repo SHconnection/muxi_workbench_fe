@@ -4,13 +4,12 @@
 接收项目信息参数
 */
 import React, { Component } from "react";
-import Mem from "../member/member";
-import Save from "../save/save";
+import Mem from "../../setting/member/member";
 import Func from "../../common/function/function";
 import "../../../static/css/common.css";
-import "./select_member.css";
+import "./firstEdit_member.css";
 
-class SelMem extends Component {
+class FirEditMem extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -81,25 +80,28 @@ class SelMem extends Component {
 
     Func.selAll = Func.selAll.bind(this);
     Func.transferMsgMem = Func.transferMsgMem.bind(this);
-    Func.save = Func.save.bind(this);
   }
 
   render() {
-    const { members, selMembers, ifSave } = this.state;
+    const { members, selMembers } = this.state;
+
     return (
-      <div className="present">
-        <b className="title littleSize SelMem_vice">选择成员</b>
-        <span
-          className="fakeBtn"
+      <div>
+        <div className="title">编辑项目成员</div>
+        <br />
+        <div className="EditMem_vice">
+          <div className="title littleSize">设置项目成员</div>
+          <div className="EditMem_tip">选择你要设置的成员</div>
+        </div>
+        <button
+          type="button"
+          className="saveBtn EditMem_FS"
           onClick={() => {
             Func.selAll();
           }}
-          onKeyDown={this.handleClick}
-          role="button"
-          tabIndex="-1"
         >
           全选
-        </span>
+        </button>
         <Mem
           members={members}
           selMembers={selMembers}
@@ -107,20 +109,13 @@ class SelMem extends Component {
             Func.transferMsgMem(mem, selMem);
           }}
         />
-        <button
-          type="button"
-          className="saveBtn footerBtn"
-          onClick={() => {
-            Func.save();
-          }}
-        >
-          {ifSave ? "已保存" : "保存设置"}
+        <button type="button" className="saveBtn footerBtn">
+          保存项目成员
         </button>
-
-        <Save ifSave={ifSave} />
+        <span className="fakeBtn footerBtn EditMem_btnMarg">取消</span>
       </div>
     );
   }
 }
 
-export default SelMem;
+export default FirEditMem;

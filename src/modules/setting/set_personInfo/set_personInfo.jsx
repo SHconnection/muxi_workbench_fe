@@ -8,6 +8,7 @@ import PropTypes from "prop-types";
 import Mem from "../../../components/setting/member/member";
 import Del from "../../../components/setting/delete/delete";
 import Save from "../../../components/setting/save/save";
+import Func from "../../../components/common/function/function";
 import "../../../static/css/common.css";
 import "./set_personInfo.css";
 
@@ -44,63 +45,17 @@ class SelMem extends Component {
       ifSave: false,
       deleteX: false
     };
-  }
 
-  transferMsgMem(mem, selMem) {
-    this.setState({
-      members: mem,
-      selMembers: selMem
-    });
+    Func.transferMsgMem = Func.transferMsgMem.bind(this);
+    Func.transferMsgDel = Func.transferMsgDel.bind(this);
+    Func.selAll = Func.selAll.bind(this);
+    Func.save = Func.save.bind(this);
   }
 
   transferMsgIden(mem, selMem) {
     this.setState({
       identity: mem,
       selIdentities: selMem
-    });
-  }
-
-  selAll() {
-    this.setState(prevState => {
-      const { members: arr } = prevState;
-      let num = 0;
-
-      if (arr) {
-        arr.map(i => {
-          if (i.selected) num += 1;
-          return true;
-        });
-
-        if (num === arr.length) {
-          arr.map(i => {
-            const j = i;
-            j.selected = false;
-            return j;
-          });
-        } else {
-          arr.map(i => {
-            const j = i;
-            j.selected = true;
-            return j;
-          });
-        }
-      }
-
-      return { members: arr };
-    });
-  }
-
-  save() {
-    this.setState({ ifSave: true });
-
-    setTimeout(() => {
-      this.setState({ ifSave: false });
-    }, 1000);
-  }
-
-  transferMsgDel(del) {
-    this.setState({
-      deleteX: del
     });
   }
 
@@ -154,7 +109,9 @@ class SelMem extends Component {
           <b className="littleSize title SelMem_titleMarg">参与的项目</b>
           <span
             className="fakeBtn"
-            onClick={this.selAll.bind(this)}
+            onClick={() => {
+              Func.selAll();
+            }}
             onKeyDown={this.handleClick}
             role="button"
             tabIndex="-1"
@@ -165,14 +122,16 @@ class SelMem extends Component {
             members={members}
             selMembers={selMembers}
             transferMsg={(mem, selMem) => {
-              this.transferMsgMem(mem, selMem);
+              Func.transferMsgMem(mem, selMem);
             }}
           />
 
           <button
             type="button"
             className="footerBtn saveBtn"
-            onClick={this.save.bind(this)}
+            onClick={() => {
+              Func.save();
+            }}
           >
             {ifSave ? "已保存" : "保存设置"}
           </button>
@@ -183,7 +142,7 @@ class SelMem extends Component {
             name="确认要移除XXA吗?"
             delete={deleteX}
             transferMsg={del => {
-              this.transferMsgDel(del);
+              Func.transferMsgDel(del);
             }}
           />
           <Del name="移除成功" cancel delete={deled} />

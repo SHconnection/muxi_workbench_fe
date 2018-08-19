@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
-import "./save.css";
 import "../../../static/css/common.css";
+import "./save.css";
 
 const Save = ({ ifSave }) => (
   <div className={ifSave ? "subject isSave" : "none"}>

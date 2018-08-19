@@ -8,8 +8,8 @@
 */
 import React, { Component } from "react";
 import PropTypes from "prop-types";
-import "./delete.css";
 import "../../../static/css/common.css";
+import "./delete.css";
 
 class Del extends Component {
   move() {

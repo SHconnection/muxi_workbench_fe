@@ -2,10 +2,11 @@
 成员分组页面组件
 */
 import React, { Component } from "react";
-import "../../../static/css/common.css";
-import "./set_permission.css";
 import Mem from "../../../components/setting/member/member";
 import Save from "../../../components/setting/save/save";
+import Func from "../../../components/common/function/function";
+import "../../../static/css/common.css";
+import "./set_permission.css";
 
 class SetPerm extends Component {
   constructor(props) {
@@ -29,21 +30,9 @@ class SetPerm extends Component {
       ],
       ifSave: false
     };
-  }
 
-  transferMsg(mem, selMem) {
-    this.setState({
-      members: mem,
-      selMembers: selMem
-    });
-  }
-
-  save() {
-    this.setState({ ifSave: true });
-
-    setTimeout(() => {
-      this.setState({ ifSave: false });
-    }, 1000);
+    Func.transferMsgMem = Func.transferMsgMem.bind(this);
+    Func.save = Func.save.bind(this);
   }
 
   render() {
@@ -58,7 +47,7 @@ class SetPerm extends Component {
             members={members}
             selMembers={selMembers}
             transferMsg={(mem, selMem) => {
-              this.transferMsg(mem, selMem);
+              Func.transferMsgMem(mem, selMem);
             }}
           />
 
@@ -66,7 +55,7 @@ class SetPerm extends Component {
             type="button"
             className="saveBtn footerBtn SetPerm_btnMarg"
             onClick={() => {
-              this.save();
+              Func.save();
             }}
           >
             {ifSave ? "已保存" : "保存设置"}
