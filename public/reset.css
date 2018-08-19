@@ -21,6 +21,9 @@ body {
   font-family: Helvetica, Tahoma, Arial, "Microsoft YaHei", "Hiragino Sans GB", "WenQuanYi Micro Hei", sans-serif;
   background-color: #f2f2f2;
 }
+a {
+    text-decoration: none;
+}
 :focus { 
     outline: 0 
 } 

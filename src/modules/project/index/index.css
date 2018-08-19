@@ -1,0 +1,27 @@
+.project {
+  display: flex;
+  flex-direction: column;
+}
+
+.projects-container {
+  width: 810px;
+  margin: 0 auto;
+  margin-top: 113px;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+
+.project-item {
+  width: 25%;
+  margin-bottom: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.project-create-bt {
+  position: absolute;
+  top: 24px;
+  right: 27px;
+}
