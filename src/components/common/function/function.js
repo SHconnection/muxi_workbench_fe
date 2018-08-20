@@ -57,6 +57,13 @@ const Func = {
     this.setState({
       deleteX: del
     });
+  },
+  willUnmount() {
+    const { members: arr, transferMsg } = this.props;
+
+    arr.filter(item => !item.dealed);
+
+    transferMsg(arr);
   }
 };
 export default Func;
