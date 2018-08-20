@@ -44,6 +44,15 @@ const Func = {
     }, 1000);
   },
 
+  del(mem1) {
+    const mem = mem1;
+    const { members: arr1, selMembers: arr2, transferMsg } = this.props;
+
+    if (!mem.dealed) mem.dealed = true;
+
+    transferMsg(arr1, arr2);
+  },
+
   transferMsgDel(del) {
     this.setState({
       deleteX: del

@@ -20,24 +20,12 @@ class GroupMana extends Component {
     };
 
     Func.transferMsgDel = Func.transferMsgDel.bind(this);
+    Func.del = Func.del.bind(this);
+    Func.willUnmount = Func.willUnmount.bind(this);
   }
 
   componentWillUnmount() {
-    const { members: arr, transferMsg } = this.props;
-
-    arr.filter(item => !item.dealed);
-
-    transferMsg(arr);
-  }
-
-  del(mem1) {
-    const mem = mem1;
-
-    const { members: arr, transferMsg } = this.props;
-
-    if (!mem.dealed) mem.dealed = true;
-
-    transferMsg(arr);
+    Func.willUnmount();
   }
 
   render() {
@@ -85,7 +73,7 @@ class GroupMana extends Component {
             Func.transferMsgDel(del);
           }}
           del={mem1 => {
-            this.del(mem1);
+            Func.del(mem1);
           }}
         />
       </div>
@@ -96,11 +84,9 @@ class GroupMana extends Component {
 export default GroupMana;
 
 GroupMana.propTypes = {
-  members: PropTypes.arrayOf,
-  transferMsg: PropTypes.func
+  members: PropTypes.arrayOf
 };
 
 GroupMana.defaultProps = {
-  members: [],
-  transferMsg: () => {}
+  members: []
 };

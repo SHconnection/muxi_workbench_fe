@@ -6,16 +6,15 @@ transferMsg = (mem, selMem) => {this.setState({members: mem,selMembers: selMem})
 */
 import React, { Component } from "react";
 import PropTypes from "prop-types";
+import Func from "../../../components/common/function/function";
 import "../../../static/css/common.css";
 import "./join_apply.css";
 
 class JoinApp extends Component {
-  cancel(mem1) {
-    const mem = mem1;
-    const { members: arr1, selMembers: arr2, transferMsg } = this.props;
-    if (!mem.dealed) mem.dealed = true;
+  constructor(props) {
+    super(props);
 
-    transferMsg(arr1, arr2);
+    Func.del = Func.del.bind(this);
   }
 
   save(mem1) {
@@ -73,7 +72,7 @@ class JoinApp extends Component {
                     tabIndex="-1"
                     className="fakeBtn"
                     onClick={() => {
-                      this.cancel(mem);
+                      Func.del(mem);
                     }}
                     onKeyDown={this.handleClick}
                   >

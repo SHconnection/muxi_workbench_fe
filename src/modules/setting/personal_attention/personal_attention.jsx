@@ -20,16 +20,12 @@ class PerAtt extends Component {
     };
 
     Func.transferMsgDel = Func.transferMsgDel.bind(this);
+    Func.del = Func.del.bind(this);
+    Func.willUnmount = Func.willUnmount.bind(this);
   }
 
-  del(mem1) {
-    const mem = mem1;
-
-    const { members: arr, transferMsg } = this.props;
-
-    if (!mem.dealed) mem.dealed = true;
-
-    transferMsg(arr);
+  componentWillUnmount() {
+    Func.willUnmount();
   }
 
   render() {
@@ -82,7 +78,7 @@ class PerAtt extends Component {
             Func.transferMsgDel(del);
           }}
           del={mem1 => {
-            this.del(mem1);
+            Func.del(mem1);
           }}
         />
       </div>
