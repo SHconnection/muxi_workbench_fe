@@ -1,0 +1,25 @@
+.litSel {
+    display: flex;
+    justify-content: space-between;
+    width: 250px;
+}
+.PerAtt_FS{
+    font-size: 14px;
+}
+.PerAtt_vice{
+    width: 570px;
+    margin-left: 26px;
+    line-height: normal;
+    vertical-align: middle;
+}
+.IB{
+    display: inline-block;
+}
+.PerAtt_cell {
+    line-height: 74px;
+}
+.PerAtt_imgSize{
+    width: 63px;
+    height: 63px;
+    vertical-align: middle;
+}

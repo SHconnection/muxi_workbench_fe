@@ -2,7 +2,7 @@ const Func = {
   transferMsgMem(mem, selMem) {
     this.setState({
       members: mem,
-      selMembers: selMem
+      selMembers: selMem || []
     });
   },
 
