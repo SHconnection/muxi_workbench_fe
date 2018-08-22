@@ -139,3 +139,34 @@ button {
   content: "\2713";
   color: #108ee9;
 }
+input[type="checkbox"] {
+  display: none;
+}
+input[type="checkbox"] + label {
+  cursor: pointer;
+  position: relative;
+}
+input[type="checkbox"] + label::before {
+  content: "";
+  display: inline-block;
+  width: 18px;
+  height: 18px;
+  border-radius: 1px;
+  margin-top: -3px;
+  margin-right: 6px;
+  background-clip: content-box;
+  border: 1px solid #d9d9d9;
+  vertical-align: middle;
+}
+input[type="checkbox"]:checked + label::before {
+  content: "";
+  background-color: #1d4cb5;
+}
+input[type="checkbox"]:checked + label::after {
+  content: "\2713";
+  color: white;
+  font-size: 18px;
+  position: absolute;
+  top: -2px;
+  left: 4px;
+}

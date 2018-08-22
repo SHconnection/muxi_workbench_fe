@@ -10,6 +10,7 @@ class NewProject extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      selectedAll: false,
       selMembers: [],
       members: [
         { name: "AXX", selected: false },
@@ -37,16 +38,43 @@ class NewProject extends Component {
     };
 
     Func.transferMsgMem = Func.transferMsgMem.bind(this);
+    Func.selAll = Func.selAll.bind(this);
     this.createProject = this.createProject.bind(this);
+    this.checkAll = this.checkAll.bind(this);
+  }
+
+  checkAll() {
+    const { selectedAll, selMembers, members } = this.state;
+    Func.selAll();
+    this.setState({
+      selectedAll: !selectedAll
+    });
+    this.setState(preState => {
+      const { members: arr } = preState;
+      arr.forEach(el => {
+        const el1 = el;
+        el1.selected = !selectedAll;
+      });
+    });
+    if (selectedAll) {
+      this.setState({
+        selMembers: []
+      });
+    } else {
+      this.setState({
+        selMembers: members
+      });
+    }
   }
 
   createProject() {
     const { selMembers } = this.state;
+    // Func.selAll()
     console.log(selMembers);
   }
 
   render() {
-    const { members, selMembers } = this.state;
+    const { members, selMembers, selectedAll } = this.state;
     return (
       <div className="newProject-container">
         <GoBack />
@@ -65,6 +93,15 @@ class NewProject extends Component {
             <div className="title">选择项目成员</div>
             <div className="newProject-member-option">
               <div className="tip">选择你要设置的成员</div>
+              <div>
+                <input
+                  type="checkbox"
+                  checked={selectedAll}
+                  onChange={this.checkAll}
+                  id="memberCheckedAll"
+                />
+                <label htmlFor="memberCheckedAll">全选</label>
+              </div>
             </div>
             <Mem
               members={members}
