@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import './progress.css'
 import StatusItem from '../../components/status/basicCard/index.jsx'
+import Gotop from '../../components/common/toTop/top'
 
 class Progress extends Component {
   constructor(props) {
@@ -40,16 +41,19 @@ class Progress extends Component {
 render() {
   const {cards} = this.state
   return (
-    <div className="status">
-      <div className="status-container">
-        {cards.map(card => 
-          (
-            <div key={card.id}>
-              <StatusItem good_number={card.good_number} comments={card.comments} name={card.name} time={card.time} index={card.index} text={card.text} />
-            </div>
-          )
-        )}
+    <div>
+      <div className="status">
+        <div className="status-container">
+          {cards.map(card => 
+            (
+              <div key={card.id}>
+                <StatusItem good_number={card.good_number} comments={card.comments} name={card.name} time={card.time} index={card.index} text={card.text} />
+              </div>
+            )
+          )}
+        </div>
       </div>
+      <Gotop className="gotop" />
     </div>
   )
 }

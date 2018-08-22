@@ -1,21 +1,42 @@
 import React, { Component } from 'react';
 import ReactSVG from 'react-svg'
-import {PullList} from 'react-native-pull';
 import top from '../../../assets/svg/commonIcon/top.svg'
 import './top.css'
 
 
 class toTop extends Component {
-  clickTabBarItem() {
-    PullList = this.pullList;
-    // 一键置顶
-    PullList.scrollTo({y:0});
+  constructor(props){
+    super(props);
+    this.state ={
+      display:false
+    };
+    this.scrollTop = this.scrollTop.bind(this)
   }
+  componentDidMount= ()=> {
+    window.addEventListener('scroll',this.handleScroll);
+    };
+    
+    componentWillUnmount= ()=> {
+    window.removeEventListener('scroll',this.handleScroll);
+    };
+    
+    handleScroll=event=> {
+    if (window.pageYOffset > 100) {
+    this.setState({ display: true });
+    }else {
+    this.setState({ display: false });
+    }
+    };
+    
+    scrollTop= ()=> {
+    window.scrollTo(0,0);
+    };
+    
 
   render() {
     return (
       <div>
-        <ReactSVG className="top" onClick={this.clickTabBarItem()} path={top} />
+        <ReactSVG className="top" onClick={this.scrollTop} path={top} />
       </div>
     )
   }
