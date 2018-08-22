@@ -1,4 +1,5 @@
 .project {
+  display: -webkit-flex; /* Safari */
   display: flex;
   flex-direction: column;
 }

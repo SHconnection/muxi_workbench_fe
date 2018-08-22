@@ -1,0 +1,44 @@
+.newProject-container {
+  display: -webkit-flex; /* Safari */
+  display: flex;
+  flex-direction: row;
+  margin: 0 auto;
+}
+
+.newProject-content {
+  display: -webkit-flex; /* Safari */
+  display: flex;
+  flex-direction: column;
+}
+
+.newProject-name-input {
+  width: 585px;
+  height: 40px;
+  border: 1px solid #1d4cb5;
+  margin-top: 18px;
+  outline:none;
+}
+
+.newProject-desc-textarea {
+  width: 585px;
+  min-height: 101px;
+  border: 1px solid #1d4cb5;
+  margin-top: 18px;
+  outline:none;
+}
+
+.newProject-member {
+  display: -webkit-flex; /* Safari */
+  display: flex;
+  flex-direction: column;
+  margin-top: 38px;
+  margin-bottom: 68px;
+}
+
+.newProject-member-option {
+  display: -webkit-flex; /* Safari */
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  margin-bottom: 18px;
+}

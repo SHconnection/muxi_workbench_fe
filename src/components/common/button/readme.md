@@ -9,3 +9,4 @@ Button——按钮组件
 |   text  |    显示文字            | string  |
 | square | 是否是正方形（默认为圆形） | boolean |
 | to | 同Link标签的"to"属性 | string |
+| onClick | 点击事件 | Func |

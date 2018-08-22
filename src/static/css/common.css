@@ -10,10 +10,10 @@ body {
 .subject {
   position: relative;
   width: 1035px;
-  margin: 54px auto 0 auto;
+  margin: 54px auto 60px auto;
   border-radius: 6px;
   background-color: #fbfbfb;
-  padding: 43px 75px 0 75px;
+  padding: 43px 75px;
   -moz-box-shadow: 0px 2px 8px rgba(8, 5, 5, 0.1); /* for firefox */
   -webkit-box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.1); /* for safari or chrome */
   box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.1); /* for opera or ie9 */
@@ -25,6 +25,7 @@ body {
   display: inline-block;
   font-size: 24px;
   color: #1d4cb5;
+  font-family: 'PingFang SC'
 }
 .littleSize {
   font-size: 20px;
