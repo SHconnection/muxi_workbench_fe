@@ -8,7 +8,35 @@ import Sendcomment from '../../../components/common/sendComment/comment'
 import './detail.css'
 
 
-const detail = () => (
+class detail extends Component {
+    constructor(props) {
+      super(props);
+      this.state = {
+        comments: [
+            {
+              id: 1,
+              name: "木小犀",
+              day: "2018/08/04",
+              text: "这是一条评论这是一条评论这是一条评论这是一条评论这是一条评论这是一条评论这是一条评论这是一条评论这是一条评论这是一条评论这是一条评论这是一条评论这是一条评论这是一条评论这是一条评论这是一条评论。",
+            },
+            {
+              id: 2,
+              name: "木小犀",
+              day: "2018/08/04",
+              text: "这是一条评论这是一条评论这是一条评论这是一条评论这是一条评论这是一条评论这是一条评论这是一条评论这是一条评论这是一条评论这是一条评论这是一条评论这是一条评论这是一条评论这是一条评论这是一条评论。",
+            },
+            {
+              id: 3,
+              name: "木小犀",
+              day: "2018/08/04",
+              text: "这是一条评论这是一条评论这是一条评论这是一条评论这是一条评论这是一条评论这是一条评论这是一条评论这是一条评论这是一条评论这是一条评论这是一条评论这是一条评论这是一条评论这是一条评论这是一条评论。",
+            }
+          ]
+      }
+    }
+    render() {
+        const {comments} = this.state
+        return(
          <div className="status-detail">
             <div className="status-detail-head">
               <ReactSVG className="status-detail-back" path={back} />
@@ -23,10 +51,17 @@ const detail = () => (
             </div>
             <div className="status-details">这是一段文本这是一段文本这是一段文本这是一段文本这是一段文本这是一段文本这是一段文本这是一段文本这是一段文本这是一段文本这是一段文本这是一段文本这是一段文本这是一段文本这是一段文本这是一段文本这是一段文本这是一段文本这是一段文本这是一段文本这是一段文本这是一段文本这是一段文本这是一段文本这是一段文本这是一段文本这是一段文本这是一段文本这是一段文本这是一段文本这是一段文本这是一段文本这是一段文本这是一段文本这是一段文本这是一段文本这是一段文本这是一段文本这是一段文本这是一段文本这是一段文本这是一段文本这是一段文本这是一段文本这是一段文本这是一段文本这是一段文本这是一段文本这是一段文本这是一段文本这是一段文本这是一段文本这是一段文本这是一段文本这是一段文本这是一段文本这是一段文本这是一段文本这是一段文本这是一段文本这是一段文本这是一段文本这是一段文本这是一段文本这是一段文本这是一段文本这是一段文本这是一段文本这是一段文本这是一段文本这是一段文本这是一段文本这是一段文本这是一段文本这是一段文本这是一段文本这是一段文本这是一段文本这是一段文本这是一段文本这是一段文本这是一段文本这是一段文本这是一段文本这是一段文本这是一段文本这是一段文本这是一段文本这是一段文本这是一段文本这是一段文本这是一段文本这是一段文本这是一段文本这是一段文本这是一段文本这是一段文本这是一段文本这是一段文本这是一段文本这是一段文本这是一段文本这是一段文本这是一段文本这是一段文本。</div>
             <hr className="line"/>
-            <div>
-              <Othercomments className="status-detail-comments" />
-              <Sendcomment className="sendcomment" />
+            <div className="status-detail-comments">
+            {comments.map(el => (
+              <div key={el.id}>
+                <Othercomments name={el.name} day={el.day} text={el.text} />
+              </div>
+              )
+            )}
             </div>
+            <Sendcomment className="sendcomment" />
           </div>
-);
+        )
+      }
+    }
 export default detail;
