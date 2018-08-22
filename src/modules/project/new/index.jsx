@@ -44,7 +44,7 @@ class NewProject extends Component {
   }
 
   checkAll() {
-    const { selectedAll, selMembers, members } = this.state;
+    const { selectedAll, members } = this.state;
     Func.selAll();
     this.setState({
       selectedAll: !selectedAll
