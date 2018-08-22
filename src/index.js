@@ -7,7 +7,7 @@ import Dynamic from './modules/feed/dynamic'
 import Progress from './modules/status/progress'
 import member from './modules/member/member'
 import Header from './components/common/header/index'
-import edit from './modules/status/markdown/edit.jsx'
+import edit from './modules/status/markdown/edit'
 import './index.css'
  
 ReactDOM.render((

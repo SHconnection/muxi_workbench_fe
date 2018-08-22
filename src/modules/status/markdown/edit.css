@@ -1,17 +1,24 @@
-.edit{
+.head{
+    width: 100%;
+    height: 70px;
     display: flex;
+    align-items: center;
+    border-bottom:solid 0.5px rgb(209, 208, 208); 
 }
-/* .last{
+.last{
     width: 33px;
     height: 33px;
-} */
+    margin-top: 5px;
+    margin-left: 53px;
+}
 .status-write-input{
     width: 600px;
     height: 35px;
+    margin-left: 20px;
     outline:none;
+    font-size: 18px;
 }
 .status-save-bt {
     position: absolute;
-    top: 15px;
-    right: 163px;
-  }
+    right: 83px;
+  } 

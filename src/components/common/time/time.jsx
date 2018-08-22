@@ -24,3 +24,5 @@ ReactDom.render(
   document.getElementById('__react-content')
 );
 
+export default TimePicker;
+

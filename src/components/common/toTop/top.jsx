@@ -1,24 +1,25 @@
 import React, { Component } from 'react';
 import ReactSVG from 'react-svg'
+import {PullList} from 'react-native-pull';
 import top from '../../../assets/svg/commonIcon/top.svg'
+import './top.css'
+
 
 class toTop extends Component {
-  constructor(props){
-    super(props);
-  }
-
-clickTabBarItem() {
-    let PullList = this.refs.pullList;
+  clickTabBarItem() {
+    PullList = this.pullList;
     // 一键置顶
     PullList.scrollTo({y:0});
- }
+  }
 
- render() {
+  render() {
     return (
       <div>
-        <ReactSVG className="top" path={top} />
+        <ReactSVG className="top" onClick={this.clickTabBarItem()} path={top} />
       </div>
-    );
+    )
   }
 }
+export default toTop;
+
 
