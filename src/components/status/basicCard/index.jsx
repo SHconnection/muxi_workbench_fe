@@ -15,10 +15,14 @@ function Item(props) {
   const {index, name,time,text,good_number,comments} = props
   return (
     <div className="status-item-container">
-      <Avatar className="status-item-img" src={AvatarImg} />
-      <div className="status-item-name">{name}</div>
-      <div className="status-item-time">{time}</div>
-      <div className="open">展开</div>
+      <div className="status-head">
+        <Avatar className="status-item-img" src={AvatarImg} width={60} height={60} />
+        <div className="stauts-second">
+          <div className="status-item-name">{name}</div>
+          <div className="status-item-time">{time}</div>
+        </div>
+        <div className="open">展开</div>
+      </div>
       <div className="status-item-details">{text}</div>
       <div className="others">
         <ReactSVG className="status-item-good" path={Goods[index]} />

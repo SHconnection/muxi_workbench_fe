@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import './progress.css'
-import statusItem from '../../components/status/basicCard/index.jsx'
+import StatusItem from '../../components/status/basicCard/index.jsx'
 
 class Progress extends Component {
   constructor(props) {
@@ -45,7 +45,7 @@ render() {
         {cards.map(card => 
           (
             <div key={card.id}>
-              <statusItem good_number={card.good_number} comments={card.comments} name={card.name} time={card.time} index={card.index} text={card.text} />
+              <StatusItem good_number={card.good_number} comments={card.comments} name={card.name} time={card.time} index={card.index} text={card.text} />
             </div>
           )
         )}
