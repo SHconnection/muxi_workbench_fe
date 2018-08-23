@@ -3,7 +3,7 @@ import GoBack from "../../../components/common/goBack/index";
 import Mem from "../../../components/setting/member/member";
 import Func from "../../../components/common/function/function";
 import Button from "../../../components/common/button/index";
-import Select from "../../../components/common/select/index"
+import Select from "../../../components/common/select/index";
 import "../../../static/css/common.css";
 import "./index.css";
 
@@ -50,55 +50,54 @@ class NewProject extends Component {
   }
 
   componentWillMount() {
-    const { groups } = this.state
+    const { groups } = this.state;
     const groupList = [
       {
         groupID: 1,
-        groupName: '安卓组',
+        groupName: "安卓组",
         userCount: 2
       },
       {
         groupID: 2,
-        groupName: '前端组',
+        groupName: "前端组",
         userCount: 2
       },
       {
         groupID: 3,
-        groupName: '后端组',
+        groupName: "后端组",
         userCount: 2
       },
       {
         groupID: 4,
-        groupName: '设计组',
+        groupName: "设计组",
         userCount: 2
       },
       {
         groupID: 5,
-        groupName: '产品组',
+        groupName: "产品组",
         userCount: 2
       }
-    ]
+    ];
     const arr = groupList.map(el => {
-      const el1 = {id: 0, value: ''}
-      el1.id = el.groupID
-      el1.value = el.groupName
-      return el1
-    })
-    arr.push({id: 0, value: '全部成员'})
+      const el1 = { id: 0, value: "" };
+      el1.id = el.groupID;
+      el1.value = el.groupName;
+      return el1;
+    });
+    arr.push({ id: 0, value: "全部成员" });
     // console.log(arr)
     this.setState({
       groups: groups.concat(arr)
-    })
+    });
     // console.log(this.state.groups)
   }
 
   checkAll() {
     const { selectedAll } = this.state;
-    Func.selAllo(!selectedAll)
+    Func.selAllo(!selectedAll);
     this.setState({
       selectedAll: !selectedAll
-    })
-    
+    });
   }
 
   createProject() {
@@ -111,11 +110,17 @@ class NewProject extends Component {
     // const {groupCheckedIndex} = this.state
     this.setState({
       groupCheckedIndex: index
-    })
+    });
   }
 
   render() {
-    const { members, selMembers, selectedAll, groups, groupCheckedIndex } = this.state;
+    const {
+      members,
+      selMembers,
+      selectedAll,
+      groups,
+      groupCheckedIndex
+    } = this.state;
     return (
       <div className="newProject-container">
         <GoBack />
@@ -143,9 +148,12 @@ class NewProject extends Component {
                 />
                 <label htmlFor="memberCheckedAll">全选</label>
                 <div className="newProject-group-select">
-                  <Select items={groups} checkedIndex={groupCheckedIndex} onChange={this.changeGroupCheck} />
+                  <Select
+                    items={groups}
+                    checkedIndex={groupCheckedIndex}
+                    onChange={this.changeGroupCheck}
+                  />
                 </div>
-                
               </div>
             </div>
             <Mem
