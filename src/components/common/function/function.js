@@ -36,6 +36,28 @@ const Func = {
     });
   },
 
+  selAllo(sel) {
+    this.setState(prevState => {
+      const { members: arr } = prevState;
+      if (arr) {
+        if (!sel) {
+          arr.forEach(i => {
+            const j = i;
+            j.selected = false;
+            // return j;
+          });
+        } else {
+          arr.forEach(i => {
+            const j = i;
+            j.selected = true;
+            // return j;
+          });
+        }
+      }
+      return { members: arr };
+    });
+  },
+
   save() {
     this.setState({ ifSave: true });
 

@@ -42,3 +42,15 @@
   justify-content: space-between;
   margin-bottom: 18px;
 }
+
+.newProject-member-tip-right {
+  margin-right: 40px;
+  display: -webkit-flex; /* Safari */
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.newProject-member-option {
+  margin-left: 20px;
+}

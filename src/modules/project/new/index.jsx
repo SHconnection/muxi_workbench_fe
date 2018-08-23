@@ -3,6 +3,7 @@ import GoBack from "../../../components/common/goBack/index";
 import Mem from "../../../components/setting/member/member";
 import Func from "../../../components/common/function/function";
 import Button from "../../../components/common/button/index";
+import Select from "../../../components/common/select/index"
 import "../../../static/css/common.css";
 import "./index.css";
 
@@ -10,6 +11,8 @@ class NewProject extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      groups: ['安卓组','前端组','后端组','设计组','产品组','全部成员'],
+      groupCheckedIndex: 5,
       selectedAll: false,
       selMembers: [],
       members: [
@@ -39,32 +42,19 @@ class NewProject extends Component {
 
     Func.transferMsgMem = Func.transferMsgMem.bind(this);
     Func.selAll = Func.selAll.bind(this);
+    Func.selAllo = Func.selAllo.bind(this);
     this.createProject = this.createProject.bind(this);
     this.checkAll = this.checkAll.bind(this);
+    this.changeGroupCheck = this.changeGroupCheck.bind(this);
   }
 
   checkAll() {
-    const { selectedAll, members } = this.state;
-    Func.selAll();
+    const { selectedAll } = this.state;
+    Func.selAllo(!selectedAll)
     this.setState({
       selectedAll: !selectedAll
-    });
-    this.setState(preState => {
-      const { members: arr } = preState;
-      arr.forEach(el => {
-        const el1 = el;
-        el1.selected = !selectedAll;
-      });
-    });
-    if (selectedAll) {
-      this.setState({
-        selMembers: []
-      });
-    } else {
-      this.setState({
-        selMembers: members
-      });
-    }
+    })
+    
   }
 
   createProject() {
@@ -73,8 +63,15 @@ class NewProject extends Component {
     console.log(selMembers);
   }
 
+  changeGroupCheck(index) {
+    // const {groupCheckedIndex} = this.state
+    this.setState({
+      groupCheckedIndex: index
+    })
+  }
+
   render() {
-    const { members, selMembers, selectedAll } = this.state;
+    const { members, selMembers, selectedAll, groups, groupCheckedIndex } = this.state;
     return (
       <div className="newProject-container">
         <GoBack />
@@ -93,7 +90,7 @@ class NewProject extends Component {
             <div className="title">选择项目成员</div>
             <div className="newProject-member-option">
               <div className="tip">选择你要设置的成员</div>
-              <div>
+              <div className="newProject-member-tip-right">
                 <input
                   type="checkbox"
                   checked={selectedAll}
@@ -101,14 +98,16 @@ class NewProject extends Component {
                   id="memberCheckedAll"
                 />
                 <label htmlFor="memberCheckedAll">全选</label>
+                <div className="newProject-member-option">
+                  <Select items={groups} checkedIndex={groupCheckedIndex} onChange={this.changeGroupCheck} />
+                </div>
+                
               </div>
             </div>
             <Mem
               members={members}
               selMembers={selMembers}
-              transferMsg={(mem, selMem) => {
-                Func.transferMsgMem(mem, selMem);
-              }}
+              transferMsg={Func.transferMsgMem}
             />
           </div>
           <Button text="创建项目" onClick={this.createProject} />

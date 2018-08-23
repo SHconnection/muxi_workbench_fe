@@ -17,6 +17,8 @@ module.exports = {
       "required": {
           "some": [ "nesting", "id" ]
       },
+
+      
       "allowChildren": false
     }]
 
