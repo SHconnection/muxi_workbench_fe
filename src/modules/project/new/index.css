@@ -54,3 +54,9 @@
 .newProject-group-select {
   margin-left: 20px;
 }
+
+.newProject-bottom {
+  display: -webkit-flex; /* Safari */
+  display: flex;
+  flex-direction: row;
+}

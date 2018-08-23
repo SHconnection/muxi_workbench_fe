@@ -162,7 +162,10 @@ class NewProject extends Component {
               transferMsg={Func.transferMsgMem}
             />
           </div>
-          <Button text="创建项目" onClick={this.createProject} />
+          <div className="newProject-bottom">
+            <Button text="创建项目" onClick={this.createProject} />
+            <div className="newProject-bottom-text">取消</div>
+          </div>
         </div>
       </div>
     );

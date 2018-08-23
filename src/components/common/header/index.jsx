@@ -1,11 +1,11 @@
 import React, { Component } from "react";
 import { NavLink } from "react-router-dom";
-import "./index.css";
 import logo from "../../../assets/img/logo@2x.png";
 import searchIcon from "../../../assets/img/search@2x.png";
 import infoRemindIcon from "../../../assets/img/info-remind@2x.png";
 import AvatarImg from "../../../assets/img/avatar.png";
 import Avatar from "../avatar/index";
+import "./index.css";
 
 class Header extends Component {
   constructor(props) {

@@ -82,6 +82,11 @@
   cursor: pointer;
 }
 
+input[type="text"].header-search-input{
+  border-radius: 0;
+  padding: 0;
+}
+
 .header-search-input {
   width: 123px;
   margin-left: 11px;
@@ -89,6 +94,8 @@
   border: 0px;
   background: none;
   border-bottom: 1px solid #919191;
+  border-radius: 0;
+  padding: 0;
 }
 
 .header-info-icon {

@@ -1,9 +1,7 @@
-import React from 'react';
+import React from "react";
 
-const NoMatch = () => (
-  <div>
-    404
-  </div>
-)
+// window.location.href = '/project'
 
-export default NoMatch
+const NoMatch = () => <div>404</div>;
+
+export default NoMatch;
