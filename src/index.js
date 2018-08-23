@@ -1,5 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom";
+import { Redirect } from "react-router";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import registerServiceWorker from "./registerServiceWorker";
 import NoMatch from "./components/common/noMatch/index";
@@ -16,7 +17,7 @@ ReactDOM.render(
     <div className="app-container">
       <Header className="header" />
       <Switch>
-        <Route exact path="/" component={Project} />
+        <Redirect exact from="/" to="/project" />
         <Route path="/project" component={Project} />
         <Route path="/dynamic_list" component={Dynamic} />
         <Route path="/progress_list" component={Progress} />
