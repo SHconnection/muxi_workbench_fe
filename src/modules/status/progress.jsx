@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import './progress.css'
 import StatusItem from '../../components/status/basicCard/index.jsx'
 import Gotop from '../../components/common/toTop/top'
 
