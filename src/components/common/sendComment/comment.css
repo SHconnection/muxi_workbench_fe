@@ -1,0 +1,21 @@
+.send-comment{
+    border-radius: 4px;
+    width: 375%;
+    height: 129px;
+    font-size: 16px;
+    border: 1px solid #1D4CB5;
+}
+.send{
+    margin-left: 10%;
+    display: flex;
+}
+.status-comment{
+    margin-top: 74px;
+}
+.push{
+    margin-left: 10px;
+}
+.comment-bt{
+    margin-top: 10px;
+    margin-bottom: 20px;
+}
