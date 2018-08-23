@@ -42,22 +42,19 @@
 }
 .status-item-good{
     margin-left: 75%;
-    width: 29px;
-    height: 29px;
+    width: 25px;
+    height: 25px;
 }
 .status-item-goodnumber{
-    margin-left: 10px;
-    margin-top: 12px;
+    margin-left: 6px;
     font-size: 14px;
 }
 .status-item-commet{
     margin-left: 59px;
-    margin-top: -8px;
-    width: 21px;
-    height: 21px;
+    width: 25px;
+    height: 25px;
 }
 .status-item-comments{
-    margin-left: 20px;
-    margin-top: 12px;
+    margin-left: 6px;
     font-size: 14px;
 }

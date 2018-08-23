@@ -11,12 +11,16 @@ import Header from "./components/common/header/index";
 import edit from "./modules/status/markdown/edit";
 import "./index.css";
 
+const validErrorRoute = function(nextState, replace) {
+  replace(nextState.location.pathname, '/project')
+};
+
 ReactDOM.render(
   <Router>
     <div className="app-container">
       <Header className="header" />
       <Switch>
-        <Route exact path="/" component={Project} />
+        <Route exact path="/" onEnter= { validErrorRoute } />
         <Route path="/project" component={Project} />
         <Route path="/dynamic_list" component={Dynamic} />
         <Route path="/progress_list" component={Progress} />

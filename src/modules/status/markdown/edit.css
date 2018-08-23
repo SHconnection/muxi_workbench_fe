@@ -26,6 +26,7 @@
     margin-left: 20px;
     outline:none;
     font-size: 18px;
+    box-shadow: none;
 }
 .status-save-bt {
     position: absolute;
