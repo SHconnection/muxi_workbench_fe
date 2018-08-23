@@ -11,7 +11,8 @@ class NewProject extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      groups: ['安卓组','前端组','后端组','设计组','产品组','全部成员'],
+      // groups: ['安卓组','前端组','后端组','设计组','产品组','全部成员'],
+      groups: [],
       groupCheckedIndex: 5,
       selectedAll: false,
       selMembers: [],
@@ -46,6 +47,49 @@ class NewProject extends Component {
     this.createProject = this.createProject.bind(this);
     this.checkAll = this.checkAll.bind(this);
     this.changeGroupCheck = this.changeGroupCheck.bind(this);
+  }
+
+  componentWillMount() {
+    const { groups } = this.state
+    const groupList = [
+      {
+        groupID: 1,
+        groupName: '安卓组',
+        userCount: 2
+      },
+      {
+        groupID: 2,
+        groupName: '前端组',
+        userCount: 2
+      },
+      {
+        groupID: 3,
+        groupName: '后端组',
+        userCount: 2
+      },
+      {
+        groupID: 4,
+        groupName: '设计组',
+        userCount: 2
+      },
+      {
+        groupID: 5,
+        groupName: '产品组',
+        userCount: 2
+      }
+    ]
+    const arr = groupList.map(el => {
+      const el1 = {id: 0, value: ''}
+      el1.id = el.groupID
+      el1.value = el.groupName
+      return el1
+    })
+    arr.push({id: 0, value: '全部成员'})
+    // console.log(arr)
+    this.setState({
+      groups: groups.concat(arr)
+    })
+    // console.log(this.state.groups)
   }
 
   checkAll() {
@@ -98,7 +142,7 @@ class NewProject extends Component {
                   id="memberCheckedAll"
                 />
                 <label htmlFor="memberCheckedAll">全选</label>
-                <div className="newProject-member-option">
+                <div className="newProject-group-select">
                   <Select items={groups} checkedIndex={groupCheckedIndex} onChange={this.changeGroupCheck} />
                 </div>
                 

@@ -1,37 +1,35 @@
-import React, { Component } from 'react';
-import ReactSVG from 'react-svg'
-import top from '../../../assets/svg/commonIcon/top.svg'
-import './top.css'
-
+import React, { Component } from "react";
+import ReactSVG from "react-svg";
+import top from "../../../assets/svg/commonIcon/top.svg";
+import "./top.css";
 
 class toTop extends Component {
-  constructor(props){
+  constructor(props) {
     super(props);
-    this.state ={
-      display:false
+    this.state = {
+      display: false
     };
-    this.scrollTop = this.scrollTop.bind(this)
+    this.scrollTop = this.scrollTop.bind(this);
   }
-  componentDidMount= ()=> {
-    window.addEventListener('scroll',this.handleScroll);
-    };
-    
-    componentWillUnmount= ()=> {
-    window.removeEventListener('scroll',this.handleScroll);
-    };
-    
-    handleScroll=event=> {
+  componentDidMount = () => {
+    window.addEventListener("scroll", this.handleScroll);
+  };
+
+  componentWillUnmount = () => {
+    window.removeEventListener("scroll", this.handleScroll);
+  };
+
+  handleScroll = event => {
     if (window.pageYOffset > 100) {
-    this.setState({ display: true });
-    }else {
-    this.setState({ display: false });
+      this.setState({ display: true });
+    } else {
+      this.setState({ display: false });
     }
-    };
-    
-    scrollTop= ()=> {
-    window.scrollTo(0,0);
-    };
-    
+  };
+
+  scrollTop = () => {
+    window.scrollTo(0, 0);
+  };
 
   render() {
     return (

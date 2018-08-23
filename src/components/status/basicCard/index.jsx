@@ -15,7 +15,12 @@ function Item(props) {
   return (
     <div className="status-item-container">
       <div className="status-head">
-        <Avatar className="status-item-img" src={AvatarImg} width={60} height={60} />
+        <Avatar
+          className="status-item-img"
+          src={AvatarImg}
+          width={60}
+          height={60}
+        />
         <div className="stauts-second">
           <div className="status-item-name">{name}</div>
           <div className="status-item-time">{time}</div>

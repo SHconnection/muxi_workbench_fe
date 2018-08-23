@@ -37,7 +37,7 @@ class Select extends Component {
       return (
         <div>
           <div className="select-bt" onClick={this.showOption.bind(this)} onKeyDown={() => {}} role="presentation">
-            {items[checkedIndex]}
+            {items[checkedIndex].value}
             <ReactSVG path={RectangleDown} />
           </div>
           {
@@ -45,7 +45,7 @@ class Select extends Component {
             (
               <div className="select-option-bar">
                 {items.map((el, index) => 
-                  <div key={`${el}`} className={index===checkedIndex ? "select-option-item-checked select-option-item" : "select-option-item"} onClick={() => {this.chooseOption(index)}} onKeyDown={() => {}} role="presentation">{el}</div>
+                  <div key={el.id} className={index===checkedIndex ? "select-option-item-checked select-option-item" : "select-option-item"} onClick={() => {this.chooseOption(index)}} onKeyDown={() => {}} role="presentation">{el.value}</div>
                 )}
               </div>
             )
@@ -59,7 +59,10 @@ class Select extends Component {
 }
 
 Select.propTypes = {
-  items: PropTypes.arrayOf(PropTypes.string),
+  items: PropTypes.arrayOf(PropTypes.shape({
+    id: PropTypes.number,
+    value: PropTypes.string
+  })),
   checkedIndex: PropTypes.number,
   onChange: PropTypes.func
 }
