@@ -34,12 +34,13 @@ const Func = {
       method: "GET",
       headers: {
         "Access-Control-Allow-Origin": "*",
-        "Accept": "application/json",
+        Accept: "application/json",
         "Content-Type": "application/json",
-        "mode": "no-cors"
+        mode: "no-cors"
       }
     });
-    console.log(proList)
+
+    console.log(proList);
 
     // if (!Array.isArray(proList)) return false;
 
@@ -80,7 +81,7 @@ const Func = {
   },
 
   getPersonalAttention(userID) {
-    const attentionList = Fetch(`/group/${  userID  }/list/`, {
+    const attentionList = Fetch(`/group/${userID}/list/`, {
       headers: {
         Accept: "application/json",
         "content-type": "application/json"

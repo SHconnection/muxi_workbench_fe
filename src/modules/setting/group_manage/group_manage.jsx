@@ -64,7 +64,9 @@ class GroupManage extends Component {
                   {mem.count}
                 </span>
                 <div className="litSel">
-                  <Link to="/GroupMember" className="fakeBtn">编辑</Link>
+                  <Link to={`/GroupMember/${mem.id}`} className="fakeBtn">
+                    编辑
+                  </Link>
                   <span
                     className="fakeBtn"
                     onClick={() => {

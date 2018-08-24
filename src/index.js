@@ -1,8 +1,36 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import "./index.css";
+import {
+  BrowserRouter as Router,
+  Route,
+  Switch,
+  Redirect
+} from "react-router-dom";
 import registerServiceWorker from "./registerServiceWorker";
-import App from "./App";
+import NoMatch from "./components/common/noMatch/index";
+import Project from "./modules/project/index";
+import Dynamic from "./modules/feed/dynamic";
+import Progress from "./modules/status/progress";
+import member from "./modules/member/member";
+import Header from "./components/common/header/index";
+import edit from "./modules/status/markdown/edit";
+import "./index.css";
 
-ReactDOM.render(<App />, document.getElementById("root"));
+ReactDOM.render(
+  <Router>
+    <div className="app-container">
+      <Header className="header" />
+      <Switch>
+        <Redirect exact from="/" to="/project" />
+        <Route path="/project" component={Project} />
+        <Route path="/dynamic_list" component={Dynamic} />
+        <Route path="/progress_list" component={Progress} />
+        <Route path="/member" component={member} />
+        <Route path="/edit" component={edit} />
+        <Route component={NoMatch} />
+      </Switch>
+    </div>
+  </Router>,
+  document.getElementById("root")
+);
 registerServiceWorker();

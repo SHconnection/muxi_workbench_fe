@@ -18,7 +18,6 @@ function encodeUrlParams(data) {
     .join("&");
 }
 
-
 export default function FetchData(url, opt = {}) {
   // 设置请求方法
   opt.method = opt.method || "GET";
@@ -29,7 +28,7 @@ export default function FetchData(url, opt = {}) {
       url = `${url}/?${encodeUrlParams(opt.data)}`;
     } else {
       opt.headers = opt.headers || {
-        "Accept": "application/json",
+        Accept: "application/json",
         "Content-Type": "application/json"
       };
       opt.body = JSON.stringify(opt.data);
