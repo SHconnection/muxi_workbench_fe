@@ -1,11 +1,15 @@
 import React, { Component } from "react";
-import GoBack from "../../../components/common/goBack/index";
+// import GoBack from "../../../components/common/goBack/index";
 import Mem from "../../../components/setting/member/member";
 import Func from "../../../components/common/function/function";
 import Button from "../../../components/common/button/index";
 import Select from "../../../components/common/select/index";
 import "../../../static/css/common.css";
 import "./index.css";
+
+const gotoBack = () => {
+  window.history.back();
+}
 
 class NewProject extends Component {
   constructor(props) {
@@ -123,7 +127,6 @@ class NewProject extends Component {
     } = this.state;
     return (
       <div className="newProject-container">
-        <GoBack />
         <div className="newProject-content">
           <div className="title">新建项目</div>
           <input
@@ -164,7 +167,7 @@ class NewProject extends Component {
           </div>
           <div className="newProject-bottom">
             <Button text="创建项目" onClick={this.createProject} />
-            <div className="newProject-bottom-text">取消</div>
+            <div className="newProject-bottom-text fakeBtn" onClick={gotoBack} onKeyDown={() => {}} role="presentation">取消</div>
           </div>
         </div>
       </div>

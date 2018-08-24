@@ -16,17 +16,17 @@ class Project extends Component {
   render() {
     const { url } = this.state;
     return (
-      <Router>
-        <div className="subject">
-          <Switch>
-            <Route exact path={`${url}/`} component={Index} />
-            <Route path={`${url}/new`} component={NewProject} />
-            <Route exact path="/" component={Index} />
-            <Route path="/new" component={NewProject} />
-            <Route component={NoMatch} />
-          </Switch>
-        </div>
-      </Router>
+      // <Router>
+      <div className="subject">
+        <Switch>
+          <Route exact path={`${url}/`} component={Index} />
+          <Route path={`${url}/new`} component={NewProject} />
+          <Route exact path="/" component={Index} />
+          <Route path="/new" component={NewProject} />
+          <Route component={NoMatch} />
+        </Switch>
+      </div>
+      // </Router>
     );
   }
 }

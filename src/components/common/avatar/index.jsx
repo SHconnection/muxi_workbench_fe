@@ -16,8 +16,14 @@ const Avatar = ({width, height, square, src}) => {
 }
 
 Avatar.propTypes = {
-  width: PropTypes.string,
-  height: PropTypes.string,
+  width: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.number
+  ]),
+  height: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.number
+  ]),
   square: PropTypes.bool,
   src: PropTypes.string
 }

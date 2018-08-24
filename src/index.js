@@ -21,8 +21,7 @@ ReactDOM.render(
     <div className="app-container">
       <Header className="header" />
       <Switch>
-        <Redirect strict exact from="/" to="/project" />
-        {/* <Route  path="/" component={NoMatch} /> */}
+        <Redirect exact from="/" to="/project" />
         <Route path="/project" component={Project} />
         <Route path="/dynamic_list" component={Dynamic} />
         <Route path="/progress_list" component={Progress} />
