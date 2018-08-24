@@ -1,17 +1,30 @@
 import React, { Component } from "react";
 
-
-function feedItem(props){
-    const {time_d,time_s,avatar_url,uid,action,kind,sourceID,divider,divider_id,divider_name} = props
-    return(
-        <div className="feed-item">
-          <div className="feed-day">{time_d === Date.prototype.getDate() ? "今" : time_d === (Date.prototype.getDate()-1) ? "昨" : time_d}</div>
-        
-        
-        </div>
-    )
+function feedItem(props) {
+  const {
+    time_d,
+    time_s,
+    avatar_url,
+    uid,
+    action,
+    kind,
+    sourceID,
+    divider,
+    divider_id,
+    divider_name
+  } = props;
+  return (
+    <div className="feed-item">
+      <div className="feed-day">
+        {time_d === Date.prototype.getDate()
+          ? "今"
+          : time_d === Date.prototype.getDate() - 1
+            ? "昨"
+            : time_d}
+      </div>
+    </div>
+  );
 }
-
 
 // [{  time_d:年月日时间，
 //     time_s:时分秒时间

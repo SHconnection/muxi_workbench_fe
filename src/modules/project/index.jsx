@@ -8,25 +8,15 @@ import "../../static/css/common.css";
 class Project extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      url: "/project"
-    };
   }
 
   render() {
-    const { url } = this.state;
+    const { match } = this.props;
     return (
-      // <Router>
       <div className="subject">
-        <Switch>
-          <Route exact path={`${url}/`} component={Index} />
-          <Route path={`${url}/new`} component={NewProject} />
-          <Route exact path="/" component={Index} />
-          <Route path="/new" component={NewProject} />
-          <Route component={NoMatch} />
-        </Switch>
+        <Route path={`${match.url}/new`} component={NewProject} />
+        <Route exact path={match.url} component={Index} />
       </div>
-      // </Router>
     );
   }
 }

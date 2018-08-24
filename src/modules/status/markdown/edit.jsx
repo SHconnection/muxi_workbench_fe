@@ -1,8 +1,8 @@
-import React from 'react';
-import ReactSVG from 'react-svg'
-import back from '../../../assets/svg/commonIcon/back.svg'
-import Button from '../../../components/common/button'
-import './edit.css'
+import React from "react";
+import ReactSVG from "react-svg";
+import back from "../../../assets/svg/commonIcon/back.svg";
+import Button from "../../../components/common/button";
+import "./edit.css";
 // import MySchema from '../../../components/status/markdown'
 
 const edit = () => (
@@ -21,5 +21,4 @@ const edit = () => (
     {/* <MySchema className="editor" /> */}
   </div>
 );
-  
 export default edit;
