@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 // import GoBack from "../../../components/common/goBack/index";
-import Mem from "../../../components/setting/member/member";
-import Func from "../../../components/common/function/function";
+// import Mem from "../../../components/setting/member/member";
+import Member from "../../setting/components/member/member";
 import Button from "../../../components/common/button/index";
 import Select from "../../../components/common/select/index";
 import "../../../static/css/common.css";
@@ -9,46 +9,38 @@ import "./index.css";
 
 const gotoBack = () => {
   window.history.back();
-}
+};
 
 class NewProject extends Component {
   constructor(props) {
     super(props);
     this.state = {
       // groups: ['安卓组','前端组','后端组','设计组','产品组','全部成员'],
+      selectAllText: "全选",
       groups: [],
       groupCheckedIndex: 5,
       selectedAll: false,
       selMembers: [],
       members: [
-        { name: "AXX", selected: false },
-        { name: "BXX", selected: false },
-        { name: "CX", selected: false },
-        { name: "BXX", selected: false },
-        { name: "CXX", selected: false },
-        { name: "BXX", selected: false },
-        { name: "CXX", selected: false },
-        { name: "BXX", selected: false },
-        { name: "CXX", selected: false },
-        { name: "BXX", selected: false },
-        { name: "CXX", selected: false },
-        { name: "BXX", selected: false },
-        { name: "CXX", selected: false },
-        { name: "BXX", selected: false },
-        { name: "CXX", selected: false },
-        { name: "BXX", selected: false },
-        { name: "CXX", selected: false },
-        { name: "BXX", selected: false },
-        { name: "CXX", selected: false },
-        { name: "BXX", selected: false },
-        { name: "CXX", selected: false }
+        { id: 1, name: "AXX", selected: false },
+        { id: 2, name: "BXX", selected: false },
+        { id: 3, name: "CX", selected: false },
+        { id: 4, name: "BXX", selected: false },
+        { id: 5, name: "CXX", selected: false },
+        { id: 6, name: "BXX", selected: false },
+        { id: 7, name: "CXX", selected: false },
+        { id: 8, name: "BXX", selected: false },
+        { id: 9, name: "CXX", selected: false },
+        { id: 10, name: "BXX", selected: false },
+        { id: 11, name: "CXX", selected: false },
+        { id: 12, name: "BXX", selected: false },
+        { id: 13, name: "CXX", selected: false }
       ]
     };
 
-    Func.transferMsgMem = Func.transferMsgMem.bind(this);
-    Func.selAll = Func.selAll.bind(this);
-    Func.selAllo = Func.selAllo.bind(this);
-    this.createProject = this.createProject.bind(this);
+    this.transferMsgMem = this.transferMsgMem.bind(this);
+    this.selAll = this.selAll.bind(this);
+    // this.createProject = this.createProject.bind(this);
     this.checkAll = this.checkAll.bind(this);
     this.changeGroupCheck = this.changeGroupCheck.bind(this);
   }
@@ -96,19 +88,56 @@ class NewProject extends Component {
     // console.log(this.state.groups)
   }
 
+  transferMsgMem(arr1) {
+    this.setState({
+      members: arr1
+    });
+  }
+
   checkAll() {
     const { selectedAll } = this.state;
-    Func.selAllo(!selectedAll);
+    this.selAll();
     this.setState({
       selectedAll: !selectedAll
     });
   }
 
-  createProject() {
-    const { selMembers } = this.state;
-    // Func.selAll()
-    console.log(selMembers);
+  selAll() {
+    this.setState(prevState => {
+      const { members: arr1 } = prevState;
+      const arr2 = [];
+      let num = 0;
+
+      if (arr1) {
+        arr1.map(i => {
+          if (i.selected) num += 1;
+          return i;
+        });
+
+        if (num === arr1.length) {
+          arr1.map(i => {
+            const j = i;
+            j.selected = false;
+            return j;
+          });
+        } else {
+          arr1.map(i => {
+            const j = i;
+            j.selected = true;
+            arr2.push(j.id);
+            return j;
+          });
+        }
+      }
+
+      return { members: arr1, selMembers: arr2 };
+    });
   }
+
+  // createProject() {
+  //   const { selMembers } = this.state;
+  //   // Func.selAll()
+  // }
 
   changeGroupCheck(index) {
     // const {groupCheckedIndex} = this.state
@@ -123,7 +152,8 @@ class NewProject extends Component {
       selMembers,
       selectedAll,
       groups,
-      groupCheckedIndex
+      groupCheckedIndex,
+      selectAllText
     } = this.state;
     return (
       <div className="newProject-container">
@@ -149,7 +179,8 @@ class NewProject extends Component {
                   onChange={this.checkAll}
                   id="memberCheckedAll"
                 />
-                <label htmlFor="memberCheckedAll">全选</label>
+                <label htmlFor="memberCheckedAll">{selectAllText}</label>
+
                 <div className="newProject-group-select">
                   <Select
                     items={groups}
@@ -159,15 +190,22 @@ class NewProject extends Component {
                 </div>
               </div>
             </div>
-            <Mem
+            <Member
               members={members}
               selMembers={selMembers}
-              transferMsg={Func.transferMsgMem}
+              transferMsg={this.transferMsgMem}
             />
           </div>
           <div className="newProject-bottom">
-            <Button text="创建项目" onClick={this.createProject} />
-            <div className="newProject-bottom-text fakeBtn" onClick={gotoBack} onKeyDown={() => {}} role="presentation">取消</div>
+            <Button text="创建项目" />
+            <div
+              className="newProject-bottom-text fakeBtn"
+              onClick={gotoBack}
+              onKeyDown={() => {}}
+              role="presentation"
+            >
+              取消
+            </div>
           </div>
         </div>
       </div>
