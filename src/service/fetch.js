@@ -1,5 +1,3 @@
-import { encodeUrlParams } from "../util";
-
 /**
  *
  * @param {string} url
@@ -12,6 +10,15 @@ import { encodeUrlParams } from "../util";
 /**
  * 如果传了 opt.responseHeaders。则返回的 Promise then 方法中拿到一个对象 { json, headers }
  */
+function encodeUrlParams(data) {
+  return Object.keys(data)
+    .map(key => {
+      return [key, data[key]].map(encodeURIComponent).join("=");
+    })
+    .join("&");
+}
+
+
 export default function FetchData(url, opt = {}) {
   // 设置请求方法
   opt.method = opt.method || "GET";
@@ -22,7 +29,7 @@ export default function FetchData(url, opt = {}) {
       url = `${url}/?${encodeUrlParams(opt.data)}`;
     } else {
       opt.headers = opt.headers || {
-        Accept: "application/json",
+        "Accept": "application/json",
         "Content-Type": "application/json"
       };
       opt.body = JSON.stringify(opt.data);

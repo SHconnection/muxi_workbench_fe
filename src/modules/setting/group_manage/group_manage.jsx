@@ -2,6 +2,7 @@
 编辑分组页面组件
 */
 import React, { Component } from "react";
+import { Link } from "react-router-dom";
 import Delete from "../components/delete/delete";
 import Func from "../../../components/common/function/function";
 import "../../../static/css/common.css";
@@ -63,7 +64,7 @@ class GroupManage extends Component {
                   {mem.count}
                 </span>
                 <div className="litSel">
-                  <span className="fakeBtn">编辑</span>
+                  <Link to="/GroupMember" className="fakeBtn">编辑</Link>
                   <span
                     className="fakeBtn"
                     onClick={() => {

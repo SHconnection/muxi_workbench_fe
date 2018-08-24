@@ -2,6 +2,7 @@
 成员分组页面组件
 */
 import React, { Component } from "react";
+import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
 import Member from "../components/member/member";
 import Save from "../components/save/save";
@@ -21,7 +22,7 @@ class SetPermission extends Component {
     };
 
     this.transferMsgMem = this.transferMsgMem.bind(this);
-    this.save = this.save.bind(this);
+    this.savePersonalPermiss = this.savePersonalPermiss.bind(this);
   }
 
   componentDidMount() {

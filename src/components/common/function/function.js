@@ -30,25 +30,29 @@ const Func = {
   },
 
   getAllPro() {
-    const { list: proList } = Fetch("/user/project/list/", {
+    const proList = fetch("http://119.23.79.87:1667/user/project/list/", {
+      method: "GET",
       headers: {
-        Accept: "application/json",
-        "content-type": "application/json"
+        "Access-Control-Allow-Origin": "*",
+        "Accept": "application/json",
+        "Content-Type": "application/json",
+        "mode": "no-cors"
       }
     });
+    console.log(proList)
 
-    if (!Array.isArray(proList)) return false;
+    // if (!Array.isArray(proList)) return false;
 
-    return proList.map(mem1 => {
-      const mem = mem1;
-      const obj = {};
+    // return proList.map(mem1 => {
+    //   const mem = mem1;
+    //   const obj = {};
 
-      obj.name = mem.projectName;
-      obj.id = mem.projectID;
-      obj.selected = false;
+    //   obj.name = mem.projectName;
+    //   obj.id = mem.projectID;
+    //   obj.selected = false;
 
-      return obj;
-    });
+    //   return obj;
+    // });
   },
 
   getAllGroup() {
