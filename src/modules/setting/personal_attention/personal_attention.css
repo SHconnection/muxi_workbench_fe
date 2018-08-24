@@ -1,12 +1,12 @@
-.litSel {
+.personalAttention-litSel {
     display: flex;
     justify-content: space-between;
     width: 250px;
 }
-.PerAtt_FS{
+.personalAttention-size{
     font-size: 14px;
 }
-.PerAtt_vice{
+.personalAttention-vice{
     width: 570px;
     margin-left: 26px;
     line-height: normal;
@@ -15,10 +15,10 @@
 .IB{
     display: inline-block;
 }
-.PerAtt_cell {
+.personalAttention-cell {
     line-height: 74px;
 }
-.PerAtt_imgSize{
+.personalAttention-imgSize{
     width: 63px;
     height: 63px;
     vertical-align: middle;

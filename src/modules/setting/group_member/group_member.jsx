@@ -5,26 +5,26 @@
 */
 import React from "react";
 import PropTypes from "prop-types";
-import SelMem from "../../../components/setting/select_member/select_member";
+import SelectMember from "../components/select_member/select_member";
 import "../../../static/css/common.css";
 import "./group_member.css";
 
-const GroupMem = ({ groupName }) => (
+const GroupMember = ({ groupName }) => (
   <div className="subject minH">
     <span className="reArrow" />
     <b className="title">分组管理</b>
     <div className="groupName">{groupName}</div>
     <br />
-    <SelMem />
+    <SelectMember groupMember />
   </div>
 );
 
-export default GroupMem;
+export default GroupMember;
 
-GroupMem.propTypes = {
+GroupMember.propTypes = {
   groupName: PropTypes.string
 };
 
-GroupMem.defaultProps = {
+GroupMember.defaultProps = {
   groupName: ""
 };

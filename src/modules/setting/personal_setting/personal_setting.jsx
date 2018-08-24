@@ -2,31 +2,91 @@
 个人设置页面组件
 */
 import React, { Component } from "react";
-import Mem from "../../../components/setting/member/member";
-import Save from "../../../components/setting/save/save";
-import Func from "../../../components/common/function/function";
+import PropTypes from "prop-types";
+import Member from "../components/member/member";
+import Save from "../components/save/save";
+import ManageService from "../../../service/manage";
 import "../../../static/css/common.css";
 import "./personal_setting.css";
 
-class PerSet extends Component {
+class PersonalSet extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
       selMembers: [],
       members: [
-        { name: "站内信", selected: false },
-        { name: "邮箱通知", selected: false }
+        { name: "站内信", selected: false, id: 1 },
+        { name: "邮箱通知", selected: false, id: 2 }
       ],
-      ifSave: false
+      ifSave: false,
+      inputName: "",
+      inputMailbox: "",
+      inputPhone: ""
     };
 
-    Func.transferMsgMem = Func.transferMsgMem.bind(this);
-    Func.save = Func.save.bind(this);
+    this.save = this.save.bind(this);
+    this.changeName = this.changeName.bind(this);
+    this.changeMailbox = this.changeMailbox.bind(this);
+    this.changePhone = this.changePhone.bind(this);
+    this.transferMsgMem = this.transferMsgMem.bind(this);
+  }
+
+  changeName(e) {
+    this.setState({
+      inputName: e.target.value
+    });
+  }
+
+  changeMailbox(e) {
+    this.setState({
+      inputMailbox: e.target.value
+    });
+  }
+
+  changePhone(e) {
+    this.setState({
+      inputPhone: e.target.value
+    });
+  }
+
+  transferMsgMem(members, selMembers) {
+    this.setState({
+      members,
+      selMembers: selMembers || []
+    });
+  }
+
+  savePersonalSet() {
+    const { inputName, inputMailbox, inputPhone, selMembers } = this.state;
+    const { userID } = this.props;
+    const obj = {
+      username: inputName,
+      address: inputMailbox,
+      tel: inputPhone,
+      message: selMembers.indexOf(1) !== -1,
+      email: selMembers.indexOf(2) !== -1
+    };
+
+    this.setState({ ifSave: true });
+
+    setTimeout(() => {
+      this.setState({ ifSave: false });
+    }, 1000);
+
+    ManageService.savePersonalSet(userID, obj);
   }
 
   render() {
-    const { members, selMembers, ifSave } = this.state;
+    const {
+      members,
+      selMembers,
+      ifSave,
+      inputName,
+      inputPhone,
+      inputMailbox
+    } = this.state;
+
     return (
       <div className="subject minH">
         <span className="reArrow" />
@@ -40,17 +100,31 @@ class PerSet extends Component {
           </div>
           <div>
             <b>名字</b>
-            <input type="text" placeholder="木小犀" className="writeTip" />
+            <input
+              type="text"
+              placeholder="木小犀"
+              className="writeTip"
+              value={inputName}
+              onChange={this.changeName}
+            />
             <br />
             <b>邮箱</b>
             <input
               type="text"
               placeholder="178107487@qq.com"
               className="writeTip"
+              value={inputMailbox}
+              onChange={this.changeMailbox}
             />
             <br />
             <b>手机</b>
-            <input type="text" placeholder="13924173096" className="writeTip" />
+            <input
+              type="text"
+              placeholder="13924173096"
+              className="writeTip"
+              value={inputPhone}
+              onChange={this.changePhone}
+            />
             <br />
           </div>
         </div>
@@ -58,22 +132,18 @@ class PerSet extends Component {
         <div className="footer">
           <b>通知设置</b>
           <div className="sel">
-            <Mem
+            <Member
               members={members}
               selMembers={selMembers}
               wrap
-              transferMsg={(mem, selMem) => {
-                Func.transferMsgMem(mem, selMem);
-              }}
+              transferMsg={this.transferMsgMem}
             />
           </div>
           <br />
           <button
             type="button"
             className="saveBtn"
-            onClick={() => {
-              Func.save();
-            }}
+            onClick={this.savePersonalSet}
           >
             {ifSave ? "已保存" : "保存设置"}
           </button>
@@ -85,4 +155,12 @@ class PerSet extends Component {
   }
 }
 
-export default PerSet;
+export default PersonalSet;
+
+PersonalSet.propTypes = {
+  userID: PropTypes.number
+};
+
+PersonalSet.defaultProps = {
+  userID: 0
+};

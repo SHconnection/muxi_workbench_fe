@@ -2,61 +2,75 @@
 成员分组页面组件
 */
 import React, { Component } from "react";
-import Mem from "../../../components/setting/member/member";
-import Save from "../../../components/setting/save/save";
+import PropTypes from "prop-types";
+import Member from "../components/member/member";
+import Save from "../components/save/save";
 import Func from "../../../components/common/function/function";
+import ManageService from "../../../service/manage";
 import "../../../static/css/common.css";
 import "./set_permission.css";
 
-class SetPerm extends Component {
+class SetPermission extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
       selMembers: [],
-      members: [
-        { name: "木犀101", selected: false },
-        { name: "AXX", selected: false },
-        { name: "AXX", selected: false },
-        { name: "BXX", selected: false },
-        { name: "BXX", selected: false },
-        { name: "CXX", selected: false },
-        { name: "CXX", selected: false },
-        { name: "DXX", selected: false },
-        { name: "DXX", selected: false },
-        { name: "EXX", selected: false },
-        { name: "EXX", selected: false },
-        { name: "FXX", selected: false }
-      ],
+      members: [],
       ifSave: false
     };
 
-    Func.transferMsgMem = Func.transferMsgMem.bind(this);
-    Func.save = Func.save.bind(this);
+    this.transferMsgMem = this.transferMsgMem.bind(this);
+    this.save = this.save.bind(this);
+  }
+
+  componentDidMount() {
+    const arr = Func.getAllPro();
+
+    this.setState({ members: arr });
+  }
+
+  transferMsgMem(members, selMembers) {
+    this.setState({
+      members,
+      selMembers: selMembers || []
+    });
+  }
+
+  savePersonalPermiss() {
+    const { userID } = this.props;
+    const { selMembers } = this.state;
+
+    this.setState({ ifSave: true });
+
+    setTimeout(() => {
+      this.setState({ ifSave: false });
+    }, 1000);
+
+    ManageService.savePersonalPermiss(userID, selMembers);
   }
 
   render() {
     const { members, selMembers, ifSave } = this.state;
+
     return (
       <div className="subject minH">
         <span className="reArrow" />
         <b className="title">设置权限</b>
-        <div className="present SetPerm_preMarg">
-          <span className="tip SetPerm_tip">请选择该成员可参与的项目</span>
-          <Mem
+        <div className="present setPermission-preMarg">
+          <span className="tip setPermission-tip">
+            请选择该成员可参与的项目
+          </span>
+          <Member
             members={members}
             selMembers={selMembers}
-            transferMsg={(mem, selMem) => {
-              Func.transferMsgMem(mem, selMem);
-            }}
+            transferMsg={this.transferMsgMem}
           />
 
           <button
             type="button"
-            className="saveBtn footerBtn SetPerm_btnMarg"
-            onClick={() => {
-              Func.save();
-            }}
+            className="saveBtn footerBtn setPermission-btnMarg"
+            onClick={this.savePersonalPermiss}
           >
             {ifSave ? "已保存" : "保存设置"}
           </button>
@@ -67,4 +81,12 @@ class SetPerm extends Component {
   }
 }
 
-export default SetPerm;
+export default SetPermission;
+
+SetPermission.propTypes = {
+  userID: PropTypes.number
+};
+
+SetPermission.defaultProps = {
+  userID: 0
+};

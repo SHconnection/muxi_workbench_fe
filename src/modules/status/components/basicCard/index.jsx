@@ -1,11 +1,11 @@
 import React from "react";
 import ReactSVG from "react-svg";
 import PropTypes from "prop-types";
-import thumbs from "../../../assets/svg/commonIcon/thumbs.svg";
-import thumbs_up from "../../../assets/svg/commonIcon/thumbs_up.svg";
-import comment from "../../../assets/svg/commonIcon/comment.svg";
-import AvatarImg from "../../../assets/img/avatar.png";
-import Avatar from "../../common/avatar/index";
+import thumbs from "../../../../assets/svg/commonIcon/thumbs.svg";
+import thumbs_up from "../../../../assets/svg/commonIcon/thumbs_up.svg";
+import comment from "../../../../assets/svg/commonIcon/comment.svg";
+import AvatarImg from "../../../../assets/img/avatar.png";
+import Avatar from "../../../../components/common/avatar/index";
 import "./index.css";
 
 const Goods = [thumbs, thumbs_up];

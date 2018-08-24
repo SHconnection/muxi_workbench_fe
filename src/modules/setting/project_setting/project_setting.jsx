@@ -4,9 +4,10 @@
 */
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
-import Func from "../../../components/common/function/function";
-import Del from "../../../components/setting/delete/delete";
-import ProSetFir from "../../../components/project/project_setFirst/project_setFirst";
+import PropTypes from "prop-types";
+import Delete from "../components/delete/delete";
+import ProjectSetFirst from "../../project/components/project_setFirst/project_setFirst";
+import ProjectService from "../../../service/project";
 import "../../../static/css/common.css";
 import "./project_setting.css";
 
@@ -14,21 +15,60 @@ class SetProject extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      inputValue: "",
+      textValue: "",
       deleteX: false
     };
 
-    Func.transferMsgDel = Func.transferMsgDel.bind(this);
+    this.transferMsgDel = this.transferMsgDel.bind(this);
+    this.changeInput = this.changeInput.bind(this);
+    this.changeText = this.changeText.bind(this);
+    this.savePost = this.savePost.bind(this);
+  }
+
+  changeInput(e) {
+    this.setState({
+      inputValue: e.target.value
+    });
+  }
+
+  changeText(e) {
+    this.setState({
+      textValue: e.target.value
+    });
+  }
+
+  transferMsgDel(deleteX) {
+    this.setState({
+      deleteX
+    });
+  }
+
+  saveProjectSet() {
+    const { proId } = this.props;
+    const { textValue, inputValue } = this.state;
+
+    ProjectService.saveProjectSet(proId, textValue, inputValue);
   }
 
   render() {
-    const { deleteX } = this.state;
+    const { deleteX, inputValue, textValue } = this.state;
 
     return (
       <div className="subject minH">
-        <ProSetFir />
+        <ProjectSetFirst
+          inputValue={inputValue}
+          textValue={textValue}
+          changeInput={this.changeInput}
+          changeText={this.changeText}
+        />
 
         <div className="select">
-          <button type="button" className="saveBtn">
+          <button
+            type="button"
+            className="saveBtn"
+            onClick={this.saveProjectSet}
+          >
             <Link to="/editMem" className="link">
               保存
             </Link>
@@ -37,7 +77,7 @@ class SetProject extends Component {
             type="button"
             className="delBtn"
             onClick={() => {
-              Func.transferMsgDel(true);
+              this.transferMsgDel(true);
             }}
           >
             删除项目
@@ -45,12 +85,11 @@ class SetProject extends Component {
           <span className="fakeBtn">取消</span>
         </div>
 
-        <Del
+        <Delete
           name="确认要移除该项目吗?"
-          delete={deleteX}
-          transferMsg={del => {
-            Func.transferMsgDel(del);
-          }}
+          deleteX={deleteX}
+          transferMsg={this.transferMsgDel}
+          proDel
         />
       </div>
     );
@@ -58,3 +97,11 @@ class SetProject extends Component {
 }
 
 export default SetProject;
+
+SetProject.propTypes = {
+  proId: PropTypes.number
+};
+
+SetProject.defaultProps = {
+  proId: 0
+};

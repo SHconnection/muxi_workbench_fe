@@ -5,61 +5,83 @@ transferMsg = (mem) => {this.setState({members: mem});}返回数据
 */
 import React, { Component } from "react";
 import PropTypes from "prop-types";
-import Func from "../../../components/common/function/function";
-import Del from "../../../components/setting/delete/delete";
+import Delete from "../components/delete/delete";
 import Folder from "../../../assets/img/folder.png";
 import File from "../../../assets/img/file.png";
+import Func from "../../../components/common/function/function";
 import "../../../static/css/common.css";
 import "./personal_attention.css";
 
-class PerAtt extends Component {
+class PersonalAttention extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      deleteX: undefined
+      data: undefined,
+      deleteX: false
     };
 
-    Func.transferMsgDel = Func.transferMsgDel.bind(this);
-    Func.del = Func.del.bind(this);
-    Func.willUnmount = Func.willUnmount.bind(this);
+    this.transferMsgDel = this.transferMsgDel.bind(this);
+    this.del = this.del.bind(this);
   }
 
-  componentWillUnmount() {
-    Func.willUnmount();
+  componentDidMount() {
+    const { userID } = this.props;
+    const arr = Func.getPersonalAttention(userID);
+
+    this.setState({ members: arr });
+  }
+
+  del(data) {
+    this.setState({
+      data,
+      deleteX: true
+    });
+  }
+
+  transferMsgDel(deleteX) {
+    this.setState({
+      deleteX
+    });
   }
 
   render() {
-    const { members } = this.props;
-    const { deleteX } = this.state;
+    const { data, deleteX, members } = this.state;
 
     return (
       <div className="present">
-        {members.map(function Map(mem1) {
+        {members.map(mem1 => {
           const mem = mem1;
 
           return (
-            <div className={mem.dealed ? "none" : "PerAtt_cell"}>
+            <div
+              className={mem.dealed ? "none" : "personalAttention-cell"}
+              key={mem.id}
+            >
               <img
                 src={mem.isFolder ? Folder : File}
-                className="PerAtt_imgSize"
+                className="personalAttention-imgSize"
+                alt=""
               />
 
-              <div className="PerAtt_vice IB">
+              <div className="personalAttention-vice IB">
                 <span className="llSize">{mem.fileName}</span>
                 <br />
-                <span className="tip">项目 ：{mem.projectName}</span>
+                <span className="tip">
+项目 ：
+                  {mem.projectName}
+                </span>
               </div>
 
               <div className="IB">
-                <div className="litSel">
-                  <span className="PerAtt_FS">{mem.userName}</span>
-                  <span className="PerAtt_FS">{mem.date}</span>
+                <div className="personalAttention-litSel">
+                  <span className="personalAttention-size">{mem.userName}</span>
+                  <span className="personalAttention-size">{mem.date}</span>
                   <span
                     role="button"
                     tabIndex="-1"
                     className="fakeBtn"
                     onClick={() => {
-                      Func.transferMsgDel(mem);
+                      this.del(mem);
                     }}
                     onKeyDown={this.handleClick}
                   >
@@ -71,39 +93,24 @@ class PerAtt extends Component {
           );
         }, this)}
 
-        <Del
+        <Delete
           name="确认要取消关注该项目吗?"
-          delete={deleteX}
-          transferMsg={del => {
-            Func.transferMsgDel(del);
-          }}
-          del={mem1 => {
-            Func.del(mem1);
-          }}
+          data={data}
+          deleteX={deleteX}
+          transferMsg={this.transferMsgDel}
+          del
         />
       </div>
     );
   }
 }
 
-export default PerAtt;
+export default PersonalAttention;
 
-PerAtt.propTypes = {
-  fileName: PropTypes.string,
-  projectName: PropTypes.string,
-  date: PropTypes.string,
-  userName: PropTypes.string,
-  dealed: PropTypes.bool,
-  isFolder: PropTypes.bool,
-  transferMsg: PropTypes.func
+PersonalAttention.propTypes = {
+  userID: PropTypes.number
 };
 
-PerAtt.defaultProps = {
-  fileName: "",
-  projectName: "",
-  userName: "",
-  date: "",
-  dealed: false,
-  isFolder: false,
-  transferMsg: () => {}
+PersonalAttention.defaultProps = {
+  userID: 0
 };

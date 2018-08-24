@@ -1,52 +1,81 @@
 /*
 处理申请页面组件
-成员数据members:{name:'', mailbox:'',dealed: false},
-同意的名单selMembers:[]
-transferMsg = (mem, selMem) => {this.setState({members: mem,selMembers: selMem});}返回数据
+成员数据members:{name:'', mailbox:'',dealed: false,id:0},
+同意的人员id，selMembers:[]
+更新父组件数据transferMsg
 */
 import React, { Component } from "react";
-import PropTypes from "prop-types";
-import Func from "../../../components/common/function/function";
 import "../../../static/css/common.css";
 import "./join_apply.css";
 
-class JoinApp extends Component {
+class JoinApply extends Component {
   constructor(props) {
     super(props);
 
-    Func.del = Func.del.bind(this);
+    this.state = {
+      members: [],
+      selMembers: []
+    };
+
+    this.del = this.del.bind(this);
+  }
+
+  componentDidMount() {
+    const arr = [];
+
+    this.setState({ members: arr });
   }
 
   save(mem1) {
     const mem = mem1;
-    const { members: arr1, selMembers: arr2, transferMsg } = this.props;
-    const index = arr2.indexOf(mem);
+    const { members: arr1, selMembers: arr2 } = this.state;
+    const index = arr2.indexOf(mem.id);
+
+    mem.dealed = true;
 
     if (index === -1) {
-      mem.dealed = true;
-      arr2.push(mem);
+      arr2.push(mem.id);
     }
 
-    transferMsg(arr1, arr2);
+    this.setState({
+      members: arr1,
+      selMembers: arr2
+    });
+  }
+
+  del(mem1) {
+    const mem = mem1;
+    const { members: arr1, selMembers: arr2 } = this.state;
+
+    mem.dealed = true;
+
+    this.setState({
+      members: arr1,
+      selMembers: arr2
+    });
   }
 
   saveAll() {
-    const { members: arr1, transferMsg } = this.props;
-    let { selMembers: arr2 } = this.props;
+    const { members: arr1 } = this.state;
+    const arr2 = [];
 
     arr1.map(mem1 => {
       const mem = mem1;
       mem.dealed = true;
-      return true;
+      const index = arr2.indexOf(mem.id);
+      if (index === -1) arr2.push(mem.id);
+      return mem;
     });
 
-    arr2 = arr1.slice(0);
-
-    transferMsg(arr1, arr2);
+    this.setState({
+      members: arr1,
+      selMembers: arr2
+    });
   }
 
   render() {
-    const { members } = this.props;
+    const { members } = this.state;
+
     return (
       <div className="subject minH">
         <span className="reArrow" />
@@ -60,10 +89,11 @@ class JoinApp extends Component {
           全部同意
         </button>
         <div className="clear present">
-          {members.map(function Map(mem1) {
+          {members.map(mem1 => {
             const mem = mem1;
+
             return (
-              <div className={mem.dealed ? "none" : "cell"}>
+              <div className={mem.dealed ? "none" : "cell"} key={mem.id}>
                 <b>{mem.name}</b>
                 <span className="llSize pos">{mem.mailbox}</span>
                 <div className="litSel">
@@ -72,7 +102,7 @@ class JoinApp extends Component {
                     tabIndex="-1"
                     className="fakeBtn"
                     onClick={() => {
-                      Func.del(mem);
+                      this.del(mem);
                     }}
                     onKeyDown={this.handleClick}
                   >
@@ -99,16 +129,4 @@ class JoinApp extends Component {
   }
 }
 
-export default JoinApp;
-
-JoinApp.propTypes = {
-  members: PropTypes.arrayOf,
-  selMembers: PropTypes.arrayOf,
-  transferMsg: PropTypes.func
-};
-
-JoinApp.defaultProps = {
-  members: [],
-  selMembers: [],
-  transferMsg: () => {}
-};
+export default JoinApply;

@@ -1,91 +1,104 @@
+/*
+公用函数文件
+getAllMem获取全部成员
+getAllPro获取全部项目
+getAllGroup获取全部分组
+*/
+import Fetch from "../../../service/fetch";
+
 const Func = {
-  transferMsgMem(mem, selMem) {
-    this.setState({
-      members: mem,
-      selMembers: selMem || []
-    });
-  },
-
-  selAll() {
-    this.setState(prevState => {
-      const { members: arr } = prevState;
-      let num = 0;
-
-      if (arr) {
-        arr.map(i => {
-          if (i.selected) num += 1;
-          return true;
-        });
-
-        if (num === arr.length) {
-          arr.map(i => {
-            const j = i;
-            j.selected = false;
-            return j;
-          });
-        } else {
-          arr.map(i => {
-            const j = i;
-            j.selected = true;
-            return j;
-          });
-        }
+  getAllMem() {
+    const memberList = Fetch("/project/member/", {
+      headers: {
+        Accept: "application/json",
+        "content-type": "application/json"
       }
+    });
 
-      return { members: arr };
+    if (!Array.isArray(memberList)) return false;
+
+    return memberList.map(member => {
+      const mem = member;
+      const obj = {};
+
+      obj.name = mem.username;
+      obj.id = mem.userID;
+      obj.selected = false;
+
+      return obj;
     });
   },
 
-  selAllo(sel) {
-    this.setState(prevState => {
-      const { members: arr } = prevState;
-      if (arr) {
-        if (!sel) {
-          arr.forEach(i => {
-            const j = i;
-            j.selected = false;
-            // return j;
-          });
-        } else {
-          arr.forEach(i => {
-            const j = i;
-            j.selected = true;
-            // return j;
-          });
-        }
+  getAllPro() {
+    const { list: proList } = Fetch("/user/project/list/", {
+      headers: {
+        Accept: "application/json",
+        "content-type": "application/json"
       }
-      return { members: arr };
+    });
+
+    if (!Array.isArray(proList)) return false;
+
+    return proList.map(mem1 => {
+      const mem = mem1;
+      const obj = {};
+
+      obj.name = mem.projectName;
+      obj.id = mem.projectID;
+      obj.selected = false;
+
+      return obj;
     });
   },
 
-  save() {
-    this.setState({ ifSave: true });
+  getAllGroup() {
+    const { groupList } = Fetch("/group/list/", {
+      headers: {
+        Accept: "application/json",
+        "content-type": "application/json"
+      }
+    });
 
-    setTimeout(() => {
-      this.setState({ ifSave: false });
-    }, 1000);
-  },
+    if (!Array.isArray(groupList)) return false;
 
-  del(mem1) {
-    const mem = mem1;
-    const { members: arr1, selMembers: arr2, transferMsg } = this.props;
+    return groupList.map(mem1 => {
+      const mem = mem1;
+      const obj = {};
 
-    if (!mem.dealed) mem.dealed = true;
+      obj.name = mem.groupName;
+      obj.id = mem.groupID;
+      obj.count = mem.userCount;
+      obj.selected = false;
+      obj.dealed = false;
 
-    transferMsg(arr1, arr2);
-  },
-
-  transferMsgDel(del) {
-    this.setState({
-      deleteX: del
+      return obj;
     });
   },
-  willUnmount() {
-    const { members: arr, transferMsg } = this.props;
 
-    arr.filter(item => !item.dealed);
+  getPersonalAttention(userID) {
+    const attentionList = Fetch(`/group/${  userID  }/list/`, {
+      headers: {
+        Accept: "application/json",
+        "content-type": "application/json"
+      }
+    });
 
-    transferMsg(arr);
+    if (!Array.isArray(attentionList)) return false;
+
+    return attentionList.map(mem1 => {
+      const mem = mem1;
+      const obj = {};
+
+      obj.fileName = mem.fileName;
+      obj.projectName = mem.projectName;
+      obj.date = mem.date;
+      obj.userName = mem.userName;
+      obj.dealed = false;
+      obj.isFolder = mem.isFolder;
+
+      return obj;
+    });
   }
 };
+
 export default Func;

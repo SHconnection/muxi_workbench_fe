@@ -1,58 +1,73 @@
 /*
-处理申请页面组件
-成员数据members:{name:'', mailbox:'',dealed: false},
-同意的名单selMembers:[]
-transferMsg = (mem, selMem) => {this.setState({members: mem,selMembers: selMem});}返回数据
+编辑分组页面组件
 */
 import React, { Component } from "react";
-import PropTypes from "prop-types";
-import Del from "../../../components/setting/delete/delete";
+import Delete from "../components/delete/delete";
 import Func from "../../../components/common/function/function";
 import "../../../static/css/common.css";
 import "./group_manage.css";
 import "../join_apply/join_apply.css";
 
-class GroupMana extends Component {
+class GroupManage extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      deleteX: undefined
+      deleteX: false,
+      data: undefined,
+      members: []
     };
 
-    Func.transferMsgDel = Func.transferMsgDel.bind(this);
-    Func.del = Func.del.bind(this);
-    Func.willUnmount = Func.willUnmount.bind(this);
+    this.transferMsgDel = this.transferMsgDel.bind(this);
   }
 
-  componentWillUnmount() {
-    Func.willUnmount();
+  componentDidMount() {
+    const arr = Func.getAllGroup();
+
+    this.setState({ members: arr });
+  }
+
+  transferMsgDel(deleteX) {
+    this.setState({ deleteX });
+  }
+
+  del(mem) {
+    this.setState({
+      data: mem,
+      deleteX: true
+    });
   }
 
   render() {
-    const { members } = this.props;
-    const { deleteX } = this.state;
+    const { deleteX, data, members } = this.state;
+
     return (
       <div className="subject minH">
         <span className="reArrow" />
         <b className="title">分组管理</b>
         <br />
-        <span className="GroupMana_tip tip">上下拖动对分组排序</span>
+        <span className="groupManage-tip tip">上下拖动对分组排序</span>
         <button type="button" className="saveBtn btnFlo">
           添加分组
         </button>
         <div className="clear present">
-          {members.map(function Map(mem1) {
+          {members.map(mem1 => {
             const mem = mem1;
+
             return (
-              <div className={mem.dealed ? "none" : "cell GroupMana_reCell"}>
+              <div
+                className={mem.dealed ? "none" : "cell groupManage-reCell"}
+                key={mem.id}
+              >
                 <b>{mem.name}</b>
-                <span className="llSize pos GroupMana_rePos">{mem.number}</span>
+                <span className="llSize pos groupManage-rePos">
+                  {mem.count}
+                </span>
                 <div className="litSel">
                   <span className="fakeBtn">编辑</span>
                   <span
                     className="fakeBtn"
                     onClick={() => {
-                      Func.transferMsgDel(mem);
+                      this.del(mem);
                     }}
                     onKeyDown={this.handleClick}
                     role="button"
@@ -66,27 +81,16 @@ class GroupMana extends Component {
           }, this)}
         </div>
 
-        <Del
+        <Delete
           name="确认要移除该组吗?"
-          delete={deleteX}
-          transferMsg={del => {
-            Func.transferMsgDel(del);
-          }}
-          del={mem1 => {
-            Func.del(mem1);
-          }}
+          deleteX={deleteX}
+          transferMsg={this.transferMsgDel}
+          data={data}
+          del
         />
       </div>
     );
   }
 }
 
-export default GroupMana;
-
-GroupMana.propTypes = {
-  members: PropTypes.arrayOf
-};
-
-GroupMana.defaultProps = {
-  members: []
-};
+export default GroupManage;

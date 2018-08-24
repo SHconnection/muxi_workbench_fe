@@ -2,27 +2,43 @@
 成员分组页面组件
 */
 import React, { Component } from "react";
-import Mem from "../../../components/setting/member/member";
+import PropTypes from "prop-types";
+import Member from "../components/member/member";
 import Func from "../../../components/common/function/function";
+import ManageService from "../../../service/manage";
 import "../../../static/css/common.css";
 import "./member_group.css";
 
-class MemGroup extends Component {
+class MemberGroup extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
       selMembers: [],
-      members: [
-        { name: "设计组", selected: false },
-        { name: "产品组", selected: false },
-        { name: "前端组", selected: false },
-        { name: "后端组", selected: false },
-        { name: "安卓组", selected: false }
-      ]
+      members: []
     };
 
-    Func.transferMsgMem = Func.transferMsgMem.bind(this);
+    this.transferMsgMem = this.transferMsgMem.bind(this);
+  }
+
+  componentDidMount() {
+    const arr = Func.getAllGroup();
+
+    this.setState({ members: arr });
+  }
+
+  transferMsgMem(members, selMembers) {
+    this.setState({
+      members,
+      selMembers: selMembers || []
+    });
+  }
+
+  modifyMemGroup() {
+    const { userID } = this.props;
+    const { selMembers } = this.state;
+
+    ManageService.modifyMemGroup(userID, selMembers);
   }
 
   render() {
@@ -31,18 +47,20 @@ class MemGroup extends Component {
       <div className="subject minH">
         <span className="reArrow" />
         <b className="title">选择成员分组</b>
-        <div className="present MemGroup_preMarg">
-          <span className="MemGroup_tip tip">请选择该成员所属分组</span>
-          <Mem
+        <div className="present memberGroup-preMarg">
+          <span className="memberGroup-tip tip">请选择该成员所属分组</span>
+          <Member
             members={members}
             selMembers={selMembers}
-            transferMsg={(mem, selMem) => {
-              Func.transferMsgMem(mem, selMem);
-            }}
+            transferMsg={this.transferMsgMem}
             dis
           />
         </div>
-        <button type="button" className="saveBtn MemGroup_btnMarg">
+        <button
+          type="button"
+          className="saveBtn memberGroup-btnMarg"
+          onClick={this.modifyMemGroup}
+        >
           下一步
         </button>
       </div>
@@ -50,4 +68,12 @@ class MemGroup extends Component {
   }
 }
 
-export default MemGroup;
+export default MemberGroup;
+
+MemberGroup.propTypes = {
+  userID: PropTypes.number
+};
+
+MemberGroup.defaultProps = {
+  userID: 0
+};

@@ -1,39 +1,25 @@
 /*
 该组件用于选择成员，
-自定义成员members:{name:'',selected:false}，
-selMembers:[]存储已选择成员，
+自定义成员members:{name:'',id:0,selected:false}，
+selMembers:[]存储已选择成员id，
 wrap用于标记是否换行，默认不换行，
 dis用于标记是否单选，默认多选，
-transferMsg = (mem, selMem) => {this.setState({members: mem,selMembers: selMem});}返回数据
+transferMsg更新父组件数据
 */
 
 import React, { Component } from "react";
 import PropTypes from "prop-types";
-import "../../../static/css/common.css";
+import "../../../../static/css/common.css";
 import "./member.css";
 
-class Mem extends Component {
-  componentWillMount() {
-    const { members: arr1, selMembers: arr2, transferMsg } = this.props;
-
-    arr1.map(item1 => {
-      const item = item1;
-      const index = arr2.indexOf(item);
-      if (item.selected && index === -1) {
-        arr2.push(item);
-      }
-      return item1;
-    });
-    transferMsg(arr1, arr2);
-  }
-
+class Member extends Component {
   onlyOne(item1) {
     const item2 = item1;
     const { members: arr1, transferMsg } = this.props;
     let { selMembers: arr2 } = this.props;
 
-    if (arr2) {
-      arr2.map(item3 => {
+    if (arr1) {
+      arr1.map(item3 => {
         const item = item3;
         item.selected = false;
         return item;
@@ -43,7 +29,7 @@ class Mem extends Component {
     arr2 = [];
     item2.selected = true;
 
-    arr2.push(item2);
+    arr2.push(item2.id);
 
     transferMsg(arr1, arr2);
   }
@@ -54,10 +40,10 @@ class Mem extends Component {
 
     item.selected = !item.selected;
 
-    const index = arr2.indexOf(item);
+    const index = arr2.indexOf(item.id);
 
     if (item.selected && index === -1) {
-      arr2.push(item);
+      arr2.push(item.id);
     } else if (!item.selected && index !== -1) {
       arr2.splice(index, 1);
     }
@@ -74,7 +60,7 @@ class Mem extends Component {
           const item = item1;
 
           return (
-            <div className={wrap ? "unit" : "unit nowrap"}>
+            <div className={wrap ? "unit" : "unit nowrap"} key={item.id}>
               <input
                 type="checkbox"
                 checked={item.selected}
@@ -83,6 +69,7 @@ class Mem extends Component {
                     ? this.onlyOne.bind(this, item)
                     : this.select.bind(this, item)
                 }
+                onClick={this.dealData}
                 id={`check${item.name}${index}`}
               />
               <label
@@ -100,29 +87,25 @@ class Mem extends Component {
   }
 }
 
-export default Mem;
+export default Member;
 
-Mem.propTypes = {
+Member.propTypes = {
   members: PropTypes.arrayOf(
     PropTypes.shape({
       name: PropTypes.string,
-      selected: PropTypes.bool
+      selected: PropTypes.bool,
+      id: PropTypes.number
     })
   ),
-  selMembers: PropTypes.arrayOf(
-    PropTypes.shape({
-      name: PropTypes.string,
-      selected: PropTypes.bool
-    })
-  ),
-  transferMsg: PropTypes.func,
+  selMembers: PropTypes.arrayOf(PropTypes.number),
   wrap: PropTypes.bool,
-  dis: PropTypes.bool
+  dis: PropTypes.bool,
+  transferMsg: PropTypes.func
 };
-Mem.defaultProps = {
+Member.defaultProps = {
   members: [],
   selMembers: [],
-  transferMsg: () => {},
   wrap: false,
-  dis: false
+  dis: false,
+  transferMsg: () => {}
 };

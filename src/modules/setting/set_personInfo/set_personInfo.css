@@ -3,18 +3,18 @@
   margin-top: 34px;
   margin-bottom: 30px;
 }
-.SelMem_FS {
+.selectMember-fontSize {
   font-size: 12px;
 }
-.SelMem_FC {
+.selectMember-fontColor {
   color: #1d4cb5;
 }
-.SelMem_btnMArg {
+.selectMember-btnMArg {
   position: relative;
   top: -10px;
   margin-left: 31px;
 }
-.SelMem_titleMarg {
+.selectMember-titleMarg {
   margin-bottom: 15px;
   margin-right: 600px;
 }

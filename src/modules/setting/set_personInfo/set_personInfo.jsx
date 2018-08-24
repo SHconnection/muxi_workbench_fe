@@ -5,51 +5,40 @@
 */
 import React, { Component } from "react";
 import PropTypes from "prop-types";
-import Mem from "../../../components/setting/member/member";
-import Del from "../../../components/setting/delete/delete";
-import Save from "../../../components/setting/save/save";
+import Member from "../components/member/member";
+import Delete from "../components/delete/delete";
+import Save from "../components/save/save";
 import Func from "../../../components/common/function/function";
+import ManageService from "../../../service/manage";
 import "../../../static/css/common.css";
 import "./set_personInfo.css";
 
-class SelMem extends Component {
+class SetPersonalInfo extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      selIdentities: [],
       selMembers: [],
+      members: [],
+      selIdentities: [],
       identity: [
-        { name: "管理员", selected: false },
-        { name: "成员", selected: false }
-      ],
-      members: [
-        { name: "AXX", selected: false },
-        { name: "AXX", selected: false },
-        { name: "AXX", selected: false },
-        { name: "AXX", selected: false },
-        { name: "AXX", selected: false },
-        { name: "AXX", selected: false },
-        { name: "AXX", selected: false },
-        { name: "AXX", selected: false },
-        { name: "AXX", selected: false },
-        { name: "AXX", selected: false },
-        { name: "AXX", selected: false },
-        { name: "AXX", selected: false },
-        { name: "AXX", selected: false },
-        { name: "AXX", selected: false },
-        { name: "AXX", selected: false },
-        { name: "AXX", selected: false },
-        { name: "AXX", selected: false },
-        { name: "AXX", selected: false }
+        { name: "管理员", selected: false, id: 3 },
+        { name: "成员", selected: false, id: 1 }
       ],
       ifSave: false,
       deleteX: false
     };
 
-    Func.transferMsgMem = Func.transferMsgMem.bind(this);
-    Func.transferMsgDel = Func.transferMsgDel.bind(this);
-    Func.selAll = Func.selAll.bind(this);
-    Func.save = Func.save.bind(this);
+    this.transferMsgMem = this.transferMsgMem.bind(this);
+    this.transferMsgDel = this.transferMsgDel.bind(this);
+    this.selAll = this.selAll.bind(this);
+    this.save = this.save.bind(this);
+    this.transferMsgIden = this.transferMsgIden.bind(this);
+  }
+
+  componentDidMount() {
+    const arr = Func.getAllPro();
+
+    this.setState({ members: arr });
   }
 
   transferMsgIden(mem, selMem) {
@@ -59,8 +48,67 @@ class SelMem extends Component {
     });
   }
 
+  transferMsgDel(deleteX) {
+    this.setState({
+      deleteX
+    });
+  }
+
+  transferMsgMem(members, selMembers) {
+    this.setState({
+      members,
+      selMembers: selMembers || []
+    });
+  }
+
+  selAll() {
+    this.setState(prevState => {
+      const { members: arr1 } = prevState;
+      const arr2 = [];
+      let num = 0;
+
+      if (arr1) {
+        arr1.map(i => {
+          if (i.selected) num += 1;
+          return i;
+        });
+
+        if (num === arr1.length) {
+          arr1.map(i => {
+            const j = i;
+            j.selected = false;
+            return j;
+          });
+        } else {
+          arr1.map(i => {
+            const j = i;
+            j.selected = true;
+            arr2.push(j.id);
+            return j;
+          });
+        }
+      }
+
+      return { members: arr1, selMembers: arr2 };
+    });
+  }
+
+  saveModifyMember() {
+    const { per } = this.props;
+    const { selIdentities, selMembers } = this.state;
+
+    this.setState({ ifSave: true });
+
+    setTimeout(() => {
+      this.setState({ ifSave: false });
+    }, 1000);
+
+    ManageService.saveModifyMemberIdenty(per.userID, selIdentities);
+    ManageService.saveModifyMemberPro(per.userID, selMembers);
+  }
+
   render() {
-    const { personName } = this.props;
+    const { per } = this.props;
     const {
       identity,
       selIdentities,
@@ -74,90 +122,84 @@ class SelMem extends Component {
       <div className="subject minH">
         <span className="reArrow" />
         <b className="title">
-          {personName}
+          {per.username}
           的设置
         </b>
 
         <div className="present">
           <div className="move">
-            <p className="SelMem_FC llSize">从团队中移除XXA</p>
-            <p className="SelMem_FS tip">
+            <p className="selectMember-fontColor llSize">从团队中移除XXA</p>
+            <p className="selectMember-fontSize tip">
               被移除的成员将不能再访问工作台上的信息，但工作台上与他相关的信息将保留。
             </p>
           </div>
           <button
             type="button"
-            className="moveBtn SelMem_btnMArg"
+            className="moveBtn selectMember-btnMArg"
             onClick={() => {
-              this.setState({ deleteX: true });
+              this.transferMsgDel(true);
             }}
           >
             确认移除
           </button>
           <br />
 
-          <b className="littleSize title SelMem_titleMarg">设置</b>
-          <Mem
+          <b className="littleSize title selectMember-titleMarg">设置</b>
+          <Member
             members={identity}
             selMembers={selIdentities}
-            transferMsg={(mem, selMem) => {
-              this.transferMsgIden(mem, selMem);
-            }}
+            transferMsg={this.transferMsgIden}
             dis
+            dealId
           />
 
-          <b className="littleSize title SelMem_titleMarg">参与的项目</b>
+          <b className="littleSize title selectMember-titleMarg">参与的项目</b>
           <span
             className="fakeBtn"
-            onClick={() => {
-              Func.selAll();
-            }}
+            onClick={this.selAll}
             onKeyDown={this.handleClick}
             role="button"
             tabIndex="-1"
           >
             全选
           </span>
-          <Mem
+          <Member
             members={members}
             selMembers={selMembers}
-            transferMsg={(mem, selMem) => {
-              Func.transferMsgMem(mem, selMem);
-            }}
+            transferMsg={this.transferMsgMem}
           />
 
           <button
             type="button"
             className="footerBtn saveBtn"
-            onClick={() => {
-              Func.save();
-            }}
+            onClick={this.saveModifyMember}
           >
             {ifSave ? "已保存" : "保存设置"}
           </button>
 
           <Save ifSave={ifSave} />
 
-          <Del
+          <Delete
             name="确认要移除XXA吗?"
             delete={deleteX}
-            transferMsg={del => {
-              Func.transferMsgDel(del);
-            }}
+            transferMsg={this.transferMsgDel}
           />
-          <Del name="移除成功" cancel delete={deled} />
+          <Delete name="移除成功" cancel delete={deled} />
         </div>
       </div>
     );
   }
 }
 
-export default SelMem;
+export default SetPersonalInfo;
 
-SelMem.propTypes = {
-  personName: PropTypes.string
+SetPersonalInfo.propTypes = {
+  per: PropTypes.shape({
+    username: PropTypes.string,
+    userID: PropTypes.number
+  })
 };
 
-SelMem.defaultProps = {
-  personName: ""
+SetPersonalInfo.defaultProps = {
+  per: {}
 };
