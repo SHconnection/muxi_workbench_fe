@@ -2,21 +2,21 @@ import React from 'react';
 import ReactSVG from 'react-svg'
 import PropTypes from 'prop-types'
 import thumbs from '../../../assets/svg/commonIcon/thumbs.svg'
-import thumbs_up from '../../../assets/svg/commonIcon/thumbs_up.svg'
+import thumbsUp from '../../../assets/svg/commonIcon/thumbs_up.svg'
 import comment from '../../../assets/svg/commonIcon/comment.svg'
 import AvatarImg from "../../../assets/img/avatar.png";
 import Avatar from "../../common/avatar/index";
 import './index.css'
 
 
-const Goods = [thumbs,thumbs_up];
+const Goods = [thumbs,thumbsUp];
 
 function Item(props) {
-  const {index, name,time,text,good_number,comments} = props
+  const {index, name,time,text,goodNumber,comments} = props
   return (
     <div className="status-item-container">
       <div className="status-head">
-        <Avatar className="status-item-img" src={AvatarImg} width={60} height={60} />
+        <Avatar className="status-item-img" src={AvatarImg} width="60" height="60" />
         <div className="stauts-second">
           <div className="status-item-name">{name}</div>
           <div className="status-item-time">{time}</div>
@@ -26,7 +26,7 @@ function Item(props) {
       <div className="status-item-details">{text}</div>
       <div className="others">
         <ReactSVG className="status-item-good" path={Goods[index]} />
-        <div className="status-item-goodnumber">{good_number}</div>
+        <div className="status-item-goodnumber">{goodNumber}</div>
         <ReactSVG className="status-item-commet" path={comment} />
         <div className="status-item-comments">{comments}</div>
       </div>
@@ -39,7 +39,7 @@ Item.propTypes = {
   time: PropTypes.string,
   text: PropTypes.string,
   index: PropTypes.number,
-  good_number: PropTypes.number,
+  goodNumber: PropTypes.number,
   comments: PropTypes.number,
 }
 
@@ -48,7 +48,7 @@ Item.defaultProps = {
   time: "00:00", 
   text: "进度",
   index: 0,
-  good_number: 0,
+  goodNumber: 0,
   comments: 0,
 }
 

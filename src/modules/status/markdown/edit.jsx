@@ -3,8 +3,7 @@ import ReactSVG from 'react-svg'
 import back from '../../../assets/svg/commonIcon/back.svg'
 import Button from '../../../components/common/button'
 import './edit.css'
-// import MySchema from '../../../components/status/markdown'
-
+import Editor from '../../../components/status/markdown'
 
 const edit = () => (
   <div className="status-editor">
@@ -15,7 +14,7 @@ const edit = () => (
         <Button text="保存并返回" />
       </div>
     </div>
-    {/* <MySchema className="editor" /> */}
+    <Editor />
   </div>
 );
   

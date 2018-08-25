@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
-import StatusItem from '../../components/status/basicCard/index.jsx'
+import StatusItem from "../../components/status/basicCard/index"
 import Gotop from '../../components/common/toTop/top'
+
 
 class Progress extends Component {
   constructor(props) {
@@ -13,12 +14,12 @@ class Progress extends Component {
             time: "14:46",
             text: "这是一段文本这是一段文本这是一段文本这是一段文本这是一段文本这是一段文本这是一段文本这是一段文本这是一段文本这是一段文本这是一段文本这是一段文本这是一段文本这是一段文本这是一段文本这是一段文本这是一段文本这是一段文本这是一段文本这是一段文本这是一段文本这是一段文本这是一段文本这是一段文本这是一段文本这是一段文本这是一段文本这是一段文本这是一段文本这是一段文本这是一段文本这是一段文本这是一段文本这是一段文本这是一段文本这是一段文本这是一段文本这是一段文本这是一段文本这是一段文本这是一段",
             index: 0,
-            good_number: 14,
+            goodNumber: 14,
             comments: 2,
           },
           {
             id: 2,
-            good_number: 4,
+            goodNumber: 4,
             comments: 5,
             name: "木小犀",
             time: "08:03",
@@ -27,7 +28,7 @@ class Progress extends Component {
           },
           {
             id: 3,
-            good_number: 23,
+            goodNumber: 23,
             comments: 3,
             name: "木小犀",
             time: "11:37",
@@ -37,6 +38,7 @@ class Progress extends Component {
         ]
     }
 }
+
 render() {
   const {cards} = this.state
   return (
@@ -46,7 +48,7 @@ render() {
           {cards.map(card => 
             (
               <div key={card.id}>
-                <StatusItem good_number={card.good_number} comments={card.comments} name={card.name} time={card.time} index={card.index} text={card.text} />
+                <StatusItem goodNumber={card.goodNumber} comments={card.comments} name={card.name} time={card.time} index={card.index} text={card.text} />
               </div>
             )
           )}

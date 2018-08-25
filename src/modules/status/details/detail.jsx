@@ -1,4 +1,4 @@
-import React from 'react';
+import {React,Component} from 'react';
 import ReactSVG from 'react-svg'
 import back from '../../../assets/svg/commonIcon/back.svg'
 import thumbs from '../../../assets/svg/commonIcon/thumbs.svg'
@@ -34,33 +34,34 @@ class detail extends Component {
           ]
       }
     }
+
     render() {
         const {comments} = this.state
-        return(
-         <div className="status-detail">
-            <div className="status-detail-head">
-              <ReactSVG className="status-detail-back" path={back} />
-              <div className="stauts-detail-second">
-                <div className="status-detail-name">木小犀</div>
-                <div className="status-detail-time">13:23</div>
-              </div>
-              <div className="status-detail-edit">编辑</div>
-              <div className="status-detail-detele">删除</div>
-              <ReactSVG className="status-detail-good" path={thumbs} />
-              <div className="status-detail-love">14</div>
-            </div>
-            <div className="status-details">这是一段文本这是一段文本这是一段文本这是一段文本这是一段文本这是一段文本这是一段文本这是一段文本这是一段文本这是一段文本这是一段文本这是一段文本这是一段文本这是一段文本这是一段文本这是一段文本这是一段文本这是一段文本这是一段文本这是一段文本这是一段文本这是一段文本这是一段文本这是一段文本这是一段文本这是一段文本这是一段文本这是一段文本这是一段文本这是一段文本这是一段文本这是一段文本这是一段文本这是一段文本这是一段文本这是一段文本这是一段文本这是一段文本这是一段文本这是一段文本这是一段文本这是一段文本这是一段文本这是一段文本这是一段文本这是一段文本这是一段文本这是一段文本这是一段文本这是一段文本这是一段文本这是一段文本这是一段文本这是一段文本这是一段文本这是一段文本这是一段文本这是一段文本这是一段文本这是一段文本这是一段文本这是一段文本这是一段文本这是一段文本这是一段文本这是一段文本这是一段文本这是一段文本这是一段文本这是一段文本这是一段文本这是一段文本这是一段文本这是一段文本这是一段文本这是一段文本这是一段文本这是一段文本这是一段文本这是一段文本这是一段文本这是一段文本这是一段文本这是一段文本这是一段文本这是一段文本这是一段文本这是一段文本这是一段文本这是一段文本这是一段文本这是一段文本这是一段文本这是一段文本这是一段文本这是一段文本这是一段文本这是一段文本这是一段文本这是一段文本这是一段文本这是一段文本这是一段文本这是一段文本这是一段文本。</div>
-            <hr className="line"/>
-            <div className="status-detail-comments">
-            {comments.map(el => (
-              <div key={el.id}>
-                <Othercomments name={el.name} day={el.day} text={el.text} />
-              </div>
-              )
-            )}
-            </div>
-            <Sendcomment className="sendcomment" />
-          </div>
+         return(
+           <div className="status-detail">
+             <div className="status-detail-head">
+               <ReactSVG className="status-detail-back" path={back} />
+               <div className="stauts-detail-second">
+                 <div className="status-detail-name">木小犀</div>
+                 <div className="status-detail-time">13:23</div>
+               </div>
+               <div className="status-detail-edit">编辑</div>
+               <div className="status-detail-detele">删除</div>
+               <ReactSVG className="status-detail-good" path={thumbs} />
+               <div className="status-detail-love">14</div>
+             </div>
+             <div className="status-details">这是一段文本这是一段文本这是一段文本这是一段文本这是一段文本这是一段文本这是一段文本这是一段文本这是一段文本这是一段文本这是一段文本这是一段文本这是一段文本这是一段文本这是一段文本这是一段文本这是一段文本这是一段文本这是一段文本这是一段文本这是一段文本这是一段文本这是一段文本这是一段文本这是一段文本这是一段文本这是一段文本这是一段文本这是一段文本这是一段文本这是一段文本这是一段文本这是一段文本这是一段文本这是一段文本这是一段文本这是一段文本这是一段文本这是一段文本这是一段文本这是一段文本这是一段文本这是一段文本这是一段文本这是一段文本这是一段文本这是一段文本这是一段文本这是一段文本这是一段文本这是一段文本这是一段文本这是一段文本这是一段文本这是一段文本这是一段文本这是一段文本这是一段文本这是一段文本这是一段文本这是一段文本这是一段文本这是一段文本这是一段文本这是一段文本这是一段文本这是一段文本这是一段文本这是一段文本这是一段文本这是一段文本这是一段文本这是一段文本这是一段文本这是一段文本这是一段文本这是一段文本这是一段文本这是一段文本这是一段文本这是一段文本这是一段文本这是一段文本这是一段文本这是一段文本这是一段文本这是一段文本这是一段文本这是一段文本这是一段文本这是一段文本这是一段文本这是一段文本这是一段文本这是一段文本这是一段文本这是一段文本这是一段文本这是一段文本这是一段文本这是一段文本这是一段文本这是一段文本这是一段文本这是一段文本。</div>
+             <hr className="line" />
+             <div className="status-detail-comments">
+               {comments.map(el => (
+                 <div key={el.id}>
+                   <Othercomments name={el.name} day={el.day} text={el.text} />
+                 </div>
+                 )
+               )}
+             </div>
+             <Sendcomment className="sendcomment" />
+           </div>
         )
       }
     }

@@ -3,6 +3,8 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@aeaton/react-prosemirror": "^0.11.0",
+    "@aeaton/react-prosemirror-config-default": "^0.9.0",
     "moment": "^2.22.2",
     "prop-types": "^15.6.2",
     "prosemirror-example-setup": "^1.0.1",

@@ -1,0 +1,33 @@
+.feed-content{
+    position: relative;
+    width: 68%;
+    min-height: 716px;
+    margin: 52px auto;
+    background-color: #fbfbfb;
+    border-radius: 6px;
+    box-shadow: 0px 1px 15px #888888;
+}
+.feed-today{
+    width: 58px;
+    height: 58px;
+    font-size: 24px;
+    border-radius: 50%;
+    border:2px solid #D7F0FF;
+    text-align: center;
+    line-height: 58px;
+    float: left;
+    margin-left: 10%;
+    margin-top: 15px;
+}
+.feed-day{
+    width: 58px;
+    height: 58px;
+    font-size: 18px;
+    border-radius: 50%;
+    border:2px solid #D7F0FF;
+    text-align: center;
+    line-height: 29px;
+    float: left;
+    margin-left: 10%;
+    margin-top: 15px;
+}
