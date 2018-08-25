@@ -9,17 +9,13 @@ const comment = () => (
     <div className="send">
       <Avatar className="comment-img" src={AvatarImg} width={49} height={49} />
       <div className="push">
-        <textarea
-          className="send-comment"
-          type="text"
-          placeholder="   发表评论..."
-        />
+        <textarea className="send-comment" type="text" placeholder="   发表评论..." />
         <div className="comment-bt">
           <Button text="发表" />
         </div>
       </div>
     </div>
   </div>
-);
-
-export default comment;
+  );
+  
+  export default comment;

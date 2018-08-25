@@ -1,21 +1,31 @@
-import {EditorState} from "prosemirror-state"
-import {EditorView} from "prosemirror-view"
-import {Schema, DOMParser} from "prosemirror-model"
-import {schema} from "prosemirror-schema-basic"
-import {addListNodes} from "prosemirror-schema-list"
-import {exampleSetup} from "prosemirror-example-setup"
+import React from 'react'
+import PropTypes from 'prop-types'
+import { HtmlEditor, MenuBar } from '@aeaton/react-prosemirror'
+import { options, menu } from '@aeaton/react-prosemirror-config-default'
+
+const CustomEditor = ({ value, onChange }) => (
+  <HtmlEditor
+    options={options}
+    value={value}
+    onChange={onChange}
+    render={({ editor, state, dispatch }) => (
+      <div>
+        <MenuBar menu={menu} state={state} dispatch={dispatch} />
+        {editor}
+      </div>
+    )}
+  />
+)
+
+CustomEditor.propTypes = {
+  value: PropTypes.string,
+  onChange: PropTypes.func
+}
+
+CustomEditor.defaultProps = {
+  value: '',
+  onChange: () => {}
+}
 
 
-const mySchema = new Schema({
-    nodes: addListNodes(schema.spec.nodes, "paragraph block*", "block"),
-    marks: schema.spec.marks
-})
-      
-window.view = new EditorView(document.querySelector("#editor"), {
-    state: EditorState.create({
-    doc: DOMParser.fromSchema(mySchema).parse(document.querySelector("#content")),
-    plugins: exampleSetup({schema: mySchema})
-    })
-})
-
-export default mySchema;
+export default CustomEditor

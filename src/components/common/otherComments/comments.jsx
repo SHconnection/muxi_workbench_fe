@@ -1,6 +1,7 @@
-import React from "react";
-import ReactSVG from "react-svg";
-import answer from "../../../assets/svg/commonIcon/answer.svg";
+import React from 'react';
+import ReactSVG from 'react-svg'
+import PropTypes from 'prop-types'
+import answer from '../../../assets/svg/commonIcon/answer.svg'
 import AvatarImg from "../../../assets/img/avatar.png";
 import Avatar from "../avatar/index";
 import "./comments.css";

@@ -9,8 +9,9 @@ const Project = props => {
   const { match } = props;
   return (
     <div className="subject">
-      <Route path={`${match.url}/new`} component={NewProject} />
       <Route exact path={match.url} component={Index} />
+      <Route path={`${match.url}/new`} component={NewProject} />
+      <Route path={`${match.url}/new`} component={NewProject} />
     </div>
   );
 };
