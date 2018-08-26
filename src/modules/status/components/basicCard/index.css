@@ -1,16 +1,17 @@
 .status-item-container{
-    height: 322px;
     position: relative;
-    margin: 52px auto;
-    width: 68%;
-    background-color: white;
-    box-shadow: 0px 1px 15px #888888;
+    width: 1035px;
+    margin: 54px auto 60px auto;
+    border-radius: 6px;
+    background-color: #fbfbfb;
+    padding: 43px 75px;
+    -moz-box-shadow: 0px 2px 8px rgba(8, 5, 5, 0.1); /* for firefox */
+    -webkit-box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.1); /* for safari or chrome */
+    box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.1); /* for opera or ie9 */
 }
 .status-head{
-    margin-top: 9px;
     display: flex;
     align-items: center;
-    padding: 28px 0 10px 24px;
 }
 .status-item-name{
     font-size: 16px;
@@ -22,13 +23,13 @@
 }
 .open{
     font-size: 16px;
-    margin-left: 75%;
+    margin-left: 80%;
     margin-top: -25px;
 }
 .status-item-details{
     width: 722px;
     font-size: 16px;
-    margin-left: 10%;
+    margin-left: 70px;
     display: -webkit-box;
     -webkit-line-clamp: 4;
     -webkit-box-orient: vertical;
@@ -41,7 +42,7 @@
     align-items: center;
 }
 .status-item-good{
-    margin-left: 75%;
+    margin-left: 80%;
     width: 25px;
     height: 25px;
 }
