@@ -138,9 +138,9 @@ class Dynamic extends Component {
                           new Date().getTime() - 24 * 60 * 60 * 1000
                         ).toLocaleDateString() === feed.timeDay
                         ? "昨"
-                        : `${feed.timeDay.slice(-4) 
-                          } ${ 
-                          this.creatweek(feed.timeDay)}`}
+                        : `${feed.timeDay.slice(-4)} ${this.creatweek(
+                            feed.timeDay
+                          )}`}
                   </div>
                 ) : feedList[index - 1].timeDay === feed.timeDay ? null : (
                   <div
@@ -160,9 +160,9 @@ class Dynamic extends Component {
                           new Date().getTime() - 24 * 60 * 60 * 1000
                         ).toLocaleDateString() === feed.timeDay
                         ? "昨"
-                        : `${feed.timeDay.slice(-4) 
-                          } ${ 
-                          this.creatweek(feed.timeDay)}`}
+                        : `${feed.timeDay.slice(-4)} ${this.creatweek(
+                            feed.timeDay
+                          )}`}
                   </div>
                 )}
                 <FeedItem
