@@ -1,9 +1,9 @@
-import React from 'react';
-import ReactSVG from 'react-svg'
-import back from '../../../assets/svg/commonIcon/back.svg'
-import Button from '../../../components/common/button'
-import './edit.css'
-import Editor from '../components/markdown'
+import React from "react";
+import ReactSVG from "react-svg";
+import back from "../../../assets/svg/commonIcon/back.svg";
+import Button from "../../../components/common/button";
+import "./edit.css";
+import Editor from "../components/markdown";
 
 const edit = () => (
   <div className="status-editor">

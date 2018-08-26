@@ -11,7 +11,6 @@ const Project = props => {
     <div className="subject">
       <Route exact path={match.url} component={Index} />
       <Route path={`${match.url}/new`} component={NewProject} />
-      <Route path={`${match.url}/new`} component={NewProject} />
     </div>
   );
 };

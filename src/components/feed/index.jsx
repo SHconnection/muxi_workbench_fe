@@ -1,53 +1,55 @@
-import React from "react"
-import PropTypes from 'prop-types'
+import React from "react";
+import PropTypes from "prop-types";
 import AvatarImg from "../../assets/img/avatar.png";
 import Avatar from "../common/avatar/index";
-import './index.css'
+import "./index.css";
 
-function feedItem(props){
-    const {timeHour,action,divider,dividerName} = props
-    return(
-      <div className="feed-item">
-        <div className="feed-divider">
-          <div className={divider ? "line" : "no-line"} />
-          <div className={divider ? "feed-project" : "feed-no-project"}>{divider ? dividerName : ""}</div>
-        </div>
-        <div className="feed-details">
-          <div className="feed-time">{timeHour}</div>
-          <div className="feed-item-img">
-            <Avatar src={AvatarImg} width="60" height="60" />
-          </div>
-          <div className="feed-action">{action}</div>
+function feedItem(props) {
+  const { timeHour, action, divider, dividerName } = props;
+  return (
+    <div className="feed-item">
+      <div className="feed-divider">
+        <div className={divider ? "line" : "no-line"} />
+        <div className={divider ? "feed-project" : "feed-no-project"}>
+          {divider ? dividerName : ""}
         </div>
       </div>
-    )
+      <div className="feed-details">
+        <div className="feed-time">{timeHour}</div>
+        <div className="feed-item-img">
+          <Avatar src={AvatarImg} width="60" height="60" />
+        </div>
+        <div className="feed-action">{action}</div>
+      </div>
+    </div>
+  );
 }
 
 feedItem.propTypes = {
-    // timeDay: PropTypes.string,
-    timeHour: PropTypes.string,
-    // avatarUrl: PropTypes.string,
-    // uid: PropTypes.number,
-    action: PropTypes.string,
-    // kind: PropTypes.number,
-    // sourceID: PropTypes.number,
-    divider: PropTypes.bool,
-    // dividerID: PropTypes.number,
-    dividerName: PropTypes.string,
-  }
-  
+  // timeDay: PropTypes.string,
+  timeHour: PropTypes.string,
+  // avatarUrl: PropTypes.string,
+  // uid: PropTypes.number,
+  action: PropTypes.string,
+  // kind: PropTypes.number,
+  // sourceID: PropTypes.number,
+  divider: PropTypes.bool,
+  // dividerID: PropTypes.number,
+  dividerName: PropTypes.string
+};
+
 feedItem.defaultProps = {
-    // timeDay: "0000/00/00",
-    timeHour:"00:00",
-    // avatarUrl: " ",
-    // uid: 0,
-    action: " ",
-    // kind: 0,
-    // sourceID: 0,
-    divider: 0,
-    // dividerID: 0,
-    dividerName: " "
-  }
+  // timeDay: "0000/00/00",
+  timeHour: "00:00",
+  // avatarUrl: " ",
+  // uid: 0,
+  action: " ",
+  // kind: 0,
+  // sourceID: 0,
+  divider: 0,
+  // dividerID: 0,
+  dividerName: " "
+};
 export default feedItem;
 
 // [{  time_d:年月日时间，
