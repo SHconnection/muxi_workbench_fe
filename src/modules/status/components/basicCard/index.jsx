@@ -1,22 +1,26 @@
-import React from 'react';
-import ReactSVG from 'react-svg'
-import PropTypes from 'prop-types'
-import thumbs from '../../../../assets/svg/commonIcon/thumbs.svg'
-import thumbsUp from '../../../../assets/svg/commonIcon/thumbs_up.svg'
-import comment from '../../../../assets/svg/commonIcon/comment.svg'
+import React from "react";
+import ReactSVG from "react-svg";
+import PropTypes from "prop-types";
+import thumbs from "../../../../assets/svg/commonIcon/thumbs.svg";
+import thumbsUp from "../../../../assets/svg/commonIcon/thumbs_up.svg";
+import comment from "../../../../assets/svg/commonIcon/comment.svg";
 import AvatarImg from "../../../../assets/img/avatar.png";
 import Avatar from "../../../../components/common/avatar/index";
-import './index.css'
+import "./index.css";
 
-
-const Goods = [thumbs,thumbsUp];
+const Goods = [thumbs, thumbsUp];
 
 function Item(props) {
-  const {index, name,time,text,goodNumber,comments} = props
+  const { index, name, time, text, goodNumber, comments } = props;
   return (
     <div className="status-item-container">
       <div className="status-head">
-        <Avatar className="status-item-img" src={AvatarImg} width="60" height="60" />
+        <Avatar
+          className="status-item-img"
+          src={AvatarImg}
+          width="60"
+          height="60"
+        />
         <div className="stauts-second">
           <div className="status-item-name">{name}</div>
           <div className="status-item-time">{time}</div>
@@ -40,8 +44,8 @@ Item.propTypes = {
   text: PropTypes.string,
   index: PropTypes.number,
   goodNumber: PropTypes.number,
-  comments: PropTypes.number,
-}
+  comments: PropTypes.number
+};
 
 Item.defaultProps = {
   name: "木小犀",
@@ -49,7 +53,7 @@ Item.defaultProps = {
   text: "进度",
   index: 0,
   goodNumber: 0,
-  comments: 0,
-}
+  comments: 0
+};
 
 export default Item;
