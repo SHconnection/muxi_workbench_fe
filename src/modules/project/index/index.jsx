@@ -60,7 +60,7 @@ class Index extends Component {
         <div className="projects-container">
           {project.map(el => (
             <div key={el.id} className="project-item">
-              <ProjectItem index={el.index} name={el.name} />
+              <ProjectItem index={el.index} name={el.name} id={el.id} />
             </div>
           ))}
         </div>

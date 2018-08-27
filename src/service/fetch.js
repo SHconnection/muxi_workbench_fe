@@ -47,46 +47,48 @@ export default function FetchData(url, opt = {}) {
     //   })
     // }
     // console.log(response.status)
-    return response.json().then(json => {
-      switch (response.status) {
-        case 200:
-          if (opt.responseHeaders && opt.responseHeaders.length) {
-            const headers = opt.responseHeaders.map(key => {
-              return response.headers.get(key);
-            });
-            return {
-              json,
-              headers
-            };
-          }
-          return json;
-        case 201:
-          if (opt.responseHeaders && opt.responseHeaders.length) {
-            const headers = opt.responseHeaders.map(key => {
-              return response.headers.get(key);
-            });
-            return {
-              json,
-              headers
-            };
-          }
-          return json;
-        case 403:
-          return new Promise((resolve, reject) => {
-            reject(
-              new Error({
-                code: response.status,
-                message: json.message
-              })
-            );
-          });
-        case 502:
-          // util.message is not defined
-          // util.3message(response.statusText, "err");
-          throw response.statusText;
-        default:
-          return 0;
-      }
-    });
+    return response
+    // .json()
+    // .then(json => {
+    //   switch (response.status) {
+    //     case 200:
+    //       if (opt.responseHeaders && opt.responseHeaders.length) {
+    //         const headers = opt.responseHeaders.map(key => {
+    //           return response.headers.get(key);
+    //         });
+    //         return {
+    //           json,
+    //           headers
+    //         };
+    //       }
+    //       return json;
+    //     case 201:
+    //       if (opt.responseHeaders && opt.responseHeaders.length) {
+    //         const headers = opt.responseHeaders.map(key => {
+    //           return response.headers.get(key);
+    //         });
+    //         return {
+    //           json,
+    //           headers
+    //         };
+    //       }
+    //       return json;
+    //     case 403:
+    //       return new Promise((resolve, reject) => {
+    //         reject(
+    //           new Error({
+    //             code: response.status,
+    //             message: json.message
+    //           })
+    //         );
+    //       });
+    //     case 502:
+    //       // util.message is not defined
+    //       // util.3message(response.statusText, "err");
+    //       throw response.statusText;
+    //     default:
+    //       return 0;
+    //   }
+    // });
   });
 }

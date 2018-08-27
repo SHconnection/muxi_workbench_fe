@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import { Route } from "react-router-dom";
 import Index from "./index/index";
 import NewProject from "./new/index";
+import ProjectDetail from "./detail/index"
 import "../../static/css/common.css";
 
 const Project = props => {
@@ -11,6 +12,7 @@ const Project = props => {
     <div className="subject">
       <Route exact path={match.url} component={Index} />
       <Route path={`${match.url}/new`} component={NewProject} />
+      <Route path={`${match.url}/detail`} component={ProjectDetail} />
     </div>
   );
 };

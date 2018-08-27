@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
-import AvatarImg from "../../assets/img/avatar.png";
-import Avatar from "../common/avatar/index";
+import AvatarImg from "../../../../assets/img/avatar.png";
+import Avatar from "../../../../components/common/avatar/index";
 import "./index.css";
 
 function feedItem(props) {
