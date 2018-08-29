@@ -41,14 +41,14 @@ class Header extends Component {
                 项目
               </NavLink>
               <NavLink
-                to="/progress_list"
+                to="/status"
                 className="header-tab-item"
                 activeClassName="header-tab-item header-tab-item-active"
               >
                 进度
               </NavLink>
               <NavLink
-                to="/dynamic_list"
+                to="/feed"
                 className="header-tab-item"
                 activeClassName="header-tab-item header-tab-item-active"
               >

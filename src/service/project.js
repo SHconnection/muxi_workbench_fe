@@ -36,6 +36,13 @@ const ProjectService = {
         name: inputValue
       })
     });
+  },
+
+  createProject(postData) {
+    return Fetch("/api/v1.0/project/new/", {
+      method: "POST",
+      body: postData
+    });
   }
 };
 

@@ -1,7 +1,7 @@
-import React from 'react'
-import PropTypes from 'prop-types'
-import { HtmlEditor, MenuBar } from '@aeaton/react-prosemirror'
-import { options, menu } from '@aeaton/react-prosemirror-config-default'
+import React from "react";
+import PropTypes from "prop-types";
+import { HtmlEditor, MenuBar } from "@aeaton/react-prosemirror";
+import { options, menu } from "@aeaton/react-prosemirror-config-default";
 
 const CustomEditor = ({ value, onChange }) => (
   <HtmlEditor
@@ -15,17 +15,16 @@ const CustomEditor = ({ value, onChange }) => (
       </div>
     )}
   />
-)
+);
 
 CustomEditor.propTypes = {
   value: PropTypes.string,
   onChange: PropTypes.func
-}
+};
 
 CustomEditor.defaultProps = {
-  value: '',
+  value: "",
   onChange: () => {}
-}
+};
 
-
-export default CustomEditor
+export default CustomEditor;
