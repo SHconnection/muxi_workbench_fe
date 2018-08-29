@@ -3,7 +3,7 @@ import React, { Component } from "react";
 import Member from "../../setting/components/member/member";
 import Button from "../../../components/common/button/index";
 import Select from "../../../components/common/select/index";
-import ProjectService from '../../../service/project'
+import ProjectService from "../../../service/project";
 import "../../../static/css/common.css";
 import "./index.css";
 
@@ -136,19 +136,18 @@ class NewProject extends Component {
   }
 
   createProject() {
-    const { selMembers } = this.state;
     // Func.selAll()
     ProjectService.createProject({
-      username: 'test',
-      projectname: 'Project',
+      username: "test",
+      projectname: "Project",
       userList: [
         {
           userID: 1,
-          userName: 'testName'
+          userName: "testName"
         }
       ],
-      intro: 'hahaha'
-    })
+      intro: "hahaha"
+    });
   }
 
   changeGroupCheck(index) {

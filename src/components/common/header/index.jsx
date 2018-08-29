@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import PropTypes from "prop-types";
 import { NavLink } from "react-router-dom";
 import logo from "../../../assets/img/logo@2x.png";
 import searchIcon from "../../../assets/img/search@2x.png";
@@ -23,6 +24,7 @@ class Header extends Component {
   }
 
   render() {
+    console.log(this.con);
     const { showInput } = this.state;
     return (
       <div className="header-container">
@@ -39,21 +41,21 @@ class Header extends Component {
                 项目
               </NavLink>
               <NavLink
-                to="/progress_list"
+                to="/status"
                 className="header-tab-item"
                 activeClassName="header-tab-item header-tab-item-active"
               >
                 进度
               </NavLink>
               <NavLink
-                to="/dynamic_list"
+                to="/feed"
                 className="header-tab-item"
                 activeClassName="header-tab-item header-tab-item-active"
               >
                 动态
               </NavLink>
               <NavLink
-                to="/member"
+                to="/teamMember"
                 className="header-tab-item"
                 activeClassName="header-tab-item header-tab-item-active"
               >

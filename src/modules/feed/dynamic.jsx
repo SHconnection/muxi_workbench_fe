@@ -4,42 +4,29 @@ import Gotop from "../../components/common/toTop/top";
 import "../../static/css/common.css";
 import "./dynamic.css";
 
-class Dynamic extends Component {
-  
-  static creatweek(timeDay) {
-    switch (new Date(timeDay).getDay()) {
-      case 0:
-        return " 周日";
-      case 1:
-        return " 周一";
-      case 2:
-        return " 周二";
-      case 3:
-        return " 周三";
-      case 4:
-        return " 周四";
-      case 5:
-        return " 周五";
-      case 6:
-        return " 周六";
-      default:
-        return null;
-    }
-  }
-  // array
+const createweek = [
+  " 周日",
+  " 周一",
+  " 周二",
+  " 周三",
+  " 周四",
+  " 周五",
+  " 周六"
+];
+const today = new Date().toLocaleDateString();
+const yesterday = new Date(
+  new Date().getTime() - 24 * 60 * 60 * 1000
+).toLocaleDateString();
 
+class Dynamic extends Component {
   static chargeday(timeDay) {
-    if (new Date().toLocaleDateString() === timeDay) {
+    if (today === timeDay) {
       return "今";
     }
-    if (
-      new Date(
-        new Date().getTime() - 24 * 60 * 60 * 1000
-      ).toLocaleDateString() === timeDay
-    ) {
+    if (yesterday === timeDay) {
       return "昨";
     }
-    return timeDay.slice(-4) + Dynamic.creatweek(timeDay);
+    return timeDay.slice(-4) + createweek[new Date(timeDay).getDay()];
   }
   // create today yesterday
 
@@ -142,10 +129,7 @@ class Dynamic extends Component {
                   feedList[index - 1].timeDay !== feed.timeDay) && (
                   <div
                     className={
-                      new Date().toLocaleDateString() === feed.timeDay ||
-                      new Date(
-                        new Date().getTime() - 24 * 60 * 60 * 1000
-                      ).toLocaleDateString() === feed.timeDay
+                      today === feed.timeDay || yesterday === feed.timeDay
                         ? "feed-today"
                         : "feed-day"
                     }

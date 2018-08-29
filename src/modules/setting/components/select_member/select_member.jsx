@@ -26,9 +26,35 @@ class SelectMember extends Component {
   }
 
   componentDidMount() {
+    const {groupMember} = this.props;
+    let preArray = [];
+
+    if(groupMember){
+      const {groupID} = this.props;
+      const arr = ManageService.groupMember(groupID).list;
+
+      if (!Array.isArray(arr)) return false;
+
+      preArray = arr.map(mem=>mem.id);
+    }
+
     const arr = Func.getAllMem();
 
-    this.setState({ members: arr });
+    if (!Array.isArray(arr)) return false;
+
+    arr.map(mem1 => {
+      const mem = mem1;
+
+      if(preArray.indexOf(mem.id) !== -1)
+        mem.selected = true;
+      
+      return mem;
+    })
+
+    this.setState({ 
+      members: arr,
+      selMembers: preArray
+    });
   }
 
   selAll() {
@@ -71,7 +97,7 @@ class SelectMember extends Component {
   }
 
   save() {
-    const { groupMember, addGroup, groupName, setManager } = this.props;
+    const { groupMember, addGroup, groupName, setManager, groupID } = this.props;
     const { selMembers } = this.state;
 
     this.setState({ ifSave: true });
@@ -81,7 +107,7 @@ class SelectMember extends Component {
     }, 1000);
 
     if (groupMember) {
-      ManageService.groupMember();
+      ManageService.updateGroupMember(groupID, selMembers);
     }
 
     if (addGroup) {
@@ -89,7 +115,7 @@ class SelectMember extends Component {
     }
 
     if (setManager) {
-      ManageService.setManager();
+      selMembers.map(id=>{ManageService.setManager(id)})
     }
   }
 
@@ -129,11 +155,13 @@ SelectMember.propTypes = {
   groupMember: PropTypes.bool,
   addGroup: PropTypes.bool,
   groupName: PropTypes.string,
-  setManager: PropTypes.bool
+  setManager: PropTypes.bool,
+  groupID: PropTypes.number,
 };
 SelectMember.defaultProps = {
   groupMember: false,
   addGroup: false,
   groupName: "",
-  setManager: false
+  setManager: false,
+  groupID: 0
 };

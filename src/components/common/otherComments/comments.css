@@ -1,8 +1,10 @@
+.othercomments{
+    width: 90%;
+    margin: 30px auto;
+}
 .comments-message{
     display: flex;
     align-items: center;
-    margin-left: 10%;
-    margin-top: 30px;
 }
 .comments-name{
     margin-left: 10px;
@@ -13,9 +15,9 @@
     font-size: 13px;
 }
 .comments-answer{
-    margin-left: 60%;
+    margin-left: 75%;
 }
 .status-comments-detail{
-    margin-left: 16%;
-    width: 70%;
+    margin: 0 auto;
+    width: 85%;
 }

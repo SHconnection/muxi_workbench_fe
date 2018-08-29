@@ -1,8 +1,8 @@
 /*
 成员分组页面组件
+传入userID
 */
 import React, { Component } from "react";
-import PropTypes from "prop-types";
 import Member from "../components/member/member";
 import Save from "../components/save/save";
 import Func from "../../../components/common/function/function";
@@ -25,20 +25,37 @@ class SetPermission extends Component {
   }
 
   componentDidMount() {
+    const {list: proList} = ManageService.getPersonalPro();
     const arr = Func.getAllPro();
 
-    this.setState({ members: arr });
+    if (!Array.isArray(proList)) return false;
+
+    const idList = proList.map(item=>item.projectID);
+
+    arr.map(item1=>{
+      const item = item1;
+
+      if(idList.indexOf(item.id) !== -1)
+        item.selected = true;
+
+      return item;
+    })
+
+    this.setState({ 
+      members: arr,
+      selMembers: idList
+    });
   }
 
   transferMsgMem(members, selMembers) {
     this.setState({
-      members,
+      members: members,
       selMembers: selMembers || []
     });
   }
 
   savePersonalPermiss() {
-    const { userID } = this.props;
+    const { userID } = this.props.match.params;
     const { selMembers } = this.state;
 
     this.setState({ ifSave: true });
@@ -82,11 +99,3 @@ class SetPermission extends Component {
 }
 
 export default SetPermission;
-
-SetPermission.propTypes = {
-  userID: PropTypes.number
-};
-
-SetPermission.defaultProps = {
-  userID: 0
-};

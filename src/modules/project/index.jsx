@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import { Route } from "react-router-dom";
 import Index from "./index/index";
 import NewProject from "./new/index";
-import ProjectDetail from "./detail/index"
+import ProjectDetail from "./detail/index";
 import "../../static/css/common.css";
 
 const Project = props => {

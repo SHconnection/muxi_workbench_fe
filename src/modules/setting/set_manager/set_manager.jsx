@@ -10,7 +10,7 @@ const SetManager = () => (
   <div className="subject minH">
     <span className="reArrow" />
     <b className="title">设置管理员</b>
-    <SelectMember setManager />
+    <SelectMember setManager/>
   </div>
 );
 

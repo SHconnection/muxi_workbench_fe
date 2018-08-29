@@ -47,7 +47,7 @@ export default function FetchData(url, opt = {}) {
     //   })
     // }
     // console.log(response.status)
-    return response
+    return response;
     // .json()
     // .then(json => {
     //   switch (response.status) {

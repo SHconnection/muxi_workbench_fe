@@ -1,6 +1,10 @@
 .top{
     width: 64px;
     height: 64px;
-    position: absolute;
-    right: 8%;
+    position: fixed;
+    float:right;
+    right:60px;
+    bottom:20px;
+    _position:absolute; /* position fixed for IE6 */
+
 }
