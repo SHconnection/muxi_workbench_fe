@@ -30,12 +30,12 @@ class ProjectDetailIndex extends Component {
       folderList: {
         fList: [
           {
-            kind: 0,
+            kind: 2,
             id: 0,
             name: "文件夹1"
           },
           {
-            kind: 0,
+            kind: 1,
             id: 1,
             name: "文件夹2.zip"
           },
@@ -62,7 +62,7 @@ class ProjectDetailIndex extends Component {
         ],
         mList: [
           {
-            kind: 0,
+            kind: 2,
             id: 0,
             name: "文件夹1"
           },
@@ -72,17 +72,17 @@ class ProjectDetailIndex extends Component {
             name: "文档1"
           },
           {
-            kind: 0,
+            kind: 2,
             id: 2,
             name: "文件夹2"
           },
           {
-            kind: 0,
+            kind: 2,
             id: 3,
             name: "文件夹3"
           },
           {
-            kind: 0,
+            kind: 2,
             id: 4,
             name: "文件夹4"
           }
@@ -130,7 +130,7 @@ class ProjectDetailIndex extends Component {
             {folderList.fList.map(el => 
               (
                 <div className="file-item" key={el.id}>
-                  <FileIcon name={el.name} id={el.id} pid={pid} />
+                  <FileIcon name={el.name} id={el.id} pid={pid} kind={el.kind} />
                 </div>
               )
             )}

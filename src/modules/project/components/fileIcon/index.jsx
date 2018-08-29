@@ -9,6 +9,7 @@ import PsdIcon from "../../../../assets/svg/fileIcon/psd.svg"
 import TxtIcon from "../../../../assets/svg/fileIcon/txt.svg"
 import ZipIcon from "../../../../assets/svg/fileIcon/zip.svg"
 import RarIcon from "../../../../assets/svg/fileIcon/rar.svg"
+import "../../../../static/css/common.css"
 
 const IconMap = {
   folder: FolderIcon,
@@ -43,44 +44,35 @@ class FileIcon extends Component {
     };
   }
 
-  onMouseEnter(e){
-    console.log("haha")
-    this.setState({
-      hover: true,
-    });
-  }
-
-  onMouseLeave(){
-    this.setState({
-      hover: false,
-    })
-  }
-
-  enter(event) {
+  enter() {
     this.setState({
       hover: true,
     })
   }
 
-  leave(event) {
+  leave() {
     this.setState({
       hover: false,
     })
   }
 
   render() {
-    const { name, id, pid } = this.props;
+    const { name, id, pid, kind } = this.props;
     const { hover } = this.state
     const suffix = name.split('.')[1] || "folder";
     return (
-      <div onMouseEnter={this.enter.bind(this)} onMouseLeave={this.leave.bind(this)}>
-        <Link className="fileIcon-container" to={`/project/${pid}/file/${id}`}>
+      <div className="fileIcon-container" onMouseEnter={this.enter.bind(this)}>
+        <Link className="fileIcon-content" to={`/project/${pid}/file/${id}`}>
           <ReactSVG className="fileIcon-img" path={IconMap[suffix]} />
           <div className="fileIcon-text">{name}</div>
         </Link>
         {hover && 
           (
-            <div className="fileIcon-footer">移动</div>
+            <div className="fileIcon-footer" onMouseLeave={this.leave.bind(this)}>
+              {(kind === 1) && (<div>下载</div>) }
+              <div>移动</div>
+              <div>删除</div>
+            </div>
           )
         }
       </div>
@@ -91,6 +83,7 @@ class FileIcon extends Component {
 
 FileIcon.propTypes = {
   name: PropTypes.string,
+  kind: PropTypes.number,
   id: PropTypes.oneOfType([
     PropTypes.string,
     PropTypes.number
@@ -103,6 +96,7 @@ FileIcon.propTypes = {
 
 FileIcon.defaultProps = {
   name: "",
+  kind: 0,
   id: "",
   pid: ""
 };
