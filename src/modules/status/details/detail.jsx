@@ -7,6 +7,7 @@ import thumbsUp from "../../../assets/svg/commonIcon/thumbs_up.svg";
 import Othercomments from "../../../components/common/otherComments/comments";
 import Sendcomment from "../../../components/common/sendComment/comment";
 import AvatarImg from "../../../assets/img/avatar.png";
+import Cookie from "../../../service/cookie";
 import "../../../static/css/common.css";
 import Delete from "../../setting/components/delete/delete";
 import "./detail.css";
@@ -59,6 +60,13 @@ class detail extends Component {
     this.del = this.del.bind(this);
   }
 
+  componentWillMount() {
+    // const { match } = this.props;
+    this.setState({
+      sid: this.props.match.params.id
+    });
+  }
+
   changeLike(iflike, likeCount, sid) {
     if (iflike === 0) {
       this.setState({
@@ -74,7 +82,7 @@ class detail extends Component {
     fetch(`/status/${sid}/like/`, {
       method: "PUT",
       headers: {
-        token: this.token
+        token: Cookie.getCookie("token")
       },
       body: {
         "content type": "appication.json"
@@ -114,7 +122,7 @@ class detail extends Component {
             <span className="status-detail-time">{time}</span>
           </div>
           <div className="status-detail-edit">
-            <Link to="/edit" className="status-detail-edit">
+            <Link to={`/status/${sid}/reEdit`} className="status-detail-edit">
               编辑
             </Link>
             <span

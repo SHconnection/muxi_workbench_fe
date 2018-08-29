@@ -1,8 +1,8 @@
 import React, { Component } from "react";
-import StatusItem from "./components/basicCard/index";
-import Gotop from "../../components/common/toTop/top";
-import AvatarImg from "../../assets/img/avatar.png";
-import Cookie from "../../service/cookie";
+import StatusItem from "../components/basicCard/index";
+import Gotop from "../../../components/common/toTop/top";
+import AvatarImg from "../../../assets/img/avatar.png";
+import Cookie from "../../../service/cookie";
 import "./progerss.css";
 
 // const {isPersonal} = this.props.match.params

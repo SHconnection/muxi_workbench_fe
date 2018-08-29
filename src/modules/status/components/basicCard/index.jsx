@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import ReactSVG from "react-svg";
+import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
 import thumbs from "../../../../assets/svg/commonIcon/thumbs.svg";
 import thumbsUp from "../../../../assets/svg/commonIcon/thumbs_up.svg";
@@ -45,7 +46,7 @@ class Item extends Component {
 
   render() {
     const { whetherLike, likeNumber, sid } = this.state;
-    const { avatar, username, time, content, commentCount } = this.props;
+    const { avatar, username, time, content, commentCount, match } = this.props;
     return (
       <div className="status-item-container">
         <div className="status-head">
@@ -59,9 +60,11 @@ class Item extends Component {
             <div className="status-item-name">{username}</div>
             <div className="status-item-time">{time}</div>
           </div>
-          {/* <div className="open">展开</div> */}
+          <div className="open">
+            <Link to={`${match.url}/${sid}`}>展开</Link>
+          </div>
         </div>
-        <div className="status-item-details">{content}</div>
+        <div className="status-item-content">{content}</div>
         <div className="others">
           <ReactSVG
             className="status-item-good"
@@ -85,7 +88,10 @@ Item.propTypes = {
   content: PropTypes.string,
   iflike: PropTypes.number,
   likeCount: PropTypes.number,
-  commentCount: PropTypes.number
+  commentCount: PropTypes.number,
+  match: PropTypes.shape({
+    url: PropTypes.string
+  })
 };
 
 Item.defaultProps = {
@@ -96,7 +102,10 @@ Item.defaultProps = {
   content: "",
   iflike: 0,
   likeCount: 0,
-  commentCount: 0
+  commentCount: 0,
+  match: {
+    url: "/status"
+  }
 };
 
 export default Item;

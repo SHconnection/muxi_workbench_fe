@@ -10,7 +10,7 @@ import registerServiceWorker from "./registerServiceWorker";
 import NoMatch from "./components/common/noMatch/index";
 import Project from "./modules/project/index";
 import Dynamic from "./modules/feed/dynamic";
-import Progress from "./modules/status/progress";
+import Progress from "./modules/status/index";
 import member from "./modules/member/member";
 import Header from "./components/common/header/index";
 import edit from "./modules/status/markdown/edit";
