@@ -4,9 +4,9 @@
 接收项目信息参数
 */
 import React, { Component } from "react";
-import PropTypes from "prop-types";
 import FirstEditMember from "../../project/components/firstEdit_member/firstEdit_member";
 import Func from "../../../components/common/function/function";
+import ManageService from "../../../service/manage";
 import ProjectService from "../../../service/project";
 import "./edit_member.css";
 
@@ -21,13 +21,31 @@ class EditMember extends Component {
 
     this.selAll = this.selAll.bind(this);
     this.transferMsgMem = this.transferMsgMem.bind(this);
-    this.editProMem = this.editProMem.bind(this);
+    this.editProjectMember = this.editProjectMember.bind(this);
   }
 
   componentDidMount() {
+    const {proId} = this.props.match.params;
     const arr = Func.getAllMem();
+    const {list: proMember} = ManageService.getProMember(proId);
 
-    this.setState({ members: arr });
+    if (!Array.isArray(proMember)) return false;
+
+    const idList = proMember.map(mem=>mem.userID) 
+
+    arr.map(mem1=>{
+      const mem = mem1;
+
+      if(idList.indexOf(mem.id) !== -1)
+        mem.selected = true;
+
+        return mem;
+    })
+
+    this.setState({ 
+      members: arr,
+      selMembers: idList
+     });
   }
 
   selAll() {
@@ -70,7 +88,7 @@ class EditMember extends Component {
   }
 
   editProjectMember() {
-    const { proId } = this.props;
+    const { proId } = this.props.match.params;
     const { selMembers } = this.state;
 
     ProjectService.editProjectMember(proId, selMembers);
@@ -102,11 +120,3 @@ class EditMember extends Component {
 }
 
 export default EditMember;
-
-EditMember.propTypes = {
-  proId: PropTypes.number
-};
-
-EditMember.defaultProps = {
-  proId: 0
-};

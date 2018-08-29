@@ -1,8 +1,8 @@
 /*
 成员分组页面组件
+传入{id, group}
 */
 import React, { Component } from "react";
-import PropTypes from "prop-types";
 import Member from "../components/member/member";
 import Func from "../../../components/common/function/function";
 import ManageService from "../../../service/manage";
@@ -23,8 +23,22 @@ class MemberGroup extends Component {
 
   componentDidMount() {
     const arr = Func.getAllGroup();
+    const { group } = this.props.match.params.per;
 
-    this.setState({ members: arr });
+    arr.map((item1, index)=>{
+      const item = item1;
+      if(item.id === group){
+        arr[index].selected = true;
+      }
+    })
+
+    const array = [];
+    array.push(group)
+
+    this.setState({ 
+      members: arr,
+      selMembers: array
+    });
   }
 
   transferMsgMem(members, selMembers) {
@@ -35,10 +49,10 @@ class MemberGroup extends Component {
   }
 
   modifyMemGroup() {
-    const { userID } = this.props;
+    const { id } = this.props.match.params.per;
     const { selMembers } = this.state;
 
-    ManageService.modifyMemGroup(userID, selMembers);
+    ManageService.modifyMemGroup(id, selMembers);
   }
 
   render() {
@@ -69,11 +83,3 @@ class MemberGroup extends Component {
 }
 
 export default MemberGroup;
-
-MemberGroup.propTypes = {
-  userID: PropTypes.number
-};
-
-MemberGroup.defaultProps = {
-  userID: 0
-};

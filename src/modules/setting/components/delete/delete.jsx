@@ -4,14 +4,17 @@
 是否显示取消键cancel:false,
 点击删除deleteX:false,
 要实现的效果：
-  删除数据del: false, data
-  删除项目proDel: false, proId
-  删除进度staDEl: false, staId
+  删除数据del: false, 参数data
+  删除项目proDel: false, 参数proId
+  删除进度staDel: false, 参数staId
+  删除组groupDel:false, 参数data.id
+  删除成员memDel:false, 参数userId
 更新父组件数据transferMsg
 */
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import ProjectService from "../../../../service/project";
+import ManageService from "../../../../service/manage";
 import StatusService from "../../../../service/status";
 import "../../../../static/css/common.css";
 import "./delete.css";
@@ -24,12 +27,16 @@ class Delete extends Component {
   }
 
   move() {
-    const { del, data, proDel, proId, staDel, staId, transferMsg } = this.props;
+    const { del, data, proDel, proId, staDel, staId, transferMsg, groupDel, groupId, memDel, userId } = this.props;
 
     if (del) {
       data.dealed = true;
 
       transferMsg(data);
+    }
+
+    if(groupDel){
+      ManageService.groupDelete(data.id);
     }
 
     if (proDel) {
@@ -38,6 +45,10 @@ class Delete extends Component {
 
     if (staDel) {
       StatusService.statusDelete(staId);
+    }
+
+    if(memDel) {
+      ManageService.memberDelete(userId);
     }
   }
 
@@ -91,6 +102,10 @@ Delete.propTypes = {
   proId: PropTypes.number,
   staDel: PropTypes.bool,
   staId: PropTypes.number,
+  groupDel: PropTypes.bool,
+  groupId: PropTypes.number,
+  memDel: PropTypes.bool,
+  userId: PropTypes.number,
   transferMsg: PropTypes.func
 };
 
@@ -106,5 +121,9 @@ Delete.defaultProps = {
   proId: 0,
   staDel: false,
   staId: 0,
+  groupDel: false,
+  groupId: 0,
+  memDel: false,
+  userId: 0,
   transferMsg: () => {}
 };

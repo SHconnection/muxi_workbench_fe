@@ -8,21 +8,24 @@ import Fetch from "../../../service/fetch";
 
 const Func = {
   getAllMem() {
-    const memberList = Fetch("/project/member/", {
+    const {list: memberList} = Fetch("/group/0/userList/", {
       headers: {
-        Accept: "application/json",
-        "content-type": "application/json"
+        "Accept": "application/json",
+        "Content-Type": "application/json",
+        "token": localStorage.user.token
       }
     });
 
     if (!Array.isArray(memberList)) return false;
 
-    return memberList.map(member => {
-      const mem = member;
+    return memberList.map(mem1 => {
+      const mem = mem1;
       const obj = {};
 
       obj.name = mem.username;
       obj.id = mem.userID;
+      obj.email = mem.email;
+      obj.role = mem.role;
       obj.selected = false;
 
       return obj;
@@ -30,37 +33,36 @@ const Func = {
   },
 
   getAllPro() {
-    const proList = fetch("http://119.23.79.87:1667/user/project/list/", {
+    const {list: proList} = fetch("/user/project/list/", {
       method: "GET",
       headers: {
-        "Access-Control-Allow-Origin": "*",
-        Accept: "application/json",
+        "Accept": "application/json",
         "Content-Type": "application/json",
-        mode: "no-cors"
+        "token": localStorage.user.token,
       }
     });
 
-    console.log(proList);
+    if (!Array.isArray(proList)) return false;
 
-    // if (!Array.isArray(proList)) return false;
+    return proList.map(mem1 => {
+      const mem = mem1;
+      const obj = {};
 
-    // return proList.map(mem1 => {
-    //   const mem = mem1;
-    //   const obj = {};
+      obj.name = mem.projectName;
+      obj.id = mem.projectID;
+      obj.count = mem.userCount;
+      obj.selected = false;
 
-    //   obj.name = mem.projectName;
-    //   obj.id = mem.projectID;
-    //   obj.selected = false;
-
-    //   return obj;
-    // });
+      return obj;
+    });
   },
 
   getAllGroup() {
     const { groupList } = Fetch("/group/list/", {
       headers: {
-        Accept: "application/json",
-        "content-type": "application/json"
+        "Accept": "application/json",
+        "Content-Type": "application/json",
+        "token": localStorage.user.token,
       }
     });
 
@@ -79,31 +81,6 @@ const Func = {
       return obj;
     });
   },
-
-  getPersonalAttention(userID) {
-    const attentionList = Fetch(`/group/${userID}/list/`, {
-      headers: {
-        Accept: "application/json",
-        "content-type": "application/json"
-      }
-    });
-
-    if (!Array.isArray(attentionList)) return false;
-
-    return attentionList.map(mem1 => {
-      const mem = mem1;
-      const obj = {};
-
-      obj.fileName = mem.fileName;
-      obj.projectName = mem.projectName;
-      obj.date = mem.date;
-      obj.userName = mem.userName;
-      obj.dealed = false;
-      obj.isFolder = mem.isFolder;
-
-      return obj;
-    });
-  }
 };
 
 export default Func;

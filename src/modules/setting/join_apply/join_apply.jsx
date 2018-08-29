@@ -1,10 +1,9 @@
 /*
 处理申请页面组件
 成员数据members:{name:'', mailbox:'',dealed: false,id:0},
-同意的人员id，selMembers:[]
-更新父组件数据transferMsg
 */
 import React, { Component } from "react";
+import ManageService from "../../../service/manage";
 import "../../../static/css/common.css";
 import "./join_apply.css";
 
@@ -18,6 +17,8 @@ class JoinApply extends Component {
     };
 
     this.del = this.del.bind(this);
+    this.saveAll = this.saveAll.bind(this);
+    this.save = this.save.bind(this);
   }
 
   componentDidMount() {
@@ -35,12 +36,8 @@ class JoinApply extends Component {
 
     if (index === -1) {
       arr2.push(mem.id);
+      ManageService.addMember(mem.id);
     }
-
-    this.setState({
-      members: arr1,
-      selMembers: arr2
-    });
   }
 
   del(mem1) {
@@ -67,10 +64,7 @@ class JoinApply extends Component {
       return mem;
     });
 
-    this.setState({
-      members: arr1,
-      selMembers: arr2
-    });
+    
   }
 
   render() {
