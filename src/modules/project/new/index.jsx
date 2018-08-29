@@ -4,6 +4,7 @@ import React, { Component } from "react";
 import Member from "../../setting/components/member/member";
 import Button from "../../../components/common/button/index";
 import Select from "../../../components/common/select/index";
+import ProjectService from "../../../service/project";
 import "../../../static/css/common.css";
 import "./index.css";
 
@@ -40,7 +41,7 @@ class NewProject extends Component {
 
     this.transferMsgMem = this.transferMsgMem.bind(this);
     this.selAll = this.selAll.bind(this);
-    // this.createProject = this.createProject.bind(this);
+    this.createProject = this.createProject.bind(this);
     this.checkAll = this.checkAll.bind(this);
     this.changeGroupCheck = this.changeGroupCheck.bind(this);
   }
@@ -134,10 +135,20 @@ class NewProject extends Component {
     });
   }
 
-  // createProject() {
-  //   const { selMembers } = this.state;
-  //   // Func.selAll()
-  // }
+  createProject() {
+    // Func.selAll()
+    ProjectService.createProject({
+      username: "test",
+      projectname: "Project",
+      userList: [
+        {
+          userID: 1,
+          userName: "testName"
+        }
+      ],
+      intro: "hahaha"
+    });
+  }
 
   changeGroupCheck(index) {
     // const {groupCheckedIndex} = this.state
@@ -197,7 +208,7 @@ class NewProject extends Component {
             />
           </div>
           <div className="newProject-bottom">
-            <Button text="创建项目" />
+            <Button text="创建项目" onClick={this.createProject} />
             <div
               className="newProject-bottom-text fakeBtn"
               onClick={gotoBack}

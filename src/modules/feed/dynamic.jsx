@@ -28,6 +28,7 @@ class Dynamic extends Component {
     }
     return timeDay.slice(-4) + createweek[new Date(timeDay).getDay()];
   }
+  // create today yesterday
 
   constructor(props) {
     super(props);
@@ -136,6 +137,7 @@ class Dynamic extends Component {
                     {Dynamic.chargeday(feed.timeDay)}
                   </div>
                 )}
+                {/* function */}
                 <FeedItem
                   timeDay={feed.timeDay}
                   timeHour={feed.timeHour}
