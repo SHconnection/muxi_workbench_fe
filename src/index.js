@@ -23,8 +23,8 @@ ReactDOM.render(
       <Switch>
         <Redirect exact from="/" to="/project" />
         <Route path="/project" component={Project} />
-        <Route path="/dynamic_list" component={Dynamic} />
-        <Route path="/progress_list" component={Progress} />
+        <Route path="/feed" component={Dynamic} />
+        <Route path="/status" component={Progress} />
         <Route path="/member" component={member} />
         <Route path="/edit" component={edit} />
         <Route component={NoMatch} />
