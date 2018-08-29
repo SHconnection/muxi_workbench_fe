@@ -32,16 +32,29 @@ ReactDOM.render(
         <Route path="/project" component={Project} />
         <Route path="/feed" component={Dynamic} />
         <Route path="/status" component={Progress} />
-        <Route path="/member" component={member} />
+        {/* <Route path="/member" component={member} /> */}
         <Route path="/edit" component={edit} />
         <Route exact path="/teamMember" component={TeamMember} />
         <Route path="/teamMember/addMember" component={AddMember} />
         <Route exact path="/teamMember/groupManage" component={GroupManage} />
         <Route path="/teamMember/groupManage/addGroup" component={AddGroup} />
-        <Route path="/teamMember/groupManage/groupMember/:group" component={GroupMember} />
-        <Route exact path="/teamMember/personalInfo/" component={PersonalInfo} />
-        <Route path="/teamMember/personalInfo/personalSet/:id" component={PersonalSet} />
-        <Route path="/teamMember/personalInfo/setPersonalInfo/:per" component={SetPersonalInfo} />
+        <Route
+          path="/teamMember/groupManage/groupMember/:group"
+          component={GroupMember}
+        />
+        <Route
+          exact
+          path="/teamMember/personalInfo/"
+          component={PersonalInfo}
+        />
+        <Route
+          path="/teamMember/personalInfo/personalSet/:id"
+          component={PersonalSet}
+        />
+        <Route
+          path="/teamMember/personalInfo/setPersonalInfo/:per"
+          component={SetPersonalInfo}
+        />
         <Route component={NoMatch} />
       </Switch>
     </div>

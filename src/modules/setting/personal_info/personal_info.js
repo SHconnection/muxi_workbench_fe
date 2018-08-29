@@ -33,13 +33,11 @@ const PersonalInfo = ({location}) => {
           <Link className="llSize singleItem" to="/teamMember/personalInfo/personalAttention/">关注</Link>
         </div>
       </div> 	
-      {/* <Switch>
-      <BrowserRouter>
+      <div>
         <Route path="/personalInfo/personalAttention" component={PersonalAttention} />
         <Route path="/personalInfo/personalAttention" component={PersonalAttention} />
         <Route path="/personalInfo/personalAttention" component={PersonalAttention} />
-      </BrowserRouter> */}
-      {/* </Switch> */}
+      </div>
     </div>
   );
 }

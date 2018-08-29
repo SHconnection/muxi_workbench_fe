@@ -5,7 +5,7 @@ const ProjectService = {
     return Fetch(`/project/${proId}/`, {
       method: "DELETE",
       headers: {
-        "Accept": "application/json",
+        Accept: "application/json",
         "Content-Type": "application/json"
       }
     });
@@ -15,7 +15,7 @@ const ProjectService = {
     return Fetch(`/project/${proId}/member/`, {
       method: "PUT",
       headers: {
-        "Accept": "application/json",
+        Accept: "application/json",
         "Content-Type": "application/json"
       },
       body: JSON.stringify({
@@ -28,7 +28,7 @@ const ProjectService = {
     return Fetch(`/project/${proId}/`, {
       method: "POST",
       headers: {
-        "Accept": "application/json",
+        Accept: "application/json",
         "Content-Type": "application/json"
       },
       body: JSON.stringify({
