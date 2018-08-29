@@ -1,8 +1,8 @@
 /*
 个人设置页面组件
+传入userID
 */
 import React, { Component } from "react";
-import PropTypes from "prop-types";
 import Member from "../components/member/member";
 import Save from "../components/save/save";
 import ManageService from "../../../service/manage";
@@ -59,7 +59,7 @@ class PersonalSet extends Component {
 
   savePersonalSet() {
     const { inputName, inputMailbox, inputPhone, selMembers } = this.state;
-    const { userID } = this.props;
+    const { userID } = this.props.match.params;
     const obj = {
       username: inputName,
       address: inputMailbox,
@@ -93,7 +93,7 @@ class PersonalSet extends Component {
         <b className="title">个人设置</b>
 
         <div className="main">
-          <img src="" className="avatar" alt="" />
+          <img src="" className="personalSet-avatar" alt="" />
           <div className="avaTip">
             <b>选择新头像</b>
             <p className="avaForm">你可以选择png/jpg图片作为头像</p>
@@ -156,11 +156,3 @@ class PersonalSet extends Component {
 }
 
 export default PersonalSet;
-
-PersonalSet.propTypes = {
-  userID: PropTypes.number
-};
-
-PersonalSet.defaultProps = {
-  userID: 0
-};

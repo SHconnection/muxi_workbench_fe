@@ -1,10 +1,10 @@
 /*
 项目设置--项目信息页面组件
 为项目设置首页，下接编辑成员页面
+传入proId
 */
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
-import PropTypes from "prop-types";
 import Delete from "../components/delete/delete";
 import ProjectSetFirst from "../../project/components/project_setFirst/project_setFirst";
 import ProjectService from "../../../service/project";
@@ -23,7 +23,16 @@ class SetProject extends Component {
     this.transferMsgDel = this.transferMsgDel.bind(this);
     this.changeInput = this.changeInput.bind(this);
     this.changeText = this.changeText.bind(this);
-    this.savePost = this.savePost.bind(this);
+    this.saveProjectSet = this.saveProjectSet.bind(this);
+  }
+
+  componentDidMount() {
+    const proInfo = Func.getAllPro();
+
+    this.setState({
+      inputValue: proInfo.name,
+      textValue: proInfo.intro,
+    })
   }
 
   changeInput(e) {
@@ -45,7 +54,7 @@ class SetProject extends Component {
   }
 
   saveProjectSet() {
-    const { proId } = this.props;
+    const { proId } = this.props.match.params;
     const { textValue, inputValue } = this.state;
 
     ProjectService.saveProjectSet(proId, textValue, inputValue);
@@ -53,6 +62,7 @@ class SetProject extends Component {
 
   render() {
     const { deleteX, inputValue, textValue } = this.state;
+    const { proId } = this.props.match.params;
 
     return (
       <div className="subject minH">
@@ -90,6 +100,7 @@ class SetProject extends Component {
           deleteX={deleteX}
           transferMsg={this.transferMsgDel}
           proDel
+          proId={proId}
         />
       </div>
     );
@@ -97,11 +108,3 @@ class SetProject extends Component {
 }
 
 export default SetProject;
-
-SetProject.propTypes = {
-  proId: PropTypes.number
-};
-
-SetProject.defaultProps = {
-  proId: 0
-};

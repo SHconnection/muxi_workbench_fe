@@ -5,6 +5,7 @@ import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import Delete from "../components/delete/delete";
 import Func from "../../../components/common/function/function";
+import ManageService from "../../../service/manage";
 import "../../../static/css/common.css";
 import "./group_manage.css";
 import "../join_apply/join_apply.css";
@@ -15,10 +16,14 @@ class GroupManage extends Component {
     this.state = {
       deleteX: false,
       data: undefined,
-      members: []
+      members: [],
     };
 
     this.transferMsgDel = this.transferMsgDel.bind(this);
+    this.delete = this.delete.bind(this);
+    this.drag = this.drag.bind(this);
+    this.dragEnter = this.dragEnter.bind(this);
+    this.drop = this.drop.bind(this);
   }
 
   componentDidMount() {
@@ -31,11 +36,43 @@ class GroupManage extends Component {
     this.setState({ deleteX });
   }
 
-  del(mem) {
+  delete(mem) {
     this.setState({
       data: mem,
       deleteX: true
     });
+  }
+
+  drag(ev){
+    this.startID = ev.target.dataset.id;
+  }
+
+  dragEnter(ev){
+    this.endID = ev.target.dataset.id;
+  }
+
+  drop(){
+    let {members} = this.state;
+    let index1;
+    let index2;
+
+    members.map((mem1, index)=>{
+      const mem = mem1;
+      if(mem.id === parseInt(this.startID))
+        index1 = index;
+      if(mem.id === parseInt(this.endID))
+        index2 = index;
+      return mem;
+    })
+    const temp = members[index1];
+    members[index1] = members[index2];
+    members[index2] = temp;
+
+    this.setState({members: members})
+  }
+
+  dragOver(ev){
+    ev.preventDefault();
   }
 
   render() {
@@ -47,10 +84,12 @@ class GroupManage extends Component {
         <b className="title">分组管理</b>
         <br />
         <span className="groupManage-tip tip">上下拖动对分组排序</span>
-        <button type="button" className="saveBtn btnFlo">
-          添加分组
-        </button>
-        <div className="clear present">
+        <Link to="/teamMember/groupManage/addGroup">
+          <button type="button" className="saveBtn btnFlo">
+            添加分组
+          </button>
+        </Link>
+        <div className="clear present" onDrop={this.drop}>
           {members.map(mem1 => {
             const mem = mem1;
 
@@ -58,19 +97,24 @@ class GroupManage extends Component {
               <div
                 className={mem.dealed ? "none" : "cell groupManage-reCell"}
                 key={mem.id}
+                draggable="true" 
+                onDragStart={this.drag}
+                data-id={mem.id}
+                onDragEnter={this.dragEnter}
+                onDragOver={this.dragOver}
               >
                 <b>{mem.name}</b>
                 <span className="llSize pos groupManage-rePos">
                   {mem.count}
                 </span>
                 <div className="litSel">
-                  <Link to={`/GroupMember/${mem.id}`} className="fakeBtn">
+                  <Link to={`/teamMember/groupManage/groupMember/${JSON.stringify({name: mem.name, id: mem.id})}`} className="fakeBtn">
                     编辑
                   </Link>
                   <span
                     className="fakeBtn"
                     onClick={() => {
-                      this.del(mem);
+                      this.delete(mem);
                     }}
                     onKeyDown={this.handleClick}
                     role="button"
@@ -90,6 +134,7 @@ class GroupManage extends Component {
           transferMsg={this.transferMsgDel}
           data={data}
           del
+          groupDel
         />
       </div>
     );

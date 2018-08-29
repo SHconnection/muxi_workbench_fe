@@ -1,10 +1,8 @@
 /*
-项目设置--编辑成员页面组件
-承接自项目设置--项目信息页面
-接收项目信息参数
+个人设置页面组件
+传入per
 */
 import React, { Component } from "react";
-import PropTypes from "prop-types";
 import Member from "../components/member/member";
 import Delete from "../components/delete/delete";
 import Save from "../components/save/save";
@@ -19,10 +17,10 @@ class SetPersonalInfo extends Component {
     this.state = {
       selMembers: [],
       members: [],
-      selIdentities: [],
+      selIdentities: [1],
       identity: [
         { name: "管理员", selected: false, id: 3 },
-        { name: "成员", selected: false, id: 1 }
+        { name: "成员", selected: true, id: 1 }
       ],
       ifSave: false,
       deleteX: false
@@ -36,9 +34,36 @@ class SetPersonalInfo extends Component {
   }
 
   componentDidMount() {
+    const { per } = this.props.match.params;
+    const { identity, selIdentities } = this.state;
     const arr = Func.getAllPro();
+    const {list: proList} = ManageService.getPersonalPro();
 
-    this.setState({ members: arr });
+    if(per.role === 3){
+      identity[0].selected = true;
+      identity[1].selected = false;
+      selIdentities[0] = 3;
+    }
+
+    if (!Array.isArray(proList)) return false;
+
+    const idList = proList.map(item=>item.projectID);
+
+    arr.map(item1=>{
+      const item = item1;
+
+      if(idList.indexOf(item.id) !== -1)
+        item.selected = true;
+
+      return item;
+    })
+
+    this.setState({ 
+      members: arr,
+      selMembers: idList,
+      identity: identity,
+      selIdentities: selIdentities,
+    });
   }
 
   transferMsgIden(mem, selMem) {
@@ -94,7 +119,7 @@ class SetPersonalInfo extends Component {
   }
 
   saveModifyMember() {
-    const { per } = this.props;
+    const { per } = this.props.match.params;
     const { selIdentities, selMembers } = this.state;
 
     this.setState({ ifSave: true });
@@ -108,7 +133,8 @@ class SetPersonalInfo extends Component {
   }
 
   render() {
-    const { per } = this.props;
+    const { per: per1 } = this.props.match.params;
+    const per = JSON.parse(per1);
     const {
       identity,
       selIdentities,
@@ -118,6 +144,7 @@ class SetPersonalInfo extends Component {
       deleteX,
       deled
     } = this.state;
+
     return (
       <div className="subject minH">
         <span className="reArrow" />
@@ -150,7 +177,6 @@ class SetPersonalInfo extends Component {
             selMembers={selIdentities}
             transferMsg={this.transferMsgIden}
             dis
-            dealId
           />
 
           <b className="littleSize title selectMember-titleMarg">参与的项目</b>
@@ -192,14 +218,3 @@ class SetPersonalInfo extends Component {
 }
 
 export default SetPersonalInfo;
-
-SetPersonalInfo.propTypes = {
-  per: PropTypes.shape({
-    username: PropTypes.string,
-    userID: PropTypes.number
-  })
-};
-
-SetPersonalInfo.defaultProps = {
-  per: {}
-};

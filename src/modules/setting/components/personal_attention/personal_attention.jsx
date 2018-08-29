@@ -1,15 +1,12 @@
 /*
 个人关注组件
-数据members:[{fileName:'', projectName:'', userName: '', date: '', isFolder: false, dealed: false}],
-transferMsg = (mem) => {this.setState({members: mem});}返回数据
+传入userID
 */
 import React, { Component } from "react";
-import PropTypes from "prop-types";
-import Delete from "../components/delete/delete";
-import Folder from "../../../assets/img/folder.png";
-import File from "../../../assets/img/file.png";
-import Func from "../../../components/common/function/function";
-import "../../../static/css/common.css";
+import Delete from "../delete/delete";
+import File from "../../../../assets/img/file.png";
+import MessageService from "../../../../service/message";
+import "../../../../static/css/common.css";
 import "./personal_attention.css";
 
 class PersonalAttention extends Component {
@@ -17,7 +14,8 @@ class PersonalAttention extends Component {
     super(props);
     this.state = {
       data: undefined,
-      deleteX: false
+      deleteX: false,
+      members: [],
     };
 
     this.transferMsgDel = this.transferMsgDel.bind(this);
@@ -25,8 +23,16 @@ class PersonalAttention extends Component {
   }
 
   componentDidMount() {
-    const { userID } = this.props;
-    const arr = Func.getPersonalAttention(userID);
+    const { userID } = this.props.match.params;
+    const arr = MessageService.getPersonalAttention();
+
+    arr.map((item1, index)=>{
+      const item = item1;
+      item.id = index;
+      item.dealed = false;
+
+      return item;
+    })
 
     this.setState({ members: arr });
   }
@@ -45,7 +51,10 @@ class PersonalAttention extends Component {
   }
 
   render() {
-    const { data, deleteX, members } = this.state;
+    const { data, deleteX } = this.state;
+    const members = [
+      {id: 1, filename: '123', projectName: '456', username:'1246', date:'2018/07/09'}
+    ];
 
     return (
       <div className="present">
@@ -58,13 +67,13 @@ class PersonalAttention extends Component {
               key={mem.id}
             >
               <img
-                src={mem.isFolder ? Folder : File}
+                src={File}
                 className="personalAttention-imgSize"
                 alt=""
               />
 
               <div className="personalAttention-vice IB">
-                <span className="llSize">{mem.fileName}</span>
+                <span className="llSize">{mem.filename}</span>
                 <br />
                 <span className="tip">
 项目 ：
@@ -74,7 +83,7 @@ class PersonalAttention extends Component {
 
               <div className="IB">
                 <div className="personalAttention-litSel">
-                  <span className="personalAttention-size">{mem.userName}</span>
+                  <span className="personalAttention-size">{mem.username}</span>
                   <span className="personalAttention-size">{mem.date}</span>
                   <span
                     role="button"
@@ -106,11 +115,3 @@ class PersonalAttention extends Component {
 }
 
 export default PersonalAttention;
-
-PersonalAttention.propTypes = {
-  userID: PropTypes.number
-};
-
-PersonalAttention.defaultProps = {
-  userID: 0
-};

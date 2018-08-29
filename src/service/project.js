@@ -6,7 +6,7 @@ const ProjectService = {
       method: "DELETE",
       headers: {
         Accept: "application/json",
-        "content-type": "application/json"
+        "Content-Type": "application/json"
       }
     });
   },
@@ -16,7 +16,7 @@ const ProjectService = {
       method: "PUT",
       headers: {
         Accept: "application/json",
-        "content-type": "application/json"
+        "Content-Type": "application/json"
       },
       body: JSON.stringify({
         userList: selMembers
@@ -29,7 +29,7 @@ const ProjectService = {
       method: "POST",
       headers: {
         Accept: "application/json",
-        "content-type": "application/json"
+        "Content-Type": "application/json"
       },
       body: JSON.stringify({
         intro: textValue,

@@ -61,9 +61,9 @@ class detail extends Component {
   }
 
   componentWillMount() {
-    // const { match } = this.props;
+    const { match } = this.props;
     this.setState({
-      sid: this.props.match.params.id
+      sid: match.params.id
     });
   }
 
