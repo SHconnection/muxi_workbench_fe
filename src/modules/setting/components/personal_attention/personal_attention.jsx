@@ -14,7 +14,8 @@ class PersonalAttention extends Component {
     super(props);
     this.state = {
       data: undefined,
-      deleteX: false
+      deleteX: false,
+      members: [],
     };
 
     this.transferMsgDel = this.transferMsgDel.bind(this);
@@ -51,7 +52,9 @@ class PersonalAttention extends Component {
 
   render() {
     const { data, deleteX } = this.state;
-    const {members} = this.props;
+    const members = [
+      {id: 1, filename: '123', projectName: '456', username:'1246', date:'2018/07/09'}
+    ];
 
     return (
       <div className="present">

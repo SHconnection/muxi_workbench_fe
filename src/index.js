@@ -32,7 +32,6 @@ ReactDOM.render(
         <Route path="/project" component={Project} />
         <Route path="/feed" component={Dynamic} />
         <Route path="/status" component={Progress} />
-        {/* <Route path="/member" component={member} /> */}
         <Route path="/edit" component={edit} />
         <Route exact path="/teamMember" component={TeamMember} />
         <Route path="/teamMember/addMember" component={AddMember} />
@@ -44,7 +43,7 @@ ReactDOM.render(
         />
         <Route
           exact
-          path="/teamMember/personalInfo/"
+          path="/teamMember/personalInfo"
           component={PersonalInfo}
         />
         <Route

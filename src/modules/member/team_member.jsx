@@ -69,6 +69,7 @@ class TeamMember extends Component {
 		];
 		const {members,selectedID} = this.state;
 		let path = {};
+		const {match} = this.props;
 		
 		return (
 			<div className="subject minH"> 
@@ -87,8 +88,8 @@ class TeamMember extends Component {
 							})
 						}
 					</div>
-					<Link className="fakeBtn teamMember-fakeMarg" to="/teamMember/addMember">添加成员</Link>
-					{/* <Link className="fakeBtn" to="/teamMember/groupManage">{localStorage.user.role > 1 ? "管理分组" : ""}</Link> */}
+					<Link className="fakeBtn teamMember-fakeMarg" to={`${match.url}/addMember`}>添加成员</Link>
+					{/* <Link className="fakeBtn" to={`${match.url}/groupManage`}>{localStorage.user.role > 1 ? "管理分组" : ""}</Link> */}
 
 				</div>
 
@@ -99,7 +100,7 @@ class TeamMember extends Component {
 						if(role === 7)
 							role = "超级管理员";
 						
-						path = {pathname: "/teamMember/personalInfo",state:{per: mem}}
+						path = {pathname: `${match.url}/personalInfo`,state:{per: mem}}
 
 						return (
 							<div className="teamMember-singleList" key={mem.id}>
