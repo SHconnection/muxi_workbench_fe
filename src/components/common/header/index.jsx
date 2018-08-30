@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import PropTypes from "prop-types";
 import { NavLink } from "react-router-dom";
 import logo from "../../../assets/img/logo@2x.png";
 import searchIcon from "../../../assets/img/search@2x.png";
@@ -24,8 +23,8 @@ class Header extends Component {
   }
 
   render() {
-    console.log(this.con);
     const { showInput } = this.state;
+
     return (
       <div className="header-container">
         <div className="header-content">

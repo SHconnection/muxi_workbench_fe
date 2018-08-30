@@ -5,7 +5,7 @@ const ManageService = {
     return Fetch("/group/new/", {
       method: "POST",
       headers: {
-        "Accept": "application/json",
+        Accept: "application/json",
         "Content-Type": "application/json"
       },
       body: JSON.stringify({
@@ -15,11 +15,11 @@ const ManageService = {
     });
   },
 
-  addMember(userID){
+  addMember(userID) {
     return Fetch("/user/2bMember", {
       method: "POST",
       headers: {
-        "Accept": "application/json",
+        Accept: "application/json",
         "Content-Type": "application/json"
       },
       body: JSON.stringify({
@@ -29,85 +29,85 @@ const ManageService = {
   },
 
   groupMember(groupID) {
-    return Fetch(`/group/${groupID}/userList/`,{
+    return Fetch(`/group/${groupID}/userList/`, {
       headers: {
-        "Accept": "application/json",
-        "Content-Type": "application/json",
-      },
-    })
-  },
-
-  getProMember(proID){
-    return Fetch(`/group/${proID}/userList/`, {
-      headers: {
-        "Accept": "application/json",
-        "Content-Type": "application/json",
+        Accept: "application/json",
+        "Content-Type": "application/json"
       }
     });
   },
 
-  updateGroupMember(groupID, userList){
-    return Fetch(`/group/${groupID}/manageUser/`,{
+  getProMember(proID) {
+    return Fetch(`/group/${proID}/userList/`, {
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json"
+      }
+    });
+  },
+
+  updateGroupMember(groupID, userList) {
+    return Fetch(`/group/${groupID}/manageUser/`, {
       method: "POST",
       headers: {
-        "Accept": "application/json",
-        "Content-Type": "application/json",
+        Accept: "application/json",
+        "Content-Type": "application/json"
       },
       body: JSON.stringify({
         userList: userList
       })
-    })
+    });
   },
 
-  groupDelete(groupID){
-    return Fetch(`/group/${groupID}`,{
+  groupDelete(groupID) {
+    return Fetch(`/group/${groupID}`, {
       method: "DELETE",
       headers: {
-        "Accept": "application/json",
-        "Content-Type": "application/json",
-      },
-    })
+        Accept: "application/json",
+        "Content-Type": "application/json"
+      }
+    });
   },
 
-  getPersonalPro(){
-    return Fetch("/user/project/list/",{
+  getPersonalPro() {
+    return Fetch("/user/project/list/", {
       headers: {
-        "Accept": "application/json",
+        Accept: "application/json",
         "Content-Type": "application/json",
-        "token": localStorage.user.token,
-      },
-    })
+        token: localStorage.user.token
+      }
+    });
   },
 
-  setManager(userID){
-    return Fetch("/user/addAdmin/",{
+  setManager(userID) {
+    return Fetch("/user/addAdmin/", {
       method: "POST",
       headers: {
-        "Accept": "application/json",
+        Accept: "application/json",
         "Content-Type": "application/json",
-        "token": localStorage.user.token,
+        token: localStorage.user.token
       },
       body: JSON.stringify({
         luckydog: userID
       })
-    })
+    });
   },
 
-  memberDelete(userID){
-    return Fetch(`/user/${userID}`,{
+  memberDelete(userID) {
+    return Fetch(`/user/${userID}`, {
       method: "DELETE",
       headers: {
-        "Accept": "application/json",
-        "Content-Type": "application/json",
-      },
-    })
+        Accept: "application/json",
+        "Content-Type": "application/json"
+      }
+    });
   },
 
   modifyMemGroup(userID, selMembers) {
     return Fetch(`/user/${userID}/manageGroup/`, {
       method: "POST",
       headers: {
-        "Accept": "application/json",
+        Accept: "application/json",
         "Content-Type": "application/json"
       },
       body: JSON.stringify({
@@ -120,7 +120,7 @@ const ManageService = {
     return Fetch(`/user/${userID}/setting/`, {
       method: "POST",
       headers: {
-        "Accept": "application/json",
+        Accept: "application/json",
         "Content-Type": "application/json"
       },
       body: obj
@@ -131,7 +131,7 @@ const ManageService = {
     return Fetch(`/user/${userID}/managePro/`, {
       method: "POST",
       headers: {
-        "Accept": "application/json",
+        Accept: "application/json",
         "Content-Type": "application/json"
       },
       body: JSON.stringify({
@@ -144,7 +144,7 @@ const ManageService = {
     return Fetch(`/user/${userID}/setRole`, {
       method: "POST",
       headers: {
-        "Accept": "application/json",
+        Accept: "application/json",
         "Content-Type": "application/json"
       },
       body: JSON.stringify({
@@ -157,7 +157,7 @@ const ManageService = {
     return Fetch(`/user/${userID}/managePro/`, {
       method: "POST",
       headers: {
-        "Accept": "application/json",
+        Accept: "application/json",
         "Content-Type": "application/json"
       },
       body: JSON.stringify({
@@ -166,42 +166,42 @@ const ManageService = {
     });
   },
 
-  getJoinApply(){
+  getJoinApply() {
     return Fetch("/team/applyList/", {
       headers: {
-        "Accept": "application/json",
+        Accept: "application/json",
         "Content-Type": "application/json",
-        "token": localStorage.user.token,
-      },
+        token: localStorage.user.token
+      }
     });
   },
 
-  dealJoinApply(userID){
+  dealJoinApply(userID) {
     return Fetch(`/team/apply/{userID}/`, {
       method: "DELETE",
       headers: {
-        "Accept": "application/json",
+        Accept: "application/json",
         "Content-Type": "application/json"
-      },
+      }
     });
   },
 
-  getAdminList(){
+  getAdminList() {
     return Fetch("/user/admins/", {
       headers: {
-        "Accept": "application/json",
+        Accept: "application/json",
         "Content-Type": "application/json",
-        "token": localStorage.user.token,
-      },
+        token: localStorage.user.token
+      }
     });
   },
 
   getAllMem() {
-    const {list: memberList} = Fetch("/group/0/userList/", {
+    const { list: memberList } = Fetch("/group/0/userList/", {
       headers: {
-        "Accept": "application/json",
+        Accept: "application/json",
         "Content-Type": "application/json",
-        "token": localStorage.user.token
+        token: localStorage.user.token
       }
     });
 
@@ -222,12 +222,12 @@ const ManageService = {
   },
 
   getAllPro() {
-    const {list: proList} = fetch("/user/project/list/", {
+    const { list: proList } = fetch("/user/project/list/", {
       method: "GET",
       headers: {
-        "Accept": "application/json",
+        Accept: "application/json",
         "Content-Type": "application/json",
-        "token": localStorage.user.token,
+        token: localStorage.user.token
       }
     });
 
@@ -250,9 +250,9 @@ const ManageService = {
   getAllGroup() {
     const { groupList } = Fetch("/group/list/", {
       headers: {
-        "Accept": "application/json",
+        Accept: "application/json",
         "Content-Type": "application/json",
-        "token": localStorage.user.token,
+        token: localStorage.user.token
       }
     });
 
@@ -270,7 +270,7 @@ const ManageService = {
 
       return obj;
     });
-  },
+  }
 };
 
 export default ManageService;
