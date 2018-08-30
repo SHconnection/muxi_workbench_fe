@@ -4,6 +4,10 @@ import ReactSVG from "react-svg";
 import RectangleDown from "../../../assets/svg/commonIcon/rectangle_down.svg";
 import "./index.css";
 
+function changepic(e) {
+  console.log(e);
+}
+
 class Select extends Component {
   constructor(props) {
     super(props);
@@ -52,7 +56,7 @@ class Select extends Component {
                   key={el.id}
                   className={
                     index === checkedIndex
-                      ? "select-option-item-checked select-option-item"
+                      ? "select-option-item select-option-item-checked"
                       : "select-option-item"
                   }
                   onClick={() => {
@@ -62,6 +66,14 @@ class Select extends Component {
                   role="presentation"
                 >
                   {el.value}
+                  {el.type === "file" && (
+                    <input
+                      type="file"
+                      title="上传文件"
+                      id=""
+                      onChange={changepic}
+                    />
+                  )}
                 </div>
               ))}
             </div>
@@ -77,7 +89,8 @@ Select.propTypes = {
   items: PropTypes.arrayOf(
     PropTypes.shape({
       id: PropTypes.number,
-      value: PropTypes.string
+      value: PropTypes.string,
+      type: PropTypes.string
     })
   ),
   checkedIndex: PropTypes.number,

@@ -3,9 +3,9 @@
   "version": "0.1.0",
   "private": true,
   "proxy": {
-    "/api":  {
-        "target": "http://119.23.79.87:8000/",
-        "secure":false
+    "/api": {
+      "target": "http://119.23.79.87:8000/",
+      "secure": false
     }
   },
   "dependencies": {
