@@ -6,7 +6,6 @@ import React, { Component } from "react";
 import Member from "../components/member/member";
 import Delete from "../components/delete/delete";
 import Save from "../components/save/save";
-import Func from "../../../components/common/function/function";
 import ManageService from "../../../service/manage";
 import "../../../static/css/common.css";
 import "./set_personInfo.css";
@@ -36,7 +35,7 @@ class SetPersonalInfo extends Component {
   componentDidMount() {
     const { per } = this.props.match.params;
     const { identity, selIdentities } = this.state;
-    const arr = Func.getAllPro();
+    const arr = ManageService.getAllPro();
     const {list: proList} = ManageService.getPersonalPro();
 
     if(per.role === 3){

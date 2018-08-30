@@ -5,7 +5,6 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 import Member from "../member/member";
 import Save from "../save/save";
-import Func from "../../../../components/common/function/function";
 import ManageService from "../../../../service/manage";
 import "../../../../static/css/common.css";
 import "./select_member.css";
@@ -26,7 +25,7 @@ class SelectMember extends Component {
   }
 
   componentDidMount() {
-    const {groupMember} = this.props;
+    const {groupMember,setManager} = this.props;
     let preArray = [];
 
     if(groupMember){
@@ -35,10 +34,18 @@ class SelectMember extends Component {
 
       if (!Array.isArray(arr)) return false;
 
-      preArray = arr.map(mem=>mem.id);
+      preArray = arr.map(mem=>mem.userID);
     }
 
-    const arr = Func.getAllMem();
+    if(setManager){
+      const arr = ManageService.getAdminList();
+
+      if (!Array.isArray(arr)) return false;
+
+      preArray = arr.map(mem=>mem.userID);
+    }
+
+    const arr = ManageService.getAllMem();
 
     if (!Array.isArray(arr)) return false;
 

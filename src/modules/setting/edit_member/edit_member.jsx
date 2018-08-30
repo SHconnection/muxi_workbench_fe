@@ -5,7 +5,6 @@
 */
 import React, { Component } from "react";
 import FirstEditMember from "../../project/components/firstEdit_member/firstEdit_member";
-import Func from "../../../components/common/function/function";
 import ManageService from "../../../service/manage";
 import ProjectService from "../../../service/project";
 import "./edit_member.css";
@@ -26,7 +25,7 @@ class EditMember extends Component {
 
   componentDidMount() {
     const {proId} = this.props.match.params;
-    const arr = Func.getAllMem();
+    const arr = ManageService.getAllMem();
     const {list: proMember} = ManageService.getProMember(proId);
 
     if (!Array.isArray(proMember)) return false;

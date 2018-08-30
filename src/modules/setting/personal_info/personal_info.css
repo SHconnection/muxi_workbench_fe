@@ -41,6 +41,6 @@
     width: 60px;
     text-align: center;
 }
-.singleItem:active{
+.personalInfo-active{
     background-color: #ECF6FD;
 }

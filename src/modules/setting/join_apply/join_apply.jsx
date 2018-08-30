@@ -13,7 +13,6 @@ class JoinApply extends Component {
 
     this.state = {
       members: [],
-      selMembers: []
     };
 
     this.del = this.del.bind(this);
@@ -22,49 +21,53 @@ class JoinApply extends Component {
   }
 
   componentDidMount() {
-    const arr = [];
+    const joinList = ManageService.getJoinApply();
+
+    if (!Array.isArray(joinList)) return false;
+
+    const arr = joinList.map(item1=>{
+      const item = item1;
+      const obj = {};
+
+      obj.name = item.userName;
+      obj.id = item.userID;
+      obj.email = item.userEmail;
+      obj.dealed = false;
+
+      return obj;
+    })
 
     this.setState({ members: arr });
   }
 
   save(mem1) {
     const mem = mem1;
-    const { members: arr1, selMembers: arr2 } = this.state;
-    const index = arr2.indexOf(mem.id);
 
     mem.dealed = true;
 
-    if (index === -1) {
-      arr2.push(mem.id);
-      ManageService.addMember(mem.id);
-    }
+    ManageService.addMember(mem.id);
   }
 
   del(mem1) {
     const mem = mem1;
-    const { members: arr1, selMembers: arr2 } = this.state;
 
     mem.dealed = true;
 
-    this.setState({
-      members: arr1,
-      selMembers: arr2
-    });
+    ManageService.dealJoinApply(mem.id);
   }
 
   saveAll() {
     const { members: arr1 } = this.state;
-    const arr2 = [];
 
     arr1.map(mem1 => {
       const mem = mem1;
+
       mem.dealed = true;
-      const index = arr2.indexOf(mem.id);
-      if (index === -1) arr2.push(mem.id);
+      
+      ManageService.addMember(mem.id);
+
       return mem;
     });
-
-    
   }
 
   render() {
@@ -89,7 +92,7 @@ class JoinApply extends Component {
             return (
               <div className={mem.dealed ? "none" : "cell"} key={mem.id}>
                 <b>{mem.name}</b>
-                <span className="llSize pos">{mem.mailbox}</span>
+                <span className="llSize pos">{mem.email}</span>
                 <div className="litSel">
                   <span
                     role="button"

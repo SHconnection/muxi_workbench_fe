@@ -55,7 +55,7 @@ class Header extends Component {
                 动态
               </NavLink>
               <NavLink
-                to="/teamMember"
+                to="/member"
                 className="header-tab-item"
                 activeClassName="header-tab-item header-tab-item-active"
               >

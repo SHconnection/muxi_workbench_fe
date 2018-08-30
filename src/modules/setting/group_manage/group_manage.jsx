@@ -4,7 +4,6 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import Delete from "../components/delete/delete";
-import Func from "../../../components/common/function/function";
 import ManageService from "../../../service/manage";
 import "../../../static/css/common.css";
 import "./group_manage.css";
@@ -27,7 +26,7 @@ class GroupManage extends Component {
   }
 
   componentDidMount() {
-    const arr = Func.getAllGroup();
+    const arr = ManageService.getAllGroup();
 
     this.setState({ members: arr });
   }

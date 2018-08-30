@@ -4,7 +4,6 @@
 */
 import React, { Component } from "react";
 import Member from "../components/member/member";
-import Func from "../../../components/common/function/function";
 import ManageService from "../../../service/manage";
 import "../../../static/css/common.css";
 import "./member_group.css";
@@ -22,7 +21,7 @@ class MemberGroup extends Component {
   }
 
   componentDidMount() {
-    const arr = Func.getAllGroup();
+    const arr = ManageService.getAllGroup();
     const { group } = this.props.match.params.per;
 
     arr.map((item1, index)=>{

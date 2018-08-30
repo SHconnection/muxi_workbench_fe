@@ -8,6 +8,7 @@ import { Link } from "react-router-dom";
 import Delete from "../components/delete/delete";
 import ProjectSetFirst from "../../project/components/project_setFirst/project_setFirst";
 import ProjectService from "../../../service/project";
+import ManageService from "../../../service/manage";
 import "../../../static/css/common.css";
 import "./project_setting.css";
 
@@ -27,7 +28,7 @@ class SetProject extends Component {
   }
 
   componentDidMount() {
-    const proInfo = Func.getAllPro();
+    const proInfo = ManageService.getAllPro();
 
     this.setState({
       inputValue: proInfo.name,

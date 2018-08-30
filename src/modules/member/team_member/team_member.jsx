@@ -4,12 +4,9 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
-import Func from "../../components/common/function/function";
-import AddMember from "../setting/add_member/add_member";
-import ManageService from "../../service/manage";
-import GroupManage from "../setting/group_manage/group_manage";
-import PersonalInfo from "../setting/personal_info/personal_info";
-import "../../static/css/common.css";
+import ManageService from "../../../service/manage";
+import Avatar from "../../../assets/img/avatar.png";
+import "../../../static/css/common.css";
 import "./team_member.css";
 
 class TeamMember extends Component {
@@ -18,11 +15,11 @@ class TeamMember extends Component {
 		
 		this.state = {
 			members: [
-				{name: 'starrynight', id: 1, group: '前端组'},
-				{name: '木小犀', id: 2, group: '后端组'},
-				{name: 'sta', id: 3, group: '安卓组'},
-				{name: 'starry', id: 4, group: '设计组'},
-				{name: 'starryni', id: 5, group: '产品组'},
+				{name: 'starrynight', avatar: Avatar, email:'123456789@qq.com', id: 1, group: '前端组'},
+				{name: '木小犀', avatar: Avatar, email:'123456789@qq.com', id: 2, group: '后端组'},
+				{name: 'sta', avatar: Avatar, email:'123456789@qq.com', id: 3, group: '安卓组'},
+				{name: 'starry', avatar: Avatar, email:'123456789@qq.com', id: 4, group: '设计组'},
+				{name: 'starryni', avatar: Avatar, email:'123456789@qq.com', id: 5, group: '产品组'},
 			],
 			selectedID: 0,
 		}
@@ -31,13 +28,13 @@ class TeamMember extends Component {
   }
 
 //   componentDidMount(){
-// 		const arr = Func.getAllMem();
+		// const arr = ManageService.getAllMem();
 
 // 		this.setState({members: arr})
 //   }
 
   allMembers(){
-		//const arr = Func.getAllMem();
+		// const arr = ManageService.getAllMem();
 
 		this.setState({
 			//members: arr,
@@ -54,12 +51,8 @@ class TeamMember extends Component {
 	})
   }
 
-  static contextTypes = {
-	router: PropTypes.object.isRequired,
-}
-
   render() {
-		// const groupList = Func.getAllGroup();
+		// const groupList = ManageService.getAllGroup();
 		const groupList = [
 			{name: '前端组', id: 1, selected: false},
 			{name: '后端组', id: 2, selected: false},
@@ -99,12 +92,10 @@ class TeamMember extends Component {
 						let role = mem.role === 3 ? "管理员" : "";
 						if(role === 7)
 							role = "超级管理员";
-						
-						path = {pathname: `${match.url}/personalInfo`,state:{per: mem}}
 
 						return (
 							<div className="teamMember-singleList" key={mem.id}>
-								<Link to={path}><img src={mem.avatar} alt="" className="teamMember-imgSize"/></Link>
+								<Link to={`${match.url}/personalInfo`} onClick={()=>{localStorage.per = JSON.stringify(mem)}}><img src={mem.avatar} alt="" className="teamMember-imgSize"/></Link>
 								<div className="teamMember-personalIntro">
 									<b>{mem.name}</b><span className="">{role}</span>
 									<div className="teamMember-littleGroup">{mem.group}</div>
@@ -116,7 +107,6 @@ class TeamMember extends Component {
 				}
     	</div>
 		)
-		this.context.router.history.push(path)
   }
 }
 

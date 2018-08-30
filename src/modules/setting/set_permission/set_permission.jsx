@@ -5,7 +5,6 @@
 import React, { Component } from "react";
 import Member from "../components/member/member";
 import Save from "../components/save/save";
-import Func from "../../../components/common/function/function";
 import ManageService from "../../../service/manage";
 import "../../../static/css/common.css";
 import "./set_permission.css";
@@ -26,7 +25,7 @@ class SetPermission extends Component {
 
   componentDidMount() {
     const {list: proList} = ManageService.getPersonalPro();
-    const arr = Func.getAllPro();
+    const arr = ManageService.getAllPro();
 
     if (!Array.isArray(proList)) return false;
 

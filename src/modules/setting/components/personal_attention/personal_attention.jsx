@@ -22,20 +22,19 @@ class PersonalAttention extends Component {
     this.del = this.del.bind(this);
   }
 
-  componentDidMount() {
-    const { userID } = this.props.match.params;
-    const arr = MessageService.getPersonalAttention();
+  // componentDidMount() {
+  //   const arr = MessageService.getPersonalAttention();
 
-    arr.map((item1, index)=>{
-      const item = item1;
-      item.id = index;
-      item.dealed = false;
+  //   arr.map((item1, index)=>{
+  //     const item = item1;
+  //     item.id = index;
+  //     item.dealed = false;
 
-      return item;
-    })
+  //     return item;
+  //   })
 
-    this.setState({ members: arr });
-  }
+  //   this.setState({ members: arr });
+  // }
 
   del(data) {
     this.setState({
