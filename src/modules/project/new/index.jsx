@@ -136,6 +136,7 @@ class NewProject extends Component {
   }
 
   createProject() {
+    const { selMembers } = this.state;
     // Func.selAll()
     ProjectService.createProject({
       username: "test",

@@ -9,6 +9,7 @@
   删除进度staDel: false, 参数staId
   删除组groupDel:false, 参数data.id
   删除成员memDel:false, 参数userId
+  删除个人关注attentionDel: false, 
 更新父组件数据transferMsg
 */
 import React, { Component } from "react";
@@ -27,7 +28,18 @@ class Delete extends Component {
   }
 
   move() {
-    const { del, data, proDel, proId, staDel, staId, transferMsg, groupDel, groupId, memDel, userId } = this.props;
+    const {
+      del,
+      data,
+      proDel,
+      proId,
+      staDel,
+      staId,
+      transferMsg,
+      groupDel,
+      memDel,
+      userId
+    } = this.props;
 
     if (del) {
       data.dealed = true;
@@ -35,7 +47,7 @@ class Delete extends Component {
       transferMsg(data);
     }
 
-    if(groupDel){
+    if (groupDel) {
       ManageService.groupDelete(data.id);
     }
 
@@ -47,9 +59,13 @@ class Delete extends Component {
       StatusService.statusDelete(staId);
     }
 
-    if(memDel) {
+    if (memDel) {
       ManageService.memberDelete(userId);
     }
+
+    // if(attentionDel){
+    //   MessageService.attentionDel();
+    // }
   }
 
   render() {
@@ -103,7 +119,6 @@ Delete.propTypes = {
   staDel: PropTypes.bool,
   staId: PropTypes.number,
   groupDel: PropTypes.bool,
-  groupId: PropTypes.number,
   memDel: PropTypes.bool,
   userId: PropTypes.number,
   transferMsg: PropTypes.func
@@ -122,7 +137,6 @@ Delete.defaultProps = {
   staDel: false,
   staId: 0,
   groupDel: false,
-  groupId: 0,
   memDel: false,
   userId: 0,
   transferMsg: () => {}
