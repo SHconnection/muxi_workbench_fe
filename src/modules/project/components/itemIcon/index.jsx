@@ -15,7 +15,7 @@ const Icons = [Icon1, Icon2, Icon3, Icon4, Icon5, Icon6];
 function Item(props) {
   const { index, name, id } = props;
   return (
-    <Link className="project-item-container" to={`/project/detail?pid=${id}`}>
+    <Link className="project-item-container" to={`./project/${id}/preview`}>
       <ReactSVG className="project-item-img" path={Icons[index]} />
       <div className="project-item-text">{name}</div>
     </Link>

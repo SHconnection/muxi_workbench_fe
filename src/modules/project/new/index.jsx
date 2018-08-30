@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-// import GoBack from "../../../components/common/goBack/index";
 // import Mem from "../../../components/setting/member/member";
 import Member from "../../setting/components/member/member";
 import Button from "../../../components/common/button/index";
@@ -91,7 +90,8 @@ class NewProject extends Component {
 
   transferMsgMem(arr1) {
     this.setState({
-      members: arr1
+      members: arr1,
+      selectedAll: false
     });
   }
 
@@ -136,6 +136,7 @@ class NewProject extends Component {
   }
 
   createProject() {
+    const { selMembers } = this.state;
     // Func.selAll()
     ProjectService.createProject({
       username: "test",
@@ -180,7 +181,7 @@ class NewProject extends Component {
             placeholder="简单描述项目，便于他人了解（选填）"
           />
           <div className="newProject-member">
-            <div className="title">选择项目成员</div>
+            <div className="title littleSize">选择项目成员</div>
             <div className="newProject-member-option">
               <div className="tip">选择你要设置的成员</div>
               <div className="newProject-member-tip-right">

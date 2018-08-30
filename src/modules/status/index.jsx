@@ -1,18 +1,17 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { Route } from "react-router-dom";
-import Index from "./index/index";
-import NewProject from "./new/index";
-import ProjectDetail from "./detail/index";
-import "../../static/css/common.css";
+import Index from "./progress/progress";
+import detail from "./details/detail";
+import Edit from "./markdown/edit";
 
 const Project = props => {
   const { match } = props;
   return (
-    <div className="subject">
+    <div>
       <Route exact path={match.url} component={Index} />
-      <Route path={`${match.url}/new`} component={NewProject} />
-      <Route path={`${match.url}/:id/preview`} component={ProjectDetail} />
+      <Route exact path={`${match.url}/:id`} component={detail} />
+      <Route path={`${match.url}/:id/reEdit`} component={Edit} />
     </div>
   );
 };
