@@ -3,7 +3,7 @@
 */
 import React, { Component } from "react";
 import "../../../static/css/common.css";
-import "./add_member.css";
+import "./addMember.css";
 
 class AddMem extends Component {
   constructor(props) {

@@ -7,7 +7,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import Member from "../../../setting/components/member/member";
 import "../../../../static/css/common.css";
-import "./firstEdit_member.css";
+import "./firstEditMember.css";
 
 const FirstEditMember = ({ selAll, transferMsg, members, selMembers }) => (
   <div>

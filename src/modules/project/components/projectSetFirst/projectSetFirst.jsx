@@ -5,7 +5,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import "../../../../static/css/common.css";
-import "./project_setFirst.css";
+import "./projectSetFirst.css";
 
 const ProjectSetFirst = ({
   inputValue,

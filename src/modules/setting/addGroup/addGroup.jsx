@@ -4,9 +4,9 @@
 接收项目信息参数
 */
 import React, { Component } from "react";
-import SelectMember from "../components/select_member/select_member";
+import SelectMember from "../components/selectMember/selectMember";
 import "../../../static/css/common.css";
-import "./add_group.css";
+import "./addGroup.css";
 
 class AddGroup extends Component {
   constructor(props) {
