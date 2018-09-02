@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
 import Icon from "../../../../components/common/icon/index";
 import Select from "../../../../components/common/select/index";
-import FileIcon from "../../components/fileIcon/index"
+import FileIcon from "../../components/fileIcon/index";
 import "./index.css";
 import "../../../../static/css/common.css";
 
@@ -14,16 +14,25 @@ class ProjectDetailIndex extends Component {
       pid: null,
       projectInfo: {
         name: "项目名称",
-        intro: '这是简介这是简介这是简介',
-        userCount: 58,
+        intro: "这是简介这是简介这是简介",
+        userCount: 58
       },
       fileOption: [
         {
           id: 0,
-          value: "上传文件"
+          value: "上传文件",
+          type: "file"
         },
         {
           id: 1,
+          value: "创建文件夹"
+        },
+        {
+          id: 2,
+          value: "创建文件夹"
+        },
+        {
+          id: 3,
           value: "创建文件夹"
         }
       ],
@@ -92,14 +101,14 @@ class ProjectDetailIndex extends Component {
   }
 
   componentWillMount() {
-    const { match } = this.props
+    const { match } = this.props;
     this.setState({
       pid: match.params.id
-    })
+    });
   }
 
   render() {
-    const { projectInfo,fileOption, folderList, pid } = this.state;
+    const { projectInfo, fileOption, folderList, pid } = this.state;
     return (
       <div className="projectDetail-content">
         <div className="projectDetail-header">
@@ -109,7 +118,11 @@ class ProjectDetailIndex extends Component {
           </div>
           <div className="projectDetail-header-right">
             <div className="projectDetail-header-icon-container">
-              <Icon text={`${projectInfo.userCount}`} tip="成员" url="/member" />
+              <Icon
+                text={`${projectInfo.userCount}`}
+                tip="成员"
+                url="/member"
+              />
             </div>
             <div className="projectDetail-header-icon-container">
               <Icon type="trash" tip="回收站" to="/trash" />
@@ -123,17 +136,15 @@ class ProjectDetailIndex extends Component {
           <div className="peojectDetail-file-header">
             <div className="title littleSize">文件</div>
             <div className="projectDetail-file-select">
-              <Select items={fileOption}  />
+              <Select items={fileOption} />
             </div>
           </div>
           <div className="projectDetail-file-items">
-            {folderList.fList.map(el => 
-              (
-                <div className="file-item" key={el.id}>
-                  <FileIcon name={el.name} id={el.id} pid={pid} kind={el.kind} />
-                </div>
-              )
-            )}
+            {folderList.fList.map(el => (
+              <div className="file-item" key={el.id}>
+                <FileIcon name={el.name} id={el.id} pid={pid} kind={el.kind} />
+              </div>
+            ))}
           </div>
           <div className="projectDetail-file-footer">
             <Link to={`/project/${pid}/allFile`} className="fakeBtn">
@@ -142,7 +153,7 @@ class ProjectDetailIndex extends Component {
           </div>
         </div>
       </div>
-    )
+    );
   }
 }
 
