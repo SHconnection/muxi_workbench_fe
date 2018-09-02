@@ -9,6 +9,20 @@ const MessageService = {
                 "token": localStorage.user.token
             },
         })
+    },
+
+    attentionDel(filename){
+        return Fetch('/user/attention/',{
+            methods: "DELETE",
+            headers: {
+                "Accept": "application/json",
+                "Content-Type": "application/json",
+                "token": localStorage.user.token
+            },
+            body: JSON.stringify({
+                "fileName": filename
+            })
+        })
     }
 }
 
