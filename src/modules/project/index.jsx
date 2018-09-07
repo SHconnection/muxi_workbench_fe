@@ -4,6 +4,7 @@ import { Route } from "react-router-dom";
 import Index from "./index/index";
 import NewProject from "./new/index";
 import ProjectDetail from "./detail/index";
+import ProjectDetailAllFile from './detail/allFile/index'
 import "../../static/css/common.css";
 
 const Project = props => {
@@ -13,6 +14,7 @@ const Project = props => {
       <Route exact path={match.url} component={Index} />
       <Route path={`${match.url}/new`} component={NewProject} />
       <Route path={`${match.url}/:id/preview`} component={ProjectDetail} />
+      <Route path={`${match.url}/:id/allFile`} component={ProjectDetailAllFile} />
     </div>
   );
 };

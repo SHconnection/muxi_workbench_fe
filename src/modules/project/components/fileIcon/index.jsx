@@ -61,7 +61,7 @@ class FileIcon extends Component {
     const { hover } = this.state
     const suffix = name.split('.')[1] || "folder";
     return (
-      <div className="fileIcon-container" onMouseEnter={this.enter.bind(this)}>
+      <div className="fileIcon-container" onMouseEnter={this.enter.bind(this)} onMouseLeave={this.leave.bind(this)}>
         <Link className="fileIcon-content" to={`/project/${pid}/file/${id}`}>
           <ReactSVG className="fileIcon-img" path={IconMap[suffix]} />
           <div className="fileIcon-text">{name}</div>

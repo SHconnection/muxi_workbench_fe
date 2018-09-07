@@ -4,10 +4,6 @@ import ReactSVG from "react-svg";
 import RectangleDown from "../../../assets/svg/commonIcon/rectangle_down.svg";
 import "./index.css";
 
-function changepic(e) {
-  console.log(e);
-}
-
 class Select extends Component {
   constructor(props) {
     super(props);
@@ -16,6 +12,8 @@ class Select extends Component {
     };
     this.showOption = this.showOption.bind(this);
     this.chooseOption = this.chooseOption.bind(this);
+    this.chooseFile = this.chooseFile.bind(this);
+    this.myRef = React.createRef();
   }
 
   showOption() {
@@ -25,7 +23,26 @@ class Select extends Component {
     });
   }
 
-  chooseOption(index) {
+  chooseFile(event) {
+    // console.log(this.myRef.current.files[0])
+    const { showInput } = this.state;
+    const file = event.target.files[0];
+    const reader = new FileReader();
+    if (file) {
+      reader.readAsDataURL(file);
+    }
+    reader.onload = (e) => {
+      console.log(e.target.result)
+    };
+    this.setState({
+      showInput: !showInput
+    });
+  }
+
+  chooseOption(index, type) {
+    if (type === 'file') {
+      return
+    }
     const { showInput } = this.state;
     const { onChange } = this.props;
     onChange(index);
@@ -60,7 +77,7 @@ class Select extends Component {
                       : "select-option-item"
                   }
                   onClick={() => {
-                    this.chooseOption(index);
+                    this.chooseOption(index, el.type);
                   }}
                   onKeyDown={() => {}}
                   role="presentation"
@@ -71,7 +88,8 @@ class Select extends Component {
                       type="file"
                       title="上传文件"
                       id=""
-                      onChange={changepic}
+                      ref={this.myRef}
+                      onChange={this.chooseFile}
                     />
                   )}
                 </div>

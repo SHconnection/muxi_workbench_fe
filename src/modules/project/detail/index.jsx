@@ -2,7 +2,8 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { Route } from "react-router-dom";
 import GoBack from "../../../components/common/goBack/index";
-import ProjectDetailIndex from "./index/index"
+import ProjectDetailIndex from "./index/index";
+import ProjectDetailAllFile from './allFile/index';
 // import Icon from "../../../components/common/icon/index";
 // import Select from "../../../components/common/select/index"
 // import FileIcon from "../components/fileIcon/index"
@@ -19,11 +20,11 @@ class ProjectDetail extends Component {
 
   render() {
     // const { projectInfo,fileOption,folderList } = this.state;
-    const { match } = this.props
+    // const { match } = this.props
     return (
       <div className="projectDetail-container">
         <GoBack />
-        <Route exact path="/project/:id/preview" component={ProjectDetailIndex} />
+        <Route path="/project/:id/preview" component={ProjectDetailIndex} />
         {/* <Route exact path={match.url} render={(props) => <ProjectDetailIndex id={match.params.id} {...props} />} /> */}
         {/* <div className="projectDetail-content">
           <div className="projectDetail-header">
