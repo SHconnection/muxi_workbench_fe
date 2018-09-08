@@ -9,7 +9,7 @@
   删除进度staDel: false, 参数staId
   删除组groupDel:false, 参数data.id
   删除成员memDel:false, 参数userId
-  删除个人关注attentionDel: false, 
+  删除个人关注attentionDel: false, 参数data.filename
 更新父组件数据transferMsg
 */
 import React, { Component } from "react";
@@ -17,6 +17,7 @@ import PropTypes from "prop-types";
 import ProjectService from "../../../../service/project";
 import ManageService from "../../../../service/manage";
 import StatusService from "../../../../service/status";
+import MessageService from "../../../../service/message";
 import "../../../../static/css/common.css";
 import "./delete.css";
 
@@ -38,7 +39,8 @@ class Delete extends Component {
       transferMsg,
       groupDel,
       memDel,
-      userId
+      userId,
+      attentionDel,
     } = this.props;
 
     if (del) {
@@ -63,9 +65,9 @@ class Delete extends Component {
       ManageService.memberDelete(userId);
     }
 
-    // if(attentionDel){
-    //   MessageService.attentionDel();
-    // }
+    if(attentionDel){
+      MessageService.attentionDel(data.filename);
+    }
   }
 
   render() {
@@ -112,7 +114,9 @@ Delete.propTypes = {
   deleteX: PropTypes.bool,
   del: PropTypes.bool,
   data: PropTypes.shape({
-    dealed: PropTypes.bool
+    dealed: PropTypes.bool,
+    filename: PropTypes.string,
+    id: PropTypes.number,
   }),
   proDel: PropTypes.bool,
   proId: PropTypes.number,
@@ -121,6 +125,7 @@ Delete.propTypes = {
   groupDel: PropTypes.bool,
   memDel: PropTypes.bool,
   userId: PropTypes.number,
+  attentionDel: PropTypes.bool,
   transferMsg: PropTypes.func
 };
 
@@ -129,9 +134,7 @@ Delete.defaultProps = {
   cancel: false,
   deleteX: false,
   del: false,
-  data: {
-    dealed: false
-  },
+  data: {},
   proDel: false,
   proId: 0,
   staDel: false,
@@ -139,5 +142,6 @@ Delete.defaultProps = {
   groupDel: false,
   memDel: false,
   userId: 0,
+  attentionDel: false,
   transferMsg: () => {}
 };

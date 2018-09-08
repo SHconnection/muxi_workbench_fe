@@ -21,6 +21,7 @@
     "prosemirror-view": "^1.4.4",
     "rc-time-picker": "^3.4.0",
     "react": "^16.4.1",
+    "react-beautiful-dnd": "^9.0.2",
     "react-dom": "^16.4.1",
     "react-native-pull": "^2.0.2",
     "react-prosemirror": "^0.2.1",
