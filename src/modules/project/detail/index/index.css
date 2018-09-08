@@ -16,6 +16,13 @@
 .projectDetail-header-left {
   display: -webkit-flex; /* Safari */
   display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.projectDetail-header-intro {
+  display: -webkit-flex; /* Safari */
+  display: flex;
   flex-direction: column;
 }
 
@@ -23,6 +30,8 @@
   display: -webkit-flex; /* Safari */
   display: flex;
   flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .projectDetail-header-icon-container {

@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import { Route } from "react-router-dom";
 import GoBack from "../../../components/common/goBack/index";
 import ProjectDetailIndex from "./index/index";
-import ProjectDetailAllFile from './allFile/index';
+// import ProjectDetailAllFile from "./allFile/index";
 // import Icon from "../../../components/common/icon/index";
 // import Select from "../../../components/common/select/index"
 // import FileIcon from "../components/fileIcon/index"
@@ -13,9 +13,7 @@ import "../../../static/css/common.css";
 class ProjectDetail extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      
-    };
+    this.state = {};
   }
 
   render() {
@@ -55,7 +53,7 @@ class ProjectDetail extends Component {
           </div>
         </div> */}
       </div>
-    )
+    );
   }
 }
 

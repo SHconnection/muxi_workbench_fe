@@ -1,0 +1,57 @@
+.projectDetail-allFile-header {
+  margin-top: -6px;
+}
+
+.projectDetail-header-left-select {
+  margin-left: 25px;
+}
+
+.projectDetail-allFile-header-right {
+  width: 170px;
+}
+
+.peojectDetail-allFile-items {
+  margin-top: 44px;
+}
+
+.projectDetail-allFile-list {
+  display: -webkit-flex;
+  display: flex;
+  flex-direction: column;
+  margin-top: 44px;
+}
+
+.projectDetail-allFile-list-title {
+  display: -webkit-flex;
+  display: flex;
+  flex-direction: row;
+}
+
+.projectDetail-allFile-list-title > div {
+  font-size: 20px;
+  color: rgba(0, 0, 0, 0.65);
+  font-weight: bold;
+}
+
+.projectDetail-allFile-list-name {
+  min-width: 80px;
+  text-align: center;
+}
+
+.projectDetail-allFile-list-uploader {
+  margin-left: 150px;
+  min-width: 60px;
+  text-align: center;
+}
+
+.projectDetail-allFile-list-time {
+  margin-left: 60px;
+  min-width: 80px;
+  text-align: center;
+}
+
+.projectDetail-allFile-list-url {
+  margin-left: 60px;
+  min-width: 106px;
+  text-align: center;
+}

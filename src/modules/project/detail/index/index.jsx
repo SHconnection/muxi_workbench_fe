@@ -26,14 +26,6 @@ class ProjectDetailIndex extends Component {
         {
           id: 1,
           value: "创建文件夹"
-        },
-        {
-          id: 2,
-          value: "创建文件夹"
-        },
-        {
-          id: 3,
-          value: "创建文件夹"
         }
       ],
       folderList: {
@@ -113,8 +105,10 @@ class ProjectDetailIndex extends Component {
       <div className="projectDetail-content">
         <div className="projectDetail-header">
           <div className="projectDetail-header-left">
-            <div className="title">{projectInfo.name}</div>
-            <div className="tip">{projectInfo.intro}</div>
+            <div className="projectDetail-header-intro">
+              <div className="title">{projectInfo.name}</div>
+              <div className="tip">{projectInfo.intro}</div>
+            </div>
           </div>
           <div className="projectDetail-header-right">
             <div className="projectDetail-header-icon-container">

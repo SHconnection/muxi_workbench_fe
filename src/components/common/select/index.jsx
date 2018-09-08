@@ -31,8 +31,8 @@ class Select extends Component {
     if (file) {
       reader.readAsDataURL(file);
     }
-    reader.onload = (e) => {
-      console.log(e.target.result)
+    reader.onload = e => {
+      console.log(e.target.result);
     };
     this.setState({
       showInput: !showInput
@@ -40,8 +40,8 @@ class Select extends Component {
   }
 
   chooseOption(index, type) {
-    if (type === 'file') {
-      return
+    if (type === "file") {
+      return;
     }
     const { showInput } = this.state;
     const { onChange } = this.props;
@@ -86,7 +86,6 @@ class Select extends Component {
                   {el.type === "file" && (
                     <input
                       type="file"
-                      title="上传文件"
                       id=""
                       ref={this.myRef}
                       onChange={this.chooseFile}

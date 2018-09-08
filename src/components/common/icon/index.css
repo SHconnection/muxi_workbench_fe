@@ -8,6 +8,10 @@
   cursor: pointer;
 }
 
+.component-icon-single {
+  cursor: pointer;
+}
+
 .component-icon-svg {
   width: 20px;
   height: 20px;
