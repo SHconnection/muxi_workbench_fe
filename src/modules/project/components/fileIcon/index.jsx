@@ -56,6 +56,16 @@ class FileIcon extends Component {
     })
   }
 
+  deleteFile() {
+    const { id, deleteFile } = this.props
+    deleteFile(id)
+  }
+
+  moveFile() {
+    const { id, moveFile } = this.props
+    moveFile(id)
+  }
+
   render() {
     const { name, id, pid, kind } = this.props;
     const { hover } = this.state
@@ -70,8 +80,8 @@ class FileIcon extends Component {
           (
             <div className="fileIcon-footer" onMouseLeave={this.leave.bind(this)}>
               {(kind === 1) && (<div>下载</div>) }
-              <div>移动</div>
-              <div>删除</div>
+              <div onClick={this.moveFile.bind(this)} onKeyDown={() => {}} role="presentation">移动</div>
+              <div onClick={this.deleteFile.bind(this)} onKeyDown={() => {}} role="presentation">删除</div>
             </div>
           )
         }
@@ -91,14 +101,18 @@ FileIcon.propTypes = {
   pid: PropTypes.oneOfType([
     PropTypes.string,
     PropTypes.number
-  ])
+  ]),
+  moveFile: PropTypes.func,
+  deleteFile: PropTypes.func
 };
 
 FileIcon.defaultProps = {
   name: "",
   kind: 0,
   id: "",
-  pid: ""
+  pid: "",
+  moveFile: () => {},
+  deleteFile: () => {}
 };
 
 export default FileIcon

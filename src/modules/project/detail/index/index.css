@@ -72,3 +72,66 @@
   align-items: center;
   justify-content: center;
 }
+
+.create-file-alert-icon {
+  position: absolute;
+  top: 58px;
+  left: 165px;
+}
+
+input[type="text"].create-file-alert-input{
+  border-radius: 0;
+  padding: 0;
+}
+
+.create-file-alert-input {
+  position: absolute;
+  left: 114px;
+  top: 153px;
+  width: 175px;
+  height: 24px;
+  text-align: center;
+  outline: none;
+  border: 0px;
+  background: none;
+  border-bottom: 1px solid RGBA(151, 151, 151, 1);
+  border-radius: 0;
+  padding: 0;
+}
+
+.create-file-alert-cancel {
+  position: absolute;
+  top: 210px;
+  left: 112px;
+}
+
+.create-file-alert-done {
+  position: absolute;
+  top: 210px;
+  left: 225px;
+}
+
+.delete-file-alert-tip {
+  position: absolute;
+  top: 63px;
+  left: 139px;
+  width: 161px;
+  height: 24px;
+  font-size: 16px;
+  font-family: MicrosoftYaHei;
+  color: rgba(64,64,64,1);
+  line-height: 24px;
+}
+
+.delete-file-alert-cancel {
+  position: absolute;
+  top: 136px;
+  left: 128px;
+}
+
+.delete-file-alert-done {
+  position: absolute;
+  top: 136px;
+  left: 241px;
+}
+

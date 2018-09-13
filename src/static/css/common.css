@@ -172,3 +172,31 @@ input[type="checkbox"]:checked + label::after {
   top: -2px;
   left: 4px;
 }
+.createFileAlert {
+  width: 405px;
+  height: 262px;
+  border-radius: 4px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  background-color: RGBA(255, 255, 255, 1);
+  position: fixed;
+  margin:auto; 
+  left:0;
+  right:0;
+  top:0;
+  bottom:0;
+  z-index: 9;
+}
+.deleteFileAlert {
+  width: 437px;
+  height: 192px;
+  border-radius: 4px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  background-color: RGBA(255, 255, 255, 1);
+  position: fixed;
+  margin:auto; 
+  left:0;
+  right:0;
+  top:0;
+  bottom:0;
+  z-index: 9;
+}

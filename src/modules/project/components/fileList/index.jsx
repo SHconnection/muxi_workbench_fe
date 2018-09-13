@@ -15,8 +15,8 @@ function FileList(props) {
       <div className="project-fileList-right">
         <div onClick={() => {downloadFile(item.id)}} onKeyDown={() => {}} role="presentation">下载</div>
         <div onClick={() => {deleteFile(item.id)}} onKeyDown={() => {}} role="presentation">删除</div>
-        <div>移动</div>
-        <div>置顶</div>
+        <div onClick={() => {moveFile(item.id)}} onKeyDown={() => {}} role="presentation">移动</div>
+        <div onClick={() => {fileToTop(item.id)}} onKeyDown={() => {}} role="presentation">置顶</div>
       </div>
     </div>
   )
@@ -32,6 +32,8 @@ FileList.propTypes = {
   }),
   downloadFile: PropTypes.func,
   deleteFile: PropTypes.func,
+  moveFile: PropTypes.func,
+  fileToTop: PropTypes.func
 }
 
 FileList.defaultProps = {
@@ -43,7 +45,9 @@ FileList.defaultProps = {
     url: ""
   },
   downloadFile: () => {},
-  deleteFile: () => {}
+  deleteFile: () => {},
+  moveFile: () => {},
+  fileToTop: () => {}
 }
 
 export default FileList;

@@ -32,8 +32,10 @@ class Select extends Component {
       reader.readAsDataURL(file);
     }
     reader.onload = e => {
-      console.log(e.target.result);
+      // console.log(e.target.result);
     };
+    const { onChange } = this.props;
+    onChange(file);
     this.setState({
       showInput: !showInput
     });

@@ -2,12 +2,14 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
 import { Route } from "react-router-dom";
+import ReactSVG from "react-svg";
 import GoBack from "../../../../components/common/goBack/index";
 import Icon from "../../../../components/common/icon/index";
 import Button from "../../../../components/common/button/index";
 import Select from "../../../../components/common/select/index";
 import FileIcon from "../../components/fileIcon/index";
 import FileList from "../../components/fileList/index";
+import CreateFileAlertIcon from "../../../../assets/svg/commonIcon/editFileAlert.svg";
 import "./index.css";
 import "../../../../static/css/common.css";
 
@@ -17,6 +19,8 @@ class ProjectDetailAllFile extends Component {
     this.state = {
       pid: null,
       itemLayOut: true, 
+      showCreateFile: false,
+      showDleteFile: false,
       fileOption: [
         {
           id: 0,
@@ -110,6 +114,10 @@ class ProjectDetailAllFile extends Component {
     };
     this.changeLayoutToItem = this.changeLayoutToItem.bind(this)
     this.changeLayoutToList = this.changeLayoutToList.bind(this)
+    this.startCreateFile = this.startCreateFile.bind(this)
+    this.cancelCreateFile = this.cancelCreateFile.bind(this)
+    this.startDeleteFile = this.startDeleteFile.bind(this)
+    this.cancelDeleteFile = this.cancelDeleteFile.bind(this)
   }
 
   componentWillMount() {
@@ -117,6 +125,23 @@ class ProjectDetailAllFile extends Component {
     this.setState({
       pid: match.params.id
     });
+  }
+
+  startCreateFile(index) {
+    const { showCreateFile } = this.state
+    console.log(index);
+    if (index === 1) {
+      this.setState({
+        showCreateFile: !showCreateFile,
+        showDleteFile: false
+      })
+    }
+  }
+
+  cancelCreateFile() {
+    this.setState({
+      showCreateFile: false,
+    })
   }
 
   changeLayoutToItem() {
@@ -131,8 +156,21 @@ class ProjectDetailAllFile extends Component {
     })
   }
 
+  startDeleteFile(id) {
+    console.log(id);
+    this.setState({
+      showDleteFile: true
+    })
+  }
+
+  cancelDeleteFile() {
+    this.setState({
+      showDleteFile: false
+    })
+  }
+
   render() {
-    const { pid, fileOption, itemLayOut, folderList } = this.state;
+    const { pid, fileOption, itemLayOut, folderList, showCreateFile, showDleteFile } = this.state;
     return (
       <div className="projectDetail-container">
         <GoBack />
@@ -141,7 +179,7 @@ class ProjectDetailAllFile extends Component {
             <div className="projectDetail-header-left">
               <div className="title">所有文件</div>
               <div className="projectDetail-header-left-select">
-                <Select items={fileOption} />
+                <Select items={fileOption} onChange={this.startCreateFile} />
               </div>
             </div>
             <div className="projectDetail-header-right projectDetail-allFile-header-right">
@@ -161,7 +199,7 @@ class ProjectDetailAllFile extends Component {
               <div className="projectDetail-file-items peojectDetail-allFile-items">
                 {folderList.fList.map(el => (
                   <div className="file-item" key={el.id}>
-                    <FileIcon name={el.name} id={el.id} pid={pid} kind={el.kind} />
+                    <FileIcon name={el.name} id={el.id} pid={pid} kind={el.kind} deleteFile={this.startDeleteFile} />
                   </div>
                 ))}
               </div>
@@ -176,7 +214,7 @@ class ProjectDetailAllFile extends Component {
                 {
                   folderList.fList.map(el => (
                     <div key={el.id}>
-                      <FileList item={el} downloadFile={id => {console.log(id)}} />
+                      <FileList item={el} downloadFile={id => {console.log(id)}} deleteFile={id => {this.startDeleteFile(id)}} />
                     </div>
                   ))
                 }
@@ -184,6 +222,35 @@ class ProjectDetailAllFile extends Component {
             )
           }
         </div>
+        {
+          showCreateFile && (
+            <div className="createFileAlert">
+              <ReactSVG className="create-file-alert-icon" path={CreateFileAlertIcon} />
+              <input className="create-file-alert-input" type="text" placeholder="编辑文件夹名" />
+              <div className="create-file-alert-cancel">
+                <Button onClick={this.cancelCreateFile} text="取消" width="65" height="32" border="1px solid RGBA(217, 217, 217, 1)" bgColor="RGBA(255, 255, 255, 1)" textColor="RGBA(64, 64, 64, 1)" fontSize="14" />
+              </div>
+              <div className="create-file-alert-done">
+                <Button onClick={() => {}} text="确定" width="65" height="32" fontSize="14" />
+              </div>
+            </div>
+          )
+        }
+        {
+          showDleteFile && (
+            <div className="deleteFileAlert">
+              <div className="delete-file-alert-tip">
+                确认要删除该文件吗
+              </div>
+              <div className="delete-file-alert-cancel">
+                <Button onClick={this.cancelDeleteFile} text="取消" width="65" height="32" border="1px solid RGBA(217, 217, 217, 1)" bgColor="RGBA(255, 255, 255, 1)" textColor="RGBA(64, 64, 64, 1)" fontSize="14" />
+              </div>
+              <div className="delete-file-alert-done">
+                <Button onClick={() => {}} text="确定" width="65" height="32" fontSize="14" />
+              </div>
+            </div>
+          )
+        }
       </div>
     );
   }
