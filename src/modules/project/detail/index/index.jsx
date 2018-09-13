@@ -2,11 +2,14 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
 import ReactSVG from "react-svg";
+import { Scrollbars } from 'react-custom-scrollbars';
 import Icon from "../../../../components/common/icon/index";
+import FileTreeComponent from "../../components/fileTree/index";
+import FileTree from "../../fileTree"
 import Button from "../../../../components/common/button/index"
 import Select from "../../../../components/common/select/index";
 import FileIcon from "../../components/fileIcon/index";
-import CreateFileAlertIcon from "../../../../assets/svg/commonIcon/editFileAlert.svg"
+import CreateFileAlertIcon from "../../../../assets/svg/commonIcon/editFileAlert.svg";
 import "./index.css";
 import "../../../../static/css/common.css";
 
@@ -17,6 +20,23 @@ class ProjectDetailIndex extends Component {
       pid: null,
       showCreateFile: false,
       showDleteFile: false,
+      showMoveFile: false,
+      fileTree: [
+        {
+          id: 0,
+          title: "全部文件",
+          child: {
+            files: 
+            [
+              {
+                id: 1,
+                name: ""
+              }
+            ]
+
+          }
+        }
+      ],
       projectInfo: {
         name: "项目名称",
         intro: "这是简介这是简介这是简介",
@@ -100,6 +120,7 @@ class ProjectDetailIndex extends Component {
     this.moveFile = this.moveFile.bind(this)
     this.startDeleteFile = this.startDeleteFile.bind(this)
     this.cancelDeleteFile = this.cancelDeleteFile.bind(this)
+    this.cancelMoveFile = this.cancelMoveFile.bind(this)
   }
 
   componentWillMount() {
@@ -127,7 +148,9 @@ class ProjectDetailIndex extends Component {
   }
 
   moveFile(id) {
-    console.log(id);
+    this.setState({
+      showMoveFile: true
+    })
   }
 
   startDeleteFile(id) {
@@ -143,8 +166,14 @@ class ProjectDetailIndex extends Component {
     })
   }
 
+  cancelMoveFile() {
+    this.setState({
+      showMoveFile: false
+    })
+  }
+
   render() {
-    const { projectInfo, fileOption, folderList, pid, showCreateFile, showDleteFile } = this.state;
+    const { projectInfo, fileOption, folderList, pid, showCreateFile, showDleteFile, showMoveFile, fileTree } = this.state;
     return (
       <div className="projectDetail-content">
         <div className="projectDetail-header">
@@ -214,6 +243,24 @@ class ProjectDetailIndex extends Component {
                 <Button onClick={this.cancelDeleteFile} text="取消" width="65" height="32" border="1px solid RGBA(217, 217, 217, 1)" bgColor="RGBA(255, 255, 255, 1)" textColor="RGBA(64, 64, 64, 1)" fontSize="14" />
               </div>
               <div className="delete-file-alert-done">
+                <Button onClick={() => {}} text="确定" width="65" height="32" fontSize="14" />
+              </div>
+            </div>
+          )
+        }
+        {
+          showMoveFile && (
+            <div className="moveFileAlert">
+              <div className="move-file-alert-tip">选择保存路径</div>
+              <div className="move-file-tree-container">
+                <Scrollbars>
+                  <FileTreeComponent root={FileTree.root} />
+                </Scrollbars>
+              </div>
+              <div className="move-file-alert-cancel">
+                <Button onClick={this.cancelMoveFile} text="取消" width="65" height="32" border="1px solid RGBA(217, 217, 217, 1)" bgColor="RGBA(255, 255, 255, 1)" textColor="RGBA(64, 64, 64, 1)" fontSize="14" />
+              </div>
+              <div className="move-file-alert-done">
                 <Button onClick={() => {}} text="确定" width="65" height="32" fontSize="14" />
               </div>
             </div>

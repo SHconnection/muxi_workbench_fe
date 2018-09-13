@@ -21,6 +21,7 @@ class ProjectDetailAllFile extends Component {
       itemLayOut: true, 
       showCreateFile: false,
       showDleteFile: false,
+      showMoveFile: false,
       fileOption: [
         {
           id: 0,
@@ -170,7 +171,7 @@ class ProjectDetailAllFile extends Component {
   }
 
   render() {
-    const { pid, fileOption, itemLayOut, folderList, showCreateFile, showDleteFile } = this.state;
+    const { pid, fileOption, itemLayOut, folderList, showCreateFile, showDleteFile, showMoveFile } = this.state;
     return (
       <div className="projectDetail-container">
         <GoBack />
@@ -248,6 +249,13 @@ class ProjectDetailAllFile extends Component {
               <div className="delete-file-alert-done">
                 <Button onClick={() => {}} text="确定" width="65" height="32" fontSize="14" />
               </div>
+            </div>
+          )
+        }
+        {
+          showMoveFile && (
+            <div className="moveFileAlert">
+              选择保存路径
             </div>
           )
         }

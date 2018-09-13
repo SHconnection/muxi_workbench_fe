@@ -135,3 +135,37 @@ input[type="text"].create-file-alert-input{
   left: 241px;
 }
 
+.move-file-alert-tip {
+  position: absolute;
+  top: 15px;
+  left: 31px;
+  width:185px;
+  height:24px;
+  font-size:16px;
+  font-family:MicrosoftYaHei;
+  color:rgba(64,64,64,1);
+  line-height:24px;
+}
+
+.move-file-alert-cancel {
+  position: absolute;
+  left: 267px;
+  top: 196px;
+}
+
+.move-file-alert-done {
+  position: absolute;
+  left: 340px;
+  top: 196px;
+}
+
+.move-file-tree-container {
+  position: absolute;
+  top: 46px;
+  left: 35px;
+  width:374px;
+  height:140px;
+  border-radius:2px;
+  border:1px solid rgba(189,189,189,1);
+
+}
