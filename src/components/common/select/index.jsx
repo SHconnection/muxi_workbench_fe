@@ -58,7 +58,7 @@ class Select extends Component {
     const { items, checkedIndex } = this.props;
     if (items.length) {
       return (
-        <div>
+        <div className="select-container">
           <div
             className="select-bt"
             onClick={this.showOption.bind(this)}

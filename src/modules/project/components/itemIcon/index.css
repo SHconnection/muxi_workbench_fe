@@ -6,6 +6,11 @@
   align-items: center;
   justify-content: space-between;
   cursor: pointer;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+
 }
 
 .project-item-img {

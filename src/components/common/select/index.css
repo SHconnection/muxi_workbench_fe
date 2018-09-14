@@ -1,3 +1,10 @@
+.select-container {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;  
+}
+
 .select-bt {
   display: -webkit-flex; /* Safari */
   display: flex;
