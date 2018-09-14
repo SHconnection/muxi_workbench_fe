@@ -3,13 +3,15 @@ import ReactSVG from "react-svg";
 import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
 import "./index.css";
-import FolderIcon from "../../../../assets/svg/fileIcon/folder.svg"
-import PdfIcon from "../../../../assets/svg/fileIcon/pdf.svg"
-import PsdIcon from "../../../../assets/svg/fileIcon/psd.svg"
-import TxtIcon from "../../../../assets/svg/fileIcon/txt.svg"
-import ZipIcon from "../../../../assets/svg/fileIcon/zip.svg"
-import RarIcon from "../../../../assets/svg/fileIcon/rar.svg"
-import "../../../../static/css/common.css"
+import FolderIcon from "../../../../assets/svg/fileIcon/folder.svg";
+import PdfIcon from "../../../../assets/svg/fileIcon/pdf.svg";
+import PsdIcon from "../../../../assets/svg/fileIcon/psd.svg";
+import TxtIcon from "../../../../assets/svg/fileIcon/txt.svg";
+import ZipIcon from "../../../../assets/svg/fileIcon/zip.svg";
+import RarIcon from "../../../../assets/svg/fileIcon/rar.svg";
+import DocFolder from "../../../../assets/svg/fileIcon/docFolder.svg";
+import Doc from "../../../../assets/svg/fileIcon/doc.svg";
+import "../../../../static/css/common.css";
 
 const IconMap = {
   folder: FolderIcon,

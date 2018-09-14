@@ -26,12 +26,12 @@
             <g id="文件图标" transform="translate(194.000000, 337.000000)">
                 <g id="txt" filter="url(#filter-1)" transform="translate(226.000000, 177.000000)">
                     <g id="Combined-Shape" fill-rule="nonzero">
-                        <use fill="#FFFFFF" fill-rule="evenodd" xlink:href="#path-2"></use>
+                        <!-- <use fill="#FFFFFF" fill-rule="evenodd" xlink:href="#path-2"></use> -->
                         <path stroke="#979797" stroke-width="2" d="M116.602421,1 L2,1 C1.44771525,1 1,1.44771525 1,2 L1,84 C1,84.5522847 1.44771525,85 2,85 L133,85 C133.552285,85 134,84.5522847 134,84 L134,17.4310465 L116.602421,1 Z"></path>
                     </g>
                     <g id="Combined-Shape" fill-rule="nonzero">
-                        <use fill="black" fill-opacity="1" filter="url(#filter-4)" xlink:href="#path-3"></use>
-                        <use fill="#FFFFFF" fill-rule="evenodd" xlink:href="#path-3"></use>
+                        <!-- <use fill="black" fill-opacity="1" filter="url(#filter-4)" xlink:href="#path-3"></use> -->
+                        <!-- <use fill="#FFFFFF" fill-rule="evenodd" xlink:href="#path-3"></use> -->
                         <path stroke="#979797" stroke-width="2" d="M132.484774,16 L118,2.31993538 L118,15 C118,15.5522847 118.447715,16 119,16 L132.484774,16 Z"></path>
                     </g>
                     <g transform="translate(25.000000, 12.000000)">

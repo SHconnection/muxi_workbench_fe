@@ -12,55 +12,66 @@
                 <feMergeNode in="SourceGraphic"></feMergeNode>
             </feMerge>
         </filter>
-        <rect id="path-2" x="55" y="0" width="25" height="86"></rect>
+        <rect id="path-rar-2" x="55" y="0" width="25" height="86"></rect>
         <filter x="-6.0%" y="-1.7%" width="112.0%" height="103.5%" filterUnits="objectBoundingBox" id="filter-3">
             <feOffset dx="0" dy="0" in="SourceAlpha" result="shadowOffsetOuter1"></feOffset>
             <feGaussianBlur stdDeviation="0.5" in="shadowOffsetOuter1" result="shadowBlurOuter1"></feGaussianBlur>
             <feColorMatrix values="0 0 0 0 0   0 0 0 0 0   0 0 0 0 0  0 0 0 0.1 0" type="matrix" in="shadowBlurOuter1"></feColorMatrix>
         </filter>
-        <rect id="path-4" x="0" y="0" width="135" height="86" rx="2"></rect>
+        <rect id="path-rar-4" x="0" y="0" width="135" height="86" rx="4"></rect>
+        <path d="M66.5605516,46 L69.5503756,46 C70.538171,46 71.3780203,46.7211511 71.5273803,47.6975892 L73.0878263,57.8990475 C73.2548423,58.990911 72.5051051,60.0114345 71.4132415,60.1784505 C71.3641585,60.1859584 71.3148128,60.1916359 71.2653072,60.195471 C70.0176457,60.2921264 68.9477444,60.3404541 68.0556033,60.3404541 C67.16342,60.3404541 66.0934202,60.2921219 64.8456037,60.1954574 L64.8456055,60.1954338 C63.7443485,60.1101228 62.9207615,59.1482194 63.0060725,58.0469624 C63.0099076,57.9974555 63.0155852,57.9481087 63.0230933,57.8990244 L64.5835469,47.6975892 C64.7329069,46.7211511 65.5727561,46 66.5605516,46 Z" id="path-5"></path>
+        <filter x="-19.8%" y="-7.0%" width="139.6%" height="127.9%" filterUnits="objectBoundingBox" id="filter-6">
+            <feOffset dx="0" dy="1" in="SourceAlpha" result="shadowOffsetOuter1"></feOffset>
+            <feGaussianBlur stdDeviation="0.5" in="shadowOffsetOuter1" result="shadowBlurOuter1"></feGaussianBlur>
+            <feComposite in="shadowBlurOuter1" in2="SourceAlpha" operator="out" result="shadowBlurOuter1"></feComposite>
+            <feColorMatrix values="0 0 0 0 0   0 0 0 0 0   0 0 0 0 0  0 0 0 0.1 0" type="matrix" in="shadowBlurOuter1"></feColorMatrix>
+        </filter>
     </defs>
-    <g id="高保真原型" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-        <g id="项目" transform="translate(-193.000000, -513.000000)">
-            <g id="文件图标" transform="translate(194.000000, 337.000000)">
-                <g id="压缩文件" filter="url(#filter-1)" transform="translate(0.000000, 177.000000)">
-                    <rect id="Rectangle-2" fill="#D7F0FF" fill-rule="nonzero" x="0" y="2" width="135" height="24" rx="2"></rect>
-                    <rect id="Rectangle-2" fill="#D7F0FF" fill-rule="nonzero" x="0" y="30" width="135" height="26" rx="2"></rect>
-                    <rect id="Rectangle-2" fill="#D7F0FF" fill-rule="nonzero" x="0" y="60" width="135" height="26" rx="2"></rect>
-                    <g id="Rectangle-14" fill-rule="nonzero">
-                        <use fill="black" fill-opacity="1" filter="url(#filter-3)" xlink:href="#path-2"></use>
-                        <use fill="#C9EAFE" fill-rule="evenodd" xlink:href="#path-2"></use>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="画板" transform="translate(-193.000000, -188.000000)">
+            <g id="压缩文件" filter="url(#filter-1)" transform="translate(194.000000, 189.000000)">
+                <rect id="Rectangle-rar2" fill="#D7F0FF" fill-rule="nonzero" x="0" y="2" width="135" height="24" rx="2"></rect>
+                <rect id="Rectangle-rar2" fill="#D7F0FF" fill-rule="nonzero" x="0" y="30" width="135" height="26" rx="2"></rect>
+                <rect id="Rectangle-rar2" fill="#D7F0FF" fill-rule="nonzero" x="0" y="60" width="135" height="26" rx="2"></rect>
+                <g id="Rectangle-rar14" fill-rule="nonzero">
+                    <use fill="black" fill-opacity="1" filter="url(#filter-3)" xlink:href="#path-rar-2"></use>
+                    <use fill="#C9EAFE" fill-rule="evenodd" xlink:href="#path-rar-2"></use>
+                </g>
+                <g id="rar">
+                    <g id="Rectangle-rar24" fill-rule="nonzero">
+                        <use fill="#FFFFFF" fill-rule="evenodd" xlink:href="#path-rar-4"></use>
+                        <rect stroke="#53B86A" stroke-width="2" x="1" y="1" width="133" height="84" rx="4"></rect>
                     </g>
-                    <g id="rar">
-                        <g id="Rectangle-24" fill-rule="nonzero">
-                            <use fill="#FFFFFF" fill-rule="evenodd" xlink:href="#path-4"></use>
-                            <rect stroke="#1F9733" stroke-width="2" x="1" y="1" width="133" height="84" rx="2"></rect>
+                    <g id="Group-2" transform="translate(54.000000, 6.000000)">
+                        <g id="Group" transform="translate(9.000000, 0.000000)" fill-rule="nonzero">
+                            <rect id="Rectangle-rar25" fill="#53B86A" x="0" y="0" width="10" height="44" rx="1"></rect>
+                            <rect id="Rectangle-rar26" fill="#FFFFFF" x="4" y="2" width="2" height="40"></rect>
+                            <rect id="Rectangle-rar27" fill="#FFFFFF" x="6" y="4" width="3" height="2"></rect>
+                            <rect id="Rectangle-rar27" fill="#FFFFFF" x="1" y="6" width="3" height="2"></rect>
+                            <rect id="Rectangle-rar27" fill="#FFFFFF" x="6" y="9" width="3" height="2"></rect>
+                            <rect id="Rectangle-rar27" fill="#FFFFFF" x="1" y="12" width="3" height="2"></rect>
+                            <rect id="Rectangle-rar27" fill="#FFFFFF" x="6" y="14" width="3" height="2"></rect>
+                            <rect id="Rectangle-rar27" fill="#FFFFFF" x="1" y="17" width="3" height="2"></rect>
+                            <rect id="Rectangle-rar27" fill="#FFFFFF" x="6" y="20" width="3" height="2"></rect>
+                            <rect id="Rectangle-rar27" fill="#FFFFFF" x="1" y="22" width="3" height="2"></rect>
+                            <rect id="Rectangle-rar27" fill="#FFFFFF" x="6" y="25" width="3" height="2"></rect>
+                            <rect id="Rectangle-rar27" fill="#FFFFFF" x="1" y="28" width="3" height="2"></rect>
+                            <rect id="Rectangle-rar27" fill="#FFFFFF" x="6" y="31" width="3" height="2"></rect>
+                            <rect id="Rectangle-rar27" fill="#FFFFFF" x="1" y="33" width="3" height="2"></rect>
+                            <rect id="Rectangle-rar27" fill="#FFFFFF" x="6" y="36" width="3" height="2"></rect>
                         </g>
-                        <g id="Group-2" transform="translate(54.000000, 0.000000)">
-                            <g id="Group" transform="translate(9.000000, 0.000000)" fill-rule="nonzero">
-                                <rect id="Rectangle-25" fill="#1F9733" x="0" y="0" width="10" height="49" rx="1"></rect>
-                                <rect id="Rectangle-26" fill="#FFFFFF" x="4" y="2" width="2" height="44"></rect>
-                                <rect id="Rectangle-27" fill="#FFFFFF" x="6" y="4" width="3" height="2"></rect>
-                                <rect id="Rectangle-27" fill="#FFFFFF" x="1" y="7" width="3" height="2"></rect>
-                                <rect id="Rectangle-27" fill="#FFFFFF" x="6" y="10" width="3" height="2"></rect>
-                                <rect id="Rectangle-27" fill="#FFFFFF" x="1" y="13" width="3" height="2"></rect>
-                                <rect id="Rectangle-27" fill="#FFFFFF" x="6" y="16" width="3" height="2"></rect>
-                                <rect id="Rectangle-27" fill="#FFFFFF" x="1" y="19" width="3" height="2"></rect>
-                                <rect id="Rectangle-27" fill="#FFFFFF" x="6" y="22" width="3" height="2"></rect>
-                                <rect id="Rectangle-27" fill="#FFFFFF" x="1" y="25" width="3" height="2"></rect>
-                                <rect id="Rectangle-27" fill="#FFFFFF" x="6" y="28" width="3" height="2"></rect>
-                                <rect id="Rectangle-27" fill="#FFFFFF" x="1" y="31" width="3" height="2"></rect>
-                                <rect id="Rectangle-27" fill="#FFFFFF" x="6" y="34" width="3" height="2"></rect>
-                                <rect id="Rectangle-27" fill="#FFFFFF" x="1" y="37" width="3" height="2"></rect>
-                                <rect id="Rectangle-27" fill="#FFFFFF" x="6" y="40" width="3" height="2"></rect>
-                                <rect id="Rectangle-27" fill="#FFFFFF" x="1" y="44" width="8" height="2"></rect>
-                            </g>
-                            <text id="rar" font-family="PingFangSC-Regular, PingFang SC" font-size="20" font-weight="normal" letter-spacing="0.5" fill="#000000">
-                                <tspan x="4" y="77">rar</tspan>
-                            </text>
-                        </g>
+                        <text id="rar" font-family="PingFangSC-Regular, PingFang SC" font-size="20" font-weight="normal" letter-spacing="0.5" fill="#000000">
+                            <tspan x="4" y="71">rar</tspan>
+                        </text>
                     </g>
                 </g>
+                <path d="M1,6 L133.646484,6" id="path-rar-45" stroke="#53B86A" stroke-width="2" fill-rule="nonzero"></path>
+                <g id="Rectangle-rar35" fill-rule="nonzero">
+                    <use fill="black" fill-opacity="1" filter="url(#filter-6)" xlink:href="#path-5"></use>
+                    <!-- <use fill="#FFFFFF" fill-rule="evenodd" xlink:href="#path-5"></use> -->
+                    <path stroke="#53B86A" stroke-width="2" d="M66.5605516,47 C66.0666539,47 65.6467292,47.3605755 65.5720492,47.8487946 L64.0115957,58.0502298 C64.0078417,58.0747716 64.0050029,58.0994448 64.0030854,58.1241979 C63.9604302,58.6748217 64.3722245,59.1557782 64.9228392,59.1984445 C66.1466807,59.2932517 67.1916673,59.3404541 68.0556033,59.3404541 C68.9194969,59.3404541 69.9643839,59.2932563 71.1880694,59.1984583 C71.2128221,59.1965408 71.2374947,59.1937021 71.2620361,59.1899481 C71.8079649,59.1064406 72.1828315,58.5961816 72.0993238,58.0502518 L70.538878,47.8487946 C70.464198,47.3605755 70.0442733,47 69.5503756,47 L66.5605516,47 Z"></path>
+                </g>
+                <path d="M64,55 L72,55" id="path-rar-46" stroke="#53B86A" stroke-width="2" fill-rule="nonzero"></path>
             </g>
         </g>
     </g>
