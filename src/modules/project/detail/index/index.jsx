@@ -5,10 +5,13 @@ import ReactSVG from "react-svg";
 import { Scrollbars } from 'react-custom-scrollbars';
 import Icon from "../../../../components/common/icon/index";
 import FileTreeComponent from "../../components/fileTree/index";
-import FileTree from "../../fileTree"
+import FileTree from "../../fileTree";
 import Button from "../../../../components/common/button/index"
 import Select from "../../../../components/common/select/index";
-import FileIcon from "../../components/fileIcon/index";
+import FolderItem from "../../components/folderItem/index";
+import FileItem from "../../components/fileItem/index";
+import FolderItemDoc from "../../components/folderItemDoc/index";
+import DocItem from "../../components/docItem/index";
 import CreateFileAlertIcon from "../../../../assets/svg/commonIcon/editFileAlert.svg";
 import "./index.css";
 import "../../../../static/css/common.css";
@@ -21,27 +24,13 @@ class ProjectDetailIndex extends Component {
       showCreateFile: false,
       showDleteFile: false,
       showMoveFile: false,
-      fileTree: [
-        {
-          id: 0,
-          title: "全部文件",
-          child: {
-            files: 
-            [
-              {
-                id: 1,
-                name: ""
-              }
-            ]
-
-          }
-        }
-      ],
+      showCreateDocFile: false,
       projectInfo: {
         name: "项目名称",
         intro: "这是简介这是简介这是简介",
         userCount: 58
       },
+      // 创建文件夹和上传文件选项
       fileOption: [
         {
           id: 0,
@@ -53,64 +42,103 @@ class ProjectDetailIndex extends Component {
           value: "创建文件夹"
         }
       ],
-      folderList: {
-        fList: [
+      // 创建文档夹和创建文档选项
+      docOption: [
+        {
+          id: 0,
+          value: "创建文档"
+        },
+        {
+          id: 1,
+          value: "创建文件夹"
+        }
+      ],
+      // 文件（夹）列表
+      filesList: {
+        FolderList: [
           {
-            kind: 2,
-            id: 0,
+            id: 1,
             name: "文件夹1"
           },
           {
-            kind: 1,
-            id: 1,
-            name: "文件夹2.zip"
-          },
-          {
-            kind: 1,
-            id: 2,
-            name: "文件3.psd"
-          },
-          {
-            kind: 1,
-            id: 3,
-            name: "文件4.pdf"
-          },
-          {
-            kind: 1,
-            id: 4,
-            name: "文件夹5.txt"
-          },
-          {
-            kind: 1,
-            id: 5,
-            name: "文件夹6.rar"
-          }
-        ],
-        mList: [
-          {
-            kind: 2,
-            id: 0,
-            name: "文件夹1"
-          },
-          {
-            kind: 1,
-            id: 1,
-            name: "文档1"
-          },
-          {
-            kind: 2,
             id: 2,
             name: "文件夹2"
-          },
+          }
+        ],
+        FileList: [
           {
-            kind: 2,
             id: 3,
-            name: "文件夹3"
+            name: "文件1.zip",
+            creator: "muxi123",
+            url: "/",
+            create_time: "2018-9-14"
           },
           {
-            kind: 2,
             id: 4,
-            name: "文件夹4"
+            name: "文件2.psd",
+            creator: "muxi123",
+            url: "/",
+            create_time: "2018-9-14"
+          },
+          {
+            id: 5,
+            name: "文件3.pdf",
+            creator: "muxi222",
+            url: "/",
+            create_time: "2018-9-14"
+          },
+          {
+            id: 6,
+            name: "文件4.txt",
+            creator: "muxi666",
+            url: "/",
+            create_time: "2018-9-14"
+          },
+          {
+            id: 7,
+            name: "文件5.rar",
+            creator: "muxi213",
+            url: "/",
+            create_time: "2018-9-14"
+          }
+        ]
+      },
+      // 文档（夹）列表
+      docList: {
+        FolderList: [
+          {
+            id: 1,
+            name: "个人文档文件夹1"
+          },
+          {
+            id: 2,
+            name: "个人文档文件夹2"
+          },
+          {
+            id: 3,
+            name: "个人文档文件夹3"
+          }
+        ],
+        DocList: [
+          {
+            id: 1,
+            name: "文档1",
+            lastcontent: ""
+          },
+          {
+            id: 2,
+            name: "文档2",
+            lastcontent: ""
+          },
+          {
+            id: 3,
+            name: "文档3",
+            lastcontent: ""
+          },
+          {
+            id: 4,
+            name: "文档4",
+            lastcontent: ""
           }
         ]
       }
@@ -121,6 +149,7 @@ class ProjectDetailIndex extends Component {
     this.startDeleteFile = this.startDeleteFile.bind(this)
     this.cancelDeleteFile = this.cancelDeleteFile.bind(this)
     this.cancelMoveFile = this.cancelMoveFile.bind(this)
+    this.startCreateDoc = this.startCreateDoc.bind(this)
   }
 
   componentWillMount() {
@@ -135,7 +164,19 @@ class ProjectDetailIndex extends Component {
     console.log(index);
     if (index === 1) {
       this.setState({
-        showCreateFile: !showCreateFile,
+        showCreateFile: !showCreateFile
+      })
+    }
+  }
+
+  startCreateDoc(index) {
+    const { showCreateDocFile } = this.state
+    if(index === 0) {
+      window.location.href = "/edit"
+    }
+    if(index === 1) {
+      this.setState({
+        showCreateFile: !showCreateDocFile,
         showDleteFile: false
       })
     }
@@ -144,16 +185,19 @@ class ProjectDetailIndex extends Component {
   cancelCreateFile() {
     this.setState({
       showCreateFile: false,
+      showCreateDocFile: false
     })
   }
 
-  moveFile(id) {
+  moveFile(id, pid) {
+    console.log("id:",id,"pid:",pid);
     this.setState({
       showMoveFile: true
     })
   }
 
-  startDeleteFile(id) {
+  startDeleteFile(id, pid) {
+    console.log("id:",id,"pid:",pid);
     this.setState({
       showDleteFile: true,
       showCreateFile: false
@@ -173,7 +217,18 @@ class ProjectDetailIndex extends Component {
   }
 
   render() {
-    const { projectInfo, fileOption, folderList, pid, showCreateFile, showDleteFile, showMoveFile, fileTree } = this.state;
+    const { projectInfo, 
+      fileOption,
+      docOption,
+      filesList,
+      docList,
+      pid,
+      showCreateFile,
+      showCreateDocFile,
+      showDleteFile,
+      showMoveFile,
+      } = this.state;
+      
     return (
       <div className="projectDetail-content">
         <div className="projectDetail-header">
@@ -200,22 +255,87 @@ class ProjectDetailIndex extends Component {
           </div>
         </div>
         <div className="projectDetail-file-container">
-          <div className="peojectDetail-file-header">
-            <div className="title littleSize">文件</div>
+          <div className="projectDetail-file-header">
+            <div className="projectDetail-file-title">文件</div>
             <div className="projectDetail-file-select">
               <Select items={fileOption} onChange={this.startCreateFile} />
             </div>
           </div>
           <div className="projectDetail-file-items">
-            {folderList.fList.map(el => (
-              <div className="file-item" key={el.id}>
-                <FileIcon name={el.name} id={el.id} pid={pid} kind={el.kind} moveFile={this.moveFile} deleteFile={this.startDeleteFile} />
-              </div>
-            ))}
+            {
+              filesList.FolderList.map(
+                el => (
+                  <div className="file-item" key={el.id}>
+                    <FolderItem folderItem={el} pid={pid} moveFile={this.moveFile} deleteFile={this.startDeleteFile} /> 
+                  </div>
+                )
+              )
+            }
+            {
+              filesList.FileList.map(
+                el =>  (
+                  <div className="file-item" key={el.id}>
+                    <FileItem fileItem={el} pid={pid} moveFile={this.moveFile} deleteFile={this.startDeleteFile} /> 
+                  </div>
+                )
+              )
+            }
           </div>
           <div className="projectDetail-file-footer">
             <Link to={`/project/${pid}/allFile`} className="fakeBtn">
               查看所有文件
+            </Link>
+          </div>
+        </div>
+        
+        <div className="projectDetail-file-container">
+          <div className="projectDetail-file-header">
+            <div className="projectDetail-file-title">文档</div>
+            <div className="projectDetail-file-select">
+              <Select items={docOption} onChange={this.startCreateDoc} />
+            </div>
+          </div>
+          <div className="projectDetail-file-items">
+            {/* {
+              filesList.FolderList.map(
+                el => (
+                  <div className="file-item" key={el.id}>
+                    <FolderItem folderItem={el} pid={pid} moveFile={this.moveFile} deleteFile={this.startDeleteFile} /> 
+                  </div>
+                )
+              )
+            }
+            {
+              filesList.FileList.map(
+                el =>  (
+                  <div className="file-item" key={el.id}>
+                    <FileItem fileItem={el} pid={pid} moveFile={this.moveFile} deleteFile={this.startDeleteFile} /> 
+                  </div>
+                )
+              )
+            } */}
+            {
+              docList.FolderList.map(
+                el => (
+                  <div className="file-item" key={el.id}>
+                    <FolderItemDoc folderItem={el} pid={pid} moveFile={this.moveFile} deleteFile={this.startDeleteFile} />
+                  </div>
+                )
+              )
+            }
+            {
+              docList.DocList.map(
+                el => (
+                  <div className="file-item" key={el.id}>
+                    <DocItem folderItem={el} pid={pid} moveFile={this.moveFile} deleteFile={this.startDeleteFile} />
+                  </div>
+                )
+              )
+            }
+          </div>
+          <div className="projectDetail-file-footer">
+            <Link to={`/project/${pid}/allFile`} className="fakeBtn">
+              查看所有文档
             </Link>
           </div>
         </div>
@@ -261,6 +381,20 @@ class ProjectDetailIndex extends Component {
                 <Button onClick={this.cancelMoveFile} text="取消" width="65" height="32" border="1px solid RGBA(217, 217, 217, 1)" bgColor="RGBA(255, 255, 255, 1)" textColor="RGBA(64, 64, 64, 1)" fontSize="14" />
               </div>
               <div className="move-file-alert-done">
+                <Button onClick={() => {}} text="确定" width="65" height="32" fontSize="14" />
+              </div>
+            </div>
+          )
+        }
+        {
+          showCreateDocFile && (
+            <div className="createFileAlert">
+              <ReactSVG className="create-file-alert-icon" path={CreateFileAlertIcon} />
+              <input className="create-file-alert-input" type="text" placeholder="编辑文件夹名" />
+              <div className="create-file-alert-cancel">
+                <Button onClick={this.cancelCreateFile} text="取消" width="65" height="32" border="1px solid RGBA(217, 217, 217, 1)" bgColor="RGBA(255, 255, 255, 1)" textColor="RGBA(64, 64, 64, 1)" fontSize="14" />
+              </div>
+              <div className="create-file-alert-done">
                 <Button onClick={() => {}} text="确定" width="65" height="32" fontSize="14" />
               </div>
             </div>

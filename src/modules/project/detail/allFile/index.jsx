@@ -3,11 +3,15 @@ import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
 import { Route } from "react-router-dom";
 import ReactSVG from "react-svg";
+import { Scrollbars } from 'react-custom-scrollbars';
+import FileTreeComponent from "../../components/fileTree/index";
+import FileTree from "../../fileTree";
 import GoBack from "../../../../components/common/goBack/index";
 import Icon from "../../../../components/common/icon/index";
 import Button from "../../../../components/common/button/index";
 import Select from "../../../../components/common/select/index";
-import FileIcon from "../../components/fileIcon/index";
+import FileItem from "../../components/fileItem/index";
+import FolderItem from "../../components/folderItem/index";
 import FileList from "../../components/fileList/index";
 import CreateFileAlertIcon from "../../../../assets/svg/commonIcon/editFileAlert.svg";
 import "./index.css";
@@ -22,6 +26,56 @@ class ProjectDetailAllFile extends Component {
       showCreateFile: false,
       showDleteFile: false,
       showMoveFile: false,
+      // 文件（夹）列表
+      filesList: {
+        FolderList: [
+          {
+            id: 1,
+            name: "文件夹1"
+          },
+          {
+            id: 2,
+            name: "文件夹2"
+          }
+        ],
+        FileList: [
+          {
+            id: 3,
+            name: "文件1.zip",
+            creator: "muxi123",
+            url: "/",
+            create_time: "2018-9-14"
+          },
+          {
+            id: 4,
+            name: "文件2.psd",
+            creator: "muxi123",
+            url: "/",
+            create_time: "2018-9-14"
+          },
+          {
+            id: 5,
+            name: "文件3.pdf",
+            creator: "muxi222",
+            url: "/",
+            create_time: "2018-9-14"
+          },
+          {
+            id: 6,
+            name: "文件4.txt",
+            creator: "muxi666",
+            url: "/",
+            create_time: "2018-9-14"
+          },
+          {
+            id: 7,
+            name: "文件5.rar",
+            creator: "muxi213",
+            url: "/",
+            create_time: "2018-9-14"
+          }
+        ]
+      },
       fileOption: [
         {
           id: 0,
@@ -33,92 +87,16 @@ class ProjectDetailAllFile extends Component {
           value: "创建文件夹"
         }
       ],
-      folderList: {
-        fList: [
-          {
-            kind: 2,
-            id: 0,
-            name: "文件夹1",
-            uploader: "xxx",
-            time: "2018/8/9",
-            url: "项目1/文件夹1"
-          },
-          {
-            kind: 1,
-            id: 1,
-            name: "文件夹2.zip",
-            uploader: "xxx",
-            time: "2018/8/9",
-            url: "项目1/文件夹1"
-          },
-          {
-            kind: 1,
-            id: 2,
-            name: "文件3.psd",
-            uploader: "xxx",
-            time: "2018/8/9",
-            url: "项目1/文件夹1"
-          },
-          {
-            kind: 1,
-            id: 3,
-            name: "文件4.pdf",
-            uploader: "xxx",
-            time: "2018/8/9",
-            url: "项目1/文件夹1"
-          },
-          {
-            kind: 1,
-            id: 4,
-            name: "文件夹5.txt",
-            uploader: "xxx",
-            time: "2018/8/9",
-            url: "项目1/文件夹1"
-          },
-          {
-            kind: 1,
-            id: 5,
-            name: "文件夹6.rar",
-            uploader: "xxx",
-            time: "2018/8/9",
-            url: "项目1/文件夹1"
-          }
-        ],
-        mList: [
-          {
-            kind: 2,
-            id: 0,
-            name: "文件夹1"
-          },
-          {
-            kind: 1,
-            id: 1,
-            name: "文档1"
-          },
-          {
-            kind: 2,
-            id: 2,
-            name: "文件夹2"
-          },
-          {
-            kind: 2,
-            id: 3,
-            name: "文件夹3"
-          },
-          {
-            kind: 2,
-            id: 4,
-            name: "文件夹4"
-          }
-        ]
-      }
+      
     };
-    this.changeLayoutToItem = this.changeLayoutToItem.bind(this)
-    this.changeLayoutToList = this.changeLayoutToList.bind(this)
-    this.startCreateFile = this.startCreateFile.bind(this)
-    this.cancelCreateFile = this.cancelCreateFile.bind(this)
-    this.startDeleteFile = this.startDeleteFile.bind(this)
-    this.cancelDeleteFile = this.cancelDeleteFile.bind(this)
+    this.changeLayoutToItem = this.changeLayoutToItem.bind(this);
+    this.changeLayoutToList = this.changeLayoutToList.bind(this);
+    this.startCreateFile = this.startCreateFile.bind(this);
+    this.cancelCreateFile = this.cancelCreateFile.bind(this);
+    this.startDeleteFile = this.startDeleteFile.bind(this);
+    this.cancelDeleteFile = this.cancelDeleteFile.bind(this);
+    this.moveFile = this.moveFile.bind(this);
+    this.cancelMoveFile = this.cancelMoveFile.bind(this);
   }
 
   componentWillMount() {
@@ -145,18 +123,6 @@ class ProjectDetailAllFile extends Component {
     })
   }
 
-  changeLayoutToItem() {
-    this.setState({
-      itemLayOut: true
-    })
-  }
-
-  changeLayoutToList() {
-    this.setState({
-      itemLayOut: false
-    })
-  }
-
   startDeleteFile(id) {
     console.log(id);
     this.setState({
@@ -170,8 +136,41 @@ class ProjectDetailAllFile extends Component {
     })
   }
 
+  changeLayoutToItem() {
+    this.setState({
+      itemLayOut: true
+    })
+  }
+
+  changeLayoutToList() {
+    this.setState({
+      itemLayOut: false
+    })
+  }
+
+  moveFile(id, pid) {
+    console.log("id:",id,"pid:",pid);
+    this.setState({
+      showMoveFile: true
+    })
+  }
+
+  cancelMoveFile() {
+    this.setState({
+      showMoveFile: false
+    })
+  }
+
   render() {
-    const { pid, fileOption, itemLayOut, folderList, showCreateFile, showDleteFile, showMoveFile } = this.state;
+    const { pid, 
+      fileOption, 
+      itemLayOut, 
+      folderList, 
+      filesList, 
+      showCreateFile, 
+      showDleteFile, 
+      showMoveFile 
+    } = this.state;
     return (
       <div className="projectDetail-container">
         <GoBack />
@@ -198,11 +197,24 @@ class ProjectDetailAllFile extends Component {
           {
             itemLayOut ? (
               <div className="projectDetail-file-items peojectDetail-allFile-items">
-                {folderList.fList.map(el => (
-                  <div className="file-item" key={el.id}>
-                    <FileIcon name={el.name} id={el.id} pid={pid} kind={el.kind} deleteFile={this.startDeleteFile} />
-                  </div>
-                ))}
+                {
+                  filesList.FolderList.map(
+                    el => (
+                      <div className="file-item" key={el.id}>
+                        <FolderItem folderItem={el} pid={pid} moveFile={this.moveFile} deleteFile={this.startDeleteFile} />
+                      </div>
+                    )
+                  )
+                }
+                {
+                  filesList.FileList.map(
+                    el => (
+                      <div className="file-item" key={el.id}>
+                        <FileItem fileItem={el} pid={pid} moveFile={this.moveFile} deleteFile={this.startDeleteFile} />
+                      </div>
+                    )
+                  )
+                }
               </div>
             ) : (
               <div className="projectDetail-allFile-list">
@@ -255,7 +267,18 @@ class ProjectDetailAllFile extends Component {
         {
           showMoveFile && (
             <div className="moveFileAlert">
-              选择保存路径
+              <div className="move-file-alert-tip">选择保存路径</div>
+              <div className="move-file-tree-container">
+                <Scrollbars>
+                  <FileTreeComponent root={FileTree.root} />
+                </Scrollbars>
+              </div>
+              <div className="move-file-alert-cancel">
+                <Button onClick={this.cancelMoveFile} text="取消" width="65" height="32" border="1px solid RGBA(217, 217, 217, 1)" bgColor="RGBA(255, 255, 255, 1)" textColor="RGBA(64, 64, 64, 1)" fontSize="14" />
+              </div>
+              <div className="move-file-alert-done">
+                <Button onClick={() => {}} text="确定" width="65" height="32" fontSize="14" />
+              </div>
             </div>
           )
         }

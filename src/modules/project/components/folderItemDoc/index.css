@@ -1,0 +1,44 @@
+.doc-fileIcon-content {
+  width: 135px;
+  height: 207px;
+  display: -webkit-flex; /* Safari */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  cursor: pointer;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+.doc-fileIcon-img {
+  width: 135px;
+  height: 155px;
+}
+
+.fileIcon-text {
+  margin-top: 10px;
+  font-size: 16px;
+}
+
+.fileIcon-footer {
+  position: absolute;
+  width: 135px;
+  padding: 0 10px;
+  margin-top: -14px;
+  display: -webkit-flex; /* Safari */
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.fileIcon-footer > div {
+  color: #108EE9;
+  font-size: 12px;
+  cursor: pointer;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}

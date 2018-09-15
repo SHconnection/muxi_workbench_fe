@@ -46,11 +46,19 @@
   width: 100%;
 }
 
-.peojectDetail-file-header {
+.projectDetail-file-header {
   display: -webkit-flex; /* Safari */
   display: flex;
   flex-direction: row;
   align-items: center;
+}
+
+.projectDetail-file-title {
+  font-size:20px;
+  font-family:MicrosoftYaHei-Bold;
+  font-weight:bold;
+  color:rgba(29,76,181,1);
+  line-height:26px;
 }
 
 .projectDetail-file-select {
