@@ -8,8 +8,8 @@ import GoBack from "../../../../components/common/goBack/index";
 import Icon from "../../../../components/common/icon/index";
 import Button from "../../../../components/common/button/index";
 import Select from "../../../../components/common/select/index";
-import FileItem from "../../components/fileItem/index";
-import FolderItem from "../../components/folderItem/index";
+import FolderItemDoc from "../../components/folderItemDoc/index";
+import DocItem from "../../components/docItem/index";
 import FileList from "../../components/fileList/index";
 import CreateFileAlertIcon from "../../../../assets/svg/commonIcon/editFileAlert.svg";
 import "./index.css";
@@ -24,61 +24,50 @@ class ProjectDetailAllFile extends Component {
       showCreateFile: false,
       showDleteFile: false,
       showMoveFile: false,
-      // 文件（夹）列表
-      filesList: {
+      // 文档（夹）列表
+      docList: {
         FolderList: [
           {
             id: 1,
-            name: "文件夹1"
+            name: "个人文档文件夹1"
           },
           {
             id: 2,
-            name: "文件夹2"
-          }
-        ],
-        FileList: [
+            name: "个人文档文件夹2"
+          },
           {
             id: 3,
-            name: "文件1.zip",
-            creator: "muxi123",
-            url: "/",
-            create_time: "2018-9-14"
+            name: "个人文档文件夹3"
+          }
+        ],
+        DocList: [
+          {
+            id: 1,
+            name: "文档1",
+            lastcontent: ""
+          },
+          {
+            id: 2,
+            name: "文档2",
+            lastcontent: ""
+          },
+          {
+            id: 3,
+            name: "文档3",
+            lastcontent: ""
           },
           {
             id: 4,
-            name: "文件2.psd",
-            creator: "muxi123",
-            url: "/",
-            create_time: "2018-9-14"
-          },
-          {
-            id: 5,
-            name: "文件3.pdf",
-            creator: "muxi222",
-            url: "/",
-            create_time: "2018-9-14"
-          },
-          {
-            id: 6,
-            name: "文件4.txt",
-            creator: "muxi666",
-            url: "/",
-            create_time: "2018-9-14"
-          },
-          {
-            id: 7,
-            name: "文件5.rar",
-            creator: "muxi213",
-            url: "/",
-            create_time: "2018-9-14"
+            name: "文档4",
+            lastcontent: ""
           }
         ]
       },
-      fileOption: [
+      // 创建文档夹和创建文档选项
+      docOption: [
         {
           id: 0,
-          value: "上传文件",
-          type: "file",
+          value: "创建文档"
         },
         {
           id: 1,
@@ -89,7 +78,7 @@ class ProjectDetailAllFile extends Component {
     };
     this.changeLayoutToItem = this.changeLayoutToItem.bind(this);
     this.changeLayoutToList = this.changeLayoutToList.bind(this);
-    this.startCreateFile = this.startCreateFile.bind(this);
+    this.startCreateDoc = this.startCreateDoc.bind(this);
     this.cancelCreateFile = this.cancelCreateFile.bind(this);
     this.startDeleteFile = this.startDeleteFile.bind(this);
     this.cancelDeleteFile = this.cancelDeleteFile.bind(this);
@@ -103,7 +92,6 @@ class ProjectDetailAllFile extends Component {
       pid: match.params.id
     });
     console.log(match);
-    
   }
 
   startCreateFile(index) {
@@ -112,6 +100,19 @@ class ProjectDetailAllFile extends Component {
     if (index === 1) {
       this.setState({
         showCreateFile: !showCreateFile,
+        showDleteFile: false
+      })
+    }
+  }
+
+  startCreateDoc(index) {
+    const { showCreateDocFile } = this.state
+    if(index === 0) {
+      window.location.href = "/edit"
+    }
+    if(index === 1) {
+      this.setState({
+        showCreateFile: !showCreateDocFile,
         showDleteFile: false
       })
     }
@@ -163,9 +164,9 @@ class ProjectDetailAllFile extends Component {
 
   render() {
     const { pid, 
-      fileOption, 
+      docOption, 
       itemLayOut, 
-      filesList, 
+      docList, 
       showCreateFile, 
       showDleteFile, 
       showMoveFile 
@@ -176,9 +177,9 @@ class ProjectDetailAllFile extends Component {
         <div className="projectDetail-content">
           <div className="projectDetail-header projectDetail-allFile-header">
             <div className="projectDetail-header-left">
-              <div className="title">所有文件</div>
+              <div className="title">所有文档</div>
               <div className="projectDetail-header-left-select">
-                <Select items={fileOption} onChange={this.startCreateFile} />
+                <Select items={docOption} onChange={this.startCreateDoc} />
               </div>
             </div>
             <div className="projectDetail-header-right projectDetail-allFile-header-right">
@@ -197,19 +198,19 @@ class ProjectDetailAllFile extends Component {
             itemLayOut ? (
               <div className="projectDetail-file-items peojectDetail-allFile-items">
                 {
-                  filesList.FolderList.map(
+                  docList.FolderList.map(
                     el => (
                       <div className="file-item" key={el.id}>
-                        <FolderItem folderItem={el} pid={pid} moveFile={this.moveFile} deleteFile={this.startDeleteFile} />
+                        <FolderItemDoc folderItem={el} pid={pid} moveFile={this.moveFile} deleteFile={this.startDeleteFile} />
                       </div>
                     )
                   )
                 }
                 {
-                  filesList.FileList.map(
+                  docList.DocList.map(
                     el => (
                       <div className="file-item" key={el.id}>
-                        <FileItem fileItem={el} pid={pid} moveFile={this.moveFile} deleteFile={this.startDeleteFile} />
+                        <DocItem folderItem={el} pid={pid} moveFile={this.moveFile} deleteFile={this.startDeleteFile} />
                       </div>
                     )
                   )
@@ -224,7 +225,7 @@ class ProjectDetailAllFile extends Component {
                   <div className="projectDetail-allFile-list-url">路径</div>
                 </div>
                 {
-                  filesList.FileList.map(el => (
+                  docList.DocList.map(el => (
                     <div key={el.id}>
                       <FileList item={el} moveFile={this.moveFile} deleteFile={this.startDeleteFile} />
                     </div>

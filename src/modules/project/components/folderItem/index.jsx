@@ -41,7 +41,7 @@ class FolderItem extends Component {
     const { hover } = this.state;
     return (
       <div className="fileIcon-container" onMouseEnter={this.enter.bind(this)} onMouseLeave={this.leave.bind(this)}>
-        <Link className="fileIcon-content" to={`/project/${pid}/file/${folderItem.id}`}>
+        <Link className="fileIcon-content" to={`/project/${pid}/fileFolder/${folderItem.id}`}>
           <ReactSVG className="fileIcon-img" path={FolderIcon} />
           <div className="fileIcon-text">{folderItem.name}</div>
         </Link>

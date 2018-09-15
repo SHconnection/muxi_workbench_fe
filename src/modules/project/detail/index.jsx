@@ -337,7 +337,7 @@ class ProjectDetailIndex extends Component {
               }
             </div>
             <div className="projectDetail-file-footer">
-              <Link to={`/project/${pid}/allFile`} className="fakeBtn">
+              <Link to={`/project/${pid}/allDoc`} className="fakeBtn">
                 查看所有文档
               </Link>
             </div>

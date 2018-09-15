@@ -4,7 +4,8 @@ import { Route } from "react-router-dom";
 import Index from "./index/index";
 import NewProject from "./new/index";
 import ProjectDetail from "./detail/index";
-import ProjectDetailAllFile from './detail/allFile/index'
+import ProjectDetailAllFile from "./detail/allFile/index";
+import ProjectDetailAllDoc from "./detail/allDoc/index";
 import "../../static/css/common.css";
 
 const Project = props => {
@@ -15,6 +16,9 @@ const Project = props => {
       <Route path={`${match.url}/new`} component={NewProject} />
       <Route path={`${match.url}/:id/preview`} component={ProjectDetail} />
       <Route path={`${match.url}/:id/allFile`} component={ProjectDetailAllFile} />
+      <Route path={`${match.url}/:id/allDoc`} component={ProjectDetailAllDoc} />
+      <Route path={`${match.url}/:pid/fileFolder/:id`} component={ProjectDetailAllFile} />
+      <Route path={`${match.url}/:pid/docFolder/:id`} component={ProjectDetailAllDoc} />
     </div>
   );
 };
