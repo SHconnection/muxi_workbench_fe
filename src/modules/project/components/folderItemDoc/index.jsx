@@ -47,7 +47,7 @@ class FolderItemDoc extends Component {
         </Link>
         {hover && 
           (
-            <div className="fileIcon-footer" onMouseLeave={this.leave.bind(this)}>
+            <div className="folderIcon-footer" onMouseLeave={this.leave.bind(this)}>
               <div onClick={this.moveFile.bind(this)} onKeyDown={() => {}} role="presentation">移动</div>
               <div onClick={this.deleteFile.bind(this)} onKeyDown={() => {}} role="presentation">删除</div>
             </div>

@@ -225,9 +225,9 @@ class ProjectDetailAllFile extends Component {
                   <div className="projectDetail-allFile-list-url">路径</div>
                 </div>
                 {
-                  folderList.fList.map(el => (
+                  filesList.FileList.map(el => (
                     <div key={el.id}>
-                      <FileList item={el} downloadFile={id => {console.log(id)}} deleteFile={id => {this.startDeleteFile(id)}} />
+                      <FileList item={el} moveFile={this.moveFile} deleteFile={this.startDeleteFile} />
                     </div>
                   ))
                 }

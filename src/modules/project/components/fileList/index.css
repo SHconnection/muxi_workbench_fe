@@ -52,7 +52,7 @@
   align-items: center;
 }
 
-.project-fileList-right > div {
+.project-fileList-right > div, .project-fileList-download {
   color: RGBA(16, 142, 233, 1);
   cursor: pointer;
   font-size: 16px;

@@ -22,18 +22,17 @@
   font-size: 16px;
 }
 
-.fileIcon-footer {
+.folderIcon-footer {
   position: absolute;
   width: 135px;
-  padding: 0 10px;
   margin-top: -14px;
   display: -webkit-flex; /* Safari */
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
+  justify-content: space-around;
 }
 
-.fileIcon-footer > div {
+.folderIcon-footer > div {
   color: #108EE9;
   font-size: 12px;
   cursor: pointer;
