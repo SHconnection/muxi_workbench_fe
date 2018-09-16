@@ -10,7 +10,6 @@
   -moz-user-select: none;
   -ms-user-select: none;
   user-select: none;
-
 }
 
 .fileIcon-img {
@@ -34,7 +33,7 @@
   justify-content: space-between;
 }
 
-.fileIcon-footer > div {
+.fileIcon-footer > div, a {
   color: #108EE9;
   font-size: 12px;
   cursor: pointer;
@@ -42,5 +41,4 @@
   -moz-user-select: none;
   -ms-user-select: none;
   user-select: none;
-
 }

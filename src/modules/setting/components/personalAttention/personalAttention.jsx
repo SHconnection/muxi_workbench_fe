@@ -80,10 +80,7 @@ class PersonalAttention extends Component {
               <div className="personalAttention-vice IB">
                 <span className="llSize">{mem.filename}</span>
                 <br />
-                <span className="tip">
-项目 ：
-                  {mem.projectName}
-                </span>
+                <span className="tip">项目 ：{mem.projectName}</span>
               </div>
 
               <div className="IB">

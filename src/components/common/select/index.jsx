@@ -34,6 +34,8 @@ class Select extends Component {
     reader.onload = e => {
       console.log(e.target.result);
     };
+    const { onChange } = this.props;
+    onChange(file);
     this.setState({
       showInput: !showInput
     });
@@ -56,7 +58,7 @@ class Select extends Component {
     const { items, checkedIndex } = this.props;
     if (items.length) {
       return (
-        <div>
+        <div className="select-container">
           <div
             className="select-bt"
             onClick={this.showOption.bind(this)}

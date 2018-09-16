@@ -1,6 +1,6 @@
-.fileIcon-content {
+.doc-fileIcon-content {
   width: 135px;
-  height: 138px;
+  height: 207px;
   display: -webkit-flex; /* Safari */
   display: flex;
   flex-direction: column;
@@ -10,13 +10,20 @@
   -moz-user-select: none;
   -ms-user-select: none;
   user-select: none;
-
 }
 
-.fileIcon-img {
+.doc-fileIcon-img {
   width: 135px;
-  height: 86px;
+  height: 155px;
 }
+
+.doc-fileIcon-img > div {
+  display: -webkit-flex; /* Safari */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 
 .fileIcon-text {
   margin-top: 10px;
@@ -42,5 +49,4 @@
   -moz-user-select: none;
   -ms-user-select: none;
   user-select: none;
-
 }

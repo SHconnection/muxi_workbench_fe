@@ -1,0 +1,97 @@
+<svg width="140px" height="159px" viewBox="0 0 140 159" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 49.2 (51160) - http://www.bohemiancoding.com/sketch -->
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <filter x="-2.2%" y="-1.9%" width="105.2%" height="103.9%" filterUnits="objectBoundingBox" id="filter-1">
+            <feOffset dx="0" dy="1" in="SourceAlpha" result="shadowOffsetOuter1"></feOffset>
+            <feGaussianBlur stdDeviation="0.5" in="shadowOffsetOuter1" result="shadowBlurOuter1"></feGaussianBlur>
+            <feColorMatrix values="0 0 0 0 0   0 0 0 0 0   0 0 0 0 0  0 0 0 0.1 0" type="matrix" in="shadowBlurOuter1" result="shadowMatrixOuter1"></feColorMatrix>
+            <feMerge>
+                <feMergeNode in="shadowMatrixOuter1"></feMergeNode>
+                <feMergeNode in="SourceGraphic"></feMergeNode>
+            </feMerge>
+        </filter>
+        <rect id="path-doc-folder-2" x="12.5357143" y="0.974724116" width="122.464286" height="149.13279" rx="2"></rect>
+        <path d="M13.5714286,2.92417235 L132.035714,2.92417235 C133.140284,2.92417235 134.035714,3.81960285 134.035714,4.92417235 L134.035714,152.00641 C134.035714,153.11098 133.140284,154.00641 132.035714,154.00641 L13.5714286,154.00641 C12.4668591,154.00641 11.5714286,153.11098 11.5714286,152.00641 L11.5714286,4.92417235 C11.5714286,3.81960285 12.4668591,2.92417235 13.5714286,2.92417235 Z" id="path-doc-folder-3"></path>
+        <rect id="path-doc-folder-4" x="3.85714286" y="5.84834469" width="122.464286" height="141.334997" rx="2"></rect>
+        <path d="M94.5,3 L130.178571,32.2417235 L130.178571,152.082238 C130.178571,153.186807 129.283141,154.082238 128.178571,154.082238 L2,154.082238 C0.8954305,154.082238 1.3527075e-16,153.186807 0,152.082238 L0,5 C-1.3527075e-16,3.8954305 0.8954305,3 2,3 L94.5,3 Z" id="path-doc-folder-5"></path>
+        <rect id="path-doc-folder-6" x="0" y="2.92417235" width="7.71428571" height="151.082238" rx="2"></rect>
+        <rect id="path-doc-folder-7" x="18" y="25" width="95" height="29" rx="3.96434026"></rect>
+        <path d="M96.5,32.1658958 C95.3954305,32.1658958 94.5,31.2704653 94.5,30.1658958 L94.5,2.92417235 L130.178571,32.1658958 L96.5,32.1658958 Z" id="path-doc-folder-8"></path>
+        <filter x="-7.0%" y="-5.1%" width="114.0%" height="120.5%" filterUnits="objectBoundingBox" id="filter-9">
+            <feOffset dx="0" dy="2" in="SourceAlpha" result="shadowOffsetOuter1"></feOffset>
+            <feGaussianBlur stdDeviation="0.5" in="shadowOffsetOuter1" result="shadowBlurOuter1"></feGaussianBlur>
+            <feComposite in="shadowBlurOuter1" in2="SourceAlpha" operator="out" result="shadowBlurOuter1"></feComposite>
+            <feColorMatrix values="0 0 0 0 0   0 0 0 0 0   0 0 0 0 0  0 0 0 0.1 0" type="matrix" in="shadowBlurOuter1"></feColorMatrix>
+        </filter>
+        <filter x="-13.2%" y="-1.5%" width="126.3%" height="105.9%" filterUnits="objectBoundingBox" id="filter-10">
+            <feOffset dx="0" dy="2" in="SourceAlpha" result="shadowOffsetOuter1"></feOffset>
+            <feGaussianBlur stdDeviation="0.5" in="shadowOffsetOuter1" result="shadowBlurOuter1"></feGaussianBlur>
+            <feColorMatrix values="0 0 0 0 0   0 0 0 0 0   0 0 0 0 0  0 0 0 0.1 0" type="matrix" in="shadowBlurOuter1" result="shadowMatrixOuter1"></feColorMatrix>
+            <feMerge>
+                <feMergeNode in="shadowMatrixOuter1"></feMergeNode>
+                <feMergeNode in="SourceGraphic"></feMergeNode>
+            </feMerge>
+        </filter>
+        <rect id="path-doc-folder-11" x="9.09494702e-13" y="0" width="12.1721242" height="101.680955" rx="6.08606208"></rect>
+        <rect id="path-doc-folder-12" x="11.0378159" y="2.23163235" width="6.96444896" height="35.5330073" rx="3.48222448"></rect>
+        <rect id="path-doc-folder-13" x="1.8189894e-12" y="35.1354753" width="12.1721242" height="5.25832869"></rect>
+        <rect id="path-doc-folder-14" x="0.0623717755" y="41.459723" width="12.1721242" height="5.25832869"></rect>
+    </defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="画板" transform="translate(-622.000000, -12.000000)" fill-rule="nonzero">
+            <g id="文件夹样式" transform="translate(624.000000, 14.000000)">
+                <g id="文档文件夹" filter="url(#filter-1)">
+                    <g id="Rectangle-docFolder-47" stroke-linecap="round" stroke-linejoin="round">
+                        <use fill="#B1D4E9" fill-rule="evenodd" xlink:href="#path-doc-folder-2"></use>
+                        <rect stroke="#2654B9" stroke-width="2" x="11.5357143" y="-0.0252758845" width="124.464286" height="151.13279" rx="2"></rect>
+                    </g>
+                    <path d="M1.75349531,2.91629933 L13.2534953,0.436491587 C13.7933709,0.320075261 14.3254007,0.663356845 14.441817,1.20323246 C14.4567538,1.2725014 14.4642857,1.34316178 14.4642857,1.41402287 L14.4642857,149.773783 C14.4642857,150.244837 14.1355461,150.652021 13.6750761,150.751315 L2.17507612,153.231122 C1.6352005,153.347539 1.10317076,153.004257 0.986754433,152.464381 C0.971817595,152.395113 0.964285714,152.324452 0.964285714,152.253591 L0.964285714,3.89383061 C0.964285714,3.4227766 1.29302528,3.015593 1.75349531,2.91629933 Z" id="Rectangle-docFolder-21" stroke="#2654B9" stroke-width="2" fill="#C9EAFE"></path>
+                    <g id="Rectangle-docFolder-48">
+                        <use fill="#FFFFFF" fill-rule="evenodd" xlink:href="#path-doc-folder-3"></use>
+                        <path stroke="#2654B9" stroke-width="2" d="M13.5714286,3.92417235 C13.0191438,3.92417235 12.5714286,4.3718876 12.5714286,4.92417235 L12.5714286,152.00641 C12.5714286,152.558695 13.0191438,153.00641 13.5714286,153.00641 L132.035714,153.00641 C132.587999,153.00641 133.035714,152.558695 133.035714,152.00641 L133.035714,4.92417235 C133.035714,4.3718876 132.587999,3.92417235 132.035714,3.92417235 L13.5714286,3.92417235 Z"></path>
+                    </g>
+                    <g id="Rectangle-docFolder-22">
+                        <use fill="#FFFFFF" fill-rule="evenodd" xlink:href="#path-doc-folder-4"></use>
+                        <rect stroke="#2654B9" stroke-width="2" x="4.85714286" y="6.84834469" width="120.464286" height="139.334997" rx="2"></rect>
+                    </g>
+                    <g id="Combined-Shape">
+                        <use fill="#D7F0FF" fill-rule="evenodd" xlink:href="#path-doc-folder-5"></use>
+                        <path stroke="#2654B9" stroke-width="2" d="M94.1425621,4 L2,4 C1.44771525,4 1,4.44771525 1,5 L1,152.082238 C1,152.634523 1.44771525,153.082238 2,153.082238 L128.178571,153.082238 C128.730856,153.082238 129.178571,152.634523 129.178571,152.082238 L129.178571,32.7150874 L94.1425621,4 Z"></path>
+                    </g>
+                    <g id="Rectangle-docFolder-21">
+                        <use fill="#C9EAFE" fill-rule="evenodd" xlink:href="#path-doc-folder-6"></use>
+                        <rect stroke="#2654B9" stroke-width="2" x="1" y="3.92417235" width="5.71428571" height="149.082238" rx="2"></rect>
+                    </g>
+                    <g id="Rectangle-docFolder-37">
+                        <use fill="#B1D4E9" fill-rule="evenodd" xlink:href="#path-doc-folder-7"></use>
+                        <rect stroke="#2654B9" stroke-width="2" x="19" y="26" width="93" height="27" rx="3.96434026"></rect>
+                    </g>
+                    <g id="Combined-Shape">
+                        <use fill="black" fill-opacity="1" filter="url(#filter-9)" xlink:href="#path-doc-folder-8"></use>
+                        <use fill="#C9EAFE" fill-rule="evenodd" xlink:href="#path-doc-folder-8"></use>
+                        <path stroke="#2654B9" stroke-width="2" d="M127.380883,31.1658958 L95.5,5.03671194 L95.5,30.1658958 C95.5,30.7181806 95.9477153,31.1658958 96.5,31.1658958 L127.380883,31.1658958 Z"></path>
+                    </g>
+                </g>
+                <g id="pen-" filter="url(#filter-10)" transform="translate(81.586402, 91.314345) rotate(19.000000) translate(-81.586402, -91.314345) translate(72.086402, 40.314345)">
+                    <g id="Rectangle-docFolder-72">
+                        <use fill="#FFFFFF" fill-rule="evenodd" xlink:href="#path-doc-folder-11"></use>
+                        <rect stroke="#2654B9" stroke-width="2" x="1" y="1" width="10.1721242" height="99.6809548" rx="5.08606208"></rect>
+                    </g>
+                    <g id="Rectangle-docFolder-74">
+                        <use fill="#FFFFFF" fill-rule="evenodd" xlink:href="#path-doc-folder-12"></use>
+                        <rect stroke="#2654B9" stroke-width="2" x="12.0378159" y="3.23163235" width="4.96444896" height="33.5330073" rx="2.48222448"></rect>
+                    </g>
+                    <g id="Rectangle-docFolder-73">
+                        <use fill="#B6E4FF" fill-rule="evenodd" xlink:href="#path-doc-folder-13"></use>
+                        <rect stroke="#2654B9" stroke-width="2" x="1" y="36.1354753" width="10.1721242" height="3.25832869"></rect>
+                    </g>
+                    <g id="Rectangle-docFolder-73">
+                        <use fill="#B6E4FF" fill-rule="evenodd" xlink:href="#path-doc-folder-14"></use>
+                        <rect stroke="#2654B9" stroke-width="2" x="1.06237178" y="42.459723" width="10.1721242" height="3.25832869"></rect>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

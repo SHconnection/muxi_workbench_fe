@@ -1,6 +1,5 @@
 import React, {Component} from 'react';
 import ReactSVG from "react-svg";
-import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
 import "./index.css";
 import FolderIcon from "../../../../assets/svg/fileIcon/folder.svg";
@@ -9,8 +8,6 @@ import PsdIcon from "../../../../assets/svg/fileIcon/psd.svg";
 import TxtIcon from "../../../../assets/svg/fileIcon/txt.svg";
 import ZipIcon from "../../../../assets/svg/fileIcon/zip.svg";
 import RarIcon from "../../../../assets/svg/fileIcon/rar.svg";
-import DocFolder from "../../../../assets/svg/fileIcon/docFolder.svg";
-import Doc from "../../../../assets/svg/fileIcon/doc.svg";
 import "../../../../static/css/common.css";
 
 const IconMap = {
@@ -27,18 +24,7 @@ const IconMap = {
   RAR: RarIcon
 }
 
-// const FileIcon = props => {
-  // const { name, id, pid } = props;
-  // const suffix = name.split('.')[1] || "folder";
-  // return (
-  //   <Link className="fileIcon-container" to={`/project/${pid}/file/${id}`}>
-  //     <ReactSVG className="fileIcon-img" path={IconMap[suffix]} />
-  //     <div className="fileIcon-text">{name}</div>
-  //   </Link>
-  // )
-// }
-
-class FileIcon extends Component {
+class FileItem extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -59,62 +45,71 @@ class FileIcon extends Component {
   }
 
   deleteFile() {
-    const { id, deleteFile } = this.props
-    deleteFile(id)
+    const { fileItem, deleteFile, pid } = this.props
+    deleteFile(fileItem.id, pid)
   }
 
   moveFile() {
-    const { id, moveFile } = this.props
-    moveFile(id)
+    const { fileItem, moveFile, pid } = this.props
+    moveFile(fileItem.id, pid)
   }
 
   render() {
-    const { name, id, pid, kind } = this.props;
+    const { fileItem } = this.props
     const { hover } = this.state
-    const suffix = name.split('.')[1] || "folder";
+    
+    const suffix = fileItem.name.split('.')[1] || "folder"
     return (
       <div className="fileIcon-container" onMouseEnter={this.enter.bind(this)} onMouseLeave={this.leave.bind(this)}>
-        <Link className="fileIcon-content" to={`/project/${pid}/file/${id}`}>
+        <div className="fileIcon-content">
           <ReactSVG className="fileIcon-img" path={IconMap[suffix]} />
-          <div className="fileIcon-text">{name}</div>
-        </Link>
+          <div className="fileIcon-text">{fileItem.name}</div>
+        </div>
+        
         {hover && 
           (
             <div className="fileIcon-footer" onMouseLeave={this.leave.bind(this)}>
-              {(kind === 1) && (<div>下载</div>) }
+              <a className="fileIcon-downland" href={fileItem.url} download={fileItem.name}>下载</a>
               <div onClick={this.moveFile.bind(this)} onKeyDown={() => {}} role="presentation">移动</div>
               <div onClick={this.deleteFile.bind(this)} onKeyDown={() => {}} role="presentation">删除</div>
             </div>
           )
         }
       </div>
-      
     )
   }
 }
 
-FileIcon.propTypes = {
-  name: PropTypes.string,
-  kind: PropTypes.number,
-  id: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.number
-  ]),
+FileItem.propTypes = {
+  fileItem: PropTypes.shape({
+    id: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.number
+    ]),
+    name: PropTypes.string,
+    creator: PropTypes.string,
+    url: PropTypes.string,
+    create_time: PropTypes.string
+  }),
   pid: PropTypes.oneOfType([
     PropTypes.string,
     PropTypes.number
   ]),
   moveFile: PropTypes.func,
   deleteFile: PropTypes.func
-};
+}
 
-FileIcon.defaultProps = {
-  name: "",
-  kind: 0,
-  id: "",
+FileItem.defaultProps = {
+  fileItem: {
+    id: "",
+    name: "",
+    creator: "",
+    url: "",
+    create_time: ""
+  },
   pid: "",
   moveFile: () => {},
   deleteFile: () => {}
-};
+}
 
-export default FileIcon
+export default FileItem;

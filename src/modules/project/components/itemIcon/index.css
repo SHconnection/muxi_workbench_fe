@@ -6,6 +6,11 @@
   align-items: center;
   justify-content: space-between;
   cursor: pointer;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+
 }
 
 .project-item-img {
@@ -13,6 +18,16 @@
   height: 86px;
 }
 
+.project-item-img > div {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 .project-item-text {
+  height: 21px;
   font-size: 16px;
+  font-family: MicrosoftYaHei;
+  color: rgba(64,64,64,1);
+  line-height: 21px;
 }

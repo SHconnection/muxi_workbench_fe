@@ -1,0 +1,62 @@
+
+<svg width="143px" height="162px" viewBox="0 0 143 162" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 49.2 (51160) - http://www.bohemiancoding.com/sketch -->
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <filter x="-6.7%" y="-3.2%" width="113.3%" height="111.0%" filterUnits="objectBoundingBox" id="filter-1">
+            <feOffset dx="0" dy="2" in="SourceAlpha" result="shadowOffsetOuter1"></feOffset>
+            <feGaussianBlur stdDeviation="2" in="shadowOffsetOuter1" result="shadowBlurOuter1"></feGaussianBlur>
+            <feColorMatrix values="0 0 0 0 0   0 0 0 0 0   0 0 0 0 0  0 0 0 0.05 0" type="matrix" in="shadowBlurOuter1" result="shadowMatrixOuter1"></feColorMatrix>
+            <feMerge>
+                <feMergeNode in="shadowMatrixOuter1"></feMergeNode>
+                <feMergeNode in="SourceGraphic"></feMergeNode>
+            </feMerge>
+        </filter>
+        <rect id="path-doc-2" x="0" y="6" width="135" height="149" rx="4"></rect>
+        <filter x="-2.6%" y="-1.7%" width="105.2%" height="104.7%" filterUnits="objectBoundingBox" id="filter-3">
+            <feOffset dx="0" dy="1" in="SourceAlpha" result="shadowOffsetOuter1"></feOffset>
+            <feGaussianBlur stdDeviation="1" in="shadowOffsetOuter1" result="shadowBlurOuter1"></feGaussianBlur>
+            <feComposite in="shadowBlurOuter1" in2="SourceAlpha" operator="out" result="shadowBlurOuter1"></feComposite>
+            <feColorMatrix values="0 0 0 0 0   0 0 0 0 0   0 0 0 0 0  0 0 0 0.05 0" type="matrix" in="shadowBlurOuter1"></feColorMatrix>
+        </filter>
+        <rect id="path-doc-4" x="0" y="6" width="135" height="144" rx="4"></rect>
+        <filter x="-2.6%" y="-1.7%" width="105.2%" height="104.9%" filterUnits="objectBoundingBox" id="filter-5">
+            <feOffset dx="0" dy="1" in="SourceAlpha" result="shadowOffsetOuter1"></feOffset>
+            <feGaussianBlur stdDeviation="1" in="shadowOffsetOuter1" result="shadowBlurOuter1"></feGaussianBlur>
+            <feComposite in="shadowBlurOuter1" in2="SourceAlpha" operator="out" result="shadowBlurOuter1"></feComposite>
+            <feColorMatrix values="0 0 0 0 0   0 0 0 0 0   0 0 0 0 0  0 0 0 0.05 0" type="matrix" in="shadowBlurOuter1"></feColorMatrix>
+        </filter>
+        <path d="M4.00032439,0 L25.1140199,-8.8817842e-16 C27.3231589,-1.29399067e-15 29.1140199,1.790861 29.1140199,4 C29.1140199,4.13986797 29.1066838,4.27963968 29.0920417,4.41873914 L27.934147,15.4187391 C27.7198536,17.454526 26.0031596,19 23.9561252,19 L5.15821912,19 C3.11118473,19 1.39449067,17.454526 1.18019731,15.4187391 L0.0223025758,4.41873914 C-0.208960664,2.22173836 1.38458447,0.253241428 3.58158525,0.0219781883 C3.72068471,0.00733613997 3.86045642,9.13871749e-16 4.00032439,8.8817842e-16 Z" id="path-doc-6"></path>
+    </defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="个人文档样式" transform="translate(4.000000, 0.000000)" fill-rule="nonzero">
+            <g id="个人文档" filter="url(#filter-1)">
+                <g id="Rectangle-doc-20">
+                    <use fill="black" fill-opacity="1" filter="url(#filter-3)" xlink:href="#path-doc-2"></use>
+                    <use fill="#FFFFFF" fill-rule="evenodd" xlink:href="#path-doc-2"></use>
+                    <rect stroke="#979797" stroke-width="2" x="1" y="7" width="133" height="147" rx="4"></rect>
+                </g>
+                <g id="Rectangle-doc-20">
+                    <use fill="black" fill-opacity="1" filter="url(#filter-5)" xlink:href="#path-doc-4"></use>
+                    <use fill="#FFFFFF" fill-rule="evenodd" xlink:href="#path-doc-4"></use>
+                    <rect stroke="#979797" stroke-width="2" x="1" y="7" width="133" height="142" rx="4"></rect>
+                </g>
+            </g>
+            <g id="Group-doc-7" transform="translate(10.000000, 39.000000)" fill="#D3D3D3">
+                <rect id="Rectangle-doc-36" x="0" y="21" width="115" height="4" rx="2"></rect>
+                <rect id="Rectangle-doc-36" x="0" y="0" width="115" height="4" rx="2"></rect>
+                <rect id="Rectangle-doc-36" x="0" y="43" width="115" height="4" rx="2"></rect>
+                <rect id="Rectangle-doc-36" x="0" y="65" width="115" height="4" rx="2"></rect>
+                <rect id="Rectangle-doc-36" x="0" y="87" width="61" height="4" rx="2"></rect>
+                <rect id="Rectangle-doc-36" x="65" y="87" width="11" height="4" rx="2"></rect>
+            </g>
+            <g id="Group-doc-3" transform="translate(53.000000, 0.000000)">
+                <path d="M20.4608108,21.8640026 L20,21.5689792 L20,18 C20,15.2385763 17.7614237,13 15,13 C12.2385763,13 10,15.2385763 10,18 L10,21.5689792 L9.53918917,21.8640026 C7.96881293,22.8693995 7,24.6011563 7,26.5 C7,29.5375661 9.46243388,32 12.5,32 L17.5,32 C20.5375661,32 23,29.5375661 23,26.5 C23,24.6011563 22.0311871,22.8693995 20.4608108,21.8640026 Z" id="Combined-Shape" stroke="#979797" stroke-width="2"></path>
+                <g id="Rectangle-doc-3">
+                    <!-- <use fill="#D3D3D3" fill-rule="evenodd" xlink:href="#path-doc-6"></use> -->
+                    <path stroke="#979797" stroke-width="2" d="M4.00032439,1 C3.89542341,1 3.79059463,1.0055021 3.68627003,1.01648364 C2.03851945,1.18993107 0.843360599,2.66630377 1.01680803,4.31405435 L2.17470277,15.3140544 C2.33542278,16.8408945 3.62294333,18 5.15821912,18 L23.9561252,18 C25.491401,18 26.7789215,16.8408945 26.9396415,15.3140544 L28.0975363,4.31405435 C28.1085178,4.20972976 28.1140199,4.10490098 28.1140199,4 C28.1140199,2.34314575 26.7708741,1 25.1140199,1 L4.00032439,1 Z"></path>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

@@ -7,6 +7,8 @@ import ProjectDetail from "./detail/index";
 import SetProject from "../setting/projectSetting/projectSetting";
 import EditMember from "../setting/editMember/editMember";
 import ProjectDetailAllFile from "./detail/allFile/index";
+import ProjectDetailAllFile from "./detail/allFile/index";
+import ProjectDetailAllDoc from "./detail/allDoc/index";
 import "../../static/css/common.css";
 
 const Project = props => {
@@ -18,10 +20,10 @@ const Project = props => {
       <Route path={`${match.url}/:id/preview`} component={ProjectDetail} />
       <Route path={`${match.url}/:id/setting`} component={SetProject} />
       <Route path={`${match.url}/:id/editMem`} component={EditMember} />
-      <Route
-        path={`${match.url}/:id/allFile`}
-        component={ProjectDetailAllFile}
-      />
+      <Route path={`${match.url}/:id/allFile`} component={ProjectDetailAllFile} />
+      <Route path={`${match.url}/:id/allDoc`} component={ProjectDetailAllDoc} />
+      <Route path={`${match.url}/:pid/fileFolder/:id`} component={ProjectDetailAllFile} />
+      <Route path={`${match.url}/:pid/docFolder/:id`} component={ProjectDetailAllDoc} />
     </div>
   );
 };
