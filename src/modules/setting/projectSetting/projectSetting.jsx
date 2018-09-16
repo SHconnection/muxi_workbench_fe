@@ -1,7 +1,7 @@
 /*
 项目设置--项目信息页面组件
 为项目设置首页，下接编辑成员页面
-传入proId
+传入id
 */
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
@@ -28,14 +28,14 @@ class SetProject extends Component {
     this.saveProjectSet = this.saveProjectSet.bind(this);
   }
 
-  componentDidMount() {
-    const proInfo = ManageService.getAllPro();
+  // componentDidMount() {
+  //   const proInfo = ManageService.getAllPro();
 
-    this.setState({
-      inputValue: proInfo.name,
-      textValue: proInfo.intro
-    });
-  }
+  //   this.setState({
+  //     inputValue: proInfo.name,
+  //     textValue: proInfo.intro
+  //   });
+  // }
 
   changeInput(e) {
     this.setState({
@@ -58,24 +58,24 @@ class SetProject extends Component {
   saveProjectSet() {
     const {
       match: {
-        params: { proId }
+        params: { id }
       }
     } = this.props;
     const { textValue, inputValue } = this.state;
 
-    ProjectService.saveProjectSet(proId, textValue, inputValue);
+    ProjectService.saveProjectSet(id, textValue, inputValue);
   }
 
   render() {
     const { deleteX, inputValue, textValue } = this.state;
     const {
       match: {
-        params: { proId }
+        params: { id }
       }
     } = this.props;
 
     return (
-      <div className="subject minH">
+      <div>
         <ProjectSetFirst
           inputValue={inputValue}
           textValue={textValue}
@@ -89,7 +89,7 @@ class SetProject extends Component {
             className="saveBtn"
             onClick={this.saveProjectSet}
           >
-            <Link to="/editMem" className="link">
+            <Link to={`/project/${id}/editMem`} className="link">
               保存
             </Link>
           </button>
@@ -102,7 +102,9 @@ class SetProject extends Component {
           >
             删除项目
           </button>
-          <span className="fakeBtn">取消</span>
+          <Link className="fakeBtn" to={`/project/${id}/preview`}>
+            取消
+          </Link>
         </div>
 
         <Delete
@@ -110,7 +112,7 @@ class SetProject extends Component {
           deleteX={deleteX}
           transferMsg={this.transferMsgDel}
           proDel
-          proId={proId}
+          id={id}
         />
       </div>
     );
@@ -122,7 +124,7 @@ export default SetProject;
 SetProject.propTypes = {
   match: PropTypes.shape({
     params: PropTypes.shape({
-      proId: PropTypes.number
+      id: PropTypes.number
     })
   })
 };

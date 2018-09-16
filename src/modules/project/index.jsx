@@ -4,17 +4,24 @@ import { Route } from "react-router-dom";
 import Index from "./index/index";
 import NewProject from "./new/index";
 import ProjectDetail from "./detail/index";
-import ProjectDetailAllFile from './detail/allFile/index'
+import SetProject from "../setting/projectSetting/projectSetting";
+import EditMember from "../setting/editMember/editMember";
+import ProjectDetailAllFile from "./detail/allFile/index";
 import "../../static/css/common.css";
 
 const Project = props => {
   const { match } = props;
   return (
-    <div className="subject">
+    <div className="subject minH">
       <Route exact path={match.url} component={Index} />
       <Route path={`${match.url}/new`} component={NewProject} />
       <Route path={`${match.url}/:id/preview`} component={ProjectDetail} />
-      <Route path={`${match.url}/:id/allFile`} component={ProjectDetailAllFile} />
+      <Route path={`${match.url}/:id/setting`} component={SetProject} />
+      <Route path={`${match.url}/:id/editMem`} component={EditMember} />
+      <Route
+        path={`${match.url}/:id/allFile`}
+        component={ProjectDetailAllFile}
+      />
     </div>
   );
 };

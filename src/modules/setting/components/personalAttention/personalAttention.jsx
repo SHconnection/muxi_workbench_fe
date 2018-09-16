@@ -3,6 +3,7 @@
 传入userID
 */
 import React, { Component } from "react";
+import PropTypes from "prop-types";
 import Delete from "../delete/delete";
 import File from "../../../../assets/img/file.png";
 import MessageService from "../../../../service/message";
@@ -51,6 +52,9 @@ class PersonalAttention extends Component {
 
   render() {
     const { data, deleteX } = this.state;
+    const { userID } = this.props;
+    const per = JSON.parse(localStorage.per);
+
     const members = [
       {
         id: 1,
@@ -95,7 +99,7 @@ class PersonalAttention extends Component {
                     }}
                     onKeyDown={this.handleClick}
                   >
-                    取消关注
+                    {per.id === userID ? "取消关注" : ""}
                   </span>
                 </div>
               </div>
@@ -117,3 +121,11 @@ class PersonalAttention extends Component {
 }
 
 export default PersonalAttention;
+
+PersonalAttention.propTypes = {
+  userID: PropTypes.number
+};
+
+PersonalAttention.defaultProps = {
+  userID: 0
+};

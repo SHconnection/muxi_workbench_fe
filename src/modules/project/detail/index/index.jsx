@@ -101,6 +101,7 @@ class ProjectDetailIndex extends Component {
 
   render() {
     const { projectInfo, fileOption, folderList, pid } = this.state;
+    const { match } = this.props;
     return (
       <div className="projectDetail-content">
         <div className="projectDetail-header">
@@ -122,7 +123,7 @@ class ProjectDetailIndex extends Component {
               <Icon type="trash" tip="回收站" to="/trash" />
             </div>
             <div className="projectDetail-header-icon-container">
-              <Icon type="setting" tip="设置" to="/setting" />
+              <Icon type="setting" tip="设置" to={`/project/${pid}/setting`} />
             </div>
           </div>
         </div>

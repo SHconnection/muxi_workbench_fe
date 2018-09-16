@@ -10,3 +10,8 @@
 .editMember-fontSize {
   font-size: 14px;
 }
+.FirstEditMember-inlineWidth{
+  display: inline-block;
+  width: 96px;
+  margin-left: 15px;
+}
