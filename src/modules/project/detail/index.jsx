@@ -229,6 +229,7 @@ class ProjectDetailIndex extends Component {
       showDleteFile,
       showMoveFile,
       } = this.state;
+    const {match:{params:{id}}} = this.props;
       
     return (
       <div className="projectDetail-container">
@@ -253,7 +254,7 @@ class ProjectDetailIndex extends Component {
                 <Icon type="trash" tip="回收站" to="/trash" />
               </div>
               <div className="projectDetail-header-icon-container">
-                <Icon type="setting" tip="设置" to="/setting" />
+                <Icon type="setting" tip="设置" to={`/project/${id}/setting`} />
               </div>
             </div>
           </div>
@@ -411,12 +412,15 @@ class ProjectDetailIndex extends Component {
 
 ProjectDetailIndex.propTypes = {
   match: PropTypes.shape({
-    url: PropTypes.string
+    url: PropTypes.string,
+    params: PropTypes.shape({
+      id: PropTypes.string,
+    })
   })
 };
 
 ProjectDetailIndex.defaultProps = {
-  match: {}
+  match: {},
 };
 
 export default ProjectDetailIndex;

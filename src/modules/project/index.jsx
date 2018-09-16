@@ -7,7 +7,6 @@ import ProjectDetail from "./detail/index";
 import SetProject from "../setting/projectSetting/projectSetting";
 import EditMember from "../setting/editMember/editMember";
 import ProjectDetailAllFile from "./detail/allFile/index";
-import ProjectDetailAllFile from "./detail/allFile/index";
 import ProjectDetailAllDoc from "./detail/allDoc/index";
 import "../../static/css/common.css";
 
