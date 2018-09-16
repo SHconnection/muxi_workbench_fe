@@ -1,11 +1,10 @@
-.doc-fileIcon-content {
+.docItem-content {
   width: 135px;
   height: 207px;
   display: -webkit-flex; /* Safari */
   display: flex;
   flex-direction: column;
   align-items: center;
-  cursor: pointer;
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
