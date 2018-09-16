@@ -5,6 +5,7 @@ import searchIcon from "../../../assets/img/search@2x.png";
 import infoRemindIcon from "../../../assets/img/info-remind@2x.png";
 import AvatarImg from "../../../assets/img/avatar.png";
 import Avatar from "../avatar/index";
+import Inform from "./inform/index";
 import "./index.css";
 
 class Header extends Component {
@@ -72,10 +73,9 @@ class Header extends Component {
               <Avatar src={AvatarImg} />
             </div>
             <div>
-              <img
-                className="header-info-icon"
-                src={infoRemindIcon}
-                alt="info-remind"
+              <Inform
+                // className="header-info-icon"
+                icon={infoRemindIcon}
               />
             </div>
             {showInput && <input className="header-search-input" type="text" />}

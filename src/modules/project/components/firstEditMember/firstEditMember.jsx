@@ -6,10 +6,19 @@
 import React from "react";
 import PropTypes from "prop-types";
 import Member from "../../../setting/components/member/member";
+import Select from "../../../../components/common/select/index";
 import "../../../../static/css/common.css";
 import "./firstEditMember.css";
 
-const FirstEditMember = ({ selAll, transferMsg, members, selMembers }) => (
+const FirstEditMember = ({
+  selAll,
+  transferMsg,
+  members,
+  selMembers,
+  groups,
+  changeGroupCheck,
+  checkedIndex
+}) => (
   <div>
     <div className="title">编辑项目成员</div>
     <br />
@@ -17,13 +26,21 @@ const FirstEditMember = ({ selAll, transferMsg, members, selMembers }) => (
       <div className="title littleSize">设置项目成员</div>
       <div className="editMember-tip">选择你要设置的成员</div>
     </div>
-    <button
-      type="button"
-      className="saveBtn editMember-fontSize"
-      onClick={selAll}
+    <span
+      className="fakeBtn editMember-fontSize"
+      onKeyDown={selAll}
+      role="button"
+      tabIndex="-1"
     >
       全选
-    </button>
+    </span>
+    <div className="FirstEditMember-inlineWidth">
+      <Select
+        items={groups}
+        checkedIndex={checkedIndex}
+        onChange={changeGroupCheck}
+      />
+    </div>
     <Member
       members={members}
       selMembers={selMembers}
@@ -44,12 +61,21 @@ FirstEditMember.propTypes = {
   ),
   selMembers: PropTypes.arrayOf(PropTypes.number),
   transferMsg: PropTypes.func,
-  selAll: PropTypes.func
+  selAll: PropTypes.func,
+  groups: PropTypes.shape({
+    value: PropTypes.string,
+    id: PropTypes.number
+  }),
+  changeGroupCheck: PropTypes.func,
+  checkedIndex: PropTypes.number
 };
 
 FirstEditMember.defaultProps = {
   members: [],
   selMembers: [],
   transferMsg: () => {},
-  selAll: () => {}
+  selAll: () => {},
+  groups: {},
+  changeGroupCheck: () => {},
+  checkedIndex: 0
 };

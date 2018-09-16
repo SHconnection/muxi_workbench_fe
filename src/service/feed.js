@@ -10,7 +10,7 @@ const FeedService = {
         token: localStorage.user.token
       }
     });
-  },
+  }
 };
 
 export default FeedService;

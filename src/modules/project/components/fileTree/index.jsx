@@ -60,7 +60,7 @@ class FileTreeComponent extends Component {
       return (
         <div className="file-tree-container">
           <div className="file-tree-root" onClick={this.changeVisible} onKeyDown={() => {}} role="presentation">
-            <ReactSVG className="file-tree-triangel-left" path={TriangelDown} />
+            <ReactSVG className="file-tree-triangel" path={TriangelDown} />
             <ReactSVG className="file-tree-folder-icon" path={FolderIconToggel} />
             <div className="file-tree-name">{root.name}</div>
           </div>
@@ -73,7 +73,7 @@ class FileTreeComponent extends Component {
     return (
       <div className="file-tree-container">
         <div className="file-tree-root" onClick={this.changeVisible} onKeyDown={() => {}} role="presentation">
-          <ReactSVG className="file-tree-triangel-left" path={TriangelLeft} />
+          <ReactSVG className="file-tree-triangel" path={TriangelLeft} />
           <ReactSVG className="file-tree-folder-icon" path={FolderIcon} />
           <div className="file-tree-name">{root.name}</div>
         </div>

@@ -5,11 +5,11 @@ import Goback from "../../../components/common/goBack/index";
 import thumbs from "../../../assets/svg/commonIcon/thumbs.svg";
 import thumbsUp from "../../../assets/svg/commonIcon/thumbs_up.svg";
 import Button from "../../../components/common/button/index";
-import Avatar from "../../../components/common/avatar/index"
+import Avatar from "../../../components/common/avatar/index";
 import Othercomments from "../../../components/common/otherComments/comments";
 import "../../../static/css/common.css";
 import Delete from "../../setting/components/delete/delete";
-import StatusService from "../../../service/status"
+import StatusService from "../../../service/status";
 import "./detail.css";
 
 const Goods = [thumbs, thumbsUp];
@@ -21,13 +21,13 @@ class Detail extends Component {
       deleteX: false,
       sid: 0,
       title: "",
-      content:"",
+      content: "",
       time: "",
       likeCount: 0,
       iflike: 0,
       userID: 0,
       username: "",
-      comment:"",
+      comment: "",
       commentList: []
     };
     this.transferMsgDel = this.transferMsgDel.bind(this);
@@ -51,7 +51,7 @@ class Detail extends Component {
       username: arr.username,
       commentList: arr.commentList
     });
-  } 
+  }
 
   changeLike(iflike, likeCount, sid) {
     if (iflike === 0) {
@@ -78,10 +78,11 @@ class Detail extends Component {
       deleteX: true
     });
   }
-  onChange(comment){
+
+  onChange(comment) {
     this.setState({
-      comment: comment
-    })
+      comment
+    });
   }
 
   // sendComment(value,){
@@ -96,8 +97,7 @@ class Detail extends Component {
   //     })
   //   });
   // }
-  //如何获得自己的id
-
+  // 如何获得自己的id
 
   render() {
     const {
@@ -110,7 +110,7 @@ class Detail extends Component {
       time,
       likeCount,
       iflike,
-      username,
+      username
     } = this.state;
     return (
       <div className="subject">
@@ -172,7 +172,7 @@ class Detail extends Component {
             <textarea
               className="send-comment"
               type="text"
-              value={comment} 
+              value={comment}
               onChange={this.onChange}
               placeholder="   发表评论..."
             />

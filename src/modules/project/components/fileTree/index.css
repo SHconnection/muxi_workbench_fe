@@ -16,9 +16,11 @@
   height: 16px;
 }
 
-.file-tree-triangel-left {
-  line-height: 5px;
-}
+.file-tree-triangel > div {
+  width: 7px;
+  height: 7px;
+  line-height: 0;
+} 
 
 .file-tree-folder-icon {
   margin-left: 5px;

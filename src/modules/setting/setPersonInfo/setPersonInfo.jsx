@@ -240,7 +240,8 @@ SetPersonalInfo.propTypes = {
     state: PropTypes.shape({
       per: PropTypes.shape({
         id: PropTypes.number,
-        name: PropTypes.string
+        name: PropTypes.string,
+        role: PropTypes.number
       })
     })
   })

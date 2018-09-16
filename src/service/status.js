@@ -10,7 +10,7 @@ const StatusService = {
   getStatusList(page) {
     return Fetch("/status/list" + page + "/", {
       method: "GET",
-      headers:{
+      headers: {
         Accept: "application/json",
         "Content-Type": "application/json",
         token: localStorage.user.token
@@ -20,7 +20,7 @@ const StatusService = {
   getStatuDetail(sid) {
     return Fetch("/status/" + sid + "/", {
       method: "GET",
-      headers:{
+      headers: {
         Accept: "application/json",
         "Content-Type": "application/json",
         token: localStorage.user.token
@@ -30,22 +30,22 @@ const StatusService = {
   editStatu(sid) {
     return Fetch("/status/" + sid + "/", {
       method: "GET",
-      headers:{
+      headers: {
         Accept: "application/json",
         "Content-Type": "application/json",
         token: localStorage.user.token
       }
     });
   },
-  changeLike(sid,iflike){
-    return Fetch("/status/" + sid + "/like/",{
+  changeLike(sid, iflike) {
+    return Fetch("/status/" + sid + "/like/", {
       method: "POST",
       headers: {
         Accept: "application/json",
         "Content-Type": "application/json"
       },
-      body:iflike
-    })
+      body: iflike
+    });
   },
   postComments(sid, data) {
     return Fetch("/status/" + sid + "/comment/", {

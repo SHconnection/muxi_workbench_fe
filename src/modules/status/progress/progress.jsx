@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import StatusItem from "../components/basicCard/index";
 import Gotop from "../../../components/common/toTop/top";
-import StatusService from "../../../service/status"
+import StatusService from "../../../service/status";
 import "./progerss.css";
 
 // const {isPersonal} = this.props.match.params
@@ -28,48 +28,6 @@ class Progress extends Component {
   //   });
   // }
 
-  render() {
-    const { statuList, page, cout} = this.state;
-    return (
-      <div>
-        <div className="status">
-          <div className="status-container">
-            {statuList.map((card, index) => (
-              <div key={index}>
-                <StatusItem
-                  sid={card.sid}
-                  username={card.username}
-                  avatar={card.avatar}
-                  time={card.time}
-                  iflike={card.iflike}
-                  content={card.content}
-                  likeCount={card.likeCount}
-                  commentCount={card.commentCount}
-                />
-              </div>
-            ))}
-          </div>
-        </div>
-        <div className="loadMore" ref="wrapper" onClick={this.getStatusList.bind(page,cout)}>加载更多...</div>
-        <Gotop />
-      </div>
-    );
-  }
-
-  getStatusList(page,cout){
-    if(cout/20 > page){
-      const arr =  StatusService.getStatusList(page + 1);
-      this.setState({
-        cout: arr.cout,
-        page: arr.page,
-        statuList: arr.statuList
-      })
-    }
-    else{
-      return "已经到底啦"
-    }
-  }
-
   componentDidMount() {
     const wrapper = this.refs.wrapper;
     const getStatusList = this.getStatusList;
@@ -85,17 +43,68 @@ class Progress extends Component {
         getStatusList(that);
       }
     }
-    window.addEventListener('scroll', function () {
-      if (this.state.isLoadingMore) {
-        return ;
-      }
+    window.addEventListener(
+      "scroll",
+      () => {
+        if (this.state.isLoadingMore) {
+          return;
+        }
 
-      if (timeCount) {
-        clearTimeout(timeCount);
-      }
+        if (timeCount) {
+          clearTimeout(timeCount);
+        }
 
-      timeCount = setTimeout(callback, 50);
-    }.bind(this), false);
+        timeCount = setTimeout(callback, 50);
+      },
+      false
+    );
+  }
+
+  getStatusList(page, cout) {
+    if (cout / 20 > page) {
+      const arr = StatusService.getStatusList(page + 1);
+      this.setState({
+        cout: arr.cout,
+        page: arr.page,
+        statuList: arr.statuList
+      });
+    } else {
+      // return 已经到底啦;
+    }
+  }
+
+  render() {
+    const { statuList, page, cout } = this.state;
+    return (
+      <div>
+        <div className="status">
+          <div className="status-container">
+            {statuList.map(card => (
+              <div key={card.sid}>
+                <StatusItem
+                  sid={card.sid}
+                  username={card.username}
+                  avatar={card.avatar}
+                  time={card.time}
+                  iflike={card.iflike}
+                  content={card.content}
+                  likeCount={card.likeCount}
+                  commentCount={card.commentCount}
+                />
+              </div>
+            ))}
+          </div>
+        </div>
+        <div
+          className="loadMore"
+          ref="wrapper"
+          onClick={this.getStatusList.bind(page, cout)}
+        >
+          加载更多...
+        </div>
+        <Gotop />
+      </div>
+    );
   }
 }
 

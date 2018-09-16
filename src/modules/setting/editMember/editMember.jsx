@@ -16,40 +16,56 @@ class EditMember extends Component {
 
     this.state = {
       selMembers: [],
-      members: []
+      members: [],
+      groups: [],
+      checkedIndex: 0
     };
 
     this.selAll = this.selAll.bind(this);
     this.transferMsgMem = this.transferMsgMem.bind(this);
     this.editProjectMember = this.editProjectMember.bind(this);
+    this.changeGroupCheck = this.changeGroupCheck.bind(this);
   }
 
-  componentDidMount() {
-    const {
-      match: { params: proId }
-    } = this.props;
-    const arr = ManageService.getAllMem();
-    const { list: proMember } = ManageService.getProMember(proId);
+  // componentDidMount() {
+  //   const {
+  //     match: { params: proId }
+  //   } = this.props;
+  //   const arr = ManageService.getAllMem();
+  //   const { list: proMember } = ManageService.getProMember(proId);
+  //   const { groupList } = ManageService.getAllGroup();
 
-    if (!Array.isArray(proMember)) return false;
+  //   if (!Array.isArray(proMember)) return false;
+  //   if(!Array.isArray(groupList)) return false;
 
-    const idList = proMember.map(mem => mem.userID);
+  //   const idList = proMember.map(mem => mem.userID);
 
-    arr.map(mem1 => {
-      const mem = mem1;
+  //   arr.map(mem1 => {
+  //     const mem = mem1;
 
-      if (idList.indexOf(mem.id) !== -1) mem.selected = true;
+  //     if (idList.indexOf(mem.id) !== -1) mem.selected = true;
 
-      return mem;
-    });
+  //     return mem;
+  //   });
 
-    this.setState({
-      members: arr,
-      selMembers: idList
-    });
+  //   groupList.map(group1 => {
+  //     const group = group1;
+  //     group.value = group.name;
 
-    return true;
-  }
+  //     return group;
+  //   })
+
+  //   groupList.push({id: -1, value: "全部成员"});
+
+  //   this.setState({
+  //     members: arr,
+  //     selMembers: idList,
+  //     groups: groupList,
+  //     checkedIndex: groupList.length - 1,
+  //   });
+
+  //   return true;
+  // }
 
   selAll() {
     this.setState(prevState => {
@@ -99,16 +115,25 @@ class EditMember extends Component {
     ProjectService.editProjectMember(proId, selMembers);
   }
 
+  changeGroupCheck(index) {
+    this.setState({
+      checkedIndex: index
+    });
+  }
+
   render() {
-    const { members, selMembers } = this.state;
+    const { members, selMembers, groups, checkedIndex } = this.state;
 
     return (
-      <div className="subject minH">
+      <div>
         <FirstEditMember
           members={members}
           selMembers={selMembers}
           selAll={this.selAll}
+          groups={groups}
+          checkedIndex={checkedIndex}
           transferMsg={this.transferMsgMem}
+          changeGroupCheck={this.changeGroupCheck}
         />
 
         <button

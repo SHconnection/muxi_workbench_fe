@@ -139,17 +139,16 @@ class TeamMember extends Component {
 
         {members.map(mem1 => {
           const mem = mem1;
+          const personalInfoPath = {
+            pathname: `${match.url}/personalInfo`,
+            state: { per: mem }
+          };
           let role = mem.role === 3 ? "管理员" : "";
           if (role === 7) role = "超级管理员";
 
           return (
             <div className="teamMember-singleList" key={mem.id}>
-              <Link
-                to={`${match.url}/personalInfo`}
-                onClick={() => {
-                  localStorage.per = JSON.stringify(mem);
-                }}
-              >
+              <Link to={personalInfoPath}>
                 <img src={mem.avatar} alt="" className="teamMember-imgSize" />
               </Link>
               <div className="teamMember-personalIntro">
