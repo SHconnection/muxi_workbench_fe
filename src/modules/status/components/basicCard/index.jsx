@@ -21,7 +21,7 @@ class Item extends Component {
     this.changeLike = this.changeLike.bind(this);
   }
 
-  changeLike(whetherLike, likeNumber, sid) {
+  changeLike(whetherLike, likeNumber) {
     if (whetherLike === 0) {
       this.setState({
         whetherLike: 1,
@@ -33,20 +33,11 @@ class Item extends Component {
         likeNumber: likeNumber - 1
       });
     }
-    fetch(`/status/${sid}/like/`, {
-      method: "PUT",
-      headers: {
-        token: this.token
-      },
-      body: {
-        iflike: whetherLike
-      }
-    });
   }
 
   render() {
     const { whetherLike, likeNumber, sid } = this.state;
-    const { avatar, username, time, content, commentCount, match } = this.props;
+    const { avatar, username, time, content, commentCount } = this.props;
     return (
       <div className="status-item-container">
         <div className="status-head">
@@ -61,14 +52,14 @@ class Item extends Component {
             <div className="status-item-time">{time}</div>
           </div>
           <div className="open">
-            <Link to={`${match.url}/${sid}`}>展开</Link>
+            <Link to={`/status/${sid}`}>展开</Link>
           </div>
         </div>
         <div className="status-item-content">{content}</div>
         <div className="others">
           <ReactSVG
             className="status-item-good"
-            onClick={() => this.changeLike(whetherLike, likeNumber, sid)}
+            onClick={() => this.changeLike(whetherLike, likeNumber)}
             path={Goods[whetherLike]}
           />
           <div className="status-item-goodnumber">{likeNumber}</div>

@@ -4,56 +4,31 @@ import { Link } from "react-router-dom";
 import Goback from "../../../components/common/goBack/index";
 import thumbs from "../../../assets/svg/commonIcon/thumbs.svg";
 import thumbsUp from "../../../assets/svg/commonIcon/thumbs_up.svg";
+import Button from "../../../components/common/button/index";
+import Avatar from "../../../components/common/avatar/index"
 import Othercomments from "../../../components/common/otherComments/comments";
-import Sendcomment from "../../../components/common/sendComment/comment";
-import AvatarImg from "../../../assets/img/avatar.png";
-import Cookie from "../../../service/cookie";
 import "../../../static/css/common.css";
 import Delete from "../../setting/components/delete/delete";
+import StatusService from "../../../service/status"
 import "./detail.css";
 
 const Goods = [thumbs, thumbsUp];
 
-class detail extends Component {
+class Detail extends Component {
   constructor(props) {
     super(props);
     this.state = {
       deleteX: false,
       sid: 0,
-      title: "这是一个标题",
-      content:
-        "这是一段文本这是一段文本这是一段文本这是一段文本这是一段文本这是一段文本这是一段文本这是一段文本这是一段文本这是一段文本这是一段文本这是一段文本",
-      time: "13:25",
-      likeCount: 12,
-      iflike: 1,
-      // userID: 0,
-      username: "木小犀",
-      commentList: [
-        {
-          cid: 1,
-          username: "木小犀",
-          avatar: { AvatarImg },
-          time: "2018/08/04",
-          content:
-            "这是一条评论这是一条评论这是一条评论这是一条评论这是一条评论这是一条评论这是一条评论这是一条评论这是一条评论这是一条评论这是一条评论这是一条评论这是一条评论这是一条评论这是一条评论这是一条评论。"
-        },
-        {
-          cid: 2,
-          username: "木小犀",
-          avatar: { AvatarImg },
-          time: "2018/08/04",
-          content:
-            "这是一条评论这是一条评论这是一条评论这是一条评论这是一条评论这是一条评论这是一条评论这是一条评论这是一条评论这是一条评论这是一条评论这是一条评论这是一条评论这是一条评论这是一条评论这是一条评论。"
-        },
-        {
-          cid: 3,
-          username: "木小犀",
-          avatar: { AvatarImg },
-          time: "2018/08/04",
-          content:
-            "这是一条评论这是一条评论这是一条评论这是一条评论这是一条评论这是一条评论这是一条评论这是一条评论这是一条评论这是一条评论这是一条评论这是一条评论这是一条评论这是一条评论这是一条评论这是一条评论。"
-        }
-      ]
+      title: "",
+      content:"",
+      time: "",
+      likeCount: 0,
+      iflike: 0,
+      userID: 0,
+      username: "",
+      comment:"",
+      commentList: []
     };
     this.transferMsgDel = this.transferMsgDel.bind(this);
     this.changeLike = this.changeLike.bind(this);
@@ -62,10 +37,21 @@ class detail extends Component {
 
   componentWillMount() {
     const { match } = this.props;
+    const { sid } = match.params.id;
+    const arr = StatusService.getStatuDetail(sid);
+
     this.setState({
-      sid: match.params.id
+      sid: arr.sid,
+      title: arr.title,
+      content: arr.content,
+      time: arr.time,
+      likeCount: arr.likeCount,
+      iflike: arr.iflike,
+      userID: arr.userID,
+      username: arr.username,
+      commentList: arr.commentList
     });
-  }
+  } 
 
   changeLike(iflike, likeCount, sid) {
     if (iflike === 0) {
@@ -73,21 +59,14 @@ class detail extends Component {
         iflike: 1,
         likeCount: likeCount + 1
       });
+      StatusService.iflike(sid, 1);
     } else {
       this.setState({
         iflike: 0,
         likeCount: likeCount - 1
       });
+      StatusService.iflike(sid, 0);
     }
-    fetch(`/status/${sid}/like/`, {
-      method: "PUT",
-      headers: {
-        token: Cookie.getCookie("token")
-      },
-      body: {
-        "content type": "appication.json"
-      }
-    });
   }
 
   transferMsgDel(deleteX) {
@@ -99,18 +78,39 @@ class detail extends Component {
       deleteX: true
     });
   }
+  onChange(comment){
+    this.setState({
+      comment: comment
+    })
+  }
+
+  // sendComment(value,){
+  //   StatusService.postComments(, value)
+  //   this.setState({
+  //     commentList: this.state.commentList.push({
+  //       cid: 0,
+  //       username: "",
+  //       avatar: "",
+  //       time: "",
+  //       content: value
+  //     })
+  //   });
+  // }
+  //如何获得自己的id
+
 
   render() {
     const {
       sid,
       deleteX,
       commentList,
+      comment,
       title,
       content,
       time,
       likeCount,
       iflike,
-      username
+      username,
     } = this.state;
     return (
       <div className="subject">
@@ -165,9 +165,24 @@ class detail extends Component {
             </div>
           ))}
         </div>
-        <Sendcomment className="sendcomment" />
+        <div className="send">
+          <Avatar className="comment-img" src="" width={49} height={49} />
+          {/* src是自己的头像 */}
+          <div className="push">
+            <textarea
+              className="send-comment"
+              type="text"
+              value={comment} 
+              onChange={this.onChange}
+              placeholder="   发表评论..."
+            />
+            <div className="comment-bt">
+              {/* <Button onClick={() => this.sendComment(comment,sid)} text="发表" /> */}
+            </div>
+          </div>
+        </div>
       </div>
     );
   }
 }
-export default detail;
+export default Detail;

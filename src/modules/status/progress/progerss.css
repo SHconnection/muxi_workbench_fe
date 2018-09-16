@@ -15,6 +15,5 @@
     align-items: center;
     height: 50px;
     border: 1px; 
-    border-style: solid;
-    border-color: red;
+    color: rgb(133, 131, 131)
   }
