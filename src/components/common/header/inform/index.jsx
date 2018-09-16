@@ -2,8 +2,10 @@ import React, { Component } from "react";
 import ReactSVG from "react-svg";
 import { Link } from "react-router-dom";
 // import { NavLink } from "react-router-dom";
+import infoRemindIcon from "../../../../assets/img/info-remind@2x.png";
 import SettingIcon from "../../../../assets/svg/commonIcon/setting.svg";
 import Hook from "../../../../assets/svg/commonIcon/hook.svg";
+
 import "./index.css";
 
 class Inform extends Component {
@@ -55,14 +57,13 @@ class Inform extends Component {
   read(id) {}
 
   render() {
-    const { icon } = this.props;
     const { hover, MessageList } = this.state;
     const message = MessageList.length;
     return (
       <div>
         <img
           className="header-info-icon"
-          src={icon}
+          src={infoRemindIcon}
           alt="info-remind"
           onMouseEnter={this.enter.bind(this)}
         />
@@ -77,14 +78,14 @@ class Inform extends Component {
                 className={
                   message ? "header-info-read" : "header-info-read read-grey"
                 }
-                // onClick={this.allread.bind(this)}
+                // onClick={this.read.bind(this)}
               >
                 全部已读
               </div>
             </div>
             <div className="header-info-content">
               {MessageList.map(
-                el =>
+                el => (
                   el.readed && (
                     <div className="info-item" key={el.id}>
                       <div className="info-text">
@@ -97,12 +98,13 @@ class Inform extends Component {
                       <div className="info-date">{el.time}</div>
                       <ReactSVG
                         className="info-hook"
-                        path={SettingIcon}
+                        path={Hook}
                         svgStyle={{ width: 14 }}
                         onClick={this.read(el.sourceID)}
                       />
                     </div>
                   )
+                )
               )}
               {!message && <div className="info-none">无新的通知</div>}
             </div>
