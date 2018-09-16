@@ -85,7 +85,7 @@ class Inform extends Component {
             </div>
             <div className="header-info-content">
               {MessageList.map(
-                el => (
+                el =>
                   el.readed && (
                     <div className="info-item" key={el.id}>
                       <div className="info-text">
@@ -104,7 +104,6 @@ class Inform extends Component {
                       />
                     </div>
                   )
-                )
               )}
               {!message && <div className="info-none">无新的通知</div>}
             </div>
