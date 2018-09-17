@@ -84,15 +84,15 @@ class SetProject extends Component {
         />
 
         <div className="select">
-          <button
-            type="button"
-            className="saveBtn"
-            onClick={this.saveProjectSet}
-          >
-            <Link to={`/project/${id}/editMem`} className="link">
-              保存
-            </Link>
-          </button>
+          <Link to={`/project/${id}/editMem`}>
+            <button
+              type="button"
+              className="saveBtn"
+              onClick={this.saveProjectSet}
+            >
+                保存
+            </button>
+          </Link>
           <button
             type="button"
             className="delBtn"

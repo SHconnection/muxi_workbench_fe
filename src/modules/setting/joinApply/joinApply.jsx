@@ -19,21 +19,7 @@ class JoinApply extends Component {
   componentDidMount() {
     const joinList = ManageService.getJoinApply();
 
-    if (!Array.isArray(joinList)) return false;
-
-    const arr = joinList.map(item1 => {
-      const item = item1;
-      const obj = {};
-
-      obj.name = item.userName;
-      obj.id = item.userID;
-      obj.email = item.userEmail;
-      obj.dealed = false;
-
-      return obj;
-    });
-
-    this.setState({ members: arr });
+    this.setState({ members: joinList });
 
     return true;
   }

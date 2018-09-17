@@ -30,11 +30,11 @@ class SelectMember extends Component {
 
     if (groupMember) {
       const { groupID } = this.props;
-      const arr = ManageService.groupMember(groupID).list;
+      const arr = ManageService.groupMember(groupID);
 
       if (!Array.isArray(arr)) return false;
 
-      preArray = arr.map(mem => mem.userID);
+      preArray = arr.map(mem => mem.id);
     }
 
     if (setManager) {
@@ -42,7 +42,7 @@ class SelectMember extends Component {
 
       if (!Array.isArray(arr)) return false;
 
-      preArray = arr.map(mem => mem.userID);
+      preArray = arr.map(mem => mem.id);
     }
 
     const arr = ManageService.getAllMem();
