@@ -74,7 +74,8 @@ const StatusService = {
         "Content-Type": "application/json"
       }
     });
-  }
+  },
+
 };
 
 export default StatusService;

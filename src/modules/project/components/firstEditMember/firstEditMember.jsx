@@ -70,7 +70,7 @@ FirstEditMember.propTypes = {
   }),
   changeGroupCheck: PropTypes.func,
   checkedIndex: PropTypes.number,
-  proId: PropTypes.number,
+  proId: PropTypes.number
 };
 
 FirstEditMember.defaultProps = {
@@ -81,5 +81,5 @@ FirstEditMember.defaultProps = {
   groups: {},
   changeGroupCheck: () => {},
   checkedIndex: 0,
-  proId: 0,  
+  proId: 0
 };

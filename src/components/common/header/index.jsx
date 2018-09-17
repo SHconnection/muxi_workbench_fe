@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import { NavLink } from "react-router-dom";
 import logo from "../../../assets/img/logo@2x.png";
 import searchIcon from "../../../assets/img/search@2x.png";
-import infoRemindIcon from "../../../assets/img/info-remind@2x.png";
 import AvatarImg from "../../../assets/img/avatar.png";
 import Avatar from "../avatar/index";
 import Inform from "./inform/index";
@@ -73,10 +72,7 @@ class Header extends Component {
               <Avatar src={AvatarImg} />
             </div>
             <div>
-              <Inform
-                // className="header-info-icon"
-                icon={infoRemindIcon}
-              />
+              <Inform />
             </div>
             {showInput && <input className="header-search-input" type="text" />}
             <div

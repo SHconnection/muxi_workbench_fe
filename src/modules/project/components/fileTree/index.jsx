@@ -20,6 +20,8 @@ class FileTreeComponent extends Component {
 
   changeVisible() {
     const { visible } = this.state
+    const { select, root } = this.props
+    select(root)
     this.setState({
       visible: !visible
     })
@@ -44,16 +46,21 @@ class FileTreeComponent extends Component {
   }
 
   render() {
-    const { root } = this.props
+    const { select, root } = this.props
     const { visible } = this.state
     
     let childNodes;
-    if(root.child.folder) {
-      childNodes = root.child.folder.map(node => (
-        <div key={node.id}>
-          <FileTreeComponent root={node} />
-        </div>
-      ))
+    if(root.child) {
+      childNodes = root.child.map(node => {
+        if (node.folder) {
+          return (
+            <div key={node.id}>
+              <FileTreeComponent root={node} select={select} />
+            </div>
+          )
+        }
+        return null
+      })
     }
     
     if(visible) {
@@ -84,24 +91,22 @@ class FileTreeComponent extends Component {
 
 FileTreeComponent.propTypes = {
   root: PropTypes.shape({
+    folder: PropTypes.bool,
     id: PropTypes.number,
     name: PropTypes.string,
-    child: PropTypes.shape({
-      folder: PropTypes.array,
-      file: PropTypes.array
-    })
-  })
+    child: PropTypes.array
+  }),
+  select: PropTypes.func
 };
 
 FileTreeComponent.defaultProps = {
   root: {
+    folder: false,
     id: 0,
     name: "",
-    child: {
-      folder: [],
-      file: []
-    }
-  }
+    child: []
+  },
+  select: () => {}
 };
 
 export default FileTreeComponent;

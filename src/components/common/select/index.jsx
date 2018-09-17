@@ -33,7 +33,7 @@ class Select extends Component {
       reader.readAsDataURL(file);
     }
     reader.onload = e => {
-      console.log(e.target.result);
+      // console.log(e.target.result);
     };
     const { onChange } = this.props;
     onChange(file);
@@ -43,13 +43,12 @@ class Select extends Component {
   }
 
   chooseOption(index, type) {
-    //更改组
+    // 更改组
     if (type === "file") {
       return;
     }
     const { proId, checkedIndex, onChange, items } = this.props;
-    if(checkedIndex === index)
-      return;
+    if (checkedIndex === index) return;
     const { list: proMember } = ManageService.getProMember(proId);
     const idList = proMember.map(mem => mem.id);
     const groupID = items[index].id;
@@ -63,7 +62,7 @@ class Select extends Component {
       return mem;
     });
     const { showInput } = this.state;
-    
+
     onChange(index, arr);
     this.setState({
       showInput: !showInput
@@ -131,7 +130,7 @@ Select.propTypes = {
   ),
   checkedIndex: PropTypes.number,
   onChange: PropTypes.func,
-  proId: PropTypes.number,
+  proId: PropTypes.number
 };
 
 Select.defaultProps = {

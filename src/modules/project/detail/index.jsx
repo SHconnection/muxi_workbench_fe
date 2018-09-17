@@ -6,7 +6,7 @@ import { Scrollbars } from 'react-custom-scrollbars';
 import GoBack from "../../../components/common/goBack/index";
 import Icon from "../../../components/common/icon/index";
 import FileTreeComponent from "../components/fileTree/index";
-import FileTree from "../fileTree";
+import FileTree from "../fileTree1";
 import Button from "../../../components/common/button/index"
 import Select from "../../../components/common/select/index";
 import FolderItem from "../components/folderItem/index";
@@ -229,7 +229,6 @@ class ProjectDetailIndex extends Component {
       showDleteFile,
       showMoveFile,
       } = this.state;
-    const {match:{params:{id}}} = this.props;
       
     return (
       <div className="projectDetail-container">
@@ -254,7 +253,7 @@ class ProjectDetailIndex extends Component {
                 <Icon type="trash" tip="回收站" to="/trash" />
               </div>
               <div className="projectDetail-header-icon-container">
-                <Icon type="setting" tip="设置" to={`/project/${id}/setting`} />
+                <Icon type="setting" tip="设置" to="/setting" />
               </div>
             </div>
           </div>
@@ -378,7 +377,10 @@ class ProjectDetailIndex extends Component {
                 <div className="move-file-alert-tip">选择保存路径</div>
                 <div className="move-file-tree-container">
                   <Scrollbars>
-                    <FileTreeComponent root={FileTree.root} />
+                    <FileTreeComponent 
+                      root={FileTree.root} 
+                      select={el => {console.log(el);}} 
+                    />
                   </Scrollbars>
                 </div>
                 <div className="move-file-alert-cancel">
@@ -412,15 +414,12 @@ class ProjectDetailIndex extends Component {
 
 ProjectDetailIndex.propTypes = {
   match: PropTypes.shape({
-    url: PropTypes.string,
-    params: PropTypes.shape({
-      id: PropTypes.string,
-    })
+    url: PropTypes.string
   })
 };
 
 ProjectDetailIndex.defaultProps = {
-  match: {},
+  match: {}
 };
 
 export default ProjectDetailIndex;

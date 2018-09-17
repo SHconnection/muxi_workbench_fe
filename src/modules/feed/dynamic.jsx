@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import FeedItem from "./components/feedList/index";
 import Gotop from "../../components/common/toTop/top";
+import FeedService from "../../service/feed";
 import "../../static/css/common.css";
 import "./dynamic.css";
 
@@ -33,92 +34,68 @@ class Dynamic extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      feedList: [
-        {
-          id: 1,
-          timeDay: "2018/8/26",
-          timeHour: "21:36",
-          avatarUrl: " ",
-          uid: 7,
-          action: "XXX加入了团队",
-          kind: 1,
-          sourceID: 3,
-          divider: 1,
-          dividerID: 2,
-          dividerName: "成员"
-        },
-        {
-          id: 2,
-          timeDay: "2018/8/25",
-          timeHour: "21:36",
-          avatarUrl: " ",
-          uid: 8,
-          action: "XXX有了新的进度",
-          kind: 1,
-          sourceID: 3,
-          divider: 1,
-          dividerID: 2,
-          dividerName: "xxx的进度"
-        },
-        {
-          id: 3,
-          timeDay: "2018/8/25",
-          timeHour: "20:36",
-          avatarUrl: " ",
-          uid: 12,
-          action: "XXX有了新的进度",
-          kind: 1,
-          sourceID: 3,
-          divider: 0,
-          dividerID: 2,
-          dividerName: "xxx的进度"
-        },
-        {
-          id: 4,
-          timeDay: "2018/8/23",
-          timeHour: "21:36",
-          avatarUrl: " ",
-          uid: 2,
-          action: "木小犀有了新的进度",
-          kind: 1,
-          sourceID: 3,
-          divider: 1,
-          dividerID: 2,
-          dividerName: "木小犀的进度"
-        },
-        {
-          id: 5,
-          timeDay: "2018/8/22",
-          timeHour: "21:36",
-          avatarUrl: " ",
-          uid: 2,
-          action: "XXX编辑了文档：木犀新人任务",
-          kind: 1,
-          sourceID: 3,
-          divider: 1,
-          dividerID: 2,
-          dividerName: "木犀101"
-        },
-        {
-          id: 6,
-          timeDay: "2018/8/22",
-          timeHour: "21:36",
-          avatarUrl: " ",
-          uid: 7,
-          action: "XXX上传了文件：xxx文件",
-          kind: 1,
-          sourceID: 3,
-          divider: 1,
-          dividerID: 2,
-          dividerName: "华师匣子"
-        }
-      ]
-      // page: 1
+      feedList: [],
+      page: 0,
+      count: 0
     };
   }
 
+  // componentWillMount(){
+  //   const arr =  FeedService.getFeedList(0);
+  //   this.setState({
+  //     cout: arr.cout,
+  //     page: arr.page,
+  //     statuList: arr.statuList
+  //   });
+  // }
+
+  componentDidMount() {
+    const wrapper = this.refs.wrapper;
+    const getFeedList = this.getFeedList;
+    const that = this; // 为解决不同context的问题
+    let timeCount;
+
+    function callback() {
+      const top = wrapper.getBoundingClientRect().top;
+      const windowHeight = window.screen.height;
+
+      if (top && top < windowHeight) {
+        // 当 wrapper 已经被滚动到页面可视范围之内触发
+        getFeedList(that);
+      }
+    }
+    window.addEventListener(
+      "scroll",
+      () => {
+        if (this.state.isLoadingMore) {
+          return;
+        }
+
+        if (timeCount) {
+          clearTimeout(timeCount);
+        }
+
+        timeCount = setTimeout(callback, 50);
+      },
+      false
+    );
+  }
+
+  getFeedList(page, count) {
+    if (count / 40 > page) {
+      const arr = FeedService.getFeedList(page + 1);
+      this.setState({
+        page: arr.page,
+        count: arr.count,
+        feedList: arr.feedList
+      });
+    } else {
+      return "已经到底啦";
+    }
+  }
+
   render() {
-    const { feedList } = this.state;
+    const { feedList, page, count } = this.state;
     return (
       <div className="feed">
         <div className="subject">
@@ -153,6 +130,13 @@ class Dynamic extends Component {
               </div>
             ))}
           </div>
+          <div
+            className="loadMore"
+            ref="wrapper"
+            onClick={this.getFeedList.bind(page, count)}
+          >
+            加载更多...
+          </div>
         </div>
         <Gotop className="go-top" />
       </div>
@@ -161,11 +145,3 @@ class Dynamic extends Component {
 }
 
 export default Dynamic;
-
-// kind=0  status
-// kind=1  project
-// kind=2  doc
-// kind=3  comment
-// kind=4  team
-// kind=5  user
-// kind=6  file
