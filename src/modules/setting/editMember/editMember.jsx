@@ -17,7 +17,16 @@ class EditMember extends Component {
     this.state = {
       selMembers: [],
       members: [],
-      groups: [],
+      groups: [
+        {
+          id: 1,
+          value: "123"
+        },
+        {
+          id: 2,
+          value: "342"
+        }
+      ],
       checkedIndex: 0
     };
 
@@ -28,25 +37,25 @@ class EditMember extends Component {
   }
 
   // componentDidMount() {
-    // const {
-    //   match: { params: proId }
-    // } = this.props;
-    // const arr = ManageService.getAllMem();
-    // const { list: proMember } = ManageService.getProMember(proId);
-    // const { groupList } = ManageService.getAllGroup();
+  // const {
+  //   match: { params: proId }
+  // } = this.props;
+  // const arr = ManageService.getAllMem();
+  // const { list: proMember } = ManageService.getProMember(proId);
+  // const { groupList } = ManageService.getAllGroup();
 
-    // if (!Array.isArray(proMember)) return false;
-    // if(!Array.isArray(groupList)) return false;
+  // if (!Array.isArray(proMember)) return false;
+  // if(!Array.isArray(groupList)) return false;
 
-    // const idList = proMember.map(mem => mem.id);
+  // const idList = proMember.map(mem => mem.id);
 
-    // arr.map(mem1 => {
-    //   const mem = mem1;
+  // arr.map(mem1 => {
+  //   const mem = mem1;
 
-    //   if (idList.indexOf(mem.id) !== -1) mem.selected = true;
+  //   if (idList.indexOf(mem.id) !== -1) mem.selected = true;
 
-    //   return mem;
-    // });
+  //   return mem;
+  // });
 
   //   groupList.map(group1 => {
   //     const group = group1;
@@ -57,44 +66,15 @@ class EditMember extends Component {
 
   //   groupList.push({id: 0, value: "全部成员"});
 
-    // this.setState({
-    //   members: arr,
-    //   selMembers: idList,
-    //   groups: groupList,
-    //   checkedIndex: groupList.length - 1,
-    // });
+  // this.setState({
+  //   members: arr,
+  //   selMembers: idList,
+  //   groups: groupList,
+  //   checkedIndex: groupList.length - 1,
+  // });
 
   //   return true;
   // }
-
-  componentDidUpdate(prevProps, prevState){
-    const { checkedIndex: preCheckedIndex } = prevState;
-    const { checkedIndex, groups } = this.state;
-    const {
-      match: { params: proId }
-    } = this.props;
-    const { list: proMember } = ManageService.getProMember(proId);
-    const idList = proMember.map(mem => mem.id);
-
-    if(checkedIndex !== preCheckedIndex){
-      const groupID = groups[checkedIndex].id;
-
-      const arr = ManageService.groupMember(groupID);
-
-      arr.map(mem1 => {
-        const mem = mem1;
-  
-        if (idList.indexOf(mem.id) !== -1) mem.selected = true;
-  
-        return mem;
-      });
-
-      this.setState({
-        members: arr,
-        selMembers: idList,
-      })
-    }
-  }
 
   selAll() {
     this.setState(prevState => {
@@ -144,14 +124,18 @@ class EditMember extends Component {
     ProjectService.editProjectMember(proId, selMembers);
   }
 
-  changeGroupCheck(index) {
+  changeGroupCheck(index, arr) {
     this.setState({
-      checkedIndex: index
+      checkedIndex: index,
+      members: arr
     });
   }
 
   render() {
     const { members, selMembers, groups, checkedIndex } = this.state;
+    const {
+      match: { params: proId }
+    } = this.props;
 
     return (
       <div>
@@ -163,6 +147,7 @@ class EditMember extends Component {
           checkedIndex={checkedIndex}
           transferMsg={this.transferMsgMem}
           changeGroupCheck={this.changeGroupCheck}
+          proId={proId}
         />
 
         <button

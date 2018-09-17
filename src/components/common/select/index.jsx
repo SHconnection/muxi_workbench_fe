@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 import ReactSVG from "react-svg";
 import RectangleDown from "../../../assets/svg/commonIcon/rectangle_down.svg";
+import ManageService from "../../../service/manage";
 import "./index.css";
 
 class Select extends Component {
@@ -42,12 +43,28 @@ class Select extends Component {
   }
 
   chooseOption(index, type) {
+    //更改组
     if (type === "file") {
       return;
     }
+    const { proId, checkedIndex, onChange, items } = this.props;
+    if(checkedIndex === index)
+      return;
+    const { list: proMember } = ManageService.getProMember(proId);
+    const idList = proMember.map(mem => mem.id);
+    const groupID = items[index].id;
+    const arr = ManageService.groupMember(groupID);
+
+    arr.map(mem1 => {
+      const mem = mem1;
+
+      if (idList.indexOf(mem.id) !== -1) mem.selected = true;
+
+      return mem;
+    });
     const { showInput } = this.state;
-    const { onChange } = this.props;
-    onChange(index);
+    
+    onChange(index, arr);
     this.setState({
       showInput: !showInput
     });
@@ -113,13 +130,15 @@ Select.propTypes = {
     })
   ),
   checkedIndex: PropTypes.number,
-  onChange: PropTypes.func
+  onChange: PropTypes.func,
+  proId: PropTypes.number,
 };
 
 Select.defaultProps = {
   items: [],
   checkedIndex: 0,
-  onChange: () => {}
+  onChange: () => {},
+  proId: 0
 };
 
 export default Select;
