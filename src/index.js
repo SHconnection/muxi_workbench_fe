@@ -13,6 +13,7 @@ import Dynamic from "./modules/feed/dynamic";
 import Progress from "./modules/status/index";
 import Member from "./modules/member/index";
 import Message from "./modules/message/index";
+import Search from "./modules/search/index";
 import Header from "./components/common/header/index";
 import edit from "./modules/status/markdown/edit";
 import "./index.css";
@@ -29,6 +30,7 @@ ReactDOM.render(
         <Route path="/edit" component={edit} />
         <Route path="/member" component={Member} />
         <Route path="/message" component={Message} />
+        <Route path="/search" component={Search} />
         <Route component={NoMatch} />
       </Switch>
     </div>

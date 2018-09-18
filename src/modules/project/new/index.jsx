@@ -191,7 +191,7 @@ class NewProject extends Component {
                   onChange={this.checkAll}
                   id="memberCheckedAll"
                 />
-                <label htmlFor="memberCheckedAll">{selectAllText}</label>
+                <label htmlFor="memberCheckedAll">全选</label>
 
                 <div className="newProject-group-select">
                   <Select

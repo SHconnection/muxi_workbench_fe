@@ -9,7 +9,7 @@ const ManageService = {
         "Content-Type": "application/json"
       },
       body: JSON.stringify({
-        groupName: groupName,
+        groupName,
         userlist: selMembers
       })
     });
@@ -23,26 +23,55 @@ const ManageService = {
         "Content-Type": "application/json"
       },
       body: JSON.stringify({
-        userID: userID
+        userID
       })
     });
   },
 
   groupMember(groupID) {
-    return Fetch(`/group/${groupID}/userList/`, {
+    const { list: memberList } = Fetch(`/group/${groupID}/userList/`, {
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+        token: localStorage.user.token
+      }
+    });
+
+    if (!Array.isArray(memberList)) return false;
+
+    return memberList.map(mem1 => {
+      const mem = mem1;
+      const obj = {};
+
+      obj.name = mem.username;
+      obj.id = mem.userID;
+      obj.email = mem.email;
+      obj.role = mem.role;
+      obj.selected = false;
+
+      return obj;
+    });
+  },
+
+  getProMember(proID) {
+    const { list: memberList } = Fetch(`/group/${proID}/userList/`, {
       headers: {
         Accept: "application/json",
         "Content-Type": "application/json"
       }
     });
-  },
 
-  getProMember(proID) {
-    return Fetch(`/group/${proID}/userList/`, {
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json"
-      }
+    if (!Array.isArray(memberList)) return false;
+
+    return memberList.map(mem1 => {
+      const mem = mem1;
+      const obj = {};
+
+      obj.name = mem.username;
+      obj.id = mem.userID;
+      obj.avatar = mem.avatar;
+
+      return obj;
     });
   },
 
@@ -54,7 +83,7 @@ const ManageService = {
         "Content-Type": "application/json"
       },
       body: JSON.stringify({
-        userList: userList
+        userList
       })
     });
   },
@@ -167,37 +196,7 @@ const ManageService = {
   },
 
   getJoinApply() {
-    return Fetch("/team/applyList/", {
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-        token: localStorage.user.token
-      }
-    });
-  },
-
-  dealJoinApply(userID) {
-    return Fetch(`/team/apply/{userID}/`, {
-      method: "DELETE",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json"
-      }
-    });
-  },
-
-  getAdminList() {
-    return Fetch("/user/admins/", {
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-        token: localStorage.user.token
-      }
-    });
-  },
-
-  getAllMem() {
-    const { list: memberList } = Fetch("/group/0/userList/", {
+    const { list: memberList } = Fetch("/team/applyList/", {
       headers: {
         Accept: "application/json",
         "Content-Type": "application/json",
@@ -213,12 +212,47 @@ const ManageService = {
 
       obj.name = mem.username;
       obj.id = mem.userID;
-      obj.email = mem.email;
-      obj.role = mem.role;
-      obj.selected = false;
+      obj.email = mem.userEmail;
+      obj.dealed = false;
 
       return obj;
     });
+  },
+
+  dealJoinApply(userID) {
+    return Fetch(`/team/apply/${userID}/`, {
+      method: "DELETE",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json"
+      }
+    });
+  },
+
+  getAdminList() {
+    const { list: memberList } = Fetch("/user/admins/", {
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+        token: localStorage.user.token
+      }
+    });
+
+    if (!Array.isArray(memberList)) return false;
+
+    return memberList.map(mem1 => {
+      const mem = mem1;
+      const obj = {};
+
+      obj.name = mem.username;
+      obj.id = mem.userID;
+
+      return obj;
+    });
+  },
+
+  getAllMem() {
+    this.groupMember(0);
   },
 
   getAllPro() {

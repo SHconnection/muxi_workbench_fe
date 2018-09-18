@@ -17,7 +17,8 @@ const FirstEditMember = ({
   selMembers,
   groups,
   changeGroupCheck,
-  checkedIndex
+  checkedIndex,
+  proId
 }) => (
   <div>
     <div className="title">编辑项目成员</div>
@@ -39,6 +40,7 @@ const FirstEditMember = ({
         items={groups}
         checkedIndex={checkedIndex}
         onChange={changeGroupCheck}
+        proId={proId}
       />
     </div>
     <Member
@@ -67,7 +69,8 @@ FirstEditMember.propTypes = {
     id: PropTypes.number
   }),
   changeGroupCheck: PropTypes.func,
-  checkedIndex: PropTypes.number
+  checkedIndex: PropTypes.number,
+  proId: PropTypes.number
 };
 
 FirstEditMember.defaultProps = {
@@ -77,5 +80,6 @@ FirstEditMember.defaultProps = {
   selAll: () => {},
   groups: {},
   changeGroupCheck: () => {},
-  checkedIndex: 0
+  checkedIndex: 0,
+  proId: 0
 };
