@@ -6,7 +6,7 @@ import { Scrollbars } from 'react-custom-scrollbars';
 import GoBack from "../../../components/common/goBack/index";
 import Icon from "../../../components/common/icon/index";
 import FileTreeComponent from "../components/fileTree/index";
-import FileTree from "../fileTree1";
+import {Root, FileTree, getRoot} from "../fileTree1";
 import Button from "../../../components/common/button/index"
 import Select from "../../../components/common/select/index";
 import FolderItem from "../components/folderItem/index";
@@ -158,6 +158,11 @@ class ProjectDetailIndex extends Component {
     this.setState({
       pid: match.params.id
     });
+    // console.log(getRoot());
+    // const child = {folder: true, id: 211, name: "文件夹2-1-1",child:[]}
+    // console.log(FileTree.insertNode(child, 21, getRoot()));
+    // console.log(FileTree.deleteNode(21, getRoot()));
+    // console.log(FileTree.moveNode(21, 1, getRoot()));
   }
 
   startCreateFile(index) {
@@ -378,7 +383,7 @@ class ProjectDetailIndex extends Component {
                 <div className="move-file-tree-container">
                   <Scrollbars>
                     <FileTreeComponent 
-                      root={FileTree.root} 
+                      root={Root} 
                       select={el => {console.log(el);}} 
                     />
                   </Scrollbars>
