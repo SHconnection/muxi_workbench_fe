@@ -54,7 +54,7 @@ class Inform extends Component {
     });
   }
 
-  read(id) {}
+  // read(id) {}
 
   render() {
     const { hover, MessageList } = this.state;
@@ -100,7 +100,7 @@ class Inform extends Component {
                         className="info-hook"
                         path={Hook}
                         svgStyle={{ width: 14 }}
-                        onClick={this.read(el.sourceID)}
+                        // onClick={this.read(el.sourceID)}
                       />
                     </div>
                   )
