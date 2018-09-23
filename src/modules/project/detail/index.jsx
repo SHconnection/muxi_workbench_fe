@@ -6,7 +6,7 @@ import { Scrollbars } from 'react-custom-scrollbars';
 import GoBack from "../../../components/common/goBack/index";
 import Icon from "../../../components/common/icon/index";
 import FileTreeComponent from "../components/fileTree/index";
-import FileTree from "../fileTree1";
+import {Root, FileTree, getRoot} from "../fileTree1";
 import Button from "../../../components/common/button/index"
 import Select from "../../../components/common/select/index";
 import FolderItem from "../components/folderItem/index";
@@ -31,6 +31,7 @@ class ProjectDetailIndex extends Component {
         intro: "这是简介这是简介这是简介",
         userCount: 58
       },
+      fileRoot: Root,
       // 创建文件夹和上传文件选项
       fileOption: [
         {
@@ -158,6 +159,11 @@ class ProjectDetailIndex extends Component {
     this.setState({
       pid: match.params.id
     });
+    // console.log(getRoot());
+    // const child = {folder: true, id: 211, name: "文件夹2-1-1",child:[]}
+    // console.log(FileTree.insertNode(child, 21, getRoot()));
+    // console.log(FileTree.deleteNode(21, getRoot()));
+    // console.log(FileTree.moveNode(21, 1, getRoot()));
   }
 
   startCreateFile(index) {
@@ -228,6 +234,7 @@ class ProjectDetailIndex extends Component {
       showCreateDocFile,
       showDleteFile,
       showMoveFile,
+      fileRoot
       } = this.state;
       
     return (
@@ -378,8 +385,41 @@ class ProjectDetailIndex extends Component {
                 <div className="move-file-tree-container">
                   <Scrollbars>
                     <FileTreeComponent 
-                      root={FileTree.root} 
-                      select={el => {console.log(el);}} 
+                      root={fileRoot} 
+                      select={el => {
+                        const fileRootTemp = Object.assign({}, fileRoot)
+                        fileRootTemp.selected = !fileRootTemp.selected
+                        FileTree.initNodeSelected(fileRootTemp)
+                        this.setState({
+                          fileRoot: fileRootTemp
+                        })
+                      }}
+                      finalSelect={el => {
+                        const fileRootTemp = Object.assign({}, fileRoot)
+                        FileTree.initNodeFinalSelected(fileRootTemp)
+                        if (el.selected || el.router.length === 1) {
+                          // // 选中的时候或者点击的是根节点
+                          const fatherId = el.id
+                          const fatherNode = FileTree.searchNode(fatherId, fileRootTemp)
+                          FileTree.initNodeFinalSelected(fileRootTemp)
+                          fatherNode.finalSelected = true
+                          fatherNode.selected = true
+                          this.setState({
+                            fileRoot: fileRootTemp
+                          })
+                          console.log("final", fileRootTemp)
+                        }
+                        else {
+                          // 取消选中
+                          const fatherId = el.router[el.router.length-2]
+                          const fatherNode = FileTree.searchNode(fatherId, fileRootTemp)
+                          fatherNode.finalSelected = true
+                          this.setState({
+                            fileRoot: fileRootTemp
+                          })
+                          console.log("final", fileRootTemp)
+                        }
+                      }}
                     />
                   </Scrollbars>
                 </div>
