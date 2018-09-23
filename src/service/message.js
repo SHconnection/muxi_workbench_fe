@@ -19,7 +19,7 @@ const MessageService = {
   },
 
   getMessageList(page) {
-    return Fetch(`/message/list${  page  }/`, {
+    return Fetch(`/message/list/${page}/`, {
       method: "GET",
       headers: {
         Accept: "application/json",

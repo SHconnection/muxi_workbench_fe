@@ -4,6 +4,7 @@
 import React, { Component } from "react";
 import Select from "../../components/common/select/index";
 import Button from "../../components/common/button/index";
+import ManageService from "../../service/manage"
 import "../../static/css/common.css";
 import "./index.css";
 
@@ -98,10 +99,11 @@ class Search extends Component {
         userCount: 0
       }
     ];
+    // const projectList = ManageService.getAllPro();
     const arr = projectList.map(el => {
       const el1 = { id: 0, value: "" };
-      el1.id = el.projectID;
-      el1.value = el.projectName;
+      el1.id = el.id;
+      el1.value = el.name;
       return el1;
     });
     arr.unshift({ id: 0, value: "所有项目" });

@@ -1,0 +1,14 @@
+<svg width="15px" height="12px" viewBox="0 0 15 12" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 51.3 (57544) - http://www.bohemiancoding.com/sketch -->
+    <title>确定</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="高保真原型" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="通知" transform="translate(-1125.000000, -129.000000)" fill="#108EE9" fill-rule="nonzero">
+            <g id="确定" transform="translate(1122.000000, 124.000000)">
+                <rect id="Rectangle-path" opacity="0" x="0" y="0" width="22" height="22"></rect>
+                <path d="M17.6,5.9125 C17.1875,5.5 16.5,5.5 16.0875,5.9125 L8.525,13.6125 L5.775,10.8625 C5.3625,10.45 4.675,10.45 4.2625,10.8625 C3.85,11.275 3.85,11.9625 4.2625,12.375 L7.7,15.8125 C7.975,16.0875 8.25,16.0875 8.525,16.0875 C8.8,16.0875 9.075,15.95 9.35,15.8125 L17.6,7.5625 C18.0125,7.0125 18.0125,6.325 17.6,5.9125 Z" id="Shape"></path>
+            </g>
+        </g>
+    </g>
+</svg>

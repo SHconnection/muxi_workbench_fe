@@ -51,7 +51,7 @@ class Message extends Component {
           </div>
           <div className="message-list">
             {MessageList.map(el => (
-              <div className="message-item">
+              <div className="message-item" key={el.sourceID}>
                 <div className="message-text">
                   {el.fromName}
                   评价了你的文档

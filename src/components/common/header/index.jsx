@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { NavLink } from "react-router-dom";
+import { NavLink,Redirect } from "react-router-dom";
 import logo from "../../../assets/img/logo@2x.png";
 import searchIcon from "../../../assets/img/search@2x.png";
 import AvatarImg from "../../../assets/img/avatar.png";
@@ -11,8 +11,11 @@ class Header extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      showInput: false
+      showInput: false,
+      redirect: false
     };
+    this.searchRef = React.createRef();
+    this.enterSearch = this.enterSearch.bind(this);
   }
 
   clickSearchIcon() {
@@ -21,9 +24,36 @@ class Header extends Component {
       showInput: !that.state.showInput
     });
   }
+  
+  searchItem() {
+    var value = this.refs.searchRef.value;
+    // console.log(value);
+    if(value !== ''){
+      this.setState({
+        redirect: true
+      });
+    }
+    
+    
+  }
+  
+  enterSearch(e) {
+    if(e.keyCode === 13){
+      this.searchItem();
+    }
+  }
 
   render() {
-    const { showInput } = this.state;
+    const { showInput, redirect } = this.state;
+    if(redirect){
+      return (
+        <div>
+          <Header />
+          <Redirect push to="/search" />
+        </div>
+
+      )
+    }
 
     return (
       <div className="header-container">
@@ -74,7 +104,7 @@ class Header extends Component {
             <div>
               <Inform />
             </div>
-            {showInput && <input className="header-search-input" type="text" />}
+            {showInput && <input className="header-search-input" ref="searchRef" onKeyUp={this.enterSearch} type="text" />}
             <div
               onClick={this.clickSearchIcon.bind(this)}
               onKeyDown={() => {}}

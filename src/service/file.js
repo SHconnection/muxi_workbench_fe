@@ -1,5 +1,17 @@
-// import Fetch from "./fetch";
+import Fetch from "./fetch";
 
-// const FileService = {};
+const FileService = {
+    getDocConnent(id) {
+        return Fetch(`/file/doc/${id}`, {
+          method: "GET",
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+            token: localStorage.user.token
+          }
+        });
+      }
 
-// export default FileService;
+};
+
+export default FileService;
