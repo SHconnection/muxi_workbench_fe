@@ -2,6 +2,8 @@
 查看全部信息
 */
 import React, { Component } from "react";
+import Gotop from "../../components/common/toTop/top";
+import MessageService from "../../service/message";
 import "../../static/css/common.css";
 import "./index.css";
 
@@ -55,12 +57,13 @@ class Message extends Component {
                   评价了你的文档
                 </div>
                 <div className="message-date">{el.time}</div>
-                <div className="message-readed">已读</div>
+                <div className="message-readed">{el.readed ? "已读" : ""}</div>
               </div>
             ))}
           </div>
           <div className="message-none">没有更多通知了</div>
         </div>
+        <Gotop className="go-top" />
       </div>
     );
   }
