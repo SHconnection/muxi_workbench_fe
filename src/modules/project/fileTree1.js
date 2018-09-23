@@ -4,6 +4,8 @@ export const Root =
   id: 0,
   name: "全部文件",
   router: [0],
+  selected: false,
+  finalSelected: false,
   child: [
     {
       folder: true,
@@ -110,6 +112,24 @@ const FileTreeRecursion = {
 }
 
 export const FileTree = {
+   initNodeSelected(node) {
+      const nodeTemp = node
+      for (let i = 0; i < nodeTemp.child.length; i += 1) {
+        nodeTemp.child[i].selected = false;
+        if (nodeTemp.child[i].child && nodeTemp.child[i].child.length) {
+          FileTree.initNodeSelected(nodeTemp.child[i])
+        }
+      }
+    },
+    initNodeFinalSelected(node) {
+      const nodeTemp = node
+      for (let i = 0; i < nodeTemp.child.length; i += 1) {
+        nodeTemp.child[i].finalSelected = false;
+        if (nodeTemp.child[i].child && nodeTemp.child[i].child.length) {
+          FileTree.initNodeFinalSelected(nodeTemp.child[i])
+        }
+      }
+    },
   // 查找
   searchNode(id, root) {
     // 在root的树中找到对应id的节点

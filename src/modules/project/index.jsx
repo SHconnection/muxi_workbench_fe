@@ -8,6 +8,7 @@ import SetProject from "../setting/projectSetting/projectSetting";
 import EditMember from "../setting/editMember/editMember";
 import ProjectDetailAllFile from "./detail/allFile/index";
 import ProjectDetailAllDoc from "./detail/allDoc/index";
+import DocPreview from "./detail/docPreview/index";
 import "../../static/css/common.css";
 
 const Project = props => {
@@ -23,6 +24,7 @@ const Project = props => {
       <Route path={`${match.url}/:id/allDoc`} component={ProjectDetailAllDoc} />
       <Route path={`${match.url}/:pid/fileFolder/:id`} component={ProjectDetailAllFile} />
       <Route path={`${match.url}/:pid/docFolder/:id`} component={ProjectDetailAllDoc} />
+      <Route path={`${match.url}/:pid/doc/:id`} component={DocPreview} />
     </div>
   );
 };
