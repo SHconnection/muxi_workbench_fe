@@ -30,6 +30,7 @@ class JoinApply extends Component {
     mem.dealed = true;
 
     ManageService.addMember(mem.id);
+    ManageService.dealJoinApply(mem.id);
 
     return this;
   }

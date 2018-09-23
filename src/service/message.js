@@ -1,29 +1,21 @@
 import Fetch from "./fetch";
 
 const MessageService = {
-    getPersonalAttention(){
-        return Fetch('/user/attention/',{
-            headers: {
-                "Accept": "application/json",
-                "Content-Type": "application/json",
-                "token": localStorage.user.token
-            },
-        })
-    },
+  getPersonalAttention() {
+    return Fetch("/user/attention/", {
+      token: JSON.parse(localStorage.user).token
+    });
+  },
 
-    attentionDel(filename){
-        return Fetch('/user/attention/',{
-            methods: "DELETE",
-            headers: {
-                "Accept": "application/json",
-                "Content-Type": "application/json",
-                "token": localStorage.user.token
-            },
-            body: JSON.stringify({
-                "fileName": filename
-            })
-        })
-    }
-}
+  attentionDel(filename) {
+    return Fetch("/user/attention/", {
+      methods: "DELETE",
+      token: JSON.parse(localStorage.user).token,
+      data: JSON.stringify({
+        fileName: filename
+      })
+    });
+  }
+};
 
 export default MessageService;

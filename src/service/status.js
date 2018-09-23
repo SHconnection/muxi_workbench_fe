@@ -4,78 +4,46 @@ const StatusService = {
   addNewStatu(data) {
     return Fetch("/status/new", {
       method: "POST",
-      body: data
+      data: data
     });
   },
   getStatusList(page) {
     return Fetch("/status/list" + page + "/", {
-      method: "GET",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-        token: localStorage.user.token
-      }
+      token: JSON.parse(localStorage.user).token
     });
   },
   getStatuDetail(sid) {
     return Fetch("/status/" + sid + "/", {
-      method: "GET",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-        token: localStorage.user.token
-      }
+      token: JSON.parse(localStorage.user).token
     });
   },
   editStatu(sid) {
     return Fetch("/status/" + sid + "/", {
-      method: "GET",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-        token: localStorage.user.token
-      }
+      token: JSON.parse(localStorage.user).token
     });
   },
   changeLike(sid, iflike) {
     return Fetch("/status/" + sid + "/like/", {
       method: "POST",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json"
-      },
-      body: iflike
+      data: iflike
     });
   },
   postComments(sid, data) {
     return Fetch("/status/" + sid + "/comment/", {
       method: "POST",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json"
-      },
-      body: data
+      data: data
     });
   },
   commentDelete(cid, sid) {
     return Fetch("/status/" + sid + "/comment/" + cid + "/", {
-      method: "DELETE",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json"
-      }
+      method: "DELETE"
     });
   },
   statusDelete(staId) {
     return Fetch("/status/" + staId + "/", {
-      method: "DELETE",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json"
-      }
+      method: "DELETE"
     });
-  },
-
+  }
 };
 
 export default StatusService;

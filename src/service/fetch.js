@@ -12,9 +12,7 @@
  */
 function encodeUrlParams(data) {
   return Object.keys(data)
-    .map(key => {
-      return [key, data[key]].map(encodeURIComponent).join("=");
-    })
+    .map(key => [key, data[key]].map(encodeURIComponent).join("="))
     .join("&");
 }
 
@@ -39,56 +37,50 @@ export default function FetchData(url, opt = {}) {
   }
 
   return fetch(url, opt).then(response => {
-    // if (response.status === 403) {
-    //   return new Promise((resolve, reject) => {
-    //     reject({
+    switch (response.status) {
+      case 403:
+        return new Promise((resolve, reject) => {
+          reject(
+            new Error({
+              code: response.status,
+              message: json.message
+            })
+          );
+        });
+      case 502:
+        // util.message is not defined
+        // util.3message(response.statusText, "err");
+        throw response.statusText;
+      default:
+        return response.json().then(json => {
+          switch (response.status) {
+            case 200:
+              if (opt.responseHeaders && opt.responseHeaders.length) {
+                const headers = opt.responseHeaders.map(key =>
+                  response.headers.get(key)
+                );
+                return {
+                  json,
+                  headers
+                };
+              }
+              return json;
+            case 201:
+              if (opt.responseHeaders && opt.responseHeaders.length) {
+                const headers = opt.responseHeaders.map(key =>
+                  response.headers.get(key)
+                );
+                return {
+                  json,
+                  headers
+                };
+              }
+              return json;
 
-    //     })
-    //   })
-    // }
-    // console.log(response.status)
-    return response;
-    // .json()
-    // .then(json => {
-    //   switch (response.status) {
-    //     case 200:
-    //       if (opt.responseHeaders && opt.responseHeaders.length) {
-    //         const headers = opt.responseHeaders.map(key => {
-    //           return response.headers.get(key);
-    //         });
-    //         return {
-    //           json,
-    //           headers
-    //         };
-    //       }
-    //       return json;
-    //     case 201:
-    //       if (opt.responseHeaders && opt.responseHeaders.length) {
-    //         const headers = opt.responseHeaders.map(key => {
-    //           return response.headers.get(key);
-    //         });
-    //         return {
-    //           json,
-    //           headers
-    //         };
-    //       }
-    //       return json;
-    //     case 403:
-    //       return new Promise((resolve, reject) => {
-    //         reject(
-    //           new Error({
-    //             code: response.status,
-    //             message: json.message
-    //           })
-    //         );
-    //       });
-    //     case 502:
-    //       // util.message is not defined
-    //       // util.3message(response.statusText, "err");
-    //       throw response.statusText;
-    //     default:
-    //       return 0;
-    //   }
-    // });
+            default:
+              return 0;
+          }
+        });
+    }
   });
 }
