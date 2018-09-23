@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { NavLink,Redirect } from "react-router-dom";
+import { NavLink, Redirect } from "react-router-dom";
 import logo from "../../../assets/img/logo@2x.png";
 import searchIcon from "../../../assets/img/search@2x.png";
 import AvatarImg from "../../../assets/img/avatar.png";
@@ -24,35 +24,32 @@ class Header extends Component {
       showInput: !that.state.showInput
     });
   }
-  
+
   searchItem() {
-    var value = this.refs.searchRef.value;
+    const value = this.refs.searchRef.value;
     // console.log(value);
-    if(value !== ''){
+    if (value !== "") {
       this.setState({
         redirect: true
       });
     }
-    
-    
   }
-  
+
   enterSearch(e) {
-    if(e.keyCode === 13){
+    if (e.keyCode === 13) {
       this.searchItem();
     }
   }
 
   render() {
     const { showInput, redirect } = this.state;
-    if(redirect){
+    if (redirect) {
       return (
         <div>
           <Header />
           <Redirect push to="/search" />
         </div>
-
-      )
+      );
     }
 
     return (
@@ -104,7 +101,14 @@ class Header extends Component {
             <div>
               <Inform />
             </div>
-            {showInput && <input className="header-search-input" ref="searchRef" onKeyUp={this.enterSearch} type="text" />}
+            {showInput && (
+              <input
+                className="header-search-input"
+                ref="searchRef"
+                onKeyUp={this.enterSearch}
+                type="text"
+              />
+            )}
             <div
               onClick={this.clickSearchIcon.bind(this)}
               onKeyDown={() => {}}

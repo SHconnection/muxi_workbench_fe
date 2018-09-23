@@ -50,7 +50,6 @@ class Inform extends Component {
   //     });
   // }
 
-  
   enter() {
     this.setState({
       hover: true
@@ -66,7 +65,6 @@ class Inform extends Component {
   // read(id) {}
 
   render() {
-    
     const { hover, MessageList } = this.state;
     const message = MessageList.length;
     return (
@@ -125,7 +123,10 @@ class Inform extends Component {
                 path={SettingIcon}
                 svgStyle={{ width: 14 }}
               />
-              <Link className="header-info-setting footer-text" to="/member/teamMember/personalInfo/personalSet/${per.id}">
+              <Link
+                className="header-info-setting footer-text"
+                to="/member/teamMember/personalInfo/personalSet/${per.id}"
+              >
                 通知设置
               </Link>
               <Link className="header-info-all footer-text" to="/message">

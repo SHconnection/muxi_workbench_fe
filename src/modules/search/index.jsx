@@ -4,7 +4,7 @@
 import React, { Component } from "react";
 import Select from "../../components/common/select/index";
 import Button from "../../components/common/button/index";
-import ManageService from "../../service/manage"
+import ManageService from "../../service/manage";
 import "../../static/css/common.css";
 import "./index.css";
 
