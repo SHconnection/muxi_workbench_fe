@@ -4,8 +4,8 @@ export const Root =
   id: 0,
   name: "全部文件",
   router: [0],
-  selected: false,
-  finalSelected: false,
+  selected: true,
+  finalSelected: true,
   child: [
     {
       folder: true,
@@ -114,6 +114,7 @@ const FileTreeRecursion = {
 export const FileTree = {
    initNodeSelected(node) {
       const nodeTemp = node
+      nodeTemp.selected = false
       for (let i = 0; i < nodeTemp.child.length; i += 1) {
         nodeTemp.child[i].selected = false;
         if (nodeTemp.child[i].child && nodeTemp.child[i].child.length) {
@@ -123,6 +124,7 @@ export const FileTree = {
     },
     initNodeFinalSelected(node) {
       const nodeTemp = node
+      nodeTemp.finalSelected = false;
       for (let i = 0; i < nodeTemp.child.length; i += 1) {
         nodeTemp.child[i].finalSelected = false;
         if (nodeTemp.child[i].child && nodeTemp.child[i].child.length) {

@@ -386,7 +386,7 @@ class ProjectDetailIndex extends Component {
                   <Scrollbars>
                     <FileTreeComponent 
                       root={fileRoot} 
-                      select={el => {
+                      select={() => {
                         const fileRootTemp = Object.assign({}, fileRoot)
                         fileRootTemp.selected = !fileRootTemp.selected
                         FileTree.initNodeSelected(fileRootTemp)
@@ -397,28 +397,19 @@ class ProjectDetailIndex extends Component {
                       finalSelect={el => {
                         const fileRootTemp = Object.assign({}, fileRoot)
                         FileTree.initNodeFinalSelected(fileRootTemp)
+                        let fatherId
                         if (el.selected || el.router.length === 1) {
-                          // // 选中的时候或者点击的是根节点
-                          const fatherId = el.id
-                          const fatherNode = FileTree.searchNode(fatherId, fileRootTemp)
-                          FileTree.initNodeFinalSelected(fileRootTemp)
-                          fatherNode.finalSelected = true
-                          fatherNode.selected = true
-                          this.setState({
-                            fileRoot: fileRootTemp
-                          })
-                          console.log("final", fileRootTemp)
+                          fatherId = el.id
                         }
                         else {
                           // 取消选中
-                          const fatherId = el.router[el.router.length-2]
-                          const fatherNode = FileTree.searchNode(fatherId, fileRootTemp)
-                          fatherNode.finalSelected = true
-                          this.setState({
-                            fileRoot: fileRootTemp
-                          })
-                          console.log("final", fileRootTemp)
+                          fatherId = el.router[el.router.length-2]
                         }
+                        const fatherNode = FileTree.searchNode(fatherId, fileRootTemp)
+                        fatherNode.finalSelected = true
+                        this.setState({
+                          fileRoot: fileRootTemp
+                        })
                       }}
                     />
                   </Scrollbars>
