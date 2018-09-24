@@ -2,12 +2,12 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
 import ReactSVG from "react-svg";
-import { Scrollbars } from 'react-custom-scrollbars';
+import { Scrollbars } from "react-custom-scrollbars";
 import GoBack from "../../../components/common/goBack/index";
 import Icon from "../../../components/common/icon/index";
 import FileTreeComponent from "../components/fileTree/index";
-import {Root, FileTree, getRoot} from "../fileTree1";
-import Button from "../../../components/common/button/index"
+import { Root, FileTree, getRoot } from "../fileTree1";
+import Button from "../../../components/common/button/index";
 import Select from "../../../components/common/select/index";
 import FolderItem from "../components/folderItem/index";
 import FileItem from "../components/fileItem/index";
@@ -145,13 +145,13 @@ class ProjectDetailIndex extends Component {
         ]
       }
     };
-    this.startCreateFile = this.startCreateFile.bind(this)
-    this.cancelCreateFile = this.cancelCreateFile.bind(this)
-    this.moveFile = this.moveFile.bind(this)
-    this.startDeleteFile = this.startDeleteFile.bind(this)
-    this.cancelDeleteFile = this.cancelDeleteFile.bind(this)
-    this.cancelMoveFile = this.cancelMoveFile.bind(this)
-    this.startCreateDoc = this.startCreateDoc.bind(this)
+    this.startCreateFile = this.startCreateFile.bind(this);
+    this.cancelCreateFile = this.cancelCreateFile.bind(this);
+    this.moveFile = this.moveFile.bind(this);
+    this.startDeleteFile = this.startDeleteFile.bind(this);
+    this.cancelDeleteFile = this.cancelDeleteFile.bind(this);
+    this.cancelMoveFile = this.cancelMoveFile.bind(this);
+    this.startCreateDoc = this.startCreateDoc.bind(this);
   }
 
   componentWillMount() {
@@ -167,25 +167,25 @@ class ProjectDetailIndex extends Component {
   }
 
   startCreateFile(index) {
-    const { showCreateFile } = this.state
+    const { showCreateFile } = this.state;
     console.log(index);
     if (index === 1) {
       this.setState({
         showCreateFile: !showCreateFile
-      })
+      });
     }
   }
 
   startCreateDoc(index) {
-    const { showCreateDocFile } = this.state
-    if(index === 0) {
-      window.location.href = "/edit"
+    const { showCreateDocFile } = this.state;
+    if (index === 0) {
+      window.location.href = "/edit";
     }
-    if(index === 1) {
+    if (index === 1) {
       this.setState({
         showCreateFile: !showCreateDocFile,
         showDleteFile: false
-      })
+      });
     }
   }
 
@@ -193,38 +193,39 @@ class ProjectDetailIndex extends Component {
     this.setState({
       showCreateFile: false,
       showCreateDocFile: false
-    })
+    });
   }
 
   moveFile(id, pid) {
-    console.log("id:",id,"pid:",pid);
+    console.log("id:", id, "pid:", pid);
     this.setState({
       showMoveFile: true
-    })
+    });
   }
 
   startDeleteFile(id, pid) {
-    console.log("id:",id,"pid:",pid);
+    console.log("id:", id, "pid:", pid);
     this.setState({
       showDleteFile: true,
       showCreateFile: false
-    })
+    });
   }
 
   cancelDeleteFile() {
     this.setState({
       showDleteFile: false
-    })
+    });
   }
 
   cancelMoveFile() {
     this.setState({
       showMoveFile: false
-    })
+    });
   }
 
   render() {
-    const { projectInfo, 
+    const {
+      projectInfo,
       fileOption,
       docOption,
       filesList,
@@ -235,8 +236,8 @@ class ProjectDetailIndex extends Component {
       showDleteFile,
       showMoveFile,
       fileRoot
-      } = this.state;
-      
+    } = this.state;
+
     return (
       <div className="projectDetail-container">
         <GoBack />
@@ -272,24 +273,26 @@ class ProjectDetailIndex extends Component {
               </div>
             </div>
             <div className="projectDetail-file-items">
-              {
-                filesList.FolderList.map(
-                  el => (
-                    <div className="file-item" key={el.id}>
-                      <FolderItem folderItem={el} pid={pid} moveFile={this.moveFile} deleteFile={this.startDeleteFile} /> 
-                    </div>
-                  )
-                )
-              }
-              {
-                filesList.FileList.map(
-                  el =>  (
-                    <div className="file-item" key={el.id}>
-                      <FileItem fileItem={el} pid={pid} moveFile={this.moveFile} deleteFile={this.startDeleteFile} /> 
-                    </div>
-                  )
-                )
-              }
+              {filesList.FolderList.map(el => (
+                <div className="file-item" key={el.id}>
+                  <FolderItem
+                    folderItem={el}
+                    pid={pid}
+                    moveFile={this.moveFile}
+                    deleteFile={this.startDeleteFile}
+                  />
+                </div>
+              ))}
+              {filesList.FileList.map(el => (
+                <div className="file-item" key={el.id}>
+                  <FileItem
+                    fileItem={el}
+                    pid={pid}
+                    moveFile={this.moveFile}
+                    deleteFile={this.startDeleteFile}
+                  />
+                </div>
+              ))}
             </div>
             <div className="projectDetail-file-footer">
               <Link to={`/project/${pid}/allFile`} className="fakeBtn">
@@ -297,7 +300,7 @@ class ProjectDetailIndex extends Component {
               </Link>
             </div>
           </div>
-          
+
           <div className="projectDetail-file-container">
             <div className="projectDetail-file-header">
               <div className="projectDetail-file-title">文档</div>
@@ -324,24 +327,26 @@ class ProjectDetailIndex extends Component {
                   )
                 )
               } */}
-              {
-                docList.FolderList.map(
-                  el => (
-                    <div className="file-item" key={el.id}>
-                      <FolderItemDoc folderItem={el} pid={pid} moveFile={this.moveFile} deleteFile={this.startDeleteFile} />
-                    </div>
-                  )
-                )
-              }
-              {
-                docList.DocList.map(
-                  el => (
-                    <div className="file-item" key={el.id}>
-                      <DocItem folderItem={el} pid={pid} moveFile={this.moveFile} deleteFile={this.startDeleteFile} />
-                    </div>
-                  )
-                )
-              }
+              {docList.FolderList.map(el => (
+                <div className="file-item" key={el.id}>
+                  <FolderItemDoc
+                    folderItem={el}
+                    pid={pid}
+                    moveFile={this.moveFile}
+                    deleteFile={this.startDeleteFile}
+                  />
+                </div>
+              ))}
+              {docList.DocList.map(el => (
+                <div className="file-item" key={el.id}>
+                  <DocItem
+                    folderItem={el}
+                    pid={pid}
+                    moveFile={this.moveFile}
+                    deleteFile={this.startDeleteFile}
+                  />
+                </div>
+              ))}
             </div>
             <div className="projectDetail-file-footer">
               <Link to={`/project/${pid}/allDoc`} className="fakeBtn">
@@ -349,103 +354,172 @@ class ProjectDetailIndex extends Component {
               </Link>
             </div>
           </div>
-          {
-            showCreateFile && (
-              <div className="createFileAlert">
-                <ReactSVG className="create-file-alert-icon" path={CreateFileAlertIcon} />
-                <input className="create-file-alert-input" type="text" placeholder="编辑文件夹名" />
-                <div className="create-file-alert-cancel">
-                  <Button onClick={this.cancelCreateFile} text="取消" width="65" height="32" border="1px solid RGBA(217, 217, 217, 1)" bgColor="RGBA(255, 255, 255, 1)" textColor="RGBA(64, 64, 64, 1)" fontSize="14" />
-                </div>
-                <div className="create-file-alert-done">
-                  <Button onClick={() => {}} text="确定" width="65" height="32" fontSize="14" />
-                </div>
+          {showCreateFile && (
+            <div className="createFileAlert">
+              <ReactSVG
+                className="create-file-alert-icon"
+                path={CreateFileAlertIcon}
+              />
+              <input
+                className="create-file-alert-input"
+                type="text"
+                placeholder="编辑文件夹名"
+              />
+              <div className="create-file-alert-cancel">
+                <Button
+                  onClick={this.cancelCreateFile}
+                  text="取消"
+                  width="65"
+                  height="32"
+                  border="1px solid RGBA(217, 217, 217, 1)"
+                  bgColor="RGBA(255, 255, 255, 1)"
+                  textColor="RGBA(64, 64, 64, 1)"
+                  fontSize="14"
+                />
               </div>
-            )
-          }
-          {
-            showDleteFile && (
-              <div className="deleteFileAlert">
-                <div className="delete-file-alert-tip">
-                  确认要删除该文件吗
-                </div>
-                <div className="delete-file-alert-cancel">
-                  <Button onClick={this.cancelDeleteFile} text="取消" width="65" height="32" border="1px solid RGBA(217, 217, 217, 1)" bgColor="RGBA(255, 255, 255, 1)" textColor="RGBA(64, 64, 64, 1)" fontSize="14" />
-                </div>
-                <div className="delete-file-alert-done">
-                  <Button onClick={() => {}} text="确定" width="65" height="32" fontSize="14" />
-                </div>
+              <div className="create-file-alert-done">
+                <Button
+                  onClick={() => {}}
+                  text="确定"
+                  width="65"
+                  height="32"
+                  fontSize="14"
+                />
               </div>
-            )
-          }
-          {
-            showMoveFile && (
-              <div className="moveFileAlert">
-                <div className="move-file-alert-tip">选择保存路径</div>
-                <div className="move-file-tree-container">
-                  <Scrollbars>
-                    <FileTreeComponent 
-                      root={fileRoot} 
-                      select={el => {
-                        const fileRootTemp = Object.assign({}, fileRoot)
-                        fileRootTemp.selected = !fileRootTemp.selected
-                        FileTree.initNodeSelected(fileRootTemp)
+            </div>
+          )}
+          {showDleteFile && (
+            <div className="deleteFileAlert">
+              <div className="delete-file-alert-tip">确认要删除该文件吗</div>
+              <div className="delete-file-alert-cancel">
+                <Button
+                  onClick={this.cancelDeleteFile}
+                  text="取消"
+                  width="65"
+                  height="32"
+                  border="1px solid RGBA(217, 217, 217, 1)"
+                  bgColor="RGBA(255, 255, 255, 1)"
+                  textColor="RGBA(64, 64, 64, 1)"
+                  fontSize="14"
+                />
+              </div>
+              <div className="delete-file-alert-done">
+                <Button
+                  onClick={() => {}}
+                  text="确定"
+                  width="65"
+                  height="32"
+                  fontSize="14"
+                />
+              </div>
+            </div>
+          )}
+          {showMoveFile && (
+            <div className="moveFileAlert">
+              <div className="move-file-alert-tip">选择保存路径</div>
+              <div className="move-file-tree-container">
+                <Scrollbars>
+                  <FileTreeComponent
+                    root={fileRoot}
+                    select={el => {
+                      const fileRootTemp = Object.assign({}, fileRoot);
+                      fileRootTemp.selected = !fileRootTemp.selected;
+                      FileTree.initNodeSelected(fileRootTemp);
+                      this.setState({
+                        fileRoot: fileRootTemp
+                      });
+                    }}
+                    finalSelect={el => {
+                      const fileRootTemp = Object.assign({}, fileRoot);
+                      FileTree.initNodeFinalSelected(fileRootTemp);
+                      if (el.selected || el.router.length === 1) {
+                        // // 选中的时候或者点击的是根节点
+                        const fatherId = el.id;
+                        const fatherNode = FileTree.searchNode(
+                          fatherId,
+                          fileRootTemp
+                        );
+                        FileTree.initNodeFinalSelected(fileRootTemp);
+                        fatherNode.finalSelected = true;
+                        fatherNode.selected = true;
                         this.setState({
                           fileRoot: fileRootTemp
-                        })
-                      }}
-                      finalSelect={el => {
-                        const fileRootTemp = Object.assign({}, fileRoot)
-                        FileTree.initNodeFinalSelected(fileRootTemp)
-                        if (el.selected || el.router.length === 1) {
-                          // // 选中的时候或者点击的是根节点
-                          const fatherId = el.id
-                          const fatherNode = FileTree.searchNode(fatherId, fileRootTemp)
-                          FileTree.initNodeFinalSelected(fileRootTemp)
-                          fatherNode.finalSelected = true
-                          fatherNode.selected = true
-                          this.setState({
-                            fileRoot: fileRootTemp
-                          })
-                          console.log("final", fileRootTemp)
-                        }
-                        else {
-                          // 取消选中
-                          const fatherId = el.router[el.router.length-2]
-                          const fatherNode = FileTree.searchNode(fatherId, fileRootTemp)
-                          fatherNode.finalSelected = true
-                          this.setState({
-                            fileRoot: fileRootTemp
-                          })
-                          console.log("final", fileRootTemp)
-                        }
-                      }}
-                    />
-                  </Scrollbars>
-                </div>
-                <div className="move-file-alert-cancel">
-                  <Button onClick={this.cancelMoveFile} text="取消" width="65" height="32" border="1px solid RGBA(217, 217, 217, 1)" bgColor="RGBA(255, 255, 255, 1)" textColor="RGBA(64, 64, 64, 1)" fontSize="14" />
-                </div>
-                <div className="move-file-alert-done">
-                  <Button onClick={() => {}} text="确定" width="65" height="32" fontSize="14" />
-                </div>
+                        });
+                        console.log("final", fileRootTemp);
+                      } else {
+                        // 取消选中
+                        const fatherId = el.router[el.router.length - 2];
+                        const fatherNode = FileTree.searchNode(
+                          fatherId,
+                          fileRootTemp
+                        );
+                        fatherNode.finalSelected = true;
+                        this.setState({
+                          fileRoot: fileRootTemp
+                        });
+                        console.log("final", fileRootTemp);
+                      }
+                    }}
+                  />
+                </Scrollbars>
               </div>
-            )
-          }
-          {
-            showCreateDocFile && (
-              <div className="createFileAlert">
-                <ReactSVG className="create-file-alert-icon" path={CreateFileAlertIcon} />
-                <input className="create-file-alert-input" type="text" placeholder="编辑文件夹名" />
-                <div className="create-file-alert-cancel">
-                  <Button onClick={this.cancelCreateFile} text="取消" width="65" height="32" border="1px solid RGBA(217, 217, 217, 1)" bgColor="RGBA(255, 255, 255, 1)" textColor="RGBA(64, 64, 64, 1)" fontSize="14" />
-                </div>
-                <div className="create-file-alert-done">
-                  <Button onClick={() => {}} text="确定" width="65" height="32" fontSize="14" />
-                </div>
+              <div className="move-file-alert-cancel">
+                <Button
+                  onClick={this.cancelMoveFile}
+                  text="取消"
+                  width="65"
+                  height="32"
+                  border="1px solid RGBA(217, 217, 217, 1)"
+                  bgColor="RGBA(255, 255, 255, 1)"
+                  textColor="RGBA(64, 64, 64, 1)"
+                  fontSize="14"
+                />
               </div>
-            )
-          }
+              <div className="move-file-alert-done">
+                <Button
+                  onClick={() => {}}
+                  text="确定"
+                  width="65"
+                  height="32"
+                  fontSize="14"
+                />
+              </div>
+            </div>
+          )}
+          {showCreateDocFile && (
+            <div className="createFileAlert">
+              <ReactSVG
+                className="create-file-alert-icon"
+                path={CreateFileAlertIcon}
+              />
+              <input
+                className="create-file-alert-input"
+                type="text"
+                placeholder="编辑文件夹名"
+              />
+              <div className="create-file-alert-cancel">
+                <Button
+                  onClick={this.cancelCreateFile}
+                  text="取消"
+                  width="65"
+                  height="32"
+                  border="1px solid RGBA(217, 217, 217, 1)"
+                  bgColor="RGBA(255, 255, 255, 1)"
+                  textColor="RGBA(64, 64, 64, 1)"
+                  fontSize="14"
+                />
+              </div>
+              <div className="create-file-alert-done">
+                <Button
+                  onClick={() => {}}
+                  text="确定"
+                  width="65"
+                  height="32"
+                  fontSize="14"
+                />
+              </div>
+            </div>
+          )}
         </div>
       </div>
     );

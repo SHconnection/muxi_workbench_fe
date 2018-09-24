@@ -43,7 +43,7 @@ export default function FetchData(url, opt = {}) {
           reject(
             new Error({
               code: response.status,
-              message: json.message
+              // message: json.message
             })
           );
         });
