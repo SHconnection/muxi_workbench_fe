@@ -20,7 +20,7 @@ class DocPreview extends Component {
   }
 
   render() {
-    const {pid, id} = this.state
+    const { pid, id } = this.state;
     return (
       <div>
         <div>
@@ -28,12 +28,11 @@ class DocPreview extends Component {
           {pid}
         </div>
         <div>
-          id: 
+          id:
           {id}
         </div>
       </div>
-      
-    )
+    );
   }
 }
 
@@ -47,4 +46,4 @@ DocPreview.defaultProps = {
   match: {}
 };
 
-export default DocPreview
+export default DocPreview;

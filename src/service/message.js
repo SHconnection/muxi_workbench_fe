@@ -50,7 +50,7 @@ const MessageService = {
     return Fetch(`/message/${username}/${mid}`, {
       token: JSON.parse(localStorage.user).token
     });
-  },
+  }
 };
 
 export default MessageService;
