@@ -30,10 +30,10 @@ class FileTreeComponent extends Component {
   }
 
   changeVisible() {
-    const { visible, fileRoot } = this.state;
-    const { select, finalSelect, root } = this.props;
-    select(root);
-    finalSelect(root);
+    const { visible, fileRoot } = this.state
+    const { select, finalSelected, root, finalSelect } = this.props
+    select(root)
+    finalSelect(root)
     // const fileRootTemp = Object.assign({}, fileRoot)
     // fileRootTemp.selected = !fileRootTemp.selected
     // this.setState({
@@ -84,12 +84,8 @@ class FileTreeComponent extends Component {
     if (root.selected) {
       return (
         <div className="file-tree-container">
-          <div
-            className="file-tree-root"
-            onClick={this.changeVisible}
-            onKeyDown={() => {}}
-            role="presentation"
-          >
+          <div className={root.finalSelected ? "final-selected file-tree-root" : "file-tree-root"} onClick={this.changeVisible} onKeyDown={() => {}} role="presentation">
+            {/* {true && (<p>hh</p>)} */}
             <ReactSVG className="file-tree-triangel" path={TriangelDown} />
             <ReactSVG
               className="file-tree-folder-icon"
@@ -103,12 +99,7 @@ class FileTreeComponent extends Component {
     }
     return (
       <div className="file-tree-container">
-        <div
-          className="file-tree-root"
-          onClick={this.changeVisible}
-          onKeyDown={() => {}}
-          role="presentation"
-        >
+        <div className={root.finalSelected ? "final-selected file-tree-root" : "file-tree-root"} onClick={this.changeVisible} onKeyDown={() => {}} role="presentation">
           <ReactSVG className="file-tree-triangel" path={TriangelLeft} />
           <ReactSVG className="file-tree-folder-icon" path={FolderIcon} />
           <div className="file-tree-name">{root.name}</div>
