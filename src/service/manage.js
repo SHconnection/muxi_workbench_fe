@@ -1,13 +1,70 @@
 import Fetch from "./fetch";
 
 const ManageService = {
-  addGroup(groupName, selMembers) {
+  // post a new group
+  newGroup(groupName, selMembers) {
     return Fetch("/group/new/", {
+      token: localStorage.token,
       method: "POST",
       data: JSON.stringify({
         groupName,
         userlist: selMembers
       })
+    });
+  },
+
+  // delete a group
+  deleteGroup(groupId) {
+    return Fetch(`/group/${groupId}`, {
+      token: localStorage.token,
+      method: "DELETE"
+    });
+  },
+
+  // group user list
+  getGroupMember(groupId, page) {
+    return Fetch(`/group/${groupId}/userList`, {
+      token: localStorage.token,
+      data: {
+        page
+      }
+    })
+  },
+
+  // get a group list
+  getGroupList() {
+    return Fetch(`/group/list`, {
+      token: localStorage.token
+    })
+  },
+
+  /* 
+    get a project list
+    if you are admin or superuser, get all projetc list
+  */
+  getProjectList(page) {
+    return Fetch(`/user/project/list`, {
+      token: localStorage,
+      data: {
+        page
+      }
+    })
+  },
+
+  // get project user list
+  getProjectUserList(projectId, page) {
+    return Fetch(`/project/${projectId}/userList`, {
+      token: localStorage.token,
+      data: {
+        page
+      }
+    })
+  },
+
+  // remove user out of team
+  memberDelete(userID) {
+    return Fetch(`/user/${userID}`, {
+      method: "DELETE"
     });
   },
 
@@ -27,33 +84,14 @@ const ManageService = {
       memberList.map(mem1 => {
         const mem = mem1;
         const obj = {};
-
         obj.name = mem.username;
         obj.id = mem.userID;
         obj.email = mem.email;
         obj.role = mem.role;
         obj.selected = false;
-
         return obj;
       })
     );
-  },
-
-  getProMember(proID) {
-    const { list: memberList } = Fetch(`/group/${proID}/userList/`);
-
-    if (!Array.isArray(memberList)) return false;
-
-    return memberList.map(mem1 => {
-      const mem = mem1;
-      const obj = {};
-
-      obj.name = mem.username;
-      obj.id = mem.userID;
-      obj.avatar = mem.avatar;
-
-      return obj;
-    });
   },
 
   updateGroupMember(groupID, userList) {
@@ -62,12 +100,6 @@ const ManageService = {
       data: JSON.stringify({
         userList
       })
-    });
-  },
-
-  groupDelete(groupID) {
-    return Fetch(`/group/${groupID}`, {
-      method: "DELETE"
     });
   },
 
@@ -87,11 +119,7 @@ const ManageService = {
     });
   },
 
-  memberDelete(userID) {
-    return Fetch(`/user/${userID}`, {
-      method: "DELETE"
-    });
-  },
+  
 
   modifyMemGroup(userID, selMembers) {
     return Fetch(`/user/${userID}/manageGroup/`, {
@@ -136,25 +164,6 @@ const ManageService = {
     });
   },
 
-  getJoinApply() {
-    const { list: memberList } = Fetch("/team/applyList/", {
-      token: JSON.parse(localStorage.user).token
-    });
-
-    if (!Array.isArray(memberList)) return false;
-
-    return memberList.map(mem1 => {
-      const mem = mem1;
-      const obj = {};
-
-      obj.name = mem.username;
-      obj.id = mem.userID;
-      obj.email = mem.userEmail;
-      obj.dealed = false;
-
-      return obj;
-    });
-  },
 
   dealJoinApply(userID) {
     return Fetch(`/team/apply/${userID}/`, {
@@ -162,69 +171,13 @@ const ManageService = {
     });
   },
 
-  getAdminList() {
-    const { list: memberList } = Fetch("/user/admins/", {
-      token: JSON.parse(localStorage.user).token
-    });
-
-    if (!Array.isArray(memberList)) return false;
-
-    return memberList.map(mem1 => {
-      const mem = mem1;
-      const obj = {};
-
-      obj.name = mem.username;
-      obj.id = mem.userID;
-
-      return obj;
-    });
-  },
+  
 
   getAllMem() {
     return this.groupMember(0);
   },
 
-  getAllPro() {
-    const { list: proList } = fetch("/user/project/list/", {
-      token: JSON.parse(localStorage.user).token
-    });
-
-    if (!Array.isArray(proList)) return false;
-
-    return proList.map(mem1 => {
-      const mem = mem1;
-      const obj = {};
-
-      obj.name = mem.projectName;
-      obj.id = mem.projectID;
-      obj.count = mem.userCount;
-      obj.intro = mem.intro;
-      obj.selected = false;
-
-      return obj;
-    });
-  },
-
-  getAllGroup() {
-    const { groupList } = Fetch("/group/list/", {
-      token: JSON.parse(localStorage.user).token
-    });
-
-    if (!Array.isArray(groupList)) return false;
-
-    return groupList.map(mem1 => {
-      const mem = mem1;
-      const obj = {};
-
-      obj.name = mem.groupName;
-      obj.id = mem.groupID;
-      obj.count = mem.userCount;
-      obj.selected = false;
-      obj.dealed = false;
-
-      return obj;
-    });
-  }
+  
 };
 
 export default ManageService;

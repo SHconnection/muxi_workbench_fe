@@ -36,7 +36,8 @@ export default function FetchData(url, opt = {}) {
     }
   }
 
-  return fetch(url, opt).then(response => {
+  return fetch(url, opt)
+  .then(response => {
     switch (response.status) {
       case 403:
         return new Promise((resolve, reject) => {
@@ -47,6 +48,8 @@ export default function FetchData(url, opt = {}) {
             })
           );
         });
+      case 404:
+        throw "404 not found"
       case 502:
         // util.message is not defined
         // util.3message(response.statusText, "err");

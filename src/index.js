@@ -26,7 +26,12 @@ LoginService.getToken(data).then(response => {
   const user = {};
   user.token = response;
   localStorage.user = JSON.stringify(user);
+  localStorage.token = response.token;
+  console.log(localStorage.token);
 });
+
+
+
 
 ReactDOM.render(
   <Router>
