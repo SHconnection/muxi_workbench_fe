@@ -29,7 +29,6 @@ class Dynamic extends Component {
     }
     return timeDay.slice(-4) + createweek[new Date(timeDay).getDay()];
   }
-  // create today yesterday
 
   constructor(props) {
     super(props);
@@ -40,14 +39,14 @@ class Dynamic extends Component {
     };
   }
 
-  // componentWillMount(){
-  //   const arr =  FeedService.getFeedList(0);
-  //   this.setState({
-  //     cout: arr.cout,
-  //     page: arr.page,
-  //     statuList: arr.statuList
-  //   });
-  // }
+  componentWillMount(){
+    const arr =  FeedService.getFeedList(0);
+    this.setState({
+      count: arr.count,
+      page: arr.page,
+      feedList: arr.feedList
+    });
+  }
 
   componentDidMount() {
     const wrapper = this.refs.wrapper;
@@ -82,7 +81,7 @@ class Dynamic extends Component {
   }
 
   getFeedList(page, count) {
-    if (count / 40 > page) {
+    if (count / 40 >= page) {
       const arr = FeedService.getFeedList(page + 1);
       this.setState({
         page: arr.page,
@@ -114,7 +113,6 @@ class Dynamic extends Component {
                     {Dynamic.chargeday(feed.timeDay)}
                   </div>
                 )}
-                {/* function */}
                 <FeedItem
                   timeDay={feed.timeDay}
                   timeHour={feed.timeHour}

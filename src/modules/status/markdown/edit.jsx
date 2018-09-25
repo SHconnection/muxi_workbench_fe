@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-
+import PropTypes from "prop-types";
 // import ProseMirror from "react-prosemirror";
 import Goback from "../../../components/common/goBack/index";
 import Button from "../../../components/common/button";
@@ -33,17 +33,29 @@ class edit extends Component {
     };
   }
 
+  static contextTypes = {
+    router: PropTypes.shape({
+      history: PropTypes.shape({
+        push: PropTypes.func.isRequired,
+        replace: PropTypes.func.isRequired,
+        createHref: PropTypes.func.isRequired
+      }).isRequired
+    }).isRequired
+  };
+
   componentWillMount() {
-    if (this.props.location.pathname === "/edit");
-    else {
-      const { match } = this.props;
-      const { sid } = match.params.id;
-      const arr = StatusService.getStatuDetail(sid);
-      this.setState({
-        title: arr.title,
-        value: arr.content
-      });
-    }
+    this.context.router.history.listen(route => {
+      if (route.pathname === "/edit");
+      else {
+        const { match } = this.props;
+        const { sid } = match.params.id;
+        const arr = StatusService.getStatuDetail(sid);
+        this.setState({
+          title: arr.title,
+          value: arr.content
+        });
+      }
+    });
   }
 
   onChange(title) {
@@ -82,7 +94,7 @@ class edit extends Component {
             />
           </div>
         </div>
-        <div className="status-markdown">{/* <CustomEditor /> */}</div>
+        {/* <div className="status-markdown"><CustomEditor /></div> */}
       </div>
     );
   }

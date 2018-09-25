@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import ReactSVG from "react-svg";
 import { Link } from "react-router-dom";
+import PropTypes from "prop-types";
 import Goback from "../../../components/common/goBack/index";
 import thumbs from "../../../assets/svg/commonIcon/thumbs.svg";
 import thumbsUp from "../../../assets/svg/commonIcon/thumbs_up.svg";
@@ -25,7 +26,7 @@ class Detail extends Component {
       time: "",
       likeCount: 0,
       iflike: 0,
-      userID: 0,
+      // userID: 0,
       username: "",
       comment: "",
       commentList: []
@@ -47,9 +48,15 @@ class Detail extends Component {
       time: arr.time,
       likeCount: arr.likeCount,
       iflike: arr.iflike,
-      userID: arr.userID,
+      // userID: arr.userID,
       username: arr.username,
       commentList: arr.commentList
+    });
+  }
+
+  onChange(comment) {
+    this.setState({
+      comment
     });
   }
 
@@ -69,8 +76,14 @@ class Detail extends Component {
     }
   }
 
-  transferMsgDel(deleteX) {
-    this.setState({ deleteX });
+
+  sendComment(value, sid) {
+    StatusService.postComments(sid, value);
+    const arr = StatusService.getStatuDetail(sid);
+    this.setState({
+      commentList: arr.commentList,
+      comment: ""
+    });
   }
 
   del() {
@@ -79,25 +92,10 @@ class Detail extends Component {
     });
   }
 
-  onChange(comment) {
-    this.setState({
-      comment
-    });
+  transferMsgDel(deleteX) {
+    this.setState({ deleteX });
   }
-
-  // sendComment(value,){
-  //   StatusService.postComments(, value)
-  //   this.setState({
-  //     commentList: this.state.commentList.push({
-  //       cid: 0,
-  //       username: "",
-  //       avatar: "",
-  //       time: "",
-  //       content: value
-  //     })
-  //   });
-  // }
-  // 如何获得自己的id
+  
 
   render() {
     const {
@@ -177,7 +175,10 @@ class Detail extends Component {
               placeholder="   发表评论..."
             />
             <div className="comment-bt">
-              {/* <Button onClick={() => this.sendComment(comment,sid)} text="发表" /> */}
+              <Button
+                onClick={() => this.sendComment(comment, sid)}
+                text="发表"
+              />
             </div>
           </div>
         </div>
@@ -185,4 +186,15 @@ class Detail extends Component {
     );
   }
 }
+
+Detail.propTypes = {
+  match: PropTypes.shape({
+    url: PropTypes.string
+  })
+};
+
+Detail.defaultProps = {
+  match: {}
+};
+
 export default Detail;

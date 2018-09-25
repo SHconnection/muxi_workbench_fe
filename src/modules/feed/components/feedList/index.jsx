@@ -1,11 +1,27 @@
 import React from "react";
+import {Link} from "react-dom";
 import PropTypes from "prop-types";
 import AvatarImg from "../../../../assets/img/avatar.png";
 import Avatar from "../../../../components/common/avatar/index";
 import "./index.css";
 
+// const kind = ["status", "project", "doc", "comment", "team", "user", "file"];
+
+function findKind(kind, sourceID){
+  switch(kind){
+    case 0:  return `/status/${sourceID}/`;
+    case 1: return `/project/${sourceID}/`;
+    case 2: return `/project/doc/${sourceID}/`;
+    case 3: return `/status/${sourceID}/`;
+    case 4: return `/member/teamMember/personalInfo/personalProgress`;
+    case 5: return `/member/teamMember/personalInfo/personalProgress`;
+    case 6: return `/project/doc/${sourceID}/`;
+    default: return `/`
+  }  
+}
+
 function feedItem(props) {
-  const { timeHour, action, divider, dividerName } = props;
+  const { timeHour, action, divider, dividerName, kind, sourceID } = props;
   return (
     <div className="feed-item">
       <div className="feed-divider">
@@ -19,7 +35,7 @@ function feedItem(props) {
         <div className="feed-item-img">
           <Avatar src={AvatarImg} width="60" height="60" />
         </div>
-        <div className="feed-action">{action}</div>
+        <Link to={findKind(kind,sourceID)} className="feed-action">{action}</Link>
       </div>
     </div>
   );
@@ -31,8 +47,8 @@ feedItem.propTypes = {
   // avatarUrl: PropTypes.string,
   // uid: PropTypes.number,
   action: PropTypes.string,
-  // kind: PropTypes.number,
-  // sourceID: PropTypes.number,
+  kind: PropTypes.number,
+  sourceID: PropTypes.number,
   divider: PropTypes.bool,
   // dividerID: PropTypes.number,
   dividerName: PropTypes.string
@@ -44,8 +60,8 @@ feedItem.defaultProps = {
   // avatarUrl: " ",
   // uid: 0,
   action: " ",
-  // kind: 0,
-  // sourceID: 0,
+  kind: 0,
+  sourceID: 0,
   divider: 0,
   // dividerID: 0,
   dividerName: " "

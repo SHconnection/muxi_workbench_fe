@@ -4,29 +4,51 @@ import Gotop from "../../../components/common/toTop/top";
 import StatusService from "../../../service/status";
 import "./progerss.css";
 
-// const {isPersonal} = this.props.match.params
-
 class Progress extends Component {
   constructor(props) {
     super(props);
     this.state = {
       cout: 0,
       page: 0,
+      isPersonal: 0,
       isLoadingMore: false,
       statuList: []
     };
   }
 
+  static contextTypes = {
+    router: PropTypes.shape({
+      history: PropTypes.shape({
+        push: PropTypes.func.isRequired,
+        replace: PropTypes.func.isRequired,
+        createHref: PropTypes.func.isRequired
+      }).isRequired
+    }).isRequired
+  };
+
   // 返回给我总的条数，条数除以20=page
 
-  // componentWillMount(){
-  //   const arr =  StatusService.getStatusList(0);
-  //   this.setState({
-  //     cout: arr.cout,
-  //     page: arr.page,
-  //     statuList: arr.statuList
-  //   });
-  // }
+  componentWillMount() {
+    this.context.router.history.listen(route => {
+      if (
+        route.pathname === "/member/teamMember/personalInfo/personalProgress"
+      ) {
+        const arr = StatusService.getPersonalAttention();
+        this.setState({
+          cout: arr.cout,
+          page: arr.page,
+          statuList: arr.statuList
+        });
+      } else {
+        const arr = StatusService.getStatusList(0);
+        this.setState({
+          cout: arr.cout,
+          page: arr.page,
+          statuList: arr.statuList
+        });
+      }
+    });
+  }
 
   componentDidMount() {
     const wrapper = this.refs.wrapper;

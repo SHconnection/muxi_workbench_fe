@@ -52,7 +52,8 @@ const StatusService = {
       method: "POST",
       headers: {
         Accept: "application/json",
-        "Content-Type": "application/json"
+        "Content-Type": "application/json",
+        token: localStorage.user.token
       },
       body: data
     });
