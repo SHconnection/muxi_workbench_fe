@@ -61,7 +61,7 @@ class FileItem extends Component {
     const suffix = fileItem.name.split('.')[1] || "folder"
     return (
       <div className="fileIcon-container" onMouseEnter={this.enter.bind(this)} onMouseLeave={this.leave.bind(this)}>
-        <div className="fileIcon-content">
+        <div className="fileItem-content">
           <ReactSVG className="fileIcon-img" path={IconMap[suffix]} />
           <div className="fileIcon-text">{fileItem.name}</div>
         </div>

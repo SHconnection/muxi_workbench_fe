@@ -12,9 +12,7 @@
  */
 function encodeUrlParams(data) {
   return Object.keys(data)
-    .map(key => {
-      return [key, data[key]].map(encodeURIComponent).join("=");
-    })
+    .map(key => [key, data[key]].map(encodeURIComponent).join("="))
     .join("&");
 }
 
@@ -22,73 +20,65 @@ export default function FetchData(url, opt = {}) {
   // 设置请求方法
   opt.method = opt.method || "GET";
 
-  // 处理要发送的数据
+  opt.headers = opt.headers || {
+    Accept: "application/json",
+    "Content-Type": "application/json"
+  };
+
   if (opt.data) {
     if (/GET/i.test(opt.method)) {
       url = `${url}/?${encodeUrlParams(opt.data)}`;
     } else {
-      opt.headers = opt.headers || {
-        Accept: "application/json",
-        "Content-Type": "application/json"
-      };
       opt.body = JSON.stringify(opt.data);
-      if (opt.token) {
-        opt.headers.token = opt.token;
-      }
     }
   }
 
-  return fetch(url, opt).then(response => {
-    // if (response.status === 403) {
-    //   return new Promise((resolve, reject) => {
-    //     reject({
+  if (opt.token) {
+    opt.headers.token = opt.token;
+  }
 
-    //     })
-    //   })
-    // }
-    // console.log(response.status)
-    return response;
-    // .json()
-    // .then(json => {
-    //   switch (response.status) {
-    //     case 200:
-    //       if (opt.responseHeaders && opt.responseHeaders.length) {
-    //         const headers = opt.responseHeaders.map(key => {
-    //           return response.headers.get(key);
-    //         });
-    //         return {
-    //           json,
-    //           headers
-    //         };
-    //       }
-    //       return json;
-    //     case 201:
-    //       if (opt.responseHeaders && opt.responseHeaders.length) {
-    //         const headers = opt.responseHeaders.map(key => {
-    //           return response.headers.get(key);
-    //         });
-    //         return {
-    //           json,
-    //           headers
-    //         };
-    //       }
-    //       return json;
-    //     case 403:
-    //       return new Promise((resolve, reject) => {
-    //         reject(
-    //           new Error({
-    //             code: response.status,
-    //             message: json.message
-    //           })
-    //         );
-    //       });
-    //     case 502:
-    //       // util.message is not defined
-    //       // util.3message(response.statusText, "err");
-    //       throw response.statusText;
-    //     default:
-    //       return 0;
-    //   }
-    // });
+  return fetch(url, opt).then(response => {
+    switch (response.status) {
+      case 200:
+        if (opt.responseHeaders && opt.responseHeaders.length) {
+          const headers = opt.responseHeaders.map(key =>
+            response.headers.get(key)
+          );
+          return {
+            json: response.json(),
+            headers
+          };
+        }
+        return response.json();
+
+      case 201:
+        if (opt.responseHeaders && opt.responseHeaders.length) {
+          const headers = opt.responseHeaders.map(key =>
+            response.headers.get(key)
+          );
+          return {
+            json: response.json(),
+            headers
+          };
+        }
+        return response.json();
+
+      case 403:
+        return new Promise((resolve, reject) => {
+          reject(
+            new Error({
+              code: response.status,
+              message: response.json().message
+            })
+          );
+        });
+      case 502:
+        // util.message is not defined
+        // util.3message(response.statusText, "err");
+        throw response.statusText;
+
+      default:
+        return 0;
+    }
   });
 }

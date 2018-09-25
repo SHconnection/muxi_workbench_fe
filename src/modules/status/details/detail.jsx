@@ -76,7 +76,6 @@ class Detail extends Component {
     }
   }
 
-
   sendComment(value, sid) {
     StatusService.postComments(sid, value);
     const arr = StatusService.getStatuDetail(sid);
@@ -95,7 +94,6 @@ class Detail extends Component {
   transferMsgDel(deleteX) {
     this.setState({ deleteX });
   }
-  
 
   render() {
     const {

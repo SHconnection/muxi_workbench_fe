@@ -39,8 +39,8 @@ class Dynamic extends Component {
     };
   }
 
-  componentWillMount(){
-    const arr =  FeedService.getFeedList(0);
+  componentWillMount() {
+    const arr = FeedService.getFeedList(0);
     this.setState({
       count: arr.count,
       page: arr.page,

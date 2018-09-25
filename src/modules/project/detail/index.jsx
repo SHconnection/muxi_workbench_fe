@@ -6,7 +6,7 @@ import { Scrollbars } from 'react-custom-scrollbars';
 import GoBack from "../../../components/common/goBack/index";
 import Icon from "../../../components/common/icon/index";
 import FileTreeComponent from "../components/fileTree/index";
-import FileTree from "../fileTree";
+import {Root, FileTree, getRoot} from "../fileTree1";
 import Button from "../../../components/common/button/index"
 import Select from "../../../components/common/select/index";
 import FolderItem from "../components/folderItem/index";
@@ -31,6 +31,7 @@ class ProjectDetailIndex extends Component {
         intro: "这是简介这是简介这是简介",
         userCount: 58
       },
+      fileRoot: Root,
       // 创建文件夹和上传文件选项
       fileOption: [
         {
@@ -158,6 +159,11 @@ class ProjectDetailIndex extends Component {
     this.setState({
       pid: match.params.id
     });
+    // console.log(getRoot());
+    // const child = {folder: true, id: 211, name: "文件夹2-1-1",child:[]}
+    // console.log(FileTree.insertNode(child, 21, getRoot()));
+    // console.log(FileTree.deleteNode(21, getRoot()));
+    // console.log(FileTree.moveNode(21, 1, getRoot()));
   }
 
   startCreateFile(index) {
@@ -228,8 +234,8 @@ class ProjectDetailIndex extends Component {
       showCreateDocFile,
       showDleteFile,
       showMoveFile,
+      fileRoot
       } = this.state;
-    const {match:{params:{id}}} = this.props;
       
     return (
       <div className="projectDetail-container">
@@ -254,7 +260,7 @@ class ProjectDetailIndex extends Component {
                 <Icon type="trash" tip="回收站" to="/trash" />
               </div>
               <div className="projectDetail-header-icon-container">
-                <Icon type="setting" tip="设置" to={`/project/${id}/setting`} />
+                <Icon type="setting" tip="设置" to="/setting" />
               </div>
             </div>
           </div>
@@ -378,7 +384,34 @@ class ProjectDetailIndex extends Component {
                 <div className="move-file-alert-tip">选择保存路径</div>
                 <div className="move-file-tree-container">
                   <Scrollbars>
-                    <FileTreeComponent root={FileTree.root} />
+                    <FileTreeComponent 
+                      root={fileRoot} 
+                      select={() => {
+                        const fileRootTemp = Object.assign({}, fileRoot)
+                        fileRootTemp.selected = !fileRootTemp.selected
+                        FileTree.initNodeSelected(fileRootTemp)
+                        this.setState({
+                          fileRoot: fileRootTemp
+                        })
+                      }}
+                      finalSelect={el => {
+                        const fileRootTemp = Object.assign({}, fileRoot)
+                        FileTree.initNodeFinalSelected(fileRootTemp)
+                        let fatherId
+                        if (el.selected || el.router.length === 1) {
+                          fatherId = el.id
+                        }
+                        else {
+                          // 取消选中
+                          fatherId = el.router[el.router.length-2]
+                        }
+                        const fatherNode = FileTree.searchNode(fatherId, fileRootTemp)
+                        fatherNode.finalSelected = true
+                        this.setState({
+                          fileRoot: fileRootTemp
+                        })
+                      }}
+                    />
                   </Scrollbars>
                 </div>
                 <div className="move-file-alert-cancel">
@@ -412,15 +445,12 @@ class ProjectDetailIndex extends Component {
 
 ProjectDetailIndex.propTypes = {
   match: PropTypes.shape({
-    url: PropTypes.string,
-    params: PropTypes.shape({
-      id: PropTypes.string,
-    })
+    url: PropTypes.string
   })
 };
 
 ProjectDetailIndex.defaultProps = {
-  match: {},
+  match: {}
 };
 
 export default ProjectDetailIndex;

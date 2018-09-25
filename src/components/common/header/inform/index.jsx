@@ -3,7 +3,10 @@ import ReactSVG from "react-svg";
 import { Link } from "react-router-dom";
 // import { NavLink } from "react-router-dom";
 import SettingIcon from "../../../../assets/svg/commonIcon/setting.svg";
-import Hook from "../../../../assets/svg/commonIcon/hook.svg";
+import InfoRemindIcon from "../../../../assets/svg/commonIcon/infoRemind.svg";
+import InfoIcon from "../../../../assets/svg/commonIcon/info.svg";
+import Check from "../../../../assets/svg/commonIcon/check.svg";
+import MessageService from "../../../../service/message";
 import "./index.css";
 
 class Inform extends Component {
@@ -40,6 +43,13 @@ class Inform extends Component {
     };
   }
 
+  // componentDidMount() {
+  //   const arr = MessageService.getMessageList(1);
+  //     this.setState({
+  //       MessageList: arr.list
+  //     });
+  // }
+
   enter() {
     this.setState({
       hover: true
@@ -52,20 +62,20 @@ class Inform extends Component {
     });
   }
 
-  read(id) {}
+  // read(id) {}
 
   render() {
-    const { icon } = this.props;
     const { hover, MessageList } = this.state;
     const message = MessageList.length;
     return (
       <div>
-        <img
-          className="header-info-icon"
-          src={icon}
-          alt="info-remind"
-          onMouseEnter={this.enter.bind(this)}
-        />
+        <div onMouseEnter={this.enter.bind(this)}>
+          <ReactSVG
+            className="header-info-icon"
+            path={message ? InfoRemindIcon : InfoIcon}
+            svgStyle={{ width: 22 }}
+          />
+        </div>
         {hover && (
           <div
             className="header-info-container"
@@ -77,7 +87,7 @@ class Inform extends Component {
                 className={
                   message ? "header-info-read" : "header-info-read read-grey"
                 }
-                // onClick={this.allread.bind(this)}
+                // onClick={this.read.bind(this)}
               >
                 全部已读
               </div>
@@ -86,21 +96,22 @@ class Inform extends Component {
               {MessageList.map(
                 el =>
                   el.readed && (
-                    <div className="info-item" key={el.id}>
+                    <div className="info-item" key={el.sourceID}>
                       <div className="info-text">
                         {el.fromName}
                         评论了你的
+                        {/* {el.action} */}
                         <Link className="info-item-to" to="/">
                           文档
                         </Link>
                       </div>
                       <div className="info-date">{el.time}</div>
-                      <ReactSVG
+                      {/* <ReactSVG
                         className="info-hook"
-                        path={SettingIcon}
+                        path={Check}
                         svgStyle={{ width: 14 }}
-                        onClick={this.read(el.sourceID)}
-                      />
+                        // onClick={this.read(el.sourceID)}
+                      /> */}
                     </div>
                   )
               )}
@@ -112,7 +123,10 @@ class Inform extends Component {
                 path={SettingIcon}
                 svgStyle={{ width: 14 }}
               />
-              <Link className="header-info-setting footer-text" to="/">
+              <Link
+                className="header-info-setting footer-text"
+                to="/member/teamMember/personalInfo/personalSet/${per.id}"
+              >
                 通知设置
               </Link>
               <Link className="header-info-all footer-text" to="/message">

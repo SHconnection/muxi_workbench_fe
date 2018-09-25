@@ -57,11 +57,11 @@ class TeamMember extends Component {
     this.present = this.present.bind(this);
   }
 
-  //   componentDidMount(){
-  // const arr = ManageService.getAllMem();
-
-  // 		this.setState({members: arr})
-  //   }
+  componentDidMount() {
+    ManageService.getAllMem().then(arr => {
+      this.setState({ members: arr });
+    });
+  }
 
   allMembers() {
     // const arr = ManageService.getAllMem();

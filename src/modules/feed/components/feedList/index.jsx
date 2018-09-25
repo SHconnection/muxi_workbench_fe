@@ -1,5 +1,5 @@
 import React from "react";
-import {Link} from "react-dom";
+import { Link } from "react-dom";
 import PropTypes from "prop-types";
 import AvatarImg from "../../../../assets/img/avatar.png";
 import Avatar from "../../../../components/common/avatar/index";
@@ -7,17 +7,25 @@ import "./index.css";
 
 // const kind = ["status", "project", "doc", "comment", "team", "user", "file"];
 
-function findKind(kind, sourceID){
-  switch(kind){
-    case 0:  return `/status/${sourceID}/`;
-    case 1: return `/project/${sourceID}/`;
-    case 2: return `/project/doc/${sourceID}/`;
-    case 3: return `/status/${sourceID}/`;
-    case 4: return `/member/teamMember/personalInfo/personalProgress`;
-    case 5: return `/member/teamMember/personalInfo/personalProgress`;
-    case 6: return `/project/doc/${sourceID}/`;
-    default: return `/`
-  }  
+function findKind(kind, sourceID) {
+  switch (kind) {
+    case 0:
+      return `/status/${sourceID}/`;
+    case 1:
+      return `/project/${sourceID}/`;
+    case 2:
+      return `/project/doc/${sourceID}/`;
+    case 3:
+      return `/status/${sourceID}/`;
+    case 4:
+      return `/member/teamMember/personalInfo/personalProgress`;
+    case 5:
+      return `/member/teamMember/personalInfo/personalProgress`;
+    case 6:
+      return `/project/doc/${sourceID}/`;
+    default:
+      return `/`;
+  }
 }
 
 function feedItem(props) {
@@ -35,7 +43,9 @@ function feedItem(props) {
         <div className="feed-item-img">
           <Avatar src={AvatarImg} width="60" height="60" />
         </div>
-        <Link to={findKind(kind,sourceID)} className="feed-action">{action}</Link>
+        <Link to={findKind(kind, sourceID)} className="feed-action">
+          {action}
+        </Link>
       </div>
     </div>
   );
