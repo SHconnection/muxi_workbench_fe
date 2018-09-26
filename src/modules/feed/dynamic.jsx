@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import PropTypes from "prop-types"
+import PropTypes from "prop-types";
 import FeedItem from "./components/feedList/index";
 import Gotop from "../../components/common/toTop/top";
 import FeedService from "../../service/feed";
@@ -43,14 +43,14 @@ class Dynamic extends Component {
 
   componentWillMount() {
     const { match } = this.props;
-      if (match.params === "/feed") {
-        const arr = FeedService.getFeedList(0);
-        this.setState({
-          count: arr.count,
-          page: arr.page,
-          feedList: arr.feedList
-        });
-      }
+    if (match.params === "/feed") {
+      const arr = FeedService.getFeedList(0);
+      this.setState({
+        count: arr.count,
+        page: arr.page,
+        feedList: arr.feedList
+      });
+    }
   }
 
   componentDidMount() {
@@ -155,6 +155,5 @@ Dynamic.propTypes = {
 Dynamic.defaultProps = {
   match: {}
 };
-
 
 export default Dynamic;

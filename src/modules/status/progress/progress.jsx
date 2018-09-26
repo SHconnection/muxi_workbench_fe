@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import StatusItem from "../components/basicCard/index";
 import Gotop from "../../../components/common/toTop/top";
 import StatusService from "../../../service/status";
-import MessageService from "../../../service/message"
+import MessageService from "../../../service/message";
 import "./progerss.css";
 
 class Progress extends Component {
@@ -21,25 +21,24 @@ class Progress extends Component {
   // 返回给我总的条数，条数除以20=page
 
   componentWillMount() {
-      const { match } = this.props;
-      if (match.params === "/status") 
-      {
-        const arr = StatusService.getStatusList(0);
-        this.setState({
-          cout: arr.cout,
-          page: arr.page,
-          statuList: arr.statuList,
-          isPersonal: 0
-        });
-      } else {
-        const arr = MessageService.getPersonalAttention();
-        this.setState({
-          cout: arr.cout,
-          page: arr.page,
-          statuList: arr.statuList,
-          isPersonal: 1
-        });
-      }
+    const { match } = this.props;
+    if (match.params === "/status") {
+      const arr = StatusService.getStatusList(0);
+      this.setState({
+        cout: arr.cout,
+        page: arr.page,
+        statuList: arr.statuList,
+        isPersonal: 0
+      });
+    } else {
+      const arr = MessageService.getPersonalAttention();
+      this.setState({
+        cout: arr.cout,
+        page: arr.page,
+        statuList: arr.statuList,
+        isPersonal: 1
+      });
+    }
   }
 
   componentDidMount() {

@@ -1,7 +1,7 @@
 import Fetch from "./fetch";
 
 const StatusService = {
-  addNewStatu(title,value) {
+  addNewStatu(title, value) {
     return Fetch("/status/new/", {
       method: "POST",
       data: JSON.stringify({
@@ -10,6 +10,7 @@ const StatusService = {
       })
     });
   },
+  
   getStatusList(page) {
     return Fetch(`/status/list/${page}/`, {
       token: JSON.parse(localStorage.user).token
@@ -28,10 +29,10 @@ const StatusService = {
   changeLike(sid, iflike) {
     return Fetch(`/status/${sid}/like/`, {
       method: "POST",
-      data: JSON.stringify({iflike})
+      data: JSON.stringify({ iflike })
     });
   },
-  postComments(sid,content) {
+  postComments(sid, content) {
     return Fetch(`/status/${sid}/comment/`, {
       method: "POST",
       token: JSON.parse(localStorage.user).token,

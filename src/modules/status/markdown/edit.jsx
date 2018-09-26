@@ -24,13 +24,12 @@ import "../../../service/cookie";
 //   }
 // }
 
-
 class edit extends Component {
   static SaveAndBack(content, title) {
-    StatusService.addNewStatu(title,content);
+    StatusService.addNewStatu(title, content);
     window.history.back();
   }
-  
+
   constructor(props) {
     super(props);
     this.state = {
@@ -41,16 +40,16 @@ class edit extends Component {
   }
 
   componentWillMount() {
-      const { match } = this.props;
-      if (match.params === "/edit");
-      else {
-        const { sid } = match.params.id;
-        const arr = StatusService.getStatuDetail(sid);
-        this.setState({
-          title: arr.title,
-          content: arr.content
-        });
-      }
+    const { match } = this.props;
+    if (match.params === "/edit");
+    else {
+      const { sid } = match.params.id;
+      const arr = StatusService.getStatuDetail(sid);
+      this.setState({
+        title: arr.title,
+        content: arr.content
+      });
+    }
   }
 
   onChange(title) {
@@ -58,7 +57,6 @@ class edit extends Component {
       title
     });
   }
-
 
   render() {
     const { content, title } = this.state;
