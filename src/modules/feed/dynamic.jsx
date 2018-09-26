@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import PropTypes from "prop-types"
 import FeedItem from "./components/feedList/index";
 import Gotop from "../../components/common/toTop/top";
 import FeedService from "../../service/feed";
@@ -35,22 +36,26 @@ class Dynamic extends Component {
     this.state = {
       feedList: [],
       page: 0,
-      count: 0
+      count: 0,
+      isLoadingMore: 0
     };
   }
 
   componentWillMount() {
-    const arr = FeedService.getFeedList(0);
-    this.setState({
-      count: arr.count,
-      page: arr.page,
-      feedList: arr.feedList
-    });
+    const { match } = this.props;
+      if (match.params === "/feed") {
+        const arr = FeedService.getFeedList(0);
+        this.setState({
+          count: arr.count,
+          page: arr.page,
+          feedList: arr.feedList
+        });
+      }
   }
 
   componentDidMount() {
     const wrapper = this.refs.wrapper;
-    const getFeedList = this.getFeedList;
+    const getFeedList = this.getFeedList();
     const that = this; // 为解决不同context的问题
     let timeCount;
 
@@ -86,10 +91,9 @@ class Dynamic extends Component {
       this.setState({
         page: arr.page,
         count: arr.count,
-        feedList: arr.feedList
+        feedList: arr.feedList,
+        isLoadingMore: 1
       });
-    } else {
-      return "已经到底啦";
     }
   }
 
@@ -141,5 +145,16 @@ class Dynamic extends Component {
     );
   }
 }
+
+Dynamic.propTypes = {
+  match: PropTypes.shape({
+    url: PropTypes.string
+  })
+};
+
+Dynamic.defaultProps = {
+  match: {}
+};
+
 
 export default Dynamic;

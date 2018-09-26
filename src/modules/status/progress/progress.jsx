@@ -1,7 +1,9 @@
 import React, { Component } from "react";
+import PropTypes from "prop-types";
 import StatusItem from "../components/basicCard/index";
 import Gotop from "../../../components/common/toTop/top";
 import StatusService from "../../../service/status";
+import MessageService from "../../../service/message"
 import "./progerss.css";
 
 class Progress extends Component {
@@ -16,43 +18,33 @@ class Progress extends Component {
     };
   }
 
-  static contextTypes = {
-    router: PropTypes.shape({
-      history: PropTypes.shape({
-        push: PropTypes.func.isRequired,
-        replace: PropTypes.func.isRequired,
-        createHref: PropTypes.func.isRequired
-      }).isRequired
-    }).isRequired
-  };
-
   // 返回给我总的条数，条数除以20=page
 
   componentWillMount() {
-    this.context.router.history.listen(route => {
-      if (
-        route.pathname === "/member/teamMember/personalInfo/personalProgress"
-      ) {
-        const arr = StatusService.getPersonalAttention();
-        this.setState({
-          cout: arr.cout,
-          page: arr.page,
-          statuList: arr.statuList
-        });
-      } else {
+      const { match } = this.props;
+      if (match.params === "/status") 
+      {
         const arr = StatusService.getStatusList(0);
         this.setState({
           cout: arr.cout,
           page: arr.page,
-          statuList: arr.statuList
+          statuList: arr.statuList,
+          isPersonal: 0
+        });
+      } else {
+        const arr = MessageService.getPersonalAttention();
+        this.setState({
+          cout: arr.cout,
+          page: arr.page,
+          statuList: arr.statuList,
+          isPersonal: 1
         });
       }
-    });
   }
 
   componentDidMount() {
     const wrapper = this.refs.wrapper;
-    const getStatusList = this.getStatusList;
+    const getStatusList = this.getStatusList();
     const that = this; // 为解决不同context的问题
     let timeCount;
 
@@ -90,16 +82,14 @@ class Progress extends Component {
         page: arr.page,
         statuList: arr.statuList
       });
-    } else {
-      // return 已经到底啦;
     }
   }
 
   render() {
-    const { statuList, page, cout } = this.state;
+    const { statuList, page, cout, isPersonal } = this.state;
     return (
       <div>
-        <div className="status">
+        <div className={isPersonal ? "" : "status"}>
           <div className="status-container">
             {statuList.map(card => (
               <div key={card.sid}>
@@ -129,5 +119,15 @@ class Progress extends Component {
     );
   }
 }
+
+Progress.propTypes = {
+  match: PropTypes.shape({
+    url: PropTypes.string
+  })
+};
+
+Progress.defaultProps = {
+  match: {}
+};
 
 export default Progress;

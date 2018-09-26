@@ -24,38 +24,33 @@ import "../../../service/cookie";
 //   }
 // }
 
+
 class edit extends Component {
+  static SaveAndBack(content, title) {
+    StatusService.addNewStatu(title,content);
+    window.history.back();
+  }
+  
   constructor(props) {
     super(props);
     this.state = {
-      value: "",
+      content: "",
       title: ""
     };
+    this.SaveAndBack = this.SaveAndBack.bind(this);
   }
 
-  static contextTypes = {
-    router: PropTypes.shape({
-      history: PropTypes.shape({
-        push: PropTypes.func.isRequired,
-        replace: PropTypes.func.isRequired,
-        createHref: PropTypes.func.isRequired
-      }).isRequired
-    }).isRequired
-  };
-
   componentWillMount() {
-    this.context.router.history.listen(route => {
-      if (route.pathname === "/edit");
+      const { match } = this.props;
+      if (match.params === "/edit");
       else {
-        const { match } = this.props;
         const { sid } = match.params.id;
         const arr = StatusService.getStatuDetail(sid);
         this.setState({
           title: arr.title,
-          value: arr.content
+          content: arr.content
         });
       }
-    });
   }
 
   onChange(title) {
@@ -64,16 +59,9 @@ class edit extends Component {
     });
   }
 
-  SaveAndBack(value, title) {
-    StatusService.addNewStatu({
-      content: value,
-      title
-    });
-    window.history.back();
-  }
 
   render() {
-    const { value, title } = this.state;
+    const { content, title } = this.state;
     return (
       <div className="subject">
         <div className="head">
@@ -89,7 +77,7 @@ class edit extends Component {
           />
           <div className="status-save-bt">
             <Button
-              onClick={() => this.SaveAndBack(value, title)}
+              onClick={() => this.SaveAndBack(content, title)}
               text="保存并返回"
             />
           </div>
@@ -99,4 +87,14 @@ class edit extends Component {
     );
   }
 }
+
+edit.propTypes = {
+  match: PropTypes.shape({
+    url: PropTypes.string
+  })
+};
+
+edit.defaultProps = {
+  match: {}
+};
 export default edit;
