@@ -64,10 +64,12 @@ FirstEditMember.propTypes = {
   selMembers: PropTypes.arrayOf(PropTypes.number),
   transferMsg: PropTypes.func,
   selAll: PropTypes.func,
-  groups: PropTypes.shape({
-    value: PropTypes.string,
-    id: PropTypes.number
-  }),
+  groups: PropTypes.arrayOf(
+    PropTypes.shape({
+      value: PropTypes.string,
+      id: PropTypes.number
+    })
+  ),
   changeGroupCheck: PropTypes.func,
   checkedIndex: PropTypes.number,
   proId: PropTypes.number
@@ -78,7 +80,7 @@ FirstEditMember.defaultProps = {
   selMembers: [],
   transferMsg: () => {},
   selAll: () => {},
-  groups: {},
+  groups: [],
   changeGroupCheck: () => {},
   checkedIndex: 0,
   proId: 0

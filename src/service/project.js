@@ -16,9 +16,16 @@ const ProjectService = {
     });
   },
 
+  getProjectInfo(proId) {
+    return Fetch(`/project/${proId}/`, {
+      token: JSON.parse(localStorage.user).token
+    });
+  },
+
   saveProjectSet(proId, textValue, inputValue) {
     return Fetch(`/project/${proId}/`, {
       method: "POST",
+      token: JSON.parse(localStorage.user).token,
       data: JSON.stringify({
         intro: textValue,
         name: inputValue

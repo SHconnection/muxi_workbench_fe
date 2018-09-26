@@ -53,11 +53,11 @@
     margin-right: 13px;
 }
 .teamMember-littleGroup{
+    padding: 0 6px;
     height:21px;
     line-height: 21px;
     border-radius:32px;
     border:1px solid #979797;
-    width: 42px;
     font-size: 10px;
     color: #919191;
     text-align: center;

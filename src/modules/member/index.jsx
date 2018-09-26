@@ -12,8 +12,6 @@ import GroupMember from "../setting/groupMember/groupMember";
 import PersonalInfo from "../setting/personalInfo/personalInfo";
 import PersonalSet from "../setting/personalSetting/personalSetting";
 import SetPersonalInfo from "../setting/setPersonInfo/setPersonInfo";
-import "../../static/css/common.css";
-import "./index.css";
 
 const Member = ({ match }) => (
   <Switch>

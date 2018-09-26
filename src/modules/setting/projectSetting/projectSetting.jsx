@@ -9,7 +9,6 @@ import PropTypes from "prop-types";
 import Delete from "../components/delete/delete";
 import ProjectSetFirst from "../../project/components/projectSetFirst/projectSetFirst";
 import ProjectService from "../../../service/project";
-import ManageService from "../../../service/manage";
 import "../../../static/css/common.css";
 import "./projectSetting.css";
 
@@ -28,14 +27,22 @@ class SetProject extends Component {
     this.saveProjectSet = this.saveProjectSet.bind(this);
   }
 
-  // componentDidMount() {
-  //   const proInfo = ManageService.getAllPro();
+  componentDidMount() {
+    const {
+      match: {
+        params: { id }
+      }
+    } = this.props;
 
-  //   this.setState({
-  //     inputValue: proInfo.name,
-  //     textValue: proInfo.intro
-  //   });
-  // }
+    ProjectService.getProjectInfo(id).then(project => {
+      if (project) {
+        this.setState({
+          inputValue: project.name,
+          textValue: project.intro
+        });
+      }
+    });
+  }
 
   changeInput(e) {
     this.setState({

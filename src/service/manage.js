@@ -27,7 +27,9 @@ const ManageService = {
   },
 
   getProMember(proID) {
-    return Fetch(`/group/${proID}/userList/`);
+    return Fetch(`/project/${proID}/userList/`, {
+      token: JSON.parse(localStorage.user).token
+    });
   },
 
   updateGroupMember(groupID, userList) {

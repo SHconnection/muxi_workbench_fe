@@ -9,10 +9,21 @@ import EditMember from "../setting/editMember/editMember";
 import ProjectDetailAllFile from "./detail/allFile/index";
 import ProjectDetailAllDoc from "./detail/allDoc/index";
 import DocPreview from "./detail/docPreview/index";
+import LoginService from "../../service/login";
 import "../../static/css/common.css";
 
 const Project = props => {
   const { match } = props;
+  const data = {
+    username: "XuanYe"
+  };
+
+  LoginService.getToken(data).then(response => {
+    const user = {};
+    user.token = response.token;
+    localStorage.user = JSON.stringify(user);
+  });
+
   return (
     <div className="subject minH">
       <Route exact path={match.url} component={Index} />

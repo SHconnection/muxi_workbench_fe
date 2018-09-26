@@ -17,16 +17,7 @@ class EditMember extends Component {
     this.state = {
       selMembers: [],
       members: [],
-      groups: [
-        {
-          id: 1,
-          value: "123"
-        },
-        {
-          id: 2,
-          value: "342"
-        }
-      ],
+      groups: [],
       checkedIndex: 0
     };
 
@@ -36,45 +27,65 @@ class EditMember extends Component {
     this.changeGroupCheck = this.changeGroupCheck.bind(this);
   }
 
-  // componentDidMount() {
-  // const {
-  //   match: { params: proId }
-  // } = this.props;
-  // const arr = ManageService.getAllMem();
-  // const { list: proMember } = ManageService.getProMember(proId);
-  // const { groupList } = ManageService.getAllGroup();
+  componentDidMount() {
+    const {
+      match: {
+        params: { id }
+      }
+    } = this.props;
 
-  // if (!Array.isArray(proMember)) return false;
-  // if(!Array.isArray(groupList)) return false;
+    ManageService.getAllMem().then(arr => {
+      if (arr) {
+        ManageService.getProMember(id).then(member => {
+          if (member) {
+            const idList = member.list.map(mem => mem.userID);
 
-  // const idList = proMember.map(mem => mem.id);
+            const members = arr.list.map(mem1 => {
+              const mem = this.changeGroupMemberFormat(mem1);
 
-  // arr.map(mem1 => {
-  //   const mem = mem1;
+              if (idList.indexOf(mem.id) !== -1) mem.selected = true;
 
-  //   if (idList.indexOf(mem.id) !== -1) mem.selected = true;
+              return mem;
+            });
 
-  //   return mem;
-  // });
+            this.setState({ members });
+          }
+        });
+      }
+    });
+    ManageService.getAllGroup().then(group => {
+      if (group) {
+        const groupList = group.groupList.map(group1 => {
+          const obj = {};
+          obj.value = group1.groupName;
+          obj.id = group1.groupID;
 
-  //   groupList.map(group1 => {
-  //     const group = group1;
-  //     group.value = group.name;
+          return obj;
+        });
 
-  //     return group;
-  //   })
+        groupList.push({ id: 0, value: "全部成员" });
 
-  //   groupList.push({id: 0, value: "全部成员"});
+        this.setState({
+          groups: groupList,
+          checkedIndex: groupList.length - 1
+        });
+      }
+    });
+  }
 
-  // this.setState({
-  //   members: arr,
-  //   selMembers: idList,
-  //   groups: groupList,
-  //   checkedIndex: groupList.length - 1,
-  // });
+  changeGroupMemberFormat(mem) {
+    const obj = {};
 
-  //   return true;
-  // }
+    obj.name = mem.username;
+    obj.id = mem.userID;
+    obj.email = mem.email;
+    obj.role = mem.role;
+    obj.avatar = mem.avatar;
+    obj.group = mem.groupName;
+    obj.selected = false;
+
+    return obj;
+  }
 
   selAll() {
     this.setState(prevState => {
@@ -117,24 +128,34 @@ class EditMember extends Component {
 
   editProjectMember() {
     const {
-      match: { params: proId }
+      match: {
+        params: { id }
+      }
     } = this.props;
     const { selMembers } = this.state;
 
-    ProjectService.editProjectMember(proId, selMembers);
+    ProjectService.editProjectMember(id, selMembers);
   }
 
-  changeGroupCheck(index, arr) {
-    this.setState({
-      checkedIndex: index,
-      members: arr
+  changeGroupCheck(index) {
+    ManageService.groupMember(index).then(member => {
+      if (member) {
+        const arr = member.list.map(mem => this.changeGroupMemberFormat(mem));
+
+        this.setState({
+          checkedIndex: index,
+          members: arr
+        });
+      }
     });
   }
 
   render() {
     const { members, selMembers, groups, checkedIndex } = this.state;
     const {
-      match: { params: proId }
+      match: {
+        params: { id }
+      }
     } = this.props;
 
     return (
@@ -147,7 +168,7 @@ class EditMember extends Component {
           checkedIndex={checkedIndex}
           transferMsg={this.transferMsgMem}
           changeGroupCheck={this.changeGroupCheck}
-          proId={proId}
+          proId={Number(id)}
         />
 
         <button
@@ -168,7 +189,7 @@ export default EditMember;
 EditMember.propTypes = {
   match: PropTypes.shape({
     params: PropTypes.shape({
-      proId: PropTypes.number
+      id: PropTypes.string
     })
   })
 };

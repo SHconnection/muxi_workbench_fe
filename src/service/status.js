@@ -12,7 +12,7 @@ const StatusService = {
   },
   
   getStatusList(page) {
-    return Fetch(`/status/list/${page}/`, {
+    return Fetch(`/status/list${page}/`, {
       token: JSON.parse(localStorage.user).token
     });
   },
