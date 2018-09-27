@@ -1,8 +1,8 @@
 import React, { Component } from "react";
-// import Mem from "../../../components/setting/member/member";
 import Member from "../../setting/components/member/member";
 import Button from "../../../components/common/button/index";
 import Select from "../../../components/common/select/index";
+import ManageService from "../../../service/manage"
 import ProjectService from "../../../service/project";
 import "../../../static/css/common.css";
 import "./index.css";
@@ -18,7 +18,7 @@ class NewProject extends Component {
       // groups: ['安卓组','前端组','后端组','设计组','产品组','全部成员'],
       selectAllText: "全选",
       groups: [],
-      groupCheckedIndex: 5,
+      groupCheckedIndex: 0,
       selectedAll: false,
       selMembers: [],
       members: [
@@ -74,17 +74,26 @@ class NewProject extends Component {
         userCount: 2
       }
     ];
-    const arr = groupList.map(el => {
-      const el1 = { id: 0, value: "" };
-      el1.id = el.groupID;
-      el1.value = el.groupName;
-      return el1;
-    });
-    arr.push({ id: 0, value: "全部成员" });
-    // console.log(arr)
-    this.setState({
-      groups: groups.concat(arr)
-    });
+    ManageService.getGroupList()
+    .then(res => {
+      console.log(res);
+      const arr = res.groupList.map(el => {
+        const el1 = { id: 0, value: "" };
+        el1.id = el.groupID;
+        el1.value = el.groupName;
+        el1.userCount = el.userCount
+        return el1;
+      });
+      arr.push({ id: 0, value: "全部成员" });
+      console.log(arr);
+      
+      // // console.log(arr)
+      this.setState({
+        groups: groups.concat(arr)
+      });
+    })
+    
+    
     // console.log(this.state.groups)
   }
 

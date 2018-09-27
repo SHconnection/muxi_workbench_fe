@@ -12,7 +12,7 @@ class Select extends Component {
       showInput: false
     };
     this.showOption = this.showOption.bind(this);
-    this.chooseOption = this.chooseOption.bind(this);
+    // this.chooseOption = this.chooseOption.bind(this);
     this.chooseFile = this.chooseFile.bind(this);
     this.myRef = React.createRef();
   }
@@ -42,32 +42,7 @@ class Select extends Component {
     });
   }
 
-  chooseOption(index, type) {
-    // 更改组
-    if (type === "file") {
-      return;
-    }
-    const { proId, checkedIndex, onChange, items } = this.props;
-    if (checkedIndex === index) return;
-    const { list: proMember } = ManageService.getProMember(proId);
-    const idList = proMember.map(mem => mem.id);
-    const groupID = items[index].id;
-    const arr = ManageService.groupMember(groupID);
 
-    arr.map(mem1 => {
-      const mem = mem1;
-
-      if (idList.indexOf(mem.id) !== -1) mem.selected = true;
-
-      return mem;
-    });
-    const { showInput } = this.state;
-
-    onChange(index, arr);
-    this.setState({
-      showInput: !showInput
-    });
-  }
 
   render() {
     const { showInput } = this.state;
