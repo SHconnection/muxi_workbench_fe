@@ -67,7 +67,7 @@ export default function FetchData(url, opt = {}) {
           reject(
             new Error({
               code: response.status,
-              message: response.json().message
+              // message: response.json().message
             })
           );
         });
@@ -83,7 +83,7 @@ export default function FetchData(url, opt = {}) {
           reject(
             new Error({
               code: response.status,
-              message: response.json().message
+              // message: response.json().message
             })
           );
         });

@@ -22,7 +22,7 @@ const ManageService = {
   },
 
   // group user list
-  getGroupMember(groupId, page) {
+  getGroupMember(groupId, page=1) {
     return Fetch(`/group/${groupId}/userList`, {
       token: JSON.parse(localStorage.user).token,
       data: {
@@ -31,9 +31,21 @@ const ManageService = {
     })
   },
 
+  // group all user list
+  getGroupAllMember(groupId) {
+    return ManageService.getGroupMember(groupId)
+    .then(res => {
+      const groupsFetch = []
+      for (let i = 1; i <= res.pageMax; i += 1) {
+        groupsFetch.push(ManageService.getGroupMember(groupId, i))
+      }
+      return Promise.all(groupsFetch)
+    })
+  },
+
   // get a group list
   getGroupList() {
-    return Fetch(`/group/list`, {
+    return Fetch(`/group/list/`, {
       token: localStorage.token
     })
   },
@@ -85,7 +97,9 @@ const ManageService = {
   },
 
   getProMember(proID) {
-    return Fetch(`/group/${proID}/userList/`);
+    return Fetch(`/project/${proID}/userList/`, {
+      token: JSON.parse(localStorage.user).token
+    });
   },
 
   updateGroupMember(groupID, userList) {

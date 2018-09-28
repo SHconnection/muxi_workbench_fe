@@ -11,33 +11,39 @@ const gotoBack = () => {
   window.history.back();
 };
 
+// 每一组的user
+const usersByGroup = {}
+
+// 请求grouplist
+const fetchGroups = () => 
+  ManageService.getGroupList()
+  .then(res => {
+    const arr = res.groupList.map(el => {
+      const el1 = { id: 0, value: "" };
+      el1.id = el.groupID;
+      el1.value = el.groupName;
+      el1.userCount = el.userCount
+      return el1;
+    });
+    arr.push({ id: 0, value: "全部成员" });
+    const arr1 = arr
+    return arr1
+  })
+
+
+
+
 class NewProject extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      // groups: ['安卓组','前端组','后端组','设计组','产品组','全部成员'],
       selectAllText: "全选",
       groups: [],
       groupCheckedIndex: 0,
+      members: [],
       selectedAll: false,
       selMembers: [],
-      members: [
-        { id: 1, name: "AXX", selected: false },
-        { id: 2, name: "BXX", selected: false },
-        { id: 3, name: "CX", selected: false },
-        { id: 4, name: "BXX", selected: false },
-        { id: 5, name: "CXX", selected: false },
-        { id: 6, name: "BXX", selected: false },
-        { id: 7, name: "CXX", selected: false },
-        { id: 8, name: "BXX", selected: false },
-        { id: 9, name: "CXX", selected: false },
-        { id: 10, name: "BXX", selected: false },
-        { id: 11, name: "CXX", selected: false },
-        { id: 12, name: "BXX", selected: false },
-        { id: 13, name: "CXX", selected: false }
-      ]
     };
-
     this.transferMsgMem = this.transferMsgMem.bind(this);
     this.selAll = this.selAll.bind(this);
     this.createProject = this.createProject.bind(this);
@@ -46,55 +52,38 @@ class NewProject extends Component {
   }
 
   componentWillMount() {
-    const { groups } = this.state;
-    const groupList = [
-      {
-        groupID: 1,
-        groupName: "安卓组",
-        userCount: 2
-      },
-      {
-        groupID: 2,
-        groupName: "前端组",
-        userCount: 2
-      },
-      {
-        groupID: 3,
-        groupName: "后端组",
-        userCount: 2
-      },
-      {
-        groupID: 4,
-        groupName: "设计组",
-        userCount: 2
-      },
-      {
-        groupID: 5,
-        groupName: "产品组",
-        userCount: 2
-      }
-    ];
-    ManageService.getGroupList()
-    .then(res => {
-      console.log(res);
-      const arr = res.groupList.map(el => {
-        const el1 = { id: 0, value: "" };
-        el1.id = el.groupID;
-        el1.value = el.groupName;
-        el1.userCount = el.userCount
-        return el1;
-      });
-      arr.push({ id: 0, value: "全部成员" });
-      console.log(arr);
-      
-      // // console.log(arr)
+    fetchGroups()
+    .then(el => {
       this.setState({
-        groups: groups.concat(arr)
+        groups: el,
+        groupCheckedIndex: el.length - 1
       });
+      this.fetchGroupMember(el[el.length-1].id)
     })
-    
-    
-    // console.log(this.state.groups)
+  }
+
+  // 请求group的所有组员
+  fetchGroupMember(id) {
+    return ManageService.getGroupAllMember(id)
+    .then(el => {
+      usersByGroup[id] = (el.map(item => item.list)).reduce((el1, el2) => el1.concat(el2), []).map(el => {
+        const arr = {id: el.userID, name: el.username, selected: false}
+        return arr
+      })
+      this.setState({
+        members: usersByGroup[id]
+      })
+    })
+  }
+
+  changeGroupCheck(index, id) {
+    if (usersByGroup[id] == null) {
+      this.fetchGroupMember(id)
+    }
+    this.setState({
+      groupCheckedIndex: index,
+      members: usersByGroup[id]
+    });
   }
 
   transferMsgMem(arr1) {
@@ -145,26 +134,21 @@ class NewProject extends Component {
   }
 
   createProject() {
-    const { selMembers } = this.state;
+    const { members, selMembers } = this.state;
+    console.log(members);
+    
     // Func.selAll()
-    ProjectService.createProject({
-      username: "test",
-      projectname: "Project",
-      userList: [
-        {
-          userID: 1,
-          userName: "testName"
-        }
-      ],
-      intro: "hahaha"
-    });
-  }
-
-  changeGroupCheck(index) {
-    // const {groupCheckedIndex} = this.state
-    this.setState({
-      groupCheckedIndex: index
-    });
+    // ProjectService.createProject({
+    //   username: "test",
+    //   projectname: "Project",
+    //   userList: [
+    //     {
+    //       userID: 1,
+    //       userName: "testName"
+    //     }
+    //   ],
+    //   intro: "hahaha"
+    // });
   }
 
   render() {
@@ -200,7 +184,7 @@ class NewProject extends Component {
                   onChange={this.checkAll}
                   id="memberCheckedAll"
                 />
-                <label htmlFor="memberCheckedAll">全选</label>
+                <label htmlFor="memberCheckedAll">{selectAllText}</label>
 
                 <div className="newProject-group-select">
                   <Select

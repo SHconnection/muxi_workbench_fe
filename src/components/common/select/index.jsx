@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 import ReactSVG from "react-svg";
 import RectangleDown from "../../../assets/svg/commonIcon/rectangle_down.svg";
-import ManageService from "../../../service/manage";
 import "./index.css";
 
 class Select extends Component {
@@ -12,7 +11,6 @@ class Select extends Component {
       showInput: false
     };
     this.showOption = this.showOption.bind(this);
-    // this.chooseOption = this.chooseOption.bind(this);
     this.chooseFile = this.chooseFile.bind(this);
     this.myRef = React.createRef();
   }
@@ -25,16 +23,12 @@ class Select extends Component {
   }
 
   chooseFile(event) {
-    // console.log(this.myRef.current.files[0])
     const { showInput } = this.state;
     const file = event.target.files[0];
     const reader = new FileReader();
     if (file) {
       reader.readAsDataURL(file);
     }
-    reader.onload = e => {
-      // console.log(e.target.result);
-    };
     const { onChange } = this.props;
     onChange(file);
     this.setState({
@@ -46,7 +40,7 @@ class Select extends Component {
 
   render() {
     const { showInput } = this.state;
-    const { items, checkedIndex } = this.props;
+    const { items, checkedIndex, onChange } = this.props;
     if (items.length) {
       return (
         <div className="select-container">
@@ -70,7 +64,7 @@ class Select extends Component {
                       : "select-option-item"
                   }
                   onClick={() => {
-                    this.chooseOption(index, el.type);
+                    onChange(index, el.id)
                   }}
                   onKeyDown={() => {}}
                   role="presentation"

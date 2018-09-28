@@ -5,7 +5,6 @@ import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
 import ManageService from "../../../service/manage";
-import Avatar from "../../../assets/img/avatar.png";
 import "../../../static/css/common.css";
 import "./teamMember.css";
 
@@ -14,83 +13,82 @@ class TeamMember extends Component {
     super(props);
 
     this.state = {
-      members: [
-        {
-          name: "starrynight",
-          avatar: Avatar,
-          email: "123456789@qq.com",
-          id: 1,
-          group: "前端组"
-        },
-        {
-          name: "木小犀",
-          avatar: Avatar,
-          email: "123456789@qq.com",
-          id: 2,
-          group: "后端组"
-        },
-        {
-          name: "sta",
-          avatar: Avatar,
-          email: "123456789@qq.com",
-          id: 3,
-          group: "安卓组"
-        },
-        {
-          name: "starry",
-          avatar: Avatar,
-          email: "123456789@qq.com",
-          id: 4,
-          group: "设计组"
-        },
-        {
-          name: "starryni",
-          avatar: Avatar,
-          email: "123456789@qq.com",
-          id: 5,
-          group: "产品组"
-        }
-      ],
+      members: [],
+      groupList: [],
       selectedID: 0
     };
-    this.allMembers = this.allMembers.bind(this);
     this.present = this.present.bind(this);
   }
 
   componentDidMount() {
-    ManageService.getAllMem().then(arr => {
-      this.setState({ members: arr });
+    ManageService.getAllMem().then(member => {
+      if (member) {
+        const arr = member.list.map(mem => {
+          const obj = this.changeGroupMemberFormat(mem);
+
+          return obj;
+        });
+
+        this.setState({
+          members: arr
+        });
+      }
+    });
+    ManageService.getAllGroup().then(group => {
+      if (group) {
+        const arr = group.groupList.map(mem1 => {
+          const mem = mem1;
+          const obj = {};
+
+          obj.name = mem.groupName;
+          obj.id = mem.groupID;
+          obj.count = mem.userCount;
+          obj.selected = false;
+          obj.dealed = false;
+
+          return obj;
+        });
+
+        this.setState({
+          groupList: arr
+        });
+      }
     });
   }
 
-  allMembers() {
-    // const arr = ManageService.getAllMem();
+  changeGroupMemberFormat(mem) {
+    const obj = {};
 
-    this.setState({
-      // members: arr,
-      selectedID: 0
-    });
+    obj.name = mem.username;
+    obj.id = mem.userID;
+    obj.email = mem.email;
+    obj.role = mem.role;
+    obj.avatar = mem.avatar;
+    obj.group = mem.groupName;
+    obj.selected = false;
+
+    return obj;
   }
 
   present(id) {
-    // const arr = ManageService.groupMember(id);
+    ManageService.groupMember(id).then(member => {
+      if (member) {
+        const arr = member.list.map(mem => {
+          const obj = this.changeGroupMemberFormat(mem);
 
-    this.setState({
-      // members: arr,
-      selectedID: id
+          return obj;
+        });
+
+        this.setState({
+          members: arr,
+          selectedID: id
+        });
+      }
     });
   }
 
   render() {
-    // const groupList = ManageService.getAllGroup();
-    const groupList = [
-      { name: "前端组", id: 1, selected: false },
-      { name: "后端组", id: 2, selected: false },
-      { name: "安卓组", id: 3, selected: false },
-      { name: "设计组", id: 4, selected: false },
-      { name: "产品组", id: 5, selected: false }
-    ];
-    const { members, selectedID } = this.state;
+    const { members, selectedID, groupList } = this.state;
     const { match } = this.props;
 
     return (
@@ -104,7 +102,9 @@ class TeamMember extends Component {
               className={`teamMember-singleItem teamMember-selectItem ${
                 selectedID === 0 ? "teamMember-singleItemSelected" : ""
               }`}
-              onClick={this.allMembers}
+              onClick={() => {
+                this.present(0);
+              }}
             >
               团队成员
             </button>
@@ -153,8 +153,9 @@ class TeamMember extends Component {
               </Link>
               <div className="teamMember-personalIntro">
                 <b>{mem.name}</b>
-                <span className="">{role}</span>
-                <div className="teamMember-littleGroup">{mem.group}</div>
+                <span className="teamMember-role">{role}</span>
+                <br />
+                <span className="teamMember-littleGroup">{mem.group}</span>
               </div>
               <span>{mem.email}</span>
             </div>

@@ -16,19 +16,6 @@ import Message from "./modules/message/index";
 import Search from "./modules/search/index";
 import Header from "./components/common/header/index";
 import edit from "./modules/status/markdown/edit";
-import LoginService from "./service/login";
-
-const data = {
-  username: "XuanYe"
-};
-
-LoginService.getToken(data).then(response => {
-  localStorage.token = response.token
-  const user = {};
-  user.token = response;
-  localStorage.user = JSON.stringify(user);
-});
-
 
 
 

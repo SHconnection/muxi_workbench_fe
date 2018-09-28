@@ -1,10 +1,10 @@
 import React, { Component } from "react";
+import PropTypes from "prop-types";
 import StatusItem from "../components/basicCard/index";
 import Gotop from "../../../components/common/toTop/top";
 import StatusService from "../../../service/status";
+import MessageService from "../../../service/message";
 import "./progerss.css";
-
-// const {isPersonal} = this.props.match.params
 
 class Progress extends Component {
   constructor(props) {
@@ -12,6 +12,7 @@ class Progress extends Component {
     this.state = {
       cout: 0,
       page: 0,
+      isPersonal: 0,
       isLoadingMore: false,
       statuList: []
     };
@@ -19,18 +20,30 @@ class Progress extends Component {
 
   // 返回给我总的条数，条数除以20=page
 
-  // componentWillMount(){
-  //   const arr =  StatusService.getStatusList(0);
-  //   this.setState({
-  //     cout: arr.cout,
-  //     page: arr.page,
-  //     statuList: arr.statuList
-  //   });
-  // }
+  componentWillMount() {
+    const { match } = this.props;
+    if (match.params === "/status") {
+      const arr = StatusService.getStatusList(0);
+      this.setState({
+        cout: arr.cout,
+        page: arr.page,
+        statuList: arr.statuList,
+        isPersonal: 0
+      });
+    } else {
+      const arr = MessageService.getPersonalAttention();
+      this.setState({
+        cout: arr.cout,
+        page: arr.page,
+        statuList: arr.statuList,
+        isPersonal: 1
+      });
+    }
+  }
 
   componentDidMount() {
     const wrapper = this.refs.wrapper;
-    const getStatusList = this.getStatusList;
+    const getStatusList = this.getStatusList();
     const that = this; // 为解决不同context的问题
     let timeCount;
 
@@ -68,16 +81,14 @@ class Progress extends Component {
         page: arr.page,
         statuList: arr.statuList
       });
-    } else {
-      // return 已经到底啦;
     }
   }
 
   render() {
-    const { statuList, page, cout } = this.state;
+    const { statuList, page, cout, isPersonal } = this.state;
     return (
       <div>
-        <div className="status">
+        <div className={isPersonal ? "" : "status"}>
           <div className="status-container">
             {statuList.map(card => (
               <div key={card.sid}>
@@ -107,5 +118,15 @@ class Progress extends Component {
     );
   }
 }
+
+Progress.propTypes = {
+  match: PropTypes.shape({
+    url: PropTypes.string
+  })
+};
+
+Progress.defaultProps = {
+  match: {}
+};
 
 export default Progress;

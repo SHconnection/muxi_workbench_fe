@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-
+import PropTypes from "prop-types";
 // import ProseMirror from "react-prosemirror";
 import Goback from "../../../components/common/goBack/index";
 import Button from "../../../components/common/button";
@@ -25,23 +25,29 @@ import "../../../service/cookie";
 // }
 
 class edit extends Component {
+  static SaveAndBack(content, title) {
+    StatusService.addNewStatu(title, content);
+    window.history.back();
+  }
+
   constructor(props) {
     super(props);
     this.state = {
-      value: "",
+      content: "",
       title: ""
     };
+    this.SaveAndBack = this.SaveAndBack.bind(this);
   }
 
   componentWillMount() {
-    if (this.props.location.pathname === "/edit");
+    const { match } = this.props;
+    if (match.params === "/edit");
     else {
-      const { match } = this.props;
       const { sid } = match.params.id;
       const arr = StatusService.getStatuDetail(sid);
       this.setState({
         title: arr.title,
-        value: arr.content
+        content: arr.content
       });
     }
   }
@@ -52,16 +58,8 @@ class edit extends Component {
     });
   }
 
-  SaveAndBack(value, title) {
-    StatusService.addNewStatu({
-      content: value,
-      title
-    });
-    window.history.back();
-  }
-
   render() {
-    const { value, title } = this.state;
+    const { content, title } = this.state;
     return (
       <div className="subject">
         <div className="head">
@@ -77,14 +75,24 @@ class edit extends Component {
           />
           <div className="status-save-bt">
             <Button
-              onClick={() => this.SaveAndBack(value, title)}
+              onClick={() => this.SaveAndBack(content, title)}
               text="保存并返回"
             />
           </div>
         </div>
-        <div className="status-markdown">{/* <CustomEditor /> */}</div>
+        {/* <div className="status-markdown"><CustomEditor /></div> */}
       </div>
     );
   }
 }
+
+edit.propTypes = {
+  match: PropTypes.shape({
+    url: PropTypes.string
+  })
+};
+
+edit.defaultProps = {
+  match: {}
+};
 export default edit;
