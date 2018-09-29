@@ -17,6 +17,8 @@ import Search from "./modules/search/index";
 import Header from "./components/common/header/index";
 import edit from "./modules/status/markdown/edit";
 
+
+
 ReactDOM.render(
   <Router>
     <div className="app-container">

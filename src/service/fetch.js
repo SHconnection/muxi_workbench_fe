@@ -62,23 +62,31 @@ export default function FetchData(url, opt = {}) {
           };
         }
         return response.json();
-
       case 403:
         return new Promise((resolve, reject) => {
           reject(
             new Error({
               code: response.status,
-              message: response.json().message
+              // message: response.json().message
             })
           );
         });
+      case 404:
+        throw "404 not found"
       case 502:
         // util.message is not defined
         // util.3message(response.statusText, "err");
         throw response.statusText;
 
       default:
-        return 0;
+        return new Promise((resolve, reject) => {
+          reject(
+            new Error({
+              code: response.status,
+              // message: response.json().message
+            })
+          );
+        });
     }
   });
 }

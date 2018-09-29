@@ -21,8 +21,12 @@ const Project = props => {
   LoginService.getToken(data).then(response => {
     const user = {};
     user.token = response.token;
+<<<<<<< HEAD
     user.role = 7;
     user.id = 6;
+=======
+    localStorage.token = response.token;
+>>>>>>> 8d99aca4e42ec885e921a6afe19517ddc8fe9871
     localStorage.user = JSON.stringify(user);
     localStorage.per = JSON.stringify(user);
   });

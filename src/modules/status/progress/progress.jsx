@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import StatusItem from "../components/basicCard/index";
 import Gotop from "../../../components/common/toTop/top";
 import StatusService from "../../../service/status";
+import MessageService from "../../../service/message";
 import "./progerss.css";
 
 class Progress extends Component {
@@ -20,6 +21,7 @@ class Progress extends Component {
   // 返回给我总的条数，条数除以20=page
   componentWillMount() {
     const { match } = this.props;
+<<<<<<< HEAD
     if (match.path === "/status") {
       StatusService.getStatusList(1).then(status => {
         if (status) {
@@ -72,12 +74,34 @@ class Progress extends Component {
             isPersonal: 1
           });
         }
+=======
+    if (match.params === "/status") {
+      const arr = StatusService.getStatusList(0);
+      this.setState({
+        cout: arr.cout,
+        page: arr.page,
+        statuList: arr.statuList,
+        isPersonal: 0
+      });
+    } else {
+      const arr = MessageService.getPersonalAttention();
+      this.setState({
+        cout: arr.cout,
+        page: arr.page,
+        statuList: arr.statuList,
+        isPersonal: 1
+>>>>>>> 8d99aca4e42ec885e921a6afe19517ddc8fe9871
       });
     }
   }
 
   componentDidMount() {
     const wrapper = this.refs.wrapper;
+<<<<<<< HEAD
+=======
+    const getStatusList = this.getStatusList();
+    const that = this; // 为解决不同context的问题
+>>>>>>> 8d99aca4e42ec885e921a6afe19517ddc8fe9871
     let timeCount;
     function callback() {
       const top = wrapper.getBoundingClientRect().top;
@@ -102,6 +126,7 @@ class Progress extends Component {
   }
 
   getStatusList(page, cout) {
+<<<<<<< HEAD
     const { match } = this.props;
     if (match.path === "/status") {
       if (cout / 20 > page) {
@@ -160,6 +185,15 @@ class Progress extends Component {
           }
         });
       }
+=======
+    if (cout / 20 > page) {
+      const arr = StatusService.getStatusList(page + 1);
+      this.setState({
+        cout: arr.cout,
+        page: arr.page,
+        statuList: arr.statuList
+      });
+>>>>>>> 8d99aca4e42ec885e921a6afe19517ddc8fe9871
     }
   }
 
@@ -204,12 +238,24 @@ class Progress extends Component {
     );
   }
 }
+<<<<<<< HEAD
+=======
+
+>>>>>>> 8d99aca4e42ec885e921a6afe19517ddc8fe9871
 Progress.propTypes = {
   match: PropTypes.shape({
     url: PropTypes.string
   })
 };
+<<<<<<< HEAD
 Progress.defaultProps = {
   match: {}
 };
+=======
+
+Progress.defaultProps = {
+  match: {}
+};
+
+>>>>>>> 8d99aca4e42ec885e921a6afe19517ddc8fe9871
 export default Progress;
