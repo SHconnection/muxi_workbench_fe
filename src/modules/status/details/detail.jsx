@@ -218,4 +218,4 @@ Detail.propTypes = {
 Detail.defaultProps = {
   match: {}
 };
-export default Detai;
+export default Detail;
