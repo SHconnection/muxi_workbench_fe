@@ -23,7 +23,7 @@ class SetPersonalInfo extends Component {
       ],
       ifSave: false,
       deleteX: false,
-      deled: false,
+      deled: false
     };
 
     this.transferMsgMem = this.transferMsgMem.bind(this);
@@ -231,7 +231,12 @@ class SetPersonalInfo extends Component {
             userId={per.id}
             certain
           />
-          <Delete name="移除成功" cancel deleteX={deled} transferMsg={this.transferMsgDel}/>
+          <Delete
+            name="移除成功"
+            cancel
+            deleteX={deled}
+            transferMsg={this.transferMsgDel}
+          />
         </div>
       </div>
     );

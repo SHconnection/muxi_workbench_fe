@@ -42,10 +42,10 @@ class Delete extends Component {
       groupDel,
       memDel,
       userId,
-      attentionDel,
+      attentionDel
     } = this.props;
 
-    if(certain){
+    if (certain) {
       transferMsg(false, true);
     }
 
@@ -71,7 +71,7 @@ class Delete extends Component {
       ManageService.memberDelete(userId);
     }
 
-    if(attentionDel){
+    if (attentionDel) {
       MessageService.attentionDel(data.filename);
     }
   }
@@ -83,9 +83,7 @@ class Delete extends Component {
       <div className={deleteX ? "contain minH" : "none"}>
         <div className="subject alert">
           <span>{name}</span>
-          <div
-            className="delete-alertMarg"
-          >
+          <div className="delete-alertMarg">
             <button
               type="button"
               className={cancel ? "none" : "delBtn delete-btnMarg"}
@@ -126,7 +124,7 @@ Delete.propTypes = {
   data: PropTypes.shape({
     dealed: PropTypes.bool,
     filename: PropTypes.string,
-    id: PropTypes.number,
+    id: PropTypes.number
   }),
   proDel: PropTypes.bool,
   proId: PropTypes.number,

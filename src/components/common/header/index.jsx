@@ -95,7 +95,10 @@ class Header extends Component {
                 写进度
               </NavLink>
             </div>
-            <Link className="header-avatar" to="/member/teamMember/personalInfo/personalSet">
+            <Link
+              className="header-avatar"
+              to="/member/teamMember/personalInfo/personalSet"
+            >
               <Avatar src={AvatarImg} />
             </Link>
             <div>

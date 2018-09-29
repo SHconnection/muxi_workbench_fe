@@ -61,10 +61,7 @@ const PersonalInfo = ({ match }) => {
           path={`${match.url}`}
           to={`${match.url}/personalAttention`}
         />
-        <Route
-          path={`${match.url}/personalDynamic/:id`}
-          component={Dynamic}
-        />
+        <Route path={`${match.url}/personalDynamic/:id`} component={Dynamic} />
         <Route
           path={`${match.url}/personalAttention`}
           component={PersonalAttention}
