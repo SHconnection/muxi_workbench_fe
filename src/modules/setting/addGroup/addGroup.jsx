@@ -4,6 +4,7 @@
 接收项目信息参数
 */
 import React, { Component } from "react";
+import GoBack from "../../../components/common/goBack/index";
 import SelectMember from "../components/selectMember/selectMember";
 import "../../../static/css/common.css";
 import "./addGroup.css";
@@ -28,7 +29,7 @@ class AddGroup extends Component {
 
     return (
       <div className="subject minH">
-        <span className="reArrow" />
+        <GoBack />
         <b className="title">添加成员分组</b>
         <br />
         <input

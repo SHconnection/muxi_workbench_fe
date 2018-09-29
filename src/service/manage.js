@@ -4,19 +4,21 @@ const ManageService = {
   addGroup(groupName, selMembers) {
     return Fetch("/group/new/", {
       method: "POST",
-      data: JSON.stringify({
+      token: JSON.parse(localStorage.user).token,
+      data: {
         groupName,
         userlist: selMembers
-      })
+      }
     });
   },
 
   addMember(userID) {
-    return Fetch("/user/2bMember", {
+    return Fetch("/user/2bMember/", {
       method: "POST",
-      data: JSON.stringify({
+      token: JSON.parse(localStorage.user).token,
+      data: {
         userID
-      })
+      }
     });
   },
 
@@ -35,15 +37,17 @@ const ManageService = {
   updateGroupMember(groupID, userList) {
     return Fetch(`/group/${groupID}/manageUser/`, {
       method: "POST",
-      data: JSON.stringify({
+      token: JSON.parse(localStorage.user).token,
+      data: {
         userList
-      })
+      }
     });
   },
 
   groupDelete(groupID) {
-    return Fetch(`/group/${groupID}`, {
-      method: "DELETE"
+    return Fetch(`/group/${groupID}/`, {
+      method: "DELETE",
+      token: JSON.parse(localStorage.user).token
     });
   },
 
@@ -57,30 +61,33 @@ const ManageService = {
     return Fetch("/user/addAdmin/", {
       method: "POST",
       token: JSON.parse(localStorage.user).token,
-      data: JSON.stringify({
+      data: {
         luckydog: userID
-      })
+      }
     });
   },
 
   memberDelete(userID) {
-    return Fetch(`/user/${userID}`, {
-      method: "DELETE"
+    return Fetch(`/user/${userID}/`, {
+      method: "DELETE",
+      token: JSON.parse(localStorage.user).token
     });
   },
 
   modifyMemGroup(userID, selMembers) {
     return Fetch(`/user/${userID}/manageGroup/`, {
       method: "POST",
-      data: JSON.stringify({
+      token: JSON.parse(localStorage.user).token,
+      data: {
         groupID: selMembers[0]
-      })
+      }
     });
   },
 
   savePersonalSet(userID, obj) {
     return Fetch(`/user/${userID}/setting/`, {
       method: "POST",
+      token: JSON.parse(localStorage.user).token,
       data: obj
     });
   },
@@ -88,27 +95,30 @@ const ManageService = {
   savePersonalPermiss(userID, selMembers) {
     return Fetch(`/user/${userID}/managePro/`, {
       method: "POST",
-      data: JSON.stringify({
+      token: JSON.parse(localStorage.user).token,
+      data: {
         projectList: selMembers
-      })
+      }
     });
   },
 
   saveModifyMemberIdenty(userID, selIdentities) {
-    return Fetch(`/user/${userID}/setRole`, {
+    return Fetch(`/user/${userID}/setRole/`, {
       method: "POST",
-      data: JSON.stringify({
+      token: JSON.parse(localStorage.user).token,
+      data: {
         role: selIdentities[0]
-      })
+      }
     });
   },
 
   saveModifyMemberPro(userID, selMembers) {
     return Fetch(`/user/${userID}/managePro/`, {
       method: "POST",
-      data: JSON.stringify({
+      token: JSON.parse(localStorage.user).token,
+      data: {
         projectList: selMembers
-      })
+      }
     });
   },
 
@@ -120,7 +130,8 @@ const ManageService = {
 
   dealJoinApply(userID) {
     return Fetch(`/team/apply/${userID}/`, {
-      method: "DELETE"
+      method: "DELETE",
+      token: JSON.parse(localStorage.user).token
     });
   },
 
@@ -132,12 +143,6 @@ const ManageService = {
 
   getAllMem() {
     return this.groupMember(0);
-  },
-
-  getAllPro() {
-    return Fetch("/user/project/list/", {
-      token: JSON.parse(localStorage.user).token
-    });
   },
 
   getAllGroup() {

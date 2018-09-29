@@ -11,9 +11,9 @@ const MessageService = {
     return Fetch("/user/attention/", {
       methods: "DELETE",
       token: JSON.parse(localStorage.user).token,
-      data: JSON.stringify({
+      data: {
         fileName: filename
-      })
+      }
     });
   },
 
@@ -21,12 +21,12 @@ const MessageService = {
     return Fetch("/message/new/", {
       methods: "POST",
       token: JSON.parse(localStorage.user).token,
-      data: JSON.stringify({
+      data: {
         receiver,
         maker,
         action,
         sourceID: 0
-      })
+      }
     });
   },
 
@@ -40,14 +40,14 @@ const MessageService = {
     return Fetch("/message/readAll/", {
       methods: "POST",
       token: JSON.parse(localStorage.user).token,
-      data: JSON.stringify({
+      data: {
         username
-      })
+      }
     });
   },
 
   getAMessage(username, mid) {
-    return Fetch(`/message/${username}/${mid}`, {
+    return Fetch(`/message/${username}/${mid}/`, {
       token: JSON.parse(localStorage.user).token
     });
   }

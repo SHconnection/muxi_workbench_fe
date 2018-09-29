@@ -28,34 +28,27 @@ class edit extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      value: "",
+      content: "",
       title: ""
     };
   }
 
-  static contextTypes = {
-    router: PropTypes.shape({
-      history: PropTypes.shape({
-        push: PropTypes.func.isRequired,
-        replace: PropTypes.func.isRequired,
-        createHref: PropTypes.func.isRequired
-      }).isRequired
-    }).isRequired
-  };
-
   componentWillMount() {
-    this.context.router.history.listen(route => {
-      if (route.pathname === "/edit");
-      else {
-        const { match } = this.props;
-        const { sid } = match.params.id;
-        const arr = StatusService.getStatuDetail(sid);
-        this.setState({
-          title: arr.title,
-          value: arr.content
-        });
-      }
-    });
+    const { match } = this.props;
+    if (match.path === `/edit`);
+    else {
+      const { sid } = match.params.id;
+      StatusService.getStatuDetail(sid).then(doc => {
+        if (doc) {
+          const value = doc.content;
+          const name = doc.title;
+          this.setState({
+            title: name,
+            content: value
+          });
+        }
+      });
+    }
   }
 
   onChange(title) {
@@ -64,16 +57,8 @@ class edit extends Component {
     });
   }
 
-  SaveAndBack(value, title) {
-    StatusService.addNewStatu({
-      content: value,
-      title
-    });
-    window.history.back();
-  }
-
   render() {
-    const { value, title } = this.state;
+    const { content, title } = this.state;
     return (
       <div className="subject">
         <div className="head">
@@ -89,7 +74,10 @@ class edit extends Component {
           />
           <div className="status-save-bt">
             <Button
-              onClick={() => this.SaveAndBack(value, title)}
+              onClick={() => {
+                StatusService.addNewStatu(title, content);
+                window.history.back();
+              }}
               text="保存并返回"
             />
           </div>
@@ -99,4 +87,14 @@ class edit extends Component {
     );
   }
 }
+
+edit.propTypes = {
+  match: PropTypes.shape({
+    url: PropTypes.string
+  })
+};
+
+edit.defaultProps = {
+  match: {}
+};
 export default edit;

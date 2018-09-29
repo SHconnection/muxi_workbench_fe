@@ -4,6 +4,7 @@
 是否显示取消键cancel:false,
 点击删除deleteX:false,
 要实现的效果：
+  显示删除成功certain: false,
   删除数据del: false, 参数data
   删除项目proDel: false, 参数proId
   删除进度staDel: false, 参数staId
@@ -30,6 +31,7 @@ class Delete extends Component {
 
   move() {
     const {
+      certain,
       del,
       data,
       proDel,
@@ -42,6 +44,10 @@ class Delete extends Component {
       userId,
       attentionDel,
     } = this.props;
+
+    if(certain){
+      transferMsg(false, true);
+    }
 
     if (del) {
       data.dealed = true;
@@ -79,22 +85,24 @@ class Delete extends Component {
           <span>{name}</span>
           <div
             className="delete-alertMarg"
-            onClick={() => {
-              transferMsg(false);
-            }}
-            onKeyDown={this.handleClick}
-            role="presentation"
           >
             <button
               type="button"
               className={cancel ? "none" : "delBtn delete-btnMarg"}
+              onClick={() => {
+                transferMsg(false);
+              }}
+              onKeyDown={this.handleClick}
             >
               取消
             </button>
             <button
               type="button"
               className="saveBtn delete-btnMarg"
-              onClick={this.move}
+              onClick={() => {
+                transferMsg(false);
+                this.move();
+              }}
               onKeyDown={this.handleClick}
             >
               确定
@@ -111,7 +119,9 @@ export default Delete;
 Delete.propTypes = {
   name: PropTypes.string,
   cancel: PropTypes.bool,
+  certain: PropTypes.bool,
   deleteX: PropTypes.bool,
+  deled: PropTypes.bool,
   del: PropTypes.bool,
   data: PropTypes.shape({
     dealed: PropTypes.bool,
@@ -132,7 +142,9 @@ Delete.propTypes = {
 Delete.defaultProps = {
   name: "",
   cancel: false,
+  certain: false,
   deleteX: false,
+  deled: false,
   del: false,
   data: {},
   proDel: false,

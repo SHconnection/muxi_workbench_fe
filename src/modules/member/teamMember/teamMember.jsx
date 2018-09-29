@@ -134,22 +134,29 @@ class TeamMember extends Component {
           >
             添加成员
           </Link>
-          {/* <Link className="fakeBtn" to={`${match.url}/groupManage`}>{localStorage.user.role > 1 ? "管理分组" : ""}</Link> */}
+          <Link className="fakeBtn" to={`${match.url}/groupManage`}>
+            {JSON.parse(localStorage.user).role > 1 ? "管理分组" : ""}
+          </Link>
         </div>
 
         {members.map(mem1 => {
           const mem = mem1;
-          const personalInfoPath = {
-            pathname: `${match.url}/personalInfo`,
-            state: { per: mem }
-          };
           let role = mem.role === 3 ? "管理员" : "";
-          if (role === 7) role = "超级管理员";
+          if (mem.role === 7) role = "超级管理员";
 
           return (
             <div className="teamMember-singleList" key={mem.id}>
-              <Link to={personalInfoPath}>
-                <img src={mem.avatar} alt="" className="teamMember-imgSize" />
+              <Link to={`${match.url}/personalInfo`}>
+                <img
+                  src={mem.avatar}
+                  alt=""
+                  className="teamMember-imgSize"
+                  onClick={() => {
+                    localStorage.per = JSON.stringify(mem);
+                  }}
+                  onKeyDown={this.handleClick}
+                  role="link"
+                />
               </Link>
               <div className="teamMember-personalIntro">
                 <b>{mem.name}</b>

@@ -1,47 +1,50 @@
 import Fetch from "./fetch";
 
 const StatusService = {
-  addNewStatu(data) {
-    return Fetch("/status/new", {
+  addNewStatu(title, value) {
+    return Fetch("/status/new/", {
       method: "POST",
-      data: data
+      data: {
+        title,
+        value
+      }
     });
   },
   getStatusList(page) {
-    return Fetch("/status/list" + page + "/", {
+    return Fetch(`/status/list${page}/`, {
       token: JSON.parse(localStorage.user).token
     });
   },
   getStatuDetail(sid) {
-    return Fetch("/status/" + sid + "/", {
+    return Fetch(`/status/${sid}/`, {
       token: JSON.parse(localStorage.user).token
     });
   },
   editStatu(sid) {
-    return Fetch("/status/" + sid + "/", {
+    return Fetch(`/status/${sid}/`, {
       token: JSON.parse(localStorage.user).token
     });
   },
   changeLike(sid, iflike) {
-    return Fetch("/status/" + sid + "/like/", {
+    return Fetch(`/status/${sid}/like/`, {
       method: "POST",
-      data: iflike
+      data: { iflike }
     });
   },
   postComments(sid, data) {
     return Fetch("/status/" + sid + "/comment/", {
       method: "POST",
       token: JSON.parse(localStorage.user).token,
-      data: data,
+      data: data
     });
   },
   commentDelete(cid, sid) {
-    return Fetch("/status/" + sid + "/comment/" + cid + "/", {
+    return Fetch(`/status/${sid}/comment/${cid}/`, {
       method: "DELETE"
     });
   },
   statusDelete(staId) {
-    return Fetch("/status/" + staId + "/", {
+    return Fetch(`/status/${staId}/`, {
       method: "DELETE"
     });
   }

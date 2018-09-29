@@ -4,6 +4,7 @@
 */
 import React, { Component } from "react";
 import PropTypes from "prop-types";
+import GoBack from "../../../components/common/goBack/index";
 import Member from "../components/member/member";
 import ManageService from "../../../service/manage";
 import "../../../static/css/common.css";
@@ -74,7 +75,7 @@ class MemberGroup extends Component {
     const { selMembers, members } = this.state;
     return (
       <div className="subject minH">
-        <span className="reArrow" />
+        <GoBack />
         <b className="title">选择成员分组</b>
         <div className="present memberGroup-preMarg">
           <span className="memberGroup-tip tip">请选择该成员所属分组</span>
