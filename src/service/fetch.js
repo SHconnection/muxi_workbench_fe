@@ -73,6 +73,8 @@ export default function FetchData(url, opt = {}) {
         });
       case 404:
         throw "404 not found"
+      // case 401:
+      //   throw "verify failed"
       case 502:
         // util.message is not defined
         // util.3message(response.statusText, "err");

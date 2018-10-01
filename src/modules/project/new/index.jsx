@@ -30,9 +30,6 @@ const fetchGroups = () =>
     return arr1
   })
 
-
-
-
 class NewProject extends Component {
   constructor(props) {
     super(props);
@@ -43,7 +40,11 @@ class NewProject extends Component {
       members: [],
       selectedAll: false,
       selMembers: [],
+      projectname: "",
+      intro: ""
     };
+    this.changeProjectnameText = this.changeProjectnameText.bind(this);
+    this.changeProjectintroText = this.changeProjectintroText.bind(this);
     this.transferMsgMem = this.transferMsgMem.bind(this);
     this.selAll = this.selAll.bind(this);
     this.createProject = this.createProject.bind(this);
@@ -76,6 +77,18 @@ class NewProject extends Component {
     })
   }
 
+  changeProjectnameText(event) {
+    this.setState({
+      projectname: event.target.value
+    })
+  }
+
+  changeProjectintroText(event) {
+    this.setState({
+      intro: event.target.value
+    })
+  }
+
   changeGroupCheck(index, id) {
     if (usersByGroup[id] == null) {
       this.fetchGroupMember(id)
@@ -86,10 +99,10 @@ class NewProject extends Component {
     });
   }
 
-  transferMsgMem(arr1) {
+  transferMsgMem(arr) {
     this.setState({
-      members: arr1,
-      selectedAll: false
+      members: arr,
+      selectedAll: arr.every(el => el.selected)
     });
   }
 
@@ -106,7 +119,6 @@ class NewProject extends Component {
       const { members: arr1 } = prevState;
       const arr2 = [];
       let num = 0;
-
       if (arr1) {
         arr1.map(i => {
           if (i.selected) num += 1;
@@ -128,27 +140,31 @@ class NewProject extends Component {
           });
         }
       }
-
       return { members: arr1, selMembers: arr2 };
     });
   }
 
   createProject() {
-    const { members, selMembers } = this.state;
-    console.log(members);
-    
-    // Func.selAll()
-    // ProjectService.createProject({
-    //   username: "test",
-    //   projectname: "Project",
-    //   userList: [
-    //     {
-    //       userID: 1,
-    //       userName: "testName"
-    //     }
-    //   ],
-    //   intro: "hahaha"
-    // });
+    const { members, projectname, intro } = this.state;
+    const userlist = members.filter(el => el.selected)
+                    .map(item => {
+                      const user = {userID: item.id, userName: item.name}
+                      return user
+                    })
+    const postData = {
+      username: localStorage.username,
+      projectname,
+      userlist,
+      intro
+    }
+    ProjectService.createProject(postData)
+    .then(res => {
+      console.log(res);
+    })
+    .catch(res => {
+      console.log(res);
+      
+    })
   }
 
   render() {
@@ -158,7 +174,9 @@ class NewProject extends Component {
       selectedAll,
       groups,
       groupCheckedIndex,
-      selectAllText
+      selectAllText,
+      projectname,
+      intro
     } = this.state;
     return (
       <div className="newProject-container">
@@ -168,10 +186,14 @@ class NewProject extends Component {
             type="text"
             className="newProject-name-input"
             placeholder="项目名称"
+            value={projectname}
+            onChange={this.changeProjectnameText}
           />
           <textarea
             className="newProject-desc-textarea"
             placeholder="简单描述项目，便于他人了解（选填）"
+            value={intro}
+            onChange={this.changeProjectintroText}
           />
           <div className="newProject-member">
             <div className="title littleSize">选择项目成员</div>

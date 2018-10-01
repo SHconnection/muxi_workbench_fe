@@ -36,11 +36,17 @@ const ProjectService = {
   },
 
   createProject(postData) {
-    return Fetch("/api/v1.0/project/new/", {
+    return Fetch("/project/new/", {
       method: "POST",
-      token: JSON.parse(localStorage.user).token,
+      token: localStorage.token,
       data: postData
     });
+  },
+
+  getProjectList(page=1) {
+    return Fetch(`/user/project/list/?page=${page}`, {
+      token: localStorage.token
+    })
   }
 };
 

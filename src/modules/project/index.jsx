@@ -15,9 +15,9 @@ import "../../static/css/common.css";
 const Project = props => {
   const { match } = props;
   const data = {
-    username: "XuanYe"
+    username: "zengdeqin"
   };
-
+  localStorage.username = data.username
   LoginService.getToken(data).then(response => {
     const user = {};
     user.token = response.token;
