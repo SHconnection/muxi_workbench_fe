@@ -6,7 +6,6 @@ const ManageService = {
     return Fetch("/group/new/", {
       token: JSON.parse(localStorage.user).token,
       method: "POST",
-      token: JSON.parse(localStorage.user).token,
       data: {
         groupName,
         userlist: selMembers
@@ -114,16 +113,6 @@ const ManageService = {
     });
   },
 
-<<<<<<< HEAD
-  groupDelete(groupID) {
-    return Fetch(`/group/${groupID}/`, {
-      method: "DELETE",
-      token: JSON.parse(localStorage.user).token
-    });
-  },
-
-=======
->>>>>>> 8d99aca4e42ec885e921a6afe19517ddc8fe9871
   getPersonalPro() {
     return Fetch("/user/project/list/", {
       token: JSON.parse(localStorage.user).token
@@ -140,16 +129,7 @@ const ManageService = {
     });
   },
 
-<<<<<<< HEAD
-  memberDelete(userID) {
-    return Fetch(`/user/${userID}/`, {
-      method: "DELETE",
-      token: JSON.parse(localStorage.user).token
-    });
-  },
-=======
   
->>>>>>> 8d99aca4e42ec885e921a6afe19517ddc8fe9871
 
   modifyMemGroup(userID, selMembers) {
     return Fetch(`/user/${userID}/manageGroup/`, {

@@ -5,6 +5,7 @@ import Gotop from "../../components/common/toTop/top";
 import FeedService from "../../service/feed";
 import "../../static/css/common.css";
 import "./dynamic.css";
+
 const createweek = [
   " 周⽇日",
   " 周⼀一",
@@ -28,6 +29,7 @@ class Dynamic extends Component {
     }
     return timeDay.slice(-4) + createweek[new Date(timeDay).getDay()];
   }
+
   constructor(props) {
     super(props);
     this.state = {
@@ -37,6 +39,7 @@ class Dynamic extends Component {
       // isLoadingMore: 0
     };
   }
+
   componentWillMount() {
     const { match } = this.props;
     if (match.path === "/feed") {
@@ -95,6 +98,7 @@ class Dynamic extends Component {
       });
     }
   }
+
   componentDidMount() {
     const wrapper = this.refs.wrapper;
     const getFeedList = this.getFeedList();
@@ -112,14 +116,15 @@ class Dynamic extends Component {
         if (this.state.isLoadingMore) {
           return;
         }
-        if (timeCount) {
-          clearTimeout(timeCount);
-        }
-        timeCount = setTimeout(callback, 50);
+        // if (timeCount) {
+        //   clearTimeout(timeCount);
+        // }
+        // timeCount = setTimeout(callback, 50);
       },
       false
     );
   }
+
   getFeedList(page, count) {
     if (count / 40 >= page) {
       FeedService.getFeedList(page + 1).then(feeds => {
@@ -151,6 +156,7 @@ class Dynamic extends Component {
       });
     }
   }
+
   render() {
     const { feedList, page, count } = this.state;
     return (
