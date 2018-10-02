@@ -3,13 +3,18 @@
 */
 import React from "react";
 import PropTypes from "prop-types";
+import GoBack from "../../../components/common/goBack/index";
 import SelectMember from "../components/selectMember/selectMember";
 import "../../../static/css/common.css";
 import "./groupMember.css";
 
-const GroupMember = ({ location:{state: per} }) => (
+const GroupMember = ({
+  location: {
+    state: { per }
+  }
+}) => (
   <div className="subject minH">
-    <span className="reArrow" />
+    <GoBack />
     <b className="title">分组管理</b>
     <div className="groupName">{per.name}</div>
     <br />
@@ -33,4 +38,3 @@ GroupMember.propTypes = {
 GroupMember.defaultProps = {
   location: {}
 };
-

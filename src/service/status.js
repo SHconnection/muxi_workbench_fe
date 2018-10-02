@@ -42,9 +42,7 @@ const StatusService = {
     return Fetch(`/status/${sid}/comment/`, {
       method: "POST",
       token: JSON.parse(localStorage.user).token,
-      data: {
-        content
-      }
+      data: content
     });
   },
   commentDelete(cid, sid) {

@@ -1,20 +1,17 @@
 /*
 个人信息页面组件
-传入per
 */
 import React from "react";
 import { Route, NavLink, Link, Redirect, Switch } from "react-router-dom";
 import PropTypes from "prop-types";
 import PersonalAttention from "../components/personalAttention/personalAttention";
+import Dynamic from "../../feed/dynamic";
+import Progress from "../../status/index";
 import "../../../static/css/common.css";
 import "./personalInfo.css";
 
 const PersonalInfo = ({ match }) => {
   const per = JSON.parse(localStorage.per);
-  // const setPersonalInfoPath = {
-  //   pathname: `${match.url}/setPersonalInfo`,
-  //   state: { per }
-  // };
 
   return (
     <div className="subject minH">
@@ -22,26 +19,30 @@ const PersonalInfo = ({ match }) => {
         <img src={per.avatar} className="personalInfo-avatar" alt="" />
         <div className="personalIntro">
           <b className="personalName">{per.name}</b>
-          <Link to={`${match.url}/personalSet/${per.id}`} className="fakeBtn">
-            {/* {per.id === localStorage.user.id ? "更改设置" : ""} */}
+          <Link to={`${match.url}/personalSet`} className="fakeBtn">
+            {per.id === JSON.parse(localStorage.user).id ? "更改设置" : ""}
           </Link>
-          <span className="llSize">{per.email}</span>
+          <div className="llSize">{per.email}</div>
         </div>
-        {/* <Link to={setPersonalInfoPath}><button className="saveBtn personalInfo-btnMarg">{localStorage.user.role > 1 ? "管理成员" : ""}</button></Link> */}
+        <Link to={`${match.url}/setPersonalInfo`}>
+          <button className="saveBtn personalInfo-btnMarg" type="button">
+            {JSON.parse(localStorage.user).role > 1 ? "管理成员" : ""}
+          </button>
+        </Link>
       </div>
       <div className="personalInfo-select">
         <div className="selectItem">
           <NavLink
             activeClassName="personalInfo-active"
             className="llSize singleItem"
-            to={`${match.url}/personalDynamic`}
+            to={`${match.url}/personalDynamic/${per.id}`}
           >
             动态
           </NavLink>
           <NavLink
             activeClassName="personalInfo-active"
             className="llSize singleItem"
-            to={`${match.url}/personalProgress`}
+            to={`${match.url}/personalProgress/${per.id}`}
           >
             进度
           </NavLink>
@@ -58,21 +59,17 @@ const PersonalInfo = ({ match }) => {
         <Redirect
           exact
           path={`${match.url}`}
-          to={`${match.url}/personalDynamic`}
+          to={`${match.url}/personalAttention`}
         />
-        {/* <Route
-          path={`${match.url}/personalDynamic`}
-          component={PersonalDynamic}
-        /> */}
-
+        <Route path={`${match.url}/personalDynamic/:id`} component={Dynamic} />
         <Route
           path={`${match.url}/personalAttention`}
           component={PersonalAttention}
         />
-        {/* <Route
-          path={`${match.url}/personalProgress`}
-          component={PersonalProgress}
-        /> */}
+        <Route
+          path={`${match.url}/personalProgress/:id`}
+          component={Progress}
+        />
       </Switch>
     </div>
   );

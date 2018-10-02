@@ -1,9 +1,8 @@
 /*
 个人设置页面组件
-传入per
 */
 import React, { Component } from "react";
-import PropTypes from "prop-types";
+import GoBack from "../../../components/common/goBack/index";
 import Member from "../components/member/member";
 import Delete from "../components/delete/delete";
 import Save from "../components/save/save";
@@ -23,7 +22,8 @@ class SetPersonalInfo extends Component {
         { name: "成员", selected: true, id: 1 }
       ],
       ifSave: false,
-      deleteX: false
+      deleteX: false,
+      deled: false
     };
 
     this.transferMsgMem = this.transferMsgMem.bind(this);
@@ -33,43 +33,56 @@ class SetPersonalInfo extends Component {
     this.transferMsgIden = this.transferMsgIden.bind(this);
   }
 
-  // componentDidMount() {
-  //   const {
-  //     location: {
-  //       state: { per }
-  //     }
-  //   } = this.props;
-  //   const { identity, selIdentities } = this.state;
-  //   const arr = ManageService.getAllPro();
-  //   const { list: proList } = ManageService.getPersonalPro();
+  componentDidMount() {
+    const per = JSON.parse(localStorage.per);
+    const { identity, selIdentities } = this.state;
 
-  //   if (per.role === 3) {
-  //     identity[0].selected = true;
-  //     identity[1].selected = false;
-  //     selIdentities[0] = 3;
-  //   }
+    if (per.role > 1) {
+      identity[0].selected = true;
+      identity[1].selected = false;
+      if (per.role !== 7) selIdentities[0] = 3;
+      else selIdentities[0] = 7;
+    }
 
-  //   if (!Array.isArray(proList)) return false;
+    ManageService.getPersonalPro().then(project => {
+      if (project) {
+        const proList = project.list.map(item => {
+          const obj = {};
 
-  //   const idList = proList.map(item => item.projectID);
+          obj.id = item.projectID;
+          obj.name = item.projectName;
+          obj.count = item.userCount;
+          obj.intro = item.intro;
+          obj.selected = false;
 
-  //   arr.map(item1 => {
-  //     const item = item1;
+          return obj;
+        });
 
-  //     if (idList.indexOf(item.id) !== -1) item.selected = true;
+        ManageService.getPersonalPro().then(pro => {
+          let idList = [];
 
-  //     return item;
-  //   });
+          if (pro) {
+            idList = pro.list.map(item => item.projectID);
 
-  //   this.setState({
-  //     members: arr,
-  //     selMembers: idList,
-  //     identity,
-  //     selIdentities
-  //   });
+            proList.map(item1 => {
+              const item = item1;
 
-  //   return true;
-  // }
+              if (idList.indexOf(item.id) !== -1) item.selected = true;
+
+              return item;
+            });
+          }
+
+          this.setState({
+            members: proList,
+            selMembers: idList,
+            identity,
+            selIdentities
+          });
+        });
+      }
+    });
+  }
 
   transferMsgIden(mem, selMem) {
     this.setState({
@@ -78,9 +91,10 @@ class SetPersonalInfo extends Component {
     });
   }
 
-  transferMsgDel(deleteX) {
+  transferMsgDel(deleteX, deled) {
     this.setState({
-      deleteX
+      deleteX,
+      deled
     });
   }
 
@@ -124,13 +138,7 @@ class SetPersonalInfo extends Component {
   }
 
   saveModifyMember() {
-    const {
-      location: {
-        state: {
-          per: { id }
-        }
-      }
-    } = this.props;
+    const per = JSON.parse(localStorage.per);
     const { selIdentities, selMembers } = this.state;
 
     this.setState({ ifSave: true });
@@ -139,18 +147,12 @@ class SetPersonalInfo extends Component {
       this.setState({ ifSave: false });
     }, 1000);
 
-    ManageService.saveModifyMemberIdenty(id, selIdentities);
-    ManageService.saveModifyMemberPro(id, selMembers);
+    ManageService.saveModifyMemberIdenty(per.id, selIdentities);
+    ManageService.saveModifyMemberPro(per.id, selMembers);
   }
 
   render() {
-    const {
-      location: {
-        state: {
-          per: { name }
-        }
-      }
-    } = this.props;
+    const per = JSON.parse(localStorage.per);
     const {
       identity,
       selIdentities,
@@ -163,9 +165,9 @@ class SetPersonalInfo extends Component {
 
     return (
       <div className="subject minH">
-        <span className="reArrow" />
+        <GoBack />
         <b className="title">
-          {name}
+          {per.name}
           的设置
         </b>
 
@@ -223,10 +225,18 @@ class SetPersonalInfo extends Component {
 
           <Delete
             name="确认要移除XXA吗?"
-            delete={deleteX}
+            deleteX={deleteX}
+            transferMsg={this.transferMsgDel}
+            memDel
+            userId={per.id}
+            certain
+          />
+          <Delete
+            name="移除成功"
+            cancel
+            deleteX={deled}
             transferMsg={this.transferMsgDel}
           />
-          <Delete name="移除成功" cancel delete={deled} />
         </div>
       </div>
     );
@@ -234,19 +244,3 @@ class SetPersonalInfo extends Component {
 }
 
 export default SetPersonalInfo;
-
-SetPersonalInfo.propTypes = {
-  location: PropTypes.shape({
-    state: PropTypes.shape({
-      per: PropTypes.shape({
-        id: PropTypes.number,
-        name: PropTypes.string,
-        role: PropTypes.number
-      })
-    })
-  })
-};
-
-SetPersonalInfo.defaultProps = {
-  location: {}
-};

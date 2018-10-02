@@ -2,6 +2,7 @@
 添加成员页面组件
 */
 import React, { Component } from "react";
+import GoBack from "../../../components/common/goBack/index";
 import "../../../static/css/common.css";
 import "./addMember.css";
 
@@ -23,7 +24,7 @@ class AddMem extends Component {
   render() {
     return (
       <div className="subject minH">
-        <span className="reArrow" />
+        <GoBack />
         <b className="title">添加新成员</b>
         <div className="present">
           <b className="title littleSize">发送链接邀请新成员</b>

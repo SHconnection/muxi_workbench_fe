@@ -15,13 +15,15 @@ import "../../static/css/common.css";
 const Project = props => {
   const { match } = props;
   const data = {
-    username: "Xuan Ye"
+    username: "zengdeqin"
   };
-
+  localStorage.username = data.username;
   LoginService.getToken(data).then(response => {
     const user = {};
     user.token = response.token;
+    localStorage.token = response.token;
     localStorage.user = JSON.stringify(user);
+    localStorage.per = JSON.stringify(user);
   });
 
   return (

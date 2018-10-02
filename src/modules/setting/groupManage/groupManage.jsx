@@ -3,9 +3,9 @@
 */
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
-import ReactDOM from 'react-dom';
-import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
+import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import PropTypes from "prop-types";
+import GoBack from "../../../components/common/goBack/index";
 import Delete from "../components/delete/delete";
 import ManageService from "../../../service/manage";
 import "../../../static/css/common.css";
@@ -28,9 +28,36 @@ class GroupManage extends Component {
   }
 
   componentDidMount() {
-    const arr = ManageService.getAllGroup();
+    ManageService.getAllGroup().then(data => {
+      if (data) {
+        const arr = data.groupList.map(group => {
+          const obj = {};
 
-    this.setState({ members: arr });
+          obj.id = group.groupID;
+          obj.name = group.groupName;
+          obj.count = group.userCount;
+
+          return obj;
+        });
+
+        this.setState({ members: arr });
+      }
+    });
+  }
+
+  onDragEnd(result) {
+    // 没有释放在指定范围，取消拖拽
+    if (!result.destination) {
+      return;
+    }
+
+    // 拖动结束后改变数据
+    const { members } = this.state;
+    const item = members.splice(result.source.index, 1);
+
+    members.splice(result.destination.index, 0, item[0]);
+
+    this.setState({ members });
   }
 
   transferMsgDel(deleteX) {
@@ -44,32 +71,13 @@ class GroupManage extends Component {
     });
   }
 
-  onDragEnd(result) {
-    // 没有释放在指定范围，取消拖拽
-    if (!result.destination) {
-      return;
-    }
-
-    // 拖动结束后改变数据
-    const {members} = this.state;
-    const item = members.splice(result.source.index, 1);
-
-    members.splice(result.destination.index, 0, item[0]);
-
-    this.setState({
-      members,
-    });
-
-    console.log(members)
-  }
-
   render() {
     const { deleteX, data, members } = this.state;
-    const {match} = this.props;
+    const { match } = this.props;
 
     return (
       <div className="subject minH">
-        <span className="reArrow" />
+        <GoBack />
         <b className="title">分组管理</b>
         <br />
         <span className="groupManage-tip tip">上下拖动对分组排序</span>
@@ -81,32 +89,31 @@ class GroupManage extends Component {
 
         <DragDropContext onDragEnd={this.onDragEnd}>
           <Droppable droppableId="droppable">
-            {(provided, snapshot) => (
-              <div
-                ref={provided.innerRef}
-                className="clear present"
-              >
-                {this.state.members.map((mem, index) => {
-                  const groupMemberPath = {pathname: `${match.url}/groupMember/`, state: {per: mem}};
+            {provided => (
+              <div ref={provided.innerRef} className="clear present">
+                {members.map((mem, index) => {
+                  const groupMemberPath = {
+                    pathname: `${match.url}/groupMember/`,
+                    state: { per: mem }
+                  };
 
                   return (
                     <Draggable key={mem.id} draggableId={mem.id} index={index}>
-                      {(provided, snapshot) => (
+                      {provided1 => (
                         <div
-                          ref={provided.innerRef}
-                          {...provided.draggableProps}
-                          {...provided.dragHandleProps}
-                          className={mem.dealed ? "none" : "groupManage-reCell cell"}
+                          ref={provided1.innerRef}
+                          {...provided1.draggableProps}
+                          {...provided1.dragHandleProps}
+                          className={
+                            mem.dealed ? "none" : "groupManage-reCell cell"
+                          }
                         >
                           <b>{mem.name}</b>
                           <span className="llSize pos groupManage-rePos">
                             {mem.count}
                           </span>
                           <div className="litSel">
-                            <Link
-                              to={groupMemberPath}
-                              className="fakeBtn"
-                            >
+                            <Link to={groupMemberPath} className="fakeBtn">
                               编辑
                             </Link>
                             <span
@@ -124,8 +131,8 @@ class GroupManage extends Component {
                         </div>
                       )}
                     </Draggable>
-                  )}
-                )}
+                  );
+                })}
                 {provided.placeholder}
               </div>
             )}
@@ -156,4 +163,3 @@ GroupManage.propTypes = {
 GroupManage.defaultProps = {
   match: {}
 };
-

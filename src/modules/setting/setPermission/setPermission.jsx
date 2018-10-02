@@ -4,6 +4,7 @@
 */
 import React, { Component } from "react";
 import PropTypes from "prop-types";
+import GoBack from "../../../components/common/goBack/index";
 import Member from "../components/member/member";
 import Save from "../components/save/save";
 import ManageService from "../../../service/manage";
@@ -77,7 +78,7 @@ class SetPermission extends Component {
 
     return (
       <div className="subject minH">
-        <span className="reArrow" />
+        <GoBack />
         <b className="title">设置权限</b>
         <div className="present setPermission-preMarg">
           <span className="tip setPermission-tip">

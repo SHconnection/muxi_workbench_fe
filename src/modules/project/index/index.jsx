@@ -1,7 +1,9 @@
 import React, { Component } from "react";
-import "./index.css";
 import ProjectItem from "../components/itemIcon/index";
 import Button from "../../../components/common/button";
+import LoginService from "../../../service/login";
+import ProjectService from "../../../service/project";
+import "./index.css";
 
 class Index extends Component {
   constructor(props) {
@@ -42,9 +44,18 @@ class Index extends Component {
     };
   }
 
-  // componentWillMount() {
-  //     //do something
-  // }
+  componentWillMount() {
+    LoginService.getUserId().then(res => {
+      console.log(res);
+    });
+    // ProjectService.getProjectList()
+    // .then(res => {
+    //   console.log(res);
+    // })
+    // .catch(res => {
+    //   console.log(res);
+    // })
+  }
 
   // componentDidMount() {
   //     //do something
