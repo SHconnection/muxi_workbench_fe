@@ -26,7 +26,6 @@ class Detail extends Component {
       time: "",
       likeCount: 0,
       iflike: 0,
-      // userID: 0,
       username: "",
       comment: "",
       commentList: []
@@ -39,18 +38,34 @@ class Detail extends Component {
   componentWillMount() {
     const { match } = this.props;
     const { sid } = match.params.id;
-    const arr = StatusService.getStatuDetail(sid);
-
-    this.setState({
-      sid: arr.sid,
-      title: arr.title,
-      content: arr.content,
-      time: arr.time,
-      likeCount: arr.likeCount,
-      iflike: arr.iflike,
-      // userID: arr.userID,
-      username: arr.username,
-      commentList: arr.commentList
+    StatusService.getStatuDetail(sid).then(doc => {
+      if (doc) {
+        const sid1 = doc.sid;
+        const name = doc.title;
+        const value = doc.content;
+        const time1 = doc.time;
+        const likeCounts = doc.likeCount;
+        const iflike1 = doc.iflike;
+        const arr1 = doc.commentList.map(comments => {
+          const comment = comments;
+          const obj = {};
+          obj.cid = comment.cid;
+          obj.username = comment.username;
+          obj.avatar = comment.avatar;
+          obj.time = comment.time;
+          obj.content = comment.content;
+          return obj;
+        });
+        this.setState({
+          sid: sid1,
+          title: name,
+          content: value,
+          time: time1,
+          likeCount: likeCounts,
+          iflike: iflike1,
+          commentList: arr1
+        });
+      }
     });
   }
 
@@ -78,10 +93,23 @@ class Detail extends Component {
 
   sendComment(value, sid) {
     StatusService.postComments(sid, value);
-    const arr = StatusService.getStatuDetail(sid);
-    this.setState({
-      commentList: arr.commentList,
-      comment: ""
+    StatusService.getStatuDetail(sid).then(comments => {
+      if (comments) {
+        const arr1 = comments.commentList.map(comment => {
+          const comment1 = comment;
+          const obj = {};
+          obj.cid = comment1.cid;
+          obj.username = comment1.username;
+          obj.avatar = comment1.avatar;
+          obj.time = comment1.time;
+          obj.content = comment1.content;
+          return obj;
+        });
+        this.setState({
+          commentList: arr1,
+          comment: ""
+        });
+      }
     });
   }
 

@@ -25,29 +25,28 @@ import "../../../service/cookie";
 // }
 
 class edit extends Component {
-  static SaveAndBack(content, title) {
-    StatusService.addNewStatu(title, content);
-    window.history.back();
-  }
-
   constructor(props) {
     super(props);
     this.state = {
       content: "",
       title: ""
     };
-    this.SaveAndBack = this.SaveAndBack.bind(this);
   }
 
   componentWillMount() {
     const { match } = this.props;
-    if (match.params === "/edit");
+    if (match.path === `/edit`);
     else {
       const { sid } = match.params.id;
-      const arr = StatusService.getStatuDetail(sid);
-      this.setState({
-        title: arr.title,
-        content: arr.content
+      StatusService.getStatuDetail(sid).then(doc => {
+        if (doc) {
+          const value = doc.content;
+          const name = doc.title;
+          this.setState({
+            title: name,
+            content: value
+          });
+        }
       });
     }
   }
@@ -75,7 +74,10 @@ class edit extends Component {
           />
           <div className="status-save-bt">
             <Button
-              onClick={() => this.SaveAndBack(content, title)}
+              onClick={() => {
+                StatusService.addNewStatu(title, content);
+                window.history.back();
+              }}
               text="保存并返回"
             />
           </div>

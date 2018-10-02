@@ -4,15 +4,21 @@ const StatusService = {
   addNewStatu(title, value) {
     return Fetch("/status/new/", {
       method: "POST",
-      data: JSON.stringify({
+      token: JSON.parse(localStorage.user).token,
+      data: {
         title,
         value
-      })
+      }
     });
   },
-  
+
   getStatusList(page) {
-    return Fetch(`/status/list${page}/`, {
+    return Fetch(`/status/list/${page}/`, {
+      token: JSON.parse(localStorage.user).token
+    });
+  },
+  getPersonalStatus(uid, page) {
+    return Fetch(`/status/${uid}/list/${page}/`, {
       token: JSON.parse(localStorage.user).token
     });
   },
@@ -29,16 +35,16 @@ const StatusService = {
   changeLike(sid, iflike) {
     return Fetch(`/status/${sid}/like/`, {
       method: "POST",
-      data: JSON.stringify({ iflike })
+      data: { iflike }
     });
   },
   postComments(sid, content) {
     return Fetch(`/status/${sid}/comment/`, {
       method: "POST",
       token: JSON.parse(localStorage.user).token,
-      data: JSON.stringify({
+      data: {
         content
-      })
+      }
     });
   },
   commentDelete(cid, sid) {

@@ -18,9 +18,9 @@ function findKind(kind, sourceID) {
     case 3:
       return `/status/${sourceID}/`;
     case 4:
-      return `/member/teamMember/personalInfo/personalProgress`;
+      return `/member/teamMember/personalInfo/personalProgress/${sourceID}/`;
     case 5:
-      return `/member/teamMember/personalInfo/personalProgress`;
+      return `/member/teamMember/personalInfo/personalProgress/${sourceID}/`;
     case 6:
       return `/project/doc/${sourceID}/`;
     default:

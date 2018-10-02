@@ -15,7 +15,7 @@ import "../../static/css/common.css";
 const Project = props => {
   const { match } = props;
   const data = {
-    username: "XuanYe"
+    username: "Xuan Ye"
   };
 
   LoginService.getToken(data).then(response => {
@@ -44,7 +44,7 @@ const Project = props => {
         path={`${match.url}/:pid/docFolder/:id`}
         component={ProjectDetailAllDoc}
       />
-      <Route path={`${match.url}/:pid/doc/:id`} component={DocPreview} />
+      <Route path={`${match.url}/doc/:id`} component={DocPreview} />
     </div>
   );
 };
