@@ -5,6 +5,7 @@ import searchIcon from "../../../assets/img/search@2x.png";
 import AvatarImg from "../../../assets/img/avatar.png";
 import Avatar from "../avatar/index";
 import Inform from "./inform/index";
+import SearchService from "../../../service/search";
 import "./index.css";
 
 class Header extends Component {
@@ -26,8 +27,9 @@ class Header extends Component {
   }
 
   searchItem() {
-    const value = this.refs.searchRef.value;
+    const { value } = this.searchRef.current;
     // console.log(value);
+    localStorage.searchtext = value;
     if (value !== "") {
       this.setState({
         redirect: true
@@ -107,9 +109,10 @@ class Header extends Component {
             {showInput && (
               <input
                 className="header-search-input"
-                ref="searchRef"
+                ref={this.searchRef}
                 onKeyUp={this.enterSearch}
                 type="text"
+                autoFocus
               />
             )}
             <div

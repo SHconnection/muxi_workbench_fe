@@ -12,7 +12,9 @@ import "../../../static/css/common.css";
 import Delete from "../../setting/components/delete/delete";
 import StatusService from "../../../service/status";
 import "./detail.css";
+
 const Goods = [thumbs, thumbsUp];
+
 class Detail extends Component {
   constructor(props) {
     super(props);
@@ -24,7 +26,6 @@ class Detail extends Component {
       time: "",
       likeCount: 0,
       iflike: 0,
-      userID: 0,
       username: "",
       comment: "",
       commentList: []
@@ -33,6 +34,7 @@ class Detail extends Component {
     this.changeLike = this.changeLike.bind(this);
     this.del = this.del.bind(this);
   }
+
   componentWillMount() {
     const { match } = this.props;
     const { sid } = match.params.id;
@@ -43,9 +45,7 @@ class Detail extends Component {
         const value = doc.content;
         const time1 = doc.time;
         const likeCounts = doc.likeCount;
-
         const iflike1 = doc.iflike;
-        const user = doc.userID;
         const arr1 = doc.commentList.map(comments => {
           const comment = comments;
           const obj = {};
@@ -63,17 +63,18 @@ class Detail extends Component {
           time: time1,
           likeCount: likeCounts,
           iflike: iflike1,
-          userID: user,
           commentList: arr1
         });
       }
     });
   }
+
   onChange(comment) {
     this.setState({
       comment
     });
   }
+
   changeLike(iflike, likeCount, sid) {
     if (iflike === 0) {
       this.setState({
@@ -89,6 +90,7 @@ class Detail extends Component {
       StatusService.iflike(sid, 0);
     }
   }
+
   sendComment(value, sid) {
     StatusService.postComments(sid, value);
     StatusService.getStatuDetail(sid).then(comments => {
@@ -110,14 +112,17 @@ class Detail extends Component {
       }
     });
   }
+
   del() {
     this.setState({
       deleteX: true
     });
   }
+
   transferMsgDel(deleteX) {
     this.setState({ deleteX });
   }
+
   render() {
     const {
       sid,
@@ -134,16 +139,16 @@ class Detail extends Component {
     return (
       <div className="subject">
         <div className="status-detail-head">
-          <Goback width="33px" height="33px" />{" "}
+          <Goback width="33px" height="33px" />
           <div className="stauts-detail-second">
             <div className="status-detail-title">{title}</div>
-            <span className="status-detail-name">{username}</span>{" "}
+            <span className="status-detail-name">{username}</span>
             <span className="status-detail-time">{time}</span>
           </div>
           <div className="status-detail-edit">
             <Link to={`/status/${sid}/reEdit`} className="status-detail-edit">
               编辑
-            </Link>{" "}
+            </Link>
             <span
               className="status-detail-delete"
               onClick={() => {
@@ -154,68 +159,68 @@ class Detail extends Component {
               tabIndex={0}
             >
               删除
-            </span>{" "}
+            </span>
             <Delete
-              name="确认要删除该进度⽂文档吗?"
+              name="确认要删除该进度文档吗？"
               deleteX={deleteX}
               transferMsg={this.transferMsgDel}
               staId={sid}
               staDel
             />
-          </div>{" "}
+          </div>
           <ReactSVG
             className="status-detail-good"
             onClick={() => this.changeLike(iflike, likeCount, sid)}
             path={Goods[iflike]}
           />
-          <div className="status-detail-love">{likeCount}</div>{" "}
+          <div className="status-detail-love">{likeCount}</div>
         </div>
         <div className="status-details">{content}</div>
         <hr className="status-detail-line" />
         <div className="status-detail-comments">
-          {" "}
           {commentList.map(el => (
             <div key={el.cid}>
-              {" "}
               <Othercomments
                 avatar={el.avatar}
                 name={el.username}
                 day={el.time}
                 text={el.content}
-              />{" "}
+              />
             </div>
-          ))}{" "}
+          ))}
         </div>
-
         <div className="send">
-          <Avatar className="comment-img" src="" width={49} height={49} />{" "}
-          {/* src是⾃自⼰己的头像 */}
+          <Avatar className="comment-img" src="" width={49} height={49} />
+          {/* src是自己的头像 */}
           <div className="push">
             <textarea
               className="send-comment"
               type="text"
               value={comment}
               onChange={this.onChange}
-              placeholder=" 发表评论..."
+              placeholder="   发表评论..."
             />
             <div className="comment-bt">
               <Button
                 onClick={() => this.sendComment(comment, sid)}
                 text="发表"
-              />{" "}
+              />
             </div>
-          </div>{" "}
+          </div>
         </div>
       </div>
     );
   }
 }
+
 Detail.propTypes = {
   match: PropTypes.shape({
     url: PropTypes.string
   })
 };
+
 Detail.defaultProps = {
   match: {}
 };
+
 export default Detail;

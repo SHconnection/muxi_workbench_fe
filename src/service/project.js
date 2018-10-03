@@ -68,7 +68,7 @@ const ProjectService = {
   getProjectFileTree(pid) {
     return Fetch(`/folder/filetree/${pid}/`, {
       token: localStorage.token
-    })
+    });
   }
 };
 

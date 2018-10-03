@@ -36,8 +36,6 @@ class Select extends Component {
     });
   }
 
-
-
   render() {
     const { showInput } = this.state;
     const { items, checkedIndex, onChange } = this.props;
@@ -64,7 +62,7 @@ class Select extends Component {
                       : "select-option-item"
                   }
                   onClick={() => {
-                    onChange(index, el.id)
+                    onChange(index, el.id);
                   }}
                   onKeyDown={() => {}}
                   role="presentation"

@@ -17,7 +17,7 @@ const Project = props => {
   const data = {
     username: "zengdeqin"
   };
-  localStorage.username = data.username
+  localStorage.username = data.username;
   LoginService.getToken(data).then(response => {
     const user = {};
     user.token = response.token;
@@ -46,7 +46,7 @@ const Project = props => {
         path={`${match.url}/:pid/docFolder/:id`}
         component={ProjectDetailAllDoc}
       />
-      <Route path={`${match.url}/:pid/doc/:id`} component={DocPreview} />
+      <Route path={`${match.url}/doc/:id`} component={DocPreview} />
     </div>
   );
 };

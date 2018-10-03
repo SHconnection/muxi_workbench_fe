@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import Member from "../../setting/components/member/member";
 import Button from "../../../components/common/button/index";
 import Select from "../../../components/common/select/index";
-import ManageService from "../../../service/manage"
+import ManageService from "../../../service/manage";
 import ProjectService from "../../../service/project";
 import "../../../static/css/common.css";
 import "./index.css";
@@ -12,23 +12,22 @@ const gotoBack = () => {
 };
 
 // 每一组的user
-const usersByGroup = {}
+const usersByGroup = {};
 
 // 请求grouplist
-const fetchGroups = () => 
-  ManageService.getGroupList()
-  .then(res => {
+const fetchGroups = () =>
+  ManageService.getGroupList().then(res => {
     const arr = res.groupList.map(el => {
       const el1 = { id: 0, value: "" };
       el1.id = el.groupID;
       el1.value = el.groupName;
-      el1.userCount = el.userCount
+      el1.userCount = el.userCount;
       return el1;
     });
     arr.push({ id: 0, value: "全部成员" });
-    const arr1 = arr
-    return arr1
-  })
+    const arr1 = arr;
+    return arr1;
+  });
 
 class NewProject extends Component {
   constructor(props) {
@@ -53,14 +52,13 @@ class NewProject extends Component {
   }
 
   componentWillMount() {
-    fetchGroups()
-    .then(el => {
+    fetchGroups().then(el => {
       this.setState({
         groups: el,
         groupCheckedIndex: el.length - 1
       });
-      this.fetchGroupMember(el[el.length-1].id)
-    })
+      this.fetchGroupMember(el[el.length - 1].id);
+    });
   }
 
   // 请求group的所有组员
@@ -73,25 +71,25 @@ class NewProject extends Component {
       })
       this.setState({
         members: usersByGroup[id]
-      })
-    })
+      });
+    });
   }
 
   changeProjectnameText(event) {
     this.setState({
       projectname: event.target.value
-    })
+    });
   }
 
   changeProjectintroText(event) {
     this.setState({
       intro: event.target.value
-    })
+    });
   }
 
   changeGroupCheck(index, id) {
     if (usersByGroup[id] == null) {
-      this.fetchGroupMember(id)
+      this.fetchGroupMember(id);
     }
     this.setState({
       groupCheckedIndex: index,
@@ -146,25 +144,23 @@ class NewProject extends Component {
 
   createProject() {
     const { members, projectname, intro } = this.state;
-    const userlist = members.filter(el => el.selected)
-                    .map(item => {
-                      const user = {userID: item.id, userName: item.name}
-                      return user
-                    })
+    const userlist = members.filter(el => el.selected).map(item => {
+      const user = { userID: item.id, userName: item.name };
+      return user;
+    });
     const postData = {
       username: localStorage.username,
       projectname,
       userlist,
       intro
-    }
+    };
     ProjectService.createProject(postData)
-    .then(res => {
-      console.log(res);
-    })
-    .catch(res => {
-      console.log(res);
-      
-    })
+      .then(res => {
+        console.log(res);
+      })
+      .catch(res => {
+        console.log(res);
+      });
   }
 
   render() {

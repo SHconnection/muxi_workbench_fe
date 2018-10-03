@@ -14,7 +14,7 @@ const LoginService = {
       data: {
         token: localStorage.token
       }
-    })
+    });
   }
 };
 

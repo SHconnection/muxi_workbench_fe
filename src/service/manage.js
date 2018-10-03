@@ -22,32 +22,31 @@ const ManageService = {
   },
 
   // group user list
-  getGroupMember(groupId, page=1) {
+  getGroupMember(groupId, page = 1) {
     return Fetch(`/group/${groupId}/userList`, {
       token: JSON.parse(localStorage.user).token,
       data: {
         page
       }
-    })
+    });
   },
 
   // group all user list
   getGroupAllMember(groupId) {
-    return ManageService.getGroupMember(groupId)
-    .then(res => {
-      const groupsFetch = []
+    return ManageService.getGroupMember(groupId).then(res => {
+      const groupsFetch = [];
       for (let i = 1; i <= res.pageMax; i += 1) {
-        groupsFetch.push(ManageService.getGroupMember(groupId, i))
+        groupsFetch.push(ManageService.getGroupMember(groupId, i));
       }
-      return Promise.all(groupsFetch)
-    })
+      return Promise.all(groupsFetch);
+    });
   },
 
   // get a group list
   getGroupList() {
     return Fetch(`/group/list/`, {
       token: localStorage.token
-    })
+    });
   },
 
   /* 
@@ -60,7 +59,7 @@ const ManageService = {
       data: {
         page
       }
-    })
+    });
   },
 
   // get project user list
@@ -70,7 +69,7 @@ const ManageService = {
       data: {
         page
       }
-    })
+    });
   },
 
   // remove user out of team
@@ -128,8 +127,6 @@ const ManageService = {
       }
     });
   },
-
-  
 
   modifyMemGroup(userID, selMembers) {
     return Fetch(`/user/${userID}/manageGroup/`, {

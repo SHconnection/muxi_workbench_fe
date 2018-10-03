@@ -4,15 +4,21 @@ const StatusService = {
   addNewStatu(title, value) {
     return Fetch("/status/new/", {
       method: "POST",
+      token: JSON.parse(localStorage.user).token,
       data: {
         title,
         value
       }
     });
   },
-  
+
   getStatusList(page) {
-    return Fetch(`/status/list${page}/`, {
+    return Fetch(`/status/list/${page}/`, {
+      token: JSON.parse(localStorage.user).token
+    });
+  },
+  getPersonalStatus(uid, page) {
+    return Fetch(`/status/${uid}/list/${page}/`, {
       token: JSON.parse(localStorage.user).token
     });
   },

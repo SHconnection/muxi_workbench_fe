@@ -7,9 +7,9 @@ import "../../static/css/common.css";
 import "./dynamic.css";
 
 const createweek = [
-  " 周⽇日",
-  " 周⼀一",
-  " 周⼆二",
+  " 周日",
+  " 周一",
+  " 周二",
   " 周三",
   " 周四",
   " 周五",
@@ -19,6 +19,7 @@ const today = new Date().toLocaleDateString();
 const yesterday = new Date(
   new Date().getTime() - 24 * 60 * 60 * 1000
 ).toLocaleDateString();
+
 class Dynamic extends Component {
   static chargeday(timeDay) {
     if (today === timeDay) {
@@ -100,29 +101,12 @@ class Dynamic extends Component {
   }
 
   componentDidMount() {
-    const wrapper = this.refs.wrapper;
-    const getFeedList = this.getFeedList();
-    const that = this; // 为解决不不同context的问题 let timeCount;
-    function callback() {
-      const top = wrapper.getBoundingClientRect().top;
-      const windowHeight = window.screen.height;
-      if (top && top < windowHeight) {
-        // 当 wrapper 已经被滚动到⻚页⾯面可视范围之内触发 getFeedList(that);
+    const { page, count } = this.state;
+    window.addEventListener("scroll", () => {
+      if (window.innerHeight + window.scrollY >= document.body.offsetHeight) {
+        this.getFeedList(page, count);
       }
-    }
-    window.addEventListener(
-      "scroll",
-      () => {
-        if (this.state.isLoadingMore) {
-          return;
-        }
-        // if (timeCount) {
-        //   clearTimeout(timeCount);
-        // }
-        // timeCount = setTimeout(callback, 50);
-      },
-      false
-    );
+    });
   }
 
   getFeedList(page, count) {
@@ -135,7 +119,6 @@ class Dynamic extends Component {
             obj.uid = feedList.uid;
             obj.time_d = feedList.time_d;
             obj.time_s = feedList.time_s;
-
             obj.avatar_url = feedList.avatar_url;
             obj.action = feedList.action;
             obj.kind = feedList.kind;
@@ -158,16 +141,13 @@ class Dynamic extends Component {
   }
 
   render() {
-    const { feedList, page, count } = this.state;
+    const { feedList } = this.state;
     return (
       <div className="feed">
-        {" "}
         <div className="subject">
           <div className="feed-list">
-            {" "}
             {feedList.map((feed, index) => (
               <div key={feed.id}>
-                {" "}
                 {(index === 0 ||
                   feedList[index - 1].timeDay !== feed.timeDay) && (
                   <div
@@ -177,7 +157,6 @@ class Dynamic extends Component {
                         : "feed-day"
                     }
                   >
-                    {" "}
                     {Dynamic.chargeday(feed.timeDay)}
                   </div>
                 )}
@@ -192,30 +171,26 @@ class Dynamic extends Component {
                   divider={feed.divider}
                   dividerID={feed.dividerID}
                   dividerName={feed.dividerName}
-                />{" "}
+                />
               </div>
-            ))}{" "}
-          </div>{" "}
-          <div
-            className="loadMore"
-            ref="wrapper"
-            onClick={this.getFeedList.bind(page, count)}
-          >
-            {" "}
-            加载更更多...
+            ))}
           </div>
+          <div className="loadMore">下拉加载更多...</div>
         </div>
         <Gotop className="go-top" />
       </div>
     );
   }
 }
+
 Dynamic.propTypes = {
   match: PropTypes.shape({
     url: PropTypes.string
   })
 };
+
 Dynamic.defaultProps = {
   match: {}
 };
+
 export default Dynamic;
