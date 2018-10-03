@@ -25,44 +25,89 @@ class SelectMember extends Component {
   }
 
   componentDidMount() {
-    const { groupMember, setManager } = this.props;
-    let preArray = [];
+    const { addGroup, groupMember, setManager, groupID } = this.props;
 
-    if (groupMember) {
-      const { groupID } = this.props;
-      const arr = ManageService.groupMember(groupID);
+    if (groupMember || addGroup) {
+      ManageService.getAllMem().then(member => {
+        if (member) {
+          const arr = member.list.map(mem => {
+            const obj = this.changeGroupMemberFormat(mem);
 
-      if (!Array.isArray(arr)) return false;
+            return obj;
+          });
 
-      preArray = arr.map(mem => mem.id);
+          if (groupMember && groupID) {
+            ManageService.groupMember(groupID).then(member1 => {
+              let preArray = [];
+              if (member1) {
+                preArray = member1.list.map(mem => mem.userID);
+
+                arr.map(mem1 => {
+                  const mem = mem1;
+
+                  if (preArray.indexOf(mem.id) !== -1) mem.selected = true;
+
+                  return mem;
+                });
+              }
+
+              this.setState({
+                members: arr,
+                selMembers: preArray
+              });
+            });
+          } else {
+            this.setState({ members: arr });
+          }
+        }
+      });
     }
 
     if (setManager) {
-      const arr = ManageService.getAdminList();
+      ManageService.getAllMem().then(member => {
+        if (member) {
+          const arr = member.list.map(mem => {
+            const obj = this.changeGroupMemberFormat(mem);
 
-      if (!Array.isArray(arr)) return false;
+            return obj;
+          });
 
-      preArray = arr.map(mem => mem.id);
+          ManageService.getAdminList().then(admins => {
+            let preArray = [];
+            if (admins) {
+              preArray = admins.list.map(admin => admin.userID);
+
+              arr.map(mem1 => {
+                const mem = mem1;
+
+                if (preArray.indexOf(mem.id) !== -1) mem.selected = true;
+
+                return mem;
+              });
+            }
+
+            this.setState({
+              members: arr,
+              selMembers: preArray
+            });
+          });
+        }
+      });
     }
+  }
 
-    const arr = ManageService.getAllMem();
+  changeGroupMemberFormat(mem) {
+    const obj = {};
 
-    if (!Array.isArray(arr)) return false;
+    obj.name = mem.username;
+    obj.id = mem.userID;
+    obj.email = mem.email;
+    obj.role = mem.role;
+    obj.avatar = mem.avatar;
+    obj.group = mem.groupName;
+    obj.selected = false;
 
-    arr.map(mem1 => {
-      const mem = mem1;
-
-      if (preArray.indexOf(mem.id) !== -1) mem.selected = true;
-
-      return mem;
-    });
-
-    this.setState({
-      members: arr,
-      selMembers: preArray
-    });
-
-    return true;
+    return obj;
   }
 
   selAll() {

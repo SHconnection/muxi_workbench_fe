@@ -3,6 +3,7 @@
 成员数据members:{name:'', mailbox:'',dealed: false,id:0},
 */
 import React, { Component } from "react";
+import GoBack from "../../../components/common/goBack/index";
 import ManageService from "../../../service/manage";
 import "../../../static/css/common.css";
 import "./joinApply.css";
@@ -64,7 +65,7 @@ class JoinApply extends Component {
 
     return (
       <div className="subject minH">
-        <span className="reArrow" />
+        <GoBack />
         <b className="title">未审核的加入申请</b>
         <br />
         <button

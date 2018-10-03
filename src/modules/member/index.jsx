@@ -28,11 +28,11 @@ const Member = ({ match }) => (
       component={AddGroup}
     />
     <Route
-      path={`${match.url}/teamMember/groupManage/groupMember/:group`}
+      path={`${match.url}/teamMember/groupManage/groupMember`}
       component={GroupMember}
     />
     <Route
-      path={`${match.url}/teamMember/personalInfo/personalSet/:id`}
+      path={`${match.url}/teamMember/personalInfo/personalSet`}
       component={PersonalSet}
     />
     <Route

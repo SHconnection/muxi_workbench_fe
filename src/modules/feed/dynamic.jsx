@@ -36,69 +36,112 @@ class Dynamic extends Component {
     this.state = {
       feedList: [],
       page: 0,
-      count: 0,
-      isLoadingMore: 0
+      count: 0
+      // isLoadingMore: 0
     };
   }
 
   componentWillMount() {
     const { match } = this.props;
-    if (match.params === "/feed") {
-      const arr = FeedService.getFeedList(0);
-      this.setState({
-        count: arr.count,
-        page: arr.page,
-        feedList: arr.feedList
+    if (match.path === "/feed") {
+      FeedService.getFeedList(1).then(feeds => {
+        if (feeds) {
+          const arr1 = feeds.feed_stream.map(feed1 => {
+            const feedList = feed1;
+            const obj = {};
+            obj.uid = feedList.uid;
+            obj.time_d = feedList.time_d;
+            obj.time_s = feedList.time_s;
+            obj.avatar_url = feedList.avatar_url;
+            obj.action = feedList.action;
+            obj.kind = feedList.kind;
+            obj.sourceID = feedList.sourceID;
+            obj.divider = feedList.divider;
+            obj.dividerID = feedList.divider_id;
+            obj.dividerName = feedList.divider_name;
+            return obj;
+          });
+          const page1 = feeds.page;
+          const count1 = feeds.count;
+          this.setState({
+            feedList: arr1,
+            count: count1,
+            page: page1
+          });
+        }
+      });
+    } else {
+      FeedService.getPersonalFeed(1).then(feed => {
+        if (feed) {
+          const arr1 = feed.feed_stream.map(feed1 => {
+            const feedList = feed1;
+            const obj = {};
+            obj.uid = feedList.uid;
+            obj.time_d = feedList.time_d;
+            obj.time_s = feedList.time_s;
+            obj.avatar_url = feedList.avatar_url;
+            obj.action = feedList.action;
+            obj.kind = feedList.kind;
+            obj.sourceID = feedList.sourceID;
+            obj.divider = feedList.divider;
+            obj.dividerID = feedList.divider_id;
+            obj.dividerName = feedList.divider_name;
+            return obj;
+          });
+          const page1 = feed.page;
+          const count1 = feed.count;
+          this.setState({
+            feedList: arr1,
+            count: count1,
+            page: page1
+          });
+        }
       });
     }
   }
 
   componentDidMount() {
-    const wrapper = this.refs.wrapper;
-    const getFeedList = this.getFeedList();
-    const that = this; // 为解决不同context的问题
-    let timeCount;
-
-    function callback() {
-      const top = wrapper.getBoundingClientRect().top;
-      const windowHeight = window.screen.height;
-
-      if (top && top < windowHeight) {
-        // 当 wrapper 已经被滚动到页面可视范围之内触发
-        getFeedList(that);
+    const { page, count } = this.state;
+    window.addEventListener("scroll", () => {
+      if (window.innerHeight + window.scrollY >= document.body.offsetHeight) {
+        this.getFeedList(page, count);
       }
-    }
-    window.addEventListener(
-      "scroll",
-      () => {
-        if (this.state.isLoadingMore) {
-          return;
-        }
-
-        if (timeCount) {
-          clearTimeout(timeCount);
-        }
-
-        timeCount = setTimeout(callback, 50);
-      },
-      false
-    );
+    });
   }
 
   getFeedList(page, count) {
     if (count / 40 >= page) {
-      const arr = FeedService.getFeedList(page + 1);
-      this.setState({
-        page: arr.page,
-        count: arr.count,
-        feedList: arr.feedList,
-        isLoadingMore: 1
+      FeedService.getFeedList(page + 1).then(feeds => {
+        if (feeds) {
+          const arr1 = feeds.feed_stream.map(feed1 => {
+            const feedList = feed1;
+            const obj = {};
+            obj.uid = feedList.uid;
+            obj.time_d = feedList.time_d;
+            obj.time_s = feedList.time_s;
+            obj.avatar_url = feedList.avatar_url;
+            obj.action = feedList.action;
+            obj.kind = feedList.kind;
+            obj.sourceID = feedList.sourceID;
+            obj.divider = feedList.divider;
+            obj.dividerID = feedList.divider_id;
+            obj.dividerName = feedList.divider_name;
+            return obj;
+          });
+          const page1 = feeds.page;
+          const count1 = feeds.count;
+          this.setState({
+            feedList: arr1,
+            count: count1,
+            page: page1
+          });
+        }
       });
     }
   }
 
   render() {
-    const { feedList, page, count } = this.state;
+    const { feedList } = this.state;
     return (
       <div className="feed">
         <div className="subject">
@@ -132,13 +175,7 @@ class Dynamic extends Component {
               </div>
             ))}
           </div>
-          <div
-            className="loadMore"
-            ref="wrapper"
-            onClick={this.getFeedList.bind(page, count)}
-          >
-            加载更多...
-          </div>
+          <div className="loadMore">下拉加载更多...</div>
         </div>
         <Gotop className="go-top" />
       </div>

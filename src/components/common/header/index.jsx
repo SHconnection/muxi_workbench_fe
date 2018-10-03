@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { NavLink, Redirect } from "react-router-dom";
+import { NavLink, Redirect, Link } from "react-router-dom";
 import logo from "../../../assets/img/logo@2x.png";
 import searchIcon from "../../../assets/img/search@2x.png";
 import AvatarImg from "../../../assets/img/avatar.png";
@@ -97,9 +97,12 @@ class Header extends Component {
                 写进度
               </NavLink>
             </div>
-            <div className="header-avatar">
+            <Link
+              className="header-avatar"
+              to="/member/teamMember/personalInfo/personalSet"
+            >
               <Avatar src={AvatarImg} />
-            </div>
+            </Link>
             <div>
               <Inform />
             </div>

@@ -3,16 +3,18 @@ import Fetch from "./fetch";
 const ProjectService = {
   projectDelete(proId) {
     return Fetch(`/project/${proId}/`, {
-      method: "DELETE"
+      method: "DELETE",
+      token: JSON.parse(localStorage.user).token
     });
   },
 
   editProjectMember(proId, selMembers) {
     return Fetch(`/project/${proId}/member/`, {
       method: "PUT",
-      data: JSON.stringify({
+      token: JSON.parse(localStorage.user).token,
+      data: {
         userList: selMembers
-      })
+      }
     });
   },
 
@@ -26,17 +28,24 @@ const ProjectService = {
     return Fetch(`/project/${proId}/`, {
       method: "POST",
       token: JSON.parse(localStorage.user).token,
-      data: JSON.stringify({
+      data: {
         intro: textValue,
         name: inputValue
-      })
+      }
     });
   },
 
   createProject(postData) {
-    return Fetch("/api/v1.0/project/new/", {
+    return Fetch("/project/new/", {
       method: "POST",
+      token: localStorage.token,
       data: postData
+    });
+  },
+
+  getProjectList(page = 1) {
+    return Fetch(`/user/project/list/?page=${page}`, {
+      token: localStorage.token
     });
   }
 };

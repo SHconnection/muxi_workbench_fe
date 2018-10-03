@@ -1,9 +1,8 @@
 /*
 个人设置页面组件
-传入userID
 */
 import React, { Component } from "react";
-import PropTypes from "prop-types";
+import GoBack from "../../../components/common/goBack/index";
 import Member from "../components/member/member";
 import Save from "../components/save/save";
 import ManageService from "../../../service/manage";
@@ -33,6 +32,18 @@ class PersonalSet extends Component {
     this.transferMsgMem = this.transferMsgMem.bind(this);
   }
 
+  componentDidMount() {
+    const per = JSON.parse(localStorage.per);
+
+    if (per.id) {
+      this.setState({
+        inputName: per.name,
+        inputPhone: per.phone,
+        inputMailbox: per.mail
+      });
+    }
+  }
+
   changeName(e) {
     this.setState({
       inputName: e.target.value
@@ -60,11 +71,7 @@ class PersonalSet extends Component {
 
   savePersonalSet() {
     const { inputName, inputMailbox, inputPhone, selMembers } = this.state;
-    const {
-      match: {
-        params: { userID }
-      }
-    } = this.props;
+    const per = JSON.parse(localStorage.per);
     const obj = {
       username: inputName,
       address: inputMailbox,
@@ -79,7 +86,7 @@ class PersonalSet extends Component {
       this.setState({ ifSave: false });
     }, 1000);
 
-    ManageService.savePersonalSet(userID, obj);
+    ManageService.savePersonalSet(per.id, obj);
   }
 
   render() {
@@ -94,7 +101,7 @@ class PersonalSet extends Component {
 
     return (
       <div className="subject minH">
-        <span className="reArrow" />
+        <GoBack />
         <b className="title">个人设置</b>
 
         <div className="main">
@@ -161,15 +168,3 @@ class PersonalSet extends Component {
 }
 
 export default PersonalSet;
-
-PersonalSet.propTypes = {
-  match: PropTypes.shape({
-    params: PropTypes.shape({
-      userID: PropTypes.number
-    })
-  })
-};
-
-PersonalSet.defaultProps = {
-  match: {}
-};
