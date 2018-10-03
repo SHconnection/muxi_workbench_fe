@@ -18,9 +18,10 @@ const ProjectService = {
     });
   },
 
+  // 获取项目基本信息（name,intro,userCount）
   getProjectInfo(proId) {
     return Fetch(`/project/${proId}/`, {
-      token: JSON.parse(localStorage.user).token
+      token: localStorage.token
     });
   },
 
@@ -35,6 +36,7 @@ const ProjectService = {
     });
   },
 
+  // 创建项目
   createProject(postData) {
     return Fetch("/project/new/", {
       method: "POST",
@@ -43,8 +45,28 @@ const ProjectService = {
     });
   },
 
-  getProjectList(page=1) {
-    return Fetch(`/user/project/list/?page=${page}`, {
+  // 获取项目列表(默认第一页)
+  getProjectList(userID,page=1) {
+    return Fetch(`/user/${userID}/project/list/?page=${page}`, {
+      token: localStorage.token
+    })
+  },
+
+  // 获取全部项目列表
+  getAllProjectList(userID) {
+    return ProjectService.getProjectList(userID)
+    .then(res => {
+      const projectFetch = []
+      for (let i = 1; i <= res.pageMax; i += 1) {
+        projectFetch.push(ProjectService.getProjectList(userID, i))   
+      }
+      return Promise.all(projectFetch)
+    })
+  },
+
+  // 获取项目的文件树
+  getProjectFileTree(pid) {
+    return Fetch(`/folder/filetree/${pid}/`, {
       token: localStorage.token
     })
   }

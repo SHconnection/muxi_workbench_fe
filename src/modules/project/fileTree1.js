@@ -1,3 +1,5 @@
+import ProjectService from "../../service/project";
+
 export const Root =
 {
   folder: true,
@@ -95,6 +97,7 @@ export function getRoot() {
   let root1 = Root
   root1 = JSON.stringify(root1)
   root1 = JSON.parse(root1)
+  ProjectService.getProjectFileTree()
   return root1
 }
 
@@ -112,6 +115,22 @@ const FileTreeRecursion = {
 }
 
 export const FileTree = {
+  // 请求文件树
+  getFileTree(pid) {
+    return ProjectService.getProjectFileTree(pid)
+    .then(res => {
+      if (res.filetree) {
+        return JSON.parse(res.filetree)
+      }
+      return []
+    })
+    .catch(res => {
+      console.error("error", res)
+      return []
+    })
+  },
+
+  // 初始化节点均没有被选中
    initNodeSelected(node) {
       const nodeTemp = node
       nodeTemp.selected = false
@@ -122,6 +141,8 @@ export const FileTree = {
         }
       }
     },
+
+    // 初始化节点是否是最终被选中的
     initNodeFinalSelected(node) {
       const nodeTemp = node
       nodeTemp.finalSelected = false;
@@ -132,7 +153,8 @@ export const FileTree = {
         }
       }
     },
-  // 查找
+
+  // 查找节点
   searchNode(id, root) {
     // 在root的树中找到对应id的节点
     // 成功返回该节点，失败返回null
@@ -142,7 +164,8 @@ export const FileTree = {
     FileTreeRecursion.searchNode(id, root, temp)
     return temp.node
   },
-  // 增加
+
+  // 插入节点
   insertNode(node, id, root) {
     // 在root的树中插入node节点，该节点的父节点的id为id，成功返回新节点，失败返回false
     const parentNode = FileTree.searchNode(id, root)
@@ -154,7 +177,8 @@ export const FileTree = {
     parentNode.child.push(nodeTemp)
     return root
   },
-  // 删除
+
+  // 删除节点
   deleteNode(id, root) {
     // 在树root中删除id为id的节点，成功返回Obj{删除的节点, 新节点}，失败返回false
     if (id === 0) {
@@ -176,7 +200,8 @@ export const FileTree = {
     }
     return {root, nodeDeleted}
   },
-  // 移动
+
+  // 移动节点
   moveNode(id, parentId, root) {
     // 在树root中找到id为id的节点，并把以这个节点为根节点的树移动到id为parentId的节点下，作为它的子树
     // 成功返回true，失败返回false

@@ -67,8 +67,8 @@ class NewProject extends Component {
   fetchGroupMember(id) {
     return ManageService.getGroupAllMember(id)
     .then(el => {
-      usersByGroup[id] = (el.map(item => item.list)).reduce((el1, el2) => el1.concat(el2), []).map(el => {
-        const arr = {id: el.userID, name: el.username, selected: false}
+      usersByGroup[id] = (el.map(item => item.list)).reduce((el1, el2) => el1.concat(el2), []).map(el3 => {
+        const arr = {id: el3.userID, name: el3.username, selected: false}
         return arr
       })
       this.setState({
