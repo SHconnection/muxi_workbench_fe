@@ -16,10 +16,10 @@ class SetPersonalInfo extends Component {
     this.state = {
       selMembers: [],
       members: [],
-      selIdentities: [1],
+      selIdentities: [],
       identity: [
         { name: "管理员", selected: false, id: 3 },
-        { name: "成员", selected: true, id: 1 }
+        { name: "成员", selected: false, id: 1 }
       ],
       ifSave: false,
       deleteX: false,
@@ -35,6 +35,8 @@ class SetPersonalInfo extends Component {
 
   componentDidMount() {
     const per = JSON.parse(localStorage.per);
+    const user = JSON.parse(localStorage.user);
+    // console.log(per.id)
     const { identity, selIdentities } = this.state;
 
     if (per.role > 1) {
@@ -42,9 +44,13 @@ class SetPersonalInfo extends Component {
       identity[1].selected = false;
       if (per.role !== 7) selIdentities[0] = 3;
       else selIdentities[0] = 7;
+    } else {
+      identity[0].selected = false;
+      identity[1].selected = true;
+      selIdentities[0] = 1;
     }
 
-    ManageService.getPersonalPro().then(project => {
+    ManageService.getPersonalPro(user.id).then(project => {
       if (project) {
         const proList = project.list.map(item => {
           const obj = {};
@@ -58,7 +64,7 @@ class SetPersonalInfo extends Component {
           return obj;
         });
 
-        ManageService.getPersonalPro().then(pro => {
+        ManageService.getPersonalPro(per.id).then(pro => {
           let idList = [];
 
           if (pro) {

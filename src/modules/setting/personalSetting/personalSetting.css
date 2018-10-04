@@ -5,7 +5,6 @@
 }
 .personalSet-avatar {
   display: inline-block;
-  width: 114px;
   height: 114px;
   margin: 0 27px 42px 0;
 }
@@ -34,4 +33,14 @@
   vertical-align: top;
   width: 400px;
   margin-left: 31px;
+}
+.personalSet-selectImg{
+  position: relative;
+  left: -75px;
+  top: -2px;
+  cursor: pointer;
+  font-size: 20px;
+  width: 0;
+  height: 0;
+  opacity: 0;
 }

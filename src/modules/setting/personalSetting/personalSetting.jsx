@@ -22,7 +22,8 @@ class PersonalSet extends Component {
       ifSave: false,
       inputName: "",
       inputMailbox: "",
-      inputPhone: ""
+      inputPhone: "",
+      img: ""
     };
 
     this.savePersonalSet = this.savePersonalSet.bind(this);
@@ -30,18 +31,26 @@ class PersonalSet extends Component {
     this.changeMailbox = this.changeMailbox.bind(this);
     this.changePhone = this.changePhone.bind(this);
     this.transferMsgMem = this.transferMsgMem.bind(this);
+    this.changeImg = this.changeImg.bind(this);
   }
 
   componentDidMount() {
     const per = JSON.parse(localStorage.per);
 
-    if (per.id) {
+    ManageService.getPersonalSet(per.id).then(setting => {
+      const { members } = this.state;
+
+      members[0].selected = setting.message ? true : false;
+      members[1].selected = setting.email_service ? true : false;
+
       this.setState({
-        inputName: per.name,
-        inputPhone: per.phone,
-        inputMailbox: per.mail
+        inputName: setting.name,
+        inputPhone: setting.tel,
+        inputMailbox: setting.email,
+        members,
+        img: setting.avatar
       });
-    }
+    });
   }
 
   changeName(e) {
@@ -79,6 +88,9 @@ class PersonalSet extends Component {
       message: selMembers.indexOf(1) !== -1,
       email: selMembers.indexOf(2) !== -1
     };
+    const img = this.refs.myAvatar.files[0];
+    const data = new FormData();
+    data.append("image", img);
 
     this.setState({ ifSave: true });
 
@@ -87,6 +99,28 @@ class PersonalSet extends Component {
     }, 1000);
 
     ManageService.savePersonalSet(per.id, obj);
+    ManageService.savePersonalAvatar(data).then(response => {
+      console.log(response);
+    });
+  }
+
+  changeImg() {
+    const img = this.refs.myAvatar.files[0];
+
+    if (img) {
+      if (!/image\/\w+/.test(img.type)) return false;
+
+      const reader = new FileReader();
+      const _this = this;
+      // 将文件以Data URL形式进行读入页面
+      reader.readAsDataURL(img);
+
+      reader.onload = function() {
+        _this.setState({
+          img: this.result
+        });
+      };
+    }
   }
 
   render() {
@@ -96,7 +130,8 @@ class PersonalSet extends Component {
       ifSave,
       inputName,
       inputPhone,
-      inputMailbox
+      inputMailbox,
+      img
     } = this.state;
 
     return (
@@ -105,9 +140,19 @@ class PersonalSet extends Component {
         <b className="title">个人设置</b>
 
         <div className="main">
-          <img src="" className="personalSet-avatar" alt="" />
+          <img src={img} className="personalSet-avatar" alt="" />
           <div className="avaTip">
-            <b>选择新头像</b>
+            <b>
+              选择新头像
+              <input
+                type="file"
+                className="personalSet-selectImg"
+                onChange={this.changeImg}
+                accept=".png, .jpg"
+                placeholder="选择新头像"
+                ref="myAvatar"
+              />
+            </b>
             <p className="avaForm">你可以选择png/jpg图片作为头像</p>
           </div>
           <div>

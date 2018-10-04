@@ -1,9 +1,7 @@
 /*
 个人关注组件
-传入userID
 */
 import React, { Component } from "react";
-import PropTypes from "prop-types";
 import Delete from "../delete/delete";
 import File from "../../../../assets/img/file.png";
 import MessageService from "../../../../service/message";
@@ -23,19 +21,19 @@ class PersonalAttention extends Component {
     this.delete = this.delete.bind(this);
   }
 
-  // componentDidMount() {
-  //   const arr = MessageService.getPersonalAttention();
+  componentDidMount() {
+    MessageService.getPersonalAttention().then(attention => {
+      const arr = attention.list.map((item1, index) => {
+        const item = item1;
+        item.id = index;
+        item.dealed = false;
 
-  //   arr.map((item1, index)=>{
-  //     const item = item1;
-  //     item.id = index;
-  //     item.dealed = false;
+        return item;
+      });
 
-  //     return item;
-  //   })
-
-  //   this.setState({ members: arr });
-  // }
+      this.setState({ members: arr });
+    });
+  }
 
   delete(data) {
     this.setState({
@@ -51,19 +49,9 @@ class PersonalAttention extends Component {
   }
 
   render() {
-    const { data, deleteX } = this.state;
-    const { userID } = this.props;
+    const { data, deleteX, members } = this.state;
     const per = JSON.parse(localStorage.per);
-
-    const members = [
-      {
-        id: 1,
-        filename: "123",
-        projectName: "456",
-        username: "1246",
-        date: "2018/07/09"
-      }
-    ];
+    const user = JSON.parse(localStorage.user);
 
     return (
       <div className="present">
@@ -96,7 +84,7 @@ class PersonalAttention extends Component {
                     }}
                     onKeyDown={this.handleClick}
                   >
-                    {per.id === userID ? "取消关注" : ""}
+                    {user.id === per.id ? "取消关注" : ""}
                   </span>
                 </div>
               </div>
@@ -118,11 +106,3 @@ class PersonalAttention extends Component {
 }
 
 export default PersonalAttention;
-
-PersonalAttention.propTypes = {
-  userID: PropTypes.number
-};
-
-PersonalAttention.defaultProps = {
-  userID: 0
-};

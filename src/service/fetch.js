@@ -62,19 +62,16 @@ export default function FetchData(url, opt = {}) {
           };
         }
         return response.json();
+      case 401:
+        throw "verify failed";
       case 403:
         return new Promise((resolve, reject) => {
-          reject(
-            new Error({
-              code: response.status
-              // message: response.json().message
-            })
-          );
+          reject(response);
+        }).catch(error => {
+          return error;
         });
       case 404:
         throw "404 not found";
-      // case 401:
-      //   throw "verify failed"
       case 502:
         // util.message is not defined
         // util.3message(response.statusText, "err");
@@ -82,12 +79,9 @@ export default function FetchData(url, opt = {}) {
 
       default:
         return new Promise((resolve, reject) => {
-          reject(
-            new Error({
-              code: response.status
-              // message: response.json().message
-            })
-          );
+          reject(response);
+        }).catch(error => {
+          return error;
         });
     }
   });
