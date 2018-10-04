@@ -66,7 +66,10 @@ FolderItemDoc.propTypes = {
       PropTypes.number
     ])
   }),
-  pid: PropTypes.string,
+  pid: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.number
+  ]),
   moveFile: PropTypes.func,
   deleteFile: PropTypes.func
 }

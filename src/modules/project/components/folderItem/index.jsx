@@ -66,7 +66,10 @@ FolderItem.propTypes = {
       PropTypes.number
     ])
   }),
-  pid: PropTypes.string,
+  pid: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.number
+  ]),
   moveFile: PropTypes.func,
   deleteFile: PropTypes.func
 }
@@ -74,7 +77,7 @@ FolderItem.propTypes = {
 FolderItem.defaultProps = {
   folderItem: {
     name: "",
-    id: ""
+    id: 0
   },
   pid: "",
   moveFile: () => {},
