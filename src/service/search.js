@@ -1,8 +1,8 @@
 import Fetch from "./fetch";
 
 const SearchService = {
-  getSearchResults(searchtext, pid) {
-    return Fetch("/search/", {
+  getSearchResults(page, searchtext, pid) {
+    return Fetch(`/search/?page=${page}`, {
       method: "POST",
       token: JSON.parse(localStorage.user).token,
       data: {

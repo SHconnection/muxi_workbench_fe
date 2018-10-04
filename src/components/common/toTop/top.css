@@ -6,5 +6,6 @@
     right:60px;
     bottom:20px;
     _position:absolute; /* position fixed for IE6 */
+    cursor: pointer;
 
 }

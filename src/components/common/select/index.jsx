@@ -63,6 +63,7 @@ class Select extends Component {
                   }
                   onClick={() => {
                     onChange(index, el.id);
+                    this.showOption();
                   }}
                   onKeyDown={() => {}}
                   role="presentation"

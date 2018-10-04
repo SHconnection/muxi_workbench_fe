@@ -82,12 +82,12 @@ export default function FetchData(url, opt = {}) {
 
       default:
         return new Promise((resolve, reject) => {
-          reject(
-            new Error({
-              code: response.status
-              // message: response.json().message
-            })
-          );
+          // reject(
+          //   new Error({
+          //     code: response.status
+          //     // message: response.json().message
+          //   })
+          // );
         });
     }
   });
