@@ -2,11 +2,10 @@ import Fetch from "./fetch";
 
 const ManageService = {
   // post a new group
-  newGroup(groupName, selMembers) {
+  addGroup(groupName, selMembers) {
     return Fetch("/group/new/", {
       token: JSON.parse(localStorage.user).token,
       method: "POST",
-      token: JSON.parse(localStorage.user).token,
       data: {
         groupName,
         userlist: selMembers
@@ -23,32 +22,31 @@ const ManageService = {
   },
 
   // group user list
-  getGroupMember(groupId, page=1) {
+  getGroupMember(groupId, page = 1) {
     return Fetch(`/group/${groupId}/userList`, {
       token: JSON.parse(localStorage.user).token,
       data: {
         page
       }
-    })
+    });
   },
 
   // group all user list
   getGroupAllMember(groupId) {
-    return ManageService.getGroupMember(groupId)
-    .then(res => {
-      const groupsFetch = []
+    return ManageService.getGroupMember(groupId).then(res => {
+      const groupsFetch = [];
       for (let i = 1; i <= res.pageMax; i += 1) {
-        groupsFetch.push(ManageService.getGroupMember(groupId, i))
+        groupsFetch.push(ManageService.getGroupMember(groupId, i));
       }
-      return Promise.all(groupsFetch)
-    })
+      return Promise.all(groupsFetch);
+    });
   },
 
   // get a group list
   getGroupList() {
     return Fetch(`/group/list/`, {
       token: localStorage.token
-    })
+    });
   },
 
   /* 
@@ -61,7 +59,7 @@ const ManageService = {
       data: {
         page
       }
-    })
+    });
   },
 
   // get project user list
@@ -71,14 +69,14 @@ const ManageService = {
       data: {
         page
       }
-    })
+    });
   },
 
   // remove user out of team
   memberDelete(userID) {
     return Fetch(`/user/${userID}`, {
-      oken: JSON.parse(localStorage.user).token,
-      method: "DELETE"
+      method: "DELETE",
+      token: JSON.parse(localStorage.user).token
     });
   },
 
@@ -114,7 +112,6 @@ const ManageService = {
     });
   },
 
-<<<<<<< HEAD
   groupDelete(groupID) {
     return Fetch(`/group/${groupID}/`, {
       method: "DELETE",
@@ -122,8 +119,6 @@ const ManageService = {
     });
   },
 
-=======
->>>>>>> 8d99aca4e42ec885e921a6afe19517ddc8fe9871
   getPersonalPro() {
     return Fetch("/user/project/list/", {
       token: JSON.parse(localStorage.user).token
@@ -139,17 +134,6 @@ const ManageService = {
       }
     });
   },
-
-<<<<<<< HEAD
-  memberDelete(userID) {
-    return Fetch(`/user/${userID}/`, {
-      method: "DELETE",
-      token: JSON.parse(localStorage.user).token
-    });
-  },
-=======
-  
->>>>>>> 8d99aca4e42ec885e921a6afe19517ddc8fe9871
 
   modifyMemGroup(userID, selMembers) {
     return Fetch(`/user/${userID}/manageGroup/`, {
