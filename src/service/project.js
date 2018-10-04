@@ -46,22 +46,21 @@ const ProjectService = {
   },
 
   // 获取项目列表(默认第一页)
-  getProjectList(userID,page=1) {
+  getProjectList(userID, page = 1) {
     return Fetch(`/user/${userID}/project/list/?page=${page}`, {
       token: localStorage.token
-    })
+    });
   },
 
   // 获取全部项目列表
   getAllProjectList(userID) {
-    return ProjectService.getProjectList(userID)
-    .then(res => {
-      const projectFetch = []
+    return ProjectService.getProjectList(userID).then(res => {
+      const projectFetch = [];
       for (let i = 1; i <= res.pageMax; i += 1) {
-        projectFetch.push(ProjectService.getProjectList(userID, i))   
+        projectFetch.push(ProjectService.getProjectList(userID, i));
       }
-      return Promise.all(projectFetch)
-    })
+      return Promise.all(projectFetch);
+    });
   },
 
   // 获取项目的文件树

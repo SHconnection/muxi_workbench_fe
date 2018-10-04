@@ -5,7 +5,6 @@ import searchIcon from "../../../assets/img/search@2x.png";
 import AvatarImg from "../../../assets/img/avatar.png";
 import Avatar from "../avatar/index";
 import Inform from "./inform/index";
-import SearchService from "../../../service/search";
 import "./index.css";
 
 class Header extends Component {
@@ -112,7 +111,7 @@ class Header extends Component {
                 ref={this.searchRef}
                 onKeyUp={this.enterSearch}
                 type="text"
-                autoFocus
+                // autoFocus
               />
             )}
             <div
