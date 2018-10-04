@@ -14,7 +14,7 @@ const Icons = [Icon1, Icon2, Icon3, Icon4, Icon5, Icon6];
 
 function Item(props) {
   const { index, name, id } = props;
-  const index1 = index % Icons.length
+  const index1 = index % Icons.length;
   return (
     <Link className="project-item-container" to={`./project/${id}/preview`}>
       <ReactSVG className="project-item-img" path={Icons[index1]} />

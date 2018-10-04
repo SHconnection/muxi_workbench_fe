@@ -4,7 +4,6 @@ const StatusService = {
   addNewStatu(title, value) {
     return Fetch("/status/new/", {
       method: "POST",
-      token: JSON.parse(localStorage.user).token,
       data: {
         title,
         value

@@ -13,22 +13,24 @@ class Index extends Component {
   }
 
   componentWillMount() {
-    const userID = 10
+    const userID = 10;
     // 获取用户id=10（api暂时没有找到）
     ProjectService.getAllProjectList(userID)
-    .then(res => {
-      const project = res.map(el => el.list).reduce((el1, el2) => el1.concat(el2), []).map((el, index) => {
-        const item = {id: el.projectID, name: el.projectName, index}
-        return item
+      .then(res => {
+        const project = res
+          .map(el => el.list)
+          .reduce((el1, el2) => el1.concat(el2), [])
+          .map((el, index) => {
+            const item = { id: el.projectID, name: el.projectName, index };
+            return item;
+          });
+        this.setState({
+          project
+        });
       })
-      this.setState({
-        project
-      })
-    })
-    .catch(res => {
-      console.error("error",res)
-    })
-
+      .catch(res => {
+        console.error("error", res);
+      });
   }
 
   // componentDidMount() {

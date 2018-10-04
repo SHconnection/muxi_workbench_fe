@@ -156,20 +156,19 @@ class ProjectDetailIndex extends Component {
     this.setState({
       pid: match.params.id
     });
-    const pid = match.params.id
+    const pid = match.params.id;
     ProjectService.getProjectInfo(pid)
-    .then(res => {
-      this.setState({
-        projectInfo: res
+      .then(res => {
+        this.setState({
+          projectInfo: res
+        });
       })
-    })
-    .catch(res => {
-      console.error("error", res)
-    })
-    FileTree.getFileTree(pid)
-    .then(res => {
-      console.log(res)
-    })
+      .catch(res => {
+        console.error("error", res);
+      });
+    FileTree.getFileTree(pid).then(res => {
+      console.log(res);
+    });
     // console.log(getRoot());
     // const child = {folder: true, id: 211, name: "文件夹2-1-1",child:[]}
     // console.log(FileTree.insertNode(child, 21, getRoot()));

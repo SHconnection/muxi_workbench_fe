@@ -2,7 +2,7 @@ import Fetch from "./fetch";
 
 const ManageService = {
   // post a new group
-  newGroup(groupName, selMembers) {
+  addGroup(groupName, selMembers) {
     return Fetch("/group/new/", {
       token: JSON.parse(localStorage.user).token,
       method: "POST",
@@ -10,14 +10,6 @@ const ManageService = {
         groupName,
         userlist: selMembers
       }
-    });
-  },
-
-  // delete a group
-  deleteGroup(groupId) {
-    return Fetch(`/group/${groupId}`, {
-      token: JSON.parse(localStorage.user).token,
-      method: "DELETE"
     });
   },
 
@@ -75,8 +67,8 @@ const ManageService = {
   // remove user out of team
   memberDelete(userID) {
     return Fetch(`/user/${userID}`, {
-      oken: JSON.parse(localStorage.user).token,
-      method: "DELETE"
+      method: "DELETE",
+      token: JSON.parse(localStorage.user).token
     });
   },
 
@@ -109,6 +101,13 @@ const ManageService = {
       data: {
         userList
       }
+    });
+  },
+
+  groupDelete(groupID) {
+    return Fetch(`/group/${groupID}/`, {
+      method: "DELETE",
+      token: JSON.parse(localStorage.user).token
     });
   },
 
