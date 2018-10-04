@@ -4,6 +4,7 @@ import StatusItem from "../components/basicCard/index";
 import Gotop from "../../../components/common/toTop/top";
 import StatusService from "../../../service/status";
 import "./progerss.css";
+
 class Progress extends Component {
   constructor(props) {
     super(props);
@@ -11,11 +12,12 @@ class Progress extends Component {
       cout: 0,
       page: 1,
       isPersonal: 0,
-      isLoadingMore: false,
       statuList: []
     };
   }
+
   // 返回给我总的条数，条数除以20=page
+
   componentWillMount() {
     const { match } = this.props;
     if (match.path === "/status") {
@@ -73,30 +75,16 @@ class Progress extends Component {
       });
     }
   }
+
   componentDidMount() {
-    const wrapper = this.refs.wrapper;
-    let timeCount;
-    function callback() {
-      const top = wrapper.getBoundingClientRect().top;
-      const windowHeight = window.screen.height;
-      if (top && top < windowHeight) {
-        // 当 wrapper 已经被滚动到⻚页⾯面可视范围之内触发 this.getStatusList(this.state.page, this.state.cont);
+    const { page, cout } = this.state;
+    window.addEventListener("scroll", () => {
+      if (window.innerHeight + window.scrollY >= document.body.offsetHeight) {
+        this.getStatusList(page, cout);
       }
-    }
-    window.addEventListener(
-      "scroll",
-      () => {
-        if (this.state.isLoadingMore) {
-          return;
-        }
-        if (timeCount) {
-          clearTimeout(timeCount);
-        }
-        timeCount = setTimeout(callback, 50);
-      },
-      false
-    );
+    });
   }
+
   getStatusList(page, cout) {
     const { match } = this.props;
     if (match.path === "/status") {
@@ -158,16 +146,15 @@ class Progress extends Component {
       }
     }
   }
+
   render() {
-    const { statuList, page, cout, isPersonal } = this.state;
+    const { statuList, isPersonal } = this.state;
     return (
       <div>
         <div className={isPersonal ? "" : "status"}>
           <div className="status-container">
-            {" "}
             {statuList.map(card => (
               <div key={card.sid}>
-                {" "}
                 <StatusItem
                   sid={card.sid}
                   username={card.username}
@@ -177,30 +164,26 @@ class Progress extends Component {
                   content={card.content}
                   likeCount={card.likeCount}
                   commentCount={card.commentCount}
-                />{" "}
+                />
               </div>
-            ))}{" "}
+            ))}
           </div>
-        </div>{" "}
-        <div
-          className="loadMore"
-          ref="wrapper"
-          onClick={this.getStatusList.bind(page, cout)}
-        >
-          {" "}
-          加载更更多...
         </div>
-        <Gotop />{" "}
+        <div className="loadMore">下拉加载更多...</div>
+        <Gotop />
       </div>
     );
   }
 }
+
 Progress.propTypes = {
   match: PropTypes.shape({
     url: PropTypes.string
   })
 };
+
 Progress.defaultProps = {
   match: {}
 };
+
 export default Progress;

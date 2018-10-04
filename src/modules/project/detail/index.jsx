@@ -6,7 +6,7 @@ import { Scrollbars } from "react-custom-scrollbars";
 import GoBack from "../../../components/common/goBack/index";
 import Icon from "../../../components/common/icon/index";
 import FileTreeComponent from "../components/fileTree/index";
-import { Root, FileTree, getRoot } from "../fileTree1";
+import { Root, FileTree } from "../fileTree1";
 import Button from "../../../components/common/button/index";
 import Select from "../../../components/common/select/index";
 import FolderItem from "../components/folderItem/index";
@@ -14,6 +14,7 @@ import FileItem from "../components/fileItem/index";
 import FolderItemDoc from "../components/folderItemDoc/index";
 import DocItem from "../components/docItem/index";
 import CreateFileAlertIcon from "../../../assets/svg/commonIcon/editFileAlert.svg";
+import ProjectService from "../../../service/project";
 import "./index.css";
 import "../../../static/css/common.css";
 
@@ -26,11 +27,7 @@ class ProjectDetailIndex extends Component {
       showDleteFile: false,
       showMoveFile: false,
       showCreateDocFile: false,
-      projectInfo: {
-        name: "项目名称",
-        intro: "这是简介这是简介这是简介",
-        userCount: 58
-      },
+      projectInfo: {},
       fileRoot: Root,
       // 创建文件夹和上传文件选项
       fileOption: [
@@ -159,6 +156,19 @@ class ProjectDetailIndex extends Component {
     this.setState({
       pid: match.params.id
     });
+    const pid = match.params.id;
+    ProjectService.getProjectInfo(pid)
+      .then(res => {
+        this.setState({
+          projectInfo: res
+        });
+      })
+      .catch(res => {
+        console.error("error", res);
+      });
+    FileTree.getFileTree(pid).then(res => {
+      console.log(res);
+    });
     // console.log(getRoot());
     // const child = {folder: true, id: 211, name: "文件夹2-1-1",child:[]}
     // console.log(FileTree.insertNode(child, 21, getRoot()));
@@ -238,7 +248,7 @@ class ProjectDetailIndex extends Component {
       fileRoot
     } = this.state;
 
-    const { match } = this.props;
+    // const { match } = this.props;
 
     return (
       <div className="projectDetail-container">

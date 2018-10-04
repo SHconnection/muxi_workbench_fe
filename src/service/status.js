@@ -12,7 +12,12 @@ const StatusService = {
   },
 
   getStatusList(page) {
-    return Fetch(`/status/list${page}/`, {
+    return Fetch(`/status/list/${page}/`, {
+      token: JSON.parse(localStorage.user).token
+    });
+  },
+  getPersonalStatus(uid, page) {
+    return Fetch(`/status/${uid}/list/${page}/`, {
       token: JSON.parse(localStorage.user).token
     });
   },
@@ -36,7 +41,7 @@ const StatusService = {
     return Fetch(`/status/${sid}/comment/`, {
       method: "POST",
       token: JSON.parse(localStorage.user).token,
-      data: data
+      data: content
     });
   },
   commentDelete(cid, sid) {

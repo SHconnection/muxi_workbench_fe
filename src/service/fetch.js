@@ -66,13 +66,15 @@ export default function FetchData(url, opt = {}) {
         return new Promise((resolve, reject) => {
           reject(
             new Error({
-              code: response.status,
+              code: response.status
               // message: response.json().message
             })
           );
         });
       case 404:
-        throw "404 not found"
+        throw "404 not found";
+      // case 401:
+      //   throw "verify failed"
       case 502:
         // util.message is not defined
         // util.3message(response.statusText, "err");
@@ -82,7 +84,7 @@ export default function FetchData(url, opt = {}) {
         return new Promise((resolve, reject) => {
           reject(
             new Error({
-              code: response.status,
+              code: response.status
               // message: response.json().message
             })
           );

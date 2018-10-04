@@ -1,50 +1,37 @@
 import React, { Component } from "react";
-import "./index.css";
 import ProjectItem from "../components/itemIcon/index";
 import Button from "../../../components/common/button";
+import ProjectService from "../../../service/project";
+import "./index.css";
 
 class Index extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      project: [
-        {
-          id: 1,
-          name: "项目一",
-          index: 0
-        },
-        {
-          id: 2,
-          name: "项目二",
-          index: 1
-        },
-        {
-          id: 3,
-          name: "项目三",
-          index: 2
-        },
-        {
-          id: 4,
-          name: "项目四",
-          index: 3
-        },
-        {
-          id: 5,
-          name: "项目五",
-          index: 4
-        },
-        {
-          id: 6,
-          name: "项目六",
-          index: 5
-        }
-      ]
+      project: []
     };
   }
 
-  // componentWillMount() {
-  //     //do something
-  // }
+  componentWillMount() {
+    const userID = 10;
+    // 获取用户id=10（api暂时没有找到）
+    ProjectService.getAllProjectList(userID)
+      .then(res => {
+        const project = res
+          .map(el => el.list)
+          .reduce((el1, el2) => el1.concat(el2), [])
+          .map((el, index) => {
+            const item = { id: el.projectID, name: el.projectName, index };
+            return item;
+          });
+        this.setState({
+          project
+        });
+      })
+      .catch(res => {
+        console.error("error", res);
+      });
+  }
 
   // componentDidMount() {
   //     //do something

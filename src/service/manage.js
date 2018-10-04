@@ -13,14 +13,6 @@ const ManageService = {
     });
   },
 
-  // delete a group
-  deleteGroup(groupId) {
-    return Fetch(`/group/${groupId}`, {
-      token: JSON.parse(localStorage.user).token,
-      method: "DELETE"
-    });
-  },
-
   // group user list
   getGroupMember(groupId, page = 1) {
     return Fetch(`/group/${groupId}/userList`, {
