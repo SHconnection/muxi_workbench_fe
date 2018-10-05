@@ -66,7 +66,7 @@ const FileService = {
   deleteFileFolder(id, postData) {
     return Fetch(`/folder/file/${id}/`, {
       method: 'DELETE',
-      body: postData,
+      data: postData,
       token: localStorage.token
     })
   },

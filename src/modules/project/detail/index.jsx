@@ -181,6 +181,7 @@ class ProjectDetailIndex extends Component {
         this.setState({
           filesList: res1
         })
+        this.hideAlert()
       })
       .catch(res1 => {
         console.error(res1)
@@ -236,20 +237,22 @@ class ProjectDetailIndex extends Component {
       formData.append('file', index)
       FileService.uploadFile(formData)
       .then(res => {
-        res.json().then(data => {
-          console.log(data)
-          // 上传成功，更新文件树
-          // const newNode = {folder: false, id: data.fid, name: data.name}
-          // ProjectService.updateProjectFileTree(pid, JSON.stringify(FileTree.insertNode(newNode, fileRootId, fileTree)))
-          // .then(() => {
-          //   // 更新视图
-          //   this.updateFilesList()
-          // })
-          // .catch(res1 => {
-          //   console.error(res1)
-          // })
-          // console.log(data)
-        })
+        console.log(res)
+        if (res.status === 201) {
+          res.json().then(data => {
+            // 上传成功，更新文件树
+            const newNode = {folder: false, id: data.fid, name: data.name}
+            ProjectService.updateProjectFileTree(pid, JSON.stringify(FileTree.insertNode(newNode, fileRootId, fileTree)))
+            .then(() => {
+              // 更新视图
+              this.updateFilesList()
+            })
+            .catch(res1 => {
+              console.error(res1)
+            })
+            console.log(data)
+          })
+        }
       })
       .catch(res => {
         console.error(res)
@@ -272,7 +275,7 @@ class ProjectDetailIndex extends Component {
       FileService.createFileFolder(newFileInputText, pid)
       .then(res => {
         // 更新树
-        const newNode = {folder: true, id: res.id, name: newFileInputText}
+        const newNode = {folder: true, id: res.id, name: newFileInputText, child: []}
         ProjectService.updateProjectFileTree(pid, JSON.stringify(FileTree.insertNode(newNode, fileRootId, fileTree)))
         .then(() => {
           // 更新视图
@@ -318,7 +321,7 @@ class ProjectDetailIndex extends Component {
       // 请求创建
       FileService.createDocFolder(newDocFileInputText, pid)
       .then(res => {
-        const newNode = {folder: true, id: res.id, name: newDocFileInputText}
+        const newNode = {folder: true, id: res.id, name: newDocFileInputText, child: []}
         // 更新文档树
         ProjectService.updateProjectDocTree(pid, JSON.stringify(FileTree.insertNode(newNode, docRootId, docTree)))
         .then(() => {
@@ -368,9 +371,8 @@ class ProjectDetailIndex extends Component {
     // 文件
     if (currentFileId) {
       FileService.deleteFile(currentFileId)
-      .then(el => {
+      .then(() => {
         // 删除成功
-        console.log(el)
         this.deleteFileNode()
       })
       .catch(el => {
@@ -379,14 +381,15 @@ class ProjectDetailIndex extends Component {
     }
     // 文件夹
     if (currentFileFolderId) {
+      // FileTree.findFileIdList(21, fileTree)
       // console.log(FileTree.findAllFileList(0, Root))
       // console.log(currentFileFolderId)
       const postData = FileTree.findAllFileList(currentFileFolderId, fileTree)
+      console.log(postData)
       FileService.deleteFileFolder(currentFileFolderId, postData)
-      .then(el => {
+      .then(() => {
         // 删除成功
-        console.log(el)
-        this.deleteFileNode()
+        this.deleteFileNode(currentFileFolderId)
       })
       .catch(el => {
         console.error(el)
@@ -395,17 +398,20 @@ class ProjectDetailIndex extends Component {
   }
 
   // 删除文件树节点并更新视图
-  deleteFileNode() {
-    const {pid, id, fileTree} = this.state
+  deleteFileNode(id) {
+    const {pid, fileTree} = this.state
     // 更新文档树
-    ProjectService.updateProjectFileTree(pid, JSON.stringify(FileTree.deleteNode(id, fileTree)))
-    .then(() => {
-      // 更新视图
-      this.updateFilesList()
-    })
-    .catch(el => {
-      console.log(el)
-    })
+    const newTree = FileTree.deleteNode(id, fileTree)
+    if (newTree) {
+      ProjectService.updateProjectFileTree(pid, JSON.stringify(FileTree.deleteNode(id, fileTree)))
+      .then(() => {
+        // 更新视图
+        this.updateFilesList()
+      })
+      .catch(el => {
+        console.log(el)
+      })
+    }
   }
 
   // 隐藏弹出框

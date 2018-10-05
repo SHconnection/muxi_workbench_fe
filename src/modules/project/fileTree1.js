@@ -102,8 +102,8 @@ export function getRoot() {
 
 const FileTreeRecursion = {
   searchNode(id, node, result) {
-    if (node.id === id) {
-      /* eslint-disable */
+    /* eslint-disable */
+    if (node.id == id) {
       result.node = node;
       /* eslint-enable */
     }
@@ -115,27 +115,32 @@ const FileTreeRecursion = {
   },
 
   TraversalFileNode(node, result) {
-    node.child.forEach(el => {
-      if (el.folder) {
-        result.folder.push(el.id)
-        FileTreeRecursion.TraversalFileNode(el, result)
-      }
-      else {
-        result.file.push(el.id)
-      }
-    })
+    if (node.child) {
+      node.child.forEach(el => {
+        if (el.folder) {
+          result.folder.push(el.id)
+          FileTreeRecursion.TraversalFileNode(el, result)
+        }
+        else {
+          result.file.push(el.id)
+        }
+      })
+    }
   },
 
   TraversalDocNode(node, result) {
-    node.child.forEach(el => {
-      if (el.folder) {
-        result.folder.push(el.id)
-        FileTreeRecursion.TraversalFileNode(el, result)
-      }
-      else {
-        result.doc.push(el.id)
-      }
-    })
+    if (node.child) {
+      node.child.forEach(el => {
+        if (el.folder) {
+          result.folder.push(el.id)
+          FileTreeRecursion.TraversalFileNode(el, result)
+        }
+        else {
+          result.doc.push(el.id)
+        }
+      })
+    }
+    
   },
 };
 
@@ -209,6 +214,7 @@ export const FileTree = {
   // 返回某个文件节点下的id：{folder: [id1, id2, ...], file: [id1, id2, ...]}
   findFileIdList(id, root) {
     const parentNode = FileTree.searchNode(id, root)
+    console.log(parentNode)
     if (parentNode === null || !parentNode.folder) {
       return false
     }
@@ -280,7 +286,9 @@ export const FileTree = {
     const parentId = nodeDeleted.router[nodeDeleted.router.length - 2];
     const parentNode = FileTree.searchNode(parentId, root);
     for (let i = 0; i < parentNode.child.length; i += 1) {
-      if (parentNode.child[i].id === id) {
+      /* eslint-disable */
+      if (parentNode.child[i].id == id) {
+      /* eslint-disable */
         parentNode.child.splice(i, 1);
         break;
       }
