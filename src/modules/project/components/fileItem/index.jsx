@@ -24,12 +24,26 @@ const IconMap = {
   RAR: RarIcon
 }
 
+let imgStyle
+
 class FileItem extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      isImage: false,
       hover: false
     };
+  }
+
+  componentWillMount() {
+    const { fileItem } = this.props
+    const suffix = fileItem.name.split('.')[1] || "folder"
+    if (suffix === 'jpg' || suffix === 'png') {
+      this.setState({
+        isImage: true
+      })
+      
+    }
   }
 
   enter() {
@@ -46,30 +60,46 @@ class FileItem extends Component {
 
   deleteFile() {
     const { fileItem, deleteFile, pid } = this.props
-    deleteFile(fileItem.id, pid)
+    deleteFile(fileItem.id, 'file', pid)
   }
 
   moveFile() {
     const { fileItem, moveFile, pid } = this.props
-    moveFile(fileItem.id, pid)
+    moveFile(fileItem.id, 'file', pid)
   }
 
   render() {
     const { fileItem } = this.props
-    const { hover } = this.state
-    
-    const suffix = fileItem.name.split('.')[1] || "folder"
+    const { hover, isImage } = this.state
+    let suffix = fileItem.name.split('.')[1]
+    if (IconMap[suffix] == null) {
+      suffix = 'txt'
+    }
+    imgStyle = {
+      width: '135px',
+      height: '86px',
+      background: `url(${fileItem.url}) no-repeat center / contain` 
+    }
     return (
       <div className="fileIcon-container" onMouseEnter={this.enter.bind(this)} onMouseLeave={this.leave.bind(this)}>
         <div className="fileItem-content">
-          <ReactSVG className="fileIcon-img" path={IconMap[suffix]} />
-          <div className="fileIcon-text">{fileItem.name}</div>
+          {!isImage && (
+            <ReactSVG className="fileIcon-img" path={IconMap[suffix]} />
+          )}
+          {
+            isImage && (
+              <div className="fileIcon-img">
+                <div style={imgStyle} />
+              </div>
+            )
+          }
+          <div title={fileItem.name} className="fileIcon-text">{fileItem.name}</div>
         </div>
         
         {hover && 
           (
             <div className="fileIcon-footer" onMouseLeave={this.leave.bind(this)}>
-              <a className="fileIcon-downland" href={fileItem.url} download={fileItem.name}>下载</a>
+              <a className="fileIcon-downland" href={`${fileItem.url}?attname=${fileItem.name}`} download={fileItem.name}>下载</a>
               <div onClick={this.moveFile.bind(this)} onKeyDown={() => {}} role="presentation">移动</div>
               <div onClick={this.deleteFile.bind(this)} onKeyDown={() => {}} role="presentation">删除</div>
             </div>

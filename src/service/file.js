@@ -49,8 +49,25 @@ const FileService = {
       method: 'POST',
       body: formData,
       headers: {
-        'token': localStorage.token
+        'token': localStorage.token,       
       }
+    })
+  },
+
+  // 删除文件
+  deleteFile(id) {
+    return Fetch(`/file/file/${id}/`, {
+      method: 'DELETE',
+      token: localStorage.token
+    })
+  },
+
+  // 删除文件夹
+  deleteFileFolder(id, postData) {
+    return Fetch(`/folder/file/${id}/`, {
+      method: 'DELETE',
+      body: postData,
+      token: localStorage.token
     })
   },
 

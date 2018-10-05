@@ -24,17 +24,36 @@ class ProjectDetailIndex extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      pid: null,
+      pid: undefined,
+      // 当前正在操作的fileid
+      currentFileId: undefined,
+      // 当前正在操作的fileFolderId
+      currentFileFolderId: undefined,
+      // 当前正在操作的docid
+      currentDocId: undefined,
+      // 当前正在操作的docFolderId
+      currentDocFolderId: undefined,
+      // 是否显示创建文件框
       showCreateFile: false,
+      // 输入的新文件名
       newFileInputText: "",
+      // 是否显示删除文件
       showDleteFile: false,
+      // 是否显示移动文件
       showMoveFile: false,
+      // 是否显示创建文档
       showCreateDocFile: false,
+      // 输入的新文档名
       newDocFileInputText: "",
+      // 项目信息
       projectInfo: {},
+      // 文件树
       fileTree: {},
+      // 文档树
       docTree: {},
+      // 当前视图的文件节点id
       fileRootId: 0,
+      // 当我视图的文档节点id
       docRootId: 0,
       fileRoot: Root,
       // 创建文件夹和上传文件选项
@@ -78,14 +97,14 @@ class ProjectDetailIndex extends Component {
     this.startCreateFile = this.startCreateFile.bind(this);
     this.changeNewFileInputText = this.changeNewFileInputText.bind(this);
     this.confirmCreateFile = this.confirmCreateFile.bind(this);
-    this.cancelCreateFile = this.cancelCreateFile.bind(this);
     this.moveFile = this.moveFile.bind(this);
     this.startDeleteFile = this.startDeleteFile.bind(this);
-    this.cancelDeleteFile = this.cancelDeleteFile.bind(this);
-    this.cancelMoveFile = this.cancelMoveFile.bind(this);
+    this.deleteFileNode = this.deleteFileNode.bind(this);
+    this.confirmDeleteFile = this.confirmDeleteFile.bind(this);
     this.startCreateDoc = this.startCreateDoc.bind(this);
     this.changenewDocFileInputText = this.changenewDocFileInputText.bind(this);
     this.confirmCreateDocFile = this.confirmCreateDocFile.bind(this);
+    this.hideAlert = this.hideAlert.bind(this);
   }
 
   componentWillMount() {
@@ -201,17 +220,17 @@ class ProjectDetailIndex extends Component {
 
   // 开始创建文件（夹）
   startCreateFile(index) {
-    const { showCreateFile, pid } = this.state;
+    const { pid, fileRootId, fileTree } = this.state;
     if (index === 1) {
+      this.hideAlert()
       this.setState({
-        showCreateFile: !showCreateFile
+        showCreateFile: true
       });
     }
     else {
-      // const reader = new FileReader()
-      // reader.readAsDataURL(index)
-      // console.log(reader.result);
-      // FileService.uploadFile(index)
+      /*
+      / 这里是上传文件
+      */
       const formData = new FormData()
       formData.append('project_id', pid)
       formData.append('file', index)
@@ -219,6 +238,17 @@ class ProjectDetailIndex extends Component {
       .then(res => {
         res.json().then(data => {
           console.log(data)
+          // 上传成功，更新文件树
+          // const newNode = {folder: false, id: data.fid, name: data.name}
+          // ProjectService.updateProjectFileTree(pid, JSON.stringify(FileTree.insertNode(newNode, fileRootId, fileTree)))
+          // .then(() => {
+          //   // 更新视图
+          //   this.updateFilesList()
+          // })
+          // .catch(res1 => {
+          //   console.error(res1)
+          // })
+          // console.log(data)
         })
       })
       .catch(res => {
@@ -241,8 +271,8 @@ class ProjectDetailIndex extends Component {
       // 请求创建
       FileService.createFileFolder(newFileInputText, pid)
       .then(res => {
-        const newNode = {folder: true, id: res.id, name: newFileInputText}
         // 更新树
+        const newNode = {folder: true, id: res.id, name: newFileInputText}
         ProjectService.updateProjectFileTree(pid, JSON.stringify(FileTree.insertNode(newNode, fileRootId, fileTree)))
         .then(() => {
           // 更新视图
@@ -263,13 +293,13 @@ class ProjectDetailIndex extends Component {
 
   // 开始创建文档（夹）
   startCreateDoc(index) {
-    const { showCreateDocFile } = this.state;
     if (index === 0) {
       window.location.href = "/edit";
     }
     if (index === 1) {
+      this.hideAlert()
       this.setState({
-        showCreateDocFile: !showCreateDocFile
+        showCreateDocFile: true
       });
     }
   }
@@ -308,38 +338,86 @@ class ProjectDetailIndex extends Component {
     }
   }
 
-  cancelCreateFile() {
-    this.setState({
-      showCreateFile: false,
-      showCreateDocFile: false
-    });
-  }
-
   moveFile(id, pid) {
-    console.log("id:", id, "pid:", pid);
     this.setState({
       showMoveFile: true
     });
   }
 
-  startDeleteFile(id, pid) {
-    console.log("id:", id, "pid:", pid);
+  // 开始删除文件
+  startDeleteFile(id, str) {
+    this.hideAlert()
     this.setState({
-      showDleteFile: true,
-      showCreateFile: false
+      showDleteFile: true
     });
+    if (str === 'file') {
+      this.setState({
+        currentFileId: id
+      })
+    }
+    else {
+      this.setState({
+        currentFileFolderId: id
+      })
+    }
   }
 
-  cancelDeleteFile() {
-    this.setState({
-      showDleteFile: false
-    });
+  // 确认删除文件
+  confirmDeleteFile() {
+    const { currentFileId, currentFileFolderId, fileTree, currentDocId, currentDocFolderId, pid } = this.state
+    // 文件
+    if (currentFileId) {
+      FileService.deleteFile(currentFileId)
+      .then(el => {
+        // 删除成功
+        console.log(el)
+        this.deleteFileNode()
+      })
+      .catch(el => {
+        console.error(el)
+      })
+    }
+    // 文件夹
+    if (currentFileFolderId) {
+      // console.log(FileTree.findAllFileList(0, Root))
+      // console.log(currentFileFolderId)
+      const postData = FileTree.findAllFileList(currentFileFolderId, fileTree)
+      FileService.deleteFileFolder(currentFileFolderId, postData)
+      .then(el => {
+        // 删除成功
+        console.log(el)
+        this.deleteFileNode()
+      })
+      .catch(el => {
+        console.error(el)
+      })
+    }
   }
 
-  cancelMoveFile() {
+  // 删除文件树节点并更新视图
+  deleteFileNode() {
+    const {pid, id, fileTree} = this.state
+    // 更新文档树
+    ProjectService.updateProjectFileTree(pid, JSON.stringify(FileTree.deleteNode(id, fileTree)))
+    .then(() => {
+      // 更新视图
+      this.updateFilesList()
+    })
+    .catch(el => {
+      console.log(el)
+    })
+  }
+
+  // 隐藏弹出框
+  hideAlert() {
     this.setState({
-      showMoveFile: false
-    });
+      showCreateDocFile: false,
+      showCreateFile: false,
+      showDleteFile: false,
+      showMoveFile: false,
+      currentFileId: undefined,
+      currentDocId: undefined
+    })
   }
 
   render() {
@@ -359,12 +437,11 @@ class ProjectDetailIndex extends Component {
       fileRoot
     } = this.state;
 
-    // const { match } = this.props;
-
     return (
       <div className="projectDetail-container">
         <GoBack />
         <div className="projectDetail-content">
+          {/* 头部 */}
           <div className="projectDetail-header">
             <div className="projectDetail-header-left">
               <div className="projectDetail-header-intro">
@@ -392,6 +469,7 @@ class ProjectDetailIndex extends Component {
               </div>
             </div>
           </div>
+          {/* 文件内容 */}
           <div className="projectDetail-file-container">
             <div className="projectDetail-file-header">
               <div className="projectDetail-file-title">文件</div>
@@ -427,7 +505,7 @@ class ProjectDetailIndex extends Component {
               </Link>
             </div>
           </div>
-
+          {/* 文档内容 */}
           <div className="projectDetail-file-container">
             <div className="projectDetail-file-header">
               <div className="projectDetail-file-title">文档</div>
@@ -436,24 +514,6 @@ class ProjectDetailIndex extends Component {
               </div>
             </div>
             <div className="projectDetail-file-items">
-              {/* {
-                filesList.FolderList.map(
-                  el => (
-                    <div className="file-item" key={el.id}>
-                      <FolderItem folderItem={el} pid={pid} moveFile={this.moveFile} deleteFile={this.startDeleteFile} /> 
-                    </div>
-                  )
-                )
-              }
-              {
-                filesList.FileList.map(
-                  el =>  (
-                    <div className="file-item" key={el.id}>
-                      <FileItem fileItem={el} pid={pid} moveFile={this.moveFile} deleteFile={this.startDeleteFile} /> 
-                    </div>
-                  )
-                )
-              } */}
               {docList.FolderList.map(el => (
                 <div className="file-item" key={el.id}>
                   <FolderItemDoc
@@ -481,6 +541,7 @@ class ProjectDetailIndex extends Component {
               </Link>
             </div>
           </div>
+          {/* 创建文件夹弹出框 */}
           {showCreateFile && (
             <div className="createFileAlert">
               <ReactSVG
@@ -496,7 +557,7 @@ class ProjectDetailIndex extends Component {
               />
               <div className="create-file-alert-cancel">
                 <Button
-                  onClick={this.cancelCreateFile}
+                  onClick={this.hideAlert}
                   text="取消"
                   width="65"
                   height="32"
@@ -517,12 +578,13 @@ class ProjectDetailIndex extends Component {
               </div>
             </div>
           )}
+          {/* 删除文件弹出框 */}
           {showDleteFile && (
             <div className="deleteFileAlert">
               <div className="delete-file-alert-tip">确认要删除该文件吗</div>
               <div className="delete-file-alert-cancel">
                 <Button
-                  onClick={this.cancelDeleteFile}
+                  onClick={this.hideAlert}
                   text="取消"
                   width="65"
                   height="32"
@@ -534,7 +596,7 @@ class ProjectDetailIndex extends Component {
               </div>
               <div className="delete-file-alert-done">
                 <Button
-                  onClick={() => {}}
+                  onClick={this.confirmDeleteFile}
                   text="确定"
                   width="65"
                   height="32"
@@ -543,6 +605,7 @@ class ProjectDetailIndex extends Component {
               </div>
             </div>
           )}
+          {/* 移动文件弹出框 */}
           {showMoveFile && (
             <div className="moveFileAlert">
               <div className="move-file-alert-tip">选择保存路径</div>
@@ -582,7 +645,7 @@ class ProjectDetailIndex extends Component {
               </div>
               <div className="move-file-alert-cancel">
                 <Button
-                  onClick={this.cancelMoveFile}
+                  onClick={this.hideAlert}
                   text="取消"
                   width="65"
                   height="32"
@@ -603,6 +666,7 @@ class ProjectDetailIndex extends Component {
               </div>
             </div>
           )}
+          {/* 创建文档夹弹出框 */}
           {showCreateDocFile && (
             <div className="createFileAlert">
               <ReactSVG
@@ -618,7 +682,7 @@ class ProjectDetailIndex extends Component {
               />
               <div className="create-file-alert-cancel">
                 <Button
-                  onClick={this.cancelCreateFile}
+                  onClick={this.hideAlert}
                   text="取消"
                   width="65"
                   height="32"

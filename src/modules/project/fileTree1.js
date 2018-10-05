@@ -112,7 +112,31 @@ const FileTreeRecursion = {
         FileTreeRecursion.searchNode(id, el, result);
       });
     }
-  }
+  },
+
+  TraversalFileNode(node, result) {
+    node.child.forEach(el => {
+      if (el.folder) {
+        result.folder.push(el.id)
+        FileTreeRecursion.TraversalFileNode(el, result)
+      }
+      else {
+        result.file.push(el.id)
+      }
+    })
+  },
+
+  TraversalDocNode(node, result) {
+    node.child.forEach(el => {
+      if (el.folder) {
+        result.folder.push(el.id)
+        FileTreeRecursion.TraversalFileNode(el, result)
+      }
+      else {
+        result.doc.push(el.id)
+      }
+    })
+  },
 };
 
 export const FileTree = {
@@ -194,7 +218,18 @@ export const FileTree = {
     }
   },
 
-  // 返回某个文件节点下的id：{folder: [id1, id2, ...], doc: [id1, id2, ...]}
+  // 返回文件树节点下档所有id：{folder: [id1, id2, ...], file: [id1, id2, ...]}
+  findAllFileList(id, root) {
+    const parentNode = FileTree.searchNode(id, root)
+    if (parentNode === null || !parentNode.folder) {
+      return false
+    }
+    const result = {folder: [id], file: []}
+    FileTreeRecursion.TraversalFileNode(parentNode, result)
+    return result
+  },
+
+  // 返回某个文档节点下的id：{folder: [id1, id2, ...], doc: [id1, id2, ...]}
   findDocIdList(id, root) {
     const parentNode = FileTree.searchNode(id, root)
     if (parentNode === null || !parentNode.folder) {
@@ -204,6 +239,17 @@ export const FileTree = {
       folder:parentNode.child.filter(el => el.folder).map(el1 => parseInt(el1.id, 0)), 
       doc:parentNode.child.filter(el => !el.folder).map(el1 => parseInt(el1.id, 0))
     }
+  },
+
+  // 返回文档树节点下所有id：{folder: [id1, id2, ...], doc: [id1, id2, ...]}
+  findAllDocList(id, root) {
+    const parentNode = FileTree.searchNode(id, root)
+    if (parentNode === null || !parentNode.folder) {
+      return false
+    }
+    const result = {folder: [id], doc: []}
+    FileTreeRecursion.TraversalDocNode(parentNode, result)
+    return result
   },
 
   // 插入节点
@@ -239,7 +285,7 @@ export const FileTree = {
         break;
       }
     }
-    return { root, nodeDeleted };
+    return root;
   },
 
   // 移动节点
