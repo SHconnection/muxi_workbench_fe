@@ -18,9 +18,14 @@ class Inform extends Component {
       MessageList: []
     };
     this.readAll = this.readAll.bind(this);
+    this.getMessage = this.getMessage.bind(this);
   }
 
-  componentWillMount() {
+  componentDidMount() {
+    this.getMessage();
+  }
+
+  getMessage() {
     MessageService.getMessageList(1).then(res => {
       this.setState({
         MessageList: res.list.filter(item => item.readed === false)
@@ -42,8 +47,9 @@ class Inform extends Component {
   }
 
   readAll() {
-    MessageService.messageAllRead(localStorage.username);
-    this.setState({});
+    MessageService.messageAllRead(localStorage.username).then(() => {
+      this.getMessage();
+    });
   }
 
   render() {
@@ -88,7 +94,10 @@ class Inform extends Component {
                         <div className="info-text">
                           {el.fromName}
                           {el.action}
-                          <Link className="info-item-to" to="/">
+                          <Link
+                            className="info-item-to"
+                            to={`/status/${el.sourceID}`}
+                          >
                             {kind[el.sourceKind]}
                           </Link>
                         </div>
