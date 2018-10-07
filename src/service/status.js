@@ -34,7 +34,8 @@ const StatusService = {
   },
   changeLike(sid, iflike) {
     return Fetch(`/status/${sid}/like/`, {
-      method: "POST",
+      method: "PUT",
+      token: JSON.parse(localStorage.user).token,
       data: { iflike }
     });
   },

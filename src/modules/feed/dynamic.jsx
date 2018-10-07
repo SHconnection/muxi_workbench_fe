@@ -28,16 +28,15 @@ class Dynamic extends Component {
     if (yesterday === timeDay) {
       return "昨";
     }
-    return timeDay.slice(-4) + createweek[new Date(timeDay).getDay()];
+    return timeDay.slice(-5) + createweek[new Date(timeDay).getDay()];
   }
 
   constructor(props) {
     super(props);
     this.state = {
-      feedList: [],
       page: 0,
-      count: 0
-      // isLoadingMore: 0
+      count: 0,
+      feedList: []
     };
   }
 
@@ -50,9 +49,9 @@ class Dynamic extends Component {
             const feedList = feed1;
             const obj = {};
             obj.uid = feedList.uid;
-            obj.time_d = feedList.time_d;
-            obj.time_s = feedList.time_s;
-            obj.avatar_url = feedList.avatar_url;
+            obj.timeDay = feedList.time_d;
+            obj.timeHour = feedList.time_s;
+            obj.avatarUrl = feedList.avatar_url;
             obj.action = feedList.action;
             obj.kind = feedList.kind;
             obj.sourceID = feedList.sourceID;
@@ -64,9 +63,9 @@ class Dynamic extends Component {
           const page1 = feeds.page;
           const count1 = feeds.count;
           this.setState({
-            feedList: arr1,
+            page: page1,
             count: count1,
-            page: page1
+            feedList: arr1
           });
         }
       });
@@ -77,9 +76,9 @@ class Dynamic extends Component {
             const feedList = feed1;
             const obj = {};
             obj.uid = feedList.uid;
-            obj.time_d = feedList.time_d;
-            obj.time_s = feedList.time_s;
-            obj.avatar_url = feedList.avatar_url;
+            obj.timeDay = feedList.time_d;
+            obj.timeHour = feedList.time_s;
+            obj.avatarUrl = feedList.avatar_url;
             obj.action = feedList.action;
             obj.kind = feedList.kind;
             obj.sourceID = feedList.sourceID;
@@ -117,9 +116,9 @@ class Dynamic extends Component {
             const feedList = feed1;
             const obj = {};
             obj.uid = feedList.uid;
-            obj.time_d = feedList.time_d;
-            obj.time_s = feedList.time_s;
-            obj.avatar_url = feedList.avatar_url;
+            obj.timeDay = feedList.time_d;
+            obj.timeHour = feedList.time_s;
+            obj.avatarUrl = feedList.avatar_url;
             obj.action = feedList.action;
             obj.kind = feedList.kind;
             obj.sourceID = feedList.sourceID;
@@ -141,13 +140,13 @@ class Dynamic extends Component {
   }
 
   render() {
-    const { feedList } = this.state;
+    const { feedList, count, page } = this.state;
     return (
       <div className="feed">
         <div className="subject">
           <div className="feed-list">
             {feedList.map((feed, index) => (
-              <div key={feed.id}>
+              <div key={feed.uid}>
                 {(index === 0 ||
                   feedList[index - 1].timeDay !== feed.timeDay) && (
                   <div
@@ -175,7 +174,9 @@ class Dynamic extends Component {
               </div>
             ))}
           </div>
-          <div className="loadMore">下拉加载更多...</div>
+          <div className="loadMore">
+            {count / 40 <= page ? "下拉加载更多..." : "最后一页啦"}
+          </div>
         </div>
         <Gotop className="go-top" />
       </div>

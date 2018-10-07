@@ -37,8 +37,7 @@ class edit extends Component {
     const { match } = this.props;
     if (match.path === `/edit`);
     else {
-      const { sid } = match.params.id;
-      StatusService.getStatuDetail(sid).then(doc => {
+      StatusService.getStatuDetail(match.params.id).then(doc => {
         if (doc) {
           const value = doc.content;
           const name = doc.title;

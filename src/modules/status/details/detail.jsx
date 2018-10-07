@@ -27,7 +27,7 @@ class Detail extends Component {
       likeCount: 0,
       iflike: 0,
       username: "",
-      comment: "",
+      value: "",
       commentList: []
     };
     this.transferMsgDel = this.transferMsgDel.bind(this);
@@ -37,8 +37,10 @@ class Detail extends Component {
 
   componentWillMount() {
     const { match } = this.props;
-    const { sid } = match.params.id;
-    StatusService.getStatuDetail(sid).then(doc => {
+    this.setState({
+      sid: match.params.id
+    });
+    StatusService.getStatuDetail(match.params.id).then(doc => {
       if (doc) {
         const sid1 = doc.sid;
         const name = doc.title;
@@ -69,10 +71,8 @@ class Detail extends Component {
     });
   }
 
-  onChange(comment) {
-    this.setState({
-      comment
-    });
+  onChange(event) {
+    this.setState({ value: event.target.value });
   }
 
   changeLike(iflike, likeCount, sid) {
@@ -81,13 +81,13 @@ class Detail extends Component {
         iflike: 1,
         likeCount: likeCount + 1
       });
-      StatusService.iflike(sid, 1);
+      StatusService.changeLike(sid, 1);
     } else {
       this.setState({
         iflike: 0,
         likeCount: likeCount - 1
       });
-      StatusService.iflike(sid, 0);
+      StatusService.changeLike(sid, 0);
     }
   }
 
@@ -107,7 +107,7 @@ class Detail extends Component {
         });
         this.setState({
           commentList: arr1,
-          comment: ""
+          value: ""
         });
       }
     });
@@ -128,7 +128,7 @@ class Detail extends Component {
       sid,
       deleteX,
       commentList,
-      comment,
+      value,
       title,
       content,
       time,
@@ -136,6 +136,7 @@ class Detail extends Component {
       iflike,
       username
     } = this.state;
+
     return (
       <div className="subject">
         <div className="status-detail-head">
@@ -168,12 +169,14 @@ class Detail extends Component {
               staDel
             />
           </div>
-          <ReactSVG
-            className="status-detail-good"
-            onClick={() => this.changeLike(iflike, likeCount, sid)}
-            path={Goods[iflike]}
-          />
-          <div className="status-detail-love">{likeCount}</div>
+          <div className="status-detail-good">
+            <ReactSVG
+              className="status-ifgood"
+              onClick={() => this.changeLike(iflike, likeCount, sid)}
+              path={Goods[iflike]}
+            />
+            <div className="status-detail-love">{likeCount}</div>
+          </div>
         </div>
         <div className="status-details">{content}</div>
         <hr className="status-detail-line" />
@@ -196,13 +199,13 @@ class Detail extends Component {
             <textarea
               className="send-comment"
               type="text"
-              value={comment}
+              value={value}
               onChange={this.onChange}
               placeholder="   发表评论..."
             />
             <div className="comment-bt">
               <Button
-                onClick={() => this.sendComment(comment, sid)}
+                onClick={() => this.sendComment(value, sid)}
                 text="发表"
               />
             </div>
