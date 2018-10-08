@@ -211,7 +211,6 @@ export const FileTree = {
   // 返回某个文件节点下的id：{folder: [id1, id2, ...], file: [id1, id2, ...]}
   findFileIdList(id, root) {
     const parentNode = FileTree.searchNode(id, root);
-    console.log(parentNode);
     if (parentNode === null || !parentNode.folder) {
       return false;
     }
@@ -279,7 +278,9 @@ export const FileTree = {
   // 删除节点
   deleteNode(id, root) {
     // 在树root中删除id为id的节点，成功返回Obj{删除的节点, 新节点}，失败返回false
-    if (id === 0) {
+    /* eslint-disable */
+    if (id == 0) {
+      /* eslint-disable */
       // 无法删除根节点
       return false;
     }

@@ -15,7 +15,7 @@ import "../../static/css/common.css";
 const Project = props => {
   const { match } = props;
   const data = {
-    username: "darren"
+    username: "jizhuoqi"
   };
   localStorage.username = data.username;
 
