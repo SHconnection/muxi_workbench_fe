@@ -153,13 +153,13 @@ const ManageService = {
   },
 
   savePersonalAvatar(data) {
-    return Fetch(`/user/uploadAvatar/`, {
+    return fetch(`/user/uploadAvatar/`, {
       method: "POST",
       headers: {
-        Accept: "application/json"
+        // accept-charset: 'Unicode',
+        token: JSON.parse(localStorage.user).token
       },
-      token: JSON.parse(localStorage.user).token,
-      data
+      body: data
     });
   },
 

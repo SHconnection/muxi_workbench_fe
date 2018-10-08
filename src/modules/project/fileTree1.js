@@ -131,6 +131,21 @@ export const FileTree = {
       });
   },
 
+  // 请求文档树
+  getDocTree(pid) {
+    return ProjectService.getProjectDocTree(pid)
+      .then(res => {
+        if (res.doctree) {
+          return JSON.parse(res.doctree);
+        }
+        return [];
+      })
+      .catch(res => {
+        console.error(res);
+        return [];
+      });
+  },
+
   // 初始化节点均没有被选中
   initNodeSelected(node) {
     const nodeTemp = node;
@@ -165,6 +180,38 @@ export const FileTree = {
 
     FileTreeRecursion.searchNode(id, root, temp);
     return temp.node;
+  },
+
+  // 返回某个文件节点下的id：{folder: [id1, id2, ...], file: [id1, id2, ...]}
+  findFileIdList(id, root) {
+    const parentNode = FileTree.searchNode(id, root);
+    if (parentNode === null || !parentNode.folder) {
+      return false;
+    }
+    return {
+      folder: parentNode.child
+        .filter(el => el.folder)
+        .map(el1 => parseInt(el1.id, 0)),
+      file: parentNode.child
+        .filter(el => !el.folder)
+        .map(el1 => parseInt(el1.id, 0))
+    };
+  },
+
+  // 返回某个文件节点下的id：{folder: [id1, id2, ...], doc: [id1, id2, ...]}
+  findDocIdList(id, root) {
+    const parentNode = FileTree.searchNode(id, root);
+    if (parentNode === null || !parentNode.folder) {
+      return false;
+    }
+    return {
+      folder: parentNode.child
+        .filter(el => el.folder)
+        .map(el1 => parseInt(el1.id, 0)),
+      doc: parentNode.child
+        .filter(el => !el.folder)
+        .map(el1 => parseInt(el1.id, 0))
+    };
   },
 
   // 插入节点

@@ -68,6 +68,35 @@ const ProjectService = {
     return Fetch(`/folder/filetree/${pid}/`, {
       token: localStorage.token
     });
+  },
+
+  // 更新文件树
+  updateProjectFileTree(pid, fileTreeStr) {
+    return Fetch(`/folder/filetree/${pid}/`, {
+      method: "PUT",
+      data: {
+        filetree: fileTreeStr
+      },
+      token: localStorage.token
+    });
+  },
+
+  // 获取项目文档树
+  getProjectDocTree(pid) {
+    return Fetch(`/folder/doctree/${pid}/`, {
+      token: localStorage.token
+    });
+  },
+
+  // 更新文档树
+  updateProjectDocTree(pid, docTreeStr) {
+    return Fetch(`/folder/doctree/${pid}/`, {
+      method: "PUT",
+      data: {
+        doctree: docTreeStr
+      },
+      token: localStorage.token
+    });
   }
 };
 

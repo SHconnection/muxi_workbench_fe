@@ -6,16 +6,16 @@ const LoginService = {
       method: "POST",
       data
     });
-  },
-
-  getUserId() {
-    return Fetch("/auth/verify/", {
-      method: "POST",
-      data: {
-        token: localStorage.token
-      }
-    });
   }
+
+  // getUserId() {
+  //   return Fetch("/auth/verify/", {
+  //     method: "POST",
+  //     data: {
+  //       token: localStorage.token
+  //     }
+  //   });
+  // }
 };
 
 export default LoginService;

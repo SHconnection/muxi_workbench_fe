@@ -92,15 +92,15 @@ class PersonalSet extends Component {
     const data = new FormData();
     data.append("image", img);
 
-    this.setState({ ifSave: true });
-
-    setTimeout(() => {
-      this.setState({ ifSave: false });
-    }, 1000);
-
     ManageService.savePersonalSet(per.id, obj);
     ManageService.savePersonalAvatar(data).then(response => {
-      console.log(response);
+      if (response.status < 300) {
+        this.setState({ ifSave: true });
+
+        setTimeout(() => {
+          this.setState({ ifSave: false });
+        }, 1000);
+      }
     });
   }
 

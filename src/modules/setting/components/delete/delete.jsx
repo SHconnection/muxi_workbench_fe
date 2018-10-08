@@ -98,8 +98,8 @@ class Delete extends Component {
               type="button"
               className="saveBtn delete-btnMarg"
               onClick={() => {
-                transferMsg(false);
                 this.move();
+                transferMsg(false);
               }}
               onKeyDown={this.handleClick}
             >

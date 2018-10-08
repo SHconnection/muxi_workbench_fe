@@ -144,39 +144,37 @@ class Dynamic extends Component {
     const { feedList } = this.state;
     return (
       <div className="feed">
-        <div className="subject">
-          <div className="feed-list">
-            {feedList.map((feed, index) => (
-              <div key={feed.id}>
-                {(index === 0 ||
-                  feedList[index - 1].timeDay !== feed.timeDay) && (
-                  <div
-                    className={
-                      today === feed.timeDay || yesterday === feed.timeDay
-                        ? "feed-today"
-                        : "feed-day"
-                    }
-                  >
-                    {Dynamic.chargeday(feed.timeDay)}
-                  </div>
-                )}
-                <FeedItem
-                  timeDay={feed.timeDay}
-                  timeHour={feed.timeHour}
-                  avatarUrl={feed.avatarUrl}
-                  uid={feed.uid}
-                  action={feed.action}
-                  kind={feed.kind}
-                  sourceID={feed.sourceID}
-                  divider={feed.divider}
-                  dividerID={feed.dividerID}
-                  dividerName={feed.dividerName}
-                />
-              </div>
-            ))}
-          </div>
-          <div className="loadMore">下拉加载更多...</div>
+        <div className="feed-list">
+          {feedList.map((feed, index) => (
+            <div key={feed.id}>
+              {(index === 0 ||
+                feedList[index - 1].timeDay !== feed.timeDay) && (
+                <div
+                  className={
+                    today === feed.timeDay || yesterday === feed.timeDay
+                      ? "feed-today"
+                      : "feed-day"
+                  }
+                >
+                  {Dynamic.chargeday(feed.timeDay)}
+                </div>
+              )}
+              <FeedItem
+                timeDay={feed.timeDay}
+                timeHour={feed.timeHour}
+                avatarUrl={feed.avatarUrl}
+                uid={feed.uid}
+                action={feed.action}
+                kind={feed.kind}
+                sourceID={feed.sourceID}
+                divider={feed.divider}
+                dividerID={feed.dividerID}
+                dividerName={feed.dividerName}
+              />
+            </div>
+          ))}
         </div>
+        <div className="loadMore">下拉加载更多...</div>
         <Gotop className="go-top" />
       </div>
     );
