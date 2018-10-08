@@ -31,14 +31,14 @@ class edit extends Component {
       content: "",
       title: ""
     };
+    this.handleChange = this.handleChange.bind(this);
   }
 
   componentWillMount() {
     const { match } = this.props;
     if (match.path === `/edit`);
     else {
-      const { sid } = match.params.id;
-      StatusService.getStatuDetail(sid).then(doc => {
+      StatusService.getStatuDetail(match.params.id).then(doc => {
         if (doc) {
           const value = doc.content;
           const name = doc.title;
@@ -51,9 +51,9 @@ class edit extends Component {
     }
   }
 
-  onChange(title) {
+  handleChange(event) {
     this.setState({
-      title
+      title: event.target.value
     });
   }
 
@@ -69,7 +69,7 @@ class edit extends Component {
             className="write-input"
             type="text"
             value={title}
-            onChange={this.onChange}
+            onChange={this.handleChange}
             placeholder="请输入标题"
           />
           <div className="status-save-bt">

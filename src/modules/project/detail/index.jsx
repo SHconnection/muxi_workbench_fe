@@ -177,12 +177,19 @@ class ProjectDetailIndex extends Component {
     FileTree.getFileTree(pid)
       .then(res => {
         this.setState({
-          filesList: res1
+          fileTree: res
         });
-        this.hideAlert();
-      })
-      .catch(res1 => {
-        console.error(res1);
+        // 请求filelist
+        FileService.getFileList(FileTree.findFileIdList(fileRootId, res))
+          .then(res1 => {
+            this.setState({
+              filesList: res1
+            });
+            this.hideAlert();
+          })
+          .catch(res1 => {
+            console.error(res1);
+          });
       })
       .catch(res => {
         console.error(res);
@@ -198,12 +205,19 @@ class ProjectDetailIndex extends Component {
     FileTree.getDocTree(pid)
       .then(res => {
         this.setState({
-          docList: res1
+          docTree: res
         });
-        this.hideAlert();
-      })
-      .catch(res1 => {
-        console.error(res1);
+        // 请求doclist
+        FileService.getDocList(FileTree.findDocIdList(docRootId, res))
+          .then(res1 => {
+            this.setState({
+              docList: res1
+            });
+            this.hideAlert();
+          })
+          .catch(res1 => {
+            console.error(res1);
+          });
       })
       .catch(res => {
         console.error(res);
@@ -267,32 +281,33 @@ class ProjectDetailIndex extends Component {
     const { newFileInputText, pid, fileTree, fileRootId } = this.state;
     if (newFileInputText) {
       // 请求创建
-      FileService.createFileFolder(newFileInputText, pid).then(res => {
-        // 更新树
-        const newNode = {
-          folder: true,
-          id: res.id,
-          name: newFileInputText,
-          child: []
-        };
-        ProjectService.updateProjectFileTree(
-          pid,
-          JSON.stringify(FileTree.insertNode(newNode, fileRootId, fileTree))
-        )
-          .then(() => {
-            // 更新视图
-            this.updateFilesList();
-            this.setState({
-              showCreateFile: false
+      FileService.createFileFolder(newFileInputText, pid)
+        .then(res => {
+          // 更新树
+          const newNode = {
+            folder: true,
+            id: res.id,
+            name: newFileInputText,
+            child: []
+          };
+          ProjectService.updateProjectFileTree(
+            pid,
+            JSON.stringify(FileTree.insertNode(newNode, fileRootId, fileTree))
+          )
+            .then(() => {
+              // 更新视图
+              this.updateFilesList();
+              this.setState({
+                showCreateFile: false
+              });
+            })
+            .catch(res1 => {
+              console.error(res1);
             });
-          })
-          .catch(res1 => {
-            console.error(res1);
-          })
-          .catch(res => {
-            console.error(res);
-          });
-      });
+        })
+        .catch(res => {
+          console.error(res);
+        });
     }
   }
 
@@ -321,32 +336,33 @@ class ProjectDetailIndex extends Component {
     const { newDocFileInputText, pid, docTree, docRootId } = this.state;
     if (newDocFileInputText) {
       // 请求创建
-      FileService.createDocFolder(newDocFileInputText, pid).then(res => {
-        const newNode = {
-          folder: true,
-          id: res.id,
-          name: newDocFileInputText,
-          child: []
-        };
-        // 更新文档树
-        ProjectService.updateProjectDocTree(
-          pid,
-          JSON.stringify(FileTree.insertNode(newNode, docRootId, docTree))
-        )
-          .then(() => {
-            // 更新视图
-            this.updatedocList();
-            this.setState({
-              showCreateDocFile: false
+      FileService.createDocFolder(newDocFileInputText, pid)
+        .then(res => {
+          const newNode = {
+            folder: true,
+            id: res.id,
+            name: newDocFileInputText,
+            child: []
+          };
+          // 更新文档树
+          ProjectService.updateProjectDocTree(
+            pid,
+            JSON.stringify(FileTree.insertNode(newNode, docRootId, docTree))
+          )
+            .then(() => {
+              // 更新视图
+              this.updatedocList();
+              this.setState({
+                showCreateDocFile: false
+              });
+            })
+            .catch(res1 => {
+              console.error(res1);
             });
-          })
-          .catch(res1 => {
-            console.error(res1);
-          })
-          .catch(res => {
-            console.error(res);
-          });
-      });
+        })
+        .catch(res => {
+          console.error(res);
+        });
     }
   }
 
