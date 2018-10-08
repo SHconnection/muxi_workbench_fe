@@ -31,6 +31,7 @@ class edit extends Component {
       content: "",
       title: ""
     };
+    this.handleChange = this.handleChange.bind(this);
   }
 
   componentWillMount() {
@@ -50,9 +51,9 @@ class edit extends Component {
     }
   }
 
-  onChange(title) {
+  handleChange(event) {
     this.setState({
-      title
+      title: event.target.value
     });
   }
 
@@ -68,7 +69,7 @@ class edit extends Component {
             className="write-input"
             type="text"
             value={title}
-            onChange={this.onChange}
+            onChange={this.handleChange}
             placeholder="请输入标题"
           />
           <div className="status-save-bt">

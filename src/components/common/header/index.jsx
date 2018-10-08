@@ -26,8 +26,9 @@ class Header extends Component {
   }
 
   searchItem() {
-    const value = this.refs.searchRef.value;
+    const { value } = this.searchRef.current;
     // console.log(value);
+    localStorage.searchtext = value;
     if (value !== "") {
       this.setState({
         redirect: true
@@ -107,9 +108,10 @@ class Header extends Component {
             {showInput && (
               <input
                 className="header-search-input"
-                ref="searchRef"
+                ref={this.searchRef}
                 onKeyUp={this.enterSearch}
                 type="text"
+                // autoFocus
               />
             )}
             <div

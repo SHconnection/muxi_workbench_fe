@@ -33,6 +33,7 @@ class Detail extends Component {
     this.transferMsgDel = this.transferMsgDel.bind(this);
     this.changeLike = this.changeLike.bind(this);
     this.del = this.del.bind(this);
+    this.handleChange = this.handleChange.bind(this);
   }
 
   componentWillMount() {
@@ -71,7 +72,7 @@ class Detail extends Component {
     });
   }
 
-  onChange(event) {
+  handleChange(event) {
     this.setState({ value: event.target.value });
   }
 
@@ -196,13 +197,15 @@ class Detail extends Component {
           <Avatar className="comment-img" src="" width={49} height={49} />
           {/* src是自己的头像 */}
           <div className="push">
-            <textarea
-              className="send-comment"
-              type="text"
-              value={value}
-              onChange={this.onChange}
-              placeholder="   发表评论..."
-            />
+            <div>
+              <textarea
+                className="send-comment"
+                type="text"
+                value={value}
+                onChange={this.handleChange}
+                placeholder=" 发表评论..."
+              />
+            </div>
             <div className="comment-bt">
               <Button
                 onClick={() => this.sendComment(value, sid)}

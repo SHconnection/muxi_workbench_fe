@@ -36,7 +36,8 @@ class Dynamic extends Component {
     this.state = {
       page: 0,
       count: 0,
-      feedList: []
+      feedList: [],
+      isPersonal: 0
     };
   }
 
@@ -70,7 +71,8 @@ class Dynamic extends Component {
         }
       });
     } else {
-      FeedService.getPersonalFeed(1).then(feed => {
+      const { uid } = match.params.id;
+      FeedService.getPersonalFeed(uid, 1).then(feed => {
         if (feed) {
           const arr1 = feed.feed_stream.map(feed1 => {
             const feedList = feed1;
@@ -92,7 +94,8 @@ class Dynamic extends Component {
           this.setState({
             feedList: arr1,
             count: count1,
-            page: page1
+            page: page1,
+            isPersonal: 1
           });
         }
       });
@@ -140,10 +143,10 @@ class Dynamic extends Component {
   }
 
   render() {
-    const { feedList, count, page } = this.state;
+    const { feedList, count, page, isPersonal } = this.state;
     return (
       <div className="feed">
-        <div className="subject">
+        <div className={isPersonal ? "" : "subject"}>
           <div className="feed-list">
             {feedList.map((feed, index) => (
               <div key={feed.uid}>

@@ -9,7 +9,7 @@ const MessageService = {
 
   attentionDel(filename) {
     return Fetch("/user/attention/", {
-      methods: "DELETE",
+      method: "DELETE",
       token: JSON.parse(localStorage.user).token,
       data: {
         fileName: filename
@@ -19,7 +19,7 @@ const MessageService = {
 
   makeNewMessage(receiver, maker, action) {
     return Fetch("/message/new/", {
-      methods: "POST",
+      method: "POST",
       token: JSON.parse(localStorage.user).token,
       data: {
         receiver,
@@ -31,14 +31,17 @@ const MessageService = {
   },
 
   getMessageList(page) {
-    return Fetch(`/message/list/${page}/`, {
-      token: JSON.parse(localStorage.user).token
+    return Fetch(`/message/list/?page=${page}/`, {
+      token: JSON.parse(localStorage.user).token,
+      data: {
+        page
+      }
     });
   },
 
   messageAllRead(username) {
     return Fetch("/message/readAll/", {
-      methods: "POST",
+      method: "POST",
       token: JSON.parse(localStorage.user).token,
       data: {
         username

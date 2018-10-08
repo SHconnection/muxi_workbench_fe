@@ -5,50 +5,34 @@ import { Link } from "react-router-dom";
 import SettingIcon from "../../../../assets/svg/commonIcon/setting.svg";
 import InfoRemindIcon from "../../../../assets/svg/commonIcon/infoRemind.svg";
 import InfoIcon from "../../../../assets/svg/commonIcon/info.svg";
-import Check from "../../../../assets/svg/commonIcon/check.svg";
 import MessageService from "../../../../service/message";
 import "./index.css";
+
+const kind = ["进度", "文件", "评论", "团队"];
 
 class Inform extends Component {
   constructor(props) {
     super(props);
     this.state = {
       hover: false,
-      MessageList: [
-        {
-          sourceID: 0,
-          fromName: "x",
-          fromAvatar: "x",
-          time: "2018/01/01",
-          sourceKind: 0,
-          readed: false
-        },
-        {
-          sourceID: 1,
-          fromName: "xx",
-          fromAvatar: "xx",
-          time: "2018/02/02",
-          sourceKind: 1,
-          readed: true
-        },
-        {
-          sourceID: 2,
-          fromName: "xxx",
-          fromAvatar: "xxx",
-          time: "2018/03/03",
-          sourceKind: 1,
-          readed: true
-        }
-      ]
+      MessageList: []
     };
+    this.readAll = this.readAll.bind(this);
+    this.getMessage = this.getMessage.bind(this);
   }
 
-  // componentDidMount() {
-  //   const arr = MessageService.getMessageList(1);
-  //     this.setState({
-  //       MessageList: arr.list
-  //     });
-  // }
+  componentDidMount() {
+    this.getMessage();
+  }
+
+  getMessage() {
+    MessageService.getMessageList(1).then(res => {
+      this.setState({
+        MessageList: res.list.filter(item => item.readed === false)
+      });
+      // console.log("res:",res);
+    });
+  }
 
   enter() {
     this.setState({
@@ -62,11 +46,17 @@ class Inform extends Component {
     });
   }
 
-  // read(id) {}
+  readAll() {
+    MessageService.messageAllRead(localStorage.username).then(() => {
+      this.getMessage();
+    });
+  }
 
   render() {
     const { hover, MessageList } = this.state;
     const message = MessageList.length;
+    // console.log("message:",message);
+    console.log("messagelist", MessageList);
     return (
       <div>
         <div onMouseEnter={this.enter.bind(this)}>
@@ -87,34 +77,43 @@ class Inform extends Component {
                 className={
                   message ? "header-info-read" : "header-info-read read-grey"
                 }
-                // onClick={this.read.bind(this)}
+                onClick={this.readAll}
+                onKeyDown={() => {}}
+                role="presentation"
               >
                 全部已读
               </div>
             </div>
             <div className="header-info-content">
-              {MessageList.map(
-                el =>
-                  el.readed && (
-                    <div className="info-item" key={el.sourceID}>
-                      <div className="info-text">
-                        {el.fromName}
-                        评论了你的
-                        {/* {el.action} */}
-                        <Link className="info-item-to" to="/">
-                          文档
-                        </Link>
+              {MessageList.map((el, index) => {
+                if (index <= 5) {
+                  // console.log(index);
+                  return (
+                    !el.readed && (
+                      <div className="info-item" key={el.sourceID}>
+                        <div className="info-text">
+                          {el.fromName}
+                          {el.action}
+                          <Link
+                            className="info-item-to"
+                            to={`/status/${el.sourceID}`}
+                          >
+                            {kind[el.sourceKind]}
+                          </Link>
+                        </div>
+                        <div className="info-date">{el.time.split(" ")[0]}</div>
+                        {/* <ReactSVG
+                            className="info-hook"
+                            path={Check}
+                            svgStyle={{ width: 14 }}
+                            // onClick={this.read(el.sourceID)}
+                          /> */}
                       </div>
-                      <div className="info-date">{el.time}</div>
-                      {/* <ReactSVG
-                        className="info-hook"
-                        path={Check}
-                        svgStyle={{ width: 14 }}
-                        // onClick={this.read(el.sourceID)}
-                      /> */}
-                    </div>
-                  )
-              )}
+                    )
+                  );
+                }
+                return false;
+              })}
               {!message && <div className="info-none">无新的通知</div>}
             </div>
             <div className="header-info-footer">
@@ -125,7 +124,7 @@ class Inform extends Component {
               />
               <Link
                 className="header-info-setting footer-text"
-                to="/member/teamMember/personalInfo/personalSet/${per.id}"
+                to="/member/teamMember/personalInfo/personalSet"
               >
                 通知设置
               </Link>

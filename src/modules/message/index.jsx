@@ -7,37 +7,35 @@ import MessageService from "../../service/message";
 import "../../static/css/common.css";
 import "./index.css";
 
+const kind = ["进度", "文件", "评论", "团队"];
+
 class Message extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      MessageList: [
-        {
-          sourceID: 0,
-          fromName: "x",
-          fromAvatar: "x",
-          time: "2018/01/01",
-          sourceKind: 0,
-          readed: false
-        },
-        {
-          sourceID: 1,
-          fromName: "xx",
-          fromAvatar: "xx",
-          time: "2018/02/02",
-          sourceKind: 1,
-          readed: true
-        },
-        {
-          sourceID: 2,
-          fromName: "xxx",
-          fromAvatar: "xxx",
-          time: "2018/03/03",
-          sourceKind: 1,
-          readed: true
-        }
-      ]
+      MessageList: []
     };
+    this.readAll = this.readAll.bind(this);
+    this.getMessage = this.getMessage.bind(this);
+  }
+
+  componentDidMount() {
+    this.getMessage();
+  }
+
+  getMessage() {
+    MessageService.getMessageList(1).then(res => {
+      this.setState({
+        MessageList: res.list.reverse()
+      });
+      // console.log("res:",res);
+    });
+  }
+
+  readAll() {
+    MessageService.messageAllRead(localStorage.username).then(() => {
+      this.getMessage();
+    });
   }
 
   render() {
@@ -47,14 +45,22 @@ class Message extends Component {
         <div className="message-container">
           <div className="message-header">
             <span className="message-all">全部通知</span>
-            <span className="message-readed">全部标为已读</span>
+            <span
+              className="message-readed message-readall"
+              onClick={this.readAll}
+              onKeyDown={() => {}}
+              role="presentation"
+            >
+              全部标为已读
+            </span>
           </div>
           <div className="message-list">
             {MessageList.map(el => (
               <div className="message-item" key={el.sourceID}>
                 <div className="message-text">
                   {el.fromName}
-                  评价了你的文档
+                  {el.action}
+                  {kind[el.sourceKind]}
                 </div>
                 <div className="message-date">{el.time}</div>
                 <div className="message-readed">{el.readed ? "已读" : ""}</div>

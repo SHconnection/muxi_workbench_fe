@@ -87,7 +87,7 @@ DocItem.propTypes = {
     id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     lastcontent: PropTypes.string
   }),
-  pid: PropTypes.string,
+  pid: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   moveFile: PropTypes.func,
   deleteFile: PropTypes.func
 };

@@ -29,6 +29,32 @@ const fetchGroups = () =>
     return arr1;
   });
 
+// 同时初始化项目的文件树和文档树
+const initProjectTree = pid => {
+  const fileRoot = {
+    folder: true,
+    id: 0,
+    name: "全部文件",
+    router: [0],
+    selected: true,
+    finalSelected: true,
+    child: []
+  };
+  const docRoot = {
+    folder: true,
+    id: 0,
+    name: "全部文档",
+    router: [0],
+    selected: true,
+    finalSelected: true,
+    child: []
+  };
+  return Promise.all([
+    ProjectService.updateProjectFileTree(pid, JSON.stringify(fileRoot)),
+    ProjectService.updateProjectDocTree(pid, JSON.stringify(docRoot))
+  ]);
+};
+
 class NewProject extends Component {
   constructor(props) {
     super(props);
@@ -67,8 +93,8 @@ class NewProject extends Component {
       usersByGroup[id] = el
         .map(item => item.list)
         .reduce((el1, el2) => el1.concat(el2), [])
-        .map(el => {
-          const arr = { id: el.userID, name: el.username, selected: false };
+        .map(el3 => {
+          const arr = { id: el3.userID, name: el3.username, selected: false };
           return arr;
         });
       this.setState({
@@ -158,10 +184,16 @@ class NewProject extends Component {
     };
     ProjectService.createProject(postData)
       .then(res => {
-        console.log(res);
+        initProjectTree(res.project_id)
+          .then(res1 => {
+            console.log(res1);
+          })
+          .catch(res1 => {
+            console.error("error", res1);
+          });
       })
       .catch(res => {
-        console.log(res);
+        console.error("error", res);
       });
   }
 
