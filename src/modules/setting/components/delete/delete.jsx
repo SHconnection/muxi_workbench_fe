@@ -119,7 +119,6 @@ Delete.propTypes = {
   cancel: PropTypes.bool,
   certain: PropTypes.bool,
   deleteX: PropTypes.bool,
-  deled: PropTypes.bool,
   del: PropTypes.bool,
   data: PropTypes.shape({
     dealed: PropTypes.bool,
@@ -142,7 +141,6 @@ Delete.defaultProps = {
   cancel: false,
   certain: false,
   deleteX: false,
-  deled: false,
   del: false,
   data: {},
   proDel: false,

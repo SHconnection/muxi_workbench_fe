@@ -40,8 +40,8 @@ class PersonalSet extends Component {
     ManageService.getPersonalSet(per.id).then(setting => {
       const { members } = this.state;
 
-      members[0].selected = setting.message ? true : false;
-      members[1].selected = setting.email_service ? true : false;
+      members[0].selected = !!setting.message;
+      members[1].selected = !!setting.email_service;
 
       this.setState({
         inputName: setting.name,
@@ -88,7 +88,7 @@ class PersonalSet extends Component {
       message: selMembers.indexOf(1) !== -1,
       email: selMembers.indexOf(2) !== -1
     };
-    const img = this.refs.myAvatar.files[0];
+    const img = this.myAvatar.files[0];
     const data = new FormData();
     data.append("image", img);
 
@@ -105,7 +105,7 @@ class PersonalSet extends Component {
   }
 
   changeImg() {
-    const img = this.refs.myAvatar.files[0];
+    const img = this.myAvatar.files[0];
 
     if (img) {
       if (!/image\/\w+/.test(img.type)) return false;
@@ -115,12 +115,14 @@ class PersonalSet extends Component {
       // 将文件以Data URL形式进行读入页面
       reader.readAsDataURL(img);
 
-      reader.onload = function() {
+      reader.onload = () => {
         _this.setState({
           img: this.result
         });
       };
     }
+
+    return this;
   }
 
   render() {
@@ -150,7 +152,9 @@ class PersonalSet extends Component {
                 onChange={this.changeImg}
                 accept=".png, .jpg"
                 placeholder="选择新头像"
-                ref="myAvatar"
+                ref={e => {
+                  this.myAvatar = e;
+                }}
               />
             </b>
             <p className="avaForm">你可以选择png/jpg图片作为头像</p>

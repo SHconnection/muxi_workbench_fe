@@ -120,7 +120,6 @@ const ManageService = {
   },
 
   getPersonalPro(userID) {
-    console.log(userID);
     return Fetch(`/user/${userID}/project/list/`, {
       token: JSON.parse(localStorage.user).token
     });
