@@ -72,6 +72,14 @@ const ManageService = {
     });
   },
 
+  // get a list of admin
+  getAdmin() {
+    return Fetch(`/user/admins/`, {
+      method: 'GET',
+      token: localStorage.token
+    })
+  },
+
   addMember(userID) {
     return Fetch("/user/2bMember/", {
       method: "POST",

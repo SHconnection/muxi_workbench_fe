@@ -28,12 +28,12 @@ class DocItem extends Component {
 
   deleteFile() {
     const { folderItem, deleteFile, pid } = this.props;
-    deleteFile(folderItem.id, pid);
+    deleteFile(folderItem.id, 'doc' ,pid);
   }
 
   moveFile() {
     const { folderItem, moveFile, pid } = this.props;
-    moveFile(folderItem.id, pid);
+    moveFile(folderItem.id, 'doc' ,pid);
   }
 
   render() {

@@ -39,6 +39,8 @@ class ProjectDetailIndex extends Component {
       newFileInputText: "",
       // 是否显示删除文件
       showDleteFile: false,
+      // 是否显示删除文档
+      showDletedoc: false,
       // 是否显示移动文件
       showMoveFile: false,
       // 是否显示创建文档
@@ -97,8 +99,10 @@ class ProjectDetailIndex extends Component {
     this.startCreateFile = this.startCreateFile.bind(this);
     this.changeNewFileInputText = this.changeNewFileInputText.bind(this);
     this.confirmCreateFile = this.confirmCreateFile.bind(this);
+    this.confirmDeleteDoc = this.confirmDeleteDoc.bind(this)
     this.moveFile = this.moveFile.bind(this);
     this.startDeleteFile = this.startDeleteFile.bind(this);
+    this.startDeleteDoc = this.startDeleteDoc.bind(this);
     this.deleteFileNode = this.deleteFileNode.bind(this);
     this.confirmDeleteFile = this.confirmDeleteFile.bind(this);
     this.startCreateDoc = this.startCreateDoc.bind(this);
@@ -209,6 +213,7 @@ class ProjectDetailIndex extends Component {
         this.setState({
           docList: res1
         })
+        this.hideAlert()
       })
       .catch(res1 => {
         console.error(res1)
@@ -341,7 +346,8 @@ class ProjectDetailIndex extends Component {
     }
   }
 
-  moveFile(id, pid) {
+  moveFile(id, str) {
+    console.log(id, str)
     this.setState({
       showMoveFile: true
     });
@@ -352,7 +358,7 @@ class ProjectDetailIndex extends Component {
     this.hideAlert()
     this.setState({
       showDleteFile: true
-    });
+    })
     if (str === 'file') {
       this.setState({
         currentFileId: id
@@ -367,13 +373,13 @@ class ProjectDetailIndex extends Component {
 
   // 确认删除文件
   confirmDeleteFile() {
-    const { currentFileId, currentFileFolderId, fileTree, currentDocId, currentDocFolderId, pid } = this.state
+    const { currentFileId, currentFileFolderId, fileTree } = this.state
     // 文件
     if (currentFileId) {
       FileService.deleteFile(currentFileId)
       .then(() => {
         // 删除成功
-        this.deleteFileNode()
+        this.deleteFileNode(currentFileId)
       })
       .catch(el => {
         console.error(el)
@@ -381,9 +387,6 @@ class ProjectDetailIndex extends Component {
     }
     // 文件夹
     if (currentFileFolderId) {
-      // FileTree.findFileIdList(21, fileTree)
-      // console.log(FileTree.findAllFileList(0, Root))
-      // console.log(currentFileFolderId)
       const postData = FileTree.findAllFileList(currentFileFolderId, fileTree)
       console.log(postData)
       FileService.deleteFileFolder(currentFileFolderId, postData)
@@ -400,16 +403,79 @@ class ProjectDetailIndex extends Component {
   // 删除文件树节点并更新视图
   deleteFileNode(id) {
     const {pid, fileTree} = this.state
-    // 更新文档树
+    // 更新文件树
     const newTree = FileTree.deleteNode(id, fileTree)
     if (newTree) {
-      ProjectService.updateProjectFileTree(pid, JSON.stringify(FileTree.deleteNode(id, fileTree)))
+      ProjectService.updateProjectFileTree(pid, JSON.stringify(newTree))
       .then(() => {
         // 更新视图
         this.updateFilesList()
       })
       .catch(el => {
-        console.log(el)
+        console.error(el)
+      })
+    }
+  }
+
+  // 开始删除文档
+  startDeleteDoc(id, str) {
+    this.hideAlert()
+    this.setState({
+      showDletedoc:true
+    })
+    if (str === 'doc') {
+      this.setState({
+        currentDocId: id
+      })
+    }
+    else {
+      this.setState({
+        currentDocFolderId: id
+      })
+    }
+  }
+
+  // 确认删除文档
+  confirmDeleteDoc() {
+    const { currentDocId, currentDocFolderId, docTree } = this.state
+    console.log(currentDocId, currentDocFolderId)
+    if (currentDocId) {
+      FileService.deleteDoc(currentDocId)
+      .then(() => {
+        // 删除成功
+        this.deleteDocNode(currentDocId)
+      })
+      .catch(el => {
+        console.error(el)
+      })
+    }
+    if (currentDocFolderId) {
+      const postData = FileTree.findAllDocList(currentDocFolderId, docTree)
+      console.log(postData)
+      FileService.deleteDocFolder(currentDocFolderId, postData)
+      .then(() => {
+        // 删除成功
+        this.deleteDocNode(currentDocFolderId)
+      })
+      .catch(el => {
+        console.error(el)
+      })
+    }
+  }
+
+  // 删除文档树节点并更新视图
+  deleteDocNode(id) {
+    const {pid, docTree} = this.state
+    const newTree = FileTree.deleteNode(id, docTree)
+    // 更新文档树
+    if (newTree) {
+      ProjectService.updateProjectDocTree(pid, JSON.stringify(newTree))
+      .then(() => {
+        // 更新视图
+        this.updatedocList()
+      })
+      .catch(el => {
+        console.error(el)
       })
     }
   }
@@ -421,8 +487,11 @@ class ProjectDetailIndex extends Component {
       showCreateFile: false,
       showDleteFile: false,
       showMoveFile: false,
+      showDletedoc: false,
       currentFileId: undefined,
-      currentDocId: undefined
+      currentFileFolderId: undefined,
+      currentDocId: undefined,
+      currentDocFolderId: undefined
     })
   }
 
@@ -439,6 +508,7 @@ class ProjectDetailIndex extends Component {
       showCreateDocFile,
       newDocFileInputText,
       showDleteFile,
+      showDletedoc,
       showMoveFile,
       fileRoot
     } = this.state;
@@ -526,7 +596,7 @@ class ProjectDetailIndex extends Component {
                     folderItem={el}
                     pid={pid}
                     moveFile={this.moveFile}
-                    deleteFile={this.startDeleteFile}
+                    deleteFile={this.startDeleteDoc}
                   />
                 </div>
               ))}
@@ -536,7 +606,7 @@ class ProjectDetailIndex extends Component {
                     folderItem={el}
                     pid={pid}
                     moveFile={this.moveFile}
-                    deleteFile={this.startDeleteFile}
+                    deleteFile={this.startDeleteDoc}
                   />
                 </div>
               ))}
@@ -701,6 +771,33 @@ class ProjectDetailIndex extends Component {
               <div className="create-file-alert-done">
                 <Button
                   onClick={this.confirmCreateDocFile}
+                  text="确定"
+                  width="65"
+                  height="32"
+                  fontSize="14"
+                />
+              </div>
+            </div>
+          )}
+          {/* 删除文件弹出框 */}
+          {showDletedoc && (
+            <div className="deleteFileAlert">
+              <div className="delete-file-alert-tip">确认要删除该文档吗</div>
+              <div className="delete-file-alert-cancel">
+                <Button
+                  onClick={this.hideAlert}
+                  text="取消"
+                  width="65"
+                  height="32"
+                  border="1px solid RGBA(217, 217, 217, 1)"
+                  bgColor="RGBA(255, 255, 255, 1)"
+                  textColor="RGBA(64, 64, 64, 1)"
+                  fontSize="14"
+                />
+              </div>
+              <div className="delete-file-alert-done">
+                <Button
+                  onClick={this.confirmDeleteDoc}
                   text="确定"
                   width="65"
                   height="32"
