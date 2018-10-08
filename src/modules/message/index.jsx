@@ -16,20 +16,26 @@ class Message extends Component {
       MessageList: []
     };
     this.readAll = this.readAll.bind(this);
+    this.getMessage = this.getMessage.bind(this);
   }
 
   componentDidMount() {
+    this.getMessage();
+  }
+
+  getMessage() {
     MessageService.getMessageList(1).then(res => {
       this.setState({
-        MessageList: res.list
+        MessageList: res.list.reverse()
       });
       // console.log("res:",res);
     });
   }
 
   readAll() {
-    MessageService.messageAllRead(localStorage.username);
-    this.setState({});
+    MessageService.messageAllRead(localStorage.username).then(() => {
+      this.getMessage();
+    });
   }
 
   render() {

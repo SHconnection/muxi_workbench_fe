@@ -54,6 +54,40 @@ const FileService = {
     });
   },
 
+  // 删除文件
+  deleteFile(id) {
+    return Fetch(`/file/file/${id}/`, {
+      method: "DELETE",
+      token: localStorage.token
+    });
+  },
+
+  // 删除文件夹
+  deleteFileFolder(id, postData) {
+    return Fetch(`/folder/file/${id}/`, {
+      method: "DELETE",
+      data: postData,
+      token: localStorage.token
+    });
+  },
+
+  // 删除文档
+  deleteDoc(id) {
+    return Fetch(`/file/doc/${id}/`, {
+      method: "DELETE",
+      token: localStorage.token
+    });
+  },
+
+  // 删除文档夹
+  deleteDocFolder(id, postData) {
+    return Fetch(`/folder/doc/${id}/`, {
+      method: "DELETE",
+      data: postData,
+      token: localStorage.token
+    });
+  },
+
   getDocConnent(id) {
     return Fetch(`/file/doc/${id}/`, {
       token: JSON.parse(localStorage.user).token

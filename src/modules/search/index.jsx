@@ -64,7 +64,8 @@ class Search extends Component {
   }
 
   componentWillMount() {
-    const { searchtext, projectOption } = this.state;
+    // const { searchtext, projectOption, projectCheckedIndex } = this.state;
+    const { projectOption } = this.state;
     ProjectService.getProjectList(1).then(res => {
       // console.log(res.list);
       const projectList = res.list;
@@ -80,11 +81,7 @@ class Search extends Component {
         projectOption: projectOption.concat(arr)
       });
     });
-    SearchService.getSearchResults(1, searchtext, projectOption).then(res => {
-      this.setState({
-        searchResult: res
-      });
-    });
+    this.searching();
   }
 
   changeProject(index) {
@@ -95,8 +92,12 @@ class Search extends Component {
   }
 
   searching() {
-    const { searchtext, projectOption } = this.state;
-    SearchService.getSearchResults(1, searchtext, projectOption).then(res => {
+    const { searchtext, projectOption, projectCheckedIndex } = this.state;
+    SearchService.getSearchResults(
+      1,
+      searchtext,
+      projectOption[projectCheckedIndex]
+    ).then(res => {
       this.setState({
         searchResult: res
       });
@@ -147,7 +148,7 @@ class Search extends Component {
             </div>
           </div>
           <div className="search-results">
-            {searchResult.list.length ? (
+            {searchResult.count ? (
               searchResult.list.map(el => (
                 <div className="search-item" key={el.sourceID}>
                   <div className="search-item-kind">
