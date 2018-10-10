@@ -2,6 +2,7 @@
     搜索
 */
 import React, { Component } from "react";
+import { Redirect, Route } from "react-router-dom";
 import Select from "../../components/common/select/index";
 import Button from "../../components/common/button/index";
 import ProjectService from "../../service/project";
@@ -15,55 +16,24 @@ class Search extends Component {
     this.state = {
       projectOption: [],
       projectCheckedIndex: 0,
-      // searchResult: [
-      //   {
-      //     kind: 0,
-      //     sourceID: 1,
-      //     recordName: "Web页面UI常识",
-      //     intro:
-      //       "首先，在做页面之前，把竞品的页面都列出来，自己好好看一下，找找共同点。 整体的色调、风格、布局等做之前脑子里有个概念。 可以用什么字体？ 字体大小怎么确定？ 导航、字体、背景等等的颜色可以随便用吗？ 水平和垂直的间距、水平布局时每一块内容的宽度等等是如何确定的？ 页面画布多大？页面主体内容多宽？ 移动端页面在布局上有什么特点？首先，在做页面之前，把竞品的页面都列出来，自己好好看一下，找找共同点。 整体的色调、风格、布局等做之前脑子里有个概念。 可以用什么字体？ 字体大小怎么确定？ 导航、字体、背景等等的颜色可以随便用吗？ 水平和垂直的间距、水平布局时每一块内容的宽度等等是如何确定的？ 页面画布多大？页面主体内容多宽？ 移动端页面在布局上有什么特点？",
-      //     projectID: 0,
-      //     projectName: "这世界就是你的",
-      //     creator: "赵鑫晖",
-      //     time: "1月1日"
-      //   },
-      //   {
-      //     kind: 1,
-      //     sourceID: 1,
-      //     recordName: "web@2xxxxxxxxx.jpg",
-      //     intro: "",
-      //     projectID: 0,
-      //     projectName: "这世界就是你的",
-      //     creator: "木小犀",
-      //     time: "1月1日"
-      //   },
-      //   {
-      //     kind: 0,
-      //     sourceID: 1,
-      //     recordName: "Web页面UI常识",
-      //     intro:
-      //       "首先，在做页面之前，把竞品的页面都列出来，自己好好看一下，找找共同点。 整体的色调、风格、布局等做之前脑子里有个概念。 可以用什么字体？ 字体大小怎么确定？ 导航、字体、背景等等的颜色可以随便用吗？ 水平和垂直的间距、水平布局时每一块内容的宽度等等是如何确定的？ 页面画布多大？页面主体内容多宽？ 移动端页面在布局上有什么特点？首先，在做页面之前，把竞品的页面都列出来，自己好好看一下，找找共同点。 整体的色调、风格、布局等做之前脑子里有个概念。 可以用什么字体？ 字体大小怎么确定？ 导航、字体、背景等等的颜色可以随便用吗？ 水平和垂直的间距、水平布局时每一块内容的宽度等等是如何确定的？ 页面画布多大？页面主体内容多宽？ 移动端页面在布局上有什么特点？",
-      //     projectID: 0,
-      //     projectName: "这世界就是你的",
-      //     creator: "赵鑫晖",
-      //     time: "1月1日"
-      //   }
-      // ]
       searchResult: {
         count: 0,
         pageMax: 0,
         pageNow: 0,
         hasNext: true,
         list: []
-      }
+      },
+      searchText: "",
+      redirect: false,
+      fromHeader: true
     };
     this.changeProject = this.changeProject.bind(this);
     this.searching = this.searching.bind(this);
     this.enterSearch = this.enterSearch.bind(this);
-    this.searchtext = localStorage.searchtext;
+    this.searchtext = window.location.href.split("/").pop();
   }
 
-  componentWillMount() {
+  componentDidMount() {
     // const { searchtext, projectOption, projectCheckedIndex } = this.state;
     const { projectOption } = this.state;
     ProjectService.getProjectList(1).then(res => {
@@ -77,6 +47,7 @@ class Search extends Component {
       });
       arr.unshift({ id: 0, value: "所有项目" });
       // console.log(arr)
+
       this.setState({
         projectOption: projectOption.concat(arr)
       });
@@ -92,10 +63,15 @@ class Search extends Component {
   }
 
   searching() {
-    const { searchtext, projectOption, projectCheckedIndex } = this.state;
+    const {
+      searchText,
+      projectOption,
+      projectCheckedIndex,
+      fromHeader
+    } = this.state;
     SearchService.getSearchResults(
       1,
-      searchtext,
+      searchText,
       projectOption[projectCheckedIndex]
     ).then(res => {
       this.setState({
@@ -103,13 +79,21 @@ class Search extends Component {
       });
       console.log(res.list);
     });
+    if (fromHeader) {
+      this.setState({
+        fromHeader: false
+      });
+    } else {
+      this.setState({
+        redirect: true
+      });
+    }
   }
 
   enterSearch(e) {
     if (e.target.value !== "") {
-      // localStorage.searchtext = e.target.value;
       this.setState({
-        searchtext: e.target.value
+        searchText: e.target.value
       });
     }
     if (e.keyCode === 13) {
@@ -118,7 +102,16 @@ class Search extends Component {
   }
 
   render() {
-    const { projectOption, projectCheckedIndex, searchResult } = this.state;
+    const {
+      projectOption,
+      projectCheckedIndex,
+      searchResult,
+      redirect,
+      searchText
+    } = this.state;
+    if (redirect) {
+      return <Redirect to={`/search/${searchText}`} />;
+    }
     return (
       <div className="subject">
         <div className="search-container">
