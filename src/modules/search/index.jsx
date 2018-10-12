@@ -2,7 +2,6 @@
     搜索
 */
 import React, { Component } from "react";
-import { Redirect, Route } from "react-router-dom";
 import Select from "../../components/common/select/index";
 import Button from "../../components/common/button/index";
 import ProjectService from "../../service/project";
@@ -24,7 +23,6 @@ class Search extends Component {
         list: []
       },
       searchText: "",
-      redirect: false,
       fromHeader: true
     };
     this.changeProject = this.changeProject.bind(this);
@@ -84,9 +82,7 @@ class Search extends Component {
         fromHeader: false
       });
     } else {
-      this.setState({
-        redirect: true
-      });
+      window.location.href = `${searchText}`;
     }
   }
 
@@ -102,16 +98,7 @@ class Search extends Component {
   }
 
   render() {
-    const {
-      projectOption,
-      projectCheckedIndex,
-      searchResult,
-      redirect,
-      searchText
-    } = this.state;
-    if (redirect) {
-      return <Redirect to={`/search/${searchText}`} />;
-    }
+    const { projectOption, projectCheckedIndex, searchResult } = this.state;
     return (
       <div className="subject">
         <div className="search-container">
