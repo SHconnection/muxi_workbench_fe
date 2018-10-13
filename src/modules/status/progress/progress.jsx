@@ -47,7 +47,7 @@ class Progress extends Component {
         }
       });
     } else {
-      const { uid } = match.params.id;
+      const { uid } = match.params;
       StatusService.getPersonalStatus(uid, 1).then(status => {
         if (status) {
           const arr1 = status.statuList.map(statu1 => {
@@ -116,7 +116,7 @@ class Progress extends Component {
         });
       }
     } else {
-      const { uid } = match.params.id;
+      const { uid } = match.params;
       if (cout / 20 > page) {
         StatusService.getPersonalStatus(uid, page + 1).then(status => {
           if (status) {

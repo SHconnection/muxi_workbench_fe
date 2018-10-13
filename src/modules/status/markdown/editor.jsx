@@ -13,9 +13,7 @@ import {
 class CustomEditor extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      content: ""
-    };
+    this.state = {};
   }
 
   componentDidMount() {

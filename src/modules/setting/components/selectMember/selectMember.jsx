@@ -10,6 +10,20 @@ import "../../../../static/css/common.css";
 import "./selectMember.css";
 
 class SelectMember extends Component {
+  static changeGroupMemberFormat(mem) {
+    const obj = {};
+
+    obj.name = mem.username;
+    obj.id = mem.userID;
+    obj.email = mem.email;
+    obj.role = mem.role;
+    obj.avatar = mem.avatar;
+    obj.group = mem.groupName;
+    obj.selected = false;
+
+    return obj;
+  }
+
   constructor(props) {
     super(props);
 
@@ -94,20 +108,6 @@ class SelectMember extends Component {
         }
       });
     }
-  }
-
-  changeGroupMemberFormat(mem) {
-    const obj = {};
-
-    obj.name = mem.username;
-    obj.id = mem.userID;
-    obj.email = mem.email;
-    obj.role = mem.role;
-    obj.avatar = mem.avatar;
-    obj.group = mem.groupName;
-    obj.selected = false;
-
-    return obj;
   }
 
   selAll() {

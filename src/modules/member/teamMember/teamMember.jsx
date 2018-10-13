@@ -9,6 +9,20 @@ import "../../../static/css/common.css";
 import "./teamMember.css";
 
 class TeamMember extends Component {
+  static changeGroupMemberFormat(mem) {
+    const obj = {};
+
+    obj.name = mem.username;
+    obj.id = mem.userID;
+    obj.email = mem.email;
+    obj.role = mem.role;
+    obj.avatar = mem.avatar;
+    obj.group = mem.groupName;
+    obj.selected = false;
+
+    return obj;
+  }
+
   constructor(props) {
     super(props);
 
@@ -17,6 +31,7 @@ class TeamMember extends Component {
       groupList: [],
       selectedID: 0
     };
+
     this.present = this.present.bind(this);
   }
 
@@ -24,7 +39,7 @@ class TeamMember extends Component {
     ManageService.getAllMem().then(member => {
       if (member) {
         const arr = member.list.map(mem => {
-          const obj = this.changeGroupMemberFormat(mem);
+          const obj = TeamMember.changeGroupMemberFormat(mem);
 
           return obj;
         });
@@ -56,25 +71,11 @@ class TeamMember extends Component {
     });
   }
 
-  changeGroupMemberFormat(mem) {
-    const obj = {};
-
-    obj.name = mem.username;
-    obj.id = mem.userID;
-    obj.email = mem.email;
-    obj.role = mem.role;
-    obj.avatar = mem.avatar;
-    obj.group = mem.groupName;
-    obj.selected = false;
-
-    return obj;
-  }
-
   present(id) {
     ManageService.groupMember(id).then(member => {
       if (member) {
         const arr = member.list.map(mem => {
-          const obj = this.changeGroupMemberFormat(mem);
+          const obj = TeamMember.changeGroupMemberFormat(mem);
 
           return obj;
         });
@@ -147,16 +148,16 @@ class TeamMember extends Component {
           return (
             <div className="teamMember-singleList" key={mem.id}>
               <Link to={`${match.url}/personalInfo`}>
-                <img
-                  src={mem.avatar}
-                  alt=""
-                  className="teamMember-imgSize"
+                <div
+                  role="button"
+                  tabIndex={0}
                   onClick={() => {
                     localStorage.per = JSON.stringify(mem);
                   }}
                   onKeyDown={this.handleClick}
-                  role="link"
-                />
+                >
+                  <img src={mem.avatar} alt="" className="teamMember-imgSize" />
+                </div>
               </Link>
               <div className="teamMember-personalIntro">
                 <b>{mem.name}</b>

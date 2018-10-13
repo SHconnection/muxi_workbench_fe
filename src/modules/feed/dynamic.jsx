@@ -181,6 +181,7 @@ class Dynamic extends Component {
             {count / 40 <= page ? "最后一页啦" : "下拉加载更多..."}
           </div>
         </div>
+        <div className="loadMore">下拉加载更多...</div>
         <Gotop className="go-top" />
       </div>
     );

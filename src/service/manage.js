@@ -119,8 +119,8 @@ const ManageService = {
     });
   },
 
-  getPersonalPro() {
-    return Fetch("/user/project/list/", {
+  getPersonalPro(userID) {
+    return Fetch(`/user/${userID}/project/list/`, {
       token: JSON.parse(localStorage.user).token
     });
   },
@@ -145,11 +145,28 @@ const ManageService = {
     });
   },
 
+  getPersonalSet(userID) {
+    return Fetch(`/user/${userID}/setting/`, {
+      token: JSON.parse(localStorage.user).token
+    });
+  },
+
   savePersonalSet(userID, obj) {
     return Fetch(`/user/${userID}/setting/`, {
       method: "POST",
       token: JSON.parse(localStorage.user).token,
       data: obj
+    });
+  },
+
+  savePersonalAvatar(data) {
+    return fetch(`/user/uploadAvatar/`, {
+      method: "POST",
+      headers: {
+        // accept-charset: 'Unicode',
+        token: JSON.parse(localStorage.user).token
+      },
+      body: data
     });
   },
 
