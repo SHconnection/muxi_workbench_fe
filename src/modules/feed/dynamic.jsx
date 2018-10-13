@@ -71,7 +71,7 @@ class Dynamic extends Component {
         }
       });
     } else {
-      FeedService.getPersonalFeed(match.params.id, 1).then(feed => {
+      FeedService.getPersonalFeed(match.params.uid, 1).then(feed => {
         if (feed) {
           const arr1 = feed.feed_stream.map(feed1 => {
             const feedList = feed1;
@@ -142,7 +142,6 @@ class Dynamic extends Component {
   }
 
   render() {
-    console.log(this.props.match);
     const { feedList, count, page, isPersonal } = this.state;
     return (
       <div className="feed">
@@ -191,7 +190,7 @@ Dynamic.propTypes = {
   match: PropTypes.shape({
     url: PropTypes.string,
     params: PropTypes.shape({
-      id: PropTypes.number
+      id: PropTypes.string
     })
   })
 };

@@ -47,7 +47,7 @@ class Progress extends Component {
         }
       });
     } else {
-      StatusService.getPersonalStatus(match.params.id, 1).then(status => {
+      StatusService.getPersonalStatus(match.params.uid, 1).then(status => {
         if (status) {
           const arr1 = status.statuList.map(statu1 => {
             const statu = statu1;
@@ -116,7 +116,7 @@ class Progress extends Component {
       }
     } else {
       if (cout / 20 > page) {
-        StatusService.getPersonalStatus(match.params.id, page + 1).then(
+        StatusService.getPersonalStatus(match.params.uid, page + 1).then(
           status => {
             if (status) {
               const arr1 = status.statuList.map(statu1 => {
@@ -144,12 +144,10 @@ class Progress extends Component {
           }
         );
       }
-      console.log(1);
     }
   }
 
   render() {
-    console.log(this.props.match);
     const { statuList, isPersonal, cout, page } = this.state;
     return (
       <div>
