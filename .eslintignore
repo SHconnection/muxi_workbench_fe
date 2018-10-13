@@ -1,3 +1,4 @@
 src/assets/*
 src/service/fetch.js
+src/service/cookie.js
 registerServiceWorker.js

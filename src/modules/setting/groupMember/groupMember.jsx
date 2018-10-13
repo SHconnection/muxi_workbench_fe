@@ -16,7 +16,7 @@ const GroupMember = ({
   <div className="subject minH">
     <GoBack />
     <b className="title">分组管理</b>
-    <div className="groupName">{per.name}</div>
+    <div className="groupMember-groupName">{per.name}</div>
     <br />
     <SelectMember groupMember groupID={per.id} />
   </div>

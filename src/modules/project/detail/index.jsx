@@ -419,7 +419,7 @@ class ProjectDetailIndex extends Component {
   deleteFileNode(id) {
     const { pid, fileTree } = this.state;
     // 更新文件树
-    const newTree = FileTree.deleteNode(id, fileTree).root
+    const newTree = FileTree.deleteNode(id, fileTree).root;
     if (newTree) {
       ProjectService.updateProjectFileTree(pid, JSON.stringify(newTree))
         .then(() => {
@@ -479,8 +479,8 @@ class ProjectDetailIndex extends Component {
 
   // 删除文档树节点并更新视图
   deleteDocNode(id) {
-    const {pid, docTree} = this.state
-    const newTree = FileTree.deleteNode(id, docTree).root
+    const { pid, docTree } = this.state;
+    const newTree = FileTree.deleteNode(id, docTree).root;
     // 更新文档树
     if (newTree) {
       ProjectService.updateProjectDocTree(pid, JSON.stringify(newTree))
@@ -497,34 +497,31 @@ class ProjectDetailIndex extends Component {
   // 开始移动文件
   moveFile(id, str) {
     // 移动文件获文件夹
-    if (str === 'file' || str === 'fileFolder') {
+    if (str === "file" || str === "fileFolder") {
       this.setState({
         showMoveFile: true
       });
-      if (str === 'file') {
+      if (str === "file") {
         this.setState({
           currentFileId: id
-        })
-      }
-      else {
+        });
+      } else {
         this.setState({
           currentFileFolderId: id
-        })
+        });
       }
-    }
-    else {
+    } else {
       this.setState({
         showMoveDoc: true
       });
-      if (str === 'doc') {
+      if (str === "doc") {
         this.setState({
           currentDocId: id
-        })
-      }
-      else {
+        });
+      } else {
         this.setState({
           currentDocFolderId: id
-        })
+        });
       }
     }
   }
@@ -536,10 +533,10 @@ class ProjectDetailIndex extends Component {
     const fileTreeTemp = JSON.parse(JSON.stringify(fileTree))
     const newTree = FileTree.moveNode(moveId, finalMoveFileId, fileTreeTemp)
     if (newTree) {
-      FileTree.initNodeFinalSelected(newTree)
-      FileTree.initNodeSelected(newTree)
-      newTree.selected = true
-      newTree.finalSelected = true
+      FileTree.initNodeFinalSelected(newTree);
+      FileTree.initNodeSelected(newTree);
+      newTree.selected = true;
+      newTree.finalSelected = true;
       ProjectService.updateProjectFileTree(pid, JSON.stringify(newTree))
       .then(() => {
         // 更新视图
@@ -590,8 +587,8 @@ class ProjectDetailIndex extends Component {
       currentDocId: undefined,
       currentDocFolderId: undefined,
       finalMoveFileId: 0,
-      finalMoveDocId: 0,
-    })
+      finalMoveDocId: 0
+    });
   }
 
   render() {
@@ -876,7 +873,7 @@ class ProjectDetailIndex extends Component {
                         fatherId,
                         fileRootTemp
                       );
-                      fatherNode.finalSelected = true
+                      fatherNode.finalSelected = true;
                       this.setState({
                         fileTree: fileRootTemp,
                         finalMoveFileId: fatherNode.id

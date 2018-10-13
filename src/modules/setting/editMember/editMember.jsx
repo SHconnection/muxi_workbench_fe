@@ -11,6 +11,20 @@ import ProjectService from "../../../service/project";
 import "./editMember.css";
 
 class EditMember extends Component {
+  static changeGroupMemberFormat(mem) {
+    const obj = {};
+
+    obj.name = mem.username;
+    obj.id = mem.userID;
+    obj.email = mem.email;
+    obj.role = mem.role;
+    obj.avatar = mem.avatar;
+    obj.group = mem.groupName;
+    obj.selected = false;
+
+    return obj;
+  }
+
   constructor(props) {
     super(props);
 
@@ -41,7 +55,7 @@ class EditMember extends Component {
             const idList = member.list.map(mem => mem.userID);
 
             const members = arr.list.map(mem1 => {
-              const mem = this.changeGroupMemberFormat(mem1);
+              const mem = EditMember.changeGroupMemberFormat(mem1);
 
               if (idList.indexOf(mem.id) !== -1) mem.selected = true;
 
@@ -71,20 +85,6 @@ class EditMember extends Component {
         });
       }
     });
-  }
-
-  changeGroupMemberFormat(mem) {
-    const obj = {};
-
-    obj.name = mem.username;
-    obj.id = mem.userID;
-    obj.email = mem.email;
-    obj.role = mem.role;
-    obj.avatar = mem.avatar;
-    obj.group = mem.groupName;
-    obj.selected = false;
-
-    return obj;
   }
 
   selAll() {
@@ -140,7 +140,9 @@ class EditMember extends Component {
   changeGroupCheck(index) {
     ManageService.groupMember(index).then(member => {
       if (member) {
-        const arr = member.list.map(mem => this.changeGroupMemberFormat(mem));
+        const arr = member.list.map(mem =>
+          EditMember.changeGroupMemberFormat(mem)
+        );
 
         this.setState({
           checkedIndex: index,

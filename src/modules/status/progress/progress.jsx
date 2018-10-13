@@ -47,8 +47,7 @@ class Progress extends Component {
         }
       });
     } else {
-      const { uid } = match.params.id;
-      StatusService.getPersonalStatus(uid, 1).then(status => {
+      StatusService.getPersonalStatus(match.params.uid, 1).then(status => {
         if (status) {
           const arr1 = status.statuList.map(statu1 => {
             const statu = statu1;
@@ -116,9 +115,9 @@ class Progress extends Component {
         });
       }
     } else {
-      const { uid } = match.params.id;
+      const { id } = match.params;
       if (cout / 20 > page) {
-        StatusService.getPersonalStatus(uid, page + 1).then(status => {
+        StatusService.getPersonalStatus(id, page + 1).then(status => {
           if (status) {
             const arr1 = status.statuList.map(statu1 => {
               const statu = statu1;
@@ -180,7 +179,10 @@ class Progress extends Component {
 
 Progress.propTypes = {
   match: PropTypes.shape({
-    url: PropTypes.string
+    url: PropTypes.string,
+    params: PropTypes.shape({
+      id: PropTypes.string
+    })
   })
 };
 

@@ -17,10 +17,10 @@ module.exports = {
       "required": {
           "some": [ "nesting", "id" ]
       },
-
-      
       "allowChildren": false
-    }]
+    }],
+
+    "no-underscore-dangle": ["error", { "allow": ["_this"] }]
 
   },
   "env": {

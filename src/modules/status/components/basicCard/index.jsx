@@ -17,9 +17,19 @@ class Item extends Component {
     this.state = {
       whetherLike: props.iflike,
       likeNumber: props.likeCount,
-      sid: props.sid
+      sid: props.sid,
+      isPersonal: 0
     };
     this.changeLike = this.changeLike.bind(this);
+  }
+
+  componentWillMount() {
+    const { match } = this.props;
+    if (match.path === "/status") {
+      this.setState({
+        isPersonal: 1
+      });
+    }
   }
 
   changeLike(sid, whetherLike, likeNumber) {
@@ -39,10 +49,10 @@ class Item extends Component {
   }
 
   render() {
-    const { whetherLike, likeNumber, sid } = this.state;
+    const { whetherLike, likeNumber, sid, isPersonal } = this.state;
     const { avatar, username, time, content, commentCount } = this.props;
     return (
-      <div className="status-item-container">
+      <div className={isPersonal ? "presonal-status" : "status-item-container"}>
         <div className="status-head">
           <Avatar
             className="status-item-img"
@@ -54,8 +64,10 @@ class Item extends Component {
             <div className="status-item-name">{username}</div>
             <div className="status-item-time">{time}</div>
           </div>
-          <div className="open">
-            <Link to={`/status/${sid}`}>展开</Link>
+          <div>
+            <Link to={`/status/${sid}`} className="open">
+              展开
+            </Link>
           </div>
         </div>
         <div className="status-item-content">{content}</div>

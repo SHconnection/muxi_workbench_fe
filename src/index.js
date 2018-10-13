@@ -46,6 +46,7 @@ ReactDOM.render(
         <Route path="/member" component={Member} />
         <Route path="/message" component={Message} />
         <Route path="/search" component={Search} />
+        {/* <Route path="/landing" component={load} /> */}
         <Route component={NoMatch} />
       </Switch>
     </div>

@@ -1,5 +1,5 @@
-import React from "react";
-import { Link } from "react-dom";
+import React, { Component } from "react";
+import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
 import AvatarImg from "../../../../assets/img/avatar.png";
 import Avatar from "../../../../components/common/avatar/index";
@@ -28,28 +28,39 @@ function findKind(kind, sourceID) {
   }
 }
 
-function feedItem(props) {
-  const { timeHour, action, divider, dividerName, kind, sourceID } = props;
-  return (
-    <div className="feed-item">
-      <div className="feed-divider">
-        <div className={divider ? "line" : "no-line"} />
-        <div className={divider ? "feed-project" : "feed-no-project"}>
-          {divider ? dividerName : ""}
+class feedItem extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      sourceID: props.sourceID
+    };
+  }
+
+  render() {
+    const { sourceID } = this.state;
+    const { timeHour, action, divider, dividerName, kind } = this.props;
+    return (
+      <div className="feed-item">
+        <div className="feed-divider">
+          <div className={divider ? "line" : "no-line"} />
+          <div className={divider ? "feed-project" : "feed-no-project"}>
+            {divider ? dividerName : ""}
+          </div>
+        </div>
+        <div className="feed-details">
+          <div className="feed-time">{timeHour}</div>
+          <div className="feed-item-img">
+            <Avatar src={AvatarImg} width="60" height="60" />
+          </div>
+          <div className="feed-action">
+            <Link to={`${findKind(kind, sourceID)}`} className="link">
+              {action}
+            </Link>
+          </div>
         </div>
       </div>
-      <div className="feed-details">
-        <div className="feed-time">{timeHour}</div>
-        <div className="feed-item-img">
-          <Avatar src={AvatarImg} width="60" height="60" />
-        </div>
-        {/* <div className="feed-action">{action}</div> */}
-        <Link to={findKind(kind, sourceID)} className="feed-action">
-          {action}
-        </Link>
-      </div>
-    </div>
-  );
+    );
+  }
 }
 
 feedItem.propTypes = {

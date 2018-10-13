@@ -299,7 +299,7 @@ export const FileTree = {
         break;
       }
     }
-    return {root, nodeDeleted};
+    return { root, nodeDeleted };
   },
 
   // 移动节点

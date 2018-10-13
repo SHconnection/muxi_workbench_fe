@@ -22,4 +22,7 @@
 }
 .status-markdown {
     min-height: 700px;
+    margin-top: 20px;
+    width: 100%;
+    border: white;
 } 

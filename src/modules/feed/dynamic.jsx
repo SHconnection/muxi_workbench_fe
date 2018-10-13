@@ -34,7 +34,7 @@ class Dynamic extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      page: 0,
+      page: 1,
       count: 0,
       feedList: [],
       isPersonal: 0
@@ -71,7 +71,7 @@ class Dynamic extends Component {
         }
       });
     } else {
-      const { uid } = match.params.id;
+      const { uid } = match.params;
       FeedService.getPersonalFeed(uid, 1).then(feed => {
         if (feed) {
           const arr1 = feed.feed_stream.map(feed1 => {
@@ -112,33 +112,66 @@ class Dynamic extends Component {
   }
 
   getFeedList(page, count) {
-    if (count / 40 >= page) {
-      FeedService.getFeedList(page + 1).then(feeds => {
-        if (feeds) {
-          const arr1 = feeds.feed_stream.map(feed1 => {
-            const feedList = feed1;
-            const obj = {};
-            obj.uid = feedList.uid;
-            obj.timeDay = feedList.time_d;
-            obj.timeHour = feedList.time_s;
-            obj.avatarUrl = feedList.avatar_url;
-            obj.action = feedList.action;
-            obj.kind = feedList.kind;
-            obj.sourceID = feedList.sourceID;
-            obj.divider = feedList.divider;
-            obj.dividerID = feedList.divider_id;
-            obj.dividerName = feedList.divider_name;
-            return obj;
-          });
-          const page1 = feeds.page;
-          const count1 = feeds.count;
-          this.setState({
-            feedList: arr1,
-            count: count1,
-            page: page1
-          });
-        }
-      });
+    const { match } = this.props;
+    if (match.path === "/feed") {
+      if (count / 40 > page) {
+        FeedService.getFeedList(page + 1).then(feeds => {
+          if (feeds) {
+            const arr1 = feeds.feed_stream.map(feed1 => {
+              const feedList = feed1;
+              const obj = {};
+              obj.uid = feedList.uid;
+              obj.timeDay = feedList.time_d;
+              obj.timeHour = feedList.time_s;
+              obj.avatarUrl = feedList.avatar_url;
+              obj.action = feedList.action;
+              obj.kind = feedList.kind;
+              obj.sourceID = feedList.sourceID;
+              obj.divider = feedList.divider;
+              obj.dividerID = feedList.divider_id;
+              obj.dividerName = feedList.divider_name;
+              return obj;
+            });
+            const page1 = feeds.page;
+            const count1 = feeds.count;
+            this.setState({
+              feedList: arr1,
+              count: count1,
+              page: page1
+            });
+          }
+        });
+      }
+    } else {
+      const { uid } = match.params;
+      if (count / 40 > page) {
+        FeedService.getPersonalFeed(uid, page + 1).then(feeds => {
+          if (feeds) {
+            const arr1 = feeds.feed_stream.map(feed1 => {
+              const feedList = feed1;
+              const obj = {};
+              obj.uid = feedList.uid;
+              obj.timeDay = feedList.time_d;
+              obj.timeHour = feedList.time_s;
+              obj.avatarUrl = feedList.avatar_url;
+              obj.action = feedList.action;
+              obj.kind = feedList.kind;
+              obj.sourceID = feedList.sourceID;
+              obj.divider = feedList.divider;
+              obj.dividerID = feedList.divider_id;
+              obj.dividerName = feedList.divider_name;
+              return obj;
+            });
+            const page1 = feeds.page;
+            const count1 = feeds.count;
+            this.setState({
+              feedList: arr1,
+              count: count1,
+              page: page1
+            });
+          }
+        });
+      }
     }
   }
 
@@ -178,7 +211,7 @@ class Dynamic extends Component {
             ))}
           </div>
           <div className="loadMore">
-            {count / 40 <= page ? "下拉加载更多..." : "最后一页啦"}
+            {count / 40 <= page ? "最后一页啦" : "下拉加载更多..."}
           </div>
         </div>
         <Gotop className="go-top" />
@@ -189,7 +222,10 @@ class Dynamic extends Component {
 
 Dynamic.propTypes = {
   match: PropTypes.shape({
-    url: PropTypes.string
+    url: PropTypes.string,
+    params: PropTypes.shape({
+      id: PropTypes.string
+    })
   })
 };
 
