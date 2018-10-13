@@ -20,7 +20,7 @@ class Progress extends Component {
 
   componentWillMount() {
     const { match } = this.props;
-    if (match.path === "/status") {
+    if (match.url === "/status") {
       StatusService.getStatusList(1).then(status => {
         if (status) {
           const arr1 = status.statuList.map(statu1 => {
@@ -148,6 +148,9 @@ class Progress extends Component {
 
   render() {
     const { statuList, isPersonal, cout, page } = this.state;
+    const {
+      match: { url }
+    } = this.props;
     return (
       <div>
         <div className={isPersonal ? "" : "status"}>
@@ -163,6 +166,7 @@ class Progress extends Component {
                   content={card.content}
                   likeCount={card.likeCount}
                   commentCount={card.commentCount}
+                  isPersonal={url === "/status" ? 0 : 1}
                 />
               </div>
             ))}

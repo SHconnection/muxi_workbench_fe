@@ -18,18 +18,9 @@ class Item extends Component {
       whetherLike: props.iflike,
       likeNumber: props.likeCount,
       sid: props.sid,
-      isPersonal: 0
+      isPersonal: props.isPersonal
     };
     this.changeLike = this.changeLike.bind(this);
-  }
-
-  componentWillMount() {
-    const { match } = this.props;
-    if (match.path === "/status") {
-      this.setState({
-        isPersonal: 1
-      });
-    }
   }
 
   changeLike(sid, whetherLike, likeNumber) {
@@ -95,6 +86,7 @@ Item.propTypes = {
   iflike: PropTypes.number,
   likeCount: PropTypes.number,
   commentCount: PropTypes.number,
+  isPersonal: PropTypes.number,
   match: PropTypes.shape({
     url: PropTypes.string
   })
@@ -109,6 +101,7 @@ Item.defaultProps = {
   iflike: 0,
   likeCount: 0,
   commentCount: 0,
+  isPersonal: 0,
   match: {
     url: "/status"
   }
