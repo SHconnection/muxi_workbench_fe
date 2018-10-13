@@ -34,7 +34,7 @@ class Dynamic extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      page: 0,
+      page: 1,
       count: 0,
       feedList: [],
       isPersonal: 0
@@ -71,8 +71,7 @@ class Dynamic extends Component {
         }
       });
     } else {
-      const { uid } = match.params;
-      FeedService.getPersonalFeed(uid, 1).then(feed => {
+      FeedService.getPersonalFeed(match.params.id, 1).then(feed => {
         if (feed) {
           const arr1 = feed.feed_stream.map(feed1 => {
             const feedList = feed1;
@@ -112,7 +111,7 @@ class Dynamic extends Component {
   }
 
   getFeedList(page, count) {
-    if (count / 40 >= page) {
+    if (count / 40 > page) {
       FeedService.getFeedList(page + 1).then(feeds => {
         if (feeds) {
           const arr1 = feeds.feed_stream.map(feed1 => {
@@ -143,6 +142,7 @@ class Dynamic extends Component {
   }
 
   render() {
+    console.log(this.props.match);
     const { feedList, count, page, isPersonal } = this.state;
     return (
       <div className="feed">
@@ -178,10 +178,9 @@ class Dynamic extends Component {
             ))}
           </div>
           <div className="loadMore">
-            {count / 40 <= page ? "下拉加载更多..." : "最后一页啦"}
+            {count / 40 <= page ? "最后一页啦" : "下拉加载更多..."}
           </div>
         </div>
-        <div className="loadMore">下拉加载更多...</div>
         <Gotop className="go-top" />
       </div>
     );
