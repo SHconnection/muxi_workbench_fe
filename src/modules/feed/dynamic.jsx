@@ -71,7 +71,8 @@ class Dynamic extends Component {
         }
       });
     } else {
-      FeedService.getPersonalFeed(match.params.id, 1).then(feed => {
+      const { id } = match.params;
+      FeedService.getPersonalFeed(id, 1).then(feed => {
         if (feed) {
           const arr1 = feed.feed_stream.map(feed1 => {
             const feedList = feed1;
@@ -111,38 +112,70 @@ class Dynamic extends Component {
   }
 
   getFeedList(page, count) {
-    if (count / 40 > page) {
-      FeedService.getFeedList(page + 1).then(feeds => {
-        if (feeds) {
-          const arr1 = feeds.feed_stream.map(feed1 => {
-            const feedList = feed1;
-            const obj = {};
-            obj.uid = feedList.uid;
-            obj.timeDay = feedList.time_d;
-            obj.timeHour = feedList.time_s;
-            obj.avatarUrl = feedList.avatar_url;
-            obj.action = feedList.action;
-            obj.kind = feedList.kind;
-            obj.sourceID = feedList.sourceID;
-            obj.divider = feedList.divider;
-            obj.dividerID = feedList.divider_id;
-            obj.dividerName = feedList.divider_name;
-            return obj;
-          });
-          const page1 = feeds.page;
-          const count1 = feeds.count;
-          this.setState({
-            feedList: arr1,
-            count: count1,
-            page: page1
-          });
-        }
-      });
+    const { match } = this.props;
+    if (match.path === "/feed") {
+      if (count / 40 > page) {
+        FeedService.getFeedList(page + 1).then(feeds => {
+          if (feeds) {
+            const arr1 = feeds.feed_stream.map(feed1 => {
+              const feedList = feed1;
+              const obj = {};
+              obj.uid = feedList.uid;
+              obj.timeDay = feedList.time_d;
+              obj.timeHour = feedList.time_s;
+              obj.avatarUrl = feedList.avatar_url;
+              obj.action = feedList.action;
+              obj.kind = feedList.kind;
+              obj.sourceID = feedList.sourceID;
+              obj.divider = feedList.divider;
+              obj.dividerID = feedList.divider_id;
+              obj.dividerName = feedList.divider_name;
+              return obj;
+            });
+            const page1 = feeds.page;
+            const count1 = feeds.count;
+            this.setState({
+              feedList: arr1,
+              count: count1,
+              page: page1
+            });
+          }
+        });
+      }
+    } else {
+      const { id } = match.params;
+      if (count / 40 > page) {
+        FeedService.getPersonalFeed(id, page + 1).then(feeds => {
+          if (feeds) {
+            const arr1 = feeds.feed_stream.map(feed1 => {
+              const feedList = feed1;
+              const obj = {};
+              obj.uid = feedList.uid;
+              obj.timeDay = feedList.time_d;
+              obj.timeHour = feedList.time_s;
+              obj.avatarUrl = feedList.avatar_url;
+              obj.action = feedList.action;
+              obj.kind = feedList.kind;
+              obj.sourceID = feedList.sourceID;
+              obj.divider = feedList.divider;
+              obj.dividerID = feedList.divider_id;
+              obj.dividerName = feedList.divider_name;
+              return obj;
+            });
+            const page1 = feeds.page;
+            const count1 = feeds.count;
+            this.setState({
+              feedList: arr1,
+              count: count1,
+              page: page1
+            });
+          }
+        });
+      }
     }
   }
 
   render() {
-    console.log(this.props.match);
     const { feedList, count, page, isPersonal } = this.state;
     return (
       <div className="feed">

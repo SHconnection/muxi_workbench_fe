@@ -115,36 +115,34 @@ class Progress extends Component {
         });
       }
     } else {
+      const { id } = match.params;
       if (cout / 20 > page) {
-        StatusService.getPersonalStatus(match.params.id, page + 1).then(
-          status => {
-            if (status) {
-              const arr1 = status.statuList.map(statu1 => {
-                const statu = statu1;
-                const obj = {};
-                obj.sid = statu.sid;
-                obj.username = statu.username;
-                obj.avatar = statu.avatar;
-                obj.time = statu.time;
-                obj.iflike = statu.iflike;
-                obj.content = statu.content;
-                obj.likeCount = statu.likeCount;
-                obj.commentCount = statu.commentCount;
-                return obj;
-              });
-              const count = status.cout;
-              const changePage = status.page;
-              this.setState({
-                cout: count,
-                page: changePage,
-                statuList: arr1,
-                isPersonal: 0
-              });
-            }
+        StatusService.getPersonalStatus(id, page + 1).then(status => {
+          if (status) {
+            const arr1 = status.statuList.map(statu1 => {
+              const statu = statu1;
+              const obj = {};
+              obj.sid = statu.sid;
+              obj.username = statu.username;
+              obj.avatar = statu.avatar;
+              obj.time = statu.time;
+              obj.iflike = statu.iflike;
+              obj.content = statu.content;
+              obj.likeCount = statu.likeCount;
+              obj.commentCount = statu.commentCount;
+              return obj;
+            });
+            const count = status.cout;
+            const changePage = status.page;
+            this.setState({
+              cout: count,
+              page: changePage,
+              statuList: arr1,
+              isPersonal: 0
+            });
           }
-        );
+        });
       }
-      console.log(1);
     }
   }
 
