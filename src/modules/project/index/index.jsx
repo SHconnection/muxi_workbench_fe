@@ -3,7 +3,6 @@ import ProjectItem from "../components/itemIcon/index";
 import Button from "../../../components/common/button";
 import ProjectService from "../../../service/project";
 import "./index.css";
-import ManageService from "../../../service/manage";
 
 class Index extends Component {
   constructor(props) {
@@ -14,15 +13,7 @@ class Index extends Component {
   }
 
   componentWillMount() {
-    const userID = 9;
-    ManageService.getAdmin()
-      .then(res => {
-        console.log(res);
-      })
-      .catch(res => {
-        console.error(res);
-      });
-    // 获取用户id=10（api暂时没有找到）
+    const userID = JSON.parse(localStorage.user).id;
     ProjectService.getAllProjectList(userID)
       .then(res => {
         const project = res
