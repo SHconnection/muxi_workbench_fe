@@ -71,8 +71,7 @@ class Dynamic extends Component {
         }
       });
     } else {
-      const { uid } = match.params.id;
-      FeedService.getPersonalFeed(uid, 1).then(feed => {
+      FeedService.getPersonalFeed(match.params.id, 1).then(feed => {
         if (feed) {
           const arr1 = feed.feed_stream.map(feed1 => {
             const feedList = feed1;
@@ -143,11 +142,12 @@ class Dynamic extends Component {
   }
 
   render() {
+    console.log(this.props.match);
     const { feedList, count, page, isPersonal } = this.state;
     return (
-      <div className={isPersonal ? "" : "feed"}>
+      <div className="feed">
         <div className={isPersonal ? "" : "subject"}>
-          <div className={isPersonal ? "" : "feed-list"}>
+          <div className="feed-list">
             {feedList.map((feed, index) => (
               <div key={feed.uid}>
                 {(index === 0 ||
@@ -177,11 +177,10 @@ class Dynamic extends Component {
               </div>
             ))}
           </div>
-          <div className={isPersonal ? "" : "loadMore"}>
+          <div className="loadMore">
             {count / 40 <= page ? "最后一页啦" : "下拉加载更多..."}
           </div>
         </div>
-        <div className="loadMore">下拉加载更多...</div>
         <Gotop className="go-top" />
       </div>
     );

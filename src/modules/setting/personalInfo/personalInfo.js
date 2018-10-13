@@ -67,7 +67,7 @@ const PersonalInfo = ({ match }) => {
           component={PersonalAttention}
         />
         <Route
-          path={`${match.url}/personalProgress/:uid`}
+          path={`${match.url}/personalProgress/:id`}
           component={Progress}
         />
       </Switch>
