@@ -112,7 +112,10 @@ class FileTreeComponent extends Component {
 FileTreeComponent.propTypes = {
   root: PropTypes.shape({
     folder: PropTypes.bool,
-    id: PropTypes.number,
+    id: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.number
+    ]),
     name: PropTypes.string,
     child: PropTypes.array,
     selected: PropTypes.bool,

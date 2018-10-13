@@ -294,7 +294,7 @@ export const FileTree = {
         break;
       }
     }
-    return root;
+    return {root, nodeDeleted};
   },
 
   // 移动节点
