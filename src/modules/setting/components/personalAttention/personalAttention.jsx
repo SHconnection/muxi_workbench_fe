@@ -22,7 +22,9 @@ class PersonalAttention extends Component {
   }
 
   componentDidMount() {
-    MessageService.getPersonalAttention().then(attention => {
+    const per = JSON.parse(localStorage.per);
+
+    MessageService.getPersonalAttention(per.id).then(attention => {
       const arr = attention.list.map((item1, index) => {
         const item = item1;
         item.id = index;

@@ -1,8 +1,8 @@
 import Fetch from "./fetch";
 
 const MessageService = {
-  getPersonalAttention() {
-    return Fetch("/user/attention/", {
+  getPersonalAttention(userID) {
+    return Fetch(`/user/attention/?id=${userID}`, {
       token: JSON.parse(localStorage.user).token
     });
   },
