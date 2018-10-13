@@ -9,6 +9,11 @@
     -webkit-box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.1); /* for safari or chrome */
     box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.1); /* for opera or ie9 */
 }
+.presonal-status{
+    border-bottom: solid 1px #919191;
+    padding: 75px;
+
+}
 .status-head{
     display: flex;
     align-items: center;
@@ -23,7 +28,7 @@
 }
 .open{
     position: absolute;
-    font-size: 30px;
+    font-size: 16px;
     right: 120px;
     margin-top: -25px;
 }

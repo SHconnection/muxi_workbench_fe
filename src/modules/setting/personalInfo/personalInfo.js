@@ -6,7 +6,7 @@ import { Route, NavLink, Link, Redirect, Switch } from "react-router-dom";
 import PropTypes from "prop-types";
 import PersonalAttention from "../components/personalAttention/personalAttention";
 import Dynamic from "../../feed/dynamic";
-import Progress from "../../status/index";
+import Progress from "../../status/progress/progress";
 import "../../../static/css/common.css";
 import "./personalInfo.css";
 
@@ -35,14 +35,14 @@ const PersonalInfo = ({ match }) => {
           <NavLink
             activeClassName="personalInfo-active"
             className="llSize singleItem"
-            to={`${match.url}/personalDynamic/${per.id}`}
+            to={`${match.url}/personalDynamic/${String(per.id)}`}
           >
             动态
           </NavLink>
           <NavLink
             activeClassName="personalInfo-active"
             className="llSize singleItem"
-            to={`${match.url}/personalProgress/${per.id}`}
+            to={`${match.url}/personalProgress/${String(per.id)}`}
           >
             进度
           </NavLink>
@@ -61,13 +61,13 @@ const PersonalInfo = ({ match }) => {
           path={`${match.url}`}
           to={`${match.url}/personalAttention`}
         />
-        <Route path={`${match.url}/personalDynamic/:id`} component={Dynamic} />
+        <Route path={`${match.url}/personalDynamic/:uid`} component={Dynamic} />
         <Route
           path={`${match.url}/personalAttention`}
           component={PersonalAttention}
         />
         <Route
-          path={`${match.url}/personalProgress/:id`}
+          path={`${match.url}/personalProgress/:uid`}
           component={Progress}
         />
       </Switch>

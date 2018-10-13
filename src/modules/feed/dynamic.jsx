@@ -71,8 +71,8 @@ class Dynamic extends Component {
         }
       });
     } else {
-      const { id } = match.params;
-      FeedService.getPersonalFeed(id, 1).then(feed => {
+      const { uid } = match.params;
+      FeedService.getPersonalFeed(uid, 1).then(feed => {
         if (feed) {
           const arr1 = feed.feed_stream.map(feed1 => {
             const feedList = feed1;
@@ -143,9 +143,9 @@ class Dynamic extends Component {
         });
       }
     } else {
-      const { id } = match.params;
+      const { uid } = match.params;
       if (count / 40 > page) {
-        FeedService.getPersonalFeed(id, page + 1).then(feeds => {
+        FeedService.getPersonalFeed(uid, page + 1).then(feeds => {
           if (feeds) {
             const arr1 = feeds.feed_stream.map(feed1 => {
               const feedList = feed1;
@@ -222,7 +222,10 @@ class Dynamic extends Component {
 
 Dynamic.propTypes = {
   match: PropTypes.shape({
-    url: PropTypes.string
+    url: PropTypes.string,
+    params: PropTypes.shape({
+      id: PropTypes.string
+    })
   })
 };
 

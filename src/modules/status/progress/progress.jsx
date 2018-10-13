@@ -47,7 +47,7 @@ class Progress extends Component {
         }
       });
     } else {
-      StatusService.getPersonalStatus(match.params.id, 1).then(status => {
+      StatusService.getPersonalStatus(match.params.uid, 1).then(status => {
         if (status) {
           const arr1 = status.statuList.map(statu1 => {
             const statu = statu1;
@@ -179,7 +179,10 @@ class Progress extends Component {
 
 Progress.propTypes = {
   match: PropTypes.shape({
-    url: PropTypes.string
+    url: PropTypes.string,
+    params: PropTypes.shape({
+      id: PropTypes.string
+    })
   })
 };
 

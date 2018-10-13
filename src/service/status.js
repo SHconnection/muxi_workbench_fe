@@ -1,12 +1,23 @@
 import Fetch from "./fetch";
 
 const StatusService = {
-  addNewStatu(title, value) {
+  addNewStatu(title, content) {
     return Fetch("/status/new/", {
+      token: JSON.parse(localStorage.user).token,
       method: "POST",
       data: {
-        title,
-        value
+        content,
+        title
+      }
+    });
+  },
+  changeStatu(sid, title, content) {
+    return Fetch(`/status/${sid}/`, {
+      token: JSON.parse(localStorage.user).token,
+      method: "PUT",
+      data: {
+        content,
+        title
       }
     });
   },
