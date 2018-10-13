@@ -71,7 +71,7 @@ class Dynamic extends Component {
         }
       });
     } else {
-      const { uid } = match.params.id;
+      const { uid } = match.params;
       FeedService.getPersonalFeed(uid, 1).then(feed => {
         if (feed) {
           const arr1 = feed.feed_stream.map(feed1 => {
@@ -190,7 +190,10 @@ class Dynamic extends Component {
 
 Dynamic.propTypes = {
   match: PropTypes.shape({
-    url: PropTypes.string
+    url: PropTypes.string,
+    params: PropTypes.shape({
+      id: PropTypes.number
+    })
   })
 };
 
