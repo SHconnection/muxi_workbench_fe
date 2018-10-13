@@ -16,6 +16,7 @@ class Header extends Component {
     };
     this.searchRef = React.createRef();
     this.enterSearch = this.enterSearch.bind(this);
+    this.searchText = "";
   }
 
   clickSearchIcon() {
@@ -28,8 +29,8 @@ class Header extends Component {
   searchItem() {
     const { value } = this.searchRef.current;
     // console.log(value);
-    localStorage.searchtext = value;
     if (value !== "") {
+      this.searchText = value;
       this.setState({
         redirect: true
       });
@@ -48,7 +49,7 @@ class Header extends Component {
       return (
         <div>
           <Header />
-          <Redirect push to="/search" />
+          <Redirect push to={`/search/${this.searchText}`} />
         </div>
       );
     }

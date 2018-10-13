@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, { Component } from "react";
 import ReactSVG from "react-svg";
 import PropTypes from "prop-types";
 import "./index.css";
@@ -22,9 +22,9 @@ const IconMap = {
   TXT: TxtIcon,
   ZIP: ZipIcon,
   RAR: RarIcon
-}
+};
 
-let imgStyle
+let imgStyle;
 
 class FileItem extends Component {
   constructor(props) {
@@ -36,98 +36,111 @@ class FileItem extends Component {
   }
 
   componentWillMount() {
-    const { fileItem } = this.props
-    const suffix = fileItem.name.split('.')[1] || "folder"
-    if (suffix === 'jpg' || suffix === 'png') {
+    const { fileItem } = this.props;
+    const suffix = fileItem.name.split(".")[1] || "folder";
+    if (suffix === "jpg" || suffix === "png") {
       this.setState({
         isImage: true
-      })
-      
+      });
     }
   }
 
   enter() {
     this.setState({
-      hover: true,
-    })
+      hover: true
+    });
   }
 
   leave() {
     this.setState({
-      hover: false,
-    })
+      hover: false
+    });
   }
 
   deleteFile() {
-    const { fileItem, deleteFile, pid } = this.props
-    deleteFile(fileItem.id, 'file', pid)
+    const { fileItem, deleteFile, pid } = this.props;
+    deleteFile(fileItem.id, "file", pid);
   }
 
   moveFile() {
-    const { fileItem, moveFile, pid } = this.props
-    moveFile(fileItem.id, 'file', pid)
+    const { fileItem, moveFile, pid } = this.props;
+    moveFile(fileItem.id, "file", pid);
   }
 
   render() {
-    const { fileItem } = this.props
-    const { hover, isImage } = this.state
-    let suffix = fileItem.name.split('.')[1]
+    const { fileItem } = this.props;
+    const { hover, isImage } = this.state;
+    let suffix = fileItem.name.split(".")[1];
     if (IconMap[suffix] == null) {
-      suffix = 'txt'
+      suffix = "txt";
     }
     imgStyle = {
-      width: '135px',
-      height: '86px',
-      background: `url(${fileItem.url}) no-repeat center / contain` 
-    }
+      width: "135px",
+      height: "86px",
+      background: `url(${fileItem.url}) no-repeat center / contain`
+    };
     return (
-      <div className="fileIcon-container" onMouseEnter={this.enter.bind(this)} onMouseLeave={this.leave.bind(this)}>
+      <div
+        className="fileIcon-container"
+        onMouseEnter={this.enter.bind(this)}
+        onMouseLeave={this.leave.bind(this)}
+      >
         <div className="fileItem-content">
           {!isImage && (
             <ReactSVG className="fileIcon-img" path={IconMap[suffix]} />
           )}
-          {
-            isImage && (
-              <div className="fileIcon-img">
-                <div style={imgStyle} />
-              </div>
-            )
-          }
-          <div title={fileItem.name} className="fileIcon-text">{fileItem.name}</div>
-        </div>
-        
-        {hover && 
-          (
-            <div className="fileIcon-footer" onMouseLeave={this.leave.bind(this)}>
-              <a className="fileIcon-downland" href={`${fileItem.url}?attname=${fileItem.name}`} download={fileItem.name}>下载</a>
-              <div onClick={this.moveFile.bind(this)} onKeyDown={() => {}} role="presentation">移动</div>
-              <div onClick={this.deleteFile.bind(this)} onKeyDown={() => {}} role="presentation">删除</div>
+          {isImage && (
+            <div className="fileIcon-img">
+              <div style={imgStyle} />
             </div>
-          )
-        }
+          )}
+          <div title={fileItem.name} className="fileIcon-text">
+            {fileItem.name}
+          </div>
+        </div>
+
+        {hover && (
+          <div className="fileIcon-footer" onMouseLeave={this.leave.bind(this)}>
+            <a
+              className="fileIcon-downland"
+              href={`${fileItem.url}?attname=${fileItem.name}`}
+              download={fileItem.name}
+            >
+              下载
+            </a>
+            <div
+              onClick={this.moveFile.bind(this)}
+              onKeyDown={() => {}}
+              role="presentation"
+            >
+              移动
+            </div>
+            <div
+              onClick={this.deleteFile.bind(this)}
+              onKeyDown={() => {}}
+              role="presentation"
+            >
+              删除
+            </div>
+          </div>
+        )}
       </div>
-    )
+    );
   }
 }
 
 FileItem.propTypes = {
   fileItem: PropTypes.shape({
-    id: PropTypes.oneOfType([
-      PropTypes.string,
-      PropTypes.number
-    ]),
+    id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     name: PropTypes.string,
     creator: PropTypes.string,
     url: PropTypes.string,
     create_time: PropTypes.string
   }),
-  pid: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.number
-  ]),
+  pid: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   moveFile: PropTypes.func,
   deleteFile: PropTypes.func
-}
+};
 
 FileItem.defaultProps = {
   fileItem: {
@@ -140,6 +153,6 @@ FileItem.defaultProps = {
   pid: "",
   moveFile: () => {},
   deleteFile: () => {}
-}
+};
 
 export default FileItem;

@@ -118,13 +118,12 @@ const FileTreeRecursion = {
     if (node.child) {
       node.child.forEach(el => {
         if (el.folder) {
-          result.folder.push(el.id)
-          FileTreeRecursion.TraversalFileNode(el, result)
+          result.folder.push(el.id);
+          FileTreeRecursion.TraversalFileNode(el, result);
+        } else {
+          result.file.push(el.id);
         }
-        else {
-          result.file.push(el.id)
-        }
-      })
+      });
     }
   },
 
@@ -132,16 +131,14 @@ const FileTreeRecursion = {
     if (node.child) {
       node.child.forEach(el => {
         if (el.folder) {
-          result.folder.push(el.id)
-          FileTreeRecursion.TraversalFileNode(el, result)
+          result.folder.push(el.id);
+          FileTreeRecursion.TraversalFileNode(el, result);
+        } else {
+          result.doc.push(el.id);
         }
-        else {
-          result.doc.push(el.id)
-        }
-      })
+      });
     }
-    
-  },
+  }
 };
 
 export const FileTree = {
@@ -163,16 +160,16 @@ export const FileTree = {
   // 请求文档树
   getDocTree(pid) {
     return ProjectService.getProjectDocTree(pid)
-    .then(res => {
-      if (res.doctree) {
-        return JSON.parse(res.doctree)
-      }
-      return []
-    })
-    .catch(res => {
-      console.error(res)
-      return []
-    })
+      .then(res => {
+        if (res.doctree) {
+          return JSON.parse(res.doctree);
+        }
+        return [];
+      })
+      .catch(res => {
+        console.error(res);
+        return [];
+      });
   },
 
   // 初始化节点均没有被选中
@@ -213,48 +210,56 @@ export const FileTree = {
 
   // 返回某个文件节点下的id：{folder: [id1, id2, ...], file: [id1, id2, ...]}
   findFileIdList(id, root) {
-    const parentNode = FileTree.searchNode(id, root)
+    const parentNode = FileTree.searchNode(id, root);
     if (parentNode === null || !parentNode.folder) {
-      return false
+      return false;
     }
     return {
-      folder:parentNode.child.filter(el => el.folder).map(el1 => parseInt(el1.id, 0)), 
-      file:parentNode.child.filter(el => !el.folder).map(el1 => parseInt(el1.id, 0))
-    }
+      folder: parentNode.child
+        .filter(el => el.folder)
+        .map(el1 => parseInt(el1.id, 0)),
+      file: parentNode.child
+        .filter(el => !el.folder)
+        .map(el1 => parseInt(el1.id, 0))
+    };
   },
 
   // 返回文件树节点下档所有id：{folder: [id1, id2, ...], file: [id1, id2, ...]}
   findAllFileList(id, root) {
-    const parentNode = FileTree.searchNode(id, root)
+    const parentNode = FileTree.searchNode(id, root);
     if (parentNode === null || !parentNode.folder) {
-      return false
+      return false;
     }
-    const result = {folder: [id], file: []}
-    FileTreeRecursion.TraversalFileNode(parentNode, result)
-    return result
+    const result = { folder: [id], file: [] };
+    FileTreeRecursion.TraversalFileNode(parentNode, result);
+    return result;
   },
 
   // 返回某个文档节点下的id：{folder: [id1, id2, ...], doc: [id1, id2, ...]}
   findDocIdList(id, root) {
-    const parentNode = FileTree.searchNode(id, root)
+    const parentNode = FileTree.searchNode(id, root);
     if (parentNode === null || !parentNode.folder) {
-      return false
+      return false;
     }
     return {
-      folder:parentNode.child.filter(el => el.folder).map(el1 => parseInt(el1.id, 0)), 
-      doc:parentNode.child.filter(el => !el.folder).map(el1 => parseInt(el1.id, 0))
-    }
+      folder: parentNode.child
+        .filter(el => el.folder)
+        .map(el1 => parseInt(el1.id, 0)),
+      doc: parentNode.child
+        .filter(el => !el.folder)
+        .map(el1 => parseInt(el1.id, 0))
+    };
   },
 
   // 返回文档树节点下所有id：{folder: [id1, id2, ...], doc: [id1, id2, ...]}
   findAllDocList(id, root) {
-    const parentNode = FileTree.searchNode(id, root)
+    const parentNode = FileTree.searchNode(id, root);
     if (parentNode === null || !parentNode.folder) {
-      return false
+      return false;
     }
-    const result = {folder: [id], doc: []}
-    FileTreeRecursion.TraversalDocNode(parentNode, result)
-    return result
+    const result = { folder: [id], doc: [] };
+    FileTreeRecursion.TraversalDocNode(parentNode, result);
+    return result;
   },
 
   // 插入节点
@@ -275,7 +280,7 @@ export const FileTree = {
     // 在树root中删除id为id的节点，成功返回Obj{删除的节点, 新节点}，失败返回false
     /* eslint-disable */
     if (id == 0) {
-    /* eslint-disable */
+      /* eslint-disable */
       // 无法删除根节点
       return false;
     }
@@ -289,7 +294,7 @@ export const FileTree = {
     for (let i = 0; i < parentNode.child.length; i += 1) {
       /* eslint-disable */
       if (parentNode.child[i].id == id) {
-      /* eslint-disable */
+        /* eslint-disable */
         parentNode.child.splice(i, 1);
         break;
       }

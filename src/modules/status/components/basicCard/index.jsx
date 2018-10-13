@@ -6,6 +6,7 @@ import thumbs from "../../../../assets/svg/commonIcon/thumbs.svg";
 import thumbsUp from "../../../../assets/svg/commonIcon/thumbs_up.svg";
 import comment from "../../../../assets/svg/commonIcon/comment.svg";
 import Avatar from "../../../../components/common/avatar/index";
+import StatusService from "../../../../service/status";
 import "./index.css";
 
 const Goods = [thumbs, thumbsUp];
@@ -21,17 +22,19 @@ class Item extends Component {
     this.changeLike = this.changeLike.bind(this);
   }
 
-  changeLike(whetherLike, likeNumber) {
+  changeLike(sid, whetherLike, likeNumber) {
     if (whetherLike === 0) {
       this.setState({
         whetherLike: 1,
         likeNumber: likeNumber + 1
       });
+      StatusService.changeLike(sid, 1);
     } else {
       this.setState({
         whetherLike: 0,
         likeNumber: likeNumber - 1
       });
+      StatusService.changeLike(sid, 0);
     }
   }
 
@@ -59,7 +62,7 @@ class Item extends Component {
         <div className="others">
           <ReactSVG
             className="status-item-good"
-            onClick={() => this.changeLike(whetherLike, likeNumber)}
+            onClick={() => this.changeLike(sid, whetherLike, likeNumber)}
             path={Goods[whetherLike]}
           />
           <div className="status-item-goodnumber">{likeNumber}</div>

@@ -31,10 +31,29 @@ const fetchGroups = () =>
 
 // 同时初始化项目的文件树和文档树
 const initProjectTree = pid => {
-  const fileRoot = {folder: true, id: 0, name: "全部文件", router: [0], selected: true, finalSelected: true, child: []}
-  const docRoot = {folder: true, id: 0, name: "全部文档", router: [0], selected: true, finalSelected: true, child: []}
-  return Promise.all([ProjectService.updateProjectFileTree(pid, JSON.stringify(fileRoot)), ProjectService.updateProjectDocTree(pid, JSON.stringify(docRoot))])
-}
+  const fileRoot = {
+    folder: true,
+    id: 0,
+    name: "全部文件",
+    router: [0],
+    selected: true,
+    finalSelected: true,
+    child: []
+  };
+  const docRoot = {
+    folder: true,
+    id: 0,
+    name: "全部文档",
+    router: [0],
+    selected: true,
+    finalSelected: true,
+    child: []
+  };
+  return Promise.all([
+    ProjectService.updateProjectFileTree(pid, JSON.stringify(fileRoot)),
+    ProjectService.updateProjectDocTree(pid, JSON.stringify(docRoot))
+  ]);
+};
 
 class NewProject extends Component {
   constructor(props) {
@@ -166,15 +185,15 @@ class NewProject extends Component {
     ProjectService.createProject(postData)
       .then(res => {
         initProjectTree(res.project_id)
-        .then(res1 => {
-          console.log(res1)
-        })
-        .catch(res1 => {
-          console.error("error", res1)
-        })
+          .then(res1 => {
+            console.log(res1);
+          })
+          .catch(res1 => {
+            console.error("error", res1);
+          });
       })
       .catch(res => {
-        console.error("error", res)
+        console.error("error", res);
       });
   }
 

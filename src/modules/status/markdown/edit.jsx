@@ -1,6 +1,16 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
+import { EditorState } from "prosemirror-state";
+import { EditorView } from "prosemirror-view";
+import { addListNodes } from "prosemirror-schema-list";
+import { exampleSetup } from "prosemirror-example-setup";
+import {
+  schema,
+  defaultMarkdownParser,
+  defaultMarkdownSerializer
+} from "prosemirror-markdown";
 // import ProseMirror from "react-prosemirror";
+import CustomEditor from "./editor";
 import Goback from "../../../components/common/goBack/index";
 import Button from "../../../components/common/button";
 import "../../../static/css/common.css";
@@ -15,12 +25,30 @@ import "../../../service/cookie";
 //       value: ""
 //     };
 //   }
-//   onChange(value) {
-//     this.setState({value:value})
+
+//   componentDidMount() {
+//     // Mix the nodes from prosemirror-schema-list into the basic schema to
+//     // create a schema with list support.
+//     // const mySchema = new Schema({
+//     //   nodes: addListNodes(schema.spec.nodes, "paragraph block*", "block"),
+//     //   marks: schema.spec.marks
+//     // });
+
+//     window.view = new EditorView(document.querySelector("#editor"), {
+//       state: EditorState.create({
+//         doc: defaultMarkdownParser.parse("### fwefwefwef"),
+//         plugins: exampleSetup({ schema })
+//       })
+//     });
 //   }
 
 //   render() {
-//     return <ProseMirror value={this.state.value} onChange={this.onChange} options={{docFormat: 'html'}} />
+//     return (
+//       <div>
+//         <div id="editor">fwefewfwefwfwef</div>
+//         <div id="content" />
+//       </div>
+//     );
 //   }
 // }
 
@@ -31,14 +59,14 @@ class edit extends Component {
       content: "",
       title: ""
     };
+    this.handleChange = this.handleChange.bind(this);
   }
 
   componentWillMount() {
     const { match } = this.props;
     if (match.path === `/edit`);
     else {
-      const { sid } = match.params.id;
-      StatusService.getStatuDetail(sid).then(doc => {
+      StatusService.getStatuDetail(match.params.id).then(doc => {
         if (doc) {
           const value = doc.content;
           const name = doc.title;
@@ -51,9 +79,9 @@ class edit extends Component {
     }
   }
 
-  onChange(title) {
+  handleChange(event) {
     this.setState({
-      title
+      title: event.target.value
     });
   }
 
@@ -69,7 +97,7 @@ class edit extends Component {
             className="write-input"
             type="text"
             value={title}
-            onChange={this.onChange}
+            onChange={this.handleChange}
             placeholder="请输入标题"
           />
           <div className="status-save-bt">
@@ -82,7 +110,9 @@ class edit extends Component {
             />
           </div>
         </div>
-        {/* <div className="status-markdown"><CustomEditor /></div> */}
+        <div className="status-markdown">
+          <CustomEditor className="editor" />
+        </div>
       </div>
     );
   }

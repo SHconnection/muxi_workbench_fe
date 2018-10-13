@@ -78,14 +78,14 @@ const ProjectService = {
         filetree: fileTreeStr
       },
       token: localStorage.token
-    })
+    });
   },
 
   // 获取项目文档树
   getProjectDocTree(pid) {
     return Fetch(`/folder/doctree/${pid}/`, {
       token: localStorage.token
-    })
+    });
   },
 
   // 更新文档树
@@ -96,7 +96,7 @@ const ProjectService = {
         doctree: docTreeStr
       },
       token: localStorage.token
-    })
+    });
   }
 };
 

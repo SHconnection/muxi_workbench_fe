@@ -25,7 +25,7 @@ class Select extends Component {
   chooseFile(event) {
     const { showInput } = this.state;
     const file = event.target.files[0];
-    const file1 = document.getElementById('select-file').files[0]
+    const file1 = document.getElementById("select-file").files[0];
     // console.log(file);
     // console.log(file1);
     const reader = new FileReader();
@@ -34,7 +34,7 @@ class Select extends Component {
     }
     const { onChange } = this.props;
     onChange(file1);
-    
+
     this.setState({
       showInput: !showInput
     });
@@ -70,7 +70,7 @@ class Select extends Component {
                       onChange(index, el.id);
                       this.setState({
                         showInput: false
-                      })
+                      });
                     }
                   }}
                   onKeyDown={() => {}}
@@ -105,13 +105,13 @@ Select.propTypes = {
     })
   ),
   checkedIndex: PropTypes.number,
-  onChange: PropTypes.func,
+  onChange: PropTypes.func
 };
 
 Select.defaultProps = {
   items: [],
   checkedIndex: 0,
-  onChange: () => {},
+  onChange: () => {}
 };
 
 export default Select;

@@ -43,6 +43,7 @@ function feedItem(props) {
         <div className="feed-item-img">
           <Avatar src={AvatarImg} width="60" height="60" />
         </div>
+        {/* <div className="feed-action">{action}</div> */}
         <Link to={findKind(kind, sourceID)} className="feed-action">
           {action}
         </Link>
@@ -65,8 +66,8 @@ feedItem.propTypes = {
 };
 
 feedItem.defaultProps = {
-  // timeDay: "0000/00/00",
-  timeHour: "00:00",
+  // timeDay: "0000-00-00",
+  timeHour: "00:00:00",
   // avatarUrl: " ",
   // uid: 0,
   action: " ",

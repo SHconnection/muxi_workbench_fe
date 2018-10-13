@@ -56,7 +56,7 @@ class Inform extends Component {
     const { hover, MessageList } = this.state;
     const message = MessageList.length;
     // console.log("message:",message);
-    console.log("messagelist", MessageList);
+    // console.log("messagelist", MessageList);
     return (
       <div>
         <div onMouseEnter={this.enter.bind(this)}>

@@ -10,7 +10,7 @@ const FileService = {
         project_id: pid
       },
       token: localStorage.token
-    })
+    });
   },
 
   // 创建文档夹
@@ -22,7 +22,7 @@ const FileService = {
         project_id: pid
       },
       token: localStorage.token
-    })
+    });
   },
 
   // 请求一堆文件（夹）
@@ -31,7 +31,7 @@ const FileService = {
       method: "POST",
       data: postData,
       token: localStorage.token
-    })
+    });
   },
 
   // 请求一堆文档（夹）
@@ -40,52 +40,52 @@ const FileService = {
       method: "POST",
       data: postData,
       token: localStorage.token
-    })
+    });
   },
 
   // 上传文件
   uploadFile(formData) {
     return fetch(`/file/file/`, {
-      method: 'POST',
+      method: "POST",
       body: formData,
       headers: {
-        'token': localStorage.token,       
+        token: localStorage.token
       }
-    })
+    });
   },
 
   // 删除文件
   deleteFile(id) {
     return Fetch(`/file/file/${id}/`, {
-      method: 'DELETE',
+      method: "DELETE",
       token: localStorage.token
-    })
+    });
   },
 
   // 删除文件夹
   deleteFileFolder(id, postData) {
     return Fetch(`/folder/file/${id}/`, {
-      method: 'DELETE',
+      method: "DELETE",
       data: postData,
       token: localStorage.token
-    })
+    });
   },
 
   // 删除文档
   deleteDoc(id) {
     return Fetch(`/file/doc/${id}/`, {
-      method: 'DELETE',
+      method: "DELETE",
       token: localStorage.token
-    })
+    });
   },
 
   // 删除文档夹
   deleteDocFolder(id, postData) {
     return Fetch(`/folder/doc/${id}/`, {
-      method: 'DELETE',
+      method: "DELETE",
       data: postData,
       token: localStorage.token
-    })
+    });
   },
 
   getDocConnent(id) {

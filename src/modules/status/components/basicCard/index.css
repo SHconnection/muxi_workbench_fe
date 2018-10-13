@@ -22,8 +22,9 @@
     margin-left: 11px;
 }
 .open{
-    font-size: 16px;
-    margin-left: 75%;
+    position: absolute;
+    font-size: 30px;
+    right: 120px;
     margin-top: -25px;
 }
 .status-item-content{
