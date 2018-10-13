@@ -39,10 +39,10 @@ const StatusService = {
     });
   },
   postComments(sid, content) {
-    return Fetch(`/status/${sid}/comment/`, {
+    return Fetch(`/status/${sid}/comments/`, {
       method: "POST",
       token: JSON.parse(localStorage.user).token,
-      data: content
+      data: { content }
     });
   },
   commentDelete(cid, sid) {
