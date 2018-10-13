@@ -55,7 +55,7 @@ class EditMember extends Component {
             const idList = member.list.map(mem => mem.userID);
 
             const members = arr.list.map(mem1 => {
-              const mem = this.changeGroupMemberFormat(mem1);
+              const mem = EditMember.changeGroupMemberFormat(mem1);
 
               if (idList.indexOf(mem.id) !== -1) mem.selected = true;
 
@@ -140,7 +140,9 @@ class EditMember extends Component {
   changeGroupCheck(index) {
     ManageService.groupMember(index).then(member => {
       if (member) {
-        const arr = member.list.map(mem => this.changeGroupMemberFormat(mem));
+        const arr = member.list.map(mem =>
+          EditMember.changeGroupMemberFormat(mem)
+        );
 
         this.setState({
           checkedIndex: index,

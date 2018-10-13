@@ -39,7 +39,7 @@ class TeamMember extends Component {
     ManageService.getAllMem().then(member => {
       if (member) {
         const arr = member.list.map(mem => {
-          const obj = this.changeGroupMemberFormat(mem);
+          const obj = TeamMember.changeGroupMemberFormat(mem);
 
           return obj;
         });
@@ -75,7 +75,7 @@ class TeamMember extends Component {
     ManageService.groupMember(id).then(member => {
       if (member) {
         const arr = member.list.map(mem => {
-          const obj = this.changeGroupMemberFormat(mem);
+          const obj = TeamMember.changeGroupMemberFormat(mem);
 
           return obj;
         });

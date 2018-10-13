@@ -115,9 +115,9 @@ class PersonalSet extends Component {
       // 将文件以Data URL形式进行读入页面
       reader.readAsDataURL(img);
 
-      reader.onload = () => {
+      reader.onload = e => {
         _this.setState({
-          img: this.result
+          img: e.target.result
         });
       };
     }
