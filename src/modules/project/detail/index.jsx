@@ -61,7 +61,7 @@ class ProjectDetailIndex extends Component {
       docTree: {},
       // 当前视图的文件节点id
       fileRootId: 0,
-      // 当我视图的文档节点id
+      // 当前视图的文档节点id
       docRootId: 0,
       // 创建文件夹和上传文件选项
       fileOption: [
@@ -107,6 +107,7 @@ class ProjectDetailIndex extends Component {
     this.confirmDeleteDoc = this.confirmDeleteDoc.bind(this);
     this.moveFile = this.moveFile.bind(this);
     this.confirmMoveFile = this.confirmMoveFile.bind(this);
+    this.confirmMoveDoc = this.confirmMoveDoc.bind(this);
     this.startDeleteFile = this.startDeleteFile.bind(this);
     this.startDeleteDoc = this.startDeleteDoc.bind(this);
     this.deleteFileNode = this.deleteFileNode.bind(this);
@@ -123,6 +124,7 @@ class ProjectDetailIndex extends Component {
       pid: parseInt(match.params.id, 0)
     });
     const pid = match.params.id;
+    // 获取项目基本信息
     ProjectService.getProjectInfo(pid)
       .then(res => {
         this.setState({
@@ -132,14 +134,9 @@ class ProjectDetailIndex extends Component {
       .catch(res => {
         console.error("error", res);
       });
-    // this.getFileTree()
+    // 更新文件与文档列表 
     this.updateFilesList();
     this.updatedocList();
-    // console.log(getRoot());
-    // const child = {folder: true, id: 211, name: "文件夹2-1-1",child:[]}
-    // console.log(FileTree.insertNode(child, 21, getRoot()));
-    // console.log(FileTree.deleteNode(21, getRoot()));
-    // console.log(FileTree.moveNode(21, 1, getRoot()));
   }
 
   // 获取最新文件树
@@ -536,8 +533,8 @@ class ProjectDetailIndex extends Component {
   confirmMoveFile() {
     const { pid, fileTree, finalMoveFileId, currentFileFolderId, currentFileId } = this.state
     const moveId =  currentFileFolderId || currentFileId
-    const newTree = FileTree.moveNode(moveId, finalMoveFileId, fileTree)
-    console.log(newTree)
+    const fileTreeTemp = JSON.parse(JSON.stringify(fileTree))
+    const newTree = FileTree.moveNode(moveId, finalMoveFileId, fileTreeTemp)
     if (newTree) {
       FileTree.initNodeFinalSelected(newTree)
       FileTree.initNodeSelected(newTree)
@@ -552,11 +549,29 @@ class ProjectDetailIndex extends Component {
         console.error(el)
       })
     }
-    else {
-      this.setState({
-        fileTree
+  }
+
+  // 确认移动文档
+  confirmMoveDoc() {
+    const { pid, docTree, finalMoveDocId, currentDocFolderId, currentDocId } = this.state
+    const moveId = currentDocFolderId || currentDocId
+    const docTreeTemp = JSON.parse(JSON.stringify(docTree))
+    const newTree = FileTree.moveNode(moveId, finalMoveDocId, docTreeTemp)
+    if (newTree) {
+      FileTree.initNodeFinalSelected(newTree)
+      FileTree.initNodeSelected(newTree)
+      newTree.selected = true
+      newTree.finalSelected = true
+      ProjectService.updateProjectDocTree(pid, JSON.stringify(newTree))
+      .then(() => {
+        // 更新视图
+        this.updatedocList()
+      })
+      .catch(el => {
+        console.error(el)
       })
     }
+    
   }
 
   // 隐藏弹出框
@@ -662,7 +677,7 @@ class ProjectDetailIndex extends Component {
               ))}
             </div>
             <div className="projectDetail-file-footer">
-              <Link to={`/project/${pid}/allFile`} className="fakeBtn">
+              <Link to={`/project/${pid}/fileFolder/0`} className="fakeBtn">
                 查看所有文件
               </Link>
             </div>
@@ -893,7 +908,7 @@ class ProjectDetailIndex extends Component {
               </div>
             </div>
           )}
-          {/* 移动文件弹出框 */}
+          {/* 移动文档弹出框 */}
           {showMoveDoc && (
             <div className="moveFileAlert">
               <div className="move-file-alert-tip">选择保存路径</div>
@@ -924,7 +939,6 @@ class ProjectDetailIndex extends Component {
                         fileRootTemp
                       );
                       fatherNode.finalSelected = true
-                      console.log(fatherNode)
                       this.setState({
                         docTree: fileRootTemp,
                         finalMoveDocId: fatherNode.id
@@ -947,7 +961,7 @@ class ProjectDetailIndex extends Component {
               </div>
               <div className="move-file-alert-done">
                 <Button
-                  onClick={() => {}}
+                  onClick={this.confirmMoveDoc}
                   text="确定"
                   width="65"
                   height="32"
