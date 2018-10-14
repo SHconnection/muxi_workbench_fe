@@ -827,7 +827,7 @@ class ProjectDetailIndex extends Component {
               </div>
             </div>
           )}
-          {/* 删除文件弹出框 */}
+          {/* 删除文档弹出框 */}
           {showDletedoc && (
             <div className="deleteFileAlert">
               <div className="delete-file-alert-tip">确认要删除该文档吗</div>
