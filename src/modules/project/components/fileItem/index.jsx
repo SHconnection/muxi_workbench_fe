@@ -2,12 +2,14 @@ import React, { Component } from "react";
 import ReactSVG from "react-svg";
 import PropTypes from "prop-types";
 import "./index.css";
+import { Link } from "react-router-dom";
 import FolderIcon from "../../../../assets/svg/fileIcon/folder.svg";
 import PdfIcon from "../../../../assets/svg/fileIcon/pdf.svg";
 import PsdIcon from "../../../../assets/svg/fileIcon/psd.svg";
 import TxtIcon from "../../../../assets/svg/fileIcon/txt.svg";
 import ZipIcon from "../../../../assets/svg/fileIcon/zip.svg";
 import RarIcon from "../../../../assets/svg/fileIcon/rar.svg";
+import DefaultIcon from "../../../../assets/svg/fileIcon/default.svg";
 import "../../../../static/css/common.css";
 
 const IconMap = {
@@ -21,7 +23,8 @@ const IconMap = {
   txt: TxtIcon,
   TXT: TxtIcon,
   ZIP: ZipIcon,
-  RAR: RarIcon
+  RAR: RarIcon,
+  default: DefaultIcon
 };
 
 let imgStyle;
@@ -63,16 +66,26 @@ class FileItem extends Component {
   }
 
   moveFile() {
-    const { fileItem, moveFile, pid } = this.props;
+    const { 
+      fileItem, 
+      moveFile, 
+      pid 
+    } = this.props;
     moveFile(fileItem.id, "file", pid);
   }
 
   render() {
-    const { fileItem } = this.props;
-    const { hover, isImage } = this.state;
+    const { 
+      fileItem, 
+      pid 
+    } = this.props;
+    const { 
+      hover, 
+      isImage
+    } = this.state;
     let suffix = fileItem.name.split(".")[1];
     if (IconMap[suffix] == null) {
-      suffix = "txt";
+      suffix = "default";
     }
     imgStyle = {
       width: "135px",
@@ -85,7 +98,10 @@ class FileItem extends Component {
         onMouseEnter={this.enter.bind(this)}
         onMouseLeave={this.leave.bind(this)}
       >
-        <div className="fileItem-content">
+        <Link 
+          className="fileItem-content"
+          to={`/project/${pid}/file/${fileItem.id}`}
+        >
           {!isImage && (
             <ReactSVG className="fileIcon-img" path={IconMap[suffix]} />
           )}
@@ -97,7 +113,7 @@ class FileItem extends Component {
           <div title={fileItem.name} className="fileIcon-text">
             {fileItem.name}
           </div>
-        </div>
+        </Link>
 
         {hover && (
           <div className="fileIcon-footer" onMouseLeave={this.leave.bind(this)}>

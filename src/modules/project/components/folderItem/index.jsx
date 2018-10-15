@@ -37,7 +37,10 @@ class FolderItem extends Component {
   }
 
   render() {
-    const { folderItem, pid } = this.props;
+    const { 
+      folderItem, 
+      pid 
+    } = this.props;
     const { hover } = this.state;
     return (
       <div

@@ -22,7 +22,6 @@ class FileTreeComponent extends Component {
     super(props);
     const { root } = this.props;
     this.state = {
-      visible: false,
       fileRoot: root
     };
     this.changeVisible = this.changeVisible.bind(this);
@@ -30,8 +29,8 @@ class FileTreeComponent extends Component {
   }
 
   changeVisible() {
-    const { visible, fileRoot } = this.state;
-    const { select, finalSelected, root, finalSelect } = this.props;
+    // const { visible, fileRoot } = this.state;
+    const { select,  root, finalSelect } = this.props;
     select(root);
     finalSelect(root);
     // const fileRootTemp = Object.assign({}, fileRoot)

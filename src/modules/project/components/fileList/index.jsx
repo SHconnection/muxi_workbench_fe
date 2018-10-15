@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import "./index.css";
 
 function FileList(props) {
-  const { item, downloadFile, deleteFile, moveFile, fileToTop} = props
+  const { item, deleteFile, moveFile, fileToTop} = props
   return (
     <div className="project-fileList-container">
       <div className="project-fileList-left">

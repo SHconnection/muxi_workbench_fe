@@ -1,0 +1,57 @@
+
+<svg width="138px" height="89px" viewBox="0 0 138 89" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 49.2 (51160) - http://www.bohemiancoding.com/sketch -->
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <filter x="-1.5%" y="-2.3%" width="104.4%" height="105.8%" filterUnits="objectBoundingBox" id="filter-1">
+            <feOffset dx="0" dy="1" in="SourceAlpha" result="shadowOffsetOuter1"></feOffset>
+            <feGaussianBlur stdDeviation="0.5" in="shadowOffsetOuter1" result="shadowBlurOuter1"></feGaussianBlur>
+            <feColorMatrix values="0 0 0 0 0   0 0 0 0 0   0 0 0 0 0  0 0 0 0.05 0" type="matrix" in="shadowBlurOuter1" result="shadowMatrixOuter1"></feColorMatrix>
+            <feMerge>
+                <feMergeNode in="shadowMatrixOuter1"></feMergeNode>
+                <feMergeNode in="SourceGraphic"></feMergeNode>
+            </feMerge>
+        </filter>
+        <path d="M117,0 L135,17 L135,84 C135,85.1045695 134.104569,86 133,86 L2,86 C0.8954305,86 1.3527075e-16,85.1045695 0,84 L0,2 C-1.3527075e-16,0.8954305 0.8954305,2.02906125e-16 2,0 L117,0 Z" id="path-2"></path>
+        <path d="M135,17 L119,17 C117.895431,17 117,16.1045695 117,15 L117,0 L135,17 Z" id="path-3"></path>
+        <filter x="-19.4%" y="-14.7%" width="138.9%" height="141.2%" filterUnits="objectBoundingBox" id="filter-4">
+            <feOffset dx="0" dy="1" in="SourceAlpha" result="shadowOffsetOuter1"></feOffset>
+            <feGaussianBlur stdDeviation="1" in="shadowOffsetOuter1" result="shadowBlurOuter1"></feGaussianBlur>
+            <feComposite in="shadowBlurOuter1" in2="SourceAlpha" operator="out" result="shadowBlurOuter1"></feComposite>
+            <feColorMatrix values="0 0 0 0 0   0 0 0 0 0   0 0 0 0 0  0 0 0 0.1 0" type="matrix" in="shadowBlurOuter1"></feColorMatrix>
+        </filter>
+    </defs>
+    <g id="高保真原型" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="项目" transform="translate(-419.000000, -513.000000)">
+            <g id="文件图标" transform="translate(194.000000, 337.000000)">
+                <g id="txt" filter="url(#filter-1)" transform="translate(226.000000, 177.000000)">
+                    <g id="Combined-Shape" fill-rule="nonzero">
+                        <!-- <use fill="#FFFFFF" fill-rule="evenodd" xlink:href="#path-2"></use> -->
+                        <path stroke="#979797" stroke-width="2" d="M116.602421,1 L2,1 C1.44771525,1 1,1.44771525 1,2 L1,84 C1,84.5522847 1.44771525,85 2,85 L133,85 C133.552285,85 134,84.5522847 134,84 L134,17.4310465 L116.602421,1 Z"></path>
+                    </g>
+                    <g id="Combined-Shape" fill-rule="nonzero">
+                        <!-- <use fill="black" fill-opacity="1" filter="url(#filter-4)" xlink:href="#path-3"></use> -->
+                        <!-- <use fill="#FFFFFF" fill-rule="evenodd" xlink:href="#path-3"></use> -->
+                        <path stroke="#979797" stroke-width="2" d="M132.484774,16 L118,2.31993538 L118,15 C118,15.5522847 118.447715,16 119,16 L132.484774,16 Z"></path>
+                    </g>
+                    <g transform="translate(25.000000, 12.000000)">
+                        <g id="txtlogo" fill="#979797" fill-rule="nonzero">
+                            <g id="文字1">
+                                <rect id="Rectangle-23" x="0" y="0" width="8" height="3" rx="1.5"></rect>
+                                <rect id="Rectangle-23" x="10" y="0" width="75" height="3" rx="1.5"></rect>
+                            </g>
+                            <g id="文字2" transform="translate(0.000000, 17.000000)">
+                                <rect id="Rectangle-23" x="68" y="0" width="17" height="3" rx="1.5"></rect>
+                                <rect id="Rectangle-23" x="0" y="0" width="67" height="3" rx="1.5"></rect>
+                            </g>
+                            <g id="文字3" transform="translate(0.000000, 34.000000)">
+                                <rect id="Rectangle-23" x="79" y="0" width="6" height="3" rx="1.5"></rect>
+                                <rect id="Rectangle-23" x="0" y="0" width="77" height="3" rx="1.5"></rect>
+                            </g>
+                        </g>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>
