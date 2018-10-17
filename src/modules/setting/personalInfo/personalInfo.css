@@ -2,6 +2,10 @@
     display: flex;
     align-items:center;
 }
+.personalInfo-saveBtn{
+    margin-right: 0;
+    white-space:nowrap;
+}
 .personalInfo-avatar {
     display: inline-block;
     width: 114px;
@@ -19,8 +23,8 @@
 }
 .personalInfo-btnMarg{
     position: absolute;
-    left: 86%;
-    top: 6%;
+    left: 68vw;
+    top: 10vh;
 }
 .personalInfo-select{
     position: relative;

@@ -24,8 +24,11 @@ const PersonalInfo = ({ match }) => {
           </Link>
           <div className="llSize">{per.email}</div>
         </div>
-        <Link to={`${match.url}/setPersonalInfo`}>
-          <button className="saveBtn personalInfo-btnMarg" type="button">
+        <Link
+          to={`${match.url}/setPersonalInfo`}
+          className="personalInfo-btnMarg"
+        >
+          <button type="button" className="saveBtn personalInfo-saveBtn">
             {JSON.parse(localStorage.user).role > 1 ? "管理成员" : ""}
           </button>
         </Link>
