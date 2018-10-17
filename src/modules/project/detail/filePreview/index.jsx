@@ -1,33 +1,14 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
-import ReactSVG from "react-svg";
 import { Link } from "react-router-dom";
+import MessageService from "../../../../service/message";
 import fileService from "../../../../service/file";
 import { FileTree } from "../../fileTree1";
 import Goback from "../../../../components/common/goBack/index";
-import FolderIcon from "../../../../assets/svg/fileIcon/folder.svg";
-import PdfIcon from "../../../../assets/svg/fileIcon/pdf.svg";
-import PsdIcon from "../../../../assets/svg/fileIcon/psd.svg";
-import TxtIcon from "../../../../assets/svg/fileIcon/txt.svg";
-import ZipIcon from "../../../../assets/svg/fileIcon/zip.svg";
-import RarIcon from "../../../../assets/svg/fileIcon/rar.svg";
-import DefaultIcon from "../../../../assets/svg/fileIcon/default.svg";
+import FileIcon from "../../components/fileIcon/index";
 import "../../../../static/css/common.css";
+import "./index.css"
 
-const IconMap = {
-  folder: FolderIcon,
-  pdf: PdfIcon,
-  PDF: PdfIcon,
-  psd: PsdIcon,
-  zip: ZipIcon,
-  rar: RarIcon,
-  PSD: PsdIcon,
-  txt: TxtIcon,
-  TXT: TxtIcon,
-  ZIP: ZipIcon,
-  RAR: RarIcon,
-  default: DefaultIcon
-};
 
 class DocPreview extends Component {
   constructor(props) {
@@ -35,17 +16,21 @@ class DocPreview extends Component {
     this.state = {
       pid: undefined,
       id: undefined,
-      fileInfo: {},
-      isImage: false,
-      imgStyle: "",
-      suffix: "",
+      isFocus: false,
+      fileInfo: {
+        name: "",
+        url: ""
+      },
       createTime: "",
       creator: "",
       fileUrl: []
     };
     this.getFileInfo = this.getFileInfo.bind(this);
+    this.isFocus = this.isFocus.bind(this);
     this.getFileTree = this.getFileTree.bind(this);
     this.getFileUrl = this.getFileUrl.bind(this);
+    this.focusFile = this.focusFile.bind(this);
+
   }
 
   componentWillMount() {
@@ -56,6 +41,7 @@ class DocPreview extends Component {
     })
     this.getFileInfo()
     this.getFileTree()
+    this.isFocus()
   }
 
   // 请求该文件的详情信息
@@ -67,28 +53,12 @@ class DocPreview extends Component {
     }
     fileService.getFileList(postData)
       .then(res => {
-        const { creator, name, url } = res.FileList[0]
-        let suffix = name.split(".")[1] || "default";
-        if (suffix === "jpg" || suffix === "png") {
-          const imgStyle = {
-            width: "135px",
-            height: "86px",
-            background: `url(${url}) no-repeat center / contain`
-          }
-          this.setState({
-            isImage: true,
-            imgStyle
-          });
-        }
-        if (IconMap[suffix] == null) {
-          suffix = "default";
-        }
+        const { creator } = res.FileList[0]
         const reg = /^(\d{4})-(\d{1,2})-(\d{1,2})$/
         const timeArr = res.FileList[0].create_time.slice(0, 10).match(reg)
         const timeStr = `${timeArr[1]}年${timeArr[2]}月${timeArr[3]}日`
         this.setState({
           fileInfo: res.FileList[0],
-          suffix,
           createTime: timeStr,
           creator
         })
@@ -142,12 +112,34 @@ class DocPreview extends Component {
     }
   }
 
+  // 查看我是否关注
+  isFocus() {
+    const { match } = this.props;
+    const { isFocus } = this.state
+    MessageService.getMyAttentionFiles(match.params.id)
+    .then(res => {
+      console.log(res)
+    })
+    .catch(error => {
+      console.error(error)
+    })
+  }
+
+  // 关注文件
+  focusFile() {
+    const { id } = this.state
+    MessageService.notFocusOnFile(id)
+    .then(res => {
+      console.log(res)
+    })
+    .catch(error => {
+      console.error(error)
+    })
+  }
+
   render() {
     const {
       fileInfo,
-      isImage,
-      imgStyle,
-      suffix,
       fileUrl,
       creator,
       createTime
@@ -155,41 +147,44 @@ class DocPreview extends Component {
     return (
       <div className="projectDetail-container">
         <Goback />
-        <div className="projectDetail-content">
+        <div className="filePreview-content">
+          <div className="filePreview-header-url">
+            {fileUrl}
+          </div>
           {/*  头部 */}
           <div className="filePreview-header">
+            {/* 头部左边 */}
             <div className="filePreview-header-left">
-              <div className="filePreview-header-url">
-                {fileUrl}
+              <FileIcon fileItem={fileInfo} />
+              <div className="filePreview-header-fileInfo">
+                <div className="filePreview-header-fileName">
+                  {fileInfo.name}
+                </div>
+                <div className="filePreview-header-fileUpdator">
+                  {creator}
+                  &nbsp;
+                  {createTime}
+                  上传
+                </div>
+                <a className="filePreview-onLine" href={fileInfo.url} target="_blank" rel="noopener noreferrer">
+                  在线预览
+                </a>
               </div>
-              <div className="filePreview-header-icon">
-                {!isImage && (
-                  <ReactSVG className="fileIcon-img" path={IconMap[suffix]} />
-                )}
-                {isImage && (
-                  <div className="fileIcon-img">
-                    <div style={imgStyle} />
-                  </div>
-                )}
-              </div>
-              
-              
-              <br />
-              {fileInfo.name}
-              <br />
-              {creator}
-              &nbsp;
-              {createTime}
-              上传
             </div>
+            {/* 头部右边 */}
             <div className="filePreview-header-right">
-              <span>关注</span>
-              <span>下载</span>
+              <div onClick={this.focusFile} onMouseDown={() => {}} role="presentation">关注</div>
+              {/* <div>编辑</div> */}
+              <a
+                href={`${fileInfo.url}?attname=${fileInfo.name}`}
+                download={fileInfo.name}
+              >
+                下载
+              </a>
             </div>
           </div>
-
+          <hr className="status-detail-line" />
         </div>
-        <hr className="status-detail-line" />
       </div>
     );
   }

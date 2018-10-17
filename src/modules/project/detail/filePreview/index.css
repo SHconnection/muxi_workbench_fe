@@ -1,0 +1,85 @@
+.filePreview-content {
+  display: -webkit-flex;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.filePreview-header-url {
+  color: RGBA(145, 145, 145, 1);
+  font-size: 14px;
+  line-height: 19px;
+  font-family: MicrosoftYaHei;
+  margin-bottom: 14px;
+}
+
+.filePreview-header {
+  display: -webkit-flex;
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  justify-content: space-between;
+}
+
+.filePreview-header-left {
+  display: -webkit-flex;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.filePreview-header-fileInfo {
+  margin-left: 16px;
+}
+
+.filePreview-header-fileName {
+  font-size: 20px;
+  font-family: PingFangSC-Regular;
+  font-weight: 400;
+  color: rgba(29,76,181,1);
+  line-height: 28px;
+  margin-bottom: 3px;
+}
+
+.filePreview-header-fileUpdator {
+  font-size: 14px;
+  font-family: MicrosoftYaHei;
+  color: rgba(64,64,64,1);
+  line-height: 19px;
+  margin-bottom: 3px;
+}
+
+.filePreview-onLine {
+  text-decoration: none;
+  font-size: 14px;
+  font-family: MicrosoftYaHei;
+  color: rgba(16,142,233,1);
+  line-height: 19px;
+  margin-bottom: 3px;
+}
+
+.filePreview-header-right {
+  display: -webkit-flex;
+  display: flex;
+  flex-direction: row;
+}
+
+.filePreview-header-right div {
+  font-size: 16px;
+  font-family: PingFangSC-Regular;
+  font-weight: 400;
+  color: rgba(16,142,233,1);
+  line-height: 22px;
+  margin-left: 27px;
+  cursor: pointer;
+}
+
+.filePreview-header-right a {
+  text-decoration: none;
+  font-size: 16px;
+  font-family: PingFangSC-Regular;
+  font-weight: 400;
+  color: rgba(16,142,233,1);
+  line-height: 22px;
+  margin-left: 27px;
+}

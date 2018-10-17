@@ -1,18 +1,3 @@
-.fileIcon-content {
-  width: 135px;
-  height: 138px;
-  display: -webkit-flex; /* Safari */
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  cursor: pointer;
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
-
-}
-
 .fileIcon-img {
   width: 135px;
   height: 86px;

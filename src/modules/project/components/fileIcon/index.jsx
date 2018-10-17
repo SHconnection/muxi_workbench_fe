@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import ReactSVG from "react-svg";
 import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
@@ -29,94 +29,73 @@ const IconMap = {
   default: DefaultIcon
 }
 
+let imgStyle
+
 // const FileIcon = props => {
-  // const { name, id, pid } = props;
-  // const suffix = name.split('.')[1] || "folder";
-  // return (
-  //   <Link className="fileIcon-container" to={`/project/${pid}/file/${id}`}>
-  //     <ReactSVG className="fileIcon-img" path={IconMap[suffix]} />
-  //     <div className="fileIcon-text">{name}</div>
-  //   </Link>
-  // )
+// const { name, id, pid } = props;
+// const suffix = name.split('.')[1] || "folder";
+// return (
+//   <Link className="fileIcon-container" to={`/project/${pid}/file/${id}`}>
+//     <ReactSVG className="fileIcon-img" path={IconMap[suffix]} />
+//     <div className="fileIcon-text">{name}</div>
+//   </Link>
+// )
 // }
 
 class FileIcon extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      hover: false
-    };
+      // isImage: false
+    }
   }
 
-  enter() {
-    this.setState({
-      hover: true,
-    })
-  }
-
-  leave() {
-    this.setState({
-      hover: false,
-    })
-  }
-
-  deleteFile() {
-    const { id, deleteFile } = this.props
-    deleteFile(id)
-  }
-
-  moveFile() {
-    const { id, moveFile } = this.props
-    moveFile(id)
-  }
 
   render() {
-    const { name, id, pid, kind } = this.props;
-    const { hover } = this.state
-    const suffix = name.split('.')[1] || "folder";
+    const { fileItem } = this.props
+    let suffix = fileItem.name.split(".")[1]
+    if (suffix === "jpg" || suffix === "png") {
+      imgStyle = {
+        width: "135px",
+        height: "86px",
+        background: `url(${fileItem.url}) no-repeat center / contain`
+      };
+      return (
+        <div className="fileIcon-container">
+          <div className="fileIcon-img">
+            <div style={imgStyle} />
+          </div>
+        </div>
+      )
+    }
+    if (IconMap[suffix] == null) {
+      suffix = "default";
+    }
     return (
-      <div className="fileIcon-container" onMouseEnter={this.enter.bind(this)} onMouseLeave={this.leave.bind(this)}>
-        <Link className="fileIcon-content" to={`/project/${pid}/file/${id}`}>
+      <div className="fileIcon-container">
+        <div className="fileIcon-img">
           <ReactSVG className="fileIcon-img" path={IconMap[suffix]} />
-          <div className="fileIcon-text">{name}</div>
-        </Link>
-        {hover && 
-          (
-            <div className="fileIcon-footer" onMouseLeave={this.leave.bind(this)}>
-              {(kind === 1) && (<div>下载</div>) }
-              <div onClick={this.moveFile.bind(this)} onKeyDown={() => {}} role="presentation">移动</div>
-              <div onClick={this.deleteFile.bind(this)} onKeyDown={() => {}} role="presentation">删除</div>
-            </div>
-          )
-        }
+        </div>
       </div>
-      
     )
   }
+
+
+
 }
 
 FileIcon.propTypes = {
-  name: PropTypes.string,
-  kind: PropTypes.number,
-  id: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.number
-  ]),
-  pid: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.number
-  ]),
-  moveFile: PropTypes.func,
-  deleteFile: PropTypes.func
+  fileItem: PropTypes.shape({
+    name: PropTypes.string,
+    url: PropTypes.string
+  })
 };
 
 FileIcon.defaultProps = {
-  name: "",
-  kind: 0,
-  id: "",
-  pid: "",
-  moveFile: () => {},
-  deleteFile: () => {}
+  fileItem: {
+    name: "",
+    url: "",
+  },
 };
 
 export default FileIcon

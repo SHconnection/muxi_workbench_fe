@@ -53,6 +53,36 @@ const MessageService = {
     return Fetch(`/message/${username}/${mid}/`, {
       token: JSON.parse(localStorage.user).token
     });
+  },
+
+  // 关注某个文档（件）
+  focusOnFile(id) {
+    return Fetch(`/user/attention/`, {
+      method: "POST",
+      data: {
+        fileID: id
+      },
+      token: JSON.parse(localStorage.user).token
+    })
+  },
+
+  // 取关某个文档（件）
+  notFocusOnFile(id) {
+    return Fetch(`/user/attention/`, {
+      method: "DELETE",
+      data: {
+        fileID: id
+      },
+      token: JSON.parse(localStorage.user).token
+    })
+  },
+
+  // 查看我关注的文件们
+  getMyAttentionFiles() {
+    return Fetch(`/user/attention/`, {
+      method: "GET",
+      token: JSON.parse(localStorage.user).token
+    });
   }
 };
 
