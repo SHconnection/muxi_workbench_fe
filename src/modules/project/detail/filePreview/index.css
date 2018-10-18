@@ -83,3 +83,7 @@
   line-height: 22px;
   margin-left: 27px;
 }
+
+.filePreview-paging {
+  margin: 0 auto;
+}

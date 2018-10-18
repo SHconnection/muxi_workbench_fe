@@ -1,0 +1,18 @@
+.paging-conten {
+  display: -webkit-flex;
+  display: flex;
+  width: 100px;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.paging-conten div {
+  cursor: pointer;
+  font-family: PingFangSC-Medium;
+  font-weight: 500;
+}
+
+.paging-current {
+  color: #1D4CB5;
+}

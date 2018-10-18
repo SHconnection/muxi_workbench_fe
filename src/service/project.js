@@ -97,6 +97,24 @@ const ProjectService = {
       },
       token: localStorage.token
     });
+  },
+
+  // 评论文件
+  commentFile(pid, fid, content) {
+    return Fetch(`/project/${pid}/file/${fid}/comments/`, {
+      method: "POST",
+      data: {
+        content
+      },
+      token: localStorage.token
+    })
+  },
+
+  // 获取文件评论列表
+  getCommentList(pid, fid, page=1) {
+    return Fetch(`/project/${pid}/file/${fid}/comments/${page}/`, {
+      token: localStorage.token
+    })
   }
 };
 

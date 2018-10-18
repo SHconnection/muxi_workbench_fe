@@ -13,6 +13,9 @@ center, u, b, i {
     outline: none; 
     font-family: "Microsoft YaHei",  Arial,  "WenQuanYi Micro Hei";
 }
+html, body, div, span, button, p, a, b, ol, ul, li, table, caption, tbody, tfoot, thead, tr, th, td{
+    font-size: 16px;
+}
 body {
     background-color: #F2F2F2;
 }
