@@ -1,9 +1,14 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
+// import LiveMarkdownTextarea  from './editor';
+import { MarkdownPreview } from "react-marked-markdown";
 import Goback from "../../../components/common/goBack/index";
 import Button from "../../../components/common/button";
+// import MarkdownPreview from './marked/preview';
+import MarkdownInput from "./marked/input";
 import "../../../static/css/common.css";
 import StatusService from "../../../service/status";
+// import CustomEditor from "./editor";
 import "./edit.css";
 import "../../../service/cookie";
 
@@ -84,18 +89,37 @@ class edit extends Component {
             />
           </div>
         </div>
-        <div>
-          <textarea
-            className="status-markdown"
-            value={content}
-            onChange={this.onChange}
-          />
-          {/* <div id="editor"></div>
-          <textarea 
-            className="status-markdown"
-            value={content}
-            onChange={this.onChange}
+        <div className="status-markdown">
+          {/* <LiveMarkdownTextarea
+            content={content}
+            placeholder="Enter your comment here."
+            className="row"
+            inputClassName="field column"
+            previewClassName="column preview"
           /> */}
+
+          <MarkdownInput
+            onChange={this.onChange}
+            value={content}
+            className="field column"
+          />
+          <h1>123</h1>
+          <h3>123</h3>
+          <MarkdownPreview
+            value={content}
+            className="column preview"
+            markedOptions={{
+              baseUrl: true,
+              headerIds: true,
+              gfm: true,
+              tables: true,
+              breaks: false,
+              pedantic: false,
+              sanitize: true,
+              smartLists: true,
+              smartypants: false
+            }}
+          />
         </div>
       </div>
     );
