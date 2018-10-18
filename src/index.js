@@ -17,13 +17,15 @@ import Search from "./modules/search/index";
 import Header from "./components/common/header/index";
 import edit from "./modules/status/markdown/edit";
 import LoginService from "./service/login";
+import ManageService from "./service/manage";
 
 const data = {
   username: "jizhuoqi"
 };
 localStorage.username = data.username;
 
-LoginService.getToken(data).then(response => {
+LoginService.getToken(data)
+.then(response => {
   const user = {};
   user.token = response.token;
   user.role = 7;
@@ -31,7 +33,18 @@ LoginService.getToken(data).then(response => {
   localStorage.token = response.token;
   localStorage.user = JSON.stringify(user);
   localStorage.per = JSON.stringify(user);
-});
+  ManageService.getPersonalSet(user.id)
+  .then(res => {
+    localStorage.userAvatar = res.avatar
+  })
+  .catch(error => {
+    console.error(error)
+  })
+})
+.catch(error => {
+  console.error(error)
+})
+;
 
 ReactDOM.render(
   <Router>

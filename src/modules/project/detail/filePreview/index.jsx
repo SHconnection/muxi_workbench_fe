@@ -2,8 +2,13 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
 import MessageService from "../../../../service/message";
-import fileService from "../../../../service/file";
+import FileService from "../../../../service/file";
+import ProjectService from "../../../../service/project"
 import { FileTree } from "../../fileTree1";
+import Othercomments from "../../../../components/common/otherComments/comments";
+import Paging from "../../../../components/common/paging/index"
+import Avatar from "../../../../components/common/avatar/index";
+import Button from "../../../../components/common/button/index";
 import Goback from "../../../../components/common/goBack/index";
 import FileIcon from "../../components/fileIcon/index";
 import "../../../../static/css/common.css";
@@ -13,50 +18,74 @@ import "./index.css"
 class DocPreview extends Component {
   constructor(props) {
     super(props);
+    const { match } = this.props
     this.state = {
-      pid: undefined,
-      id: undefined,
-      isFocus: false,
+      pid: parseInt(match.params.pid, 0),
+      id: parseInt(match.params.id, 0),
+      // isFocus: false,
+      // 文件信息
       fileInfo: {
         name: "",
         url: ""
       },
       createTime: "",
       creator: "",
-      fileUrl: []
+      fileUrl: [],
+      // 评论列表
+      commentList: [],
+      // 发表评论的输入值
+      commentInput: "",
+      // 评论当前页数
+      currentPage: 1,
+      // 总页数
+      pageNums: 1
     };
     this.getFileInfo = this.getFileInfo.bind(this);
     this.isFocus = this.isFocus.bind(this);
     this.getFileTree = this.getFileTree.bind(this);
     this.getFileUrl = this.getFileUrl.bind(this);
     this.focusFile = this.focusFile.bind(this);
-
+    this.handleChange = this.handleChange.bind(this);
+    this.sendComment = this.sendComment.bind(this);
+    this.getCommentList = this.getCommentList.bind(this);
+    this.selectPage = this.selectPage.bind(this);
   }
 
   componentWillMount() {
-    const { match } = this.props
-    this.setState({
-      pid: parseInt(match.params.pid, 0),
-      id: parseInt(match.params.id, 0)
-    })
     this.getFileInfo()
     this.getFileTree()
     this.isFocus()
+    this.getCommentList()
+  }
+
+  // 获取当前页面评论列表
+  getCommentList() {
+    const { id, pid, currentPage } = this.state
+    ProjectService.getCommentList(pid, id, currentPage)
+    .then(res => {
+      this.setState({
+        commentList: res.commentList,
+        pageNums: res.count % 20 === 0 ? Math.floor(res.count/20, 0) : Math.floor(res.count/20, 0) + 1
+      })
+    })
+    .catch(error => {
+      console.error(error)
+    })
   }
 
   // 请求该文件的详情信息
   getFileInfo() {
-    const { match } = this.props;
+    const { id } = this.state;
     const postData = {
       folder: [],
-      file: [parseInt(match.params.id, 0)]
+      file: [parseInt(id, 0)]
     }
-    fileService.getFileList(postData)
+    FileService.getFileList(postData)
       .then(res => {
         const { creator } = res.FileList[0]
-        const reg = /^(\d{4})-(\d{1,2})-(\d{1,2})$/
-        const timeArr = res.FileList[0].create_time.slice(0, 10).match(reg)
-        const timeStr = `${timeArr[1]}年${timeArr[2]}月${timeArr[3]}日`
+        const regex = /\D/
+        const timeArr = res.FileList[0].create_time.split(regex)
+        const timeStr = `${timeArr[0]}年${timeArr[1]}月${timeArr[2]}日`
         this.setState({
           fileInfo: res.FileList[0],
           createTime: timeStr,
@@ -70,9 +99,7 @@ class DocPreview extends Component {
 
   // 请求该文件所在的树
   getFileTree() {
-    const { match } = this.props
-    const pid = parseInt(match.params.pid, 0)
-    const id = parseInt(match.params.id, 0)
+    const { id, pid } = this.state
     FileTree.getFileTree(pid)
       .then(el => {
         this.getFileUrl(id, el)
@@ -95,7 +122,7 @@ class DocPreview extends Component {
           folder: fileIdUrl.map(el => parseInt(el, 0)),
           file: []
         }
-        fileService.getFileList(postData)
+        FileService.getFileList(postData)
           .then(res => {
             let fileUrl = `路径：${tree.name}`
             if (res.FolderList.length) {
@@ -114,11 +141,11 @@ class DocPreview extends Component {
 
   // 查看我是否关注
   isFocus() {
-    const { match } = this.props;
-    const { isFocus } = this.state
-    MessageService.getMyAttentionFiles(match.params.id)
-    .then(res => {
-      console.log(res)
+    const { id } = this.state
+    // const { isFocus } = this.state
+    MessageService.getMyAttentionFiles(id)
+    .then(() => {
+      // console.log(res)
     })
     .catch(error => {
       console.error(error)
@@ -137,12 +164,55 @@ class DocPreview extends Component {
     })
   }
 
+  // 输入评论内容
+  handleChange(event) {
+    this.setState({ commentInput: event.target.value });
+  }
+
+  // 发送评论
+  sendComment() {
+    const { pid, id, commentInput } = this.state
+    if (commentInput) {
+      ProjectService.commentFile(pid, id, commentInput)
+      .then(() => {
+        this.setState({
+          commentInput: ""
+        })
+        this.getCommentList()
+      })
+      .catch(error => {
+        console.error(error)
+      })
+    }
+  }
+
+  // 跳转页面
+  selectPage(page) {
+    const { pid, id, pageNums, currentPage } = this.state
+    if (page > 0 && page <= pageNums && page !== currentPage) {
+      ProjectService.getCommentList(pid, id, page)
+      .then(res => {
+        this.setState({
+          commentList: res.commentList,
+          currentPage: page
+        })
+      })
+      .catch(error => {
+        console.error(error)
+      })
+    }
+  }
+
   render() {
     const {
       fileInfo,
       fileUrl,
       creator,
-      createTime
+      createTime,
+      commentList,
+      commentInput,
+      currentPage,
+      pageNums,
     } = this.state
     return (
       <div className="projectDetail-container">
@@ -184,6 +254,45 @@ class DocPreview extends Component {
             </div>
           </div>
           <hr className="status-detail-line" />
+          {/* 评论列表 */}
+          <div className="status-detail-comments">
+            {commentList.map(el => (
+              <div key={el.id}>
+                <Othercomments
+                  avatar={el.avatar}
+                  name={el.username}
+                  day={el.time}
+                  text={el.content}
+                />
+              </div>
+            ))}
+          </div>
+          {/* 分页功能 */}
+          <div className="filePreview-paging">
+            <Paging pageNums={pageNums} currentPage={currentPage} selectPage={this.selectPage} />
+          </div>
+          {/* 发表评论 */}
+          <div className="send">
+            <Avatar className="comment-img" src={localStorage.userAvatar} width={49} height={49} />
+            {/* src是自己的头像 */}
+            <div className="push">
+              <div>
+                <textarea
+                  className="send-comment"
+                  type="text"
+                  value={commentInput}
+                  onChange={this.handleChange}
+                  placeholder=" 发表评论..."
+                />
+              </div>
+              <div className="comment-bt">
+                <Button
+                  onClick={() => this.sendComment()}
+                  text="发表"
+                />
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     );

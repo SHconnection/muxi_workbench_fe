@@ -54,7 +54,11 @@ class ProjectDetailIndex extends Component {
       // 移动文档最终选择的id
       finalMoveDocId: 0,
       // 项目信息
-      projectInfo: {},
+      projectInfo: {
+        name: "",
+        intro: "",
+        userCount: ""
+      },
       // 文件树
       fileTree: {},
       // 文档树
