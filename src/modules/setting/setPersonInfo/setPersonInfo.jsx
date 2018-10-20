@@ -50,44 +50,52 @@ class SetPersonalInfo extends Component {
       selIdentities[0] = 1;
     }
 
-    ManageService.getPersonalPro(user.id).then(project => {
-      if (project) {
-        const proList = project.list.map(item => {
-          const obj = {};
+    ManageService.getPersonalPro(user.id)
+      .then(project => {
+        if (project) {
+          const proList = project.list.map(item => {
+            const obj = {};
 
-          obj.id = item.projectID;
-          obj.name = item.projectName;
-          obj.count = item.userCount;
-          obj.intro = item.intro;
-          obj.selected = false;
+            obj.id = item.projectID;
+            obj.name = item.projectName;
+            obj.count = item.userCount;
+            obj.intro = item.intro;
+            obj.selected = false;
 
-          return obj;
-        });
-
-        ManageService.getPersonalPro(per.id).then(pro => {
-          let idList = [];
-
-          if (pro) {
-            idList = pro.list.map(item => item.projectID);
-
-            proList.map(item1 => {
-              const item = item1;
-
-              if (idList.indexOf(item.id) !== -1) item.selected = true;
-
-              return item;
-            });
-          }
-
-          this.setState({
-            members: proList,
-            selMembers: idList,
-            identity,
-            selIdentities
+            return obj;
           });
-        });
-      }
-    });
+
+          ManageService.getPersonalPro(per.id)
+            .then(pro => {
+              let idList = [];
+
+              if (pro) {
+                idList = pro.list.map(item => item.projectID);
+
+                proList.map(item1 => {
+                  const item = item1;
+
+                  if (idList.indexOf(item.id) !== -1) item.selected = true;
+
+                  return item;
+                });
+              }
+
+              this.setState({
+                members: proList,
+                selMembers: idList,
+                identity,
+                selIdentities
+              });
+            })
+            .catch(error => {
+              console.error(error);
+            });
+        }
+      })
+      .catch(error => {
+        console.error(error);
+      });
   }
 
   transferMsgIden(mem, selMem) {
@@ -147,14 +155,20 @@ class SetPersonalInfo extends Component {
     const per = JSON.parse(localStorage.per);
     const { selIdentities, selMembers } = this.state;
 
-    this.setState({ ifSave: true });
+    ManageService.saveModifyMemberIdenty(per.id, selIdentities).catch(error => {
+      console.error(error);
+    });
+    ManageService.saveModifyMemberPro(per.id, selMembers)
+      .then(() => {
+        this.setState({ ifSave: true });
 
-    setTimeout(() => {
-      this.setState({ ifSave: false });
-    }, 1000);
-
-    ManageService.saveModifyMemberIdenty(per.id, selIdentities);
-    ManageService.saveModifyMemberPro(per.id, selMembers);
+        setTimeout(() => {
+          this.setState({ ifSave: false });
+        }, 1000);
+      })
+      .catch(error => {
+        console.error(error);
+      });
   }
 
   render() {

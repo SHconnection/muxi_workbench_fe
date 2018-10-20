@@ -56,23 +56,33 @@ class Delete extends Component {
     }
 
     if (groupDel) {
-      ManageService.groupDelete(data.id);
+      ManageService.groupDelete(data.id).catch(error => {
+        console.error(error);
+      });
     }
 
     if (proDel) {
-      ProjectService.projectDelete(proId);
+      ProjectService.projectDelete(proId).catch(error => {
+        console.error(error);
+      });
     }
 
     if (staDel) {
-      StatusService.statusDelete(staId);
+      StatusService.statusDelete(staId).catch(error => {
+        console.error(error);
+      });
     }
 
     if (memDel) {
-      ManageService.memberDelete(userId);
+      ManageService.memberDelete(userId).catch(error => {
+        console.error(error);
+      });
     }
 
     if (attentionDel) {
-      MessageService.attentionDel(data.filename);
+      MessageService.attentionDel(data.filename).catch(error => {
+        console.error(error);
+      });
     }
   }
 

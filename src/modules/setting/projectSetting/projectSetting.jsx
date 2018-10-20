@@ -34,14 +34,18 @@ class SetProject extends Component {
       }
     } = this.props;
 
-    ProjectService.getProjectInfo(id).then(project => {
-      if (project) {
-        this.setState({
-          inputValue: project.name,
-          textValue: project.intro
-        });
-      }
-    });
+    ProjectService.getProjectInfo(id)
+      .then(project => {
+        if (project) {
+          this.setState({
+            inputValue: project.name,
+            textValue: project.intro
+          });
+        }
+      })
+      .catch(error => {
+        console.error(error);
+      });
   }
 
   changeInput(e) {
@@ -70,7 +74,9 @@ class SetProject extends Component {
     } = this.props;
     const { textValue, inputValue } = this.state;
 
-    ProjectService.saveProjectSet(id, textValue, inputValue);
+    ProjectService.saveProjectSet(id, textValue, inputValue).catch(error => {
+      console.error(error);
+    });
   }
 
   render() {

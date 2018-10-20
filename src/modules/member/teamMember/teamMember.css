@@ -5,7 +5,7 @@
 }
 .teamMember-select{
     display: inline-block;
-    width: 760px;
+    width: 650px;
     white-space:nowrap;
     overflow: scroll;
 }
@@ -37,6 +37,7 @@
 }
 .teamMember-present{
     display: flex;
+    justify-content: space-between;
     align-items: center;
     margin-bottom: 16px;
 }

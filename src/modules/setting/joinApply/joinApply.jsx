@@ -18,7 +18,9 @@ class JoinApply extends Component {
   }
 
   componentDidMount() {
-    const joinList = ManageService.getJoinApply();
+    const joinList = ManageService.getJoinApply().catch(error => {
+      console.error(error);
+    });
 
     this.setState({ members: joinList });
 
@@ -30,8 +32,12 @@ class JoinApply extends Component {
 
     mem.dealed = true;
 
-    ManageService.addMember(mem.id);
-    ManageService.dealJoinApply(mem.id);
+    ManageService.addMember(mem.id).catch(error => {
+      console.error(error);
+    });
+    ManageService.dealJoinApply(mem.id).catch(error => {
+      console.error(error);
+    });
 
     return this;
   }
@@ -41,7 +47,9 @@ class JoinApply extends Component {
 
     mem.dealed = true;
 
-    ManageService.dealJoinApply(mem.id);
+    ManageService.dealJoinApply(mem.id).catch(error => {
+      console.error(error);
+    });
 
     return this;
   }
@@ -54,7 +62,9 @@ class JoinApply extends Component {
 
       mem.dealed = true;
 
-      ManageService.addMember(mem.id);
+      ManageService.addMember(mem.id).catch(error => {
+        console.error(error);
+      });
 
       return mem;
     });

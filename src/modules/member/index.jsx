@@ -12,6 +12,7 @@ import GroupMember from "../setting/groupMember/groupMember";
 import PersonalInfo from "../setting/personalInfo/personalInfo";
 import PersonalSet from "../setting/personalSetting/personalSetting";
 import SetPersonalInfo from "../setting/setPersonInfo/setPersonInfo";
+import SetManager from "../setting/setManager/setManager";
 
 const Member = ({ match }) => (
   <Switch>
@@ -39,6 +40,7 @@ const Member = ({ match }) => (
       path={`${match.url}/teamMember/personalInfo/setPersonalInfo`}
       component={SetPersonalInfo}
     />
+    <Route path={`${match.url}/teamMember/SetManager`} component={SetManager} />
     <Route
       path={`${match.url}/teamMember/personalInfo`}
       component={PersonalInfo}

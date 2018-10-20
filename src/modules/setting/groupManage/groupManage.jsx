@@ -28,21 +28,25 @@ class GroupManage extends Component {
   }
 
   componentDidMount() {
-    ManageService.getAllGroup().then(data => {
-      if (data) {
-        const arr = data.groupList.map(group => {
-          const obj = {};
+    ManageService.getAllGroup()
+      .then(data => {
+        if (data) {
+          const arr = data.groupList.map(group => {
+            const obj = {};
 
-          obj.id = group.groupID;
-          obj.name = group.groupName;
-          obj.count = group.userCount;
+            obj.id = group.groupID;
+            obj.name = group.groupName;
+            obj.count = group.userCount;
 
-          return obj;
-        });
+            return obj;
+          });
 
-        this.setState({ members: arr });
-      }
-    });
+          this.setState({ members: arr });
+        }
+      })
+      .catch(error => {
+        console.error(error);
+      });
   }
 
   onDragEnd(result) {

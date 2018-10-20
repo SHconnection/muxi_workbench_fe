@@ -46,7 +46,8 @@ export default function FetchData(url, opt = {}) {
           );
           return {
             json: response.json(),
-            headers
+            headers,
+            status: response.status
           };
         }
         return response.json();
@@ -58,31 +59,29 @@ export default function FetchData(url, opt = {}) {
           );
           return {
             json: response.json(),
-            headers
+            headers,
+            status: response.status
           };
         }
         return response.json();
+
       case 401:
-        throw "verify failed";
+        throw "401 Verify Failed";
+
       case 403:
-        return new Promise((resolve, reject) => {
-          reject(response);
-        }).catch(error => {
-          return error;
-        });
+        throw "403 Forbidden";
+
       case 404:
-        throw "404 not found";
+        throw "404 Not Found";
+
+      case 500:
+        throw "500 Internal Server Error";
+
       case 502:
-        // util.message is not defined
-        // util.3message(response.statusText, "err");
-        throw response.statusText;
+        throw "502 Bad Gateway";
 
       default:
-        return new Promise((resolve, reject) => {
-          reject(response);
-        }).catch(error => {
-          return error;
-        });
+        throw "Wrong";
     }
   });
 }

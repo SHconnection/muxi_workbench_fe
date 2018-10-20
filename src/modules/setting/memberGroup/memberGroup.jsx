@@ -23,7 +23,9 @@ class MemberGroup extends Component {
   }
 
   componentDidMount() {
-    const arr = ManageService.getAllGroup();
+    const arr = ManageService.getAllGroup().catch(error => {
+      console.error(error);
+    });
     const {
       match: {
         params: {
@@ -68,7 +70,9 @@ class MemberGroup extends Component {
     } = this.props;
     const { selMembers } = this.state;
 
-    ManageService.modifyMemGroup(id, selMembers);
+    ManageService.modifyMemGroup(id, selMembers).catch(error => {
+      console.error(error);
+    });
   }
 
   render() {
