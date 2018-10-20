@@ -22,7 +22,6 @@ class edit extends Component {
     this.handleChange = this.handleChange.bind(this);
     this.onChange = this.onChange.bind(this);
     this.save = this.save.bind(this);
-    this.content = React.createRef;
   }
 
   componentWillMount() {
@@ -40,30 +39,17 @@ class edit extends Component {
         }
       });
     }
+  }
 
-    // let currentTab = 0
-    // // const c=document.getElementById('status-markdown')
-    // const l=document.getElementById('left')
-    // const r=document.getElementById('right')
-
-    // const scale =  r.offsetHeight /  l.offsetHeight;
-
-    // l.addEventListener('scroll', ()=>{
-    //   if (currentTab !== 1) return
-    //   r.scrollTop = l.scrollTop * scale
-    // })
-    // r.addEventListener('scroll', ()=>{
-    //   if (currentTab !== 2) return
-    //   l.scrollTop = r.scrollTop / scale
-    // })
-    // l.addEventListener('mouseover', ()=>{
-    //   // 1 表示表示当前鼠标位于 .left元素范围内
-    //   currentTab = 1
-    // })
-    // r.addEventListener('mouseover', ()=>{
-    //   // 2 表示表示当前鼠标位于 .right元素范围内
-    //    currentTab = 2
-    // })
+  componentDidUpdate() {
+    const obj = document.querySelector(".field");
+    const back = document.querySelector(".preview");
+    obj.addEventListener("scroll", () => {
+      document.querySelector(".preview").scrollTop = obj.scrollTop;
+    });
+    back.addEventListener("scroll", () => {
+      document.querySelector(".field").scrollTop = back.scrollTop;
+    });
   }
 
   onChange(event) {
@@ -114,19 +100,13 @@ class edit extends Component {
           </div>
         </div>
         <div className="status-markdown">
-          {/* <LiveMarkdownTextarea
-            content={content}
-            placeholder="Enter your comment here."
-            className="row"
-            inputClassName="field column"
-            previewClassName="column preview"
-          /> */}
-
           <MarkdownInput
+            className="field column"
             onChange={this.onChange}
             value={content}
-            className="field column"
+            onScroll={this.handleScroll}
           />
+
           <MarkdownPreview
             value={content}
             className="column preview"

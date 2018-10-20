@@ -37,7 +37,7 @@ class Dynamic extends Component {
       page: 1,
       count: 0,
       feedList: [],
-      isPersonal: 0
+      isPersonal: 1
     };
   }
 
@@ -66,7 +66,8 @@ class Dynamic extends Component {
           this.setState({
             page: page1,
             count: count1,
-            feedList: arr1
+            feedList: arr1,
+            isPersonal: 0
           });
         }
       });
@@ -137,7 +138,8 @@ class Dynamic extends Component {
             this.setState({
               feedList: arr1,
               count: count1,
-              page: page1
+              page: page1,
+              isPersonal: 0
             });
           }
         });
