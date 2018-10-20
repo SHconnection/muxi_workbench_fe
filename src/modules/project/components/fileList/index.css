@@ -18,12 +18,14 @@
 .project-fileList-left > div {
   font-size: 16px;
   color: rgba(0, 0, 0, 0.65);
+  text-align: center;
+  white-space:nowrap;
+  overflow: hidden; 
+  text-overflow: ellipsis;
 }
 
 .project-fileList-name {
-  min-width: 80px;
-  text-align: center;
-  font-size: 16px;
+  width: 80px;
 }
 
 .project-fileList-uploader {

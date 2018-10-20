@@ -40,6 +40,30 @@ class edit extends Component {
         }
       });
     }
+
+    // let currentTab = 0
+    // // const c=document.getElementById('status-markdown')
+    // const l=document.getElementById('left')
+    // const r=document.getElementById('right')
+
+    // const scale =  r.offsetHeight /  l.offsetHeight;
+
+    // l.addEventListener('scroll', ()=>{
+    //   if (currentTab !== 1) return
+    //   r.scrollTop = l.scrollTop * scale
+    // })
+    // r.addEventListener('scroll', ()=>{
+    //   if (currentTab !== 2) return
+    //   l.scrollTop = r.scrollTop / scale
+    // })
+    // l.addEventListener('mouseover', ()=>{
+    //   // 1 表示表示当前鼠标位于 .left元素范围内
+    //   currentTab = 1
+    // })
+    // r.addEventListener('mouseover', ()=>{
+    //   // 2 表示表示当前鼠标位于 .right元素范围内
+    //    currentTab = 2
+    // })
   }
 
   onChange(event) {
@@ -103,8 +127,6 @@ class edit extends Component {
             value={content}
             className="field column"
           />
-          <h1>123</h1>
-          <h3>123</h3>
           <MarkdownPreview
             value={content}
             className="column preview"

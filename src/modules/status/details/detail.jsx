@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import ReactSVG from "react-svg";
 import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
+import { MarkdownPreview } from "react-marked-markdown";
 import Goback from "../../../components/common/goBack/index";
 import thumbs from "../../../assets/svg/commonIcon/thumbs.svg";
 import thumbsUp from "../../../assets/svg/commonIcon/thumbs_up.svg";
@@ -179,7 +180,9 @@ class Detail extends Component {
             <div className="status-detail-love">{likeCount}</div>
           </div>
         </div>
-        <div className="status-details">{content}</div>
+        <div className="status-details">
+          <MarkdownPreview value={content} />
+        </div>
         <hr className="status-detail-line" />
         <div className="status-detail-comments">
           {commentList.map(el => (

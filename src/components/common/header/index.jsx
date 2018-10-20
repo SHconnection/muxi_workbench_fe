@@ -2,10 +2,11 @@ import React, { Component } from "react";
 import { NavLink, Redirect, Link } from "react-router-dom";
 import logo from "../../../assets/img/logo@2x.png";
 import searchIcon from "../../../assets/img/search@2x.png";
-import AvatarImg from "../../../assets/img/avatar.png";
 import Avatar from "../avatar/index";
 import Inform from "./inform/index";
 import "./index.css";
+
+const AvatarImg = localStorage.userAvatar
 
 class Header extends Component {
   constructor(props) {

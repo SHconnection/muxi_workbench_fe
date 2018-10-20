@@ -20,17 +20,20 @@ import "../../../../static/css/common.css";
 class ProjectDetailAllFile extends Component {
   constructor(props) {
     super(props);
+    const { match } = this.props
     this.state = {
       // 当前项目id
-      pid: undefined,
+      pid: parseInt(match.params.pid, 0),
       // 当前正在操作的fileid
       currentFileId: undefined,
       // 当前正在操作的fileFolderId
       currentFileFolderId: undefined,
       // 当前视图的文件节点id
-      fileRootId: undefined,
+      fileRootId: parseInt(match.params.id, 0),
       // 当前视图name
       currentRootName: "",
+      // 当前路径
+      fileUrl: "",
       // 文件树
       fileTree: {},
       // 是否是item形式排版
@@ -63,6 +66,7 @@ class ProjectDetailAllFile extends Component {
         }
       ]
     };
+    this.getFileUrl = this.getFileUrl.bind(this);
     this.updateFilesList = this.updateFilesList.bind(this);
     this.changeLayoutToItem = this.changeLayoutToItem.bind(this);
     this.changeLayoutToList = this.changeLayoutToList.bind(this);
@@ -77,27 +81,52 @@ class ProjectDetailAllFile extends Component {
   }
 
   componentWillMount() {
-    const { match } = this.props;
-    this.setState({
-      pid: parseInt(match.params.pid, 0),
-      fileRootId: parseInt(match.params.id, 0)
-    });
-    this.updateFilesList(parseInt(match.params.id, 0));
+    const { fileRootId } = this.state
+    this.updateFilesList(fileRootId)
   }
 
   componentWillUpdate(nextProps) {
     /* eslint-disable */
-    const { location } = this.props;
+    const { location } = this.props
     /* eslint-disable */
     if (location !== nextProps.location) {
       this.updateFilesList(parseInt(nextProps.match.params.id, 0));
     }
   }
 
+  // 算出文件的路径
+  getFileUrl(id, tree) {
+    // 找到文件所在节点
+    const node = FileTree.searchNode(id, tree)
+    if (node) {
+      if (node.router.length) {
+        const fileIdUrl = JSON.parse(JSON.stringify(node.router))
+        fileIdUrl.pop()
+        fileIdUrl.shift()
+        const postData = {
+          folder: fileIdUrl.map(el => parseInt(el, 0)),
+          file: []
+        }
+        FileService.getFileList(postData)
+          .then(res => {
+            let fileUrl = `${tree.name}`
+            if (res.FolderList.length) {
+              fileUrl += `${res.FolderList.map(el => `/${el.name}`).reduce((el1, el2) => el1 + el2)}`
+            }
+            this.setState({
+              fileUrl: fileUrl + '/'
+            })
+          })
+          .catch(err => {
+            console.error(err)
+          })
+      }
+    }
+  }
+
   // 根据文件树更新当前视图的文件
   updateFilesList(id) {
-    const { match } = this.props;
-    const pid = parseInt(match.params.pid, 0);
+    const { pid } = this.state
     const fileRootId = id;
     // 请求树
     FileTree.getFileTree(pid)
@@ -106,6 +135,8 @@ class ProjectDetailAllFile extends Component {
           fileTree: res,
           currentRootName: FileTree.searchNode(fileRootId, res).name
         });
+        // 算当前路径
+        this.getFileUrl(fileRootId, res)
         // 请求filelist
         FileService.getFileList(FileTree.findFileIdList(fileRootId, res))
           .then(res1 => {
@@ -393,7 +424,8 @@ class ProjectDetailAllFile extends Component {
       newFileInputText,
       showCreateFile,
       showDleteFile,
-      showMoveFile
+      showMoveFile,
+      fileUrl
     } = this.state;
     return (
       <div className="projectDetail-container">
@@ -461,6 +493,7 @@ class ProjectDetailAllFile extends Component {
                 <div key={el.id}>
                   <FileList
                     item={el}
+                    fileUrl={fileUrl}
                     moveFile={this.moveFile}
                     deleteFile={this.startDeleteFile}
                   />
