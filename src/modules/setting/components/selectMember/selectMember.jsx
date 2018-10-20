@@ -45,7 +45,7 @@ class SelectMember extends Component {
       ManageService.getAllMem().then(member => {
         if (member) {
           const arr = member.list.map(mem => {
-            const obj = this.changeGroupMemberFormat(mem);
+            const obj = SelectMember.changeGroupMemberFormat(mem);
 
             return obj;
           });
@@ -81,7 +81,7 @@ class SelectMember extends Component {
       ManageService.getAllMem().then(member => {
         if (member) {
           const arr = member.list.map(mem => {
-            const obj = this.changeGroupMemberFormat(mem);
+            const obj = SelectMember.changeGroupMemberFormat(mem);
 
             return obj;
           });

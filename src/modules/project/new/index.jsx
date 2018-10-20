@@ -121,7 +121,8 @@ class NewProject extends Component {
     }
     this.setState({
       groupCheckedIndex: index,
-      members: usersByGroup[id]
+      members: usersByGroup[id],
+      selectedAll: false
     });
   }
 
@@ -185,15 +186,15 @@ class NewProject extends Component {
     ProjectService.createProject(postData)
       .then(res => {
         initProjectTree(res.project_id)
-          .then(res1 => {
-            console.log(res1);
+          .then(() => {
+            window.location.href = `./${res.project_id}/preview`
           })
           .catch(res1 => {
-            console.error("error", res1);
+            console.error("error", res1)
           });
       })
       .catch(res => {
-        console.error("error", res);
+        console.error("error", res)
       });
   }
 
