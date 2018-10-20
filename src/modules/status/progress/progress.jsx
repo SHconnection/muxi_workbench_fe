@@ -173,7 +173,7 @@ class Progress extends Component {
           </div>
         </div>
         <div className="loadMore">
-          {cout / 40 <= page ? "下拉加载更多..." : "最后一页啦"}
+          {cout / 20 <= page ? "下拉加载更多..." : "最后一页啦"}
         </div>
         <Gotop />
       </div>

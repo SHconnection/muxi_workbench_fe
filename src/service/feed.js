@@ -6,8 +6,8 @@ const FeedService = {
       token: JSON.parse(localStorage.user).token
     });
   },
-  getPersonalFeed(page) {
-    return Fetch(`/feed/list/personal/${page}/`, {
+  getPersonalFeed(uid, page) {
+    return Fetch(`/feed/list/${uid}/personal/${page}/`, {
       token: JSON.parse(localStorage.user).token
     });
   }
