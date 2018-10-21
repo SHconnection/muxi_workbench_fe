@@ -114,7 +114,7 @@ class ProjectDetailAllFile extends Component {
               fileUrl += `${res.FolderList.map(el => `/${el.name}`).reduce((el1, el2) => el1 + el2)}`
             }
             this.setState({
-              fileUrl: fileUrl + '/'
+              fileUrl
             })
           })
           .catch(err => {

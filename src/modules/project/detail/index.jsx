@@ -452,28 +452,26 @@ class ProjectDetailIndex extends Component {
 
   // 确认删除文档
   confirmDeleteDoc() {
-    const { currentDocId, currentDocFolderId, docTree } = this.state;
-    console.log(currentDocId, currentDocFolderId);
+    const { currentDocId, currentDocFolderId, docTree } = this.state
     if (currentDocId) {
       FileService.deleteDoc(currentDocId)
         .then(() => {
           // 删除成功
-          this.deleteDocNode(currentDocId);
+          this.deleteDocNode(currentDocId)
         })
         .catch(el => {
-          console.error(el);
+          console.error(el)
         });
     }
     if (currentDocFolderId) {
-      const postData = FileTree.findAllDocList(currentDocFolderId, docTree);
-      console.log(postData);
+      const postData = FileTree.findAllDocList(currentDocFolderId, docTree)
       FileService.deleteDocFolder(currentDocFolderId, postData)
         .then(() => {
           // 删除成功
-          this.deleteDocNode(currentDocFolderId);
+          this.deleteDocNode(currentDocFolderId)
         })
         .catch(el => {
-          console.error(el);
+          console.error(el)
         });
     }
   }

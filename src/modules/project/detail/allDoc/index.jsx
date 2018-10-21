@@ -71,12 +71,18 @@ class ProjectDetailAllFile extends Component {
     this.changenewDocFileInputText = this.changenewDocFileInputText.bind(this);
     this.confirmCreateDocFile = this.confirmCreateDocFile.bind(this);
     this.startDeleteDoc = this.startDeleteDoc.bind(this);
+    this.confirmDeleteDoc = this.confirmDeleteDoc.bind(this);
+    this.deleteDocNode = this.deleteDocNode.bind(this);
+    this.moveDoc = this.moveDoc.bind(this);
+    this.confirmMoveDoc = this.confirmMoveDoc.bind(this);
     this.hideAlert = this.hideAlert.bind(this);
+    // this.changeLayoutToItem = this.changeLayoutToItem.bind(this);
+    // this.changeLayoutToList = this.changeLayoutToList.bind(this);
   }
 
   componentWillMount() {
-    const { fileRootId } = this.state
-    this.updateDocList()
+    const { docRootId } = this.state
+    this.updateDocList(docRootId)
   }
 
   componentWillUpdate(nextProps) {
@@ -84,7 +90,7 @@ class ProjectDetailAllFile extends Component {
     const { location } = this.props
     /* eslint-disable */
     if (location !== nextProps.location) {
-      this.updateDocList();
+      this.updateDocList(parseInt(nextProps.match.params.id, 0));
     }
   }
 
@@ -106,7 +112,7 @@ class ProjectDetailAllFile extends Component {
               docUrl += `${res.FolderList.map(el => `/${el.name}`).reduce((el1, el2) => el1 + el2)}`
             }
             this.setState({
-              docUrl: docUrl + '/'
+              docUrl
             })
           })
           .catch(err => {
@@ -117,8 +123,9 @@ class ProjectDetailAllFile extends Component {
   }
 
   // 根据文档树更新当前视图的文档
-  updateDocList() {
-    const { pid, docRootId } = this.state
+  updateDocList(id) {
+    const { pid } = this.state
+    const docRootId = id
     // 请求树
     FileTree.getDocTree(pid)
       .then(res => {
@@ -188,7 +195,7 @@ class ProjectDetailAllFile extends Component {
             )
               .then(() => {
                 // 更新视图
-                this.updateDocList()
+                this.updateDocList(docRootId)
               })
               .catch(res1 => {
                 console.error(res1);
@@ -204,7 +211,6 @@ class ProjectDetailAllFile extends Component {
 
   // 开始删除文档
   startDeleteDoc(id, str) {
-    console.log(id, str)
     this.hideAlert();
     this.setState({
       showDletedoc: true
@@ -217,6 +223,93 @@ class ProjectDetailAllFile extends Component {
       this.setState({
         currentDocFolderId: id
       });
+    }
+  }
+
+  // 确认删除文档
+  confirmDeleteDoc() {
+    const { currentDocId, currentDocFolderId, docTree } = this.state;
+    if (currentDocId) {
+      FileService.deleteDoc(currentDocId)
+        .then(() => {
+          // 删除成功
+          this.deleteDocNode(currentDocId);
+        })
+        .catch(el => {
+          console.error(el);
+        });
+    }
+    if (currentDocFolderId) {
+      const postData = FileTree.findAllDocList(currentDocFolderId, docTree)
+      FileService.deleteDocFolder(currentDocFolderId, postData)
+        .then(() => {
+          // 删除成功
+          this.deleteDocNode(currentDocFolderId)
+        })
+        .catch(el => {
+          console.error(el)
+        });
+    }
+  }
+
+  // 删除文档树节点并更新视图
+  deleteDocNode(id) {
+    const { pid, docTree, docRootId } = this.state;
+    const newTree = FileTree.deleteNode(id, docTree).root;
+    // 更新文档树
+    if (newTree) {
+      ProjectService.updateProjectDocTree(pid, JSON.stringify(newTree))
+        .then(() => {
+          // 更新视图
+          this.updateDocList(docRootId);
+        })
+        .catch(el => {
+          console.error(el);
+        });
+    }
+  }
+
+  // 开始移动文档
+  moveDoc(id, str) {
+    this.setState({
+      showMoveDoc: true
+    });
+    if (str === "doc") {
+      this.setState({
+        currentDocId: id
+      });
+    } else {
+      this.setState({
+        currentDocFolderId: id
+      });
+    }
+  }
+
+  // 确认移动文档
+  confirmMoveDoc() {
+    const {
+      pid,
+      docTree,
+      finalMoveDocId,
+      currentDocFolderId,
+      currentDocId
+    } = this.state;
+    const moveId = currentDocFolderId || currentDocId;
+    const docTreeTemp = JSON.parse(JSON.stringify(docTree));
+    const newTree = FileTree.moveNode(moveId, finalMoveDocId, docTreeTemp);
+    if (newTree) {
+      FileTree.initNodeFinalSelected(newTree);
+      FileTree.initNodeSelected(newTree);
+      newTree.selected = true;
+      newTree.finalSelected = true;
+      ProjectService.updateProjectDocTree(pid, JSON.stringify(newTree))
+        .then(() => {
+          // 更新视图
+          this.updateDocList();
+        })
+        .catch(el => {
+          console.error(el);
+        });
     }
   }
 
@@ -240,6 +333,18 @@ class ProjectDetailAllFile extends Component {
     });
   }
 
+  // 改变布局方式
+  // changeLayoutToList() {
+  //   this.setState({
+  //     itemLayOut: false
+  //   });
+  // }
+  // changeLayoutToItem() {
+  //   this.setState({
+  //     itemLayOut: true
+  //   });
+  // }
+
   render() {
     const { pid, 
       currentRootName,
@@ -250,6 +355,8 @@ class ProjectDetailAllFile extends Component {
       showCreateDocFile, 
       newDocFileInputText, 
       showDletedoc, 
+      showMoveDoc, 
+      docTree
     } = this.state;
     return (
       <div className="projectDetail-container">
@@ -281,7 +388,7 @@ class ProjectDetailAllFile extends Component {
                   docList.FolderList.map(
                     el => (
                       <div className="file-item" key={el.id}>
-                        <FolderItemDoc folderItem={el} pid={pid} moveFile={this.moveFile} deleteFile={this.startDeleteDoc} />
+                        <FolderItemDoc folderItem={el} pid={pid} moveFile={this.moveDoc} deleteFile={this.startDeleteDoc} />
                       </div>
                     )
                   )
@@ -290,7 +397,7 @@ class ProjectDetailAllFile extends Component {
                   docList.DocList.map(
                     el => (
                       <div className="file-item" key={el.id}>
-                        <DocItem folderItem={el} pid={pid} moveFile={this.moveFile} deleteFile={this.startDeleteDoc} />
+                        <DocItem folderItem={el} pid={pid} moveFile={this.moveDoc} deleteFile={this.startDeleteDoc} />
                       </div>
                     )
                   )
@@ -371,6 +478,68 @@ class ProjectDetailAllFile extends Component {
             <div className="delete-file-alert-done">
               <Button
                 onClick={this.confirmDeleteDoc}
+                text="确定"
+                width="65"
+                height="32"
+                fontSize="14"
+              />
+            </div>
+          </div>
+        )}
+        {/* 移动文档弹出框 */}
+        {showMoveDoc && (
+          <div className="moveFileAlert">
+            <div className="move-file-alert-tip">选择保存路径</div>
+            <div className="move-file-tree-container">
+              <Scrollbars>
+                <FileTreeComponent
+                  root={docTree}
+                  select={() => {
+                    const fileRootTemp = Object.assign({}, docTree);
+                    fileRootTemp.selected = !fileRootTemp.selected;
+                    FileTree.initNodeSelected(fileRootTemp);
+                    this.setState({
+                      docTree: fileRootTemp
+                    });
+                  }}
+                  finalSelect={el => {
+                    const fileRootTemp = Object.assign({}, docTree);
+                    FileTree.initNodeFinalSelected(fileRootTemp);
+                    let fatherId;
+                    if (el.selected || el.router.length === 1) {
+                      fatherId = el.id;
+                    } else {
+                      // 取消选中
+                      fatherId = el.router[el.router.length - 2];
+                    }
+                    const fatherNode = FileTree.searchNode(
+                      fatherId,
+                      fileRootTemp
+                    );
+                    fatherNode.finalSelected = true;
+                    this.setState({
+                      docTree: fileRootTemp,
+                      finalMoveDocId: fatherNode.id
+                    });
+                  }}
+                />
+              </Scrollbars>
+            </div>
+            <div className="move-file-alert-cancel">
+              <Button
+                onClick={this.hideAlert}
+                text="取消"
+                width="65"
+                height="32"
+                border="1px solid RGBA(217, 217, 217, 1)"
+                bgColor="RGBA(255, 255, 255, 1)"
+                textColor="RGBA(64, 64, 64, 1)"
+                fontSize="14"
+              />
+            </div>
+            <div className="move-file-alert-done">
+              <Button
+                onClick={this.confirmMoveDoc}
                 text="确定"
                 width="65"
                 height="32"
