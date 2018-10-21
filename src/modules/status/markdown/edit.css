@@ -1,5 +1,14 @@
 /* ↓ markdown样式表： */
-ul,ol {
+.status-markdown {
+    min-height: 700px;
+    margin-top: 20px;
+    width: 100%;
+    border: white;
+    display: felx;
+    display: -webkit-flex;
+} 
+
+.status-markdown ul,ol {
     padding: 0;
     padding-left: 24px;
     margin: 0;
@@ -80,17 +89,6 @@ hr {
     background-color: #e7e7e7;
     border: 0 none;
 }
-a {
-    color: #0099ff;
-    margin: 0;
-    padding: 0;
-    vertical-align: baseline;
-    font-size: 16px;
-}
-a:hover {
-    text-decoration: none;
-    color: #ff6600;
-}
 
 
 /* ↑ markdown样式表： */
@@ -116,14 +114,20 @@ a:hover {
     position: absolute;
     right: 83px;
 }
-.status-markdown {
-    min-height: 700px;
-    margin-top: 20px;
-    width: 100%;
-    border: white;
-    display: felx;
-    display: -webkit-flex;
-} 
+
+
+.status-markdown a {
+    color: #0099ff;
+    margin: 0;
+    padding: 0;
+    vertical-align: baseline;
+    font-size: 16px;
+}
+
+.status-markdown a:hover {
+    text-decoration: none;
+    color: #ff6600;
+}
 
 .field{
     outline: hidden;
