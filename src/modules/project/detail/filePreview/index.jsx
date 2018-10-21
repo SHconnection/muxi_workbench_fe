@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
-import { Link } from "react-router-dom";
 import MessageService from "../../../../service/message";
 import FileService from "../../../../service/file";
 import ProjectService from "../../../../service/project"
