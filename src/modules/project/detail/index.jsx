@@ -320,8 +320,9 @@ class ProjectDetailIndex extends Component {
 
   // 开始创建文档（夹）
   startCreateDoc(index) {
+    const { docRootId } = this.state
     if (index === 0) {
-      window.location.href = "/edit";
+      window.location.href = `./newDoc/${docRootId}`;
     }
     if (index === 1) {
       this.hideAlert();
@@ -352,20 +353,24 @@ class ProjectDetailIndex extends Component {
             child: []
           };
           // 更新文档树
-          ProjectService.updateProjectDocTree(
-            pid,
-            JSON.stringify(FileTree.insertNode(newNode, docRootId, docTree))
-          )
-            .then(() => {
-              // 更新视图
-              this.updatedocList();
-              this.setState({
-                showCreateDocFile: false
-              });
-            })
-            .catch(res1 => {
-              console.error(res1);
-            });
+          const newTree = FileTree.insertNode(newNode, docRootId, docTree)
+          if (newTree) {
+            ProjectService.updateProjectDocTree(
+              pid,
+              JSON.stringify(newTree)
+            )
+              .then(() => {
+                // 更新视图
+                this.updatedocList();
+                this.setState({
+                  showCreateDocFile: false
+                });
+              })
+              .catch(res1 => {
+                console.error(res1);
+              })
+          }
+
         })
         .catch(res => {
           console.error(res);

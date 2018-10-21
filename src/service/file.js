@@ -54,6 +54,15 @@ const FileService = {
     });
   },
 
+  // 创建文档
+  createDoc(postData) {
+    return Fetch(`/file/doc/`, {
+      method: "POST",
+      data: postData,
+      token: localStorage.token
+    })
+  },
+
   // 删除文件
   deleteFile(id) {
     return Fetch(`/file/file/${id}/`, {
