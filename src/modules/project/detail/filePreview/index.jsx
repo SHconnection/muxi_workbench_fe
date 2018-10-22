@@ -17,7 +17,7 @@ import "./index.css"
 class DocPreview extends Component {
   constructor(props) {
     super(props);
-    const { match } = this.props
+    const { match } = this.props;
     this.state = {
       pid: parseInt(match.params.pid, 0),
       id: parseInt(match.params.id, 0),
@@ -29,7 +29,8 @@ class DocPreview extends Component {
       },
       createTime: "",
       creator: "",
-      fileUrl: [],
+      // fileUrl: "",
+      fileUrlWithId: [],
       // 评论列表
       commentList: [],
       // 发表评论的输入值
@@ -61,15 +62,15 @@ class DocPreview extends Component {
   getCommentList() {
     const { id, pid, currentPage } = this.state
     ProjectService.getCommentList(pid, id, currentPage)
-    .then(res => {
-      this.setState({
-        commentList: res.commentList,
-        pageNums: res.count % 20 === 0 ? Math.floor(res.count/20, 0) : Math.floor(res.count/20, 0) + 1
+      .then(res => {
+        this.setState({
+          commentList: res.commentList,
+          pageNums: res.count % 20 === 0 ? Math.floor(res.count / 20, 0) : Math.floor(res.count / 20, 0) + 1
+        })
       })
-    })
-    .catch(error => {
-      console.error(error)
-    })
+      .catch(error => {
+        console.error(error)
+      })
   }
 
   // 请求该文件的详情信息
@@ -77,7 +78,7 @@ class DocPreview extends Component {
     const { id } = this.state;
     const postData = {
       folder: [],
-      file: [parseInt(id, 0)]
+      file: [id]
     }
     FileService.getFileList(postData)
       .then(res => {
@@ -112,29 +113,30 @@ class DocPreview extends Component {
   getFileUrl(id, tree) {
     // 找到文件所在节点
     const node = FileTree.searchNode(id, tree)
-    if (node) {
-      if (node.router.length) {
-        const fileIdUrl = JSON.parse(JSON.stringify(node.router))
-        fileIdUrl.pop()
-        fileIdUrl.shift()
-        const postData = {
-          folder: fileIdUrl.map(el => parseInt(el, 0)),
-          file: []
-        }
-        FileService.getFileList(postData)
-          .then(res => {
-            let fileUrl = `路径：${tree.name}`
-            if (res.FolderList.length) {
-              fileUrl += `${res.FolderList.map(el => ` - ${el.name}`).reduce((el1, el2) => el1 + el2)}`
-            }
-            this.setState({
-              fileUrl
-            })
-          })
-          .catch(err => {
-            console.error(err)
-          })
+    if (node && node.router.length) {
+      const fileIdUrl = JSON.parse(JSON.stringify(node.router))
+      fileIdUrl.pop()
+      fileIdUrl.shift()
+      const postData = {
+        folder: fileIdUrl.map(el => parseInt(el, 0)),
+        file: []
       }
+      FileService.getFileList(postData)
+        .then(res => {
+          // let fileUrl = `路径：${tree.name}`
+          let fileUrlWithId = [{ name: "全部文件", id: 0 }]
+          if (res.FolderList.length) {
+            // fileUrl += `${res.FolderList.map(el => ` - ${el.name}`).reduce((el1, el2) => el1 + el2)}`
+            fileUrlWithId = fileUrlWithId.concat(res.FolderList.map(el => ({ name: el.name, id: el.id })))
+          }
+          this.setState({
+            // fileUrl,
+            fileUrlWithId
+          })
+        })
+        .catch(err => {
+          console.error(err)
+        })
     }
   }
 
@@ -143,24 +145,24 @@ class DocPreview extends Component {
     const { id } = this.state
     // const { isFocus } = this.state
     MessageService.getMyAttentionFiles(id)
-    .then(() => {
-      // console.log(res)
-    })
-    .catch(error => {
-      console.error(error)
-    })
+      .then(() => {
+        // console.log(res)
+      })
+      .catch(error => {
+        console.error(error)
+      })
   }
 
   // 关注文件
   focusFile() {
     const { id } = this.state
     MessageService.notFocusOnFile(id)
-    .then(res => {
-      console.log(res)
-    })
-    .catch(error => {
-      console.error(error)
-    })
+      .then(res => {
+        console.log(res)
+      })
+      .catch(error => {
+        console.error(error)
+      })
   }
 
   // 输入评论内容
@@ -173,15 +175,15 @@ class DocPreview extends Component {
     const { pid, id, commentInput } = this.state
     if (commentInput) {
       ProjectService.commentFile(pid, id, commentInput)
-      .then(() => {
-        this.setState({
-          commentInput: ""
+        .then(() => {
+          this.setState({
+            commentInput: ""
+          })
+          this.getCommentList()
         })
-        this.getCommentList()
-      })
-      .catch(error => {
-        console.error(error)
-      })
+        .catch(error => {
+          console.error(error)
+        })
     }
   }
 
@@ -190,22 +192,23 @@ class DocPreview extends Component {
     const { pid, id, pageNums, currentPage } = this.state
     if (page > 0 && page <= pageNums && page !== currentPage) {
       ProjectService.getCommentList(pid, id, page)
-      .then(res => {
-        this.setState({
-          commentList: res.commentList,
-          currentPage: page
+        .then(res => {
+          this.setState({
+            commentList: res.commentList,
+            currentPage: page
+          })
         })
-      })
-      .catch(error => {
-        console.error(error)
-      })
+        .catch(error => {
+          console.error(error)
+        })
     }
   }
 
   render() {
     const {
       fileInfo,
-      fileUrl,
+      // fileUrl,
+      fileUrlWithId,
       creator,
       createTime,
       commentList,
@@ -218,7 +221,13 @@ class DocPreview extends Component {
         <Goback />
         <div className="filePreview-content">
           <div className="filePreview-header-url">
-            {fileUrl}
+            路径：
+            {fileUrlWithId.map((el, index) => (
+              <span key={el.id}>
+                {index ? (<span> - </span>) : ""}
+                <a href={`../fileFolder/${el.id}`}>{el.name}</a>
+              </span>
+            ))}
           </div>
           {/*  头部 */}
           <div className="filePreview-header">
@@ -242,7 +251,7 @@ class DocPreview extends Component {
             </div>
             {/* 头部右边 */}
             <div className="filePreview-header-right">
-              <div onClick={this.focusFile} onMouseDown={() => {}} role="presentation">关注</div>
+              <div onClick={this.focusFile} onMouseDown={() => { }} role="presentation">关注</div>
               {/* <div>编辑</div> */}
               <a
                 href={`${fileInfo.url}?attname=${fileInfo.name}`}
@@ -267,9 +276,11 @@ class DocPreview extends Component {
             ))}
           </div>
           {/* 分页功能 */}
-          <div className="filePreview-paging">
-            <Paging pageNums={pageNums} currentPage={currentPage} selectPage={this.selectPage} />
-          </div>
+          {commentList.length ? (
+            <div className="filePreview-paging">
+              <Paging pageNums={pageNums} currentPage={currentPage} selectPage={this.selectPage} />
+            </div>
+          ): ""}
           {/* 发表评论 */}
           <div className="send">
             <Avatar className="comment-img" src={localStorage.userAvatar} width={49} height={49} />

@@ -37,7 +37,7 @@ const Project = props => {
         component={NewDoc}
       />
       <Route path={`${match.url}/:pid/file/:id`} component={FilePreview} />
-      <Route path={`${match.url}/doc/:id`} component={DocPreview} />
+      <Route path={`${match.url}/:pid/doc/:id`} component={DocPreview} />
     </div>
   );
 };

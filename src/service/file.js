@@ -43,6 +43,14 @@ const FileService = {
     });
   },
 
+  // 请求单个文档详细内容
+  getDocContent(id) {
+    return Fetch(`/file/doc/${id}`, {
+      method: "GET",
+      token: localStorage.token
+    })
+  },
+
   // 上传文件
   uploadFile(formData) {
     return fetch(`/file/file/`, {

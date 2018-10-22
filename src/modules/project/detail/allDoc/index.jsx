@@ -11,7 +11,7 @@ import Select from "../../../../components/common/select/index";
 import FolderItemDoc from "../../components/folderItemDoc/index";
 import DocItem from "../../components/docItem/index";
 import ProjectService from "../../../../service/project";
-import FileList from "../../components/fileList/index";
+import DocList from "../../components/docList/index";
 import CreateFileAlertIcon from "../../../../assets/svg/commonIcon/editFileAlert.svg";
 import "./index.css";
 import "../../../../static/css/common.css";
@@ -76,8 +76,8 @@ class ProjectDetailAllFile extends Component {
     this.moveDoc = this.moveDoc.bind(this);
     this.confirmMoveDoc = this.confirmMoveDoc.bind(this);
     this.hideAlert = this.hideAlert.bind(this);
-    // this.changeLayoutToItem = this.changeLayoutToItem.bind(this);
-    // this.changeLayoutToList = this.changeLayoutToList.bind(this);
+    this.changeLayoutToItem = this.changeLayoutToItem.bind(this);
+    this.changeLayoutToList = this.changeLayoutToList.bind(this);
   }
 
   componentWillMount() {
@@ -334,16 +334,17 @@ class ProjectDetailAllFile extends Component {
   }
 
   // 改变布局方式
-  // changeLayoutToList() {
-  //   this.setState({
-  //     itemLayOut: false
-  //   });
-  // }
-  // changeLayoutToItem() {
-  //   this.setState({
-  //     itemLayOut: true
-  //   });
-  // }
+  changeLayoutToList() {
+    this.setState({
+      itemLayOut: false
+    })
+  }
+
+  changeLayoutToItem() {
+    this.setState({
+      itemLayOut: true
+    })
+  }
 
   render() {
     const { pid, 
@@ -414,7 +415,7 @@ class ProjectDetailAllFile extends Component {
                 {
                   docList.DocList.map(el => (
                     <div key={el.id}>
-                      <FileList item={el} moveFile={this.moveFile} deleteFile={this.startDeleteFile} />
+                      <DocList item={el} docUrl={docUrl} moveDoc={this.moveDoc} deleteDoc={this.startDeleteDoc} />
                     </div>
                   ))
                 }

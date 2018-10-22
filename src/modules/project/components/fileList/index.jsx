@@ -33,7 +33,6 @@ FileList.propTypes = {
     url: PropTypes.string,
   }),
   fileUrl: PropTypes.string,
-  downloadFile: PropTypes.func,
   deleteFile: PropTypes.func,
   moveFile: PropTypes.func,
   fileToTop: PropTypes.func
@@ -48,7 +47,6 @@ FileList.defaultProps = {
     url: ""
   },
   fileUrl: "",
-  downloadFile: () => { },
   deleteFile: () => { },
   moveFile: () => { },
   fileToTop: () => { }

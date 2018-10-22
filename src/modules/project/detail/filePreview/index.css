@@ -13,6 +13,10 @@
   margin-bottom: 14px;
 }
 
+/* .filePreview-header-url span, span a {
+  font-size: 14px;
+} */
+
 .filePreview-header {
   display: -webkit-flex;
   display: flex;
@@ -62,6 +66,7 @@
   display: -webkit-flex;
   display: flex;
   flex-direction: row;
+  /* align-items: center; */
 }
 
 .filePreview-header-right div {
