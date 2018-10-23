@@ -22,6 +22,18 @@ class Edit extends Component {
 
   componentWillMount() {}
 
+  componentWillUpdate(nextProps) {
+    /* eslint-disable */
+    const { content, title } = this.props
+    /* eslint-disable */
+    if (content !== nextProps.content || title !== nextProps.title) {
+      this.setState({
+        content: nextProps.content,
+        title: nextProps.title
+      })
+    }
+  }
+
   componentDidUpdate() {
     const obj = document.querySelector(".field");
     const back = document.querySelector(".preview");

@@ -14,7 +14,7 @@ function DocList(props) {
         <div title={docUrl} className="project-fileList-url">{docUrl}</div>
       </div>
       <div className="project-fileList-right">
-        <a className="project-fileList-download" href={`${item.url}?attname=${item.name}`}>编辑</a>
+        <a className="project-fileList-download" href={`../docEdit/${item.id}`}>编辑</a>
         {/* <div onClick={() => {downloadFile(item.id)}} onKeyDown={() => {}} role="presentation">下载</div> */}
         <div onClick={() => { deleteDoc(item.id) }} onKeyDown={() => { }} role="presentation">删除</div>
         <div onClick={() => { moveDoc(item.id) }} onKeyDown={() => { }} role="presentation">移动</div>

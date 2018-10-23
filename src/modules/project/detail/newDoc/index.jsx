@@ -32,7 +32,6 @@ class NewDoc extends Component {
         this.setState({
           docTree: res
         });
-        console.log(res);
       })
       .catch(res => {
         console.error(res);

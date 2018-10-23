@@ -255,7 +255,7 @@ class ProjectDetailAllFile extends Component {
   // 删除文档树节点并更新视图
   deleteDocNode(id) {
     const { pid, docTree, docRootId } = this.state;
-    const newTree = FileTree.deleteNode(id, docTree).root;
+    const newTree = FileTree.deleteNode(id, docTree).root
     // 更新文档树
     if (newTree) {
       ProjectService.updateProjectDocTree(pid, JSON.stringify(newTree))

@@ -110,6 +110,15 @@ const FileService = {
     return Fetch(`/file/doc/${id}/`, {
       token: JSON.parse(localStorage.user).token
     });
+  },
+
+  // 更新文档内容
+  updateDoc(id, postData) {
+    return Fetch(`/file/doc/${id}/`, {
+      method: "PUT",
+      data: postData,
+      token: localStorage.token
+    })
   }
 };
 
