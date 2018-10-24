@@ -60,6 +60,7 @@ class DocPreview extends Component {
     this.confirmDeleteDoc = this.confirmDeleteDoc.bind(this);
     this.moveDoc = this.moveDoc.bind(this)
     this.confirmMoveDoc = this.confirmMoveDoc.bind(this)
+    this.hideAlert = this.hideAlert.bind(this)
   }
 
   componentWillMount() {
@@ -331,7 +332,7 @@ class DocPreview extends Component {
           </div>
           <div className="docPreview-md-markdown">
             <MarkdownPreview
-              value={docInfo.conetnt}
+              value={docInfo.content}
               className="column docPreview-md-preview"
               markedOptions={{
                 baseUrl: true,

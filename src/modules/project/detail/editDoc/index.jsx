@@ -32,7 +32,7 @@ class EditDoc extends Component {
       .then(res => {
         this.setState({
           title: res.name,
-          content: res.conetnt
+          content: res.content
         })
       })
       .catch(err => {
