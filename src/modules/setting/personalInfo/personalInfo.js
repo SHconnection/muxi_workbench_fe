@@ -16,13 +16,15 @@ const PersonalInfo = ({ match }) => {
   return (
     <div className="subject minH">
       <div className="personal">
-        <img src={per.avatar} className="personalInfo-avatar" alt="" />
-        <div className="personalIntro">
-          <b className="personalName">{per.name}</b>
-          <Link to={`${match.url}/personalSet`} className="fakeBtn">
-            {per.id === JSON.parse(localStorage.user).id ? "更改设置" : ""}
-          </Link>
-          <div className="llSize">{per.email}</div>
+        <div className="personalInfo-personalInformation">
+          <img src={per.avatar} className="personalInfo-avatar" alt="" />
+          <div className="personalIntro">
+            <b className="personalName">{per.name}</b>
+            <Link to={`${match.url}/personalSet`} className="fakeBtn">
+              {per.id === JSON.parse(localStorage.user).id ? "更改设置" : ""}
+            </Link>
+            <div className="llSize">{per.email}</div>
+          </div>
         </div>
         <Link
           to={`${match.url}/setPersonalInfo`}
