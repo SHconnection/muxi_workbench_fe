@@ -111,7 +111,7 @@ class edit extends Component {
             value={content}
             className="column preview"
             markedOptions={{
-              baseUrl: true,
+              baseUrl: null,
               headerIds: true,
               gfm: true,
               tables: true,
@@ -119,7 +119,7 @@ class edit extends Component {
               pedantic: false,
               sanitize: true,
               smartLists: true,
-              smartypants: false
+              smartypants: true
             }}
           />
         </div>
