@@ -1,19 +1,19 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { MarkdownPreview } from "react-marked-markdown";
-import { Scrollbars } from 'react-custom-scrollbars';
+import { Scrollbars } from "react-custom-scrollbars";
 // import MessageService from "../../../../service/message";
 import FileService from "../../../../service/file";
-import ProjectService from "../../../../service/project"
+import ProjectService from "../../../../service/project";
 import { FileTree } from "../../fileTree1";
 import FileTreeComponent from "../../components/fileTree/index";
 import Othercomments from "../../../../components/common/otherComments/comments";
-import Paging from "../../../../components/common/paging/index"
+import Paging from "../../../../components/common/paging/index";
 import Avatar from "../../../../components/common/avatar/index";
 import Button from "../../../../components/common/button/index";
 import Goback from "../../../../components/common/goBack/index";
 import "../../../../static/css/common.css";
-import "../../../status/markdown/edit.css"
+import "../../../status/markdown/edit.css";
 import "./index.css";
 
 class DocPreview extends Component {
@@ -58,50 +58,55 @@ class DocPreview extends Component {
     this.selectPage = this.selectPage.bind(this);
     this.startDeleteDoc = this.startDeleteDoc.bind(this);
     this.confirmDeleteDoc = this.confirmDeleteDoc.bind(this);
-    this.moveDoc = this.moveDoc.bind(this)
-    this.confirmMoveDoc = this.confirmMoveDoc.bind(this)
-    this.hideAlert = this.hideAlert.bind(this)
+    this.moveDoc = this.moveDoc.bind(this);
+    this.confirmMoveDoc = this.confirmMoveDoc.bind(this);
+    this.hideAlert = this.hideAlert.bind(this);
   }
 
   componentWillMount() {
     // const { match } = this.props;
     // const { sid } = match.params.id;
-    this.getDocInfo()
-    this.getDocTree()
-    this.getCommentList()
+    this.getDocInfo();
+    this.getDocTree();
+    this.getCommentList();
   }
 
   // 获取当前页面评论列表
   getCommentList() {
-    const { id, pid, currentPage } = this.state
+    const { id, pid, currentPage } = this.state;
     ProjectService.getCommentListForDoc(pid, id, currentPage)
       .then(res => {
         this.setState({
           commentList: res.commentList,
-          pageNums: res.count % 20 === 0 ? Math.floor(res.count / 20, 0) : Math.floor(res.count / 20, 0) + 1
-        })
+          pageNums:
+            res.count % 20 === 0
+              ? Math.floor(res.count / 20, 0)
+              : Math.floor(res.count / 20, 0) + 1
+        });
       })
       .catch(error => {
-        console.error(error)
-      })
+        console.error(error);
+      });
   }
 
   // 请求文档的详情信息
   getDocInfo() {
-    const { id } = this.state
+    const { id } = this.state;
     FileService.getDocConnent(id)
       .then(res => {
-        const regex = /\D/
-        const timeArr = res.create_time.split(regex)
-        const timeStr = `${timeArr[0]}/${timeArr[1]}/${timeArr[2]} ${timeArr[3]}:${timeArr[4]}`
+        const regex = /\D/;
+        const timeArr = res.create_time.split(regex);
+        const timeStr = `${timeArr[0]}/${timeArr[1]}/${timeArr[2]} ${
+          timeArr[3]
+        }:${timeArr[4]}`;
         this.setState({
           docInfo: res,
-          createTime: timeStr,
-        })
+          createTime: timeStr
+        });
       })
       .catch(err => {
-        console.error(err)
-      })
+        console.error(err);
+      });
     // FileService.getDocList(postData)
     //   .then(res => {
     //     const { creator } = res.DocList[0]
@@ -121,45 +126,47 @@ class DocPreview extends Component {
 
   // 算出文档所在树
   getDocTree() {
-    const { id, pid } = this.state
+    const { id, pid } = this.state;
     FileTree.getDocTree(pid)
       .then(el => {
         this.setState({
           docTree: el
-        })
-        this.getDocUrl(id, el)
+        });
+        this.getDocUrl(id, el);
       })
       .catch(error => {
-        console.error(error)
-      })
+        console.error(error);
+      });
   }
 
   // 算出文档的路径
   getDocUrl(id, tree) {
     // 找到文档坐在节点
-    const node = FileTree.searchNode(id, tree)
+    const node = FileTree.searchNode(id, tree);
     if (node && node.router.length) {
-      const docIdUrl = JSON.parse(JSON.stringify(node.router))
-      docIdUrl.pop()
-      docIdUrl.shift()
+      const docIdUrl = JSON.parse(JSON.stringify(node.router));
+      docIdUrl.pop();
+      docIdUrl.shift();
       const postData = {
         folder: docIdUrl.map(el => parseInt(el, 0)),
         doc: []
-      }
+      };
       FileService.getDocList(postData)
         .then(res => {
-          let docUrlWithId = [{ name: "全部文档", id: 0 }]
+          let docUrlWithId = [{ name: "全部文档", id: 0 }];
           if (res.FolderList.length) {
-            docUrlWithId = docUrlWithId.concat(res.FolderList.map(el => ({ name: el.name, id: el.id })))
+            docUrlWithId = docUrlWithId.concat(
+              res.FolderList.map(el => ({ name: el.name, id: el.id }))
+            );
           }
           this.setState({
             // fileUrl,
             docUrlWithId
-          })
+          });
         })
         .catch(err => {
-          console.error(err)
-        })
+          console.error(err);
+        });
     }
   }
 
@@ -170,35 +177,35 @@ class DocPreview extends Component {
 
   // 发送评论
   sendComment() {
-    const { pid, id, commentInput } = this.state
+    const { pid, id, commentInput } = this.state;
     if (commentInput) {
       ProjectService.commentDoc(pid, id, commentInput)
         .then(() => {
           this.setState({
             commentInput: ""
-          })
-          this.getCommentList()
+          });
+          this.getCommentList();
         })
         .catch(error => {
-          console.error(error)
-        })
+          console.error(error);
+        });
     }
   }
 
   // 跳转页面
   selectPage(page) {
-    const { pid, id, pageNums, currentPage } = this.state
+    const { pid, id, pageNums, currentPage } = this.state;
     if (page > 0 && page <= pageNums && page !== currentPage) {
       ProjectService.getCommentList(pid, id, page)
         .then(res => {
           this.setState({
             commentList: res.commentList,
             currentPage: page
-          })
+          });
         })
         .catch(error => {
-          console.error(error)
-        })
+          console.error(error);
+        });
     }
   }
 
@@ -207,30 +214,30 @@ class DocPreview extends Component {
     this.hideAlert();
     this.setState({
       showDletedoc: true
-    })
+    });
   }
 
   // 确认删除文档
   confirmDeleteDoc() {
-    const { pid, id, docTree } = this.state
+    const { pid, id, docTree } = this.state;
     FileService.deleteDoc(id)
       .then(() => {
         // 删除成功
-        const newTree = FileTree.deleteNode(id, docTree).root
+        const newTree = FileTree.deleteNode(id, docTree).root;
         // 更新文档树
         if (newTree) {
           ProjectService.updateProjectDocTree(pid, JSON.stringify(newTree))
             .then(() => {
-              this.hideAlert()
-              window.history.back()
+              this.hideAlert();
+              window.history.back();
             })
             .catch(err => {
-              console.error(err)
-            })
+              console.error(err);
+            });
         }
       })
       .catch(el => {
-        console.error(el)
+        console.error(el);
       });
   }
 
@@ -238,32 +245,27 @@ class DocPreview extends Component {
   moveDoc() {
     this.setState({
       showMoveDoc: true
-    })
+    });
   }
 
   // 确认移动文档
   confirmMoveDoc() {
-    const {
-      pid,
-      docTree,
-      finalMoveDocId,
-      id
-    } = this.state
-    const docTreeTemp = JSON.parse(JSON.stringify(docTree))
-    const newTree = FileTree.moveNode(id, finalMoveDocId, docTreeTemp)
+    const { pid, docTree, finalMoveDocId, id } = this.state;
+    const docTreeTemp = JSON.parse(JSON.stringify(docTree));
+    const newTree = FileTree.moveNode(id, finalMoveDocId, docTreeTemp);
     if (newTree) {
-      FileTree.initNodeFinalSelected(newTree)
-      FileTree.initNodeSelected(newTree)
-      newTree.selected = true
-      newTree.finalSelected = true
+      FileTree.initNodeFinalSelected(newTree);
+      FileTree.initNodeSelected(newTree);
+      newTree.selected = true;
+      newTree.finalSelected = true;
       ProjectService.updateProjectDocTree(pid, JSON.stringify(newTree))
         .then(() => {
           // 更新doctree
-          this.getDocTree()
-          this.hideAlert()
+          this.getDocTree();
+          this.hideAlert();
         })
         .catch(el => {
-          console.error(el)
+          console.error(el);
         });
     }
   }
@@ -272,7 +274,7 @@ class DocPreview extends Component {
     this.setState({
       showDletedoc: false,
       showMoveDoc: false
-    })
+    });
   }
 
   render() {
@@ -287,8 +289,8 @@ class DocPreview extends Component {
       currentPage,
       pageNums,
       showDletedoc,
-      showMoveDoc,
-    } = this.state
+      showMoveDoc
+    } = this.state;
 
     return (
       <div className="projectDetail-container">
@@ -298,12 +300,8 @@ class DocPreview extends Component {
           <div className="filePreview-header">
             {/* 头部左边 */}
             <div className="filePreview-header-left">
-              <div className="filePreview-header-fileName">
-                {docInfo.name}
-              </div>
-              <div className="docPreview-header-creator">
-                {docInfo.creator}
-              </div>
+              <div className="filePreview-header-fileName">{docInfo.name}</div>
+              <div className="docPreview-header-creator">{docInfo.creator}</div>
               <div className="docPreview-header-lasteditor">
                 {docInfo.lasteditor}
                 <span>（最新编辑）</span>
@@ -311,7 +309,7 @@ class DocPreview extends Component {
               <div className="docPreview-header-url">
                 {docUrlWithId.map((el, index) => (
                   <span key={el.id}>
-                    {index ? (<span>/</span>) : ""}
+                    {index ? <span>/</span> : ""}
                     <a href={`../docFolder/${el.id}`}>{el.name}</a>
                   </span>
                 ))}
@@ -319,17 +317,33 @@ class DocPreview extends Component {
             </div>
             {/* 头部右边 */}
             <div className="docPreview-header-right">
-              <div onClick={() => { }} onMouseDown={() => { }} role="presentation">分享</div>
-              <div onClick={this.moveDoc} onMouseDown={() => { }} role="presentation">移动</div>
+              <div
+                onClick={() => {}}
+                onMouseDown={() => {}}
+                role="presentation"
+              >
+                分享
+              </div>
+              <div
+                onClick={this.moveDoc}
+                onMouseDown={() => {}}
+                role="presentation"
+              >
+                移动
+              </div>
               {/* <div onClick={() => { }} onMouseDown={() => { }} role="presentation">编辑</div> */}
               <a href={`../docEdit/${id}`}>编辑</a>
-              <div onClick={this.startDeleteDoc} onMouseDown={() => { }} role="presentation">删除</div>
+              <div
+                onClick={this.startDeleteDoc}
+                onMouseDown={() => {}}
+                role="presentation"
+              >
+                删除
+              </div>
             </div>
           </div>
           {/* 时间 */}
-          <div className="docPreview-time">
-            {createTime}
-          </div>
+          <div className="docPreview-time">{createTime}</div>
           <div className="docPreview-md-markdown">
             <MarkdownPreview
               value={docInfo.content}
@@ -364,12 +378,23 @@ class DocPreview extends Component {
           {/* 分页功能 */}
           {commentList.length ? (
             <div className="filePreview-paging">
-              <Paging pageNums={pageNums} currentPage={currentPage} selectPage={this.selectPage} />
+              <Paging
+                pageNums={pageNums}
+                currentPage={currentPage}
+                selectPage={this.selectPage}
+              />
             </div>
-          ) : ""}
+          ) : (
+            ""
+          )}
           {/* 发表评论 */}
           <div className="send">
-            <Avatar className="comment-img" src={localStorage.userAvatar} width={49} height={49} />
+            <Avatar
+              className="comment-img"
+              src={localStorage.userAvatar}
+              width={49}
+              height={49}
+            />
             {/* src是自己的头像 */}
             <div className="push">
               <div>
@@ -382,10 +407,7 @@ class DocPreview extends Component {
                 />
               </div>
               <div className="comment-bt">
-                <Button
-                  onClick={() => this.sendComment()}
-                  text="发表"
-                />
+                <Button onClick={() => this.sendComment()} text="发表" />
               </div>
             </div>
           </div>

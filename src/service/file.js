@@ -48,7 +48,7 @@ const FileService = {
     return Fetch(`/file/doc/${id}`, {
       method: "GET",
       token: localStorage.token
-    })
+    });
   },
 
   // 上传文件
@@ -68,7 +68,7 @@ const FileService = {
       method: "POST",
       data: postData,
       token: localStorage.token
-    })
+    });
   },
 
   // 删除文件
@@ -118,7 +118,7 @@ const FileService = {
       method: "PUT",
       data: postData,
       token: localStorage.token
-    })
+    });
   }
 };
 

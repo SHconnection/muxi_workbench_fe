@@ -25,8 +25,14 @@ const Project = props => {
       <Route path={`${match.url}/:id/preview`} component={ProjectDetail} />
       <Route path={`${match.url}/:id/setting`} component={SetProject} />
       <Route path={`${match.url}/:id/editMem`} component={EditMember} />
-      <Route path={`${match.url}/:pid/fileFolder/:id`} component={ProjectDetailAllFile} />
-      <Route path={`${match.url}/:pid/docFolder/:id`} component={ProjectDetailAllDoc} />
+      <Route
+        path={`${match.url}/:pid/fileFolder/:id`}
+        component={ProjectDetailAllFile}
+      />
+      <Route
+        path={`${match.url}/:pid/docFolder/:id`}
+        component={ProjectDetailAllDoc}
+      />
       <Route path={`${match.url}/:pid/newDoc/:id`} component={NewDoc} />
       <Route path={`${match.url}/:pid/file/:id`} component={FilePreview} />
       <Route path={`${match.url}/:pid/doc/:id`} component={DocPreview} />

@@ -4,45 +4,67 @@ import PropTypes from "prop-types";
 import Avatar from "../../../../components/common/avatar/index";
 import "./index.css";
 
-// const kind = ["status", "project", "doc", "comment", "team", "user", "file"];
-
-function findKind(kind, sourceID) {
+function dividerName(kind, proName, userName) {
   switch (kind) {
-    case 0:
-      return `/status/${sourceID}/`;
     case 1:
-      return `/project/${sourceID}/`;
+      return "成员";
     case 2:
-      return `/project/30/doc/${sourceID}/`;
+      return `${proName}`;
     case 3:
-      return `/status/${sourceID}/`;
+      return `${proName}`;
     case 4:
-      return `/member/teamMember/personalInfo/personalProgress/${sourceID}/`;
-    case 5:
-      return `/member/teamMember/personalInfo/personalProgress/${sourceID}/`;
+      return `${proName}`;
     case 6:
-      return `/project/doc/${sourceID}/`;
+      return `${userName}的进度`;
+    default:
+      return `/`;
+  }
+}
+function changeWord(kind, action) {
+  switch (kind) {
+    case 1:
+      return `${action}了团队`;
+    case 2:
+      return `${action}了项目：`;
+    case 3:
+      return `${action}了文档：`;
+    case 4:
+      return `${action}了文件：`;
+    case 6:
+      return `${action}了进度：`;
+    default:
+      return "";
+  }
+}
+function findKind(kind, sourceID, sourcePro) {
+  switch (kind) {
+    case 1:
+      return 0;
+    case 2:
+      return `/project/${sourcePro}/preview`;
+    case 3:
+      return `/project/${sourcePro}/doc/${sourceID}/`;
+    case 4:
+      return `/project/${sourcePro}/file/${sourceID}/`;
+    case 6:
+      return `/status/${sourceID}/`;
     default:
       return `/`;
   }
 }
 
-function findProject(kind, dividerID) {
+function findProject(kind, sourcePro, uid) {
   switch (kind) {
-    case 0:
-      return `/status`;
     case 1:
-      return `/project/${dividerID}/preview`;
+      return `/member/teamMember/`;
     case 2:
-      return `/project/${dividerID}/preview`;
+      return `/project/${sourcePro}/preview/`;
     case 3:
-      return `/status`;
+      return `/project/${sourcePro}/preview/`;
     case 4:
-      return 0;
-    case 5:
-      return 0;
+      return `/project/${sourcePro}/preview/`;
     case 6:
-      return `/project/${dividerID}/preview`;
+      return `/member/teamMember/personalInfo/personalProgress/${uid}/`;
     default:
       return `/`;
   }
@@ -51,31 +73,32 @@ function findProject(kind, dividerID) {
 class feedItem extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      sourceID: props.sourceID,
-      dividerID: props.dividerID
-    };
+    this.state = {};
   }
 
   render() {
-    const { sourceID, dividerID } = this.state;
     const {
       timeHour,
       action,
-      divider,
-      dividerName,
+      uid,
       kind,
-      avatarUrl
+      ifSplit,
+      avatarUrl,
+      sourcePro,
+      proName,
+      userName,
+      sourceName,
+      sourceID
     } = this.props;
     return (
       <div className="feed-item">
         <div className="feed-divider">
-          <div className={divider ? "line" : "no-line"} />
+          <div className={ifSplit ? "line" : "no-line"} />
           <Link
-            to={`${findProject(kind, dividerID)}`}
-            className={divider ? "feed-project" : "feed-no-project"}
+            to={`${findProject(kind, sourcePro, uid)}`}
+            className={ifSplit ? "feed-project" : "feed-no-project"}
           >
-            {divider ? dividerName : ""}
+            {ifSplit ? `${dividerName(kind, proName, userName)}` : ""}
           </Link>
         </div>
         <div className="feed-details">
@@ -84,9 +107,26 @@ class feedItem extends Component {
             <Avatar src={avatarUrl} width="60" height="60" />
           </div>
           <div className="feed-action">
-            <Link to={`${findKind(kind, sourceID)}`} className="link">
-              {action}
-            </Link>
+            <div>
+              <Link
+                to={`/member/teamMember/personalInfo/${uid}/`}
+                className="link"
+              >
+                {userName}
+              </Link>
+            </div>
+            <div className="feed-action-word">{`${changeWord(
+              kind,
+              action
+            )}`}</div>
+            <div>
+              <Link
+                to={`${findKind(kind, sourceID, sourcePro)}`}
+                className="link"
+              >
+                {sourceName}
+              </Link>
+            </div>
           </div>
         </div>
       </div>
@@ -95,28 +135,31 @@ class feedItem extends Component {
 }
 
 feedItem.propTypes = {
-  // timeDay: PropTypes.string,
   timeHour: PropTypes.string,
   avatarUrl: PropTypes.string,
-  // uid: PropTypes.number,
   action: PropTypes.string,
+  uid: PropTypes.number,
+  userName: PropTypes.string,
   kind: PropTypes.number,
   sourceID: PropTypes.number,
-  divider: PropTypes.bool,
-  dividerID: PropTypes.number,
-  dividerName: PropTypes.string
+  sourcePro: PropTypes.number,
+  sourceName: PropTypes.number,
+  ifSplit: PropTypes.number,
+  proName: PropTypes.string
 };
 
 feedItem.defaultProps = {
-  // timeDay: "0000-00-00",
   timeHour: "00:00:00",
   avatarUrl: " ",
-  // uid: 0,
   action: " ",
+  uid: 0,
+  userName: " ",
   kind: 0,
   sourceID: 0,
-  divider: 0,
-  dividerID: 0,
-  dividerName: " "
+  sourcePro: -1,
+  sourceName: " ",
+  ifSplit: 0,
+  proName: " "
 };
+
 export default feedItem;
