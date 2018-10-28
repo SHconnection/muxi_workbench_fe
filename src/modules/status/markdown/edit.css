@@ -87,12 +87,6 @@ a {
     vertical-align: baseline;
     font-size: 16px;
 }
-a:hover {
-    text-decoration: none;
-    color: #ff6600;
-}
-
-
 /* ↑ markdown样式表： */
 .head {
     width: 100%;

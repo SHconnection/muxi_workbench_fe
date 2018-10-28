@@ -20,6 +20,46 @@ const yesterday = new Date(
   new Date().getTime() - 24 * 60 * 60 * 1000
 ).toLocaleDateString();
 
+function getScrollTop() {
+  let scrollTop = 0;
+  let bodyScrollTop = 0;
+  let documentScrollTop = 0;
+  if (document.body) {
+    bodyScrollTop = document.body.scrollTop;
+  }
+  if (document.documentElement) {
+    documentScrollTop = document.documentElement.scrollTop;
+  }
+  scrollTop =
+    bodyScrollTop - documentScrollTop > 0 ? bodyScrollTop : documentScrollTop;
+  return scrollTop;
+}
+function getScrollHeight() {
+  let scrollHeight = 0;
+  let bodyScrollHeight = 0;
+  let documentScrollHeight = 0;
+  if (document.body) {
+    bodyScrollHeight = document.body.scrollHeight;
+  }
+  if (document.documentElement) {
+    documentScrollHeight = document.documentElement.scrollHeight;
+  }
+  scrollHeight =
+    bodyScrollHeight - documentScrollHeight > 0
+      ? bodyScrollHeight
+      : documentScrollHeight;
+  return scrollHeight;
+}
+function getWindowHeight() {
+  let windowHeight = 0;
+  if (document.compatMode === "CSS1Compat") {
+    windowHeight = document.documentElement.clientHeight;
+  } else {
+    windowHeight = document.body.clientHeight;
+  }
+  return windowHeight;
+}
+
 class Dynamic extends Component {
   static chargeday(timeDay) {
     if (today === timeDay) {
@@ -34,9 +74,9 @@ class Dynamic extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      page: 1,
-      count: 0,
-      feedList: [],
+      hasNext: true,
+      pageNum: 0,
+      dataList: [],
       isPersonal: 1
     };
   }
@@ -46,27 +86,29 @@ class Dynamic extends Component {
     if (match.path === "/feed") {
       FeedService.getFeedList(1).then(feeds => {
         if (feeds) {
-          const arr1 = feeds.feed_stream.map(feed1 => {
+          const arr1 = feeds.dataList.map(feed1 => {
             const feedList = feed1;
             const obj = {};
-            obj.uid = feedList.uid;
-            obj.timeDay = feedList.time_d;
-            obj.timeHour = feedList.time_s;
-            obj.avatarUrl = feedList.avatar_url;
+            obj.timeDay = feedList.timeday;
+            obj.timeHour = feedList.timehm;
+            obj.ifSplit = feedList.ifsplit;
             obj.action = feedList.action;
-            obj.kind = feedList.kind;
-            obj.sourceID = feedList.sourceID;
-            obj.divider = feedList.divider;
-            obj.dividerID = feedList.divider_id;
-            obj.dividerName = feedList.divider_name;
+            obj.sourceName = feedList.source.object_name;
+            obj.kind = feedList.source.kind_id;
+            obj.sourceID = feedList.source.object_id;
+            obj.sourcePro = feedList.source.project_id;
+            obj.avatarUrl = feedList.user.avatar_url;
+            obj.uid = feedList.user.id;
+            obj.proName = feedList.source.object_name;
+            obj.userName = feedList.user.name;
             return obj;
           });
-          const page1 = feeds.page;
-          const count1 = feeds.count;
+          const page = feeds.pageNum;
+          const next = feeds.hasNext;
           this.setState({
-            page: page1,
-            count: count1,
-            feedList: arr1,
+            hasNext: next,
+            pageNum: page,
+            dataList: arr1,
             isPersonal: 0
           });
         }
@@ -75,27 +117,29 @@ class Dynamic extends Component {
       const { uid } = match.params;
       FeedService.getPersonalFeed(uid, 1).then(feed => {
         if (feed) {
-          const arr1 = feed.feed_stream.map(feed1 => {
+          const arr1 = feed.dataList.map(feed1 => {
             const feedList = feed1;
             const obj = {};
-            obj.uid = feedList.uid;
-            obj.timeDay = feedList.time_d;
-            obj.timeHour = feedList.time_s;
-            obj.avatarUrl = feedList.avatar_url;
+            obj.timeDay = feedList.timeday;
+            obj.timeHour = feedList.timehm;
+            obj.ifSplit = feedList.ifsplit;
             obj.action = feedList.action;
-            obj.kind = feedList.kind;
-            obj.sourceID = feedList.sourceID;
-            obj.divider = feedList.divider;
-            obj.dividerID = feedList.divider_id;
-            obj.dividerName = feedList.divider_name;
+            obj.sourceName = feedList.source.object_name;
+            obj.kind = feedList.source.kind_id;
+            obj.sourceID = feedList.source.object_id;
+            obj.sourcePro = feedList.source.project_id;
+            obj.avatarUrl = feedList.user.avatar_url;
+            obj.uid = feedList.user.id;
+            obj.proName = feedList.source.object_name;
+            obj.userName = feedList.user.name;
             return obj;
           });
-          const page1 = feed.page;
-          const count1 = feed.count;
+          const page = feed.pageNum;
+          const next = feed.hasNext;
           this.setState({
-            feedList: arr1,
-            count: count1,
-            page: page1,
+            hasNext: next,
+            pageNum: page,
+            dataList: arr1,
             isPersonal: 1
           });
         }
@@ -104,41 +148,44 @@ class Dynamic extends Component {
   }
 
   componentDidMount() {
-    const { page, count } = this.state;
-    window.addEventListener("scroll", () => {
-      if (window.innerHeight + window.scrollY >= document.body.offsetHeight) {
-        this.getFeedList(page, count);
+    window.onscroll = () => {
+      if (getScrollTop() + getWindowHeight() === getScrollHeight()) {
+        this.getFeedList();
       }
-    });
+    };
   }
 
-  getFeedList(page, count) {
+  getFeedList() {
     const { match } = this.props;
+    const { pageNum, hasNext } = this.state;
     if (match.path === "/feed") {
-      if (count / 40 > page) {
-        FeedService.getFeedList(page + 1).then(feeds => {
+      if (hasNext) {
+        FeedService.getFeedList(pageNum + 1).then(feeds => {
           if (feeds) {
-            const arr1 = feeds.feed_stream.map(feed1 => {
+            const arr1 = feeds.dataList.map(feed1 => {
               const feedList = feed1;
               const obj = {};
-              obj.uid = feedList.uid;
-              obj.timeDay = feedList.time_d;
-              obj.timeHour = feedList.time_s;
-              obj.avatarUrl = feedList.avatar_url;
+              obj.timeDay = feedList.timeday;
+              obj.timeHour = feedList.timehm;
+              obj.ifSplit = feedList.ifsplit;
               obj.action = feedList.action;
-              obj.kind = feedList.kind;
-              obj.sourceID = feedList.sourceID;
-              obj.divider = feedList.divider;
-              obj.dividerID = feedList.divider_id;
-              obj.dividerName = feedList.divider_name;
+              obj.sourceName = feedList.source.object_name;
+              obj.kind = feedList.source.kind_id;
+              obj.sourceID = feedList.source.object_id;
+              obj.sourcePro = feedList.source.project_id;
+              obj.avatarUrl = feedList.user.avatar_url;
+              obj.uid = feedList.user.id;
+              obj.proName = feedList.source.object_name;
+              obj.userName = feedList.user.name;
               return obj;
             });
-            const page1 = feeds.page;
-            const count1 = feeds.count;
+            const page1 = feeds.pageNum;
+            const next = feeds.hasNext;
+            const { feedList } = this.state;
             this.setState({
-              feedList: arr1,
-              count: count1,
-              page: page1,
+              hasNext: next,
+              pageNum: page1,
+              dataList: feedList.concat(arr1),
               isPersonal: 0
             });
           }
@@ -146,30 +193,33 @@ class Dynamic extends Component {
       }
     } else {
       const { uid } = match.params;
-      if (count / 40 > page) {
-        FeedService.getPersonalFeed(uid, page + 1).then(feeds => {
+      if (hasNext) {
+        FeedService.getPersonalFeed(uid, pageNum + 1).then(feeds => {
           if (feeds) {
-            const arr1 = feeds.feed_stream.map(feed1 => {
+            const arr1 = feeds.dataList.map(feed1 => {
               const feedList = feed1;
               const obj = {};
-              obj.uid = feedList.uid;
-              obj.timeDay = feedList.time_d;
-              obj.timeHour = feedList.time_s;
-              obj.avatarUrl = feedList.avatar_url;
+              obj.timeDay = feedList.timeday;
+              obj.timeHour = feedList.timehm;
+              obj.ifSplit = feedList.ifsplit;
               obj.action = feedList.action;
-              obj.kind = feedList.kind;
-              obj.sourceID = feedList.sourceID;
-              obj.divider = feedList.divider;
-              obj.dividerID = feedList.divider_id;
-              obj.dividerName = feedList.divider_name;
+              obj.sourceName = feedList.source.object_name;
+              obj.kind = feedList.source.kind_id;
+              obj.sourceID = feedList.source.object_id;
+              obj.sourcePro = feedList.source.project_id;
+              obj.avatarUrl = feedList.user.avatar_url;
+              obj.uid = feedList.user.id;
+              obj.proName = feedList.source.object_name;
+              obj.userName = feedList.user.name;
               return obj;
             });
-            const page1 = feeds.page;
-            const count1 = feeds.count;
+            const page1 = feeds.pageNum;
+            const next = feeds.hasNext;
+            const { feedList } = this.state;
             this.setState({
-              feedList: arr1,
-              count: count1,
-              page: page1
+              hasNext: next,
+              pageNum: page1,
+              dataList: feedList.concat(arr1)
             });
           }
         });
@@ -178,15 +228,15 @@ class Dynamic extends Component {
   }
 
   render() {
-    const { feedList, count, page, isPersonal } = this.state;
+    const { hasNext, dataList, isPersonal } = this.state;
     return (
       <div className="feed">
         <div className={isPersonal ? "" : "subject"}>
           <div className="feed-list">
-            {feedList.map((feed, index) => (
+            {dataList.map((feed, index) => (
               <div key={feed.uid}>
                 {(index === 0 ||
-                  feedList[index - 1].timeDay !== feed.timeDay) && (
+                  dataList[index - 1].timeDay !== feed.timeDay) && (
                   <div
                     className={
                       today === feed.timeDay || yesterday === feed.timeDay
@@ -202,18 +252,20 @@ class Dynamic extends Component {
                   timeHour={feed.timeHour}
                   avatarUrl={feed.avatarUrl}
                   uid={feed.uid}
+                  userName={feed.userName}
                   action={feed.action}
                   kind={feed.kind}
+                  sourceName={feed.sourceName}
                   sourceID={feed.sourceID}
-                  divider={feed.divider}
-                  dividerID={feed.dividerID}
-                  dividerName={feed.dividerName}
+                  sourcePro={feed.sourcePro}
+                  proName={feed.proName}
+                  ifSplit={feed.ifSplit}
                 />
               </div>
             ))}
           </div>
           <div className="loadMore">
-            {count / 40 <= page ? "最后一页啦" : "下拉加载更多..."}
+            {hasNext ? "下拉加载更多..." : "最后一页啦"}
           </div>
         </div>
         <Gotop className="go-top" />

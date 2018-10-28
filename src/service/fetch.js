@@ -63,6 +63,7 @@ export default function FetchData(url, opt = {}) {
         }
         return response.json();
       case 401:
+        return 401;
         throw "verify failed";
       case 403:
         return new Promise((resolve, reject) => {
