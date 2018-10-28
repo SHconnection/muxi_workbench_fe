@@ -18,9 +18,26 @@ class Item extends Component {
       whetherLike: props.iflike,
       likeNumber: props.likeCount,
       sid: props.sid,
-      isPersonal: props.isPersonal
+      isPersonal: props.isPersonal,
+      content: props.content
     };
     this.changeLike = this.changeLike.bind(this);
+  }
+
+  componentWillMount() {
+    const { content } = this.props;
+    let converted = "";
+    content.split("").forEach(str => {
+      if (str !== "\n") {
+        converted += `${str}`;
+      } else {
+        converted += "<br />";
+      }
+    });
+    const arr = converted.split(/<br\s*\/?>/i);
+    this.setState({
+      content: arr.reduce((el, a) => el.concat(a, <br />), [])
+    });
   }
 
   changeLike(sid, whetherLike, likeNumber) {
@@ -40,8 +57,8 @@ class Item extends Component {
   }
 
   render() {
-    const { whetherLike, likeNumber, sid, isPersonal } = this.state;
-    const { avatar, username, time, content, commentCount } = this.props;
+    const { whetherLike, likeNumber, sid, isPersonal, content } = this.state;
+    const { avatar, username, time, commentCount } = this.props;
     return (
       <div className={isPersonal ? "presonal-status" : "status-item-container"}>
         <div className="status-head">

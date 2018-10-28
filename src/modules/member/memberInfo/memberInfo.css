@@ -1,0 +1,27 @@
+.memberInfo-personalIntro{
+  display: inline-block;
+  margin-left: 13px;
+  width: 200px;
+}
+.memberInfo-role{
+  margin-left: 6px;
+  font-size: 10px;
+  color: #919191;
+}
+.memberInfo-img{
+  display: inline-block;
+}
+.memberInfo-contain{
+  display: flex;
+  align-items: center;
+}
+.memberInfo-littleGroup{
+  padding: 0 6px;
+  height:21px;
+  line-height: 21px;
+  border-radius:32px;
+  border:1px solid #979797;
+  font-size: 10px;
+  color: #919191;
+  text-align: center;
+}

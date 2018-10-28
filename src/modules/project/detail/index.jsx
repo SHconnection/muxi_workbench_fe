@@ -125,7 +125,7 @@ class ProjectDetailIndex extends Component {
   }
 
   componentWillMount() {
-    const { pid } = this.state
+    const { pid } = this.state;
     // 获取项目基本信息
     ProjectService.getProjectInfo(pid)
       .then(res => {
@@ -143,7 +143,7 @@ class ProjectDetailIndex extends Component {
 
   // 获取最新文件树
   getFileTree() {
-    const { pid } = this.state
+    const { pid } = this.state;
     FileTree.getFileTree(pid)
       .then(res => {
         this.setState({
@@ -158,7 +158,7 @@ class ProjectDetailIndex extends Component {
 
   // 获取最新文档树
   getDocTree() {
-    const { pid } = this.state
+    const { pid } = this.state;
     FileTree.getDocTree(pid)
       .then(res => {
         this.setState({
@@ -173,7 +173,7 @@ class ProjectDetailIndex extends Component {
 
   // 根据文件树更新当前视图的文件
   updateFilesList() {
-    const { pid, fileRootId } = this.state
+    const { pid, fileRootId } = this.state;
     // 请求树
     FileTree.getFileTree(pid)
       .then(res => {
@@ -199,7 +199,7 @@ class ProjectDetailIndex extends Component {
 
   // 根据文档树更新当前视图
   updatedocList() {
-    const { pid, docRootId } = this.state
+    const { pid, docRootId } = this.state;
     // 请求树
     FileTree.getDocTree(pid)
       .then(res => {
@@ -312,9 +312,9 @@ class ProjectDetailIndex extends Component {
 
   // 开始创建文档（夹）
   startCreateDoc(index) {
-    const { docRootId } = this.state
+    const { docRootId } = this.state;
     if (index === 0) {
-      window.location.href = `./newDoc/${docRootId}`
+      window.location.href = `./newDoc/${docRootId}`;
     }
     if (index === 1) {
       this.hideAlert();
@@ -345,12 +345,9 @@ class ProjectDetailIndex extends Component {
             child: []
           };
           // 更新文档树
-          const newTree = FileTree.insertNode(newNode, docRootId, docTree)
+          const newTree = FileTree.insertNode(newNode, docRootId, docTree);
           if (newTree) {
-            ProjectService.updateProjectDocTree(
-              pid,
-              JSON.stringify(newTree)
-            )
+            ProjectService.updateProjectDocTree(pid, JSON.stringify(newTree))
               .then(() => {
                 // 更新视图
                 this.updatedocList();
@@ -360,9 +357,8 @@ class ProjectDetailIndex extends Component {
               })
               .catch(res1 => {
                 console.error(res1);
-              })
+              });
           }
-
         })
         .catch(res => {
           console.error(res);
@@ -452,26 +448,26 @@ class ProjectDetailIndex extends Component {
 
   // 确认删除文档
   confirmDeleteDoc() {
-    const { currentDocId, currentDocFolderId, docTree } = this.state
+    const { currentDocId, currentDocFolderId, docTree } = this.state;
     if (currentDocId) {
       FileService.deleteDoc(currentDocId)
         .then(() => {
           // 删除成功
-          this.deleteDocNode(currentDocId)
+          this.deleteDocNode(currentDocId);
         })
         .catch(el => {
-          console.error(el)
+          console.error(el);
         });
     }
     if (currentDocFolderId) {
-      const postData = FileTree.findAllDocList(currentDocFolderId, docTree)
+      const postData = FileTree.findAllDocList(currentDocFolderId, docTree);
       FileService.deleteDocFolder(currentDocFolderId, postData)
         .then(() => {
           // 删除成功
-          this.deleteDocNode(currentDocFolderId)
+          this.deleteDocNode(currentDocFolderId);
         })
         .catch(el => {
-          console.error(el)
+          console.error(el);
         });
     }
   }

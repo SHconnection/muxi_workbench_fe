@@ -20,7 +20,7 @@ import "../../../../static/css/common.css";
 class ProjectDetailAllFile extends Component {
   constructor(props) {
     super(props);
-    const { match } = this.props
+    const { match } = this.props;
     this.state = {
       // 当前项目id
       pid: parseInt(match.params.pid, 0),
@@ -81,13 +81,13 @@ class ProjectDetailAllFile extends Component {
   }
 
   componentWillMount() {
-    const { fileRootId } = this.state
-    this.updateFilesList(fileRootId)
+    const { fileRootId } = this.state;
+    this.updateFilesList(fileRootId);
   }
 
   componentWillUpdate(nextProps) {
     /* eslint-disable */
-    const { location } = this.props
+    const { location } = this.props;
     /* eslint-disable */
     if (location !== nextProps.location) {
       this.updateFilesList(parseInt(nextProps.match.params.id, 0));
@@ -97,70 +97,68 @@ class ProjectDetailAllFile extends Component {
   // 算出文件的路径
   getFileUrl(id, tree) {
     // 找到文件所在节点
-    const node = FileTree.searchNode(id, tree)
+    const node = FileTree.searchNode(id, tree);
     if (node) {
       if (node.router.length) {
-        const fileIdUrl = JSON.parse(JSON.stringify(node.router))
+        const fileIdUrl = JSON.parse(JSON.stringify(node.router));
         // fileIdUrl.pop()
-        fileIdUrl.shift()
+        fileIdUrl.shift();
         const postData = {
           folder: fileIdUrl.map(el => parseInt(el, 0)),
           file: []
-        }
+        };
         FileService.getFileList(postData)
           .then(res => {
-            let fileUrl = `${tree.name}`
+            let fileUrl = `${tree.name}`;
             if (res.FolderList && res.FolderList.length) {
-              fileUrl += `${res.FolderList.map(el => `/${el.name}`).reduce((el1, el2) => el1 + el2)}`
+              fileUrl += `${res.FolderList.map(el => `/${el.name}`).reduce(
+                (el1, el2) => el1 + el2
+              )}`;
             }
             this.setState({
               fileUrl
-            })
+            });
           })
           .catch(err => {
-            console.error(err)
-          })
+            console.error(err);
+          });
       }
     }
   }
 
   // 根据文件树更新当前视图的文件
   updateFilesList(id) {
-    const { pid } = this.state
-    const fileRootId = id
+    const { pid } = this.state;
+    const fileRootId = id;
     // 请求树
     FileTree.getFileTree(pid)
       .then(res => {
         this.setState({
           fileTree: res,
           currentRootName: FileTree.searchNode(fileRootId, res).name
-        })
+        });
         // 算当前路径
-        this.getFileUrl(fileRootId, res)
+        this.getFileUrl(fileRootId, res);
         // 请求filelist
         FileService.getFileList(FileTree.findFileIdList(fileRootId, res))
           .then(res1 => {
             this.setState({
               filesList: res1
-            })
-            this.hideAlert()
+            });
+            this.hideAlert();
           })
           .catch(res1 => {
-            console.error(res1)
-          })
+            console.error(res1);
+          });
       })
       .catch(res => {
-        console.error(res)
+        console.error(res);
       });
   }
 
   // 开始创建文件（夹）
   startCreateFile(index) {
-    const {
-      pid,
-      fileRootId,
-      fileTree
-    } = this.state;
+    const { pid, fileRootId, fileTree } = this.state;
     if (index === 1) {
       this.hideAlert();
       this.setState({
@@ -212,12 +210,7 @@ class ProjectDetailAllFile extends Component {
 
   // 点击确认创建文件夹
   confirmCreateFile() {
-    const {
-      newFileInputText,
-      pid,
-      fileTree,
-      fileRootId
-    } = this.state;
+    const { newFileInputText, pid, fileTree, fileRootId } = this.state;
     if (newFileInputText) {
       // 请求创建
       FileService.createFileFolder(newFileInputText, pid)
@@ -269,11 +262,7 @@ class ProjectDetailAllFile extends Component {
 
   // 确认删除文件
   confirmDeleteFile() {
-    const {
-      currentFileId,
-      currentFileFolderId,
-      fileTree
-    } = this.state;
+    const { currentFileId, currentFileFolderId, fileTree } = this.state;
     // 文件
     if (currentFileId) {
       FileService.deleteFile(currentFileId)
@@ -302,11 +291,7 @@ class ProjectDetailAllFile extends Component {
 
   // 删除文件树节点并更新视图
   deleteFileNode(id) {
-    const {
-      pid,
-      fileTree,
-      fileRootId
-    } = this.state;
+    const { pid, fileTree, fileRootId } = this.state;
     // 更新文件树
     const newTree = FileTree.deleteNode(id, fileTree).root;
     if (newTree) {
@@ -480,27 +465,27 @@ class ProjectDetailAllFile extends Component {
               ))}
             </div>
           ) : (
-              <div className="projectDetail-allFile-list">
-                <div className="projectDetail-allFile-list-title">
-                  <div className="projectDetail-allFile-list-name">文件名称</div>
-                  <div className="projectDetail-allFile-list-uploader">
-                    上传者
+            <div className="projectDetail-allFile-list">
+              <div className="projectDetail-allFile-list-title">
+                <div className="projectDetail-allFile-list-name">文件名称</div>
+                <div className="projectDetail-allFile-list-uploader">
+                  上传者
                 </div>
-                  <div className="projectDetail-allFile-list-time">上传时间</div>
-                  <div className="projectDetail-allFile-list-url">路径</div>
-                </div>
-                {filesList.FileList.map(el => (
-                  <div key={el.id}>
-                    <FileList
-                      item={el}
-                      fileUrl={fileUrl}
-                      moveFile={this.moveFile}
-                      deleteFile={this.startDeleteFile}
-                    />
-                  </div>
-                ))}
+                <div className="projectDetail-allFile-list-time">上传时间</div>
+                <div className="projectDetail-allFile-list-url">路径</div>
               </div>
-            )}
+              {filesList.FileList.map(el => (
+                <div key={el.id}>
+                  <FileList
+                    item={el}
+                    fileUrl={fileUrl}
+                    moveFile={this.moveFile}
+                    deleteFile={this.startDeleteFile}
+                  />
+                </div>
+              ))}
+            </div>
+          )}
         </div>
         {/* 创建文件弹出框 */}
         {showCreateFile && (

@@ -5,6 +5,46 @@ import Gotop from "../../../components/common/toTop/top";
 import StatusService from "../../../service/status";
 import "./progerss.css";
 
+function getScrollTop() {
+  let scrollTop = 0;
+  let bodyScrollTop = 0;
+  let documentScrollTop = 0;
+  if (document.body) {
+    bodyScrollTop = document.body.scrollTop;
+  }
+  if (document.documentElement) {
+    documentScrollTop = document.documentElement.scrollTop;
+  }
+  scrollTop =
+    bodyScrollTop - documentScrollTop > 0 ? bodyScrollTop : documentScrollTop;
+  return scrollTop;
+}
+function getScrollHeight() {
+  let scrollHeight = 0;
+  let bodyScrollHeight = 0;
+  let documentScrollHeight = 0;
+  if (document.body) {
+    bodyScrollHeight = document.body.scrollHeight;
+  }
+  if (document.documentElement) {
+    documentScrollHeight = document.documentElement.scrollHeight;
+  }
+  scrollHeight =
+    bodyScrollHeight - documentScrollHeight > 0
+      ? bodyScrollHeight
+      : documentScrollHeight;
+  return scrollHeight;
+}
+function getWindowHeight() {
+  let windowHeight = 0;
+  if (document.compatMode === "CSS1Compat") {
+    windowHeight = document.documentElement.clientHeight;
+  } else {
+    windowHeight = document.body.clientHeight;
+  }
+  return windowHeight;
+}
+
 class Progress extends Component {
   constructor(props) {
     super(props);
@@ -14,6 +54,7 @@ class Progress extends Component {
       isPersonal: 0,
       statuList: []
     };
+    this.getStatusList = this.getStatusList.bind(this);
   }
 
   // 返回给我总的条数，条数除以20=page
@@ -36,10 +77,10 @@ class Progress extends Component {
             obj.commentCount = statu.commentCount;
             return obj;
           });
-          const count = status.cout;
+          const count1 = status.count;
           const changePage = status.page;
           this.setState({
-            cout: count,
+            cout: count1,
             page: changePage,
             statuList: arr1,
             isPersonal: 0
@@ -62,10 +103,10 @@ class Progress extends Component {
             obj.commentCount = statu.commentCount;
             return obj;
           });
-          const count = status.cout;
+          const count1 = status.count;
           const changePage = status.page;
           this.setState({
-            cout: count,
+            cout: count1,
             page: changePage,
             statuList: arr1,
             isPersonal: 1
@@ -76,73 +117,71 @@ class Progress extends Component {
   }
 
   componentDidMount() {
-    const { page, cout } = this.state;
-    window.addEventListener("scroll", () => {
-      if (window.innerHeight + window.scrollY >= document.body.offsetHeight) {
-        this.getStatusList(page, cout);
+    window.onscroll = () => {
+      if (getScrollTop() + getWindowHeight() === getScrollHeight()) {
+        this.getStatusList();
       }
-    });
+    };
   }
 
-  getStatusList(page, cout) {
+  getStatusList() {
     const { match } = this.props;
+    const { page } = this.state;
     if (match.path === "/status") {
-      if (cout / 20 > page) {
-        StatusService.getStatusList(page + 1).then(status => {
-          if (status) {
-            const arr1 = status.statuList.map(statu1 => {
-              const statu = statu1;
-              const obj = {};
-              obj.sid = statu.sid;
-              obj.username = statu.username;
-              obj.avatar = statu.avatar;
-              obj.time = statu.time;
-              obj.iflike = statu.iflike;
-              obj.content = statu.content;
-              obj.likeCount = statu.likeCount;
-              obj.commentCount = statu.commentCount;
-              return obj;
-            });
-            const count = status.cout;
-            const changePage = status.page;
-            this.setState({
-              cout: count,
-              page: changePage,
-              statuList: arr1,
-              isPersonal: 0
-            });
-          }
-        });
-      }
+      StatusService.getStatusList(page + 1).then(status => {
+        if (status) {
+          const arr1 = status.statuList.map(statu1 => {
+            const statu = statu1;
+            const obj = {};
+            obj.sid = statu.sid;
+            obj.username = statu.username;
+            obj.avatar = statu.avatar;
+            obj.time = statu.time;
+            obj.iflike = statu.iflike;
+            obj.content = statu.content;
+            obj.likeCount = statu.likeCount;
+            obj.commentCount = statu.commentCount;
+            return obj;
+          });
+          const count1 = status.count;
+          const changePage = status.page;
+          const { statuList } = this.state;
+          this.setState({
+            cout: count1,
+            page: changePage,
+            statuList: statuList.concat(arr1),
+            isPersonal: 0
+          });
+        }
+      });
     } else {
       const { id } = match.params;
-      if (cout / 20 > page) {
-        StatusService.getPersonalStatus(id, page + 1).then(status => {
-          if (status) {
-            const arr1 = status.statuList.map(statu1 => {
-              const statu = statu1;
-              const obj = {};
-              obj.sid = statu.sid;
-              obj.username = statu.username;
-              obj.avatar = statu.avatar;
-              obj.time = statu.time;
-              obj.iflike = statu.iflike;
-              obj.content = statu.content;
-              obj.likeCount = statu.likeCount;
-              obj.commentCount = statu.commentCount;
-              return obj;
-            });
-            const count = status.cout;
-            const changePage = status.page;
-            this.setState({
-              cout: count,
-              page: changePage,
-              statuList: arr1,
-              isPersonal: 0
-            });
-          }
-        });
-      }
+      StatusService.getPersonalStatus(id, page + 1).then(status => {
+        if (status) {
+          const arr1 = status.statuList.map(statu1 => {
+            const statu = statu1;
+            const obj = {};
+            obj.sid = statu.sid;
+            obj.username = statu.username;
+            obj.avatar = statu.avatar;
+            obj.time = statu.time;
+            obj.iflike = statu.iflike;
+            obj.content = statu.content;
+            obj.likeCount = statu.likeCount;
+            obj.commentCount = statu.commentCount;
+            return obj;
+          });
+          const count1 = status.count;
+          const changePage = status.page;
+          const { statuList } = this.state;
+          this.setState({
+            cout: count1,
+            page: changePage,
+            statuList: statuList.concat(arr1),
+            isPersonal: 0
+          });
+        }
+      });
     }
   }
 
@@ -173,7 +212,7 @@ class Progress extends Component {
           </div>
         </div>
         <div className="loadMore">
-          {cout / 20 <= page ? "下拉加载更多..." : "最后一页啦"}
+          {cout / 20 >= page ? "下拉加载更多..." : "最后一页啦"}
         </div>
         <Gotop />
       </div>

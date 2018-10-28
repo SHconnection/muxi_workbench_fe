@@ -7,37 +7,37 @@ import "./index.css";
 
 class EditDoc extends Component {
   constructor(props) {
-    super(props)
-    const { match } = this.props
+    super(props);
+    const { match } = this.props;
     this.state = {
       // docTree: {},
       id: parseInt(match.params.id, 0),
       title: "",
       content: ""
-    }
-    this.save = this.save.bind(this)
+    };
+    this.save = this.save.bind(this);
     // this.getDocTree = this.getDocTree.bind(this);
     this.getDocContent = this.getDocContent.bind(this);
   }
 
   componentWillMount() {
     // this.getDocTree()
-    this.getDocContent()
+    this.getDocContent();
   }
 
   // 获取文档详细内容
   getDocContent() {
-    const { id } = this.state
+    const { id } = this.state;
     FileService.getDocConnent(id)
       .then(res => {
         this.setState({
           title: res.name,
           content: res.content
-        })
+        });
       })
       .catch(err => {
-        console.error(err)
-      })
+        console.error(err);
+      });
   }
 
   // 获取最新文档树
@@ -56,28 +56,27 @@ class EditDoc extends Component {
   // }
 
   save(title, content) {
-    const { id } = this.state
+    const { id } = this.state;
     const postData = {
       DocName: title,
-      content,
-    }
+      content
+    };
     FileService.updateDoc(id, postData)
-    .then(() => {
-      // 保存成功
-      window.history.back()
-    })
-    .catch(error => {
-      console.error(error)
-    })
+      .then(() => {
+        // 保存成功
+        window.history.back();
+      })
+      .catch(error => {
+        console.error(error);
+      });
   }
 
   render() {
-    const { title, content } = this.state
+    const { title, content } = this.state;
     return (
       <div>
         <Edit content={content} title={title} save={this.save} />
       </div>
-      
     );
   }
 }

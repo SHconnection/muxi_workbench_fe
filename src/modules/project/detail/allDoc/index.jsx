@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import ReactSVG from "react-svg";
-import { Scrollbars } from 'react-custom-scrollbars';
+import { Scrollbars } from "react-custom-scrollbars";
 import FileTreeComponent from "../../components/fileTree/index";
 import { FileTree } from "../../fileTree1";
 import GoBack from "../../../../components/common/goBack/index";
@@ -81,13 +81,13 @@ class ProjectDetailAllFile extends Component {
   }
 
   componentWillMount() {
-    const { docRootId } = this.state
-    this.updateDocList(docRootId)
+    const { docRootId } = this.state;
+    this.updateDocList(docRootId);
   }
 
   componentWillUpdate(nextProps) {
     /* eslint-disable */
-    const { location } = this.props
+    const { location } = this.props;
     /* eslint-disable */
     if (location !== nextProps.location) {
       this.updateDocList(parseInt(nextProps.match.params.id, 0));
@@ -96,73 +96,75 @@ class ProjectDetailAllFile extends Component {
 
   // 算出当前路径
   getDocUrl(id, tree) {
-    const node = FileTree.searchNode(id, tree)
+    const node = FileTree.searchNode(id, tree);
     if (node) {
       if (node.router.length) {
-        const DocIdUrl = JSON.parse(JSON.stringify(node.router))
-        DocIdUrl.shift()
+        const DocIdUrl = JSON.parse(JSON.stringify(node.router));
+        DocIdUrl.shift();
         const postData = {
           folder: DocIdUrl.map(el => parseInt(el, 0)),
           doc: []
-        }
+        };
         FileService.getDocList(postData)
           .then(res => {
-            let docUrl = `${tree.name}`
+            let docUrl = `${tree.name}`;
             if (res.FolderList && res.FolderList.length) {
-              docUrl += `${res.FolderList.map(el => `/${el.name}`).reduce((el1, el2) => el1 + el2)}`
+              docUrl += `${res.FolderList.map(el => `/${el.name}`).reduce(
+                (el1, el2) => el1 + el2
+              )}`;
             }
             this.setState({
               docUrl
-            })
+            });
           })
           .catch(err => {
-            console.error(err)
-          })
+            console.error(err);
+          });
       }
     }
   }
 
   // 根据文档树更新当前视图的文档
   updateDocList(id) {
-    const { pid } = this.state
-    const docRootId = id
+    const { pid } = this.state;
+    const docRootId = id;
     // 请求树
     FileTree.getDocTree(pid)
       .then(res => {
         this.setState({
           docTree: res,
           currentRootName: FileTree.searchNode(docRootId, res).name
-        })
+        });
         // 算出当前路径
-        this.getDocUrl(docRootId, res)
+        this.getDocUrl(docRootId, res);
         // 请求doclist
         FileService.getDocList(FileTree.findDocIdList(docRootId, res))
           .then(res1 => {
             this.setState({
               docList: res1
-            })
-            this.hideAlert()
+            });
+            this.hideAlert();
           })
           .catch(res1 => {
-            console.error(res1)
-          })
+            console.error(res1);
+          });
       })
       .catch(error => {
-        console.error(error)
-      })
+        console.error(error);
+      });
   }
 
   // 开始创建文档
   startCreateDoc(index) {
-    const { docRootId } = this.state
+    const { docRootId } = this.state;
     if (index === 0) {
-      window.location.href = `../newDoc/${docRootId}`
+      window.location.href = `../newDoc/${docRootId}`;
     }
     if (index === 1) {
-      this.hideAlert()
+      this.hideAlert();
       this.setState({
         showCreateDocFile: true
-      })
+      });
     }
   }
 
@@ -175,7 +177,7 @@ class ProjectDetailAllFile extends Component {
 
   // 点击确认创建文档夹
   confirmCreateDocFile() {
-    const { newDocFileInputText, pid, docTree, docRootId } = this.state
+    const { newDocFileInputText, pid, docTree, docRootId } = this.state;
     if (newDocFileInputText) {
       // 请求创建
       FileService.createDocFolder(newDocFileInputText, pid)
@@ -187,21 +189,17 @@ class ProjectDetailAllFile extends Component {
             child: []
           };
           // 更新文档树
-          const newTree = FileTree.insertNode(newNode, docRootId, docTree)
+          const newTree = FileTree.insertNode(newNode, docRootId, docTree);
           if (newTree) {
-            ProjectService.updateProjectDocTree(
-              pid,
-              JSON.stringify(newTree)
-            )
+            ProjectService.updateProjectDocTree(pid, JSON.stringify(newTree))
               .then(() => {
                 // 更新视图
-                this.updateDocList(docRootId)
+                this.updateDocList(docRootId);
               })
               .catch(res1 => {
                 console.error(res1);
-              })
+              });
           }
-
         })
         .catch(res => {
           console.error(res);
@@ -240,14 +238,14 @@ class ProjectDetailAllFile extends Component {
         });
     }
     if (currentDocFolderId) {
-      const postData = FileTree.findAllDocList(currentDocFolderId, docTree)
+      const postData = FileTree.findAllDocList(currentDocFolderId, docTree);
       FileService.deleteDocFolder(currentDocFolderId, postData)
         .then(() => {
           // 删除成功
-          this.deleteDocNode(currentDocFolderId)
+          this.deleteDocNode(currentDocFolderId);
         })
         .catch(el => {
-          console.error(el)
+          console.error(el);
         });
     }
   }
@@ -255,7 +253,7 @@ class ProjectDetailAllFile extends Component {
   // 删除文档树节点并更新视图
   deleteDocNode(id) {
     const { pid, docTree, docRootId } = this.state;
-    const newTree = FileTree.deleteNode(id, docTree).root
+    const newTree = FileTree.deleteNode(id, docTree).root;
     // 更新文档树
     if (newTree) {
       ProjectService.updateProjectDocTree(pid, JSON.stringify(newTree))
@@ -329,7 +327,7 @@ class ProjectDetailAllFile extends Component {
       // 是否显示移动文档
       showMoveDoc: false,
       // 移动文档最终选择的id
-      finalMoveDocId: 0,
+      finalMoveDocId: 0
     });
   }
 
@@ -337,26 +335,27 @@ class ProjectDetailAllFile extends Component {
   changeLayoutToList() {
     this.setState({
       itemLayOut: false
-    })
+    });
   }
 
   changeLayoutToItem() {
     this.setState({
       itemLayOut: true
-    })
+    });
   }
 
   render() {
-    const { pid, 
+    const {
+      pid,
       currentRootName,
       docUrl,
-      docOption, 
-      itemLayOut, 
-      docList, 
-      showCreateDocFile, 
-      newDocFileInputText, 
-      showDletedoc, 
-      showMoveDoc, 
+      docOption,
+      itemLayOut,
+      docList,
+      showCreateDocFile,
+      newDocFileInputText,
+      showDletedoc,
+      showMoveDoc,
       docTree
     } = this.state;
     return (
@@ -372,56 +371,67 @@ class ProjectDetailAllFile extends Component {
             </div>
             <div className="projectDetail-header-right projectDetail-allFile-header-right">
               <div>
-                <Icon type={itemLayOut ? "FileItemsSel" : "FileItems"} onClick={this.changeLayoutToItem} />
+                <Icon
+                  type={itemLayOut ? "FileItemsSel" : "FileItems"}
+                  onClick={this.changeLayoutToItem}
+                />
               </div>
               <div>
-                <Icon type={itemLayOut ? "FileLists" : "FileListSel"} onClick={this.changeLayoutToList} />
+                <Icon
+                  type={itemLayOut ? "FileLists" : "FileListSel"}
+                  onClick={this.changeLayoutToList}
+                />
               </div>
               <div>
                 <Button text="批量管理" to="./file_batch_manage" />
               </div>
             </div>
           </div>
-          {
-            itemLayOut ? (
-              <div className="projectDetail-file-items peojectDetail-allFile-items">
-                {
-                  docList.FolderList.map(
-                    el => (
-                      <div className="file-item" key={el.id}>
-                        <FolderItemDoc folderItem={el} pid={pid} moveFile={this.moveDoc} deleteFile={this.startDeleteDoc} />
-                      </div>
-                    )
-                  )
-                }
-                {
-                  docList.DocList.map(
-                    el => (
-                      <div className="file-item" key={el.id}>
-                        <DocItem folderItem={el} pid={pid} moveFile={this.moveDoc} deleteFile={this.startDeleteDoc} />
-                      </div>
-                    )
-                  )
-                }
-              </div>
-            ) : (
-              <div className="projectDetail-allFile-list">
-                <div className="projectDetail-allFile-list-title">
-                  <div className="projectDetail-allFile-list-name">文件名称</div>
-                  <div className="projectDetail-allFile-list-uploader">上传者</div>
-                  <div className="projectDetail-allFile-list-time">上传时间</div>
-                  <div className="projectDetail-allFile-list-url">路径</div>
+          {itemLayOut ? (
+            <div className="projectDetail-file-items peojectDetail-allFile-items">
+              {docList.FolderList.map(el => (
+                <div className="file-item" key={el.id}>
+                  <FolderItemDoc
+                    folderItem={el}
+                    pid={pid}
+                    moveFile={this.moveDoc}
+                    deleteFile={this.startDeleteDoc}
+                  />
                 </div>
-                {
-                  docList.DocList.map(el => (
-                    <div key={el.id}>
-                      <DocList item={el} docUrl={docUrl} moveDoc={this.moveDoc} deleteDoc={this.startDeleteDoc} />
-                    </div>
-                  ))
-                }
+              ))}
+              {docList.DocList.map(el => (
+                <div className="file-item" key={el.id}>
+                  <DocItem
+                    folderItem={el}
+                    pid={pid}
+                    moveFile={this.moveDoc}
+                    deleteFile={this.startDeleteDoc}
+                  />
+                </div>
+              ))}
+            </div>
+          ) : (
+            <div className="projectDetail-allFile-list">
+              <div className="projectDetail-allFile-list-title">
+                <div className="projectDetail-allFile-list-name">文件名称</div>
+                <div className="projectDetail-allFile-list-uploader">
+                  上传者
+                </div>
+                <div className="projectDetail-allFile-list-time">上传时间</div>
+                <div className="projectDetail-allFile-list-url">路径</div>
               </div>
-            )
-          }
+              {docList.DocList.map(el => (
+                <div key={el.id}>
+                  <DocList
+                    item={el}
+                    docUrl={docUrl}
+                    moveDoc={this.moveDoc}
+                    deleteDoc={this.startDeleteDoc}
+                  />
+                </div>
+              ))}
+            </div>
+          )}
         </div>
         {/* 创建文档夹弹出框 */}
         {showCreateDocFile && (
@@ -563,6 +573,5 @@ ProjectDetailAllFile.propTypes = {
 ProjectDetailAllFile.defaultProps = {
   match: {}
 };
-
 
 export default ProjectDetailAllFile;

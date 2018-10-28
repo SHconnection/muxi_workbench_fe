@@ -48,28 +48,6 @@
     border-top: solid 1px #979797;
     padding: 16px 0;
 }
-.teamMember-imgSize{
-    width: 60px;
-    height: 60px;
-    margin-right: 13px;
+.teamMember-emailMarg{
+    margin-left: 200px;
 }
-.teamMember-littleGroup{
-    padding: 0 6px;
-    height:21px;
-    line-height: 21px;
-    border-radius:32px;
-    border:1px solid #979797;
-    font-size: 10px;
-    color: #919191;
-    text-align: center;
-}
-.teamMember-personalIntro{
-    display: inline-block;
-    width: 380px;
-}
-.teamMember-role{
-    margin-left: 6px;
-    font-size: 10px;
-    color: #919191;
-}
-

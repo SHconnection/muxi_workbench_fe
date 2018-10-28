@@ -1,6 +1,8 @@
 .status-item-container{
     position: relative;
     width: 1035px;
+    height: 322px;
+    overflow: hidden;
     margin: 54px auto 60px auto;
     border-radius: 6px;
     background-color: #fbfbfb;
@@ -34,16 +36,17 @@
 }
 .status-item-content{
     width: 722px;
+    height: 130px;
+    overflow: hidden;
     font-size: 16px;
     margin-left: 70px;
+    margin-top: 20px;
     display: -webkit-box;
     -webkit-line-clamp: 4;
     -webkit-box-orient: vertical;
-    overflow:hidden;
     text-overflow: ellipsis;        
 }
 .others{
-    margin-top: 2%;
     display: flex;
     align-items: center;
 }

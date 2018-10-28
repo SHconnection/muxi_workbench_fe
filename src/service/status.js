@@ -58,12 +58,14 @@ const StatusService = {
   },
   commentDelete(cid, sid) {
     return Fetch(`/status/${sid}/comment/${cid}/`, {
-      method: "DELETE"
+      method: "DELETE",
+      token: JSON.parse(localStorage.user).token
     });
   },
   statusDelete(staId) {
     return Fetch(`/status/${staId}/`, {
-      method: "DELETE"
+      method: "DELETE",
+      token: JSON.parse(localStorage.user).token
     });
   }
 };
