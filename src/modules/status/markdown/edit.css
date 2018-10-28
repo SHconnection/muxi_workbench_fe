@@ -1,4 +1,17 @@
 /* ↓ markdown样式表： */
+.status-markdown {
+    min-height: 700px;
+    margin-top: 20px;
+    width: 100%;
+    border: white;
+    display: felx;
+    display: -webkit-flex;
+} 
+h1, h2, h3, h4, h5, h6 {
+    margin: 20px 0 10px;
+    -webkit-font-smoothing: antialiased;
+}
+
 ul,ol {
     padding: 0;
     padding-left: 24px;
@@ -12,6 +25,19 @@ ol {
 }
 li {
     line-height: 24px;
+}
+
+li li{
+    list-style: circle inside;  
+}
+li li li{
+    list-style: square inside;  
+}
+li ol li{
+    list-style: upper-roman;  
+}
+li ol li ol li{
+    list-style: lower-roman;  
 }
 p, ul, ol {
     font-size: 16px;
@@ -33,7 +59,7 @@ pre {
     line-height: 1.5em;
     overflow: auto;
     padding: 6px 10px;
-    margin-left: 20px;
+    /* margin-left: 20px; */
     /* border-left: 5px solid #6CE26C; */
 }
 pre > code {
@@ -80,13 +106,34 @@ hr {
     background-color: #e7e7e7;
     border: 0 none;
 }
-a {
-    color: #0099ff;
-    margin: 0;
-    padding: 0;
-    vertical-align: baseline;
-    font-size: 16px;
+table {
+    /* border-spacing: 0; */
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    /* width: 100%; */
+    min-width: 300px;
 }
+table tr:hover {
+    background: #fbf8e9;
+    -o-transition: all 0.1s ease-in-out;
+    -webkit-transition: all 0.1s ease-in-out;
+    -moz-transition: all 0.1s ease-in-out;
+    -ms-transition: all 0.1s ease-in-out;
+    transition: all 0.1s ease-in-out;
+}
+table td{
+    border-left: 1px solid #ccc;
+    border-top: 1px solid #ccc;
+    padding: 10px;
+    text-align: left;
+}
+table th {
+    background-color: #e2e2e2;
+    border-top: none;
+    text-shadow: 0 1px 0 rgba(255,255,255,.5);
+    padding: 7px;
+}
+
 /* ↑ markdown样式表： */
 .head {
     width: 100%;
@@ -110,14 +157,20 @@ a {
     position: absolute;
     right: 83px;
 }
-.status-markdown {
-    min-height: 700px;
-    margin-top: 20px;
-    width: 100%;
-    border: white;
-    display: felx;
-    display: -webkit-flex;
-} 
+
+
+.status-markdown a {
+    color: #0099ff;
+    margin: 0;
+    padding: 0;
+    vertical-align: baseline;
+    font-size: 16px;
+}
+
+.status-markdown a:hover {
+    text-decoration: none;
+    color: #ff6600;
+}
 
 .field{
     outline: hidden;

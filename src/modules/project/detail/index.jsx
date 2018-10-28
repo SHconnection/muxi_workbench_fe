@@ -23,8 +23,10 @@ import "../../../static/css/common.css";
 class ProjectDetailIndex extends Component {
   constructor(props) {
     super(props);
+    const { match } = this.props;
     this.state = {
-      pid: undefined,
+      // 当前项目id
+      pid: parseInt(match.params.id, 0),
       // 当前正在操作的fileid
       currentFileId: undefined,
       // 当前正在操作的fileFolderId
@@ -123,11 +125,7 @@ class ProjectDetailIndex extends Component {
   }
 
   componentWillMount() {
-    const { match } = this.props;
-    this.setState({
-      pid: parseInt(match.params.id, 0)
-    });
-    const pid = match.params.id;
+    const { pid } = this.state;
     // 获取项目基本信息
     ProjectService.getProjectInfo(pid)
       .then(res => {
@@ -145,8 +143,7 @@ class ProjectDetailIndex extends Component {
 
   // 获取最新文件树
   getFileTree() {
-    const { match } = this.props;
-    const pid = match.params.id;
+    const { pid } = this.state;
     FileTree.getFileTree(pid)
       .then(res => {
         this.setState({
@@ -161,8 +158,7 @@ class ProjectDetailIndex extends Component {
 
   // 获取最新文档树
   getDocTree() {
-    const { match } = this.props;
-    const pid = match.params.id;
+    const { pid } = this.state;
     FileTree.getDocTree(pid)
       .then(res => {
         this.setState({
@@ -177,9 +173,7 @@ class ProjectDetailIndex extends Component {
 
   // 根据文件树更新当前视图的文件
   updateFilesList() {
-    const { match } = this.props;
-    const { fileRootId } = this.state;
-    const pid = match.params.id;
+    const { pid, fileRootId } = this.state;
     // 请求树
     FileTree.getFileTree(pid)
       .then(res => {
@@ -205,9 +199,7 @@ class ProjectDetailIndex extends Component {
 
   // 根据文档树更新当前视图
   updatedocList() {
-    const { match } = this.props;
-    const { docRootId } = this.state;
-    const pid = match.params.id;
+    const { pid, docRootId } = this.state;
     // 请求树
     FileTree.getDocTree(pid)
       .then(res => {
@@ -320,8 +312,9 @@ class ProjectDetailIndex extends Component {
 
   // 开始创建文档（夹）
   startCreateDoc(index) {
+    const { docRootId } = this.state;
     if (index === 0) {
-      window.location.href = "/edit";
+      window.location.href = `./newDoc/${docRootId}`;
     }
     if (index === 1) {
       this.hideAlert();
@@ -352,20 +345,20 @@ class ProjectDetailIndex extends Component {
             child: []
           };
           // 更新文档树
-          ProjectService.updateProjectDocTree(
-            pid,
-            JSON.stringify(FileTree.insertNode(newNode, docRootId, docTree))
-          )
-            .then(() => {
-              // 更新视图
-              this.updatedocList();
-              this.setState({
-                showCreateDocFile: false
+          const newTree = FileTree.insertNode(newNode, docRootId, docTree);
+          if (newTree) {
+            ProjectService.updateProjectDocTree(pid, JSON.stringify(newTree))
+              .then(() => {
+                // 更新视图
+                this.updatedocList();
+                this.setState({
+                  showCreateDocFile: false
+                });
+              })
+              .catch(res1 => {
+                console.error(res1);
               });
-            })
-            .catch(res1 => {
-              console.error(res1);
-            });
+          }
         })
         .catch(res => {
           console.error(res);
@@ -456,7 +449,6 @@ class ProjectDetailIndex extends Component {
   // 确认删除文档
   confirmDeleteDoc() {
     const { currentDocId, currentDocFolderId, docTree } = this.state;
-    console.log(currentDocId, currentDocFolderId);
     if (currentDocId) {
       FileService.deleteDoc(currentDocId)
         .then(() => {
@@ -469,7 +461,6 @@ class ProjectDetailIndex extends Component {
     }
     if (currentDocFolderId) {
       const postData = FileTree.findAllDocList(currentDocFolderId, docTree);
-      console.log(postData);
       FileService.deleteDocFolder(currentDocFolderId, postData)
         .then(() => {
           // 删除成功
@@ -725,7 +716,7 @@ class ProjectDetailIndex extends Component {
               ))}
             </div>
             <div className="projectDetail-file-footer">
-              <Link to={`/project/${pid}/allDoc`} className="fakeBtn">
+              <Link to={`/project/${pid}/docFolder/0`} className="fakeBtn">
                 查看所有文档
               </Link>
             </div>

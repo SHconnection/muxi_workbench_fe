@@ -2,8 +2,8 @@ import React from "react";
 import PropTypes from "prop-types";
 import "./index.css";
 
-function FileList(props) {
-  const { item, fileUrl, deleteFile, moveFile, fileToTop } = props;
+function DocList(props) {
+  const { item, docUrl, deleteDoc, moveDoc, DocToTop } = props;
   const createTimeArray = item.create_time.split(/\D/);
   return (
     <div className="project-fileList-container">
@@ -15,22 +15,18 @@ function FileList(props) {
         <div className="project-fileList-time">{`${createTimeArray[0]}/${
           createTimeArray[1]
         }/${createTimeArray[2]}`}</div>
-        <div title={fileUrl} className="project-fileList-url">
-          {fileUrl}
+        <div title={docUrl} className="project-fileList-url">
+          {docUrl}
         </div>
       </div>
       <div className="project-fileList-right">
-        <a
-          className="project-fileList-download"
-          href={`${item.url}?attname=${item.name}`}
-          download={item.name}
-        >
-          下载
+        <a className="project-fileList-download" href={`../docEdit/${item.id}`}>
+          编辑
         </a>
         {/* <div onClick={() => {downloadFile(item.id)}} onKeyDown={() => {}} role="presentation">下载</div> */}
         <div
           onClick={() => {
-            deleteFile(item.id);
+            deleteDoc(item.id);
           }}
           onKeyDown={() => {}}
           role="presentation"
@@ -39,7 +35,7 @@ function FileList(props) {
         </div>
         <div
           onClick={() => {
-            moveFile(item.id);
+            moveDoc(item.id);
           }}
           onKeyDown={() => {}}
           role="presentation"
@@ -48,7 +44,7 @@ function FileList(props) {
         </div>
         <div
           onClick={() => {
-            fileToTop(item.id);
+            DocToTop(item.id);
           }}
           onKeyDown={() => {}}
           role="presentation"
@@ -60,21 +56,20 @@ function FileList(props) {
   );
 }
 
-FileList.propTypes = {
+DocList.propTypes = {
   item: PropTypes.shape({
     id: PropTypes.number,
     name: PropTypes.string,
     creator: PropTypes.string,
-    create_time: PropTypes.string,
-    url: PropTypes.string
+    create_time: PropTypes.string
   }),
-  fileUrl: PropTypes.string,
-  deleteFile: PropTypes.func,
-  moveFile: PropTypes.func,
-  fileToTop: PropTypes.func
+  docUrl: PropTypes.string,
+  deleteDoc: PropTypes.func,
+  moveDoc: PropTypes.func,
+  DocToTop: PropTypes.func
 };
 
-FileList.defaultProps = {
+DocList.defaultProps = {
   item: {
     id: null,
     name: "",
@@ -82,10 +77,10 @@ FileList.defaultProps = {
     create_time: "",
     url: ""
   },
-  fileUrl: "",
-  deleteFile: () => {},
-  moveFile: () => {},
-  fileToTop: () => {}
+  docUrl: "",
+  deleteDoc: () => {},
+  moveDoc: () => {},
+  DocToTop: () => {}
 };
 
-export default FileList;
+export default DocList;

@@ -15,6 +15,9 @@
 input[type="text"].create-file-alert-input{
   border-radius: 0;
   padding: 0;
+  font-size: 16px;
+  font-family: PingFangSC-Regular;
+  font-weight: 400;
 }
 
 .create-file-alert-input {

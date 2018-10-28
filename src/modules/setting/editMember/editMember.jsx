@@ -48,43 +48,55 @@ class EditMember extends Component {
       }
     } = this.props;
 
-    ManageService.getAllMem().then(arr => {
-      if (arr) {
-        ManageService.getProMember(id).then(member => {
-          if (member) {
-            const idList = member.list.map(mem => mem.userID);
+    ManageService.getAllMem()
+      .then(arr => {
+        if (arr) {
+          ManageService.getProMember(id)
+            .then(member => {
+              if (member) {
+                const idList = member.list.map(mem => mem.userID);
 
-            const members = arr.list.map(mem1 => {
-              const mem = EditMember.changeGroupMemberFormat(mem1);
+                const members = arr.list.map(mem1 => {
+                  const mem = EditMember.changeGroupMemberFormat(mem1);
 
-              if (idList.indexOf(mem.id) !== -1) mem.selected = true;
+                  if (idList.indexOf(mem.id) !== -1) mem.selected = true;
 
-              return mem;
+                  return mem;
+                });
+
+                this.setState({ members });
+              }
+            })
+            .catch(error => {
+              console.error(error);
             });
+        }
+      })
+      .catch(error => {
+        console.error(error);
+      });
+    ManageService.getAllGroup()
+      .then(group => {
+        if (group) {
+          const groupList = group.groupList.map(group1 => {
+            const obj = {};
+            obj.value = group1.groupName;
+            obj.id = group1.groupID;
 
-            this.setState({ members });
-          }
-        });
-      }
-    });
-    ManageService.getAllGroup().then(group => {
-      if (group) {
-        const groupList = group.groupList.map(group1 => {
-          const obj = {};
-          obj.value = group1.groupName;
-          obj.id = group1.groupID;
+            return obj;
+          });
 
-          return obj;
-        });
+          groupList.push({ id: 0, value: "全部成员" });
 
-        groupList.push({ id: 0, value: "全部成员" });
-
-        this.setState({
-          groups: groupList,
-          checkedIndex: groupList.length - 1
-        });
-      }
-    });
+          this.setState({
+            groups: groupList,
+            checkedIndex: groupList.length - 1
+          });
+        }
+      })
+      .catch(error => {
+        console.error(error);
+      });
   }
 
   selAll() {
@@ -134,22 +146,28 @@ class EditMember extends Component {
     } = this.props;
     const { selMembers } = this.state;
 
-    ProjectService.editProjectMember(id, selMembers);
+    ProjectService.editProjectMember(id, selMembers).catch(error => {
+      console.error(error);
+    });
   }
 
   changeGroupCheck(index) {
-    ManageService.groupMember(index).then(member => {
-      if (member) {
-        const arr = member.list.map(mem =>
-          EditMember.changeGroupMemberFormat(mem)
-        );
+    ManageService.groupMember(index)
+      .then(member => {
+        if (member) {
+          const arr = member.list.map(mem =>
+            EditMember.changeGroupMemberFormat(mem)
+          );
 
-        this.setState({
-          checkedIndex: index,
-          members: arr
-        });
-      }
-    });
+          this.setState({
+            checkedIndex: index,
+            members: arr
+          });
+        }
+      })
+      .catch(error => {
+        console.error(error);
+      });
   }
 
   render() {

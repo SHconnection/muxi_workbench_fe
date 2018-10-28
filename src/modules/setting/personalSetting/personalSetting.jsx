@@ -37,20 +37,24 @@ class PersonalSet extends Component {
   componentDidMount() {
     const per = JSON.parse(localStorage.per);
 
-    ManageService.getPersonalSet(per.id).then(setting => {
-      const { members } = this.state;
+    ManageService.getPersonalSet(per.id)
+      .then(setting => {
+        const { members } = this.state;
 
-      members[0].selected = !!setting.message;
-      members[1].selected = !!setting.email_service;
+        members[0].selected = !!setting.message;
+        members[1].selected = !!setting.email_service;
 
-      this.setState({
-        inputName: setting.name,
-        inputPhone: setting.tel,
-        inputMailbox: setting.email,
-        members,
-        img: setting.avatar
+        this.setState({
+          inputName: setting.name,
+          inputPhone: setting.tel,
+          inputMailbox: setting.email,
+          members,
+          img: setting.avatar
+        });
+      })
+      .catch(error => {
+        console.error(error);
       });
-    });
   }
 
   changeName(e) {
@@ -92,16 +96,22 @@ class PersonalSet extends Component {
     const data = new FormData();
     data.append("image", img);
 
-    ManageService.savePersonalSet(per.id, obj);
-    ManageService.savePersonalAvatar(data).then(response => {
-      if (response.status < 300) {
-        this.setState({ ifSave: true });
-
-        setTimeout(() => {
-          this.setState({ ifSave: false });
-        }, 1000);
-      }
+    ManageService.savePersonalSet(per.id, obj).catch(error => {
+      console.error(error);
     });
+    ManageService.savePersonalAvatar(data)
+      .then(response => {
+        if (response.status < 300) {
+          this.setState({ ifSave: true });
+
+          setTimeout(() => {
+            this.setState({ ifSave: false });
+          }, 1000);
+        }
+      })
+      .catch(error => {
+        console.error(error);
+      });
   }
 
   changeImg() {

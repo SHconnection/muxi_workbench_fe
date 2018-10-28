@@ -42,71 +42,87 @@ class SelectMember extends Component {
     const { addGroup, groupMember, setManager, groupID } = this.props;
 
     if (groupMember || addGroup) {
-      ManageService.getAllMem().then(member => {
-        if (member) {
-          const arr = member.list.map(mem => {
-            const obj = SelectMember.changeGroupMemberFormat(mem);
+      ManageService.getAllMem()
+        .then(member => {
+          if (member) {
+            const arr = member.list.map(mem => {
+              const obj = SelectMember.changeGroupMemberFormat(mem);
 
-            return obj;
-          });
-
-          if (groupMember && groupID) {
-            ManageService.groupMember(groupID).then(member1 => {
-              let preArray = [];
-              if (member1) {
-                preArray = member1.list.map(mem => mem.userID);
-
-                arr.map(mem1 => {
-                  const mem = mem1;
-
-                  if (preArray.indexOf(mem.id) !== -1) mem.selected = true;
-
-                  return mem;
-                });
-              }
-
-              this.setState({
-                members: arr,
-                selMembers: preArray
-              });
+              return obj;
             });
-          } else {
-            this.setState({ members: arr });
+
+            if (groupMember && groupID) {
+              ManageService.groupMember(groupID)
+                .then(member1 => {
+                  let preArray = [];
+                  if (member1) {
+                    preArray = member1.list.map(mem => mem.userID);
+
+                    arr.map(mem1 => {
+                      const mem = mem1;
+
+                      if (preArray.indexOf(mem.id) !== -1) mem.selected = true;
+
+                      return mem;
+                    });
+                  }
+
+                  this.setState({
+                    members: arr,
+                    selMembers: preArray
+                  });
+                })
+                .catch(error => {
+                  console.error(error);
+                });
+            } else {
+              this.setState({ members: arr });
+            }
           }
-        }
-      });
+        })
+        .catch(error => {
+          console.error(error);
+        });
     }
 
     if (setManager) {
-      ManageService.getAllMem().then(member => {
-        if (member) {
-          const arr = member.list.map(mem => {
-            const obj = SelectMember.changeGroupMemberFormat(mem);
+      ManageService.getAllMem()
+        .then(member => {
+          if (member) {
+            const arr = member.list.map(mem => {
+              const obj = SelectMember.changeGroupMemberFormat(mem);
 
-            return obj;
-          });
-
-          ManageService.getAdminList().then(admins => {
-            let preArray = [];
-            if (admins) {
-              preArray = admins.list.map(admin => admin.userID);
-
-              arr.map(mem1 => {
-                const mem = mem1;
-
-                if (preArray.indexOf(mem.id) !== -1) mem.selected = true;
-
-                return mem;
-              });
-            }
-
-            this.setState({
-              members: arr,
-              selMembers: preArray
+              return obj;
             });
-          });
-        }
-      });
+
+            ManageService.getAdminList()
+              .then(admins => {
+                let preArray = [];
+                if (admins) {
+                  preArray = admins.list.map(admin => admin.userID);
+
+                  arr.map(mem1 => {
+                    const mem = mem1;
+
+                    if (preArray.indexOf(mem.id) !== -1) mem.selected = true;
+
+                    return mem;
+                  });
+                }
+
+                this.setState({
+                  members: arr,
+                  selMembers: preArray
+                });
+              })
+              .catch(error => {
+                console.error(error);
+              });
+          }
+        })
+        .catch(error => {
+          console.error(error);
+        });
     }
   }
 
@@ -159,23 +175,47 @@ class SelectMember extends Component {
     } = this.props;
     const { selMembers } = this.state;
 
-    this.setState({ ifSave: true });
-
-    setTimeout(() => {
-      this.setState({ ifSave: false });
-    }, 1000);
-
     if (groupMember) {
-      ManageService.updateGroupMember(groupID, selMembers);
+      ManageService.updateGroupMember(groupID, selMembers)
+        .then(response => {
+          this.setState({ ifSave: true });
+
+          setTimeout(() => {
+            this.setState({ ifSave: false });
+          }, 1000);
+        })
+        .catch(error => {
+          console.error(error);
+        });
     }
 
     if (addGroup) {
-      ManageService.addGroup(groupName, selMembers);
+      ManageService.addGroup(groupName, selMembers)
+        .then(response => {
+          this.setState({ ifSave: true });
+
+          setTimeout(() => {
+            this.setState({ ifSave: false });
+          }, 1000);
+        })
+        .catch(error => {
+          console.error(error);
+        });
     }
 
     if (setManager) {
       selMembers.map(id => {
-        ManageService.setManager(id);
+        ManageService.setManager(id)
+          .then(() => {
+            this.setState({ ifSave: true });
+
+            setTimeout(() => {
+              this.setState({ ifSave: false });
+            }, 1000);
+          })
+          .catch(error => {
+            console.error(error);
+          });
 
         return id;
       });

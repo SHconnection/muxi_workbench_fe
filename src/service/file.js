@@ -43,6 +43,14 @@ const FileService = {
     });
   },
 
+  // 请求单个文档详细内容
+  getDocContent(id) {
+    return Fetch(`/file/doc/${id}`, {
+      method: "GET",
+      token: localStorage.token
+    });
+  },
+
   // 上传文件
   uploadFile(formData) {
     return fetch(`/file/file/`, {
@@ -51,6 +59,15 @@ const FileService = {
       headers: {
         token: localStorage.token
       }
+    });
+  },
+
+  // 创建文档
+  createDoc(postData) {
+    return Fetch(`/file/doc/`, {
+      method: "POST",
+      data: postData,
+      token: localStorage.token
     });
   },
 
@@ -92,6 +109,15 @@ const FileService = {
   getDocConnent(id) {
     return Fetch(`/file/doc/${id}/`, {
       token: JSON.parse(localStorage.user).token
+    });
+  },
+
+  // 更新文档内容
+  updateDoc(id, postData) {
+    return Fetch(`/file/doc/${id}/`, {
+      method: "PUT",
+      data: postData,
+      token: localStorage.token
     });
   }
 };

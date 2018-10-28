@@ -10,6 +10,8 @@ import ProjectDetailAllFile from "./detail/allFile/index";
 import ProjectDetailAllDoc from "./detail/allDoc/index";
 import DocPreview from "./detail/docPreview/index";
 import FilePreview from "./detail/filePreview/index";
+import NewDoc from "./detail/newDoc/index";
+import EditDoc from "./detail/editDoc/index";
 
 import "../../static/css/common.css";
 
@@ -23,11 +25,6 @@ const Project = props => {
       <Route path={`${match.url}/:id/preview`} component={ProjectDetail} />
       <Route path={`${match.url}/:id/setting`} component={SetProject} />
       <Route path={`${match.url}/:id/editMem`} component={EditMember} />
-      {/* <Route
-        path={`${match.url}/:id/allFile`}
-        component={ProjectDetailAllFile}
-      />
-      <Route path={`${match.url}/:id/allDoc`} component={ProjectDetailAllDoc} /> */}
       <Route
         path={`${match.url}/:pid/fileFolder/:id`}
         component={ProjectDetailAllFile}
@@ -36,8 +33,10 @@ const Project = props => {
         path={`${match.url}/:pid/docFolder/:id`}
         component={ProjectDetailAllDoc}
       />
+      <Route path={`${match.url}/:pid/newDoc/:id`} component={NewDoc} />
       <Route path={`${match.url}/:pid/file/:id`} component={FilePreview} />
-      <Route path={`${match.url}/doc/:id`} component={DocPreview} />
+      <Route path={`${match.url}/:pid/doc/:id`} component={DocPreview} />
+      <Route path={`${match.url}/:pid/docEdit/:id`} component={EditDoc} />
     </div>
   );
 };

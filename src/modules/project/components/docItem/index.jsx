@@ -55,10 +55,9 @@ class DocItem extends Component {
           <div className="fileIcon-footer" onMouseLeave={this.leave.bind(this)}>
             <a
               className="fileIcon-downland"
-              href={folderItem.name}
-              download={folderItem.name}
+              href={`/project/${pid}/docEdit/${folderItem.id}`}
             >
-              下载
+              编辑
             </a>
             <div
               onClick={this.moveFile.bind(this)}

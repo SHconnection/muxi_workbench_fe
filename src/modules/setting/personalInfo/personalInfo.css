@@ -1,6 +1,6 @@
 .personal{
     display: flex;
-    align-items:center;
+    justify-content: space-between;
 }
 .personalInfo-saveBtn{
     margin-right: 0;
@@ -21,10 +21,9 @@
 .personalIntro{
     display: inline-block;
 }
-.personalInfo-btnMarg{
-    position: absolute;
-    left: 68vw;
-    top: 10vh;
+.personalInfo-personalInformation{
+    display: flex;
+    align-items: center;
 }
 .personalInfo-select{
     position: relative;

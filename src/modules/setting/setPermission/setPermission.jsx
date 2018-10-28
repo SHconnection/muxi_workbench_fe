@@ -26,27 +26,48 @@ class SetPermission extends Component {
   }
 
   componentDidMount() {
-    const { list: proList } = ManageService.getPersonalPro();
-    const arr = ManageService.getAllPro();
+    const {
+      match: {
+        params: { userID }
+      }
+    } = this.props;
+    ManageService.getAllPro()
+      .then(object => {
+        const proList = object.list.map(project1 => {
+          const project = {};
 
-    if (!Array.isArray(proList)) return false;
+          project.id = project1.projectID;
+          project.name = project1.projectName;
 
-    const idList = proList.map(item => item.projectID);
+          return project;
+        });
 
-    arr.map(item1 => {
-      const item = item1;
+        if (!Array.isArray(proList)) return false;
 
-      if (idList.indexOf(item.id) !== -1) item.selected = true;
+        ManageService.getPersonalPro(userID)
+          .then(obj => {
+            const idList = obj.list.map(pro1 => pro1.projectID);
 
-      return item;
-    });
+            proList.map(item1 => {
+              const item = item1;
 
-    this.setState({
-      members: arr,
-      selMembers: idList
-    });
+              if (idList.indexOf(item.id) !== -1) item.selected = true;
 
-    return true;
+              return item;
+            });
+
+            this.setState({
+              members: proList,
+              selMembers: idList
+            });
+          })
+          .catch(error => {
+            console.error(error);
+          });
+      })
+      .catch(error => {
+        console.error(error);
+      });
   }
 
   transferMsgMem(members, selMembers) {
@@ -64,13 +85,17 @@ class SetPermission extends Component {
     } = this.props;
     const { selMembers } = this.state;
 
-    this.setState({ ifSave: true });
+    ManageService.savePersonalPermiss(userID, selMembers)
+      .then(() => {
+        this.setState({ ifSave: true });
 
-    setTimeout(() => {
-      this.setState({ ifSave: false });
-    }, 1000);
-
-    ManageService.savePersonalPermiss(userID, selMembers);
+        setTimeout(() => {
+          this.setState({ ifSave: false });
+        }, 1000);
+      })
+      .catch(error => {
+        console.error(error);
+      });
   }
 
   render() {

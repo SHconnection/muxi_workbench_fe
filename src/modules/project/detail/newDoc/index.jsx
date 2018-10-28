@@ -1,92 +1,86 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
-import Goback from "../../../../components/common/goBack/index";
-import Button from "../../../../components/common/button";
+import { FileTree } from "../../fileTree1";
+import Edit from "../../../status/markdown/edit1";
+import FileService from "../../../../service/file";
+import ProjectService from "../../../../service/project";
 import "../../../../static/css/common.css";
 import "./index.css";
 
-class edit extends Component {
+class NewDoc extends Component {
   constructor(props) {
     super(props);
+    const { match } = this.props;
     this.state = {
-      content: "",
-      title: ""
+      docTree: {},
+      pid: parseInt(match.params.pid, 0),
+      docRootId: parseInt(match.params.id, 0)
     };
-    this.handleChange = this.handleChange.bind(this);
-    this.onChange = this.onChange.bind(this);
     this.save = this.save.bind(this);
-    this.content = React.createRef;
+    this.getDocTree = this.getDocTree.bind(this);
   }
 
   componentWillMount() {
-    const { match } = this.props;
+    this.getDocTree();
   }
 
-  onChange(event) {
-    this.setState({
-      content: event.target.value
-    });
-  }
-
-  handleChange(event) {
-    this.setState({
-      title: event.target.value
-    });
+  // 获取最新文档树
+  getDocTree() {
+    const { pid } = this.state;
+    FileTree.getDocTree(pid)
+      .then(res => {
+        this.setState({
+          docTree: res
+        });
+      })
+      .catch(res => {
+        console.error(res);
+      });
   }
 
   save(title, content) {
-    const { match } = this.props;
+    const { docTree, pid, docRootId } = this.state;
+    const postData = {
+      mdname: title,
+      content,
+      project_id: pid
+    };
+    FileService.createDoc(postData)
+      .then(res => {
+        // 创建成功
+        const newNode = {
+          folder: false,
+          id: res.fid,
+          name: title
+        };
+        const newTree = FileTree.insertNode(newNode, docRootId, docTree);
+        if (newTree) {
+          ProjectService.updateProjectDocTree(pid, JSON.stringify(newTree))
+            .then(() => {
+              window.history.back();
+            })
+            .catch(error => {
+              console.error(error);
+            });
+        }
+      })
+      .catch(error => {
+        console.error(error);
+      });
   }
 
   render() {
-    const { content, title } = this.state;
-    return (
-      <div className="subject">
-        <div className="head">
-          <div className="last">
-            <Goback width="33px" height="33px" />
-          </div>
-          <input
-            className="write-input"
-            type="text"
-            value={title}
-            onChange={this.handleChange}
-            placeholder="请输入标题"
-          />
-          <div className="status-save-bt">
-            <Button
-              onClick={() => {
-                this.save(title, content);
-              }}
-              text="保存并返回"
-            />
-          </div>
-        </div>
-        <div>
-          <textarea
-            className="status-markdown"
-            value={content}
-            onChange={this.onChange}
-          />
-          {/* <div id="editor"></div>
-          <textarea 
-            className="status-markdown"
-            value={content}
-            onChange={this.onChange}
-          /> */}
-        </div>
-      </div>
-    );
+    return <Edit content="" title="" save={this.save} />;
   }
 }
 
-edit.propTypes = {
+NewDoc.propTypes = {
   match: PropTypes.shape({
     url: PropTypes.string
   })
 };
 
-edit.defaultProps = {
+NewDoc.defaultProps = {
   match: {}
 };
-export default edit;
+export default NewDoc;

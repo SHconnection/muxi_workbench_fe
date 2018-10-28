@@ -36,56 +36,68 @@ class TeamMember extends Component {
   }
 
   componentDidMount() {
-    ManageService.getAllMem().then(member => {
-      if (member) {
-        const arr = member.list.map(mem => {
-          const obj = TeamMember.changeGroupMemberFormat(mem);
+    ManageService.getAllMem()
+      .then(member => {
+        if (member) {
+          const arr = member.list.map(mem => {
+            const obj = TeamMember.changeGroupMemberFormat(mem);
 
-          return obj;
-        });
+            return obj;
+          });
 
-        this.setState({
-          members: arr
-        });
-      }
-    });
-    ManageService.getAllGroup().then(group => {
-      if (group) {
-        const arr = group.groupList.map(mem1 => {
-          const mem = mem1;
-          const obj = {};
+          this.setState({
+            members: arr
+          });
+        }
+      })
+      .catch(error => {
+        console.error(error);
+      });
+    ManageService.getAllGroup()
+      .then(group => {
+        if (group) {
+          const arr = group.groupList.map(mem1 => {
+            const mem = mem1;
+            const obj = {};
 
-          obj.name = mem.groupName;
-          obj.id = mem.groupID;
-          obj.count = mem.userCount;
-          obj.selected = false;
-          obj.dealed = false;
+            obj.name = mem.groupName;
+            obj.id = mem.groupID;
+            obj.count = mem.userCount;
+            obj.selected = false;
+            obj.dealed = false;
 
-          return obj;
-        });
+            return obj;
+          });
 
-        this.setState({
-          groupList: arr
-        });
-      }
-    });
+          this.setState({
+            groupList: arr
+          });
+        }
+      })
+      .catch(error => {
+        console.error(error);
+      });
   }
 
   present(id) {
-    ManageService.groupMember(id).then(member => {
-      if (member) {
-        const arr = member.list.map(mem => {
-          const obj = TeamMember.changeGroupMemberFormat(mem);
+    ManageService.groupMember(id)
+      .then(member => {
+        if (member) {
+          const arr = member.list.map(mem => {
+            const obj = TeamMember.changeGroupMemberFormat(mem);
 
-          return obj;
-        });
+            return obj;
+          });
 
-        this.setState({
-          members: arr,
-          selectedID: id
-        });
-      }
-    });
+          this.setState({
+            members: arr,
+            selectedID: id
+          });
+        }
+      })
+      .catch(error => {
+        console.error(error);
+      });
   }
 
   render() {
@@ -129,15 +141,23 @@ class TeamMember extends Component {
               );
             })}
           </div>
-          <Link
-            className="fakeBtn teamMember-fakeMarg"
-            to={`${match.url}/addMember`}
-          >
-            添加成员
-          </Link>
-          <Link className="fakeBtn" to={`${match.url}/groupManage`}>
-            {JSON.parse(localStorage.user).role > 1 ? "管理分组" : ""}
-          </Link>
+          <div className="teamMember-selectBtn">
+            <Link
+              className="fakeBtn teamMember-fakeMarg"
+              to={`${match.url}/setManager`}
+            >
+              {JSON.parse(localStorage.user).role > 3 ? "设置管理员" : ""}
+            </Link>
+            <Link
+              className="fakeBtn teamMember-fakeMarg"
+              to={`${match.url}/addMember`}
+            >
+              添加成员
+            </Link>
+            <Link className="fakeBtn" to={`${match.url}/groupManage`}>
+              {JSON.parse(localStorage.user).role > 1 ? "管理分组" : ""}
+            </Link>
+          </div>
         </div>
 
         {members.map(mem1 => {

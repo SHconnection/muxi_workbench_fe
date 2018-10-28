@@ -41,6 +41,7 @@
 }
 
 .project-fileList-url {
+  width: 80px;
   margin-left: 60px;
   min-width: 106px;
   text-align: center;

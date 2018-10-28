@@ -1,42 +1,35 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
-// import LiveMarkdownTextarea  from './editor';
 import { MarkdownPreview } from "react-marked-markdown";
 import Goback from "../../../components/common/goBack/index";
 import Button from "../../../components/common/button";
-// import MarkdownPreview from './marked/preview';
 import MarkdownInput from "./marked/input";
 import "../../../static/css/common.css";
-import StatusService from "../../../service/status";
-// import CustomEditor from "./editor";
 import "./edit.css";
 import "../../../service/cookie";
 
-class edit extends Component {
+class Edit extends Component {
   constructor(props) {
     super(props);
+    const { content, title } = this.props;
     this.state = {
-      content: "",
-      title: ""
+      content,
+      title
     };
     this.handleChange = this.handleChange.bind(this);
     this.onChange = this.onChange.bind(this);
-    this.save = this.save.bind(this);
   }
 
-  componentWillMount() {
-    const { match } = this.props;
-    if (match.path === `/edit`);
-    else {
-      StatusService.getStatuDetail(match.params.id).then(doc => {
-        if (doc) {
-          const value = doc.content;
-          const name = doc.title;
-          this.setState({
-            title: name,
-            content: value
-          });
-        }
+  componentWillMount() {}
+
+  componentWillUpdate(nextProps) {
+    /* eslint-disable */
+    const { content, title } = this.props;
+    /* eslint-disable */
+    if (content !== nextProps.content || title !== nextProps.title) {
+      this.setState({
+        content: nextProps.content,
+        title: nextProps.title
       });
     }
   }
@@ -64,21 +57,11 @@ class edit extends Component {
     });
   }
 
-  save(title, content) {
-    const { match } = this.props;
-    if (match.path === "/edit") {
-      StatusService.addNewStatu(title, content);
-      window.history.back();
-    } else {
-      StatusService.changeStatu(match.params.id, title, content);
-      window.history.back();
-    }
-  }
-
   render() {
     const { content, title } = this.state;
+    const { save } = this.props;
     return (
-      <div className="subject">
+      <div>
         <div className="head">
           <div className="last">
             <Goback width="33px" height="33px" />
@@ -93,7 +76,7 @@ class edit extends Component {
           <div className="status-save-bt">
             <Button
               onClick={() => {
-                this.save(title, content);
+                save(title, content);
               }}
               text="保存并返回"
             />
@@ -106,12 +89,11 @@ class edit extends Component {
             value={content}
             onScroll={this.handleScroll}
           />
-
           <MarkdownPreview
             value={content}
             className="column preview"
             markedOptions={{
-              baseUrl: null,
+              baseUrl: true,
               headerIds: true,
               gfm: true,
               tables: true,
@@ -119,7 +101,7 @@ class edit extends Component {
               pedantic: false,
               sanitize: true,
               smartLists: true,
-              smartypants: true
+              smartypants: false
             }}
           />
         </div>
@@ -128,13 +110,19 @@ class edit extends Component {
   }
 }
 
-edit.propTypes = {
+Edit.propTypes = {
   match: PropTypes.shape({
     url: PropTypes.string
-  })
+  }),
+  content: PropTypes.string,
+  title: PropTypes.string,
+  save: PropTypes.func
 };
 
-edit.defaultProps = {
-  match: {}
+Edit.defaultProps = {
+  match: {},
+  content: "",
+  title: "",
+  save: () => {}
 };
-export default edit;
+export default Edit;

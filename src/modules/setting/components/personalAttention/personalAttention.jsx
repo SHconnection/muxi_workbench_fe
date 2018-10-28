@@ -24,17 +24,21 @@ class PersonalAttention extends Component {
   componentDidMount() {
     const per = JSON.parse(localStorage.per);
 
-    MessageService.getPersonalAttention(per.id).then(attention => {
-      const arr = attention.list.map((item1, index) => {
-        const item = item1;
-        item.id = index;
-        item.dealed = false;
+    MessageService.getPersonalAttention(per.id)
+      .then(attention => {
+        const arr = attention.list.map((item1, index) => {
+          const item = item1;
+          item.id = index;
+          item.dealed = false;
 
-        return item;
+          return item;
+        });
+
+        this.setState({ members: arr });
+      })
+      .catch(error => {
+        console.error(error);
       });
-
-      this.setState({ members: arr });
-    });
   }
 
   delete(data) {
