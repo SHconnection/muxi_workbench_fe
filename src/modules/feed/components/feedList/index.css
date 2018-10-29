@@ -26,6 +26,7 @@
     float: right;
     margin-top: 35px;
     margin-bottom: 20px;
+    font-weight: bold;
 
 }
 .feed-details{
@@ -36,13 +37,19 @@
 }
 .feed-time{
     font-size: 14px;
+    color: #919191
 }
 .feed-item-img{
     margin-left: 25px;
 }
 .feed-action{
     margin-left: 12px;
+    display: flex;
+    align-items: center;
 }
 .link{
     font-size: 16px;
+}
+.feed-action-word{
+    color: #404040;
 }

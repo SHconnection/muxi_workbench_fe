@@ -11,7 +11,7 @@ import "../../../service/cookie";
 class Edit extends Component {
   constructor(props) {
     super(props);
-    const { content, title } = this.props
+    const { content, title } = this.props;
     this.state = {
       content,
       title
@@ -24,13 +24,13 @@ class Edit extends Component {
 
   componentWillUpdate(nextProps) {
     /* eslint-disable */
-    const { content, title } = this.props
+    const { content, title } = this.props;
     /* eslint-disable */
     if (content !== nextProps.content || title !== nextProps.title) {
       this.setState({
         content: nextProps.content,
         title: nextProps.title
-      })
+      });
     }
   }
 
@@ -58,8 +58,8 @@ class Edit extends Component {
   }
 
   render() {
-    const { content, title } = this.state
-    const { save } = this.props
+    const { content, title } = this.state;
+    const { save } = this.props;
     return (
       <div>
         <div className="head">

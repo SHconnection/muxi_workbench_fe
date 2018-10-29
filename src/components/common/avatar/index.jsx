@@ -1,6 +1,8 @@
 import React from 'react';
-import PropTypes from 'prop-types'
-import AvatarSrc from '../../../assets/img/avatar.png'
+import PropTypes from 'prop-types';
+import AvatarSrc from '../../../assets/img/avatar.png';
+
+
 
 const Avatar = ({width, height, square, src}) => {
   
@@ -11,7 +13,7 @@ const Avatar = ({width, height, square, src}) => {
   }
 
   return (
-    <img style={style} src={src} alt="avatar" />
+    <img style={style} src={src || AvatarSrc} alt="avatar" />
   );
 }
 

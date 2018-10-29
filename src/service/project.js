@@ -1,5 +1,5 @@
 import Fetch from "./fetch";
-import {ContentMatch} from 'prosemirror-model';
+// import { ContentMatch } from "prosemirror-model";
 
 const ProjectService = {
   projectDelete(proId) {
@@ -35,6 +35,14 @@ const ProjectService = {
         name: inputValue
       }
     });
+  },
+
+  // 获取项目成员
+  getProjectUserList(pid) {
+    return Fetch(`/project/${pid}/member/`, {
+      method: "GET",
+      token: localStorage.token
+    })
   },
 
   // 创建项目
@@ -108,14 +116,14 @@ const ProjectService = {
         content
       },
       token: localStorage.token
-    })
+    });
   },
 
   // 获取文件评论列表
-  getCommentList(pid, fid, page=1) {
+  getCommentList(pid, fid, page = 1) {
     return Fetch(`/project/${pid}/file/${fid}/comments/${page}/`, {
       token: localStorage.token
-    })
+    });
   },
 
   // 评论文档
@@ -126,14 +134,14 @@ const ProjectService = {
         content
       },
       token: localStorage.token
-    })
+    });
   },
 
   // 获取文档评论列表
-  getCommentListForDoc(pid, fid, page=1) {
+  getCommentListForDoc(pid, fid, page = 1) {
     return Fetch(`/project/${pid}/doc/${fid}/comments/${page}/`, {
       token: localStorage.token
-    })
+    });
   }
 };
 

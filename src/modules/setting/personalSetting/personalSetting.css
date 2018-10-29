@@ -40,7 +40,6 @@
   top: -2px;
   cursor: pointer;
   font-size: 20px;
-  width: 0;
-  height: 0;
+  width: 5em;
   opacity: 0;
 }
