@@ -1,5 +1,5 @@
 import Fetch from "./fetch";
-import { ContentMatch } from "prosemirror-model";
+// import { ContentMatch } from "prosemirror-model";
 
 const ProjectService = {
   projectDelete(proId) {
@@ -35,6 +35,14 @@ const ProjectService = {
         name: inputValue
       }
     });
+  },
+
+  // 获取项目成员
+  getProjectUserList(pid) {
+    return Fetch(`/project/${pid}/member/`, {
+      method: "GET",
+      token: localStorage.token
+    })
   },
 
   // 创建项目

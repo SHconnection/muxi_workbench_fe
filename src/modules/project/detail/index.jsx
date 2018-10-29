@@ -635,6 +635,7 @@ class ProjectDetailIndex extends Component {
                   text={`${projectInfo.userCount}`}
                   tip="成员"
                   url="/member"
+                  to={`/project/${pid}/member`}
                 />
               </div>
               <div className="projectDetail-header-icon-container">
