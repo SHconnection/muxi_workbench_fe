@@ -5,6 +5,8 @@ import Gotop from "../../../components/common/toTop/top";
 import StatusService from "../../../service/status";
 import "./progerss.css";
 
+// let scrollTo = 0;
+
 function getScrollTop() {
   let scrollTop = 0;
   let bodyScrollTop = 0;
@@ -123,6 +125,18 @@ class Progress extends Component {
       }
     };
   }
+
+  // onScrollHandle(event) {
+  //   const clientHeight = event.target.clientHeight
+  //   const scrollHeight = event.target.scrollHeight
+  //   const scrollTop = event.target.scrollTop
+  //   const isBottom = (clientHeight + scrollTop === scrollHeight)
+  //   if (this.state.isScrollBottom !== isBottom) {
+  //     this.setState({
+  //       isScrollBottom: isBottom
+  //     })
+  //   }
+  // }
 
   getStatusList() {
     const { match } = this.props;
