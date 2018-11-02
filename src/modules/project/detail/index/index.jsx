@@ -4,7 +4,6 @@ import { Link } from "react-router-dom";
 import Icon from "../../../../components/common/icon/index";
 import Select from "../../../../components/common/select/index";
 import FileIcon from "../../components/fileIcon/index";
-import "./index.css";
 import "../../../../static/css/common.css";
 
 class ProjectDetailIndex extends Component {
@@ -101,7 +100,6 @@ class ProjectDetailIndex extends Component {
 
   render() {
     const { projectInfo, fileOption, folderList, pid } = this.state;
-    const { match } = this.props;
     return (
       <div className="projectDetail-content">
         <div className="projectDetail-header">

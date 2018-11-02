@@ -22,9 +22,7 @@ const PersonalInfo = ({ match }) => {
           <div className="personalIntro">
             <b className="personalName">{per.name}</b>
             <Link to={`${match.url}/personalSet`} className="fakeBtn">
-              {per.id === JSON.parse(Cookie.getCookie("user")).id
-                ? "更改设置"
-                : ""}
+              {per.id === Cookie.getCookie("uid") ? "更改设置" : ""}
             </Link>
             <div className="llSize">{per.email}</div>
           </div>
@@ -34,7 +32,7 @@ const PersonalInfo = ({ match }) => {
           className="personalInfo-btnMarg"
         >
           <button type="button" className="saveBtn personalInfo-saveBtn">
-            {JSON.parse(Cookie.getCookie("user")).role > 1 ? "管理成员" : ""}
+            {Cookie.getCookie("role") > 1 ? "管理成员" : ""}
           </button>
         </Link>
       </div>

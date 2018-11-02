@@ -45,6 +45,7 @@ class Landing extends React.Component {
         Cookie.setCookie("uid", response.uid);
         Cookie.setCookie("role", response.urole);
         Cookie.setCookie("per", JSON.stringify(user));
+        Cookie.setCookie("user", JSON.stringify(user));
         ManageService.getPersonalSet(user.id)
           .then(res => {
             Cookie.setCookie("userAvatar", res.avatar);
