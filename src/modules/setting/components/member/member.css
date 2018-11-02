@@ -32,7 +32,9 @@ input[type="checkbox"]:checked + label::before {
   background-color: #1d4cb5;
 }
 input[type="checkbox"]:checked + label::after {
-  content: "\2713";
+  content: "";
+  background: url(../../../../assets/svg/commonIcon/select.svg) no-repeat center;
+  background-size: 18px 18px;
   color: white;
   font-size: 18px;
   position: absolute;

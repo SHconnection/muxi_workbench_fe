@@ -4,9 +4,10 @@ import logo from "../../../assets/img/logo@2x.png";
 import searchIcon from "../../../assets/img/search@2x.png";
 import Avatar from "../avatar/index";
 import Inform from "./inform/index";
+import Cookie from "../../../service/cookie";
 import "./index.css";
 
-const AvatarImg = localStorage.userAvatar
+const AvatarImg = Cookie.getCookie("userAvatar");
 
 class Header extends Component {
   constructor(props) {
@@ -46,11 +47,14 @@ class Header extends Component {
 
   render() {
     const { showInput, redirect } = this.state;
+    const url = `/search/${encodeURIComponent(
+      encodeURIComponent(encodeURIComponent(this.searchText))
+    )}`;
     if (redirect) {
       return (
         <div>
           <Header />
-          <Redirect push to={`/search/${this.searchText}`} />
+          <Redirect push to={url} />
         </div>
       );
     }

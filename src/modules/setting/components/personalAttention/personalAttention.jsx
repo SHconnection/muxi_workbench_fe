@@ -7,6 +7,7 @@ import File from "../../../../assets/img/file.png";
 import MessageService from "../../../../service/message";
 import "../../../../static/css/common.css";
 import "./personalAttention.css";
+import Cookie from "../../../../service/cookie";
 
 class PersonalAttention extends Component {
   constructor(props) {
@@ -22,7 +23,7 @@ class PersonalAttention extends Component {
   }
 
   componentDidMount() {
-    const per = JSON.parse(localStorage.per);
+    const per = JSON.parse(Cookie.getCookie("per"));
 
     MessageService.getPersonalAttention(per.id)
       .then(attention => {
@@ -56,8 +57,8 @@ class PersonalAttention extends Component {
 
   render() {
     const { data, deleteX, members } = this.state;
-    const per = JSON.parse(localStorage.per);
-    const user = JSON.parse(localStorage.user);
+    const per = JSON.parse(Cookie.getCookie("per"));
+    const user = JSON.parse(Cookie.getCookie("user"));
 
     return (
       <div className="present">

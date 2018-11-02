@@ -1,9 +1,10 @@
 import Fetch from "./fetch";
+import Cookie from "./cookie";
 
 const StatusService = {
   addNewStatu(title, content) {
     return Fetch("/status/new/", {
-      token: JSON.parse(localStorage.user).token,
+      token: Cookie.getCookie("workbench_token"),
       method: "POST",
       data: {
         content,
@@ -13,7 +14,7 @@ const StatusService = {
   },
   changeStatu(sid, title, content) {
     return Fetch(`/status/${sid}/`, {
-      token: JSON.parse(localStorage.user).token,
+      token: Cookie.getCookie("workbench_token"),
       method: "PUT",
       data: {
         content,
@@ -24,46 +25,48 @@ const StatusService = {
 
   getStatusList(page) {
     return Fetch(`/status/list/${page}/`, {
-      token: JSON.parse(localStorage.user).token
+      token: Cookie.getCookie("workbench_token")
     });
   },
   getPersonalStatus(uid, page) {
     return Fetch(`/status/${uid}/list/${page}/`, {
-      token: JSON.parse(localStorage.user).token
+      token: Cookie.getCookie("workbench_token")
     });
   },
   getStatuDetail(sid) {
     return Fetch(`/status/${sid}/`, {
-      token: JSON.parse(localStorage.user).token
+      token: Cookie.getCookie("workbench_token")
     });
   },
   editStatu(sid) {
     return Fetch(`/status/${sid}/`, {
-      token: JSON.parse(localStorage.user).token
+      token: Cookie.getCookie("workbench_token")
     });
   },
   changeLike(sid, iflike) {
     return Fetch(`/status/${sid}/like/`, {
       method: "PUT",
-      token: JSON.parse(localStorage.user).token,
+      token: Cookie.getCookie("workbench_token"),
       data: { iflike }
     });
   },
   postComments(sid, content) {
     return Fetch(`/status/${sid}/comments/`, {
       method: "POST",
-      token: JSON.parse(localStorage.user).token,
+      token: Cookie.getCookie("workbench_token"),
       data: { content }
     });
   },
   commentDelete(cid, sid) {
     return Fetch(`/status/${sid}/comment/${cid}/`, {
-      method: "DELETE"
+      method: "DELETE",
+      token: Cookie.getCookie("workbench_token")
     });
   },
   statusDelete(staId) {
     return Fetch(`/status/${staId}/`, {
-      method: "DELETE"
+      method: "DELETE",
+      token: Cookie.getCookie("workbench_token")
     });
   }
 };

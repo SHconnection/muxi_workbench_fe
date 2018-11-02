@@ -6,6 +6,7 @@ import GoBack from "../../../components/common/goBack/index";
 import Member from "../components/member/member";
 import Save from "../components/save/save";
 import ManageService from "../../../service/manage";
+import Cookie from "../../../service/cookie";
 import "../../../static/css/common.css";
 import "./personalSetting.css";
 
@@ -35,7 +36,7 @@ class PersonalSet extends Component {
   }
 
   componentDidMount() {
-    const per = JSON.parse(localStorage.per);
+    const per = JSON.parse(Cookie.getCookie("per"));
 
     ManageService.getPersonalSet(per.id)
       .then(setting => {
@@ -84,7 +85,7 @@ class PersonalSet extends Component {
 
   savePersonalSet() {
     const { inputName, inputMailbox, inputPhone, selMembers } = this.state;
-    const per = JSON.parse(localStorage.per);
+    const per = JSON.parse(Cookie.getCookie("per"));
     const obj = {
       username: inputName,
       address: inputMailbox,

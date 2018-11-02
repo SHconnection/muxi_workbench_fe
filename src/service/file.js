@@ -1,4 +1,5 @@
 import Fetch from "./fetch";
+import Cookie from "./cookie";
 
 const FileService = {
   // 创建文件夹
@@ -9,7 +10,7 @@ const FileService = {
         foldername,
         project_id: pid
       },
-      token: localStorage.token
+      token: Cookie.getCookie("workbench_token")
     });
   },
 
@@ -21,7 +22,7 @@ const FileService = {
         foldername,
         project_id: pid
       },
-      token: localStorage.token
+      token: Cookie.getCookie("workbench_token")
     });
   },
 
@@ -30,7 +31,7 @@ const FileService = {
     return Fetch(`/folder/file/children/`, {
       method: "POST",
       data: postData,
-      token: localStorage.token
+      token: Cookie.getCookie("workbench_token")
     });
   },
 
@@ -39,7 +40,7 @@ const FileService = {
     return Fetch(`/folder/doc/children/`, {
       method: "POST",
       data: postData,
-      token: localStorage.token
+      token: Cookie.getCookie("workbench_token")
     });
   },
 
@@ -47,7 +48,7 @@ const FileService = {
   getDocContent(id) {
     return Fetch(`/file/doc/${id}`, {
       method: "GET",
-      token: localStorage.token
+      token: Cookie.getCookie("workbench_token")
     });
   },
 
@@ -57,7 +58,7 @@ const FileService = {
       method: "POST",
       body: formData,
       headers: {
-        token: localStorage.token
+        token: Cookie.getCookie("workbench_token")
       }
     });
   },
@@ -67,7 +68,7 @@ const FileService = {
     return Fetch(`/file/doc/`, {
       method: "POST",
       data: postData,
-      token: localStorage.token
+      token: Cookie.getCookie("workbench_token")
     });
   },
 
@@ -75,7 +76,7 @@ const FileService = {
   deleteFile(id) {
     return Fetch(`/file/file/${id}/`, {
       method: "DELETE",
-      token: localStorage.token
+      token: Cookie.getCookie("workbench_token")
     });
   },
 
@@ -84,7 +85,7 @@ const FileService = {
     return Fetch(`/folder/file/${id}/`, {
       method: "DELETE",
       data: postData,
-      token: localStorage.token
+      token: Cookie.getCookie("workbench_token")
     });
   },
 
@@ -92,7 +93,7 @@ const FileService = {
   deleteDoc(id) {
     return Fetch(`/file/doc/${id}/`, {
       method: "DELETE",
-      token: localStorage.token
+      token: Cookie.getCookie("workbench_token")
     });
   },
 
@@ -101,14 +102,14 @@ const FileService = {
     return Fetch(`/folder/doc/${id}/`, {
       method: "DELETE",
       data: postData,
-      token: localStorage.token
+      token: Cookie.getCookie("workbench_token")
     });
   },
 
   // 获取文档内容
   getDocConnent(id) {
     return Fetch(`/file/doc/${id}/`, {
-      token: JSON.parse(localStorage.user).token
+      token: Cookie.getCookie("workbench_token")
     });
   },
 
@@ -117,7 +118,7 @@ const FileService = {
     return Fetch(`/file/doc/${id}/`, {
       method: "PUT",
       data: postData,
-      token: localStorage.token
+      token: Cookie.getCookie("workbench_token")
     });
   }
 };

@@ -5,6 +5,8 @@ import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
 import ManageService from "../../../service/manage";
+import MemberInfo from "../memberInfo/memberInfo";
+import Cookie from "../../../service/cookie";
 import "../../../static/css/common.css";
 import "./teamMember.css";
 
@@ -146,7 +148,7 @@ class TeamMember extends Component {
               className="fakeBtn teamMember-fakeMarg"
               to={`${match.url}/setManager`}
             >
-              {JSON.parse(localStorage.user).role > 3 ? "设置管理员" : ""}
+              {Cookie.getCookie("role") > 3 ? "设置管理员" : ""}
             </Link>
             <Link
               className="fakeBtn teamMember-fakeMarg"
@@ -155,7 +157,7 @@ class TeamMember extends Component {
               添加成员
             </Link>
             <Link className="fakeBtn" to={`${match.url}/groupManage`}>
-              {JSON.parse(localStorage.user).role > 1 ? "管理分组" : ""}
+              {Cookie.getCookie("role") > 1 ? "管理分组" : ""}
             </Link>
           </div>
         </div>
@@ -167,25 +169,8 @@ class TeamMember extends Component {
 
           return (
             <div className="teamMember-singleList" key={mem.id}>
-              <Link to={`${match.url}/personalInfo`}>
-                <div
-                  role="button"
-                  tabIndex={0}
-                  onClick={() => {
-                    localStorage.per = JSON.stringify(mem);
-                  }}
-                  onKeyDown={this.handleClick}
-                >
-                  <img src={mem.avatar} alt="" className="teamMember-imgSize" />
-                </div>
-              </Link>
-              <div className="teamMember-personalIntro">
-                <b>{mem.name}</b>
-                <span className="teamMember-role">{role}</span>
-                <br />
-                <span className="teamMember-littleGroup">{mem.group}</span>
-              </div>
-              <span>{mem.email}</span>
+              <MemberInfo mem={mem} />
+              <span className="teamMember-emailMarg">{mem.email}</span>
             </div>
           );
         })}

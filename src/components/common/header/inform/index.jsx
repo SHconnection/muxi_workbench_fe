@@ -6,6 +6,7 @@ import SettingIcon from "../../../../assets/svg/commonIcon/setting.svg";
 import InfoRemindIcon from "../../../../assets/svg/commonIcon/infoRemind.svg";
 import InfoIcon from "../../../../assets/svg/commonIcon/info.svg";
 import MessageService from "../../../../service/message";
+import Cookie from "../../../../service/cookie";
 import "./index.css";
 
 const kind = ["进度", "文件", "评论", "团队"];
@@ -47,7 +48,7 @@ class Inform extends Component {
   }
 
   readAll() {
-    MessageService.messageAllRead(localStorage.username).then(() => {
+    MessageService.messageAllRead(Cookie.getCookie("username")).then(() => {
       this.getMessage();
     });
   }

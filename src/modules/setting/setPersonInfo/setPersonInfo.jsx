@@ -7,6 +7,7 @@ import Member from "../components/member/member";
 import Delete from "../components/delete/delete";
 import Save from "../components/save/save";
 import ManageService from "../../../service/manage";
+import Cookie from "../../../service/cookie";
 import "../../../static/css/common.css";
 import "./setPersonInfo.css";
 
@@ -34,8 +35,8 @@ class SetPersonalInfo extends Component {
   }
 
   componentDidMount() {
-    const per = JSON.parse(localStorage.per);
-    const user = JSON.parse(localStorage.user);
+    const per = JSON.parse(Cookie.getCookie("per"));
+    const user = JSON.parse(Cookie.getCookie("user"));
     // console.log(per.id)
     const { identity, selIdentities } = this.state;
 
@@ -152,7 +153,7 @@ class SetPersonalInfo extends Component {
   }
 
   saveModifyMember() {
-    const per = JSON.parse(localStorage.per);
+    const per = JSON.parse(Cookie.getCookie("per"));
     const { selIdentities, selMembers } = this.state;
 
     ManageService.saveModifyMemberIdenty(per.id, selIdentities).catch(error => {
@@ -172,7 +173,7 @@ class SetPersonalInfo extends Component {
   }
 
   render() {
-    const per = JSON.parse(localStorage.per);
+    const per = JSON.parse(Cookie.getCookie("per"));
     const {
       identity,
       selIdentities,
