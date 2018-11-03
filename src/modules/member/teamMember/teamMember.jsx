@@ -6,6 +6,7 @@ import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
 import ManageService from "../../../service/manage";
 import MemberInfo from "../memberInfo/memberInfo";
+import Cookie from "../../../service/cookie";
 import "../../../static/css/common.css";
 import "./teamMember.css";
 
@@ -147,7 +148,7 @@ class TeamMember extends Component {
               className="fakeBtn teamMember-fakeMarg"
               to={`${match.url}/setManager`}
             >
-              {JSON.parse(localStorage.user).role > 3 ? "设置管理员" : ""}
+              {Cookie.getCookie("role") > 3 ? "设置管理员" : ""}
             </Link>
             <Link
               className="fakeBtn teamMember-fakeMarg"
@@ -156,7 +157,7 @@ class TeamMember extends Component {
               添加成员
             </Link>
             <Link className="fakeBtn" to={`${match.url}/groupManage`}>
-              {JSON.parse(localStorage.user).role > 1 ? "管理分组" : ""}
+              {Cookie.getCookie("role") > 1 ? "管理分组" : ""}
             </Link>
           </div>
         </div>

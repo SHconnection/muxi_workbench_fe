@@ -1,35 +1,55 @@
 /*
 团队成员页面组件
 */
-import React, { Component } from "react";
+import React from "react";
 import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
 import Avatar from "../../../components/common/avatar/index";
+import Cookie from "../../../service/cookie";
 import "../../../static/css/common.css";
 import "./memberInfo.css";
 
-const MemberInfo = ({ mem, url }) => (
+const userLevelSet = {
+  0: "普通用户",
+  1: "普通用户",
+  4: "管理员",
+  7: "超级管理员"
+};
+
+const userGroup = group => {
+  if (group == null) {
+    return "NoneGroup";
+  }
+  return group;
+};
+
+const MemberInfo = ({ mem, square }) => (
   <div className="memberInfo-contain">
     <Link to={"/member/teamMember/personalInfo"}>
       <div
-        role="button"
-        tabIndex={0}
-        onClick={() => {
-          localStorage.per = JSON.stringify(mem);
-        }}
-        onKeyDown={this.handleClick}
         className="memberInfo-img"
+        onClick={() => {
+          Cookie.setCookie("per", JSON.stringify(mem));
+        }}
       >
-        <Avatar width={60} height={60} square={true} src={mem.avatar} />
+        <Avatar width={60} height={60} square={square} src={mem.avatar} />
       </div>
     </Link>
     <div className="memberInfo-personalIntro">
-      <b className="memberInfo-nameSize">{mem.name}</b>
-      <span className="memberInfo-role">
-        {mem.role == 1 ? "成员" : mem.role == 3 ? "管理员" : "超级管理员"}
-      </span>
-      <br />
-      <span className="memberInfo-littleGroup">{mem.group}</span>
+      <div className="memberInfo-mid">
+        <div className="memberInfo-name">
+          <div className="memberInfo-nameSize">{mem.name || mem.username}</div>
+          <div className="memberInfo-role">{userLevelSet[mem.role]}</div>
+        </div>
+        <div className="memberInfo-group">
+          <span className="memberInfo-littleGroup">{userGroup(mem.group)}</span>
+        </div>
+      </div>
+      {/* <div className="memberInfo-name">
+        <b className="memberInfo-nameSize">{mem.name || mem.username}</b>
+        <div className="memberInfo-role">{userLevelSet[mem.role]}</div>
+      </div>
+      <span className="memberInfo-littleGroup">{userGroup(mem.group)}</span> */}
     </div>
   </div>
 );
@@ -42,9 +62,11 @@ MemberInfo.propTypes = {
     name: PropTypes.string,
     role: PropTypes.number,
     group: PropTypes.string
-  })
+  }),
+  square: PropTypes.bool
 };
 
 MemberInfo.defaultProps = {
-  mem: {}
+  mem: {},
+  square: true
 };

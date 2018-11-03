@@ -76,7 +76,7 @@ const ManageService = {
   getAdmin() {
     return Fetch(`/user/admins/`, {
       method: "GET",
-      token: localStorage.token
+      token: JSON.parse(localStorage.user).token
     });
   },
 
@@ -225,6 +225,12 @@ const ManageService = {
 
   getAllGroup() {
     return Fetch("/group/list/", {
+      token: JSON.parse(localStorage.user).token
+    });
+  },
+
+  invitePerson() {
+    return Fetch("/team/invite/", {
       token: JSON.parse(localStorage.user).token
     });
   }

@@ -8,6 +8,7 @@ import PropTypes from "prop-types";
 import GoBack from "../../../components/common/goBack/index";
 import Delete from "../components/delete/delete";
 import ManageService from "../../../service/manage";
+import WrongPage from "../../../components/common/wrongPage/wrongPage";
 import "../../../static/css/common.css";
 import "../joinApply/joinApply.css";
 import "./groupManage.css";
@@ -19,12 +20,14 @@ class GroupManage extends Component {
     this.state = {
       deleteX: false,
       data: undefined,
-      members: []
+      members: [],
+      wrong: ""
     };
 
     this.transferMsgDel = this.transferMsgDel.bind(this);
     this.delete = this.delete.bind(this);
     this.onDragEnd = this.onDragEnd.bind(this);
+    this.cancel = this.cancel.bind(this);
   }
 
   componentDidMount() {
@@ -45,8 +48,12 @@ class GroupManage extends Component {
         }
       })
       .catch(error => {
-        console.error(error);
+        this.setState({ wrong: error });
       });
+  }
+
+  cancel() {
+    this.setState({ wrong: "" });
   }
 
   onDragEnd(result) {
@@ -76,7 +83,7 @@ class GroupManage extends Component {
   }
 
   render() {
-    const { deleteX, data, members } = this.state;
+    const { deleteX, data, members, wrong } = this.state;
     const { match } = this.props;
 
     return (
@@ -148,9 +155,11 @@ class GroupManage extends Component {
           deleteX={deleteX}
           transferMsg={this.transferMsgDel}
           data={data}
-          del
+          // del
           groupDel
         />
+
+        <WrongPage info={wrong} cancel={this.cancel} />
       </div>
     );
   }

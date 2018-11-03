@@ -13,12 +13,14 @@ import PersonalInfo from "../setting/personalInfo/personalInfo";
 import PersonalSet from "../setting/personalSetting/personalSetting";
 import SetPersonalInfo from "../setting/setPersonInfo/setPersonInfo";
 import SetManager from "../setting/setManager/setManager";
+import JoinApply from "../setting/joinApply/joinApply";
 
 const Member = ({ match }) => (
   <Switch>
     <Redirect exact from={`${match.url}`} to={`${match.url}/teamMember`} />
     <Route exact path={`${match.url}/teamMember`} component={TeamMember} />
     <Route path={`${match.url}/teamMember/addMember`} component={AddMember} />
+    <Route path={`${match.url}/teamMember/joinApply`} component={JoinApply} />
     <Route
       exact
       path={`${match.url}/teamMember/groupManage`}

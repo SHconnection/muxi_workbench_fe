@@ -7,6 +7,7 @@ import PropTypes from "prop-types";
 import GoBack from "../../../components/common/goBack/index";
 import Member from "../components/member/member";
 import ManageService from "../../../service/manage";
+import WrongPage from "../../../components/common/wrongPage/wrongPage";
 import "../../../static/css/common.css";
 import "./memberGroup.css";
 
@@ -16,15 +17,17 @@ class MemberGroup extends Component {
 
     this.state = {
       selMembers: [],
-      members: []
+      members: [],
+      wrong: ""
     };
 
     this.transferMsgMem = this.transferMsgMem.bind(this);
+    this.cancel = this.cancel.bind(this);
   }
 
   componentDidMount() {
     const arr = ManageService.getAllGroup().catch(error => {
-      console.error(error);
+      this.setState({ wrong: error });
     });
     const {
       match: {
@@ -53,6 +56,10 @@ class MemberGroup extends Component {
     });
   }
 
+  cancel() {
+    this.setState({ wrong: "" });
+  }
+
   transferMsgMem(members, selMembers) {
     this.setState({
       members,
@@ -71,7 +78,7 @@ class MemberGroup extends Component {
     const { selMembers } = this.state;
 
     ManageService.modifyMemGroup(id, selMembers).catch(error => {
-      console.error(error);
+      this.setState({ wrong: error });
     });
   }
 
@@ -97,6 +104,8 @@ class MemberGroup extends Component {
         >
           下一步
         </button>
+
+        <WrongPage info={wrong} cancel={this.cancel} />
       </div>
     );
   }

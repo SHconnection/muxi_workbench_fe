@@ -8,6 +8,7 @@ import GoBack from "../../../components/common/goBack/index";
 import Member from "../components/member/member";
 import Save from "../components/save/save";
 import ManageService from "../../../service/manage";
+import WrongPage from "../../../components/common/wrongPage/wrongPage";
 import "../../../static/css/common.css";
 import "./setPermission.css";
 
@@ -18,11 +19,13 @@ class SetPermission extends Component {
     this.state = {
       selMembers: [],
       members: [],
-      ifSave: false
+      ifSave: false,
+      wrong: ""
     };
 
     this.transferMsgMem = this.transferMsgMem.bind(this);
     this.savePersonalPermiss = this.savePersonalPermiss.bind(this);
+    this.cancel = this.cancel.bind(this);
   }
 
   componentDidMount() {
@@ -62,11 +65,11 @@ class SetPermission extends Component {
             });
           })
           .catch(error => {
-            console.error(error);
+            this.setState({ wrong: error });
           });
       })
       .catch(error => {
-        console.error(error);
+        this.setState({ wrong: error });
       });
   }
 
@@ -94,8 +97,12 @@ class SetPermission extends Component {
         }, 1000);
       })
       .catch(error => {
-        console.error(error);
+        this.setState({ wrong: error });
       });
+  }
+
+  cancel() {
+    this.setState({ wrong: "" });
   }
 
   render() {
@@ -124,6 +131,8 @@ class SetPermission extends Component {
           </button>
         </div>
         <Save ifSave={ifSave} />
+
+        <WrongPage info={wrong} cancel={this.cancel} />
       </div>
     );
   }

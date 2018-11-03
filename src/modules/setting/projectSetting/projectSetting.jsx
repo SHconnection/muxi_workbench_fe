@@ -9,6 +9,7 @@ import PropTypes from "prop-types";
 import Delete from "../components/delete/delete";
 import ProjectSetFirst from "../../project/components/projectSetFirst/projectSetFirst";
 import ProjectService from "../../../service/project";
+import WrongPage from "../../../components/common/wrongPage/wrongPage";
 import "../../../static/css/common.css";
 import "./projectSetting.css";
 
@@ -18,13 +19,15 @@ class SetProject extends Component {
     this.state = {
       inputValue: "",
       textValue: "",
-      deleteX: false
+      deleteX: false,
+      wrong: ""
     };
 
     this.transferMsgDel = this.transferMsgDel.bind(this);
     this.changeInput = this.changeInput.bind(this);
     this.changeText = this.changeText.bind(this);
     this.saveProjectSet = this.saveProjectSet.bind(this);
+    this.cancel = this.cancel.bind(this);
   }
 
   componentDidMount() {
@@ -44,7 +47,7 @@ class SetProject extends Component {
         }
       })
       .catch(error => {
-        console.error(error);
+        this.setState({ wrong: error });
       });
   }
 
@@ -79,8 +82,12 @@ class SetProject extends Component {
     });
   }
 
+  cancel() {
+    this.setState({ wrong: "" });
+  }
+
   render() {
-    const { deleteX, inputValue, textValue } = this.state;
+    const { deleteX, inputValue, textValue, wrong } = this.state;
     const {
       match: {
         params: { id }
@@ -127,6 +134,8 @@ class SetProject extends Component {
           proDel
           id={id}
         />
+
+        <WrongPage info={wrong} cancel={this.cancel} />
       </div>
     );
   }
