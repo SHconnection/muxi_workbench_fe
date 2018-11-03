@@ -5,7 +5,6 @@ import React from "react";
 import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
 import Avatar from "../../../components/common/avatar/index";
-import Cookie from "../../../service/cookie";
 import "../../../static/css/common.css";
 import "./memberInfo.css";
 
@@ -29,7 +28,7 @@ const MemberInfo = ({ mem, square }) => (
       <div
         className="memberInfo-img"
         onClick={() => {
-          Cookie.setCookie("per", JSON.stringify(mem));
+          localStorage.per = JSON.stringify(mem);
         }}
       >
         <Avatar width={60} height={60} square={square} src={mem.avatar} />

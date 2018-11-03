@@ -1,19 +1,18 @@
 import Fetch from "./fetch";
-import Cookie from "./cookie";
 // import { ContentMatch } from "prosemirror-model";
 
 const ProjectService = {
   projectDelete(proId) {
     return Fetch(`/project/${proId}/`, {
       method: "DELETE",
-      token: JSON.parse(Cookie.getCookie("user")).token
+      token: localStorage.token
     });
   },
 
   editProjectMember(proId, selMembers) {
     return Fetch(`/project/${proId}/member/`, {
       method: "PUT",
-      token: JSON.parse(Cookie.getCookie("user")).token,
+      token: localStorage.token,
       data: {
         userList: selMembers
       }
@@ -23,14 +22,14 @@ const ProjectService = {
   // 获取项目基本信息（name,intro,userCount）
   getProjectInfo(proId) {
     return Fetch(`/project/${proId}/`, {
-      token: JSON.parse(Cookie.getCookie("user")).token
+      token: localStorage.token
     });
   },
 
   saveProjectSet(proId, textValue, inputValue) {
     return Fetch(`/project/${proId}/`, {
       method: "POST",
-      token: JSON.parse(Cookie.getCookie("user")).token,
+      token: localStorage.token,
       data: {
         intro: textValue,
         name: inputValue
@@ -42,7 +41,7 @@ const ProjectService = {
   getProjectUserList(pid) {
     return Fetch(`/project/${pid}/member/`, {
       method: "GET",
-      token: JSON.parse(Cookie.getCookie("user")).token
+      token: localStorage.token
     });
   },
 
@@ -50,7 +49,7 @@ const ProjectService = {
   createProject(postData) {
     return Fetch("/project/new/", {
       method: "POST",
-      token: JSON.parse(Cookie.getCookie("user")).token,
+      token: localStorage.token,
       data: postData
     });
   },
@@ -58,7 +57,7 @@ const ProjectService = {
   // 获取项目列表(默认第一页)
   getProjectList(userID, page = 1) {
     return Fetch(`/user/${userID}/project/list/?page=${page}`, {
-      token: JSON.parse(Cookie.getCookie("user")).token
+      token: localStorage.token
     });
   },
 
@@ -76,7 +75,7 @@ const ProjectService = {
   // 获取项目的文件树
   getProjectFileTree(pid) {
     return Fetch(`/folder/filetree/${pid}/`, {
-      token: JSON.parse(Cookie.getCookie("user")).token
+      token: localStorage.token
     });
   },
 
@@ -87,14 +86,14 @@ const ProjectService = {
       data: {
         filetree: fileTreeStr
       },
-      token: JSON.parse(Cookie.getCookie("user")).token
+      token: localStorage.token
     });
   },
 
   // 获取项目文档树
   getProjectDocTree(pid) {
     return Fetch(`/folder/doctree/${pid}/`, {
-      token: JSON.parse(Cookie.getCookie("user")).token
+      token: localStorage.token
     });
   },
 
@@ -105,7 +104,7 @@ const ProjectService = {
       data: {
         doctree: docTreeStr
       },
-      token: JSON.parse(Cookie.getCookie("user")).token
+      token: localStorage.token
     });
   },
 
@@ -116,14 +115,14 @@ const ProjectService = {
       data: {
         content
       },
-      token: JSON.parse(Cookie.getCookie("user")).token
+      token: localStorage.token
     });
   },
 
   // 获取文件评论列表
   getCommentList(pid, fid, page = 1) {
     return Fetch(`/project/${pid}/file/${fid}/comments/${page}/`, {
-      token: JSON.parse(Cookie.getCookie("user")).token
+      token: localStorage.token
     });
   },
 
@@ -134,14 +133,14 @@ const ProjectService = {
       data: {
         content
       },
-      token: JSON.parse(Cookie.getCookie("user")).token
+      token: localStorage.token
     });
   },
 
   // 获取文档评论列表
   getCommentListForDoc(pid, fid, page = 1) {
     return Fetch(`/project/${pid}/doc/${fid}/comments/${page}/`, {
-      token: JSON.parse(Cookie.getCookie("user")).token
+      token: localStorage.token
     });
   }
 };

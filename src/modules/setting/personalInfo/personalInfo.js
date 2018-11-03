@@ -7,12 +7,11 @@ import PropTypes from "prop-types";
 import PersonalAttention from "../components/personalAttention/personalAttention";
 import Dynamic from "../../feed/dynamic";
 import Progress from "../../status/progress/progress";
-import Cookie from "../../../service/cookie";
 import "../../../static/css/common.css";
 import "./personalInfo.css";
 
 const PersonalInfo = ({ match }) => {
-  const per = JSON.parse(Cookie.getCookie("per"));
+  const per = JSON.parse(localStorage.per);
 
   return (
     <div className="subject minH">
@@ -22,9 +21,7 @@ const PersonalInfo = ({ match }) => {
           <div className="personalIntro">
             <b className="personalName">{per.name}</b>
             <Link to={`${match.url}/personalSet`} className="fakeBtn">
-              {per.id === JSON.parse(Cookie.getCookie("user")).id
-                ? "更改设置"
-                : ""}
+              {per.id === localStorage.id ? "更改设置" : ""}
             </Link>
             <div className="llSize">{per.email}</div>
           </div>
@@ -34,7 +31,7 @@ const PersonalInfo = ({ match }) => {
           className="personalInfo-btnMarg"
         >
           <button type="button" className="saveBtn personalInfo-saveBtn">
-            {JSON.parse(Cookie.getCookie("user")).role > 1 ? "管理成员" : ""}
+            {localStorage.role > 1 ? "管理成员" : ""}
           </button>
         </Link>
       </div>

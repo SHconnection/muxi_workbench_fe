@@ -6,7 +6,7 @@ import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
 import ManageService from "../../../service/manage";
 import MemberInfo from "../memberInfo/memberInfo";
-import Cookie from "../../../service/cookie";
+import WrongPage from "../../../components/common/wrongPage/wrongPage";
 import "../../../static/css/common.css";
 import "./teamMember.css";
 
@@ -35,6 +35,7 @@ class TeamMember extends Component {
     };
 
     this.present = this.present.bind(this);
+    this.cancel = this.cancel.bind(this);
   }
 
   componentDidMount() {
@@ -53,7 +54,7 @@ class TeamMember extends Component {
         }
       })
       .catch(error => {
-        console.error(error);
+        this.setState({ wrong: error });
       });
     ManageService.getAllGroup()
       .then(group => {
@@ -77,8 +78,12 @@ class TeamMember extends Component {
         }
       })
       .catch(error => {
-        console.error(error);
+        this.setState({ wrong: error });
       });
+  }
+
+  cancel() {
+    this.setState({ wrong: "" });
   }
 
   present(id) {
@@ -98,12 +103,12 @@ class TeamMember extends Component {
         }
       })
       .catch(error => {
-        console.error(error);
+        this.setState({ wrong: error });
       });
   }
 
   render() {
-    const { members, selectedID, groupList } = this.state;
+    const { members, selectedID, groupList, wrong } = this.state;
     const { match } = this.props;
 
     return (
@@ -148,9 +153,7 @@ class TeamMember extends Component {
               className="fakeBtn teamMember-fakeMarg"
               to={`${match.url}/setManager`}
             >
-              {JSON.parse(Cookie.getCookie("user")).role > 3
-                ? "设置管理员"
-                : ""}
+              {localStorage.role > 3 ? "设置管理员" : ""}
             </Link>
             <Link
               className="fakeBtn teamMember-fakeMarg"
@@ -159,7 +162,7 @@ class TeamMember extends Component {
               添加成员
             </Link>
             <Link className="fakeBtn" to={`${match.url}/groupManage`}>
-              {JSON.parse(Cookie.getCookie("user")).role > 1 ? "管理分组" : ""}
+              {localStorage.role > 1 ? "管理分组" : ""}
             </Link>
           </div>
         </div>
@@ -176,6 +179,7 @@ class TeamMember extends Component {
             </div>
           );
         })}
+        <WrongPage info={wrong} cancel={this.cancel} />
       </div>
     );
   }

@@ -8,7 +8,6 @@ import MessageService from "../../../../service/message";
 import WrongPage from "../../../../components/common/wrongPage/wrongPage";
 import "../../../../static/css/common.css";
 import "./personalAttention.css";
-import Cookie from "../../../../service/cookie";
 
 class PersonalAttention extends Component {
   constructor(props) {
@@ -26,7 +25,7 @@ class PersonalAttention extends Component {
   }
 
   componentDidMount() {
-    const per = JSON.parse(Cookie.getCookie("per"));
+    const per = JSON.parse(localStorage.per);
 
     MessageService.getPersonalAttention(per.id)
       .then(attention => {
@@ -64,8 +63,7 @@ class PersonalAttention extends Component {
 
   render() {
     const { data, deleteX, members, wrong } = this.state;
-    const per = JSON.parse(Cookie.getCookie("per"));
-    const user = JSON.parse(Cookie.getCookie("user"));
+    const per = JSON.parse(localStorage.per);
 
     return (
       <div className="present">
@@ -101,7 +99,7 @@ class PersonalAttention extends Component {
                     }}
                     onKeyDown={this.handleClick}
                   >
-                    {user.id === per.id ? "取消关注" : ""}
+                    {localStorage.id === per.id ? "取消关注" : ""}
                   </span>
                 </div>
               </div>

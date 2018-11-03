@@ -2,7 +2,6 @@ import React from "react";
 import { Redirect } from "react-router";
 import ManageService from "../service/manage";
 import LandingService from "../service/landing";
-import Cookie from "../service/cookie";
 
 // const Email = LandingService.getEmail();
 // const user1 = LandingService.getUsername(Email);
@@ -26,23 +25,15 @@ class Landing extends React.Component {
   }
 
   componentDidMount() {
-    LandingService.getToken(data1).then(response => {
-      if (response === "401 Verify Failed") {
-        LandingService.SignUp(data).then(response1 => {
-          if (response1 !== "401 Verify Failed")
-            this.setState({
-              loginSuccess: 2
-            });
-        });
-      } else {
-        const user = {};
-        user.token = response.token;
-        user.role = response.urole;
-        user.id = response.uid;
-        Cookie.setCookie("user", JSON.stringify(user));
-        ManageService.getPersonalSet(user.id)
+    LandingService.getToken(data1)
+      .then(response => {
+        localStorage.id = response.uid;
+        localStorage.token = response.token;
+        localStorage.role = response.role;
+
+        ManageService.getPersonalSet(response.uid)
           .then(res => {
-            Cookie.setCookie("userAvatar", res.avatar);
+            localStorage.avatar = res.avatar;
           })
           .catch(error => {
             console.error(error);
@@ -50,8 +41,18 @@ class Landing extends React.Component {
         this.setState({
           loginSuccess: 1
         });
-      }
-    });
+      })
+      .catch(error => {
+        LandingService.SignUp(data)
+          .then(() => {
+            this.setState({
+              loginSuccess: 2
+            });
+          })
+          .catch(error => {
+            console.log(error);
+          });
+      });
   }
 
   render() {
