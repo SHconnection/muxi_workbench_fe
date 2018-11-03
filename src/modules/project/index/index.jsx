@@ -14,7 +14,7 @@ class Index extends Component {
   }
 
   componentWillMount() {
-    const userID = Cookie.getCookie("uid");
+    const userID = JSON.parse(Cookie.getCookie("user")).id;
     ProjectService.getAllProjectList(userID)
       .then(res => {
         const project = res

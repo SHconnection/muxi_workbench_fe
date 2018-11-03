@@ -10,7 +10,7 @@ const FileService = {
         foldername,
         project_id: pid
       },
-      token: Cookie.getCookie("workbench_token")
+      token: JSON.parse(Cookie.getCookie("user")).token
     });
   },
 
@@ -22,7 +22,7 @@ const FileService = {
         foldername,
         project_id: pid
       },
-      token: Cookie.getCookie("workbench_token")
+      token: JSON.parse(Cookie.getCookie("user")).token
     });
   },
 
@@ -31,7 +31,7 @@ const FileService = {
     return Fetch(`/folder/file/children/`, {
       method: "POST",
       data: postData,
-      token: Cookie.getCookie("workbench_token")
+      token: JSON.parse(Cookie.getCookie("user")).token
     });
   },
 
@@ -40,7 +40,7 @@ const FileService = {
     return Fetch(`/folder/doc/children/`, {
       method: "POST",
       data: postData,
-      token: Cookie.getCookie("workbench_token")
+      token: JSON.parse(Cookie.getCookie("user")).token
     });
   },
 
@@ -48,7 +48,7 @@ const FileService = {
   getDocContent(id) {
     return Fetch(`/file/doc/${id}`, {
       method: "GET",
-      token: Cookie.getCookie("workbench_token")
+      token: JSON.parse(Cookie.getCookie("user")).token
     });
   },
 
@@ -58,7 +58,7 @@ const FileService = {
       method: "POST",
       body: formData,
       headers: {
-        token: Cookie.getCookie("workbench_token")
+        token: JSON.parse(Cookie.getCookie("user")).token
       }
     });
   },
@@ -68,7 +68,7 @@ const FileService = {
     return Fetch(`/file/doc/`, {
       method: "POST",
       data: postData,
-      token: Cookie.getCookie("workbench_token")
+      token: JSON.parse(Cookie.getCookie("user")).token
     });
   },
 
@@ -76,7 +76,7 @@ const FileService = {
   deleteFile(id) {
     return Fetch(`/file/file/${id}/`, {
       method: "DELETE",
-      token: Cookie.getCookie("workbench_token")
+      token: JSON.parse(Cookie.getCookie("user")).token
     });
   },
 
@@ -85,7 +85,7 @@ const FileService = {
     return Fetch(`/folder/file/${id}/`, {
       method: "DELETE",
       data: postData,
-      token: Cookie.getCookie("workbench_token")
+      token: JSON.parse(Cookie.getCookie("user")).token
     });
   },
 
@@ -93,7 +93,7 @@ const FileService = {
   deleteDoc(id) {
     return Fetch(`/file/doc/${id}/`, {
       method: "DELETE",
-      token: Cookie.getCookie("workbench_token")
+      token: JSON.parse(Cookie.getCookie("user")).token
     });
   },
 
@@ -102,14 +102,14 @@ const FileService = {
     return Fetch(`/folder/doc/${id}/`, {
       method: "DELETE",
       data: postData,
-      token: Cookie.getCookie("workbench_token")
+      token: JSON.parse(Cookie.getCookie("user")).token
     });
   },
 
   // 获取文档内容
   getDocConnent(id) {
     return Fetch(`/file/doc/${id}/`, {
-      token: Cookie.getCookie("workbench_token")
+      token: JSON.parse(Cookie.getCookie("user")).token
     });
   },
 
@@ -118,7 +118,7 @@ const FileService = {
     return Fetch(`/file/doc/${id}/`, {
       method: "PUT",
       data: postData,
-      token: Cookie.getCookie("workbench_token")
+      token: JSON.parse(Cookie.getCookie("user")).token
     });
   }
 };

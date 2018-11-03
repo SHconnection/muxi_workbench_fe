@@ -4,7 +4,7 @@ import Cookie from "./cookie";
 const StatusService = {
   addNewStatu(title, content) {
     return Fetch("/status/new/", {
-      token: Cookie.getCookie("workbench_token"),
+      token: JSON.parse(Cookie.getCookie("user")).token,
       method: "POST",
       data: {
         content,
@@ -14,7 +14,7 @@ const StatusService = {
   },
   changeStatu(sid, title, content) {
     return Fetch(`/status/${sid}/`, {
-      token: Cookie.getCookie("workbench_token"),
+      token: JSON.parse(Cookie.getCookie("user")).token,
       method: "PUT",
       data: {
         content,
@@ -25,48 +25,48 @@ const StatusService = {
 
   getStatusList(page) {
     return Fetch(`/status/list/${page}/`, {
-      token: Cookie.getCookie("workbench_token")
+      token: JSON.parse(Cookie.getCookie("user")).token
     });
   },
   getPersonalStatus(uid, page) {
     return Fetch(`/status/${uid}/list/${page}/`, {
-      token: Cookie.getCookie("workbench_token")
+      token: JSON.parse(Cookie.getCookie("user")).token
     });
   },
   getStatuDetail(sid) {
     return Fetch(`/status/${sid}/`, {
-      token: Cookie.getCookie("workbench_token")
+      token: JSON.parse(Cookie.getCookie("user")).token
     });
   },
   editStatu(sid) {
     return Fetch(`/status/${sid}/`, {
-      token: Cookie.getCookie("workbench_token")
+      token: JSON.parse(Cookie.getCookie("user")).token
     });
   },
   changeLike(sid, iflike) {
     return Fetch(`/status/${sid}/like/`, {
       method: "PUT",
-      token: Cookie.getCookie("workbench_token"),
+      token: JSON.parse(Cookie.getCookie("user")).token,
       data: { iflike }
     });
   },
   postComments(sid, content) {
     return Fetch(`/status/${sid}/comments/`, {
       method: "POST",
-      token: Cookie.getCookie("workbench_token"),
+      token: JSON.parse(Cookie.getCookie("user")).token,
       data: { content }
     });
   },
   commentDelete(cid, sid) {
     return Fetch(`/status/${sid}/comment/${cid}/`, {
       method: "DELETE",
-      token: Cookie.getCookie("workbench_token")
+      token: JSON.parse(Cookie.getCookie("user")).token
     });
   },
   statusDelete(staId) {
     return Fetch(`/status/${staId}/`, {
       method: "DELETE",
-      token: Cookie.getCookie("workbench_token")
+      token: JSON.parse(Cookie.getCookie("user")).token
     });
   }
 };

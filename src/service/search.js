@@ -5,7 +5,7 @@ const SearchService = {
   getSearchResults(page, searchtext, pid) {
     return Fetch(`/search/?page=${page}`, {
       method: "POST",
-      token: Cookie.getCookie("workbench_token"),
+      token: JSON.parse(Cookie.getCookie("user")).token,
       data: {
         pattern: searchtext,
         projectID: pid

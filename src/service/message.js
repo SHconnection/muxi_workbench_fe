@@ -4,14 +4,14 @@ import Cookie from "./cookie";
 const MessageService = {
   getPersonalAttention(userID) {
     return Fetch(`/user/attention/?id=${userID}`, {
-      token: Cookie.getCookie("workbench_token")
+      token: JSON.parse(Cookie.getCookie("user")).token
     });
   },
 
   attentionDel(filename) {
     return Fetch("/user/attention/", {
       method: "DELETE",
-      token: Cookie.getCookie("workbench_token"),
+      token: JSON.parse(Cookie.getCookie("user")).token,
       data: {
         fileName: filename
       }
@@ -21,7 +21,7 @@ const MessageService = {
   makeNewMessage(receiver, maker, action) {
     return Fetch("/message/new/", {
       method: "POST",
-      token: Cookie.getCookie("workbench_token"),
+      token: JSON.parse(Cookie.getCookie("user")).token,
       data: {
         receiver,
         maker,
@@ -33,7 +33,7 @@ const MessageService = {
 
   getMessageList(page) {
     return Fetch(`/message/list/?page=${page}/`, {
-      token: Cookie.getCookie("workbench_token"),
+      token: JSON.parse(Cookie.getCookie("user")).token,
       data: {
         page
       }
@@ -43,7 +43,7 @@ const MessageService = {
   messageAllRead(username) {
     return Fetch("/message/readAll/", {
       method: "POST",
-      token: Cookie.getCookie("workbench_token"),
+      token: JSON.parse(Cookie.getCookie("user")).token,
       data: {
         username
       }
@@ -52,7 +52,7 @@ const MessageService = {
 
   getAMessage(username, mid) {
     return Fetch(`/message/${username}/${mid}/`, {
-      token: Cookie.getCookie("workbench_token")
+      token: JSON.parse(Cookie.getCookie("user")).token
     });
   },
 
@@ -63,7 +63,7 @@ const MessageService = {
       data: {
         fileID: id
       },
-      token: Cookie.getCookie("workbench_token")
+      token: JSON.parse(Cookie.getCookie("user")).token
     });
   },
 
@@ -74,7 +74,7 @@ const MessageService = {
       data: {
         fileID: id
       },
-      token: Cookie.getCookie("workbench_token")
+      token: JSON.parse(Cookie.getCookie("user")).token
     });
   },
 
@@ -82,7 +82,7 @@ const MessageService = {
   getMyAttentionFiles() {
     return Fetch(`/user/attention/`, {
       method: "GET",
-      token: Cookie.getCookie("workbench_token")
+      token: JSON.parse(Cookie.getCookie("user")).token
     });
   }
 };
