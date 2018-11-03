@@ -1,0 +1,24 @@
+.project-member-header {
+  display: -webkit-flex;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.project-member-header-edit {
+  margin-left: 17px;
+}
+
+.project-memberlist-container {
+  width: 885px;
+  margin-top: 60px;
+  display: -webkit-flex;
+  display: flex;
+  flex-direction: row;
+  /* justify-content: space-between; */
+  flex-wrap: wrap;
+}
+
+.project-memberlist-item {
+  width: 25%;
+}

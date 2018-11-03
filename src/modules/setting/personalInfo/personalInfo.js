@@ -34,7 +34,7 @@ const PersonalInfo = ({ match }) => {
           className="personalInfo-btnMarg"
         >
           <button type="button" className="saveBtn personalInfo-saveBtn">
-            {Cookie.getCookie("role") > 1 ? "管理成员" : ""}
+            {JSON.parse(Cookie.getCookie("user")).role > 1 ? "管理成员" : ""}
           </button>
         </Link>
       </div>

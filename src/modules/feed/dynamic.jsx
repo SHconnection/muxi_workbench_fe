@@ -181,11 +181,11 @@ class Dynamic extends Component {
             });
             const page1 = feeds.pageNum;
             const next = feeds.hasNext;
-            const { feedList } = this.state;
+            const { dataList } = this.state;
             this.setState({
               hasNext: next,
               pageNum: page1,
-              dataList: feedList.concat(arr1),
+              dataList: dataList.concat(arr1),
               isPersonal: 0
             });
           }
@@ -215,11 +215,11 @@ class Dynamic extends Component {
             });
             const page1 = feeds.pageNum;
             const next = feeds.hasNext;
-            const { feedList } = this.state;
+            const { dataList } = this.state;
             this.setState({
               hasNext: next,
               pageNum: page1,
-              dataList: feedList.concat(arr1)
+              dataList: dataList.concat(arr1)
             });
           }
         });

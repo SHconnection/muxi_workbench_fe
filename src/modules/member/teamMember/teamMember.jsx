@@ -148,7 +148,9 @@ class TeamMember extends Component {
               className="fakeBtn teamMember-fakeMarg"
               to={`${match.url}/setManager`}
             >
-              {Cookie.getCookie("role") > 3 ? "设置管理员" : ""}
+              {JSON.parse(Cookie.getCookie("user")).role > 3
+                ? "设置管理员"
+                : ""}
             </Link>
             <Link
               className="fakeBtn teamMember-fakeMarg"
@@ -157,7 +159,7 @@ class TeamMember extends Component {
               添加成员
             </Link>
             <Link className="fakeBtn" to={`${match.url}/groupManage`}>
-              {Cookie.getCookie("role") > 1 ? "管理分组" : ""}
+              {JSON.parse(Cookie.getCookie("user")).role > 1 ? "管理分组" : ""}
             </Link>
           </div>
         </div>

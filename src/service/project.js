@@ -1,18 +1,19 @@
 import Fetch from "./fetch";
-import { ContentMatch } from "prosemirror-model";
+import Cookie from "./cookie";
+// import { ContentMatch } from "prosemirror-model";
 
 const ProjectService = {
   projectDelete(proId) {
     return Fetch(`/project/${proId}/`, {
       method: "DELETE",
-      token: JSON.parse(localStorage.user).token
+      token: Cookie.getCookie("workbench_token")
     });
   },
 
   editProjectMember(proId, selMembers) {
     return Fetch(`/project/${proId}/member/`, {
       method: "PUT",
-      token: JSON.parse(localStorage.user).token,
+      token: Cookie.getCookie("workbench_token"),
       data: {
         userList: selMembers
       }
@@ -22,14 +23,14 @@ const ProjectService = {
   // 获取项目基本信息（name,intro,userCount）
   getProjectInfo(proId) {
     return Fetch(`/project/${proId}/`, {
-      token: localStorage.token
+      token: Cookie.getCookie("workbench_token")
     });
   },
 
   saveProjectSet(proId, textValue, inputValue) {
     return Fetch(`/project/${proId}/`, {
       method: "POST",
-      token: JSON.parse(localStorage.user).token,
+      token: Cookie.getCookie("workbench_token"),
       data: {
         intro: textValue,
         name: inputValue
@@ -37,11 +38,19 @@ const ProjectService = {
     });
   },
 
+  // 获取项目成员
+  getProjectUserList(pid) {
+    return Fetch(`/project/${pid}/member/`, {
+      method: "GET",
+      token: Cookie.getCookie("workbench_token")
+    });
+  },
+
   // 创建项目
   createProject(postData) {
     return Fetch("/project/new/", {
       method: "POST",
-      token: localStorage.token,
+      token: Cookie.getCookie("workbench_token"),
       data: postData
     });
   },
@@ -49,7 +58,7 @@ const ProjectService = {
   // 获取项目列表(默认第一页)
   getProjectList(userID, page = 1) {
     return Fetch(`/user/${userID}/project/list/?page=${page}`, {
-      token: localStorage.token
+      token: Cookie.getCookie("workbench_token")
     });
   },
 
@@ -67,7 +76,7 @@ const ProjectService = {
   // 获取项目的文件树
   getProjectFileTree(pid) {
     return Fetch(`/folder/filetree/${pid}/`, {
-      token: localStorage.token
+      token: Cookie.getCookie("workbench_token")
     });
   },
 
@@ -78,14 +87,14 @@ const ProjectService = {
       data: {
         filetree: fileTreeStr
       },
-      token: localStorage.token
+      token: Cookie.getCookie("workbench_token")
     });
   },
 
   // 获取项目文档树
   getProjectDocTree(pid) {
     return Fetch(`/folder/doctree/${pid}/`, {
-      token: localStorage.token
+      token: Cookie.getCookie("workbench_token")
     });
   },
 
@@ -96,7 +105,7 @@ const ProjectService = {
       data: {
         doctree: docTreeStr
       },
-      token: localStorage.token
+      token: Cookie.getCookie("workbench_token")
     });
   },
 
@@ -107,14 +116,14 @@ const ProjectService = {
       data: {
         content
       },
-      token: localStorage.token
+      token: Cookie.getCookie("workbench_token")
     });
   },
 
   // 获取文件评论列表
   getCommentList(pid, fid, page = 1) {
     return Fetch(`/project/${pid}/file/${fid}/comments/${page}/`, {
-      token: localStorage.token
+      token: Cookie.getCookie("workbench_token")
     });
   },
 
@@ -125,14 +134,14 @@ const ProjectService = {
       data: {
         content
       },
-      token: localStorage.token
+      token: Cookie.getCookie("workbench_token")
     });
   },
 
   // 获取文档评论列表
   getCommentListForDoc(pid, fid, page = 1) {
     return Fetch(`/project/${pid}/doc/${fid}/comments/${page}/`, {
-      token: localStorage.token
+      token: Cookie.getCookie("workbench_token")
     });
   }
 };

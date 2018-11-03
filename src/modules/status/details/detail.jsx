@@ -94,22 +94,25 @@ class Detail extends Component {
   }
 
   sendComment(value, sid) {
-    StatusService.postComments(sid, value);
-    StatusService.getStatuDetail(sid).then(comments => {
-      if (comments) {
-        const arr1 = comments.commentList.map(comment => {
-          const comment1 = comment;
-          const obj = {};
-          obj.cid = comment1.cid;
-          obj.username = comment1.username;
-          obj.avatar = comment1.avatar;
-          obj.time = comment1.time;
-          obj.content = comment1.content;
-          return obj;
-        });
-        this.setState({
-          commentList: arr1,
-          value: ""
+    StatusService.postComments(sid, value).then(result => {
+      if (result !== null) {
+        StatusService.getStatuDetail(sid).then(comments => {
+          if (comments) {
+            const arr1 = comments.commentList.map(comment => {
+              const comment1 = comment;
+              const obj = {};
+              obj.cid = comment1.cid;
+              obj.username = comment1.username;
+              obj.avatar = comment1.avatar;
+              obj.time = comment1.time;
+              obj.content = comment1.content;
+              return obj;
+            });
+            this.setState({
+              commentList: arr1,
+              value: ""
+            });
+          }
         });
       }
     });

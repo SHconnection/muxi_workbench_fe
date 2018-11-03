@@ -6,6 +6,7 @@ import ManageService from "../../../service/manage";
 import ProjectService from "../../../service/project";
 import "../../../static/css/common.css";
 import "./index.css";
+import Cookie from "../../../service/cookie";
 
 const gotoBack = () => {
   window.history.back();
@@ -178,7 +179,7 @@ class NewProject extends Component {
       return user;
     });
     const postData = {
-      username: localStorage.username,
+      username: Cookie.getCookie("username"),
       projectname,
       userlist,
       intro
@@ -187,14 +188,14 @@ class NewProject extends Component {
       .then(res => {
         initProjectTree(res.project_id)
           .then(() => {
-            window.location.href = `./${res.project_id}/preview`
+            window.location.href = `./${res.project_id}/preview`;
           })
           .catch(res1 => {
-            console.error("error", res1)
+            console.error("error", res1);
           });
       })
       .catch(res => {
-        console.error("error", res)
+        console.error("error", res);
       });
   }
 

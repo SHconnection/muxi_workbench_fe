@@ -12,6 +12,12 @@ import "./index.css";
 class Search extends Component {
   constructor(props) {
     super(props);
+    this.changeProject = this.changeProject.bind(this);
+    this.searching = this.searching.bind(this);
+    this.enterSearch = this.enterSearch.bind(this);
+    this.changSearchText = this.changSearchText.bind(this);
+    this.encode = window.location.href.split("/").pop(); // 编码后的url
+    this.uncode = decodeURIComponent(decodeURIComponent(this.encode)); // 解码后的url
     this.state = {
       projectOption: [],
       projectCheckedIndex: 0,
@@ -22,83 +28,134 @@ class Search extends Component {
         hasNext: true,
         list: []
       },
-      searchText: "",
-      fromHeader: true
+      filterList: [],
+      encodeText: this.encode,
+      searchText: this.uncode
     };
-    this.changeProject = this.changeProject.bind(this);
-    this.searching = this.searching.bind(this);
-    this.enterSearch = this.enterSearch.bind(this);
-    this.searchtext = window.location.href.split("/").pop();
   }
 
   componentDidMount() {
-    // const { searchtext, projectOption, projectCheckedIndex } = this.state;
     const { projectOption } = this.state;
-    ProjectService.getProjectList(1).then(res => {
-      // console.log(res.list);
-      const projectList = res.list;
-      const arr = projectList.map(el => {
-        const el1 = { id: 0, value: "" };
-        el1.id = el.projectID;
-        el1.value = el.projectName;
-        return el1;
+    ProjectService.getProjectList(1)
+      .then(res => {
+        // console.log(res.list);
+        const projectList = res.list;
+        const arr = projectList.map(el => {
+          const el1 = { id: 0, value: "" };
+          el1.id = el.projectID;
+          el1.value = el.projectName;
+          return el1;
+        });
+        arr.unshift({ id: 0, value: "所有项目" });
+        this.setState({
+          projectOption: projectOption.concat(arr)
+        });
+      })
+      .then(() => {
+        this.searching();
       });
-      arr.unshift({ id: 0, value: "所有项目" });
-      // console.log(arr)
-
-      this.setState({
-        projectOption: projectOption.concat(arr)
-      });
-    });
-    this.searching();
   }
 
   changeProject(index) {
+    const { projectOption, searchResult } = this.state;
     this.setState({
       projectCheckedIndex: index
     });
-    this.searching();
+    // console.log(searchResult);
+    const result = searchResult.list.filter(item => {
+      if (index) {
+        return item.projectID === projectOption[index].id;
+      }
+      return true;
+    });
+    this.setState({
+      filterList: result
+    });
   }
 
   searching() {
     const {
+      encodeText,
       searchText,
       projectOption,
-      projectCheckedIndex,
-      fromHeader
+      projectCheckedIndex
     } = this.state;
-    SearchService.getSearchResults(
-      1,
-      searchText,
-      projectOption[projectCheckedIndex]
-    ).then(res => {
+    const pid = projectOption[projectCheckedIndex].id;
+    SearchService.getSearchResults(1, searchText, pid).then(res => {
       this.setState({
-        searchResult: res
+        searchResult: res,
+        filterList: res.list
       });
-      console.log(res.list);
+      // console.log(res.list);
     });
-    if (fromHeader) {
-      this.setState({
-        fromHeader: false
-      });
-    } else {
-      window.location.href = `${searchText}`;
-    }
+    // const test = {
+    //   count: 3,
+    //   pageMax: 1,
+    //   pageNow: 1,
+    //   hasNext: false,
+    //   list: [
+    //       {
+    //         kind: 0,
+    //         sourceID: 1,
+    //         recordName: "Web页面UI常识",
+    //         intro:
+    //           "首先，在做页面之前，把竞品的页面都列出来，自己好好看一下，找找共同点。 整体的色调、风格、布局等做之前脑子里有个概念。 可以用什么字体？ 字体大小怎么确定？ 导航、字体、背景等等的颜色可以随便用吗？ 水平和垂直的间距、水平布局时每一块内容的宽度等等是如何确定的？ 页面画布多大？页面主体内容多宽？ 移动端页面在布局上有什么特点？首先，在做页面之前，把竞品的页面都列出来，自己好好看一下，找找共同点。 整体的色调、风格、布局等做之前脑子里有个概念。 可以用什么字体？ 字体大小怎么确定？ 导航、字体、背景等等的颜色可以随便用吗？ 水平和垂直的间距、水平布局时每一块内容的宽度等等是如何确定的？ 页面画布多大？页面主体内容多宽？ 移动端页面在布局上有什么特点？",
+    //         projectID: 48,
+    //         projectName: "这世界就是你的",
+    //         creator: "赵鑫晖",
+    //         time: "1月1日"
+    //       },
+    //       {
+    //         kind: 1,
+    //         sourceID: 1,
+    //         recordName: "web@2xxxxxxxxx.jpg",
+    //         intro: "",
+    //         projectID: 50,
+    //         projectName: "这世界就是你的",
+    //         creator: "木小犀",
+    //         time: "1月1日"
+    //       },
+    //       {
+    //         kind: 0,
+    //         sourceID: 1,
+    //         recordName: "Web页面UI常识",
+    //         intro:
+    //           "首先，在做页面之前，把竞品的页面都列出来，自己好好看一下，找找共同点。 整体的色调、风格、布局等做之前脑子里有个概念。 可以用什么字体？ 字体大小怎么确定？ 导航、字体、背景等等的颜色可以随便用吗？ 水平和垂直的间距、水平布局时每一块内容的宽度等等是如何确定的？ 页面画布多大？页面主体内容多宽？ 移动端页面在布局上有什么特点？首先，在做页面之前，把竞品的页面都列出来，自己好好看一下，找找共同点。 整体的色调、风格、布局等做之前脑子里有个概念。 可以用什么字体？ 字体大小怎么确定？ 导航、字体、背景等等的颜色可以随便用吗？ 水平和垂直的间距、水平布局时每一块内容的宽度等等是如何确定的？ 页面画布多大？页面主体内容多宽？ 移动端页面在布局上有什么特点？",
+    //         projectID: 51,
+    //         projectName: "这世界就是你的",
+    //         creator: "赵鑫晖",
+    //         time: "1月1日"
+    //       }]
+
+    // }
+    // this.setState({
+    //   searchResult: test,
+    //   filterList: test.list,
+    // })
+    window.history.pushState(this.state, "", `${encodeText}`);
   }
 
   enterSearch(e) {
-    if (e.target.value !== "") {
-      this.setState({
-        searchText: e.target.value
-      });
-    }
     if (e.keyCode === 13) {
       this.searching();
     }
   }
 
+  changSearchText(event) {
+    const encode = encodeURIComponent(encodeURIComponent(event.target.value));
+    this.setState({
+      encodeText: encode,
+      searchText: event.target.value
+    });
+  }
+
   render() {
-    const { projectOption, projectCheckedIndex, searchResult } = this.state;
+    const {
+      projectOption,
+      projectCheckedIndex,
+      filterList,
+      searchText
+    } = this.state;
     return (
       <div className="subject">
         <div className="search-container">
@@ -115,7 +172,8 @@ class Search extends Component {
               className="search-input"
               placeholder=""
               onKeyUp={this.enterSearch}
-              defaultValue={this.searchtext}
+              onChange={this.changSearchText}
+              value={searchText}
             />
             <div className="search-but">
               <Button
@@ -128,8 +186,8 @@ class Search extends Component {
             </div>
           </div>
           <div className="search-results">
-            {searchResult.count ? (
-              searchResult.list.map(el => (
+            {filterList.length ? (
+              filterList.map(el => (
                 <div className="search-item" key={el.sourceID}>
                   <div className="search-item-kind">
                     {el.kind === 0 ? "文档：" : "文件："}
