@@ -66,19 +66,19 @@ export default function FetchData(url, opt = {}) {
         return response.json();
 
       case 401:
-        throw "401 Verify Failed";
+        throw "未授权";
 
       case 403:
-        throw "403 Forbidden";
+        throw "没有权限访问";
 
       case 404:
-        throw "404 Not Found";
+        throw "页面地址错误";
 
       case 500:
-        throw "500 Internal Server Error";
+        throw "服务器错误";
 
       case 502:
-        throw "502 Bad Gateway";
+        throw "网关错误";
 
       default:
         throw "Wrong";

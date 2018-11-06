@@ -15,6 +15,7 @@ import Goback from "../../../../components/common/goBack/index";
 import "../../../../static/css/common.css";
 import "../../../status/markdown/edit.css";
 import "./index.css";
+import Cookie from "../../../../service/cookie";
 
 class DocPreview extends Component {
   constructor(props) {
@@ -391,7 +392,7 @@ class DocPreview extends Component {
           <div className="send">
             <Avatar
               className="comment-img"
-              src={localStorage.userAvatar}
+              src={Cookie.getCookie("userAvatar")}
               width={49}
               height={49}
             />

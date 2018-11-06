@@ -3,45 +3,47 @@ import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
 import ProjectService from "../../../../service/project";
 import GoBack from "../../../../components/common/goBack/index";
-import MemberInfo from "../../../member/memberInfo/memberInfo"
+import MemberInfo from "../../../member/memberInfo/memberInfo";
 import "./index.css";
 
 class Member extends Component {
   constructor(props) {
-    super(props)
-    const { match } = this.props
-    console.log(match)
+    super(props);
+    const { match } = this.props;
+    console.log(match);
     this.state = {
       pid: match.params.id,
-      memberList: [],
-    }
-    this.getUserList = this.getUserList.bind(this)
-    this.getUserList()
+      memberList: []
+    };
+    this.getUserList = this.getUserList.bind(this);
+    this.getUserList();
   }
 
   getUserList() {
-    const { pid } = this.state
+    const { pid } = this.state;
     ProjectService.getProjectUserList(pid)
       .then(res => {
-        res.memberList.shift()
+        res.memberList.shift();
         this.setState({
           memberList: res.memberList
-        })
+        });
       })
       .catch(error => {
-        console.error(error)
-      })
+        console.error(error);
+      });
   }
 
   render() {
-    const { memberList } = this.state
+    const { memberList } = this.state;
     return (
       <div className="projectDetail-container">
         <GoBack />
         <div className="projectDetail-content">
           <div className="project-member-header">
             <div className="title">项目成员</div>
-            <Link to="./editMem" className="project-member-header-edit fakeBtn">编辑</Link>
+            <Link to="./editMem" className="project-member-header-edit fakeBtn">
+              编辑
+            </Link>
           </div>
           <div className="project-memberlist-container">
             {memberList.map(res => (
@@ -51,9 +53,8 @@ class Member extends Component {
             ))}
           </div>
         </div>
-        
       </div>
-    )
+    );
   }
 }
 
@@ -61,10 +62,10 @@ Member.propTypes = {
   match: PropTypes.shape({
     url: PropTypes.string
   })
-}
+};
 
 Member.defaultProps = {
   match: {}
-}
+};
 
 export default Member;

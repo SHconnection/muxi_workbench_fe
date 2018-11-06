@@ -5,6 +5,7 @@
 import React, { Component } from "react";
 import GoBack from "../../../components/common/goBack/index";
 import ManageService from "../../../service/manage";
+import WrongPage from "../../../components/common/wrongPage/wrongPage";
 import "../../../static/css/common.css";
 import "./joinApply.css";
 
@@ -13,65 +14,98 @@ class JoinApply extends Component {
     super(props);
 
     this.state = {
-      members: []
+      members: [],
+      display: false,
+      wrong: ""
     };
+
+    this.save = this.save.bind(this);
+    this.del = this.del.bind(this);
+    this.saveAll = this.saveAll.bind(this);
+    this.transform = this.transform.bind(this);
+    this.cancel = this.cancel.bind(this);
   }
 
   componentDidMount() {
-    const joinList = ManageService.getJoinApply().catch(error => {
-      console.error(error);
-    });
+    ManageService.getJoinApply()
+      .then(persons => {
+        const joinList = persons.list.map(person => {
+          const obj = {};
 
-    this.setState({ members: joinList });
+          obj.id = person.userID;
+          obj.name = person.userName;
+          obj.email = person.userEmail;
 
-    return true;
+          return obj;
+        });
+
+        this.setState({ members: joinList });
+      })
+      .catch(error => {
+        this.setState({ wrong: error });
+      });
   }
 
   save(mem1) {
     const mem = mem1;
-
-    mem.dealed = true;
+    const { members } = this.state;
 
     ManageService.addMember(mem.id).catch(error => {
-      console.error(error);
+      this.setState({ wrong: error });
     });
-    ManageService.dealJoinApply(mem.id).catch(error => {
-      console.error(error);
-    });
-
-    return this;
+    ManageService.dealJoinApply(mem.id)
+      .then(() => {
+        mem.dealed = true;
+        this.setState({ members });
+      })
+      .catch(error => {
+        this.setState({ wrong: error });
+      });
   }
 
   del(mem1) {
     const mem = mem1;
+    const { members } = this.state;
 
-    mem.dealed = true;
+    ManageService.dealJoinApply(mem.id)
+      .then(() => {
+        mem.dealed = true;
+        this.setState({ members });
+      })
+      .catch(error => {
+        this.setState({ wrong: error });
+      });
+  }
 
-    ManageService.dealJoinApply(mem.id).catch(error => {
-      console.error(error);
-    });
-
-    return this;
+  cancel() {
+    this.setState({ wrong: "" });
   }
 
   saveAll() {
     const { members: arr1 } = this.state;
+    const { info } = this.props;
 
     arr1.map(mem1 => {
       const mem = mem1;
 
-      mem.dealed = true;
-
-      ManageService.addMember(mem.id).catch(error => {
-        console.error(error);
-      });
+      ManageService.addMember(mem.id)
+        .then(() => {
+          mem.dealed = true;
+        })
+        .catch(error => {
+          this.setState({ wrong: error });
+        });
 
       return mem;
     });
   }
 
+  transform(value) {
+    this.setState({ display: value });
+  }
+
   render() {
-    const { members } = this.state;
+    const { members, wrong, display } = this.state;
 
     return (
       <div className="subject minH">
@@ -121,6 +155,7 @@ class JoinApply extends Component {
             );
           }, this)}
         </div>
+        <WrongPage info={wrong} cancel={this.cancel} />
       </div>
     );
   }

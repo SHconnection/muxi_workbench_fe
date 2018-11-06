@@ -6,6 +6,7 @@ import GoBack from "../../../components/common/goBack/index";
 import Member from "../components/member/member";
 import Save from "../components/save/save";
 import ManageService from "../../../service/manage";
+import WrongPage from "../../../components/common/wrongPage/wrongPage";
 import "../../../static/css/common.css";
 import "./personalSetting.css";
 
@@ -23,7 +24,8 @@ class PersonalSet extends Component {
       inputName: "",
       inputMailbox: "",
       inputPhone: "",
-      img: ""
+      img: "",
+      wrong: ""
     };
 
     this.savePersonalSet = this.savePersonalSet.bind(this);
@@ -32,6 +34,7 @@ class PersonalSet extends Component {
     this.changePhone = this.changePhone.bind(this);
     this.transferMsgMem = this.transferMsgMem.bind(this);
     this.changeImg = this.changeImg.bind(this);
+    this.cancel = this.cancel.bind(this);
   }
 
   componentDidMount() {
@@ -53,7 +56,7 @@ class PersonalSet extends Component {
         });
       })
       .catch(error => {
-        console.error(error);
+        this.setState({ wrong: error });
       });
   }
 
@@ -97,7 +100,7 @@ class PersonalSet extends Component {
     data.append("image", img);
 
     ManageService.savePersonalSet(per.id, obj).catch(error => {
-      console.error(error);
+      this.setState({ wrong: error });
     });
     ManageService.savePersonalAvatar(data)
       .then(response => {
@@ -110,7 +113,7 @@ class PersonalSet extends Component {
         }
       })
       .catch(error => {
-        console.error(error);
+        this.setState({ wrong: error });
       });
   }
 
@@ -135,6 +138,10 @@ class PersonalSet extends Component {
     return this;
   }
 
+  cancel() {
+    this.setState({ wrong: "" });
+  }
+
   render() {
     const {
       members,
@@ -143,7 +150,8 @@ class PersonalSet extends Component {
       inputName,
       inputPhone,
       inputMailbox,
-      img
+      img,
+      wrong
     } = this.state;
 
     return (
@@ -221,6 +229,8 @@ class PersonalSet extends Component {
         </div>
 
         <Save ifSave={ifSave} />
+
+        <WrongPage info={wrong} cancel={this.cancel} />
       </div>
     );
   }

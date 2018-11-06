@@ -4,9 +4,10 @@ import logo from "../../../assets/img/logo@2x.png";
 import searchIcon from "../../../assets/img/search@2x.png";
 import Avatar from "../avatar/index";
 import Inform from "./inform/index";
+import Cookie from "../../../service/cookie";
 import "./index.css";
 
-const AvatarImg = localStorage.userAvatar;
+const AvatarImg = Cookie.getCookie("userAvatar");
 
 class Header extends Component {
   constructor(props) {

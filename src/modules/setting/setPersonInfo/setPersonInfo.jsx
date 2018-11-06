@@ -7,6 +7,7 @@ import Member from "../components/member/member";
 import Delete from "../components/delete/delete";
 import Save from "../components/save/save";
 import ManageService from "../../../service/manage";
+import WrongPage from "../../../components/common/wrongPage/wrongPage";
 import "../../../static/css/common.css";
 import "./setPersonInfo.css";
 
@@ -23,7 +24,8 @@ class SetPersonalInfo extends Component {
       ],
       ifSave: false,
       deleteX: false,
-      deled: false
+      deled: false,
+      wrong: ""
     };
 
     this.transferMsgMem = this.transferMsgMem.bind(this);
@@ -31,12 +33,11 @@ class SetPersonalInfo extends Component {
     this.selAll = this.selAll.bind(this);
     this.saveModifyMember = this.saveModifyMember.bind(this);
     this.transferMsgIden = this.transferMsgIden.bind(this);
+    this.cancel = this.cancel.bind(this);
   }
 
   componentDidMount() {
     const per = JSON.parse(localStorage.per);
-    const user = JSON.parse(localStorage.user);
-    // console.log(per.id)
     const { identity, selIdentities } = this.state;
 
     if (per.role > 1) {
@@ -50,7 +51,7 @@ class SetPersonalInfo extends Component {
       selIdentities[0] = 1;
     }
 
-    ManageService.getPersonalPro(user.id)
+    ManageService.getPersonalPro(localStorage.id)
       .then(project => {
         if (project) {
           const proList = project.list.map(item => {
@@ -89,13 +90,17 @@ class SetPersonalInfo extends Component {
               });
             })
             .catch(error => {
-              console.error(error);
+              this.setState({ wrong: error });
             });
         }
       })
       .catch(error => {
-        console.error(error);
+        this.setState({ wrong: error });
       });
+  }
+
+  cancel() {
+    this.setState({ wrong: "" });
   }
 
   transferMsgIden(mem, selMem) {
@@ -156,7 +161,7 @@ class SetPersonalInfo extends Component {
     const { selIdentities, selMembers } = this.state;
 
     ManageService.saveModifyMemberIdenty(per.id, selIdentities).catch(error => {
-      console.error(error);
+      this.setState({ wrong: error });
     });
     ManageService.saveModifyMemberPro(per.id, selMembers)
       .then(() => {
@@ -167,7 +172,7 @@ class SetPersonalInfo extends Component {
         }, 1000);
       })
       .catch(error => {
-        console.error(error);
+        this.setState({ wrong: error });
       });
   }
 
@@ -180,7 +185,8 @@ class SetPersonalInfo extends Component {
       selMembers,
       ifSave,
       deleteX,
-      deled
+      deled,
+      wrong
     } = this.state;
 
     return (
@@ -258,6 +264,7 @@ class SetPersonalInfo extends Component {
             transferMsg={this.transferMsgDel}
           />
         </div>
+        <WrongPage info={wrong} cancel={this.cancel} />
       </div>
     );
   }

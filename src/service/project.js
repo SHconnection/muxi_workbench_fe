@@ -5,14 +5,14 @@ const ProjectService = {
   projectDelete(proId) {
     return Fetch(`/project/${proId}/`, {
       method: "DELETE",
-      token: JSON.parse(localStorage.user).token
+      token: localStorage.token
     });
   },
 
   editProjectMember(proId, selMembers) {
     return Fetch(`/project/${proId}/member/`, {
       method: "PUT",
-      token: JSON.parse(localStorage.user).token,
+      token: localStorage.token,
       data: {
         userList: selMembers
       }
@@ -29,7 +29,7 @@ const ProjectService = {
   saveProjectSet(proId, textValue, inputValue) {
     return Fetch(`/project/${proId}/`, {
       method: "POST",
-      token: JSON.parse(localStorage.user).token,
+      token: localStorage.token,
       data: {
         intro: textValue,
         name: inputValue
@@ -42,7 +42,7 @@ const ProjectService = {
     return Fetch(`/project/${pid}/member/`, {
       method: "GET",
       token: localStorage.token
-    })
+    });
   },
 
   // 创建项目

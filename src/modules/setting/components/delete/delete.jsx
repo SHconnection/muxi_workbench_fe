@@ -19,6 +19,7 @@ import ProjectService from "../../../../service/project";
 import ManageService from "../../../../service/manage";
 import StatusService from "../../../../service/status";
 import MessageService from "../../../../service/message";
+import WrongPage from "../../../../components/common/wrongPage/wrongPage";
 import "../../../../static/css/common.css";
 import "./delete.css";
 
@@ -26,7 +27,12 @@ class Delete extends Component {
   constructor(props) {
     super(props);
 
+    this.state = {
+      wrong: ""
+    };
+
     this.move = this.move.bind(this);
+    this.cancel = this.cancel.bind(this);
   }
 
   move() {
@@ -56,67 +62,105 @@ class Delete extends Component {
     }
 
     if (groupDel) {
-      ManageService.groupDelete(data.id).catch(error => {
-        console.error(error);
-      });
+      ManageService.groupDelete(data.id)
+        .then(() => {
+          data.dealed = true;
+          transferMsg(false);
+        })
+        .catch(error => {
+          transferMsg(false);
+          this.setState({ wrong: error });
+        });
     }
 
     if (proDel) {
-      ProjectService.projectDelete(proId).catch(error => {
-        console.error(error);
-      });
+      ProjectService.projectDelete(proId)
+        .then(() => {
+          transferMsg(false);
+          window.history.back();
+        })
+        .catch(error => {
+          transferMsg(false);
+          this.setState({ wrong: error });
+        });
     }
 
     if (staDel) {
-      StatusService.statusDelete(staId).catch(error => {
-        console.error(error);
-      });
+      StatusService.statusDelete(staId)
+        .then(() => {
+          transferMsg(false);
+          window.history.back();
+        })
+        .catch(error => {
+          transferMsg(false);
+          this.setState({ wrong: error });
+        });
     }
 
     if (memDel) {
-      ManageService.memberDelete(userId).catch(error => {
-        console.error(error);
-      });
+      ManageService.memberDelete(userId)
+        .then(() => {
+          transferMsg(false);
+          window.history.back();
+        })
+        .catch(error => {
+          transferMsg(false);
+          this.setState({ wrong: error });
+        });
     }
 
     if (attentionDel) {
-      MessageService.attentionDel(data.filename).catch(error => {
-        console.error(error);
-      });
+      MessageService.attentionDel(data.filename)
+        .then(() => {
+          data.dealed = true;
+          transferMsg(false);
+        })
+        .catch(error => {
+          transferMsg(false);
+          this.setState({ wrong: error });
+        });
     }
+  }
+
+  cancel() {
+    this.setState({ wrong: "" });
   }
 
   render() {
     const { name, cancel, deleteX, transferMsg } = this.props;
+    const { wrong } = this.state;
 
     return (
-      <div className={deleteX ? "contain minH" : "none"}>
-        <div className="subject alert">
-          <span>{name}</span>
-          <div className="delete-alertMarg">
-            <button
-              type="button"
-              className={cancel ? "none" : "delBtn delete-btnMarg"}
-              onClick={() => {
-                transferMsg(false);
-              }}
-              onKeyDown={this.handleClick}
-            >
-              取消
-            </button>
-            <button
-              type="button"
-              className="saveBtn delete-btnMarg"
-              onClick={() => {
-                this.move();
-                transferMsg(false);
-              }}
-              onKeyDown={this.handleClick}
-            >
-              确定
-            </button>
+      <div>
+        <div className={deleteX ? "contain minH" : "none"}>
+          <div className="subject alert">
+            <span>{name}</span>
+            <div className="delete-alertMarg">
+              <button
+                type="button"
+                className={cancel ? "none" : "delBtn delete-btnMarg"}
+                onClick={() => {
+                  transferMsg(false);
+                }}
+                onKeyDown={this.handleClick}
+              >
+                取消
+              </button>
+              <button
+                type="button"
+                className="saveBtn delete-btnMarg"
+                onClick={() => {
+                  this.move();
+                }}
+                onKeyDown={this.handleClick}
+              >
+                确定
+              </button>
+            </div>
           </div>
         </div>
+
+        <WrongPage info={wrong} cancel={this.cancel} />
       </div>
     );
   }

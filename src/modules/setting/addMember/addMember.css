@@ -5,6 +5,7 @@
 .addMember-fontStyle {
   color: #108ee9;
   font-size: 12px;
+  cursor: pointer;
 }
 .addMember-fontMargin {
   font-size: 12px;

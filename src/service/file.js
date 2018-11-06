@@ -108,7 +108,7 @@ const FileService = {
   // 获取文档内容
   getDocConnent(id) {
     return Fetch(`/file/doc/${id}/`, {
-      token: JSON.parse(localStorage.user).token
+      token: localStorage.token
     });
   },
 

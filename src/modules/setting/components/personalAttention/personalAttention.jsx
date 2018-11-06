@@ -5,6 +5,7 @@ import React, { Component } from "react";
 import Delete from "../delete/delete";
 import File from "../../../../assets/img/file.png";
 import MessageService from "../../../../service/message";
+import WrongPage from "../../../../components/common/wrongPage/wrongPage";
 import "../../../../static/css/common.css";
 import "./personalAttention.css";
 
@@ -14,11 +15,13 @@ class PersonalAttention extends Component {
     this.state = {
       data: undefined,
       deleteX: false,
-      members: []
+      members: [],
+      wrong: ""
     };
 
     this.transferMsgDel = this.transferMsgDel.bind(this);
     this.delete = this.delete.bind(this);
+    this.cancel = this.cancel.bind(this);
   }
 
   componentDidMount() {
@@ -37,7 +40,7 @@ class PersonalAttention extends Component {
         this.setState({ members: arr });
       })
       .catch(error => {
-        console.error(error);
+        this.setState({ wrong: error });
       });
   }
 
@@ -54,10 +57,13 @@ class PersonalAttention extends Component {
     });
   }
 
+  cancel() {
+    this.setState({ wrong: "" });
+  }
+
   render() {
-    const { data, deleteX, members } = this.state;
+    const { data, deleteX, members, wrong } = this.state;
     const per = JSON.parse(localStorage.per);
-    const user = JSON.parse(localStorage.user);
 
     return (
       <div className="present">
@@ -74,7 +80,10 @@ class PersonalAttention extends Component {
               <div className="personalAttention-vice IB">
                 <span className="llSize">{mem.filename}</span>
                 <br />
-                <span className="tip">项目 ：{mem.projectName}</span>
+                <span className="tip">
+                  项目：
+                  {mem.projectName}
+                </span>
               </div>
 
               <div className="IB">
@@ -90,7 +99,7 @@ class PersonalAttention extends Component {
                     }}
                     onKeyDown={this.handleClick}
                   >
-                    {user.id === per.id ? "取消关注" : ""}
+                    {localStorage.id === per.id ? "取消关注" : ""}
                   </span>
                 </div>
               </div>
@@ -103,9 +112,10 @@ class PersonalAttention extends Component {
           data={data}
           deleteX={deleteX}
           transferMsg={this.transferMsgDel}
-          del
           attentionDel
         />
+
+        <WrongPage info={wrong} cancel={this.cancel} />
       </div>
     );
   }

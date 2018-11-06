@@ -6,6 +6,7 @@ import PropTypes from "prop-types";
 import Member from "../member/member";
 import Save from "../save/save";
 import ManageService from "../../../../service/manage";
+import WrongPage from "../../../../components/common/wrongPage/wrongPage";
 import "../../../../static/css/common.css";
 import "./selectMember.css";
 
@@ -30,12 +31,14 @@ class SelectMember extends Component {
     this.state = {
       selMembers: [],
       members: [],
-      ifSave: false
+      ifSave: false,
+      wrong: ""
     };
 
     this.selAll = this.selAll.bind(this);
     this.transferMsgMem = this.transferMsgMem.bind(this);
     this.save = this.save.bind(this);
+    this.cancel = this.cancel.bind(this);
   }
 
   componentDidMount() {
@@ -73,7 +76,7 @@ class SelectMember extends Component {
                   });
                 })
                 .catch(error => {
-                  console.error(error);
+                  this.setState({ wrong: error });
                 });
             } else {
               this.setState({ members: arr });
@@ -81,7 +84,7 @@ class SelectMember extends Component {
           }
         })
         .catch(error => {
-          console.error(error);
+          this.setState({ wrong: error });
         });
     }
 
@@ -116,14 +119,18 @@ class SelectMember extends Component {
                 });
               })
               .catch(error => {
-                console.error(error);
+                this.setState({ wrong: error });
               });
           }
         })
         .catch(error => {
-          console.error(error);
+          this.setState({ wrong: error });
         });
     }
+  }
+
+  cancel() {
+    this.setState({ wrong: "" });
   }
 
   selAll() {
@@ -185,7 +192,7 @@ class SelectMember extends Component {
           }, 1000);
         })
         .catch(error => {
-          console.error(error);
+          this.setState({ wrong: error });
         });
     }
 
@@ -199,7 +206,7 @@ class SelectMember extends Component {
           }, 1000);
         })
         .catch(error => {
-          console.error(error);
+          this.setState({ wrong: error });
         });
     }
 
@@ -214,7 +221,7 @@ class SelectMember extends Component {
             }, 1000);
           })
           .catch(error => {
-            console.error(error);
+            this.setState({ wrong: error });
           });
 
         return id;
@@ -223,7 +230,7 @@ class SelectMember extends Component {
   }
 
   render() {
-    const { members, selMembers, ifSave } = this.state;
+    const { members, selMembers, ifSave, wrong } = this.state;
 
     return (
       <div className="present">
@@ -247,6 +254,7 @@ class SelectMember extends Component {
         </button>
 
         <Save ifSave={ifSave} />
+        <WrongPage info={wrong} cancel={this.cancel} />
       </div>
     );
   }

@@ -4,6 +4,7 @@
 import React, { Component } from "react";
 import Gotop from "../../components/common/toTop/top";
 import MessageService from "../../service/message";
+import Cookie from "../../service/cookie";
 import "../../static/css/common.css";
 import "./index.css";
 
@@ -33,7 +34,7 @@ class Message extends Component {
   }
 
   readAll() {
-    MessageService.messageAllRead(localStorage.username).then(() => {
+    MessageService.messageAllRead(Cookie.getCookie("username")).then(() => {
       this.getMessage();
     });
   }

@@ -13,19 +13,24 @@ const userLevelSet = {
   1: "普通用户",
   4: "管理员",
   7: "超级管理员"
-}
+};
 
-const userGroup = (group) => {
+const userGroup = group => {
   if (group == null) {
-    return "NoneGroup"
+    return "NoneGroup";
   }
-  return group
-}
+  return group;
+};
 
 const MemberInfo = ({ mem, square }) => (
   <div className="memberInfo-contain">
     <Link to={"/member/teamMember/personalInfo"}>
-      <div className="memberInfo-img">
+      <div
+        className="memberInfo-img"
+        onClick={() => {
+          localStorage.per = JSON.stringify(mem);
+        }}
+      >
         <Avatar width={60} height={60} square={square} src={mem.avatar} />
       </div>
     </Link>

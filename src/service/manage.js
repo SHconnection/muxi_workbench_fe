@@ -4,7 +4,7 @@ const ManageService = {
   // post a new group
   addGroup(groupName, selMembers) {
     return Fetch("/group/new/", {
-      token: JSON.parse(localStorage.user).token,
+      token: localStorage.token,
       method: "POST",
       data: {
         groupName,
@@ -16,7 +16,7 @@ const ManageService = {
   // group user list
   getGroupMember(groupId, page = 1) {
     return Fetch(`/group/${groupId}/userList`, {
-      token: JSON.parse(localStorage.user).token,
+      token: localStorage.token,
       data: {
         page
       }
@@ -47,7 +47,7 @@ const ManageService = {
   */
   getProjectList(page) {
     return Fetch(`/user/project/list`, {
-      token: JSON.parse(localStorage.user).token,
+      token: localStorage.token,
       data: {
         page
       }
@@ -57,7 +57,7 @@ const ManageService = {
   // get project user list
   getProjectUserList(projectId, page) {
     return Fetch(`/project/${projectId}/userList`, {
-      token: JSON.parse(localStorage.user).token,
+      token: localStorage.token,
       data: {
         page
       }
@@ -68,7 +68,7 @@ const ManageService = {
   memberDelete(userID) {
     return Fetch(`/user/${userID}`, {
       method: "DELETE",
-      token: JSON.parse(localStorage.user).token
+      token: localStorage.token
     });
   },
 
@@ -83,7 +83,7 @@ const ManageService = {
   addMember(userID) {
     return Fetch("/user/2bMember/", {
       method: "POST",
-      token: JSON.parse(localStorage.user).token,
+      token: localStorage.token,
       data: {
         userID
       }
@@ -92,20 +92,20 @@ const ManageService = {
 
   groupMember(groupID) {
     return Fetch(`/group/${groupID}/userList/`, {
-      token: JSON.parse(localStorage.user).token
+      // token: localStorage.token,
     });
   },
 
   getProMember(proID) {
     return Fetch(`/project/${proID}/userList/`, {
-      token: JSON.parse(localStorage.user).token
+      token: localStorage.token
     });
   },
 
   updateGroupMember(groupID, userList) {
     return Fetch(`/group/${groupID}/manageUser/`, {
       method: "POST",
-      token: JSON.parse(localStorage.user).token,
+      token: localStorage.token,
       data: {
         userList
       }
@@ -115,20 +115,20 @@ const ManageService = {
   groupDelete(groupID) {
     return Fetch(`/group/${groupID}/`, {
       method: "DELETE",
-      token: JSON.parse(localStorage.user).token
+      token: localStorage.token
     });
   },
 
   getPersonalPro(userID) {
     return Fetch(`/user/${userID}/project/list/`, {
-      token: JSON.parse(localStorage.user).token
+      token: localStorage.token
     });
   },
 
   setManager(userID) {
     return Fetch("/user/addAdmin/", {
       method: "POST",
-      token: JSON.parse(localStorage.user).token,
+      token: localStorage.token,
       data: {
         luckydog: userID
       }
@@ -138,7 +138,7 @@ const ManageService = {
   modifyMemGroup(userID, selMembers) {
     return Fetch(`/user/${userID}/manageGroup/`, {
       method: "POST",
-      token: JSON.parse(localStorage.user).token,
+      token: localStorage.token,
       data: {
         groupID: selMembers[0]
       }
@@ -147,14 +147,14 @@ const ManageService = {
 
   getPersonalSet(userID) {
     return Fetch(`/user/${userID}/setting/`, {
-      token: JSON.parse(localStorage.user).token
+      token: localStorage.token
     });
   },
 
   savePersonalSet(userID, obj) {
     return Fetch(`/user/${userID}/setting/`, {
       method: "POST",
-      token: JSON.parse(localStorage.user).token,
+      token: localStorage.token,
       data: obj
     });
   },
@@ -164,7 +164,7 @@ const ManageService = {
       method: "POST",
       headers: {
         // accept-charset: 'Unicode',
-        token: JSON.parse(localStorage.user).token
+        token: localStorage.token
       },
       body: data
     });
@@ -173,7 +173,7 @@ const ManageService = {
   savePersonalPermiss(userID, selMembers) {
     return Fetch(`/user/${userID}/managePro/`, {
       method: "POST",
-      token: JSON.parse(localStorage.user).token,
+      token: localStorage.token,
       data: {
         projectList: selMembers
       }
@@ -183,7 +183,7 @@ const ManageService = {
   saveModifyMemberIdenty(userID, selIdentities) {
     return Fetch(`/user/${userID}/setRole/`, {
       method: "POST",
-      token: JSON.parse(localStorage.user).token,
+      token: localStorage.token,
       data: {
         role: selIdentities[0]
       }
@@ -193,7 +193,7 @@ const ManageService = {
   saveModifyMemberPro(userID, selMembers) {
     return Fetch(`/user/${userID}/managePro/`, {
       method: "POST",
-      token: JSON.parse(localStorage.user).token,
+      token: localStorage.token,
       data: {
         projectList: selMembers
       }
@@ -202,20 +202,20 @@ const ManageService = {
 
   getJoinApply() {
     return Fetch("/team/applyList/", {
-      token: JSON.parse(localStorage.user).token
+      token: localStorage.token
     });
   },
 
   dealJoinApply(userID) {
     return Fetch(`/team/apply/${userID}/`, {
       method: "DELETE",
-      token: JSON.parse(localStorage.user).token
+      token: localStorage.token
     });
   },
 
   getAdminList() {
     return Fetch("/user/admins/", {
-      token: JSON.parse(localStorage.user).token
+      token: localStorage.token
     });
   },
 
@@ -225,6 +225,12 @@ const ManageService = {
 
   getAllGroup() {
     return Fetch("/group/list/", {
+      token: localStorage.token
+    });
+  },
+
+  invitePerson() {
+    return Fetch("/team/invite/", {
       token: JSON.parse(localStorage.user).token
     });
   }

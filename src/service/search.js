@@ -4,7 +4,7 @@ const SearchService = {
   getSearchResults(page, searchtext, pid) {
     return Fetch(`/search/?page=${page}`, {
       method: "POST",
-      token: JSON.parse(localStorage.user).token,
+      token: localStorage.token,
       data: {
         pattern: searchtext,
         projectID: pid

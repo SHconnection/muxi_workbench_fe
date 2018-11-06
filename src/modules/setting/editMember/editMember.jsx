@@ -8,6 +8,7 @@ import PropTypes from "prop-types";
 import FirstEditMember from "../../project/components/firstEditMember/firstEditMember";
 import ManageService from "../../../service/manage";
 import ProjectService from "../../../service/project";
+import WrongPage from "../../../components/common/wrongPage/wrongPage";
 import "./editMember.css";
 
 class EditMember extends Component {
@@ -32,13 +33,15 @@ class EditMember extends Component {
       selMembers: [],
       members: [],
       groups: [],
-      checkedIndex: 0
+      checkedIndex: 0,
+      wrong: ""
     };
 
     this.selAll = this.selAll.bind(this);
     this.transferMsgMem = this.transferMsgMem.bind(this);
     this.editProjectMember = this.editProjectMember.bind(this);
     this.changeGroupCheck = this.changeGroupCheck.bind(this);
+    this.cancel = this.cancel.bind(this);
   }
 
   componentDidMount() {
@@ -68,12 +71,12 @@ class EditMember extends Component {
               }
             })
             .catch(error => {
-              console.error(error);
+              this.setState({ wrong: error });
             });
         }
       })
       .catch(error => {
-        console.error(error);
+        this.setState({ wrong: error });
       });
     ManageService.getAllGroup()
       .then(group => {
@@ -95,8 +98,12 @@ class EditMember extends Component {
         }
       })
       .catch(error => {
-        console.error(error);
+        this.setState({ wrong: error });
       });
+  }
+
+  cancel() {
+    this.setState({ wrong: "" });
   }
 
   selAll() {
@@ -147,7 +154,7 @@ class EditMember extends Component {
     const { selMembers } = this.state;
 
     ProjectService.editProjectMember(id, selMembers).catch(error => {
-      console.error(error);
+      this.setState({ wrong: error });
     });
   }
 
@@ -166,12 +173,12 @@ class EditMember extends Component {
         }
       })
       .catch(error => {
-        console.error(error);
+        this.setState({ wrong: error });
       });
   }
 
   render() {
-    const { members, selMembers, groups, checkedIndex } = this.state;
+    const { members, selMembers, groups, checkedIndex, wrong } = this.state;
     const {
       match: {
         params: { id }
@@ -199,6 +206,7 @@ class EditMember extends Component {
           保存项目成员
         </button>
         <span className="fakeBtn footerBtn editMember-btnMarg">取消</span>
+        <WrongPage info={wrong} cancel={this.cancel} />
       </div>
     );
   }
