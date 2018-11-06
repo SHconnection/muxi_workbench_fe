@@ -1,0 +1,49 @@
+.trash-file-list {
+  margin-top: 11px;
+  width: 889px;
+  display: -webkit-flex;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  align-content: center;
+  justify-content: space-between;
+}
+
+.trash-file-list-left {
+  display: -webkit-flex;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  align-content: center;
+}
+
+.trash-file-list-left > div {
+  font-size: 16px;
+  color: rgba(0, 0, 0, 0.65);
+  text-align: center;
+  white-space:nowrap;
+  overflow: hidden; 
+  text-overflow: ellipsis;
+}
+
+.trash-file-name {
+  width: 80px;
+}
+
+.trash-file-delete-time {
+  width: 90px;
+  margin-left: 235px;
+}
+
+.trash-file-create-time {
+  width: 90px;
+  margin-left: 70px;
+}
+
+.trash-file-restore {
+  margin-right: 73px;
+  font-size: 16px;
+  color: rgba(16,142,233,1);
+  line-height: 22px;
+  cursor: pointer;
+}

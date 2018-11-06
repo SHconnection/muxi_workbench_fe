@@ -119,6 +119,26 @@ const FileService = {
       data: postData,
       token: localStorage.token
     });
+  },
+
+  // 获取回收站文件
+  getProjectTrash(pid) {
+    return Fetch(`/project/${pid}/re/`, {
+      method: "GET",
+      token: localStorage.token
+    });
+  },
+
+  // 恢复文件
+  putBackProjectTrash(pid, fid) {
+    return Fetch(`/project/${pid}/re/`, {
+      method: "PUT",
+      data: {
+        file: [fid],
+        doc: []
+      },
+      token: localStorage.token
+    });
   }
 };
 

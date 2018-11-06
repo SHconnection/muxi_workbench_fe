@@ -12,9 +12,9 @@ function FileList(props) {
           {item.name}
         </div>
         <div className="project-fileList-uploader">{item.creator}</div>
-        <div className="project-fileList-time">{`${createTimeArray[0]}/${
-          createTimeArray[1]
-        }/${createTimeArray[2]}`}</div>
+        <div className="project-fileList-time">
+          {`${createTimeArray[0]}/${createTimeArray[1]}/${createTimeArray[2]}`}
+        </div>
         <div title={fileUrl} className="project-fileList-url">
           {fileUrl}
         </div>

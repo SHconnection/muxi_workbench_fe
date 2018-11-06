@@ -639,7 +639,7 @@ class ProjectDetailIndex extends Component {
                 />
               </div>
               <div className="projectDetail-header-icon-container">
-                <Icon type="trash" tip="回收站" to="/trash" />
+                <Icon type="trash" tip="回收站" to={`/project/${pid}/trash`} />
               </div>
               <div className="projectDetail-header-icon-container">
                 <Icon

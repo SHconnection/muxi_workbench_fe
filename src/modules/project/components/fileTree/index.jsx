@@ -28,18 +28,17 @@ class FileTreeComponent extends Component {
     this.select = this.select.bind(this);
   }
 
+  componentWillReceiveProps(nextProps) {
+    const { root } = nextProps;
+    this.setState({
+      fileRoot: root
+    });
+  }
+
   changeVisible() {
-    // const { visible, fileRoot } = this.state;
-    const { select,  root, finalSelect } = this.props;
+    const { select, root, finalSelect } = this.props;
     select(root);
     finalSelect(root);
-    // const fileRootTemp = Object.assign({}, fileRoot)
-    // fileRootTemp.selected = !fileRootTemp.selected
-    // this.setState({
-    //   visible: !visible,
-    //   fileRoot: fileRootTemp
-    // })
-    // console.log("child select");
   }
 
   select(node) {
@@ -61,7 +60,6 @@ class FileTreeComponent extends Component {
   render() {
     const { root, finalSelect } = this.props;
     const { fileRoot } = this.state;
-
     let childNodes;
     if (fileRoot.child) {
       childNodes = root.child.map(node => {

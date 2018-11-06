@@ -4,6 +4,7 @@ import { Route } from "react-router-dom";
 import Index from "./index/index";
 import NewProject from "./new/index";
 import ProjectMember from "./detail/member";
+import ProjectTrash from "./detail/trash";
 import ProjectDetail from "./detail/index";
 import SetProject from "../setting/projectSetting/projectSetting";
 import EditMember from "../setting/editMember/editMember";
@@ -26,6 +27,7 @@ const Project = props => {
       <Route path={`${match.url}/:id/preview`} component={ProjectDetail} />
       <Route path={`${match.url}/:id/setting`} component={SetProject} />
       <Route path={`${match.url}/:id/member`} component={ProjectMember} />
+      <Route path={`${match.url}/:id/trash`} component={ProjectTrash} />
       <Route path={`${match.url}/:id/editMem`} component={EditMember} />
       <Route
         path={`${match.url}/:pid/fileFolder/:id`}
