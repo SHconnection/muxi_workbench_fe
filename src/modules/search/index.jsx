@@ -2,6 +2,7 @@
     搜索
 */
 import React, { Component } from "react";
+import PropTypes from "prop-types";
 import Select from "../../components/common/select/index";
 import Button from "../../components/common/button/index";
 import ProjectService from "../../service/project";
@@ -54,6 +55,23 @@ class Search extends Component {
       .then(() => {
         this.searching();
       });
+  }
+
+  componentWillReceiveProps(nextProps) {
+    const { location } = nextProps;
+    const newSearch = location.pathname.split("/").pop();
+    if (this.encode !== newSearch) {
+      this.uncode = decodeURIComponent(decodeURIComponent(newSearch));
+      this.setState(
+        {
+          encodeText: newSearch,
+          searchText: this.uncode
+        },
+        () => {
+          this.searching();
+        }
+      );
+    }
   }
 
   changeProject(index) {
@@ -234,5 +252,10 @@ class Search extends Component {
     );
   }
 }
-
+Search.propTypes = {
+  location: PropTypes.shape({})
+};
+Search.defaultProps = {
+  location: {}
+};
 export default Search;

@@ -1,5 +1,6 @@
 import React, { Component } from "react";
-import { NavLink, Redirect, Link } from "react-router-dom";
+import { NavLink, Redirect, Link, withRouter } from "react-router-dom";
+import PropTypes from "prop-types";
 import logo from "../../../assets/img/logo@2x.png";
 import searchIcon from "../../../assets/img/search@2x.png";
 import Avatar from "../avatar/index";
@@ -33,9 +34,15 @@ class Header extends Component {
     // console.log(value);
     if (value !== "") {
       this.searchText = value;
-      this.setState({
-        redirect: true
-      });
+      // this.setState({
+      //   redirect: true
+      // });
+      const url = `/search/${encodeURIComponent(
+        encodeURIComponent(encodeURIComponent(this.searchText))
+      )}`;
+      // window.history.pushState(this.state, "", `${url}`);
+      const { history } = this.props;
+      history.push(`${url}`);
     }
   }
 
@@ -137,5 +144,10 @@ class Header extends Component {
     );
   }
 }
-
-export default Header;
+Header.propTypes = {
+  history: PropTypes.shape({})
+};
+Header.defaultProps = {
+  history: {}
+};
+export default withRouter(Header);
