@@ -21,7 +21,7 @@ const PersonalInfo = ({ match }) => {
           <div className="personalIntro">
             <b className="personalName">{per.name}</b>
             <Link to={`${match.url}/personalSet`} className="fakeBtn">
-              {per.id === localStorage.id ? "更改设置" : ""}
+              {per.id == localStorage.id ? "更改设置" : ""}
             </Link>
             <div className="llSize">{per.email}</div>
           </div>
@@ -30,8 +30,13 @@ const PersonalInfo = ({ match }) => {
           to={`${match.url}/setPersonalInfo`}
           className="personalInfo-btnMarg"
         >
-          <button type="button" className="saveBtn personalInfo-saveBtn">
-            {localStorage.role > 1 ? "管理成员" : ""}
+          <button
+            type="button"
+            className={
+              localStorage.role > 1 ? "saveBtn personalInfo-saveBtn" : "none"
+            }
+          >
+            管理成员
           </button>
         </Link>
       </div>

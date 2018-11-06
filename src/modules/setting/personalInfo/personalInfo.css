@@ -3,8 +3,9 @@
     justify-content: space-between;
 }
 .personalInfo-saveBtn{
+    /* padding: 0; */
     margin-right: 0;
-    white-space:nowrap;
+    white-space: nowrap;
 }
 .personalInfo-avatar {
     display: inline-block;

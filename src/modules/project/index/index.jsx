@@ -3,7 +3,6 @@ import ProjectItem from "../components/itemIcon/index";
 import Button from "../../../components/common/button";
 import ProjectService from "../../../service/project";
 import "./index.css";
-import Cookie from "../../../service/cookie";
 
 class Index extends Component {
   constructor(props) {
@@ -14,7 +13,7 @@ class Index extends Component {
   }
 
   componentWillMount() {
-    const userID = JSON.parse(Cookie.getCookie("user")).id;
+    const userID = localStorage.id;
     ProjectService.getAllProjectList(userID)
       .then(res => {
         const project = res

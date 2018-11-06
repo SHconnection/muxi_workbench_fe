@@ -29,7 +29,13 @@ class Landing extends React.Component {
       .then(response => {
         localStorage.id = response.uid;
         localStorage.token = response.token;
-        localStorage.role = response.role;
+        localStorage.role = response.role || 7;
+
+        const per = {};
+        per.id = localStorage.id;
+        per.token = localStorage.token;
+        per.role = localStorage.role;
+        localStorage.per = JSON.stringify(per);
 
         ManageService.getPersonalSet(response.uid)
           .then(res => {

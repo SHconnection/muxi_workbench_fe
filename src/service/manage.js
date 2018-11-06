@@ -92,7 +92,7 @@ const ManageService = {
 
   groupMember(groupID) {
     return Fetch(`/group/${groupID}/userList/`, {
-      // token: localStorage.token,
+      token: localStorage.token
     });
   },
 

@@ -29,11 +29,10 @@ input[type="checkbox"] + label::before {
 }
 input[type="checkbox"]:checked + label::before {
   content: "";
-  background-color: #1d4cb5;
+  background: url('../../../../assets/svg/commonIcon/select.svg') no-repeat center;
 }
 input[type="checkbox"]:checked + label::after {
   content: "";
-  background: url(../../../../assets/svg/commonIcon/select.svg) no-repeat center;
   background-size: 18px 18px;
   color: white;
   font-size: 18px;

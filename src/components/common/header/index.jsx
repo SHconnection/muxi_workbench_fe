@@ -7,9 +7,17 @@ import Inform from "./inform/index";
 import Cookie from "../../../service/cookie";
 import "./index.css";
 
-const AvatarImg = Cookie.getCookie("userAvatar");
+const AvatarImg = localStorage.avatar;
 
 class Header extends Component {
+  static packagePer() {
+    const per = {};
+    per.id = localStorage.id;
+    per.token = localStorage.token;
+    per.role = localStorage.role;
+    localStorage.per = JSON.stringify(per);
+  }
+
   constructor(props) {
     super(props);
     this.state = {
@@ -105,6 +113,7 @@ class Header extends Component {
             <Link
               className="header-avatar"
               to="/member/teamMember/personalInfo/personalSet"
+              onClick={Header.packagePer}
             >
               <Avatar src={AvatarImg} />
             </Link>
