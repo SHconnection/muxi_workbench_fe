@@ -28,7 +28,7 @@ const data = {
   teamID: 0
 };
 const data1 = {
-  username: "jizhuoqi"
+  username: "darren"
 };
 localStorage.username = data1.username;
 
