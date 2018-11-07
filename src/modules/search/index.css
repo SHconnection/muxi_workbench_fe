@@ -34,19 +34,6 @@
     color:rgba(16,142,233,1);
     line-height:21px;
 }
-.search-item-content {
-    display: inline-block;
-    margin-left: 10px;
-}
-.search-item-text {
-    margin-top: 10px;
-    width: 774px;
-    height: 87px;
-    font-size:16px;
-    color:rgba(64,64,64,1);
-    line-height:21px;
-    overflow : hidden;
-}
 .search-item-project {
     margin-top: 12px;
     font-size: 14px;
@@ -57,24 +44,6 @@
     font-size: 12px;
     color:rgba(191,191,191,1);
     line-height: 19px;
-}
-.search-item-fileimg {
-    width: 50%;
-}
-.search-item-filename {
-    width: 50%;
-    text-align: center;
-    font-size:16px;
-    color:rgba(64,64,64,1);
-    padding-top: 6px;
-}
-.search-item-filecreator {
-    width: 50%;
-    text-align: center;
-    font-size:14px;
-    font-family:MicrosoftYaHei;
-    color:rgba(64,64,64,1);
-    height: 19px;
 }
 .search-item-footer {
     margin-left: 60px;

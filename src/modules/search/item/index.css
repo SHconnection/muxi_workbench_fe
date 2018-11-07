@@ -1,0 +1,32 @@
+.fileIcon-img{
+  margin: 0 auto;
+}
+.search-item-filename {
+  text-align: center;
+  font-size:16px;
+  padding-top: 6px;
+}
+.search-item-filecreator {
+  text-align: center;
+  font-size:14px;
+  font-family:MicrosoftYaHei;
+  height: 19px;
+}
+.search-item-name {
+  font-size: 16px;
+  color:rgba(16,142,233,1);
+  line-height:21px;
+}
+.search-item-content {
+  display: inline-block;
+  margin-left: 10px;
+}
+.search-item-text {
+  margin-top: 10px;
+  width: 774px;
+  height: 87px;
+  font-size:16px;
+  color:rgba(64,64,64,1);
+  line-height:21px;
+  overflow : hidden;
+}

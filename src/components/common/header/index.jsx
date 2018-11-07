@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { NavLink, Redirect, Link, withRouter } from "react-router-dom";
+import { NavLink, Link, withRouter } from "react-router-dom";
 import PropTypes from "prop-types";
 import logo from "../../../assets/img/logo@2x.png";
 import searchIcon from "../../../assets/img/search@2x.png";
@@ -22,8 +22,7 @@ class Header extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      showInput: false,
-      redirect: false
+      showInput: false
     };
     this.searchRef = React.createRef();
     this.enterSearch = this.enterSearch.bind(this);
@@ -42,13 +41,9 @@ class Header extends Component {
     // console.log(value);
     if (value !== "") {
       this.searchText = value;
-      // this.setState({
-      //   redirect: true
-      // });
       const url = `/search/${encodeURIComponent(
         encodeURIComponent(encodeURIComponent(this.searchText))
       )}`;
-      // window.history.pushState(this.state, "", `${url}`);
       const { history } = this.props;
       history.push(`${url}`);
     }
@@ -61,19 +56,7 @@ class Header extends Component {
   }
 
   render() {
-    const { showInput, redirect } = this.state;
-    const url = `/search/${encodeURIComponent(
-      encodeURIComponent(encodeURIComponent(this.searchText))
-    )}`;
-    if (redirect) {
-      return (
-        <div>
-          <Header />
-          <Redirect push to={url} />
-        </div>
-      );
-    }
-
+    const { showInput } = this.state;
     return (
       <div className="header-container">
         <div className="header-content">

@@ -2,9 +2,11 @@
     搜索
 */
 import React, { Component } from "react";
+import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
 import Select from "../../components/common/select/index";
 import Button from "../../components/common/button/index";
+import SearchItem from "./item/index";
 import ProjectService from "../../service/project";
 import SearchService from "../../service/search";
 import "../../static/css/common.css";
@@ -210,34 +212,13 @@ class Search extends Component {
                   <div className="search-item-kind">
                     {el.kind === 0 ? "文档：" : "文件："}
                   </div>
-                  {!el.kind ? (
-                    <div className="search-item-content">
-                      <div className="search-item-name">{el.recordName}</div>
-                      <div className="search-item-text">
-                        {el.creator}
-                        &nbsp;&#160;-&nbsp;&#160;
-                        {el.intro}
-                      </div>
-                    </div>
-                  ) : (
-                    <div className="search-item-content">
-                      <img
-                        className="search-item-fileimg"
-                        src="https://avatars0.githubusercontent.com/u/32706350?s=400&u=447c05e1907044200ab9e66993914ec6821a4795&v=4"
-                        alt="搜索结果"
-                      />
-                      <div className="search-item-filename">
-                        {el.recordName}
-                      </div>
-                      <div className="search-item-filecreator">
-                        {el.creator}
-                      </div>
-                    </div>
-                  )}
+                  <SearchItem item={el} />
                   <div className="search-item-footer">
                     <div className="search-item-project">
                       项目：
-                      {el.projectName}
+                      <Link to={`/project/${el.projectID}/preview`}>
+                        {el.projectName}
+                      </Link>
                     </div>
                     <span className="search-item-date">{el.time}</span>
                   </div>
