@@ -56,22 +56,24 @@ const MessageService = {
   },
 
   // 关注某个文档（件）
-  focusOnFile(id) {
+  focusOnFile(id, kind) {
     return Fetch(`/user/attention/`, {
       method: "POST",
       data: {
-        fileID: id
+        fileID: id,
+        fileKind: kind
       },
       token: localStorage.token
     });
   },
 
   // 取关某个文档（件）
-  notFocusOnFile(id) {
+  notFocusOnFile(id, kind) {
     return Fetch(`/user/attention/`, {
       method: "DELETE",
       data: {
-        fileID: id
+        fileName: id,
+        fileKind: kind
       },
       token: localStorage.token
     });

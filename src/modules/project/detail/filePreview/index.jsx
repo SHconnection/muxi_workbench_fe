@@ -21,7 +21,7 @@ class DocPreview extends Component {
     this.state = {
       pid: parseInt(match.params.pid, 0),
       id: parseInt(match.params.id, 0),
-      // isFocus: false,
+      isFocus: false,
       // 文件信息
       fileInfo: {
         name: "",
@@ -149,25 +149,44 @@ class DocPreview extends Component {
   isFocus() {
     const { id } = this.state;
     // const { isFocus } = this.state
-    MessageService.getMyAttentionFiles(id)
-      .then(() => {
-        // console.log(res)
+    MessageService.getMyAttentionFiles()
+      .then(res => {
+        console.log(res);
+        const find = res.list
+          .filter(item => item.fileKind === 1)
+          .filter(file => file.fileID === id);
+        if (find) {
+          // console.log(find);
+          this.setState({
+            isFocus: true
+          });
+        }
       })
       .catch(error => {
         console.error(error);
       });
   }
 
-  // 关注文件
+  // 关注文件或取消关注
   focusFile() {
-    const { id } = this.state;
-    MessageService.notFocusOnFile(id)
-      .then(res => {
-        console.log(res);
-      })
-      .catch(error => {
-        console.error(error);
-      });
+    const { id, isFocus } = this.state;
+    if (isFocus) {
+      MessageService.notFocusOnFile(id, 1)
+        .then(res => {
+          console.log(res);
+        })
+        .catch(error => {
+          console.error(error);
+        });
+    } else {
+      MessageService.focusOnFile(id, 1)
+        .then(res => {
+          console.log(res);
+        })
+        .catch(error => {
+          console.error(error);
+        });
+    }
   }
 
   // 输入评论内容
@@ -219,7 +238,8 @@ class DocPreview extends Component {
       commentList,
       commentInput,
       currentPage,
-      pageNums
+      pageNums,
+      isFocus
     } = this.state;
     return (
       <div className="projectDetail-container">
@@ -266,7 +286,7 @@ class DocPreview extends Component {
                 onMouseDown={() => {}}
                 role="presentation"
               >
-                关注
+                {isFocus ? "取消关注" : "关注"}
               </div>
               {/* <div>编辑</div> */}
               <a

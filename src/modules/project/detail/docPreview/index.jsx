@@ -5,6 +5,7 @@ import { Scrollbars } from "react-custom-scrollbars";
 // import MessageService from "../../../../service/message";
 import FileService from "../../../../service/file";
 import ProjectService from "../../../../service/project";
+import MessageService from "../../../../service/message";
 import { FileTree } from "../../fileTree1";
 import FileTreeComponent from "../../components/fileTree/index";
 import Othercomments from "../../../../components/common/otherComments/comments";
@@ -24,6 +25,7 @@ class DocPreview extends Component {
     this.state = {
       pid: parseInt(match.params.pid, 0),
       id: parseInt(match.params.id, 0),
+      isFocus: false,
       // 文档信息
       docInfo: {
         create_time: "",
@@ -62,6 +64,8 @@ class DocPreview extends Component {
     this.moveDoc = this.moveDoc.bind(this);
     this.confirmMoveDoc = this.confirmMoveDoc.bind(this);
     this.hideAlert = this.hideAlert.bind(this);
+    this.focusDoc = this.focusDoc.bind(this);
+    this.isFocus = this.isFocus.bind(this);
   }
 
   componentWillMount() {
@@ -69,6 +73,7 @@ class DocPreview extends Component {
     // const { sid } = match.params.id;
     this.getDocInfo();
     this.getDocTree();
+    this.isFocus();
     this.getCommentList();
   }
 
@@ -278,6 +283,50 @@ class DocPreview extends Component {
     });
   }
 
+  // 查看我是否关注
+  isFocus() {
+    const { id } = this.state;
+    // const { isFocus } = this.state
+    MessageService.getMyAttentionFiles()
+      .then(res => {
+        // console.log(res);
+        const find = res.list
+          .filter(item => item.fileKind === 0)
+          .filter(file => file.fileID === id);
+        if (find) {
+          // console.log(find);
+          this.setState({
+            isFocus: true
+          });
+        }
+      })
+      .catch(error => {
+        console.error(error);
+      });
+  }
+
+  // 关注文档或取消关注
+  focusDoc() {
+    const { id, isFocus } = this.state;
+    if (isFocus) {
+      MessageService.notFocusOnFile(id, 0)
+        .then(res => {
+          console.log(res);
+        })
+        .catch(error => {
+          console.error(error);
+        });
+    } else {
+      MessageService.focusOnFile(id, 0)
+        .then(res => {
+          console.log(res);
+        })
+        .catch(error => {
+          console.error(error);
+        });
+    }
+  }
+
   render() {
     const {
       id,
@@ -290,7 +339,8 @@ class DocPreview extends Component {
       currentPage,
       pageNums,
       showDletedoc,
-      showMoveDoc
+      showMoveDoc,
+      isFocus
     } = this.state;
 
     return (
@@ -318,6 +368,13 @@ class DocPreview extends Component {
             </div>
             {/* 头部右边 */}
             <div className="docPreview-header-right">
+              <div
+                onClick={this.focusDoc}
+                onMouseDown={() => {}}
+                role="presentation"
+              >
+                {isFocus ? "取消关注" : "关注"}
+              </div>
               <div
                 onClick={() => {}}
                 onMouseDown={() => {}}

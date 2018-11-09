@@ -12,15 +12,20 @@ class SearchItem extends Component {
       fileInfo: {
         name: "",
         url: ""
-      }
+      },
+      docConetnt: ""
     };
     this.getFileInfo = this.getFileInfo.bind(this);
+    this.getDocConnent = this.getDocConnent.bind(this);
   }
 
   componentWillMount() {
     const { item } = this.props;
     if (item.kind === 1) {
       this.getFileInfo(); // 请求文件信息以得到详细信息 url
+    } else {
+      // 获取文档内容
+      this.getDocConnent();
     }
   }
 
@@ -43,22 +48,42 @@ class SearchItem extends Component {
       });
   }
 
+  // 请求文档的内容
+  getDocConnent() {
+    const { item } = this.props;
+    const id = item.sourceID;
+    FileService.getDocConnent(id)
+      .then(res => {
+        this.setState({
+          docConetnt: res.content
+        });
+      })
+      .catch(err => {
+        console.error(err);
+      });
+  }
+
   render() {
     const { item } = this.props;
-    const { fileInfo } = this.state;
+    const { fileInfo, docConetnt } = this.state;
     return (
       <div className="search-item-content">
         {!item.kind ? (
           <div className="search-item-content">
-            <div className="search-item-name">{item.recordName}</div>
+            <Link
+              to={`/project/${item.projectID}/doc/${item.sourceID}`}
+              className="search-item-name"
+            >
+              {item.recordName}
+            </Link>
             <div className="search-item-text">
               {item.creator}
               &nbsp;&#160;-&nbsp;&#160;
-              {item.intro}
+              {docConetnt}
             </div>
           </div>
         ) : (
-          <div className="search-item-content">
+          <div className="search-item-file">
             <FileIcon fileItem={fileInfo} />
             <Link
               to={`/project/${item.projectID}/file/${item.sourceID}`}

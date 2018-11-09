@@ -52,6 +52,10 @@ class Header extends Component {
   enterSearch(e) {
     if (e.keyCode === 13) {
       this.searchItem();
+      const that = this;
+      this.setState({
+        showInput: !that.state.showInput
+      });
     }
   }
 
