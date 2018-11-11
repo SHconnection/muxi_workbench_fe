@@ -40,6 +40,7 @@ class PersonalAttention extends Component {
         this.setState({ members: arr });
       })
       .catch(error => {
+        console.log(error);
         this.setState({ wrong: error });
       });
   }

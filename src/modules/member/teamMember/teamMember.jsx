@@ -151,6 +151,12 @@ class TeamMember extends Component {
           <div className="teamMember-selectBtn">
             <Link
               className="fakeBtn teamMember-fakeMarg"
+              to={`${match.url}/joinApply`}
+            >
+              {localStorage.role > 1 ? "申请成员列表" : ""}
+            </Link>
+            <Link
+              className="fakeBtn teamMember-fakeMarg"
               to={`${match.url}/setManager`}
             >
               {localStorage.role > 3 ? "设置管理员" : ""}
