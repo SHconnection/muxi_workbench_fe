@@ -78,7 +78,13 @@ class Item extends Component {
             </Link>
           </div>
         </div>
-        <div className="status-item-content">{content}</div>
+        <div
+          className={
+            isPersonal ? "status-personal-content" : "status-item-content"
+          }
+        >
+          {content}
+        </div>
         <div className="others">
           <ReactSVG
             className="status-item-good"

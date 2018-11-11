@@ -1,7 +1,14 @@
 .status-detail-head{
     width: 100%;
-    display: flex;
-    align-items: center;
+}
+.status-detail-back{
+    display: inline-block;
+    vertical-align: middle;  
+}
+.stauts-detail-second{
+    display: inline-block;
+    vertical-align: middle;
+    margin-top: -14px;
 }
 .status-detail-title{
     margin-top: 20px;
@@ -16,6 +23,12 @@
     font-size: 14px;
 }
 .status-detail-edit{
+    margin-left: 5px;
+    display: inline-block;
+    vertical-align: middle;
+    margin-top: -10px;
+}
+.status-detail-editor{
     font-size: 16px;
     color: #1D4CB5;
 }
@@ -25,8 +38,10 @@
     color: #1D4CB5;
 }
 .status-detail-good{
-    margin-left: 530px;
-    display: flex;
+    position: absolute;
+    right: 100px;
+    top:55px;
+    display:flex;
     align-items: center;
 }
 .status-ifgood{

@@ -145,14 +145,14 @@ class Detail extends Component {
     return (
       <div className="subject">
         <div className="status-detail-head">
-          <Goback width="33px" height="33px" />
+          <Goback className="status-detail-back" width="33px" height="33px" />
           <div className="stauts-detail-second">
             <div className="status-detail-title">{title}</div>
             <span className="status-detail-name">{username}</span>
             <span className="status-detail-time">{time}</span>
           </div>
           <div className="status-detail-edit">
-            <Link to={`/status/${sid}/reEdit`} className="status-detail-edit">
+            <Link to={`/status/${sid}/reEdit`} className="status-detail-editor">
               编辑
             </Link>
             <span
@@ -174,14 +174,16 @@ class Detail extends Component {
               staDel
             />
           </div>
-          <div className="status-detail-good">
+        </div>
+        <div className="status-detail-good">
+          <div>
             <ReactSVG
               className="status-ifgood"
               onClick={() => this.changeLike(iflike, likeCount, sid)}
               path={Goods[iflike]}
             />
-            <div className="status-detail-love">{likeCount}</div>
           </div>
+          <div className="status-detail-love">{likeCount}</div>
         </div>
         <div className="status-details">
           <MarkdownPreview value={content} />

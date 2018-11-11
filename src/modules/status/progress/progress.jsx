@@ -169,33 +169,34 @@ class Progress extends Component {
         }
       });
     } else {
-      const { id } = match.params;
-      StatusService.getPersonalStatus(id, page + 1).then(status => {
-        if (status) {
-          const arr1 = status.statuList.map(statu1 => {
-            const statu = statu1;
-            const obj = {};
-            obj.sid = statu.sid;
-            obj.username = statu.username;
-            obj.avatar = statu.avatar;
-            obj.time = statu.time;
-            obj.iflike = statu.iflike;
-            obj.content = statu.content;
-            obj.likeCount = statu.likeCount;
-            obj.commentCount = statu.commentCount;
-            return obj;
-          });
-          const count1 = status.count;
-          const changePage = status.page;
-          const { statuList } = this.state;
-          this.setState({
-            cout: count1,
-            page: changePage,
-            statuList: statuList.concat(arr1),
-            isPersonal: 0
-          });
+      StatusService.getPersonalStatus(match.params.uid, page + 1).then(
+        status => {
+          if (status) {
+            const arr1 = status.statuList.map(statu1 => {
+              const statu = statu1;
+              const obj = {};
+              obj.sid = statu.sid;
+              obj.username = statu.username;
+              obj.avatar = statu.avatar;
+              obj.time = statu.time;
+              obj.iflike = statu.iflike;
+              obj.content = statu.content;
+              obj.likeCount = statu.likeCount;
+              obj.commentCount = statu.commentCount;
+              return obj;
+            });
+            const count1 = status.count;
+            const changePage = status.page;
+            const { statuList } = this.state;
+            this.setState({
+              cout: count1,
+              page: changePage,
+              statuList: statuList.concat(arr1),
+              isPersonal: 0
+            });
+          }
         }
-      });
+      );
     }
   }
 
