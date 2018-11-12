@@ -2,6 +2,7 @@ import React from "react";
 import { Redirect } from "react-router";
 import ManageService from "../service/manage";
 import LandingService from "../service/landing";
+import Cookie from "../service/cookie";
 
 // const Email = LandingService.getEmail();
 // const user1 = LandingService.getUsername(Email);
@@ -16,6 +17,8 @@ const data1 = {
   username: "darren"
 };
 
+localStorage.username = data1.username;
+
 class Landing extends React.Component {
   constructor(props) {
     super(props);
@@ -29,6 +32,7 @@ class Landing extends React.Component {
       .then(response => {
         localStorage.id = response.uid;
         localStorage.token = response.token;
+        Cookie.setCookie("workbench_token", response.token);
         localStorage.role = response.role || 7;
 
         const per = {};
@@ -48,7 +52,7 @@ class Landing extends React.Component {
           loginSuccess: 1
         });
       })
-      .catch(error => {
+      .catch(() => {
         LandingService.SignUp(data)
           .then(() => {
             this.setState({

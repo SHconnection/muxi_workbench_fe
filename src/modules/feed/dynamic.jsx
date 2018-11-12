@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import FeedItem from "./components/feedList/index";
 import Gotop from "../../components/common/toTop/top";
 import FeedService from "../../service/feed";
+import WrongPage from "../../components/common/wrongPage/wrongPage";
 import "../../static/css/common.css";
 import "./dynamic.css";
 
@@ -84,66 +85,76 @@ class Dynamic extends Component {
   componentWillMount() {
     const { match } = this.props;
     if (match.path === "/feed") {
-      FeedService.getFeedList(1).then(feeds => {
-        if (feeds) {
-          const arr1 = feeds.dataList.map(feed1 => {
-            const feedList = feed1;
-            const obj = {};
-            obj.timeDay = feedList.timeday;
-            obj.timeHour = feedList.timehm;
-            obj.ifSplit = feedList.ifsplit;
-            obj.action = feedList.action;
-            obj.sourceName = feedList.source.object_name;
-            obj.kind = feedList.source.kind_id;
-            obj.sourceID = feedList.source.object_id;
-            obj.sourcePro = feedList.source.project_id;
-            obj.avatarUrl = feedList.user.avatar_url;
-            obj.uid = feedList.user.id;
-            obj.proName = feedList.source.object_name;
-            obj.userName = feedList.user.name;
-            return obj;
-          });
-          const page = feeds.pageNum;
-          const next = feeds.hasNext;
-          this.setState({
-            hasNext: next,
-            pageNum: page,
-            dataList: arr1,
-            isPersonal: 0
-          });
-        }
-      });
+      FeedService.getFeedList(1)
+        .then(feeds => {
+          if (feeds) {
+            const arr1 = feeds.dataList.map(feed1 => {
+              const feedList = feed1;
+              const obj = {};
+              obj.timeDay = feedList.timeday;
+              obj.timeHour = feedList.timehm;
+              obj.ifSplit = feedList.ifsplit;
+              obj.action = feedList.action;
+              obj.feedid = feedList.feedid;
+              obj.sourceName = feedList.source.object_name;
+              obj.kind = feedList.source.kind_id;
+              obj.sourceID = feedList.source.object_id;
+              obj.sourcePro = feedList.source.project_id;
+              obj.avatarUrl = feedList.user.avatar_url;
+              obj.uid = feedList.user.id;
+              obj.proName = feedList.source.object_name;
+              obj.userName = feedList.user.name;
+              return obj;
+            });
+            const page = feeds.pageNum;
+            const next = feeds.hasNext;
+            this.setState({
+              hasNext: next,
+              pageNum: page,
+              dataList: arr1,
+              isPersonal: 0
+            });
+          }
+        })
+        .catch(error => {
+          this.setState({ wrong: error });
+        });
     } else {
       const { uid } = match.params;
-      FeedService.getPersonalFeed(uid, 1).then(feed => {
-        if (feed) {
-          const arr1 = feed.dataList.map(feed1 => {
-            const feedList = feed1;
-            const obj = {};
-            obj.timeDay = feedList.timeday;
-            obj.timeHour = feedList.timehm;
-            obj.ifSplit = feedList.ifsplit;
-            obj.action = feedList.action;
-            obj.sourceName = feedList.source.object_name;
-            obj.kind = feedList.source.kind_id;
-            obj.sourceID = feedList.source.object_id;
-            obj.sourcePro = feedList.source.project_id;
-            obj.avatarUrl = feedList.user.avatar_url;
-            obj.uid = feedList.user.id;
-            obj.proName = feedList.source.object_name;
-            obj.userName = feedList.user.name;
-            return obj;
-          });
-          const page = feed.pageNum;
-          const next = feed.hasNext;
-          this.setState({
-            hasNext: next,
-            pageNum: page,
-            dataList: arr1,
-            isPersonal: 1
-          });
-        }
-      });
+      FeedService.getPersonalFeed(uid, 1)
+        .then(feed => {
+          if (feed) {
+            const arr1 = feed.dataList.map(feed1 => {
+              const feedList = feed1;
+              const obj = {};
+              obj.timeDay = feedList.timeday;
+              obj.timeHour = feedList.timehm;
+              obj.ifSplit = feedList.ifsplit;
+              obj.action = feedList.action;
+              obj.feedid = feedList.feedid;
+              obj.sourceName = feedList.source.object_name;
+              obj.kind = feedList.source.kind_id;
+              obj.sourceID = feedList.source.object_id;
+              obj.sourcePro = feedList.source.project_id;
+              obj.avatarUrl = feedList.user.avatar_url;
+              obj.uid = feedList.user.id;
+              obj.proName = feedList.source.object_name;
+              obj.userName = feedList.user.name;
+              return obj;
+            });
+            const page = feed.pageNum;
+            const next = feed.hasNext;
+            this.setState({
+              hasNext: next,
+              pageNum: page,
+              dataList: arr1,
+              isPersonal: 1
+            });
+          }
+        })
+        .catch(error => {
+          this.setState({ wrong: error });
+        });
     }
   }
 
@@ -160,81 +171,95 @@ class Dynamic extends Component {
     const { pageNum, hasNext } = this.state;
     if (match.path === "/feed") {
       if (hasNext) {
-        FeedService.getFeedList(pageNum + 1).then(feeds => {
-          if (feeds) {
-            const arr1 = feeds.dataList.map(feed1 => {
-              const feedList = feed1;
-              const obj = {};
-              obj.timeDay = feedList.timeday;
-              obj.timeHour = feedList.timehm;
-              obj.ifSplit = feedList.ifsplit;
-              obj.action = feedList.action;
-              obj.sourceName = feedList.source.object_name;
-              obj.kind = feedList.source.kind_id;
-              obj.sourceID = feedList.source.object_id;
-              obj.sourcePro = feedList.source.project_id;
-              obj.avatarUrl = feedList.user.avatar_url;
-              obj.uid = feedList.user.id;
-              obj.proName = feedList.source.object_name;
-              obj.userName = feedList.user.name;
-              return obj;
-            });
-            const page1 = feeds.pageNum;
-            const next = feeds.hasNext;
-            const { dataList } = this.state;
-            this.setState({
-              hasNext: next,
-              pageNum: page1,
-              dataList: dataList.concat(arr1),
-              isPersonal: 0
-            });
-          }
-        });
+        FeedService.getFeedList(pageNum + 1)
+          .then(feeds => {
+            if (feeds) {
+              const arr1 = feeds.dataList.map(feed1 => {
+                const feedList = feed1;
+                const obj = {};
+                obj.timeDay = feedList.timeday;
+                obj.timeHour = feedList.timehm;
+                obj.ifSplit = feedList.ifsplit;
+                obj.action = feedList.action;
+                obj.feedid = feedList.feedid;
+                obj.sourceName = feedList.source.object_name;
+                obj.kind = feedList.source.kind_id;
+                obj.sourceID = feedList.source.object_id;
+                obj.sourcePro = feedList.source.project_id;
+                obj.avatarUrl = feedList.user.avatar_url;
+                obj.uid = feedList.user.id;
+                obj.proName = feedList.source.object_name;
+                obj.userName = feedList.user.name;
+                return obj;
+              });
+              const page1 = feeds.pageNum;
+              const next = feeds.hasNext;
+              const { dataList } = this.state;
+              this.setState({
+                hasNext: next,
+                pageNum: page1,
+                dataList: dataList.concat(arr1),
+                isPersonal: 0
+              });
+            }
+          })
+          .catch(error => {
+            this.setState({ wrong: error });
+          });
       }
     } else {
       const { uid } = match.params;
       if (hasNext) {
-        FeedService.getPersonalFeed(uid, pageNum + 1).then(feeds => {
-          if (feeds) {
-            const arr1 = feeds.dataList.map(feed1 => {
-              const feedList = feed1;
-              const obj = {};
-              obj.timeDay = feedList.timeday;
-              obj.timeHour = feedList.timehm;
-              obj.ifSplit = feedList.ifsplit;
-              obj.action = feedList.action;
-              obj.sourceName = feedList.source.object_name;
-              obj.kind = feedList.source.kind_id;
-              obj.sourceID = feedList.source.object_id;
-              obj.sourcePro = feedList.source.project_id;
-              obj.avatarUrl = feedList.user.avatar_url;
-              obj.uid = feedList.user.id;
-              obj.proName = feedList.source.object_name;
-              obj.userName = feedList.user.name;
-              return obj;
-            });
-            const page1 = feeds.pageNum;
-            const next = feeds.hasNext;
-            const { dataList } = this.state;
-            this.setState({
-              hasNext: next,
-              pageNum: page1,
-              dataList: dataList.concat(arr1)
-            });
-          }
-        });
+        FeedService.getPersonalFeed(uid, pageNum + 1)
+          .then(feeds => {
+            if (feeds) {
+              const arr1 = feeds.dataList.map(feed1 => {
+                const feedList = feed1;
+                const obj = {};
+                obj.timeDay = feedList.timeday;
+                obj.timeHour = feedList.timehm;
+                obj.ifSplit = feedList.ifsplit;
+                obj.action = feedList.action;
+                obj.feedid = feedList.feedid;
+                obj.sourceName = feedList.source.object_name;
+                obj.kind = feedList.source.kind_id;
+                obj.sourceID = feedList.source.object_id;
+                obj.sourcePro = feedList.source.project_id;
+                obj.avatarUrl = feedList.user.avatar_url;
+                obj.uid = feedList.user.id;
+                obj.proName = feedList.source.object_name;
+                obj.userName = feedList.user.name;
+                return obj;
+              });
+              const page1 = feeds.pageNum;
+              const next = feeds.hasNext;
+              const { dataList } = this.state;
+              this.setState({
+                hasNext: next,
+                pageNum: page1,
+                dataList: dataList.concat(arr1)
+              });
+            }
+          })
+          .catch(error => {
+            this.setState({ wrong: error });
+          });
       }
     }
   }
 
+  cancel() {
+    this.setState({ wrong: "" });
+  }
+
   render() {
-    const { hasNext, dataList, isPersonal } = this.state;
+    const { hasNext, dataList, isPersonal, wrong } = this.state;
     return (
       <div className="feed">
         <div className={isPersonal ? "" : "subject"}>
           <div className="feed-list">
             {dataList.map((feed, index) => (
-              <div key={feed.uid}>
+              <div key={feed.feedid}>
                 {(index === 0 ||
                   dataList[index - 1].timeDay !== feed.timeDay) && (
                   <div
@@ -269,6 +294,7 @@ class Dynamic extends Component {
           </div>
         </div>
         <Gotop className="go-top" />
+        <WrongPage info={wrong} cancel={this.cancel} />
       </div>
     );
   }

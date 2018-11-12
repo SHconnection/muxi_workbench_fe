@@ -83,7 +83,16 @@ class Item extends Component {
             isPersonal ? "status-personal-content" : "status-item-content"
           }
         >
-          {content}
+          <Link
+            to={`/status/${sid}`}
+            className={
+              isPersonal
+                ? "status-personal-link-content"
+                : "status-item-link-content"
+            }
+          >
+            {content}
+          </Link>
         </div>
         <div className="others">
           <ReactSVG
@@ -92,7 +101,11 @@ class Item extends Component {
             path={Goods[whetherLike]}
           />
           <div className="status-item-goodnumber">{likeNumber}</div>
-          <ReactSVG className="status-item-commet" path={comment} />
+          <div>
+            <Link to={`/status/${sid}`}>
+              <ReactSVG className="status-item-commet" path={comment} />
+            </Link>
+          </div>
           <div className="status-item-comments">{commentCount}</div>
         </div>
       </div>

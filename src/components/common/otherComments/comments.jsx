@@ -13,9 +13,9 @@ function otherComments(props) {
         <Avatar className="comments-img" src={avatar} width={49} height={49} />
         <div className="comments-userInfo">
           <div className="comments-name">{name}</div>
-          <div className="comments-time">{`${dates[0]}/${dates[1]}/${
-            dates[2]
-          }`}</div>
+          <div className="comments-time">
+            {`${dates[0]}/${dates[1]}/${dates[2]}`}
+          </div>
         </div>
       </div>
       <div className="status-comments-detail">{text}</div>

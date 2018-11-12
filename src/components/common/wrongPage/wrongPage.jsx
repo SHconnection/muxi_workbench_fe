@@ -4,7 +4,6 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import "../../../static/css/common.css";
-import "./wrongPage.css";
 
 class WrongPage extends Component {
   render() {

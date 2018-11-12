@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import StatusItem from "../components/basicCard/index";
 import Gotop from "../../../components/common/toTop/top";
 import StatusService from "../../../service/status";
+import WrongPage from "../../../components/common/wrongPage/wrongPage";
 import "./progerss.css";
 
 // let scrollTo = 0;
@@ -64,57 +65,65 @@ class Progress extends Component {
   componentWillMount() {
     const { match } = this.props;
     if (match.url === "/status") {
-      StatusService.getStatusList(1).then(status => {
-        if (status) {
-          const arr1 = status.statuList.map(statu1 => {
-            const statu = statu1;
-            const obj = {};
-            obj.sid = statu.sid;
-            obj.username = statu.username;
-            obj.avatar = statu.avatar;
-            obj.time = statu.time;
-            obj.iflike = statu.iflike;
-            obj.content = statu.content;
-            obj.likeCount = statu.likeCount;
-            obj.commentCount = statu.commentCount;
-            return obj;
-          });
-          const count1 = status.count;
-          const changePage = status.page;
-          this.setState({
-            cout: count1,
-            page: changePage,
-            statuList: arr1,
-            isPersonal: 0
-          });
-        }
-      });
+      StatusService.getStatusList(1)
+        .then(status => {
+          if (status) {
+            const arr1 = status.statuList.map(statu1 => {
+              const statu = statu1;
+              const obj = {};
+              obj.sid = statu.sid;
+              obj.username = statu.username;
+              obj.avatar = statu.avatar;
+              obj.time = statu.time;
+              obj.iflike = statu.iflike;
+              obj.content = statu.content;
+              obj.likeCount = statu.likeCount;
+              obj.commentCount = statu.commentCount;
+              return obj;
+            });
+            const count1 = status.count;
+            const changePage = status.page;
+            this.setState({
+              cout: count1,
+              page: changePage,
+              statuList: arr1,
+              isPersonal: 0
+            });
+          }
+        })
+        .catch(error => {
+          this.setState({ wrong: error });
+        });
     } else {
-      StatusService.getPersonalStatus(match.params.uid, 1).then(status => {
-        if (status) {
-          const arr1 = status.statuList.map(statu1 => {
-            const statu = statu1;
-            const obj = {};
-            obj.sid = statu.sid;
-            obj.username = statu.username;
-            obj.avatar = statu.avatar;
-            obj.time = statu.time;
-            obj.iflike = statu.iflike;
-            obj.content = statu.content;
-            obj.likeCount = statu.likeCount;
-            obj.commentCount = statu.commentCount;
-            return obj;
-          });
-          const count1 = status.count;
-          const changePage = status.page;
-          this.setState({
-            cout: count1,
-            page: changePage,
-            statuList: arr1,
-            isPersonal: 1
-          });
-        }
-      });
+      StatusService.getPersonalStatus(match.params.uid, 1)
+        .then(status => {
+          if (status) {
+            const arr1 = status.statuList.map(statu1 => {
+              const statu = statu1;
+              const obj = {};
+              obj.sid = statu.sid;
+              obj.username = statu.username;
+              obj.avatar = statu.avatar;
+              obj.time = statu.time;
+              obj.iflike = statu.iflike;
+              obj.content = statu.content;
+              obj.likeCount = statu.likeCount;
+              obj.commentCount = statu.commentCount;
+              return obj;
+            });
+            const count1 = status.count;
+            const changePage = status.page;
+            this.setState({
+              cout: count1,
+              page: changePage,
+              statuList: arr1,
+              isPersonal: 1
+            });
+          }
+        })
+        .catch(error => {
+          this.setState({ wrong: error });
+        });
     }
   }
 
@@ -126,51 +135,12 @@ class Progress extends Component {
     };
   }
 
-  // onScrollHandle(event) {
-  //   const clientHeight = event.target.clientHeight
-  //   const scrollHeight = event.target.scrollHeight
-  //   const scrollTop = event.target.scrollTop
-  //   const isBottom = (clientHeight + scrollTop === scrollHeight)
-  //   if (this.state.isScrollBottom !== isBottom) {
-  //     this.setState({
-  //       isScrollBottom: isBottom
-  //     })
-  //   }
-  // }
-
   getStatusList() {
     const { match } = this.props;
     const { page } = this.state;
     if (match.path === "/status") {
-      StatusService.getStatusList(page + 1).then(status => {
-        if (status) {
-          const arr1 = status.statuList.map(statu1 => {
-            const statu = statu1;
-            const obj = {};
-            obj.sid = statu.sid;
-            obj.username = statu.username;
-            obj.avatar = statu.avatar;
-            obj.time = statu.time;
-            obj.iflike = statu.iflike;
-            obj.content = statu.content;
-            obj.likeCount = statu.likeCount;
-            obj.commentCount = statu.commentCount;
-            return obj;
-          });
-          const count1 = status.count;
-          const changePage = status.page;
-          const { statuList } = this.state;
-          this.setState({
-            cout: count1,
-            page: changePage,
-            statuList: statuList.concat(arr1),
-            isPersonal: 0
-          });
-        }
-      });
-    } else {
-      StatusService.getPersonalStatus(match.params.uid, page + 1).then(
-        status => {
+      StatusService.getStatusList(page + 1)
+        .then(status => {
           if (status) {
             const arr1 = status.statuList.map(statu1 => {
               const statu = statu1;
@@ -195,13 +165,50 @@ class Progress extends Component {
               isPersonal: 0
             });
           }
-        }
-      );
+        })
+        .catch(error => {
+          this.setState({ wrong: error });
+        });
+    } else {
+      StatusService.getPersonalStatus(match.params.uid, page + 1)
+        .then(status => {
+          if (status) {
+            const arr1 = status.statuList.map(statu1 => {
+              const statu = statu1;
+              const obj = {};
+              obj.sid = statu.sid;
+              obj.username = statu.username;
+              obj.avatar = statu.avatar;
+              obj.time = statu.time;
+              obj.iflike = statu.iflike;
+              obj.content = statu.content;
+              obj.likeCount = statu.likeCount;
+              obj.commentCount = statu.commentCount;
+              return obj;
+            });
+            const count1 = status.count;
+            const changePage = status.page;
+            const { statuList } = this.state;
+            this.setState({
+              cout: count1,
+              page: changePage,
+              statuList: statuList.concat(arr1),
+              isPersonal: 0
+            });
+          }
+        })
+        .catch(error => {
+          this.setState({ wrong: error });
+        });
     }
   }
 
+  cancel() {
+    this.setState({ wrong: "" });
+  }
+
   render() {
-    const { statuList, isPersonal, cout, page } = this.state;
+    const { statuList, isPersonal, cout, page, wrong } = this.state;
     const {
       match: { url }
     } = this.props;
@@ -230,6 +237,7 @@ class Progress extends Component {
           {cout / 20 >= page ? "下拉加载更多..." : "最后一页啦"}
         </div>
         <Gotop />
+        <WrongPage info={wrong} cancel={this.cancel} />
       </div>
     );
   }

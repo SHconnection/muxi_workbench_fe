@@ -115,10 +115,9 @@ class feedItem extends Component {
                 {userName}
               </Link>
             </div>
-            <div className="feed-action-word">{`${changeWord(
-              kind,
-              action
-            )}`}</div>
+            <div className="feed-action-word">
+              {`${changeWord(kind, action)}`}
+            </div>
             <div>
               <Link
                 to={`${findKind(kind, sourceID, sourcePro)}`}
@@ -143,8 +142,8 @@ feedItem.propTypes = {
   kind: PropTypes.number,
   sourceID: PropTypes.number,
   sourcePro: PropTypes.number,
-  sourceName: PropTypes.number,
-  ifSplit: PropTypes.number,
+  sourceName: PropTypes.string,
+  ifSplit: PropTypes.bool,
   proName: PropTypes.string
 };
 

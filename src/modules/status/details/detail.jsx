@@ -202,8 +202,12 @@ class Detail extends Component {
           ))}
         </div>
         <div className="send">
-          <Avatar className="comment-img" src="" width={49} height={49} />
-          {/* src是自己的头像 */}
+          <Avatar
+            className="comment-img"
+            src={localStorage.avatar}
+            width={49}
+            height={49}
+          />
           <div className="push">
             <div>
               <textarea

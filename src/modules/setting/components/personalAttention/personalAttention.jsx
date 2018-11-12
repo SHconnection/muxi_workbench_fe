@@ -40,7 +40,6 @@ class PersonalAttention extends Component {
         this.setState({ members: arr });
       })
       .catch(error => {
-        console.log(error);
         this.setState({ wrong: error });
       });
   }
@@ -100,7 +99,7 @@ class PersonalAttention extends Component {
                     }}
                     onKeyDown={this.handleClick}
                   >
-                    {localStorage.id === per.id ? "取消关注" : ""}
+                    {localStorage.id == per.id ? "取消关注" : ""}
                   </span>
                 </div>
               </div>
