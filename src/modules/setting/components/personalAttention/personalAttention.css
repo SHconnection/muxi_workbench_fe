@@ -5,6 +5,7 @@
 }
 .personalAttention-size{
     font-size: 14px;
+    margin-top: 3px;
 }
 .personalAttention-vice{
     width: 470px;
@@ -16,7 +17,9 @@
     display: inline-block;
 }
 .personalAttention-cell {
-    line-height: 74px;
+    display: flex;
+    align-items: center;
+    height: 74px;
     margin-bottom: 36px;
 }
 .personalAttention-imgSize{
