@@ -2,6 +2,7 @@ import React from "react";
 import { Redirect } from "react-router";
 import ManageService from "../service/manage";
 import LandingService from "../service/landing";
+import WrongPage from "../components/common/wrongPage/wrongPage";
 import Cookie from "../service/cookie";
 
 // const Email = LandingService.getEmail();
@@ -23,8 +24,10 @@ class Landing extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      loginSuccess: 0
+      loginSuccess: 0,
+      wrong: ""
     };
+    this.cancel = this.cancel.bind(this);
   }
 
   componentDidMount() {
@@ -46,7 +49,7 @@ class Landing extends React.Component {
             localStorage.avatar = res.avatar;
           })
           .catch(error => {
-            console.error(error);
+            this.setState({ wrong: error });
           });
         this.setState({
           loginSuccess: 1
@@ -60,20 +63,38 @@ class Landing extends React.Component {
             });
           })
           .catch(error => {
-            console.log(error);
+            this.setState({ wrong: error });
           });
       });
   }
 
+  cancel() {
+    this.setState({ wrong: "" });
+  }
+
   render() {
-    const { loginSuccess } = this.state;
+    const { loginSuccess, wrong } = this.state;
     if (loginSuccess === 1) {
-      return <Redirect to="/" />;
+      return (
+        <div>
+          <Redirect to="/" />
+          <WrongPage info={wrong} cancel={this.cancel} />
+        </div>
+      );
     }
     if (loginSuccess === 2) {
-      return <div>成功向团队发起申请,请留意填写的邮箱</div>;
+      return (
+        <div>
+          <div>成功向团队发起申请,请留意填写的邮箱</div>;
+          <WrongPage info={wrong} cancel={this.cancel} />
+        </div>
+      );
     }
-    return <div>页面加载中···</div>;
+    return (
+      <div>
+        <div>页面加载中···</div>;<WrongPage info={wrong} cancel={this.cancel} />
+      </div>
+    );
   }
 }
 
