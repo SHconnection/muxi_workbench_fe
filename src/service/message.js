@@ -72,7 +72,7 @@ const MessageService = {
     return Fetch(`/user/attention/`, {
       method: "DELETE",
       data: {
-        fileName: id,
+        fileID: id,
         fileKind: kind
       },
       token: localStorage.token

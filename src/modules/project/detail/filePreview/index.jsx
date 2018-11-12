@@ -4,6 +4,7 @@ import MessageService from "../../../../service/message";
 import FileService from "../../../../service/file";
 import ProjectService from "../../../../service/project";
 import { FileTree } from "../../fileTree1";
+import WrongPage from "../../../../components/common/wrongPage/wrongPage";
 import Othercomments from "../../../../components/common/otherComments/comments";
 import Paging from "../../../../components/common/paging/index";
 import Avatar from "../../../../components/common/avatar/index";
@@ -48,6 +49,7 @@ class DocPreview extends Component {
     this.sendComment = this.sendComment.bind(this);
     this.getCommentList = this.getCommentList.bind(this);
     this.selectPage = this.selectPage.bind(this);
+    this.cancel = this.cancel.bind(this);
   }
 
   componentWillMount() {
@@ -95,7 +97,7 @@ class DocPreview extends Component {
         });
       })
       .catch(err => {
-        console.error(err);
+        this.setState({ wrong: err });
       });
   }
 
@@ -139,7 +141,7 @@ class DocPreview extends Component {
           });
         })
         .catch(err => {
-          console.error(err);
+          this.setState({ wrong: err });
         });
     }
   }
@@ -150,11 +152,10 @@ class DocPreview extends Component {
     // const { isFocus } = this.state
     MessageService.getMyAttentionFiles()
       .then(res => {
-        console.log(res);
         const find = res.list
           .filter(item => item.fileKind === 1)
           .filter(file => file.fileID === id);
-        if (find) {
+        if (find.length) {
           // console.log(find);
           this.setState({
             isFocus: true
@@ -162,7 +163,7 @@ class DocPreview extends Component {
         }
       })
       .catch(error => {
-        console.error(error);
+        this.setState({ wrong: error });
       });
   }
 
@@ -175,16 +176,22 @@ class DocPreview extends Component {
           console.log(res);
         })
         .catch(error => {
-          console.error(error);
+          this.setState({ wrong: error });
         });
+      this.setState({
+        isFocus: false
+      });
     } else {
       MessageService.focusOnFile(id, 1)
         .then(res => {
           console.log(res);
         })
         .catch(error => {
-          console.error(error);
+          this.setState({ wrong: error });
         });
+      this.setState({
+        isFocus: true
+      });
     }
   }
 
@@ -227,6 +234,10 @@ class DocPreview extends Component {
     }
   }
 
+  cancel() {
+    this.setState({ wrong: "" });
+  }
+
   render() {
     const {
       fileInfo,
@@ -238,7 +249,8 @@ class DocPreview extends Component {
       commentInput,
       currentPage,
       pageNums,
-      isFocus
+      isFocus,
+      wrong
     } = this.state;
     return (
       <div className="projectDetail-container">
@@ -347,6 +359,7 @@ class DocPreview extends Component {
             </div>
           </div>
         </div>
+        <WrongPage info={wrong} cancel={this.cancel} />
       </div>
     );
   }

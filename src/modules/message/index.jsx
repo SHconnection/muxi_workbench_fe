@@ -3,6 +3,7 @@
 */
 import React, { Component } from "react";
 import Gotop from "../../components/common/toTop/top";
+import WrongPage from "../../components/common/wrongPage/wrongPage";
 import MessageService from "../../service/message";
 import "../../static/css/common.css";
 import "./index.css";
@@ -17,6 +18,7 @@ class Message extends Component {
     };
     this.readAll = this.readAll.bind(this);
     this.getMessage = this.getMessage.bind(this);
+    this.cancel = this.cancel.bind(this);
   }
 
   componentDidMount() {
@@ -24,22 +26,34 @@ class Message extends Component {
   }
 
   getMessage() {
-    MessageService.getMessageList(1).then(res => {
-      this.setState({
-        MessageList: res.list.reverse()
+    MessageService.getMessageList(1)
+      .then(res => {
+        // console.log(res);
+        this.setState({
+          MessageList: res.list.reverse()
+        });
+      })
+      .catch(error => {
+        this.setState({ wrong: error });
       });
-      // console.log("res:",res);
-    });
   }
 
   readAll() {
-    MessageService.messageAllRead(localStorage.username).then(() => {
-      this.getMessage();
-    });
+    MessageService.messageAllRead(localStorage.getCookie("username"))
+      .then(() => {
+        this.getMessage();
+      })
+      .catch(error => {
+        this.setState({ wrong: error });
+      });
+  }
+
+  cancel() {
+    this.setState({ wrong: "" });
   }
 
   render() {
-    const { MessageList } = this.state;
+    const { MessageList, wrong } = this.state;
     return (
       <div className="subject">
         <div className="message-container">
@@ -70,6 +84,7 @@ class Message extends Component {
           <div className="message-none">没有更多通知了</div>
         </div>
         <Gotop className="go-top" />
+        <WrongPage info={wrong} cancel={this.cancel} />
       </div>
     );
   }

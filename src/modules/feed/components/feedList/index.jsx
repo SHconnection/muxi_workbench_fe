@@ -142,8 +142,8 @@ feedItem.propTypes = {
   kind: PropTypes.number,
   sourceID: PropTypes.number,
   sourcePro: PropTypes.number,
-  sourceName: PropTypes.number,
-  ifSplit: PropTypes.number,
+  sourceName: PropTypes.string,
+  ifSplit: PropTypes.bool,
   proName: PropTypes.string
 };
 

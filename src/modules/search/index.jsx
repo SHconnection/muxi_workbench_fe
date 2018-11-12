@@ -6,6 +6,7 @@ import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
 import Select from "../../components/common/select/index";
 import Button from "../../components/common/button/index";
+import WrongPage from "../../components/common/wrongPage/wrongPage";
 import SearchItem from "./item/index";
 import ProjectService from "../../service/project";
 import SearchService from "../../service/search";
@@ -21,6 +22,7 @@ class Search extends Component {
     this.changSearchText = this.changSearchText.bind(this);
     this.encode = window.location.href.split("/").pop(); // 编码后的url
     this.uncode = decodeURIComponent(decodeURIComponent(this.encode)); // 解码后的url
+    this.cancel = this.cancel.bind(this);
     this.state = {
       projectOption: [],
       projectCheckedIndex: 0,
@@ -56,6 +58,9 @@ class Search extends Component {
       })
       .then(() => {
         this.searching();
+      })
+      .catch(error => {
+        this.setState({ wrong: error });
       });
   }
 
@@ -74,6 +79,10 @@ class Search extends Component {
         }
       );
     }
+  }
+
+  cancel() {
+    this.setState({ wrong: "" });
   }
 
   changeProject(index) {
@@ -101,57 +110,17 @@ class Search extends Component {
       projectCheckedIndex
     } = this.state;
     const pid = projectOption[projectCheckedIndex].id;
-    SearchService.getSearchResults(1, searchText, pid).then(res => {
-      this.setState({
-        searchResult: res,
-        filterList: res.list
+    SearchService.getSearchResults(1, searchText, pid)
+      .then(res => {
+        this.setState({
+          searchResult: res,
+          filterList: res.list
+        });
+        // console.log(res.list);
+      })
+      .catch(error => {
+        this.setState({ wrong: error });
       });
-      // console.log(res.list);
-    });
-    // const test = {
-    //   count: 3,
-    //   pageMax: 1,
-    //   pageNow: 1,
-    //   hasNext: false,
-    //   list: [
-    //       {
-    //         kind: 0,
-    //         sourceID: 1,
-    //         recordName: "Web页面UI常识",
-    //         intro:
-    //           "首先，在做页面之前，把竞品的页面都列出来，自己好好看一下，找找共同点。 整体的色调、风格、布局等做之前脑子里有个概念。 可以用什么字体？ 字体大小怎么确定？ 导航、字体、背景等等的颜色可以随便用吗？ 水平和垂直的间距、水平布局时每一块内容的宽度等等是如何确定的？ 页面画布多大？页面主体内容多宽？ 移动端页面在布局上有什么特点？首先，在做页面之前，把竞品的页面都列出来，自己好好看一下，找找共同点。 整体的色调、风格、布局等做之前脑子里有个概念。 可以用什么字体？ 字体大小怎么确定？ 导航、字体、背景等等的颜色可以随便用吗？ 水平和垂直的间距、水平布局时每一块内容的宽度等等是如何确定的？ 页面画布多大？页面主体内容多宽？ 移动端页面在布局上有什么特点？",
-    //         projectID: 48,
-    //         projectName: "这世界就是你的",
-    //         creator: "赵鑫晖",
-    //         time: "1月1日"
-    //       },
-    //       {
-    //         kind: 1,
-    //         sourceID: 1,
-    //         recordName: "web@2xxxxxxxxx.jpg",
-    //         intro: "",
-    //         projectID: 50,
-    //         projectName: "这世界就是你的",
-    //         creator: "木小犀",
-    //         time: "1月1日"
-    //       },
-    //       {
-    //         kind: 0,
-    //         sourceID: 1,
-    //         recordName: "Web页面UI常识",
-    //         intro:
-    //           "首先，在做页面之前，把竞品的页面都列出来，自己好好看一下，找找共同点。 整体的色调、风格、布局等做之前脑子里有个概念。 可以用什么字体？ 字体大小怎么确定？ 导航、字体、背景等等的颜色可以随便用吗？ 水平和垂直的间距、水平布局时每一块内容的宽度等等是如何确定的？ 页面画布多大？页面主体内容多宽？ 移动端页面在布局上有什么特点？首先，在做页面之前，把竞品的页面都列出来，自己好好看一下，找找共同点。 整体的色调、风格、布局等做之前脑子里有个概念。 可以用什么字体？ 字体大小怎么确定？ 导航、字体、背景等等的颜色可以随便用吗？ 水平和垂直的间距、水平布局时每一块内容的宽度等等是如何确定的？ 页面画布多大？页面主体内容多宽？ 移动端页面在布局上有什么特点？",
-    //         projectID: 51,
-    //         projectName: "这世界就是你的",
-    //         creator: "赵鑫晖",
-    //         time: "1月1日"
-    //       }]
-
-    // }
-    // this.setState({
-    //   searchResult: test,
-    //   filterList: test.list,
-    // })
     window.history.pushState(this.state, "", `${encodeText}`);
   }
 
@@ -174,7 +143,8 @@ class Search extends Component {
       projectOption,
       projectCheckedIndex,
       filterList,
-      searchText
+      searchText,
+      wrong
     } = this.state;
     return (
       <div className="subject">
@@ -229,6 +199,7 @@ class Search extends Component {
             )}
           </div>
         </div>
+        <WrongPage info={wrong} cancel={this.cancel} />
       </div>
     );
   }
