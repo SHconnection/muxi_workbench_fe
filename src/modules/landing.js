@@ -32,7 +32,7 @@ class Landing extends React.Component {
       .then(response => {
         console.log(response);
         localStorage.id = response.uid;
-        // localStorage.token = response.token;
+        localStorage.token = response.token;
         Cookie.setCookie("workbench_token", response.token);
         localStorage.role = response.role || 7;
 
