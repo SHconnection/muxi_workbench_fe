@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import ReactSVG from "react-svg";
 import { Link } from "react-router-dom";
-// import { NavLink } from "react-router-dom";
 import SettingIcon from "../../../../assets/svg/commonIcon/setting.svg";
 import InfoRemindIcon from "../../../../assets/svg/commonIcon/infoRemind.svg";
 import InfoIcon from "../../../../assets/svg/commonIcon/info.svg";
@@ -10,6 +9,20 @@ import Cookie from "../../../../service/cookie";
 import "./index.css";
 
 const kind = ["进度", "文件", "评论", "团队"];
+function getPath(sourcekind, projectID, sourceID) {
+  switch (sourcekind) {
+    case 0:
+      return `/status/${sourceID}`;
+    case 1:
+      return `/project/${projectID}/file/${sourceID}`;
+    case 2:
+      return `/project/${projectID}/file/${sourceID}`;
+    case 3:
+      return `/project/${projectID}/doc/${sourceID}`;
+    default:
+      return `/`;
+  }
+}
 
 class Inform extends Component {
   constructor(props) {
@@ -29,9 +42,8 @@ class Inform extends Component {
   getMessage() {
     MessageService.getMessageList(1).then(res => {
       this.setState({
-        MessageList: res.list.filter(item => item.readed === false)
+        MessageList: res.list.reverse().filter(item => item.readed === false)
       });
-      // console.log("res:",res);
     });
   }
 
@@ -56,8 +68,6 @@ class Inform extends Component {
   render() {
     const { hover, MessageList } = this.state;
     const message = MessageList.length;
-    // console.log("message:",message);
-    // console.log("messagelist", MessageList);
     return (
       <div>
         <div onMouseEnter={this.enter.bind(this)}>
@@ -97,7 +107,11 @@ class Inform extends Component {
                           {el.action}
                           <Link
                             className="info-item-to"
-                            to={`/status/${el.sourceID}`}
+                            to={`${getPath(
+                              el.sourceKind,
+                              el.projectID,
+                              el.sourceID
+                            )}`}
                           >
                             {kind[el.sourceKind]}
                           </Link>

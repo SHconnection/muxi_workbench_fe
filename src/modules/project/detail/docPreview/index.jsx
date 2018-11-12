@@ -6,6 +6,7 @@ import { Scrollbars } from "react-custom-scrollbars";
 import FileService from "../../../../service/file";
 import ProjectService from "../../../../service/project";
 import MessageService from "../../../../service/message";
+import WrongPage from "../../../../components/common/wrongPage/wrongPage";
 import { FileTree } from "../../fileTree1";
 import FileTreeComponent from "../../components/fileTree/index";
 import Othercomments from "../../../../components/common/otherComments/comments";
@@ -66,6 +67,7 @@ class DocPreview extends Component {
     this.hideAlert = this.hideAlert.bind(this);
     this.focusDoc = this.focusDoc.bind(this);
     this.isFocus = this.isFocus.bind(this);
+    this.cancel = this.cancel.bind(this);
   }
 
   componentWillMount() {
@@ -91,7 +93,7 @@ class DocPreview extends Component {
         });
       })
       .catch(error => {
-        console.error(error);
+        this.setState({ wrong: error });
       });
   }
 
@@ -111,7 +113,7 @@ class DocPreview extends Component {
         });
       })
       .catch(err => {
-        console.error(err);
+        this.setState({ wrong: err });
       });
     // FileService.getDocList(postData)
     //   .then(res => {
@@ -141,7 +143,7 @@ class DocPreview extends Component {
         this.getDocUrl(id, el);
       })
       .catch(error => {
-        console.error(error);
+        this.setState({ wrong: error });
       });
   }
 
@@ -171,7 +173,7 @@ class DocPreview extends Component {
           });
         })
         .catch(err => {
-          console.error(err);
+          this.setState({ wrong: err });
         });
     }
   }
@@ -193,7 +195,7 @@ class DocPreview extends Component {
           this.getCommentList();
         })
         .catch(error => {
-          console.error(error);
+          this.setState({ wrong: error });
         });
     }
   }
@@ -210,7 +212,7 @@ class DocPreview extends Component {
           });
         })
         .catch(error => {
-          console.error(error);
+          this.setState({ wrong: error });
         });
     }
   }
@@ -238,12 +240,12 @@ class DocPreview extends Component {
               window.history.back();
             })
             .catch(err => {
-              console.error(err);
+              this.setState({ wrong: err });
             });
         }
       })
-      .catch(el => {
-        console.error(el);
+      .catch(error => {
+        this.setState({ wrong: error });
       });
   }
 
@@ -270,8 +272,8 @@ class DocPreview extends Component {
           this.getDocTree();
           this.hideAlert();
         })
-        .catch(el => {
-          console.error(el);
+        .catch(error => {
+          this.setState({ wrong: error });
         });
     }
   }
@@ -293,7 +295,7 @@ class DocPreview extends Component {
         const find = res.list
           .filter(item => item.fileKind === 0)
           .filter(file => file.fileID === id);
-        if (find) {
+        if (find.length) {
           // console.log(find);
           this.setState({
             isFocus: true
@@ -301,7 +303,7 @@ class DocPreview extends Component {
         }
       })
       .catch(error => {
-        console.error(error);
+        this.setState({ wrong: error });
       });
   }
 
@@ -314,17 +316,27 @@ class DocPreview extends Component {
           console.log(res);
         })
         .catch(error => {
-          console.error(error);
+          this.setState({ wrong: error });
         });
+      this.setState({
+        isFocus: false
+      });
     } else {
       MessageService.focusOnFile(id, 0)
         .then(res => {
           console.log(res);
         })
         .catch(error => {
-          console.error(error);
+          this.setState({ wrong: error });
         });
+      this.setState({
+        isFocus: true
+      });
     }
+  }
+
+  cancel() {
+    this.setState({ wrong: "" });
   }
 
   render() {
@@ -340,7 +352,8 @@ class DocPreview extends Component {
       pageNums,
       showDletedoc,
       showMoveDoc,
-      isFocus
+      isFocus,
+      wrong
     } = this.state;
 
     return (
@@ -559,6 +572,7 @@ class DocPreview extends Component {
             </div>
           </div>
         )}
+        <WrongPage info={wrong} cancel={this.cancel} />
       </div>
     );
   }
