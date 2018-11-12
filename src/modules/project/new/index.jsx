@@ -6,7 +6,6 @@ import ManageService from "../../../service/manage";
 import ProjectService from "../../../service/project";
 import "../../../static/css/common.css";
 import "./index.css";
-import Cookie from "../../../service/cookie";
 
 const gotoBack = () => {
   window.history.back();
@@ -179,7 +178,7 @@ class NewProject extends Component {
       return user;
     });
     const postData = {
-      username: Cookie.getCookie("username"),
+      username: localStorage.username,
       projectname,
       userlist,
       intro

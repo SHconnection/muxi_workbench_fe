@@ -43,13 +43,19 @@
     margin-top: 20px;
     text-overflow: ellipsis;        
 }
+.status-item-link-content{
+    font-size: 16px;
+    text-overflow: ellipsis;   
+}
+.status-personal-link-content{
+    font-size: 16px;
+    text-overflow: ellipsis;   
+}
 .status-personal-content{
     width: 722px;
     overflow: hidden;
-    font-size: 16px;
     margin-left: 70px;
-    margin-top: 20px;
-    text-overflow: ellipsis;   
+    margin-top: 20px; 
 }
 .others{
     display: flex;

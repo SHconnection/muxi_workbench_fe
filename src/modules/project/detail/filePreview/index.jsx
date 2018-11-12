@@ -10,7 +10,6 @@ import Avatar from "../../../../components/common/avatar/index";
 import Button from "../../../../components/common/button/index";
 import Goback from "../../../../components/common/goBack/index";
 import FileIcon from "../../components/fileIcon/index";
-import Cookie from "../../../../service/cookie";
 import "../../../../static/css/common.css";
 import "./index.css";
 
@@ -327,7 +326,7 @@ class DocPreview extends Component {
           <div className="send">
             <Avatar
               className="comment-img"
-              src={Cookie.getCookie("userAvatar")}
+              src={localStorage.avatar}
               width={49}
               height={49}
             />
