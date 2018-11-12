@@ -29,10 +29,6 @@ class PersonalAttention extends Component {
 
     MessageService.getPersonalAttention(per.id)
       .then(attention => {
-        console.log(attention.list[0].filename);
-        console.log(attention.list[0].username);
-        console.log(attention.list[0].projectName);
-        console.log(attention.list[0].date);
         const arr = attention.list.map((item1, index) => {
           const item = item1;
           item.id = index;
@@ -44,7 +40,6 @@ class PersonalAttention extends Component {
         this.setState({ members: arr });
       })
       .catch(error => {
-        console.log(error);
         this.setState({ wrong: error });
       });
   }
