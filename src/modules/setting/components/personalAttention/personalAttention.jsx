@@ -29,6 +29,10 @@ class PersonalAttention extends Component {
 
     MessageService.getPersonalAttention(per.id)
       .then(attention => {
+        console.log(attention.list[0].filename);
+        console.log(attention.list[0].username);
+        console.log(attention.list[0].projectName);
+        console.log(attention.list[0].date);
         const arr = attention.list.map((item1, index) => {
           const item = item1;
           item.id = index;
@@ -100,7 +104,7 @@ class PersonalAttention extends Component {
                     }}
                     onKeyDown={this.handleClick}
                   >
-                    {localStorage.id === per.id ? "取消关注" : ""}
+                    {localStorage.id == per.id ? "取消关注" : ""}
                   </span>
                 </div>
               </div>

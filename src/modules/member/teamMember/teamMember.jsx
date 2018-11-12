@@ -175,8 +175,6 @@ class TeamMember extends Component {
 
         {members.map(mem1 => {
           const mem = mem1;
-          let role = mem.role === 3 ? "管理员" : "";
-          if (mem.role === 7) role = "超级管理员";
 
           return (
             <div className="teamMember-singleList" key={mem.id}>
