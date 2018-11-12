@@ -73,7 +73,7 @@ class DocPreview extends Component {
         });
       })
       .catch(error => {
-        console.error(error);
+        this.setState({ wrong: error });
       });
   }
 
@@ -96,8 +96,8 @@ class DocPreview extends Component {
           creator
         });
       })
-      .catch(err => {
-        this.setState({ wrong: err });
+      .catch(error => {
+        this.setState({ wrong: error });
       });
   }
 
@@ -109,7 +109,7 @@ class DocPreview extends Component {
         this.getFileUrl(id, el);
       })
       .catch(error => {
-        console.error(error);
+        this.setState({ wrong: error });
       });
   }
 
@@ -156,7 +156,6 @@ class DocPreview extends Component {
           .filter(item => item.fileKind === 1)
           .filter(file => file.fileID === id);
         if (find.length) {
-          // console.log(find);
           this.setState({
             isFocus: true
           });
@@ -171,24 +170,16 @@ class DocPreview extends Component {
   focusFile() {
     const { id, isFocus } = this.state;
     if (isFocus) {
-      MessageService.notFocusOnFile(id, 1)
-        .then(res => {
-          console.log(res);
-        })
-        .catch(error => {
-          this.setState({ wrong: error });
-        });
+      MessageService.notFocusOnFile(id, 1).catch(error => {
+        this.setState({ wrong: error });
+      });
       this.setState({
         isFocus: false
       });
     } else {
-      MessageService.focusOnFile(id, 1)
-        .then(res => {
-          console.log(res);
-        })
-        .catch(error => {
-          this.setState({ wrong: error });
-        });
+      MessageService.focusOnFile(id, 1).catch(error => {
+        this.setState({ wrong: error });
+      });
       this.setState({
         isFocus: true
       });
@@ -212,7 +203,7 @@ class DocPreview extends Component {
           this.getCommentList();
         })
         .catch(error => {
-          console.error(error);
+          this.setState({ wrong: error });
         });
     }
   }
@@ -229,7 +220,7 @@ class DocPreview extends Component {
           });
         })
         .catch(error => {
-          console.error(error);
+          this.setState({ wrong: error });
         });
     }
   }

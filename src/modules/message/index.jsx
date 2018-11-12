@@ -39,7 +39,7 @@ class Message extends Component {
   }
 
   readAll() {
-    MessageService.messageAllRead(localStorage.getCookie("username"))
+    MessageService.messageAllRead(localStorage.username)
       .then(() => {
         this.getMessage();
       })

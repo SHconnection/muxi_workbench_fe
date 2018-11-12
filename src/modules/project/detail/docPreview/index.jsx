@@ -50,7 +50,8 @@ class DocPreview extends Component {
       // 是否显示移动文档
       showMoveDoc: false,
       // 移动文档最终选择的id
-      finalMoveDocId: 0
+      finalMoveDocId: 0,
+      wrong: ""
     };
     this.getDocInfo = this.getDocInfo.bind(this);
     this.getDocTree = this.getDocTree.bind(this);
@@ -126,9 +127,9 @@ class DocPreview extends Component {
     //       creator
     //     })
     //   })
-    //   .catch(err => {
-    //     console.error(err)
-    //   })
+    //   .catch(error => {
+    //     this.setState({ wrong: error });
+    //   });
   }
 
   // 算出文档所在树
@@ -290,12 +291,10 @@ class DocPreview extends Component {
     // const { isFocus } = this.state
     MessageService.getMyAttentionFiles()
       .then(res => {
-        // console.log(res);
         const find = res.list
           .filter(item => item.fileKind === 0)
           .filter(file => file.fileID === id);
         if (find.length) {
-          // console.log(find);
           this.setState({
             isFocus: true
           });
@@ -310,24 +309,16 @@ class DocPreview extends Component {
   focusDoc() {
     const { id, isFocus } = this.state;
     if (isFocus) {
-      MessageService.notFocusOnFile(id, 0)
-        .then(res => {
-          console.log(res);
-        })
-        .catch(error => {
-          this.setState({ wrong: error });
-        });
+      MessageService.notFocusOnFile(id, 0).catch(error => {
+        this.setState({ wrong: error });
+      });
       this.setState({
         isFocus: false
       });
     } else {
-      MessageService.focusOnFile(id, 0)
-        .then(res => {
-          console.log(res);
-        })
-        .catch(error => {
-          this.setState({ wrong: error });
-        });
+      MessageService.focusOnFile(id, 0).catch(error => {
+        this.setState({ wrong: error });
+      });
       this.setState({
         isFocus: true
       });
