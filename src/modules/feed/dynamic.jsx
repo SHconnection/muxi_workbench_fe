@@ -95,6 +95,7 @@ class Dynamic extends Component {
               obj.timeHour = feedList.timehm;
               obj.ifSplit = feedList.ifsplit;
               obj.action = feedList.action;
+              obj.feedid = feedList.feedid;
               obj.sourceName = feedList.source.object_name;
               obj.kind = feedList.source.kind_id;
               obj.sourceID = feedList.source.object_id;
@@ -130,6 +131,7 @@ class Dynamic extends Component {
               obj.timeHour = feedList.timehm;
               obj.ifSplit = feedList.ifsplit;
               obj.action = feedList.action;
+              obj.feedid = feedList.feedid;
               obj.sourceName = feedList.source.object_name;
               obj.kind = feedList.source.kind_id;
               obj.sourceID = feedList.source.object_id;
@@ -179,6 +181,7 @@ class Dynamic extends Component {
                 obj.timeHour = feedList.timehm;
                 obj.ifSplit = feedList.ifsplit;
                 obj.action = feedList.action;
+                obj.feedid = feedList.feedid;
                 obj.sourceName = feedList.source.object_name;
                 obj.kind = feedList.source.kind_id;
                 obj.sourceID = feedList.source.object_id;
@@ -217,6 +220,7 @@ class Dynamic extends Component {
                 obj.timeHour = feedList.timehm;
                 obj.ifSplit = feedList.ifsplit;
                 obj.action = feedList.action;
+                obj.feedid = feedList.feedid;
                 obj.sourceName = feedList.source.object_name;
                 obj.kind = feedList.source.kind_id;
                 obj.sourceID = feedList.source.object_id;
@@ -255,7 +259,7 @@ class Dynamic extends Component {
         <div className={isPersonal ? "" : "subject"}>
           <div className="feed-list">
             {dataList.map((feed, index) => (
-              <div key={feed.uid}>
+              <div key={feed.feedid}>
                 {(index === 0 ||
                   dataList[index - 1].timeDay !== feed.timeDay) && (
                   <div
