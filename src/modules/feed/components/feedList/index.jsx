@@ -115,10 +115,9 @@ class feedItem extends Component {
                 {userName}
               </Link>
             </div>
-            <div className="feed-action-word">{`${changeWord(
-              kind,
-              action
-            )}`}</div>
+            <div className="feed-action-word">
+              {`${changeWord(kind, action)}`}
+            </div>
             <div>
               <Link
                 to={`${findKind(kind, sourceID, sourcePro)}`}
