@@ -15,14 +15,12 @@ class JoinApply extends Component {
 
     this.state = {
       members: [],
-      display: false,
       wrong: ""
     };
 
     this.save = this.save.bind(this);
     this.del = this.del.bind(this);
     this.saveAll = this.saveAll.bind(this);
-    this.transform = this.transform.bind(this);
     this.cancel = this.cancel.bind(this);
   }
 
@@ -83,7 +81,6 @@ class JoinApply extends Component {
 
   saveAll() {
     const { members: arr1 } = this.state;
-    const { info } = this.props;
 
     arr1.map(mem1 => {
       const mem = mem1;
@@ -100,12 +97,8 @@ class JoinApply extends Component {
     });
   }
 
-  transform(value) {
-    this.setState({ display: value });
-  }
-
   render() {
-    const { members, wrong, display } = this.state;
+    const { members, wrong } = this.state;
 
     return (
       <div className="subject minH">

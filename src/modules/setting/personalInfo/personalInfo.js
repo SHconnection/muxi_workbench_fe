@@ -21,7 +21,7 @@ const PersonalInfo = ({ match }) => {
           <div className="personalIntro">
             <b className="personalName">{per.name}</b>
             <Link to={`${match.url}/personalSet`} className="fakeBtn">
-              {per.id == localStorage.id ? "更改设置" : ""}
+              {per.id === parseInt(localStorage.id, 10) ? "更改设置" : ""}
             </Link>
             <div className="llSize">{per.email}</div>
           </div>

@@ -83,7 +83,8 @@ class MemberGroup extends Component {
   }
 
   render() {
-    const { selMembers, members } = this.state;
+    const { selMembers, members, wrong } = this.state;
+
     return (
       <div className="subject minH">
         <GoBack />

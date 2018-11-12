@@ -4,6 +4,7 @@ import { FileTree } from "../../fileTree1";
 import Edit from "../../../status/markdown/edit1";
 import FileService from "../../../../service/file";
 import ProjectService from "../../../../service/project";
+import WrongPage from "../../../../components/common/wrongPage/wrongPage";
 import "../../../../static/css/common.css";
 import "./index.css";
 
@@ -14,10 +15,12 @@ class NewDoc extends Component {
     this.state = {
       docTree: {},
       pid: parseInt(match.params.pid, 0),
-      docRootId: parseInt(match.params.id, 0)
+      docRootId: parseInt(match.params.id, 0),
+      wrong: ""
     };
     this.save = this.save.bind(this);
     this.getDocTree = this.getDocTree.bind(this);
+    this.cancel = this.cancel.bind(this);
   }
 
   componentWillMount() {
@@ -33,8 +36,8 @@ class NewDoc extends Component {
           docTree: res
         });
       })
-      .catch(res => {
-        console.error(res);
+      .catch(error => {
+        this.setState({ wrong: error });
       });
   }
 
@@ -60,17 +63,28 @@ class NewDoc extends Component {
               window.history.back();
             })
             .catch(error => {
-              console.error(error);
+              this.setState({ wrong: error });
             });
         }
       })
       .catch(error => {
-        console.error(error);
+        this.setState({ wrong: error });
       });
   }
 
+  cancel() {
+    this.setState({ wrong: "" });
+  }
+
   render() {
-    return <Edit content="" title="" save={this.save} />;
+    const { wrong } = this.state;
+    return (
+      <div>
+        <Edit content="" title="" save={this.save} />
+
+        <WrongPage info={wrong} cancel={this.cancel} />
+      </div>
+    );
   }
 }
 

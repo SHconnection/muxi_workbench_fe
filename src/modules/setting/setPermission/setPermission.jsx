@@ -67,6 +67,7 @@ class SetPermission extends Component {
           .catch(error => {
             this.setState({ wrong: error });
           });
+        return true;
       })
       .catch(error => {
         this.setState({ wrong: error });
@@ -106,7 +107,7 @@ class SetPermission extends Component {
   }
 
   render() {
-    const { members, selMembers, ifSave } = this.state;
+    const { members, selMembers, ifSave, wrong } = this.state;
 
     return (
       <div className="subject minH">

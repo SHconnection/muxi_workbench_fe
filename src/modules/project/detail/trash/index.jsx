@@ -7,6 +7,7 @@ import { FileTree } from "../../fileTree1";
 import AlertMoveFile from "../../components/alertMoveFile";
 import "./index.css";
 import ProjectService from "../../../../service/project";
+import WrongPage from "../../../../components/common/wrongPage/wrongPage";
 
 class ProjectTrash extends Component {
   constructor(props) {
@@ -17,13 +18,15 @@ class ProjectTrash extends Component {
       fileList: [],
       fileTree: {},
       currentFile: {},
-      showMoveAlert: false
+      showMoveAlert: false,
+      wrong: ""
     };
     this.getTrash = this.getTrash.bind(this);
     this.restore = this.restore.bind(this);
     this.getFileTree = this.getFileTree.bind(this);
     this.confirmMoveFile = this.confirmMoveFile.bind(this);
     this.hideAlert = this.hideAlert.bind(this);
+    this.cancel = this.cancel.bind(this);
     this.getTrash();
     this.getFileTree();
   }
@@ -42,13 +45,12 @@ class ProjectTrash extends Component {
     const { pid } = this.state;
     FileService.getProjectTrash(pid)
       .then(res => {
-        console.log(res.FileList);
         this.setState({
           fileList: res.FileList
         });
       })
-      .catch(err => {
-        console.error(err);
+      .catch(error => {
+        this.setState({ wrong: error });
       });
   }
 
@@ -59,10 +61,13 @@ class ProjectTrash extends Component {
     });
   }
 
+  cancel() {
+    this.setState({ wrong: "" });
+  }
+
   // 确认移动文件
   confirmMoveFile(finalMoveFolderId) {
     const { pid, currentFile, fileTree } = this.state;
-    console.log({ currentFile, finalMoveFolderId });
     if (currentFile) {
       const fileTreeTemp = JSON.parse(JSON.stringify(fileTree));
       const newNode = {
@@ -87,8 +92,8 @@ class ProjectTrash extends Component {
               this.getTrash();
             });
           })
-          .catch(err => {
-            console.error(err);
+          .catch(error => {
+            this.setState({ wrong: error });
           });
       }
     }
@@ -102,7 +107,7 @@ class ProjectTrash extends Component {
   }
 
   render() {
-    const { fileList, fileTree, showMoveAlert } = this.state;
+    const { fileList, fileTree, showMoveAlert, wrong } = this.state;
     return (
       <div className="projectDetail-container">
         <GoBack />
@@ -130,6 +135,8 @@ class ProjectTrash extends Component {
         ) : (
           ""
         )}
+
+        <WrongPage info={wrong} cancel={this.cancel} />
       </div>
     );
   }

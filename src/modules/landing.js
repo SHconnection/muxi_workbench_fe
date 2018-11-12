@@ -30,7 +30,6 @@ class Landing extends React.Component {
   componentDidMount() {
     LandingService.getToken(data1)
       .then(response => {
-        console.log(response);
         localStorage.id = response.uid;
         localStorage.token = response.token;
         Cookie.setCookie("workbench_token", response.token);

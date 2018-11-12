@@ -2,13 +2,15 @@ import React, { Component } from "react";
 import ProjectItem from "../components/itemIcon/index";
 import Button from "../../../components/common/button";
 import ProjectService from "../../../service/project";
+import WrongPage from "../../../components/common/wrongPage/wrongPage";
 import "./index.css";
 
 class Index extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      project: []
+      project: [],
+      wrong: ""
     };
   }
 
@@ -27,8 +29,8 @@ class Index extends Component {
           project
         });
       })
-      .catch(res => {
-        console.error("error", res);
+      .catch(error => {
+        this.setState({ wrong: error });
       });
   }
 
@@ -37,7 +39,7 @@ class Index extends Component {
   // }
 
   render() {
-    const { project } = this.state;
+    const { project, wrong } = this.state;
     return (
       <div className="project">
         <div className="project-create-bt">
@@ -50,6 +52,8 @@ class Index extends Component {
             </div>
           ))}
         </div>
+
+        <WrongPage info={wrong} cancel={this.cancel} />
       </div>
     );
   }

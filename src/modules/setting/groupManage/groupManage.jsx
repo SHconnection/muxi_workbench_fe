@@ -52,10 +52,6 @@ class GroupManage extends Component {
       });
   }
 
-  cancel() {
-    this.setState({ wrong: "" });
-  }
-
   onDragEnd(result) {
     // 没有释放在指定范围，取消拖拽
     if (!result.destination) {
@@ -80,6 +76,10 @@ class GroupManage extends Component {
       data: mem,
       deleteX: true
     });
+  }
+
+  cancel() {
+    this.setState({ wrong: "" });
   }
 
   render() {

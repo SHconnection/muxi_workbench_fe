@@ -24,9 +24,12 @@ const userGroup = group => {
 
 const MemberInfo = ({ mem, square }) => (
   <div className="memberInfo-contain">
-    <Link to={"/member/teamMember/personalInfo"}>
+    <Link to="/member/teamMember/personalInfo">
       <div
         className="memberInfo-img"
+        role="button"
+        tabIndex="-1"
+        onKeyDown
         onClick={() => {
           localStorage.per = JSON.stringify(mem);
         }}

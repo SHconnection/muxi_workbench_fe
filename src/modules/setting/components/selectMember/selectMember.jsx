@@ -184,7 +184,7 @@ class SelectMember extends Component {
 
     if (groupMember) {
       ManageService.updateGroupMember(groupID, selMembers)
-        .then(response => {
+        .then(() => {
           this.setState({ ifSave: true });
 
           setTimeout(() => {
@@ -198,7 +198,7 @@ class SelectMember extends Component {
 
     if (addGroup) {
       ManageService.addGroup(groupName, selMembers)
-        .then(response => {
+        .then(() => {
           this.setState({ ifSave: true });
 
           setTimeout(() => {

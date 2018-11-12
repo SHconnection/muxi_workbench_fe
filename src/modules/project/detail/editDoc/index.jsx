@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 import Edit from "../../../status/markdown/edit1";
 import FileService from "../../../../service/file";
+import WrongPage from "../../../../components/common/wrongPage/wrongPage";
 import "../../../../static/css/common.css";
 import "./index.css";
 
@@ -13,11 +14,13 @@ class EditDoc extends Component {
       // docTree: {},
       id: parseInt(match.params.id, 0),
       title: "",
-      content: ""
+      content: "",
+      wrong: ""
     };
     this.save = this.save.bind(this);
     // this.getDocTree = this.getDocTree.bind(this);
     this.getDocContent = this.getDocContent.bind(this);
+    this.cancel = this.cancel.bind(this);
   }
 
   componentWillMount() {
@@ -35,8 +38,8 @@ class EditDoc extends Component {
           content: res.content
         });
       })
-      .catch(err => {
-        console.error(err);
+      .catch(error => {
+        this.setState({ wrong: error });
       });
   }
 
@@ -48,10 +51,9 @@ class EditDoc extends Component {
   //       this.setState({
   //         docTree: res
   //       });
-  //       console.log(res);
   //     })
-  //     .catch(res => {
-  //       console.error(res);
+  //     .catch(error => {
+  //        this.setState({ wrong: error });
   //     });
   // }
 
@@ -67,15 +69,17 @@ class EditDoc extends Component {
         window.history.back();
       })
       .catch(error => {
-        console.error(error);
+        this.setState({ wrong: error });
       });
   }
 
   render() {
-    const { title, content } = this.state;
+    const { title, content, wrong } = this.state;
     return (
       <div>
         <Edit content={content} title={title} save={this.save} />
+
+        <WrongPage info={wrong} cancel={this.cancel} />
       </div>
     );
   }

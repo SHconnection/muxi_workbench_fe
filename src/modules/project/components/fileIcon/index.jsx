@@ -1,6 +1,5 @@
-import React, { Component } from 'react';
+import React, { Component } from "react";
 import ReactSVG from "react-svg";
-import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
 import "./index.css";
 import FolderIcon from "../../../../assets/svg/fileIcon/folder.svg";
@@ -27,9 +26,9 @@ const IconMap = {
   ZIP: ZipIcon,
   RAR: RarIcon,
   default: DefaultIcon
-}
+};
 
-let imgStyle
+let imgStyle;
 
 // const FileIcon = props => {
 // const { name, id, pid } = props;
@@ -47,13 +46,12 @@ class FileIcon extends Component {
     super(props);
     this.state = {
       // isImage: false
-    }
+    };
   }
 
-
   render() {
-    const { fileItem } = this.props
-    let suffix = fileItem.name.split(".")[1]
+    const { fileItem } = this.props;
+    let suffix = fileItem.name.split(".")[1];
     if (suffix === "jpg" || suffix === "png") {
       imgStyle = {
         width: "135px",
@@ -66,7 +64,7 @@ class FileIcon extends Component {
             <div style={imgStyle} />
           </div>
         </div>
-      )
+      );
     }
     if (IconMap[suffix] == null) {
       suffix = "default";
@@ -77,11 +75,8 @@ class FileIcon extends Component {
           <ReactSVG className="fileIcon-img" path={IconMap[suffix]} />
         </div>
       </div>
-    )
+    );
   }
-
-
-
 }
 
 FileIcon.propTypes = {
@@ -94,8 +89,8 @@ FileIcon.propTypes = {
 FileIcon.defaultProps = {
   fileItem: {
     name: "",
-    url: "",
-  },
+    url: ""
+  }
 };
 
-export default FileIcon
+export default FileIcon;

@@ -4,6 +4,7 @@ import Button from "../../../components/common/button/index";
 import Select from "../../../components/common/select/index";
 import ManageService from "../../../service/manage";
 import ProjectService from "../../../service/project";
+import WrongPage from "../../../components/common/wrongPage/wrongPage";
 import "../../../static/css/common.css";
 import "./index.css";
 
@@ -189,12 +190,12 @@ class NewProject extends Component {
           .then(() => {
             window.location.href = `./${res.project_id}/preview`;
           })
-          .catch(res1 => {
-            console.error("error", res1);
+          .catch(error => {
+            this.setState({ wrong: error });
           });
       })
-      .catch(res => {
-        console.error("error", res);
+      .catch(error => {
+        this.setState({ wrong: error });
       });
   }
 
@@ -207,7 +208,8 @@ class NewProject extends Component {
       groupCheckedIndex,
       selectAllText,
       projectname,
-      intro
+      intro,
+      wrong
     } = this.state;
     return (
       <div className="newProject-container">
@@ -266,6 +268,8 @@ class NewProject extends Component {
             </div>
           </div>
         </div>
+
+        <WrongPage info={wrong} cancel={this.cancel} />
       </div>
     );
   }

@@ -78,7 +78,7 @@ class SetProject extends Component {
     const { textValue, inputValue } = this.state;
 
     ProjectService.saveProjectSet(id, textValue, inputValue).catch(error => {
-      console.error(error);
+      this.setState({ wrong: error });
     });
   }
 
