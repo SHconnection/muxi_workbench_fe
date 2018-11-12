@@ -231,7 +231,7 @@ const ManageService = {
 
   invitePerson() {
     return Fetch("/team/invite/", {
-      token: JSON.parse(localStorage.user).token
+      token: localStorage.token
     });
   }
 };

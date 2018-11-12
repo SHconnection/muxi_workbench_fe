@@ -31,7 +31,8 @@ class TeamMember extends Component {
     this.state = {
       members: [],
       groupList: [],
-      selectedID: 0
+      selectedID: 0,
+      redDot: false
     };
 
     this.present = this.present.bind(this);
@@ -80,6 +81,15 @@ class TeamMember extends Component {
       .catch(error => {
         this.setState({ wrong: error });
       });
+    ManageService.getJoinApply()
+      .then(obj => {
+        if (obj.list.length) {
+          this.setState({ redDot: true });
+        }
+      })
+      .catch(error => {
+        this.setState({ wrong: error });
+      });
   }
 
   cancel() {
@@ -108,7 +118,7 @@ class TeamMember extends Component {
   }
 
   render() {
-    const { members, selectedID, groupList, wrong } = this.state;
+    const { members, selectedID, groupList, wrong, redDot } = this.state;
     const { match } = this.props;
 
     return (
@@ -150,10 +160,11 @@ class TeamMember extends Component {
           </div>
           <div className="teamMember-selectBtn">
             <Link
-              className="fakeBtn teamMember-fakeMarg"
+              className="fakeBtn teamMember-fakeMarg teamMember-applyList"
               to={`${match.url}/joinApply`}
             >
               {localStorage.role > 1 ? "申请成员列表" : ""}
+              <div className={redDot ? "teamMember-inform" : "none"} />
             </Link>
             <Link
               className="fakeBtn teamMember-fakeMarg"
