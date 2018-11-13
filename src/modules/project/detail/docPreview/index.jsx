@@ -1,14 +1,16 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { MarkdownPreview } from "react-marked-markdown";
-import { Scrollbars } from "react-custom-scrollbars";
+// import { Scrollbars } from "react-custom-scrollbars";
+// import FileTreeComponent from "../../components/fileTree/index";
 // import MessageService from "../../../../service/message";
+import AlertMoveFile from "../../components/alertMoveFile";
+import AlertDeleteFile from "../../components/alertDeleteFile";
 import FileService from "../../../../service/file";
 import ProjectService from "../../../../service/project";
 import MessageService from "../../../../service/message";
 import WrongPage from "../../../../components/common/wrongPage/wrongPage";
 import { FileTree } from "../../fileTree1";
-import FileTreeComponent from "../../components/fileTree/index";
 import Othercomments from "../../../../components/common/otherComments/comments";
 import Paging from "../../../../components/common/paging/index";
 import Avatar from "../../../../components/common/avatar/index";
@@ -50,7 +52,7 @@ class DocPreview extends Component {
       // 是否显示移动文档
       showMoveDoc: false,
       // 移动文档最终选择的id
-      finalMoveDocId: 0,
+      // finalMoveDocId: 0,
       wrong: ""
     };
     this.getDocInfo = this.getDocInfo.bind(this);
@@ -257,10 +259,15 @@ class DocPreview extends Component {
   }
 
   // 确认移动文档
-  confirmMoveDoc() {
-    const { pid, docTree, finalMoveDocId, id } = this.state;
+  confirmMoveDoc(finalMoveFolderId) {
+    const { 
+      pid, 
+      docTree, 
+      // finalMoveDocId, 
+      id 
+    } = this.state;
     const docTreeTemp = JSON.parse(JSON.stringify(docTree));
-    const newTree = FileTree.moveNode(id, finalMoveDocId, docTreeTemp);
+    const newTree = FileTree.moveNode(id, finalMoveFolderId, docTreeTemp);
     if (newTree) {
       FileTree.initNodeFinalSelected(newTree);
       FileTree.initNodeSelected(newTree);
@@ -378,13 +385,13 @@ class DocPreview extends Component {
               >
                 {isFocus ? "取消关注" : "关注"}
               </div>
-              <div
+              {/* <div
                 onClick={() => {}}
                 onMouseDown={() => {}}
                 role="presentation"
               >
                 分享
-              </div>
+              </div> */}
               <div
                 onClick={this.moveDoc}
                 onMouseDown={() => {}}
@@ -474,7 +481,16 @@ class DocPreview extends Component {
           </div>
         </div>
         {/* 删除文档弹出框 */}
-        {showDletedoc && (
+        {
+          showDletedoc && (
+            <AlertDeleteFile
+              type="文档"
+              cancel={this.hideAlert}
+              confirmDelete={this.confirmDeleteDoc}
+            />
+          )
+          }
+        {/* {showDletedoc && (
           <div className="deleteFileAlert">
             <div className="delete-file-alert-tip">确认要删除该文档吗</div>
             <div className="delete-file-alert-cancel">
@@ -499,9 +515,18 @@ class DocPreview extends Component {
               />
             </div>
           </div>
-        )}
+        )} */}
         {/* 移动文档弹出框 */}
-        {showMoveDoc && (
+        {showMoveDoc ? (
+          <AlertMoveFile
+            fileTree={docTree}
+            cancel={this.hideAlert}
+            confirmMoveFile={this.confirmMoveDoc}
+          />
+        ) : (
+          ""
+        )}
+        {/* {showMoveDoc && (
           <div className="moveFileAlert">
             <div className="move-file-alert-tip">选择保存路径</div>
             <div className="move-file-tree-container">
@@ -561,7 +586,7 @@ class DocPreview extends Component {
               />
             </div>
           </div>
-        )}
+        )} */}
         <WrongPage info={wrong} cancel={this.cancel} />
       </div>
     );

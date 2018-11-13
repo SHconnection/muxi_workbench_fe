@@ -1,8 +1,11 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
-import ReactSVG from "react-svg";
-import { Scrollbars } from "react-custom-scrollbars";
-import FileTreeComponent from "../../components/fileTree/index";
+// import ReactSVG from "react-svg";
+// import { Scrollbars } from "react-custom-scrollbars";
+// import FileTreeComponent from "../../components/fileTree/index";
+import AlertMoveFile from "../../components/alertMoveFile";
+import AlertDeleteFile from "../../components/alertDeleteFile";
+import AlertCreateFolder from "../../components/alertCreateFolder";
 import { FileTree } from "../../fileTree1";
 import GoBack from "../../../../components/common/goBack/index";
 import Icon from "../../../../components/common/icon/index";
@@ -13,7 +16,6 @@ import FolderItem from "../../components/folderItem/index";
 import FileList from "../../components/fileList/index";
 import ProjectService from "../../../../service/project";
 import FileService from "../../../../service/file";
-import CreateFileAlertIcon from "../../../../assets/svg/commonIcon/editFileAlert.svg";
 import "./index.css";
 import "../../../../static/css/common.css";
 
@@ -40,14 +42,10 @@ class ProjectDetailAllFile extends Component {
       itemLayOut: true,
       // 是否显示创建文件框
       showCreateFile: false,
-      // 输入的新文件名
-      newFileInputText: "",
       // 是否显示删除文件
       showDleteFile: false,
       // 是否显示移动文件
       showMoveFile: false,
-      // 移动文件最终选择的id
-      finalMoveFileId: 0,
       // 文件（夹）列表
       filesList: {
         FolderList: [],
@@ -71,7 +69,6 @@ class ProjectDetailAllFile extends Component {
     this.changeLayoutToItem = this.changeLayoutToItem.bind(this);
     this.changeLayoutToList = this.changeLayoutToList.bind(this);
     this.startCreateFile = this.startCreateFile.bind(this);
-    this.changeNewFileInputText = this.changeNewFileInputText.bind(this);
     this.confirmCreateFile = this.confirmCreateFile.bind(this);
     this.startDeleteFile = this.startDeleteFile.bind(this);
     this.confirmDeleteFile = this.confirmDeleteFile.bind(this);
@@ -201,25 +198,18 @@ class ProjectDetailAllFile extends Component {
     }
   }
 
-  // 输入新文件夹名字
-  changeNewFileInputText(event) {
-    this.setState({
-      newFileInputText: event.target.value
-    });
-  }
-
   // 点击确认创建文件夹
-  confirmCreateFile() {
-    const { newFileInputText, pid, fileTree, fileRootId } = this.state;
-    if (newFileInputText) {
+  confirmCreateFile(inputText) {
+    const { pid, fileTree, fileRootId } = this.state;
+    if (inputText) {
       // 请求创建
-      FileService.createFileFolder(newFileInputText, pid)
+      FileService.createFileFolder(inputText, pid)
         .then(res => {
           // 更新树
           const newNode = {
             folder: true,
             id: res.id,
-            name: newFileInputText,
+            name: inputText,
             child: []
           };
           ProjectService.updateProjectFileTree(
@@ -339,18 +329,17 @@ class ProjectDetailAllFile extends Component {
   }
 
   // 确认移动文件
-  confirmMoveFile() {
+  confirmMoveFile(finalMoveFolderId) {
     const {
       pid,
       fileTree,
-      finalMoveFileId,
       currentFileFolderId,
       currentFileId,
       fileRootId
     } = this.state;
     const moveId = currentFileFolderId || currentFileId;
     const fileTreeTemp = JSON.parse(JSON.stringify(fileTree));
-    const newTree = FileTree.moveNode(moveId, finalMoveFileId, fileTreeTemp);
+    const newTree = FileTree.moveNode(moveId, finalMoveFolderId, fileTreeTemp);
     if (newTree) {
       FileTree.initNodeFinalSelected(newTree);
       FileTree.initNodeSelected(newTree);
@@ -406,7 +395,6 @@ class ProjectDetailAllFile extends Component {
       itemLayOut,
       filesList,
       fileTree,
-      newFileInputText,
       showCreateFile,
       showDleteFile,
       showMoveFile,
@@ -488,7 +476,16 @@ class ProjectDetailAllFile extends Component {
           )}
         </div>
         {/* 创建文件弹出框 */}
-        {showCreateFile && (
+        {
+            showCreateFile && (
+              <AlertCreateFolder 
+                type='文件' 
+                cancel={this.hideAlert} 
+                confirmCreate={this.confirmCreateFile}   
+              />
+            )
+          }
+        {/* {showCreateFile && (
           <div className="createFileAlert">
             <ReactSVG
               className="create-file-alert-icon"
@@ -523,9 +520,18 @@ class ProjectDetailAllFile extends Component {
               />
             </div>
           </div>
-        )}
+        )} */}
         {/* 删除文件弹出框 */}
-        {showDleteFile && (
+        {
+          showDleteFile && (
+            <AlertDeleteFile 
+              type="文件" 
+              cancel={this.hideAlert} 
+              confirmDelete={this.confirmDeleteFile} 
+            />
+          )
+        }
+        {/* {showDleteFile && (
           <div className="deleteFileAlert">
             <div className="delete-file-alert-tip">确认要删除该文件吗</div>
             <div className="delete-file-alert-cancel">
@@ -550,9 +556,18 @@ class ProjectDetailAllFile extends Component {
               />
             </div>
           </div>
-        )}
+        )} */}
         {/* 移动文件弹出框 */}
-        {showMoveFile && (
+        {showMoveFile ? (
+          <AlertMoveFile
+            fileTree={fileTree}
+            cancel={this.hideAlert}
+            confirmMoveFile={this.confirmMoveFile}
+          />
+        ) : (
+          ""
+        )}
+        {/* {showMoveFile && (
           <div className="moveFileAlert">
             <div className="move-file-alert-tip">选择保存路径</div>
             <div className="move-file-tree-container">
@@ -612,7 +627,7 @@ class ProjectDetailAllFile extends Component {
               />
             </div>
           </div>
-        )}
+        )} */}
       </div>
     );
   }

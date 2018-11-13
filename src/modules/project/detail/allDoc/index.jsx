@@ -1,8 +1,9 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
-import ReactSVG from "react-svg";
-import { Scrollbars } from "react-custom-scrollbars";
-import FileTreeComponent from "../../components/fileTree/index";
+// import ReactSVG from "react-svg";
+import AlertMoveFile from "../../components/alertMoveFile";
+import AlertDeleteFile from "../../components/alertDeleteFile";
+import AlertCreateFolder from "../../components/alertCreateFolder";
 import { FileTree } from "../../fileTree1";
 import GoBack from "../../../../components/common/goBack/index";
 import Icon from "../../../../components/common/icon/index";
@@ -12,7 +13,7 @@ import FolderItemDoc from "../../components/folderItemDoc/index";
 import DocItem from "../../components/docItem/index";
 import ProjectService from "../../../../service/project";
 import DocList from "../../components/docList/index";
-import CreateFileAlertIcon from "../../../../assets/svg/commonIcon/editFileAlert.svg";
+// import CreateFileAlertIcon from "../../../../assets/svg/commonIcon/editFileAlert.svg";
 import "./index.css";
 import "../../../../static/css/common.css";
 import FileService from "../../../../service/file";
@@ -40,14 +41,10 @@ class ProjectDetailAllFile extends Component {
       currentDocFolderId: undefined,
       // 是否显示创建文档树节点id
       showCreateDocFile: false,
-      // 输入的新文档名
-      newDocFileInputText: "",
       // 是否显示删除文档
       showDletedoc: false,
       // 是否显示移动文档
       showMoveDoc: false,
-      // 移动文档最终选择的id
-      finalMoveDocId: 0,
       // 文档（夹）列表
       docList: {
         FolderList: [],
@@ -68,7 +65,6 @@ class ProjectDetailAllFile extends Component {
     this.updateDocList = this.updateDocList.bind(this);
     this.getDocUrl = this.getDocUrl.bind(this);
     this.startCreateDoc = this.startCreateDoc.bind(this);
-    this.changenewDocFileInputText = this.changenewDocFileInputText.bind(this);
     this.confirmCreateDocFile = this.confirmCreateDocFile.bind(this);
     this.startDeleteDoc = this.startDeleteDoc.bind(this);
     this.confirmDeleteDoc = this.confirmDeleteDoc.bind(this);
@@ -168,24 +164,17 @@ class ProjectDetailAllFile extends Component {
     }
   }
 
-  // 输入新文档夹名字
-  changenewDocFileInputText(event) {
-    this.setState({
-      newDocFileInputText: event.target.value
-    });
-  }
-
   // 点击确认创建文档夹
-  confirmCreateDocFile() {
-    const { newDocFileInputText, pid, docTree, docRootId } = this.state;
-    if (newDocFileInputText) {
+  confirmCreateDocFile(inputText) {
+    const { pid, docTree, docRootId } = this.state;
+    if (inputText) {
       // 请求创建
-      FileService.createDocFolder(newDocFileInputText, pid)
+      FileService.createDocFolder(inputText, pid)
         .then(res => {
           const newNode = {
             folder: true,
             id: res.id,
-            name: newDocFileInputText,
+            name: inputText,
             child: []
           };
           // 更新文档树
@@ -284,17 +273,18 @@ class ProjectDetailAllFile extends Component {
   }
 
   // 确认移动文档
-  confirmMoveDoc() {
+  confirmMoveDoc(finalMoveFolderId) {
     const {
       pid,
       docTree,
-      finalMoveDocId,
+      // finalMoveDocId,
       currentDocFolderId,
-      currentDocId
+      currentDocId,
+      docRootId
     } = this.state;
     const moveId = currentDocFolderId || currentDocId;
     const docTreeTemp = JSON.parse(JSON.stringify(docTree));
-    const newTree = FileTree.moveNode(moveId, finalMoveDocId, docTreeTemp);
+    const newTree = FileTree.moveNode(moveId, finalMoveFolderId, docTreeTemp);
     if (newTree) {
       FileTree.initNodeFinalSelected(newTree);
       FileTree.initNodeSelected(newTree);
@@ -303,7 +293,7 @@ class ProjectDetailAllFile extends Component {
       ProjectService.updateProjectDocTree(pid, JSON.stringify(newTree))
         .then(() => {
           // 更新视图
-          this.updateDocList();
+          this.updateDocList(docRootId);
         })
         .catch(el => {
           console.error(el);
@@ -320,8 +310,6 @@ class ProjectDetailAllFile extends Component {
       currentDocFolderId: undefined,
       // 是否显示创建文档树节点id
       showCreateDocFile: false,
-      // 输入的新文档名
-      newDocFileInputText: "",
       // 是否显示删除文档
       showDletedoc: false,
       // 是否显示移动文档
@@ -353,7 +341,6 @@ class ProjectDetailAllFile extends Component {
       itemLayOut,
       docList,
       showCreateDocFile,
-      newDocFileInputText,
       showDletedoc,
       showMoveDoc,
       docTree
@@ -434,7 +421,16 @@ class ProjectDetailAllFile extends Component {
           )}
         </div>
         {/* 创建文档夹弹出框 */}
-        {showCreateDocFile && (
+        {
+          showCreateDocFile && (
+            <AlertCreateFolder 
+              type='文档' 
+              cancel={this.hideAlert} 
+              confirmCreate={this.confirmCreateDocFile}   
+            />
+          )
+        }
+        {/* {showCreateDocFile && (
           <div className="createFileAlert">
             <ReactSVG
               className="create-file-alert-icon"
@@ -469,9 +465,18 @@ class ProjectDetailAllFile extends Component {
               />
             </div>
           </div>
-        )}
+        )} */}
         {/* 删除文档弹出框 */}
-        {showDletedoc && (
+        {
+          showDletedoc && (
+            <AlertDeleteFile 
+              type="文档" 
+              cancel={this.hideAlert} 
+              confirmDelete={this.confirmDeleteDoc} 
+              />
+          )
+        }
+        {/* {showDletedoc && (
           <div className="deleteFileAlert">
             <div className="delete-file-alert-tip">确认要删除该文档吗</div>
             <div className="delete-file-alert-cancel">
@@ -496,9 +501,18 @@ class ProjectDetailAllFile extends Component {
               />
             </div>
           </div>
-        )}
+        )} */}
         {/* 移动文档弹出框 */}
-        {showMoveDoc && (
+        {showMoveDoc ? (
+          <AlertMoveFile
+            fileTree={docTree}
+            cancel={this.hideAlert}
+            confirmMoveFile={this.confirmMoveDoc}
+          />
+        ) : (
+          ""
+        )}
+        {/* {showMoveDoc && (
           <div className="moveFileAlert">
             <div className="move-file-alert-tip">选择保存路径</div>
             <div className="move-file-tree-container">
@@ -558,7 +572,7 @@ class ProjectDetailAllFile extends Component {
               />
             </div>
           </div>
-        )}
+        )} */}
       </div>
     );
   }
