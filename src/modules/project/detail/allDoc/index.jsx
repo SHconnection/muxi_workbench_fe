@@ -70,6 +70,7 @@ class ProjectDetailAllFile extends Component {
     this.confirmDeleteDoc = this.confirmDeleteDoc.bind(this);
     this.deleteDocNode = this.deleteDocNode.bind(this);
     this.moveDoc = this.moveDoc.bind(this);
+    this.docToTop = this.docToTop.bind(this);
     this.confirmMoveDoc = this.confirmMoveDoc.bind(this);
     this.hideAlert = this.hideAlert.bind(this);
     this.changeLayoutToItem = this.changeLayoutToItem.bind(this);
@@ -215,40 +216,40 @@ class ProjectDetailAllFile extends Component {
 
   // 确认删除文档
   confirmDeleteDoc() {
-    const { currentDocId, currentDocFolderId, docTree } = this.state;
+    const { currentDocId, currentDocFolderId, docTree } = this.state
     if (currentDocId) {
       FileService.deleteDoc(currentDocId)
         .then(() => {
           // 删除成功
-          this.deleteDocNode(currentDocId);
+          this.deleteDocNode(currentDocId)
         })
         .catch(el => {
-          console.error(el);
+          console.error(el)
         });
     }
     if (currentDocFolderId) {
-      const postData = FileTree.findAllDocList(currentDocFolderId, docTree);
+      const postData = FileTree.findAllDocList(currentDocFolderId, docTree)
       FileService.deleteDocFolder(currentDocFolderId, postData)
         .then(() => {
           // 删除成功
-          this.deleteDocNode(currentDocFolderId);
+          this.deleteDocNode(currentDocFolderId)
         })
         .catch(el => {
-          console.error(el);
-        });
+          console.error(el)
+        })
     }
   }
 
   // 删除文档树节点并更新视图
   deleteDocNode(id) {
-    const { pid, docTree, docRootId } = this.state;
-    const newTree = FileTree.deleteNode(id, docTree).root;
+    const { pid, docTree, docRootId } = this.state
+    const newTree = FileTree.deleteNode(id, docTree).root
     // 更新文档树
     if (newTree) {
       ProjectService.updateProjectDocTree(pid, JSON.stringify(newTree))
         .then(() => {
           // 更新视图
-          this.updateDocList(docRootId);
+          this.updateDocList(docRootId)
         })
         .catch(el => {
           console.error(el);
@@ -281,16 +282,46 @@ class ProjectDetailAllFile extends Component {
       currentDocFolderId,
       currentDocId,
       docRootId
-    } = this.state;
-    const moveId = currentDocFolderId || currentDocId;
-    const docTreeTemp = JSON.parse(JSON.stringify(docTree));
-    const newTree = FileTree.moveNode(moveId, finalMoveFolderId, docTreeTemp);
+    } = this.state
+    const moveId = currentDocFolderId || currentDocId
+    const docTreeTemp = JSON.parse(JSON.stringify(docTree))
+    const newTree = FileTree.moveNode(moveId, finalMoveFolderId, docTreeTemp)
     if (newTree) {
-      FileTree.initNodeFinalSelected(newTree);
-      FileTree.initNodeSelected(newTree);
-      newTree.selected = true;
-      newTree.finalSelected = true;
+      FileTree.initNodeFinalSelected(newTree)
+      FileTree.initNodeSelected(newTree)
+      newTree.selected = true
+      newTree.finalSelected = true
       ProjectService.updateProjectDocTree(pid, JSON.stringify(newTree))
+        .then(() => {
+          // 更新视图
+          this.updateDocList(docRootId)
+        })
+        .catch(el => {
+          console.error(el)
+        })
+    }
+  }
+
+  // 置顶
+  docToTop(index) {
+    const {
+      pid,
+      docRootId,
+      docTree
+    } = this.state
+    if (index) {
+      const docTreeTemp = JSON.parse(JSON.stringify(docTree))
+      const docArr = FileTree.searchNode(docRootId, docTreeTemp).child
+      let docStart = 0
+      for (let i = 0; i < docArr.length; i++) {
+        if (docArr[i].folder) {
+          docStart += 1
+        }
+        else break
+      }
+      const topItem = docArr.splice(docStart+index, 1)
+      docArr.splice(docStart, 0, topItem[0])
+      ProjectService.updateProjectDocTree(pid, JSON.stringify(docTreeTemp))
         .then(() => {
           // 更新视图
           this.updateDocList(docRootId);
@@ -399,21 +430,27 @@ class ProjectDetailAllFile extends Component {
             </div>
           ) : (
             <div className="projectDetail-allFile-list">
-              <div className="projectDetail-allFile-list-title">
-                <div className="projectDetail-allFile-list-name">文件名称</div>
-                <div className="projectDetail-allFile-list-uploader">
-                  上传者
-                </div>
-                <div className="projectDetail-allFile-list-time">上传时间</div>
-                <div className="projectDetail-allFile-list-url">路径</div>
-              </div>
-              {docList.DocList.map(el => (
+              {
+                !!docList.DocList.length ? (
+                  <div className="projectDetail-allFile-list-title">
+                    <div className="projectDetail-allFile-list-name">文件名称</div>
+                    <div className="projectDetail-allFile-list-uploader">
+                      上传者
+                    </div>
+                    <div className="projectDetail-allFile-list-time">上传时间</div>
+                    <div className="projectDetail-allFile-list-url">路径</div>
+                  </div>
+                ) : ''
+              }
+              {docList.DocList.map((el, index) => (
                 <div key={el.id}>
                   <DocList
                     item={el}
+                    index={index}
                     docUrl={docUrl}
                     moveDoc={this.moveDoc}
                     deleteDoc={this.startDeleteDoc}
+                    docToTop={this.docToTop}
                   />
                 </div>
               ))}

@@ -74,6 +74,7 @@ class ProjectDetailAllFile extends Component {
     this.confirmDeleteFile = this.confirmDeleteFile.bind(this);
     this.moveFile = this.moveFile.bind(this);
     this.confirmMoveFile = this.confirmMoveFile.bind(this);
+    this.fileToTop = this.fileToTop.bind(this);
     this.hideAlert = this.hideAlert.bind(this);
   }
 
@@ -356,6 +357,36 @@ class ProjectDetailAllFile extends Component {
     }
   }
 
+  // 置顶
+  fileToTop(index) {
+    const {
+      pid,
+      fileRootId,
+      fileTree, 
+    } = this.state
+    if (index) {
+      const fileTreeTemp = JSON.parse(JSON.stringify(fileTree))
+      const fileArr = FileTree.searchNode(fileRootId, fileTreeTemp).child
+      let fileStart = 0
+      for (let i = 0; i < fileArr.length; i++) {
+        if (fileArr[i].folder) {
+          fileStart += 1
+        }
+        else break
+      }
+      const topItem = fileArr.splice(fileStart+index, 1)
+      fileArr.splice(fileStart, 0, topItem[0])
+      ProjectService.updateProjectFileTree(pid, JSON.stringify(fileTreeTemp))
+        .then(() => {
+          // 更新视图
+          this.updateFilesList(fileRootId);
+        })
+        .catch(el => {
+          console.error(el);
+        });
+    }
+  }
+
   // 隐藏弹出框
   hideAlert() {
     this.setState({
@@ -378,12 +409,6 @@ class ProjectDetailAllFile extends Component {
   changeLayoutToItem() {
     this.setState({
       itemLayOut: true
-    });
-  }
-
-  cancelMoveFile() {
-    this.setState({
-      showMoveFile: false
     });
   }
 
@@ -454,21 +479,27 @@ class ProjectDetailAllFile extends Component {
             </div>
           ) : (
             <div className="projectDetail-allFile-list">
-              <div className="projectDetail-allFile-list-title">
-                <div className="projectDetail-allFile-list-name">文件名称</div>
-                <div className="projectDetail-allFile-list-uploader">
-                  上传者
-                </div>
-                <div className="projectDetail-allFile-list-time">上传时间</div>
-                <div className="projectDetail-allFile-list-url">路径</div>
-              </div>
-              {filesList.FileList.map(el => (
+              {
+                !!filesList.FileList.length ? (
+                  <div className="projectDetail-allFile-list-title">
+                    <div className="projectDetail-allFile-list-name">文件名称</div>
+                    <div className="projectDetail-allFile-list-uploader">
+                      上传者
+                    </div>
+                    <div className="projectDetail-allFile-list-time">上传时间</div>
+                    <div className="projectDetail-allFile-list-url">路径</div>
+                  </div>
+                ) : ''
+              }
+              {filesList.FileList.map((el, index) => (
                 <div key={el.id}>
                   <FileList
                     item={el}
+                    index={index}
                     fileUrl={fileUrl}
                     moveFile={this.moveFile}
                     deleteFile={this.startDeleteFile}
+                    fileToTop={this.fileToTop}
                   />
                 </div>
               ))}
