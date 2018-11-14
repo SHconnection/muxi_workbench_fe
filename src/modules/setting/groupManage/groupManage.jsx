@@ -34,7 +34,6 @@ class GroupManage extends Component {
     ManageService.getAllGroup()
       .then(data => {
         if (data) {
-          console.log(data.groupList[0].userCount);
           const arr = data.groupList.map(group => {
             const obj = {};
 
