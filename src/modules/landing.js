@@ -85,14 +85,15 @@ class Landing extends React.Component {
     if (loginSuccess === 2) {
       return (
         <div>
-          <div>成功向团队发起申请,请留意填写的邮箱</div>;
+          <div>成功向团队发起申请,请留意填写的邮箱</div>
           <WrongPage info={wrong} cancel={this.cancel} />
         </div>
       );
     }
     return (
       <div>
-        <div>页面加载中···</div>;<WrongPage info={wrong} cancel={this.cancel} />
+        <div>页面加载中···</div>
+        <WrongPage info={wrong} cancel={this.cancel} />
       </div>
     );
   }

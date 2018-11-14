@@ -20,7 +20,7 @@ class EditDoc extends Component {
     this.save = this.save.bind(this);
     // this.getDocTree = this.getDocTree.bind(this);
     this.getDocContent = this.getDocContent.bind(this);
-    this.cancel = this.cancel.bind(this);
+    // this.cancel = this.cancel.bind(this);
   }
 
   componentWillMount() {
@@ -78,7 +78,6 @@ class EditDoc extends Component {
     return (
       <div>
         <Edit content={content} title={title} save={this.save} />
-
         <WrongPage info={wrong} cancel={this.cancel} />
       </div>
     );

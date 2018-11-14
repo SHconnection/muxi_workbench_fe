@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import "./index.css";
 
 function DocList(props) {
-  const { item, docUrl, deleteDoc, moveDoc, DocToTop } = props;
+  const { item, index, docUrl, deleteDoc, moveDoc, docToTop } = props;
   const createTimeArray = item.create_time.split(/\D/);
   return (
     <div className="project-fileList-container">
@@ -44,7 +44,7 @@ function DocList(props) {
         </div>
         <div
           onClick={() => {
-            DocToTop(item.id);
+            docToTop(index);
           }}
           onKeyDown={() => {}}
           role="presentation"
@@ -63,10 +63,11 @@ DocList.propTypes = {
     creator: PropTypes.string,
     create_time: PropTypes.string
   }),
+  index: PropTypes.number,
   docUrl: PropTypes.string,
   deleteDoc: PropTypes.func,
   moveDoc: PropTypes.func,
-  DocToTop: PropTypes.func
+  docToTop: PropTypes.func
 };
 
 DocList.defaultProps = {
@@ -77,10 +78,11 @@ DocList.defaultProps = {
     create_time: "",
     url: ""
   },
+  index: 0,
   docUrl: "",
   deleteDoc: () => {},
   moveDoc: () => {},
-  DocToTop: () => {}
+  docToTop: () => {}
 };
 
 export default DocList;

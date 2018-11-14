@@ -135,7 +135,6 @@ class ProjectTrash extends Component {
         ) : (
           ""
         )}
-
         <WrongPage info={wrong} cancel={this.cancel} />
       </div>
     );

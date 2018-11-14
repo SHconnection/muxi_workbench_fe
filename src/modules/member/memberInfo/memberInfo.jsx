@@ -29,7 +29,7 @@ const MemberInfo = ({ mem, square }) => (
         className="memberInfo-img"
         role="button"
         tabIndex="-1"
-        onKeyDown
+        onKeyDown={() => {}}
         onClick={() => {
           localStorage.per = JSON.stringify(mem);
         }}

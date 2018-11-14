@@ -11,8 +11,8 @@ function getCookie(cname) {
   const ca = document.cookie.split(";");
   for (let i = 0; i < ca.length; i++) {
     let c = ca[i];
-    while (c.charAt(0) == " ") c = c.substring(1);
-    if (c.indexOf(name) != -1) return c.substring(name.length, c.length);
+    while (c.charAt(0) === " ") c = c.substring(1);
+    if (c.indexOf(name) !== -1) return c.substring(name.length, c.length);
   }
   return "";
 }
@@ -43,7 +43,7 @@ function getToken() {
   if (cookie.getCookie("token")) {
     const token = btoa(`${cookie.getCookie("token")}:`);
     // var token = cookie.getCookie("token");
-    var auth = { Authorization: `Basic ${token}` };
+    auth = { Authorization: `Basic ${token}` };
   }
   return auth;
 }
