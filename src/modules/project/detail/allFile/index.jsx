@@ -76,18 +76,22 @@ class ProjectDetailAllFile extends Component {
     this.confirmMoveFile = this.confirmMoveFile.bind(this);
     this.fileToTop = this.fileToTop.bind(this);
     this.hideAlert = this.hideAlert.bind(this);
+    this.updateFilesList(parseInt(match.params.id, 0));
   }
 
-  componentWillMount() {
-    const { fileRootId } = this.state;
-    this.updateFilesList(fileRootId);
-  }
+  // componentWillMount() {
+  //   const { fileRootId } = this.state;
+  //   this.updateFilesList(fileRootId);
+  // }
 
   componentWillUpdate(nextProps) {
     /* eslint-disable */
     const { location } = this.props;
     /* eslint-disable */
     if (location !== nextProps.location) {
+      this.setState({
+        fileRootId: parseInt(nextProps.match.params.id, 0)
+      })
       this.updateFilesList(parseInt(nextProps.match.params.id, 0));
     }
   }
@@ -267,8 +271,7 @@ class ProjectDetailAllFile extends Component {
     }
     // 文件夹
     if (currentFileFolderId) {
-      const postData = FileTree.findAllFileList(currentFileFolderId, fileTree);
-      console.log(postData);
+      const postData = FileTree.findAllFileList(currentFileFolderId, fileTree)
       FileService.deleteFileFolder(currentFileFolderId, postData)
         .then(() => {
           // 删除成功
@@ -300,33 +303,45 @@ class ProjectDetailAllFile extends Component {
   // 开始移动文件
   moveFile(id, str) {
     // 移动文件获文件夹
-    if (str === "file" || str === "fileFolder") {
+    this.setState({
+      showMoveFile: true
+    });
+    if (str === "file") {
       this.setState({
-        showMoveFile: true
+        currentFileId: id
       });
-      if (str === "file") {
-        this.setState({
-          currentFileId: id
-        });
-      } else {
-        this.setState({
-          currentFileFolderId: id
-        });
-      }
     } else {
       this.setState({
-        showMoveDoc: true
+        currentFileFolderId: id
       });
-      if (str === "doc") {
-        this.setState({
-          currentDocId: id
-        });
-      } else {
-        this.setState({
-          currentDocFolderId: id
-        });
-      }
     }
+    // if (str === "file" || str === "fileFolder") {
+    //   this.setState({
+    //     showMoveFile: true
+    //   });
+    //   if (str === "file") {
+    //     this.setState({
+    //       currentFileId: id
+    //     });
+    //   } else {
+    //     this.setState({
+    //       currentFileFolderId: id
+    //     });
+    //   }
+    // } else {
+    //   this.setState({
+    //     showMoveDoc: true
+    //   });
+    //   if (str === "doc") {
+    //     this.setState({
+    //       currentDocId: id
+    //     });
+    //   } else {
+    //     this.setState({
+    //       currentDocFolderId: id
+    //     });
+    //   }
+    // }
   }
 
   // 确认移动文件
@@ -395,8 +410,7 @@ class ProjectDetailAllFile extends Component {
       showMoveFile: false,
       newFileInputText: "",
       currentFileId: undefined,
-      currentFileFolderId: undefined,
-      finalMoveFileId: 0
+      currentFileFolderId: undefined
     });
   }
 
@@ -415,6 +429,7 @@ class ProjectDetailAllFile extends Component {
   render() {
     const {
       pid,
+      fileRootId, 
       currentRootName,
       fileOption,
       itemLayOut,
@@ -450,7 +465,7 @@ class ProjectDetailAllFile extends Component {
                 />
               </div>
               <div>
-                <Button text="批量管理" to="./file_batch_manage" />
+                <Button text="批量管理" to={`../batchFile/${fileRootId}`} />
               </div>
             </div>
           </div>

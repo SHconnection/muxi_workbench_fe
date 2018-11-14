@@ -1,0 +1,53 @@
+.project-fileList-container {
+  height: 33px;
+  display: -webkit-flex;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.project-fileList-left {
+  height: 100%;
+  display: -webkit-flex;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.project-fileList-left > div {
+  font-size: 16px;
+  color: rgba(0, 0, 0, 0.65);
+  text-align: center;
+  white-space:nowrap;
+  overflow: hidden; 
+  text-overflow: ellipsis;
+}
+
+.project-fileList-name {
+  width: 80px;
+}
+
+.project-fileList-uploader {
+  margin-left: 150px;
+  min-width: 60px;
+  text-align: center;
+}
+
+.project-fileList-time {
+  margin-left: 60px;
+  min-width: 80px;
+  text-align: center;
+}
+
+.project-fileList-url {
+  width: 80px;
+  margin-left: 60px;
+  min-width: 106px;
+  text-align: center;
+}
+
+.project-fileList-batch-right {
+  height: 100%;
+  margin-right: 70px;
+}

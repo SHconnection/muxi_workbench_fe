@@ -10,6 +10,8 @@ import SetProject from "../setting/projectSetting/projectSetting";
 import EditMember from "../setting/editMember/editMember";
 import ProjectDetailAllFile from "./detail/allFile/index";
 import ProjectDetailAllDoc from "./detail/allDoc/index";
+import BatchFile from "./detail/batchFile/index";
+import BatchDoc from "./detail/batchDoc/index";
 import DocPreview from "./detail/docPreview/index";
 import FilePreview from "./detail/filePreview/index";
 import NewDoc from "./detail/newDoc/index";
@@ -36,6 +38,14 @@ const Project = props => {
       <Route
         path={`${match.url}/:pid/docFolder/:id`}
         component={ProjectDetailAllDoc}
+      />
+      <Route
+        path={`${match.url}/:pid/batchFile/:id`}
+        component={BatchFile}
+      />
+      <Route
+        path={`${match.url}/:pid/batchDoc/:id`}
+        component={BatchDoc}
       />
       <Route path={`${match.url}/:pid/newDoc/:id`} component={NewDoc} />
       <Route path={`${match.url}/:pid/file/:id`} component={FilePreview} />

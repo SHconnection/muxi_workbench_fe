@@ -75,18 +75,22 @@ class ProjectDetailAllFile extends Component {
     this.hideAlert = this.hideAlert.bind(this);
     this.changeLayoutToItem = this.changeLayoutToItem.bind(this);
     this.changeLayoutToList = this.changeLayoutToList.bind(this);
+    this.updateDocList(parseInt(match.params.id, 0));
   }
 
-  componentWillMount() {
-    const { docRootId } = this.state;
-    this.updateDocList(docRootId);
-  }
+  // componentWillMount() {
+  //   const { docRootId } = this.state;
+  //   this.updateDocList(docRootId);
+  // }
 
   componentWillUpdate(nextProps) {
     /* eslint-disable */
     const { location } = this.props;
     /* eslint-disable */
     if (location !== nextProps.location) {
+      this.setState({
+        docRootId: parseInt(nextProps.match.params.id, 0)
+      })
       this.updateDocList(parseInt(nextProps.match.params.id, 0));
     }
   }
@@ -366,6 +370,7 @@ class ProjectDetailAllFile extends Component {
   render() {
     const {
       pid,
+      docRootId, 
       currentRootName,
       docUrl,
       docOption,
@@ -401,7 +406,7 @@ class ProjectDetailAllFile extends Component {
                 />
               </div>
               <div>
-                <Button text="批量管理" to="./file_batch_manage" />
+                <Button text="批量管理" to={`../batchDoc/${docRootId}`} />
               </div>
             </div>
           </div>
