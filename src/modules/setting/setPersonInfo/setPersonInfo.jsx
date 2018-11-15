@@ -37,19 +37,7 @@ class SetPersonalInfo extends Component {
   }
 
   componentDidMount() {
-    const per = JSON.parse(localStorage.per);
     const { identity, selIdentities } = this.state;
-
-    if (per.role > 1) {
-      identity[0].selected = true;
-      identity[1].selected = false;
-      if (per.role !== 7) selIdentities[0] = 3;
-      else selIdentities[0] = 7;
-    } else {
-      identity[0].selected = false;
-      identity[1].selected = true;
-      selIdentities[0] = 1;
-    }
 
     ManageService.getPersonalPro(localStorage.id)
       .then(project => {
@@ -66,7 +54,7 @@ class SetPersonalInfo extends Component {
             return obj;
           });
 
-          ManageService.getPersonalPro(per.id)
+          ManageService.getPersonalPro(localStorage.per)
             .then(pro => {
               let idList = [];
 
@@ -80,6 +68,15 @@ class SetPersonalInfo extends Component {
 
                   return item;
                 });
+              }
+
+              identity[0].selected = false;
+              identity[1].selected = true;
+              selIdentities[0] = 1;
+              if (parseInt(localStorage.perRole, 10) > 1) {
+                identity[0].selected = true;
+                identity[1].selected = false;
+                selIdentities[0] = parseInt(localStorage.perRole, 10);
               }
 
               this.setState({
@@ -157,13 +154,14 @@ class SetPersonalInfo extends Component {
   }
 
   saveModifyMember() {
-    const per = JSON.parse(localStorage.per);
     const { selIdentities, selMembers } = this.state;
 
-    ManageService.saveModifyMemberIdenty(per.id, selIdentities).catch(error => {
-      this.setState({ wrong: error });
-    });
-    ManageService.saveModifyMemberPro(per.id, selMembers)
+    ManageService.saveModifyMemberIdenty(localStorage.per, selIdentities).catch(
+      error => {
+        this.setState({ wrong: error });
+      }
+    );
+    ManageService.saveModifyMemberPro(localStorage.per, selMembers)
       .then(() => {
         this.setState({ ifSave: true });
 
@@ -177,7 +175,6 @@ class SetPersonalInfo extends Component {
   }
 
   render() {
-    const per = JSON.parse(localStorage.per);
     const {
       identity,
       selIdentities,
@@ -188,12 +185,17 @@ class SetPersonalInfo extends Component {
       deled,
       wrong
     } = this.state;
+    const {
+      match: {
+        params: { name }
+      }
+    } = this.props;
 
     return (
       <div className="subject minH">
         <GoBack />
         <b className="title">
-          {per.name}
+          {name}
           的设置
         </b>
 
@@ -254,7 +256,7 @@ class SetPersonalInfo extends Component {
             deleteX={deleteX}
             transferMsg={this.transferMsgDel}
             memDel
-            userId={per.id}
+            userId={parseInt(localStorage.per, 10)}
             certain
           />
           <Delete

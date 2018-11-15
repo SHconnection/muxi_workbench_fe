@@ -25,9 +25,7 @@ class PersonalAttention extends Component {
   }
 
   componentDidMount() {
-    const per = JSON.parse(localStorage.per);
-
-    MessageService.getPersonalAttention(per.id)
+    MessageService.getPersonalAttention(localStorage.per)
       .then(attention => {
         const arr = attention.list.map((item1, index) => {
           const item = item1;
@@ -99,7 +97,9 @@ class PersonalAttention extends Component {
                     }}
                     onKeyDown={this.handleClick}
                   >
-                    {parseInt(localStorage.id, 10) === per.id ? "取消关注" : ""}
+                    {parseInt(localStorage.id, 10) === localStorage.per
+                      ? "取消关注"
+                      : ""}
                   </span>
                 </div>
               </div>

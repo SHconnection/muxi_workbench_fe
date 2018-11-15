@@ -9,9 +9,8 @@ import "../../../static/css/common.css";
 import "./memberInfo.css";
 
 const userLevelSet = {
-  0: "普通用户",
   1: "普通用户",
-  4: "管理员",
+  3: "管理员",
   7: "超级管理员"
 };
 
@@ -31,7 +30,8 @@ const MemberInfo = ({ mem, square }) => (
         tabIndex="-1"
         onKeyDown={() => {}}
         onClick={() => {
-          localStorage.per = JSON.stringify(mem);
+          localStorage.per = mem.id;
+          localStorage.perRole = mem.role;
         }}
       >
         <Avatar width={60} height={60} square={square} src={mem.avatar} />
@@ -47,11 +47,6 @@ const MemberInfo = ({ mem, square }) => (
           <span className="memberInfo-littleGroup">{userGroup(mem.group)}</span>
         </div>
       </div>
-      {/* <div className="memberInfo-name">
-        <b className="memberInfo-nameSize">{mem.name || mem.username}</b>
-        <div className="memberInfo-role">{userLevelSet[mem.role]}</div>
-      </div>
-      <span className="memberInfo-littleGroup">{userGroup(mem.group)}</span> */}
     </div>
   </div>
 );
@@ -63,7 +58,8 @@ MemberInfo.propTypes = {
     avatar: PropTypes.string,
     name: PropTypes.string,
     role: PropTypes.number,
-    group: PropTypes.string
+    group: PropTypes.string,
+    id: PropTypes.number
   }),
   square: PropTypes.bool
 };

@@ -107,11 +107,15 @@ class feedItem extends Component {
             <Avatar src={avatarUrl} width="60" height="60" />
           </div>
           <div className="feed-action">
-            <div>
-              <Link
-                to={`/member/teamMember/personalInfo/${uid}/`}
-                className="link"
-              >
+            <div
+              role="button"
+              tabIndex="-1"
+              onKeyDown={() => {}}
+              onClick={() => {
+                localStorage.per = uid;
+              }}
+            >
+              <Link to={`/member/teamMember/personalInfo`} className="link">
                 {userName}
               </Link>
             </div>

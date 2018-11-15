@@ -39,7 +39,7 @@ const Member = ({ match }) => (
       component={PersonalSet}
     />
     <Route
-      path={`${match.url}/teamMember/personalInfo/setPersonalInfo`}
+      path={`${match.url}/teamMember/personalInfo/setPersonalInfo/:name`}
       component={SetPersonalInfo}
     />
     <Route path={`${match.url}/teamMember/SetManager`} component={SetManager} />

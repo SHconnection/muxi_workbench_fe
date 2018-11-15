@@ -15,7 +15,7 @@ const data = {
   teamID: 0
 };
 const data1 = {
-  username: "darren"
+  username: "xuanye"
 };
 
 localStorage.username = data1.username;
@@ -36,13 +36,7 @@ class Landing extends React.Component {
         localStorage.id = response.uid;
         localStorage.token = response.token;
         Cookie.setCookie("workbench_token", response.token);
-        localStorage.role = response.role || 7;
-
-        const per = {};
-        per.id = localStorage.id;
-        per.token = localStorage.token;
-        per.role = localStorage.role;
-        localStorage.per = JSON.stringify(per);
+        localStorage.role = response.urole;
 
         ManageService.getPersonalSet(response.uid)
           .then(res => {
