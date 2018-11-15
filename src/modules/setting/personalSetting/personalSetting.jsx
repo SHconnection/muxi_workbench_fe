@@ -85,7 +85,6 @@ class PersonalSet extends Component {
 
   savePersonalSet() {
     const { inputName, inputMailbox, inputPhone, selMembers } = this.state;
-    const per = JSON.parse(localStorage.per);
     const obj = {
       username: inputName,
       address: inputMailbox,

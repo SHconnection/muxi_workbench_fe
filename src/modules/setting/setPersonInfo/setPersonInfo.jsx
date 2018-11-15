@@ -2,6 +2,7 @@
 个人设置页面组件
 */
 import React, { Component } from "react";
+import PropTypes from "prop-types";
 import GoBack from "../../../components/common/goBack/index";
 import Member from "../components/member/member";
 import Delete from "../components/delete/delete";
@@ -273,3 +274,15 @@ class SetPersonalInfo extends Component {
 }
 
 export default SetPersonalInfo;
+
+SetPersonalInfo.propTypes = {
+  match: PropTypes.shape({
+    params: PropTypes.shape({
+      name: PropTypes.string
+    })
+  })
+};
+
+SetPersonalInfo.defaultProps = {
+  match: {}
+};

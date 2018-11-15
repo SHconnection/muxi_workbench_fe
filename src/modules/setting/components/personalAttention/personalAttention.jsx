@@ -61,7 +61,6 @@ class PersonalAttention extends Component {
 
   render() {
     const { data, deleteX, members, wrong } = this.state;
-    const per = JSON.parse(localStorage.per);
 
     return (
       <div className="present">
