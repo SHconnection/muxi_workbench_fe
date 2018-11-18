@@ -1,8 +1,9 @@
 import React, { Component } from "react";
+import ReactSVG from "react-svg";
 import { NavLink, Link, withRouter } from "react-router-dom";
 import PropTypes from "prop-types";
 import logo from "../../../assets/img/logo@2x.png";
-import searchIcon from "../../../assets/img/search@2x.png";
+import searchIcon from "../../../assets/svg/commonIcon/search.svg";
 import Avatar from "../avatar/index";
 import Inform from "./inform/index";
 import "./index.css";
@@ -119,10 +120,10 @@ class Header extends Component {
               onKeyDown={() => {}}
               role="presentation"
             >
-              <img
+              <ReactSVG
                 className="header-search-icon"
-                src={searchIcon}
-                alt="search"
+                path={searchIcon}
+                svgStyle={{ width: 22 }}
               />
             </div>
           </div>
