@@ -11,13 +11,13 @@ class WrongPage extends Component {
 
     return (
       <div
-        className={info.msg ? "contain minH" : "none"}
+        className={info.message ? "contain minH" : "none"}
         ref={c => {
           this.contain = c;
         }}
       >
         <div className="subject alert">
-          <p>{info.msg}</p>
+          <p>{info.message}</p>
           <button
             type="button"
             className="delBtn delete-btnMarg"
@@ -48,7 +48,7 @@ export default WrongPage;
 
 WrongPage.propTypes = {
   info: PropTypes.shape({
-    msg: PropTypes.string
+    message: PropTypes.string
   }),
   cancel: PropTypes.func
 };
