@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 import StatusItem from "../components/basicCard/index";
 import Gotop from "../../../components/common/toTop/top";
-import StatusService from "../../../service/status";
 import WrongPage from "../../../components/common/wrongPage/wrongPage";
 import "./progerss.css";
 
@@ -50,161 +49,48 @@ class Progress extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      cout: 0,
-      page: 1,
-      isPersonal: 0,
-      statuList: []
+      count: props.count,
+      page: props.page,
+      isPersonal: props.isPersonal,
+      statuList: props.statuList
     };
-    this.getStatusList = this.getStatusList.bind(this);
     this.scroll = this.scroll.bind(this);
+    this.getstatuList = props.getstatuList;
   }
 
   // 返回给我总的条数，条数除以20=page
 
   componentWillMount() {
-    const { match } = this.props;
-    if (match.url === "/status") {
-      StatusService.getStatusList(1)
-        .then(status => {
-          if (status) {
-            const arr1 = status.statuList.map(statu1 => {
-              const statu = statu1;
-              const obj = {};
-              obj.sid = statu.sid;
-              obj.username = statu.username;
-              obj.avatar = statu.avatar;
-              obj.time = statu.time;
-              obj.iflike = statu.iflike;
-              obj.content = statu.content;
-              obj.likeCount = statu.likeCount;
-              obj.commentCount = statu.commentCount;
-              return obj;
-            });
-            const count1 = status.count;
-            const changePage = status.page;
-            this.setState({
-              cout: count1,
-              page: changePage,
-              statuList: arr1,
-              isPersonal: 0
-            });
-          }
-        })
-        .catch(error => {
-          this.setState({ wrong: error });
-        });
-    } else {
-      StatusService.getPersonalStatus(match.params.uid, 1)
-        .then(status => {
-          if (status) {
-            const arr1 = status.statuList.map(statu1 => {
-              const statu = statu1;
-              const obj = {};
-              obj.sid = statu.sid;
-              obj.username = statu.username;
-              obj.avatar = statu.avatar;
-              obj.time = statu.time;
-              obj.iflike = statu.iflike;
-              obj.content = statu.content;
-              obj.likeCount = statu.likeCount;
-              obj.commentCount = statu.commentCount;
-              return obj;
-            });
-            const count1 = status.count;
-            const changePage = status.page;
-            this.setState({
-              cout: count1,
-              page: changePage,
-              statuList: arr1,
-              isPersonal: 1
-            });
-          }
-        })
-        .catch(error => {
-          this.setState({ wrong: error });
-        });
-    }
+    this.getstatuList();
   }
 
   componentDidMount() {
     window.addEventListener("scroll", this.scroll);
   }
 
+  componentWillReceiveProps(nextProps) {
+    const { page, count } = this.state;
+    if (page !== nextProps.page) {
+      this.setState({
+        page: nextProps.page,
+        statuList: nextProps.statuList
+      });
+    }
+    if (count !== nextProps.count) {
+      this.setState({
+        count: nextProps.count,
+        isPersonal: nextProps.isPersonal
+      });
+    }
+  }
+
   componentWillUnmount() {
     window.removeEventListener("scroll", this.scroll);
   }
 
-  getStatusList() {
-    const { match } = this.props;
-    const { page } = this.state;
-    if (match.path === "/status") {
-      StatusService.getStatusList(page + 1)
-        .then(status => {
-          if (status) {
-            const arr1 = status.statuList.map(statu1 => {
-              const statu = statu1;
-              const obj = {};
-              obj.sid = statu.sid;
-              obj.username = statu.username;
-              obj.avatar = statu.avatar;
-              obj.time = statu.time;
-              obj.iflike = statu.iflike;
-              obj.content = statu.content;
-              obj.likeCount = statu.likeCount;
-              obj.commentCount = statu.commentCount;
-              return obj;
-            });
-            const count1 = status.count;
-            const changePage = status.page;
-            const { statuList } = this.state;
-            this.setState({
-              cout: count1,
-              page: changePage,
-              statuList: statuList.concat(arr1),
-              isPersonal: 0
-            });
-          }
-        })
-        .catch(error => {
-          this.setState({ wrong: error });
-        });
-    } else {
-      StatusService.getPersonalStatus(match.params.uid, page + 1)
-        .then(status => {
-          if (status) {
-            const arr1 = status.statuList.map(statu1 => {
-              const statu = statu1;
-              const obj = {};
-              obj.sid = statu.sid;
-              obj.username = statu.username;
-              obj.avatar = statu.avatar;
-              obj.time = statu.time;
-              obj.iflike = statu.iflike;
-              obj.content = statu.content;
-              obj.likeCount = statu.likeCount;
-              obj.commentCount = statu.commentCount;
-              return obj;
-            });
-            const count1 = status.count;
-            const changePage = status.page;
-            const { statuList } = this.state;
-            this.setState({
-              cout: count1,
-              page: changePage,
-              statuList: statuList.concat(arr1),
-              isPersonal: 0
-            });
-          }
-        })
-        .catch(error => {
-          this.setState({ wrong: error });
-        });
-    }
-  }
-
   scroll() {
     if (getScrollTop() + getWindowHeight() === getScrollHeight()) {
-      this.getStatusList();
+      this.getstatuList();
     }
   }
 
@@ -213,10 +99,7 @@ class Progress extends Component {
   }
 
   render() {
-    const { statuList, isPersonal, cout, page, wrong } = this.state;
-    const {
-      match: { url }
-    } = this.props;
+    const { statuList, isPersonal, count, page, wrong } = this.state;
     return (
       <div>
         <div className={isPersonal ? "" : "status"}>
@@ -232,14 +115,14 @@ class Progress extends Component {
                   content={card.content}
                   likeCount={card.likeCount}
                   commentCount={card.commentCount}
-                  isPersonal={url === "/status" ? 0 : 1}
+                  isPersonal={isPersonal}
                 />
               </div>
             ))}
           </div>
         </div>
         <div className="loadMore">
-          {cout / 20 >= page ? "下拉加载更多..." : "最后一页啦"}
+          {count / 20 >= page ? "下拉加载更多..." : "最后一页啦"}
         </div>
         <Gotop />
         <WrongPage info={wrong} cancel={this.cancel} />
@@ -249,16 +132,19 @@ class Progress extends Component {
 }
 
 Progress.propTypes = {
-  match: PropTypes.shape({
-    url: PropTypes.string,
-    params: PropTypes.shape({
-      id: PropTypes.string
-    })
-  })
+  count: PropTypes.number,
+  page: PropTypes.number,
+  isPersonal: PropTypes.number,
+  statuList: PropTypes.instanceOf(Array),
+  getstatuList: PropTypes.func
 };
 
 Progress.defaultProps = {
-  match: {}
+  count: 0,
+  page: 0,
+  isPersonal: 0,
+  statuList: [],
+  getstatuList: {}
 };
 
 export default Progress;
