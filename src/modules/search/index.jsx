@@ -35,7 +35,8 @@ class Search extends Component {
       },
       filterList: [],
       encodeText: this.encode,
-      searchText: this.uncode
+      searchText: this.uncode,
+      wrong: {}
     };
   }
 
@@ -82,7 +83,7 @@ class Search extends Component {
   }
 
   cancel() {
-    this.setState({ wrong: "" });
+    this.setState({ wrong: {} });
   }
 
   changeProject(index) {

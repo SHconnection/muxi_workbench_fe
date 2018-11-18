@@ -78,8 +78,10 @@ class Dynamic extends Component {
       hasNext: true,
       pageNum: 0,
       dataList: [],
-      isPersonal: 1
+      isPersonal: 1,
+      wrong: {}
     };
+    this.scroll = this.scroll.bind(this);
   }
 
   componentWillMount() {
@@ -159,11 +161,11 @@ class Dynamic extends Component {
   }
 
   componentDidMount() {
-    window.onscroll = () => {
-      if (getScrollTop() + getWindowHeight() === getScrollHeight()) {
-        this.getFeedList();
-      }
-    };
+    window.addEventListener("scroll", this.scroll);
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener("scroll", this.scroll);
   }
 
   getFeedList() {
@@ -248,8 +250,14 @@ class Dynamic extends Component {
     }
   }
 
+  scroll() {
+    if (getScrollTop() + getWindowHeight() === getScrollHeight()) {
+      this.getFeedList();
+    }
+  }
+
   cancel() {
-    this.setState({ wrong: "" });
+    this.setState({ wrong: {} });
   }
 
   render() {
