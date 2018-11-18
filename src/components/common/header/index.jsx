@@ -7,8 +7,6 @@ import Avatar from "../avatar/index";
 import Inform from "./inform/index";
 import "./index.css";
 
-const AvatarImg = localStorage.avatar;
-
 class Header extends Component {
   constructor(props) {
     super(props);
@@ -102,7 +100,7 @@ class Header extends Component {
                 localStorage.per = localStorage.id;
               }}
             >
-              <Avatar src={AvatarImg} />
+              <Avatar src={localStorage.avatar} />
             </Link>
             <div>
               <Inform />
