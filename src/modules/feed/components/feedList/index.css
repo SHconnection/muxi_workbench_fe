@@ -46,10 +46,13 @@
     margin-left: 12px;
     display: flex;
     align-items: center;
+    vertical-align: middle;
 }
 .link{
     font-size: 16px;
+    vertical-align: middle;
 }
 .feed-action-word{
     color: #404040;
+    vertical-align: middle;
 }

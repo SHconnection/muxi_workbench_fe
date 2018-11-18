@@ -6,8 +6,6 @@ import StatusService from "../../../service/status";
 import WrongPage from "../../../components/common/wrongPage/wrongPage";
 import "./progerss.css";
 
-// let scrollTo = 0;
-
 function getScrollTop() {
   let scrollTop = 0;
   let bodyScrollTop = 0;
@@ -58,6 +56,7 @@ class Progress extends Component {
       statuList: []
     };
     this.getStatusList = this.getStatusList.bind(this);
+    this.scroll = this.scroll.bind(this);
   }
 
   // 返回给我总的条数，条数除以20=page
@@ -128,11 +127,11 @@ class Progress extends Component {
   }
 
   componentDidMount() {
-    window.onscroll = () => {
-      if (getScrollTop() + getWindowHeight() === getScrollHeight()) {
-        this.getStatusList();
-      }
-    };
+    window.addEventListener("scroll", this.scroll);
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener("scroll", this.scroll);
   }
 
   getStatusList() {
@@ -200,6 +199,12 @@ class Progress extends Component {
         .catch(error => {
           this.setState({ wrong: error });
         });
+    }
+  }
+
+  scroll() {
+    if (getScrollTop() + getWindowHeight() === getScrollHeight()) {
+      this.getStatusList();
     }
   }
 
