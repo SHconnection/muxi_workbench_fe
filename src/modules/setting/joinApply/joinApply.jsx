@@ -15,7 +15,7 @@ class JoinApply extends Component {
 
     this.state = {
       members: [],
-      wrong: ""
+      wrong: {}
     };
 
     this.save = this.save.bind(this);
@@ -76,7 +76,7 @@ class JoinApply extends Component {
   }
 
   cancel() {
-    this.setState({ wrong: "" });
+    this.setState({ wrong: {} });
   }
 
   saveAll() {

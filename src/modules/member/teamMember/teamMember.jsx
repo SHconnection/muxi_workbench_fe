@@ -32,7 +32,8 @@ class TeamMember extends Component {
       members: [],
       groupList: [],
       selectedID: 0,
-      redDot: false
+      redDot: false,
+      wrong: {}
     };
 
     this.present = this.present.bind(this);
@@ -93,7 +94,7 @@ class TeamMember extends Component {
   }
 
   cancel() {
-    this.setState({ wrong: "" });
+    this.setState({ wrong: {} });
   }
 
   present(id) {

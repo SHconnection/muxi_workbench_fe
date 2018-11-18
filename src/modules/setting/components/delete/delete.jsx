@@ -28,7 +28,7 @@ class Delete extends Component {
     super(props);
 
     this.state = {
-      wrong: ""
+      wrong: {}
     };
 
     this.move = this.move.bind(this);
@@ -123,7 +123,7 @@ class Delete extends Component {
   }
 
   cancel() {
-    this.setState({ wrong: "" });
+    this.setState({ wrong: {} });
   }
 
   render() {

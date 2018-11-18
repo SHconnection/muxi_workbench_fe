@@ -21,7 +21,7 @@ class GroupManage extends Component {
       deleteX: false,
       data: undefined,
       members: [],
-      wrong: ""
+      wrong: {}
     };
 
     this.transferMsgDel = this.transferMsgDel.bind(this);
@@ -79,7 +79,7 @@ class GroupManage extends Component {
   }
 
   cancel() {
-    this.setState({ wrong: "" });
+    this.setState({ wrong: {} });
   }
 
   render() {

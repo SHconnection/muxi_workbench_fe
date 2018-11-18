@@ -18,7 +18,7 @@ class MemberGroup extends Component {
     this.state = {
       selMembers: [],
       members: [],
-      wrong: ""
+      wrong: {}
     };
 
     this.transferMsgMem = this.transferMsgMem.bind(this);
@@ -57,7 +57,7 @@ class MemberGroup extends Component {
   }
 
   cancel() {
-    this.setState({ wrong: "" });
+    this.setState({ wrong: {} });
   }
 
   transferMsgMem(members, selMembers) {

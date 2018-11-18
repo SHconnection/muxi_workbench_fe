@@ -16,7 +16,7 @@ class PersonalAttention extends Component {
       data: undefined,
       deleteX: false,
       members: [],
-      wrong: ""
+      wrong: {}
     };
 
     this.transferMsgDel = this.transferMsgDel.bind(this);
@@ -27,7 +27,6 @@ class PersonalAttention extends Component {
   componentDidMount() {
     MessageService.getPersonalAttention(localStorage.per)
       .then(attention => {
-        console.log(attention);
         const arr = attention.list.map((item1, index) => {
           const item = item1;
           item.id = index;
@@ -57,7 +56,7 @@ class PersonalAttention extends Component {
   }
 
   cancel() {
-    this.setState({ wrong: "" });
+    this.setState({ wrong: {} });
   }
 
   render() {
@@ -65,6 +64,10 @@ class PersonalAttention extends Component {
 
     return (
       <div className="present">
+        <div className="personalAttention-tip">
+          {members.length === 0 ? "暂时未关注文档~" : ""}
+        </div>
+
         {members.map(mem1 => {
           const mem = mem1;
 
@@ -76,7 +79,7 @@ class PersonalAttention extends Component {
               <img src={File} className="personalAttention-imgSize" alt="" />
 
               <div className="personalAttention-vice IB">
-                <span className="llSize">{mem.fileName}</span>
+                <span className="llSize ">{mem.fileName}</span>
                 <br />
                 <span className="tip">
                   项目：
@@ -86,7 +89,7 @@ class PersonalAttention extends Component {
 
               <div className="IB">
                 <div className="personalAttention-litSel">
-                  <span className="personalAttention-size">{mem.username}</span>
+                  <span className="personalAttention-size">{mem.userName}</span>
                   <span className="personalAttention-size">{mem.date}</span>
                   <span
                     role="button"

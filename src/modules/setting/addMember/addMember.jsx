@@ -13,7 +13,7 @@ class AddMem extends Component {
     super(props);
     this.state = {
       inputValue: "",
-      wrong: ""
+      wrong: {}
     };
     this.copy = this.copy.bind(this);
     this.link = this.link.bind(this);
@@ -43,7 +43,7 @@ class AddMem extends Component {
   }
 
   cancel() {
-    this.setState({ wrong: "" });
+    this.setState({ wrong: {} });
   }
 
   render() {

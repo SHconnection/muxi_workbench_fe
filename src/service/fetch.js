@@ -66,22 +66,22 @@ export default function FetchData(url, opt = {}) {
         return response.json();
 
       case 401:
-        throw "未授权";
+        throw new Error("未授权");
 
       case 403:
-        throw "没有权限访问";
+        throw new Error("没有权限访问");
 
       case 404:
-        throw "页面地址错误";
+        throw new Error("页面地址错误");
 
       case 500:
-        throw "服务器错误";
+        throw new Error("服务器错误");
 
       case 502:
-        throw "网关错误";
+        throw new Error("网关错误");
 
       default:
-        throw "Wrong";
+        throw new Error("Wrong");
     }
   });
 }

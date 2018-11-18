@@ -20,7 +20,7 @@ class SetProject extends Component {
       inputValue: "",
       textValue: "",
       deleteX: false,
-      wrong: ""
+      wrong: {}
     };
 
     this.transferMsgDel = this.transferMsgDel.bind(this);
@@ -83,7 +83,7 @@ class SetProject extends Component {
   }
 
   cancel() {
-    this.setState({ wrong: "" });
+    this.setState({ wrong: {} });
   }
 
   render() {

@@ -38,38 +38,40 @@ class AlertCreateFolder extends Component {
     const { InputText } = this.state;
     const { type } = this.props;
     return (
-      <div className="createFileAlert">
-        <ReactSVG
-          className="create-file-alert-icon"
-          path={CreateFileAlertIcon}
-        />
-        <input
-          className="create-file-alert-input"
-          type="text"
-          placeholder={`编辑${type}夹名`}
-          value={InputText}
-          onChange={this.changeInputText}
-        />
-        <div className="create-file-alert-cancel">
-          <Button
-            onClick={this.cancel}
-            text="取消"
-            width="65"
-            height="32"
-            border="1px solid RGBA(217, 217, 217, 1)"
-            bgColor="RGBA(255, 255, 255, 1)"
-            textColor="RGBA(64, 64, 64, 1)"
-            fontSize="14"
+      <div className="alertLayer">
+        <div className="createFileAlert">
+          <ReactSVG
+            className="create-file-alert-icon"
+            path={CreateFileAlertIcon}
           />
-        </div>
-        <div className="create-file-alert-done">
-          <Button
-            onClick={this.confirmCreate}
-            text="确定"
-            width="65"
-            height="32"
-            fontSize="14"
+          <input
+            className="create-file-alert-input"
+            type="text"
+            placeholder={`编辑${type}夹名`}
+            value={InputText}
+            onChange={this.changeInputText}
           />
+          <div className="create-file-alert-cancel">
+            <Button
+              onClick={this.cancel}
+              text="取消"
+              width="65"
+              height="32"
+              border="1px solid RGBA(217, 217, 217, 1)"
+              bgColor="RGBA(255, 255, 255, 1)"
+              textColor="RGBA(64, 64, 64, 1)"
+              fontSize="14"
+            />
+          </div>
+          <div className="create-file-alert-done">
+            <Button
+              onClick={this.confirmCreate}
+              text="确定"
+              width="65"
+              height="32"
+              fontSize="14"
+            />
+          </div>
         </div>
       </div>
     );
