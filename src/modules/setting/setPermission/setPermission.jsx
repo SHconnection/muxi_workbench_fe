@@ -20,7 +20,7 @@ class SetPermission extends Component {
       selMembers: [],
       members: [],
       ifSave: false,
-      wrong: ""
+      wrong: {}
     };
 
     this.transferMsgMem = this.transferMsgMem.bind(this);
@@ -103,7 +103,7 @@ class SetPermission extends Component {
   }
 
   cancel() {
-    this.setState({ wrong: "" });
+    this.setState({ wrong: {} });
   }
 
   render() {

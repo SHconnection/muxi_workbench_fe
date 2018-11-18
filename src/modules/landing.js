@@ -25,7 +25,7 @@ class Landing extends React.Component {
     super(props);
     this.state = {
       loginSuccess: 0,
-      wrong: ""
+      wrong: {}
     };
     this.cancel = this.cancel.bind(this);
   }
@@ -63,7 +63,7 @@ class Landing extends React.Component {
   }
 
   cancel() {
-    this.setState({ wrong: "" });
+    this.setState({ wrong: {} });
   }
 
   render() {

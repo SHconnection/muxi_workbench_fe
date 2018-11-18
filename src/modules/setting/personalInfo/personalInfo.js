@@ -18,7 +18,7 @@ class PersonalInfo extends Component {
 
     this.state = {
       per: {},
-      wrong: ""
+      wrong: {}
     };
     this.cancel = this.cancel.bind(this);
   }
@@ -43,7 +43,7 @@ class PersonalInfo extends Component {
   }
 
   cancel() {
-    this.setState({ wrong: "" });
+    this.setState({ wrong: {} });
   }
 
   render() {
