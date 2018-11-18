@@ -5,6 +5,7 @@
 }
 .personalSet-avatar {
   display: inline-block;
+  width: 114px;
   height: 114px;
   margin: 0 27px 42px 0;
 }
