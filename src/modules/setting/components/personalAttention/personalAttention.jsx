@@ -64,6 +64,10 @@ class PersonalAttention extends Component {
 
     return (
       <div className="present">
+        <div className="personalAttention-tip">
+          {members.length === 0 ? "暂时未关注文档~" : ""}
+        </div>
+
         {members.map(mem1 => {
           const mem = mem1;
 
@@ -75,7 +79,7 @@ class PersonalAttention extends Component {
               <img src={File} className="personalAttention-imgSize" alt="" />
 
               <div className="personalAttention-vice IB">
-                <span className="llSize">{mem.filename}</span>
+                <span className="llSize ">{mem.fileName}</span>
                 <br />
                 <span className="tip">
                   项目：
@@ -85,7 +89,7 @@ class PersonalAttention extends Component {
 
               <div className="IB">
                 <div className="personalAttention-litSel">
-                  <span className="personalAttention-size">{mem.username}</span>
+                  <span className="personalAttention-size">{mem.userName}</span>
                   <span className="personalAttention-size">{mem.date}</span>
                   <span
                     role="button"
