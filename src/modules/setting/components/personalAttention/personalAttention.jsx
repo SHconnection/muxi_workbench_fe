@@ -27,6 +27,7 @@ class PersonalAttention extends Component {
   componentDidMount() {
     MessageService.getPersonalAttention(localStorage.per)
       .then(attention => {
+        console.log(attention);
         const arr = attention.list.map((item1, index) => {
           const item = item1;
           item.id = index;
@@ -75,7 +76,7 @@ class PersonalAttention extends Component {
               <img src={File} className="personalAttention-imgSize" alt="" />
 
               <div className="personalAttention-vice IB">
-                <span className="llSize">{mem.filename}</span>
+                <span className="llSize">{mem.fileName}</span>
                 <br />
                 <span className="tip">
                   项目：

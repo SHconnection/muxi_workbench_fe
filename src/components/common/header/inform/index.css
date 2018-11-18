@@ -7,13 +7,26 @@
     z-index: 999;
     width:450px;
     /* height: auto; */
-    min-height:250px;
     position: absolute;
-    top: 63px;
-    transform: translate(-50%, 0%);
-    background-color: #FFFFFF;
+    /* top: 63px; */
+    /* margin-top: 20px; */
+    transform: translateX(-46%);
+    background-color: transparent;
+}
+.header-info-arrow {
+    width: 0;
+    height: 0;
+    border: 11px solid transparent;
+    border-bottom: 22px solid #FFF;
+    /* box-shadow:0px 4px 12px 0px rgba(0,0,0,0.2); */
+    margin: 0 auto;
+
+}
+.header-info{
+    background-color: #FFF;
     box-shadow:0px 4px 12px 0px rgba(0,0,0,0.2);
     border-radius:4px;
+    min-height:250px;
 }
 .header-info-header {
     width: 100%;

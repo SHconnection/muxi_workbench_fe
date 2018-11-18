@@ -57,10 +57,15 @@ code {
 
 pre {
     line-height: 1.5em;
-    overflow: auto;
+    /* overflow: auto; */
     padding: 6px 10px;
     /* margin-left: 20px; */
     /* border-left: 5px solid #6CE26C; */
+    white-space: pre-wrap;       /* css-3 */ 
+    white-space: -moz-pre-wrap;  /* Mozilla, since 1999 */ 
+    white-space: -pre-wrap;      /* Opera 4-6 */ 
+    white-space: -o-pre-wrap;    /* Opera 7 */ 
+    word-wrap: break-word;       /* Internet Explorer 5.5+ */
 }
 pre > code {
     border: 0;
@@ -71,7 +76,7 @@ pre > code {
     overflow: initial;
     line-height: inherit;
     font-size: .85em;
-    white-space: pre;
+    /* white-space: pre; */
     background: 0 0;
 }
 
