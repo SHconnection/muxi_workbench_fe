@@ -14,7 +14,8 @@ class Message extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      MessageList: []
+      MessageList: [],
+      wrong: {}
     };
     this.readAll = this.readAll.bind(this);
     this.getMessage = this.getMessage.bind(this);
@@ -49,7 +50,7 @@ class Message extends Component {
   }
 
   cancel() {
-    this.setState({ wrong: "" });
+    this.setState({ wrong: {} });
   }
 
   render() {

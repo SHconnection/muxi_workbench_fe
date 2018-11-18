@@ -16,7 +16,7 @@ class PersonalAttention extends Component {
       data: undefined,
       deleteX: false,
       members: [],
-      wrong: ""
+      wrong: {}
     };
 
     this.transferMsgDel = this.transferMsgDel.bind(this);
@@ -56,7 +56,7 @@ class PersonalAttention extends Component {
   }
 
   cancel() {
-    this.setState({ wrong: "" });
+    this.setState({ wrong: {} });
   }
 
   render() {

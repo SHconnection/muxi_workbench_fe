@@ -34,7 +34,7 @@ class EditMember extends Component {
       members: [],
       groups: [],
       checkedIndex: 0,
-      wrong: ""
+      wrong: {}
     };
 
     this.selAll = this.selAll.bind(this);
@@ -103,7 +103,7 @@ class EditMember extends Component {
   }
 
   cancel() {
-    this.setState({ wrong: "" });
+    this.setState({ wrong: {} });
   }
 
   selAll() {

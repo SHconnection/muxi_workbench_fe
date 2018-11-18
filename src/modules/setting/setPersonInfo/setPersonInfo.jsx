@@ -26,7 +26,7 @@ class SetPersonalInfo extends Component {
       ifSave: false,
       deleteX: false,
       deled: false,
-      wrong: ""
+      wrong: {}
     };
 
     this.transferMsgMem = this.transferMsgMem.bind(this);
@@ -98,7 +98,7 @@ class SetPersonalInfo extends Component {
   }
 
   cancel() {
-    this.setState({ wrong: "" });
+    this.setState({ wrong: {} });
   }
 
   transferMsgIden(mem, selMem) {

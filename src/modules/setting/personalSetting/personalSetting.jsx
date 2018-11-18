@@ -25,7 +25,7 @@ class PersonalSet extends Component {
       inputMailbox: "",
       inputPhone: "",
       img: "",
-      wrong: ""
+      wrong: {}
     };
 
     this.savePersonalSet = this.savePersonalSet.bind(this);
@@ -136,7 +136,7 @@ class PersonalSet extends Component {
   }
 
   cancel() {
-    this.setState({ wrong: "" });
+    this.setState({ wrong: {} });
   }
 
   render() {

@@ -32,7 +32,7 @@ class SelectMember extends Component {
       selMembers: [],
       members: [],
       ifSave: false,
-      wrong: ""
+      wrong: {}
     };
 
     this.selAll = this.selAll.bind(this);
@@ -130,7 +130,7 @@ class SelectMember extends Component {
   }
 
   cancel() {
-    this.setState({ wrong: "" });
+    this.setState({ wrong: {} });
   }
 
   selAll() {

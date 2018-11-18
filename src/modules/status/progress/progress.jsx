@@ -55,7 +55,8 @@ class Progress extends Component {
       cout: 0,
       page: 1,
       isPersonal: 0,
-      statuList: []
+      statuList: [],
+      wrong: {}
     };
     this.getStatusList = this.getStatusList.bind(this);
   }
@@ -204,7 +205,7 @@ class Progress extends Component {
   }
 
   cancel() {
-    this.setState({ wrong: "" });
+    this.setState({ wrong: {} });
   }
 
   render() {

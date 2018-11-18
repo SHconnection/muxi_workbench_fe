@@ -78,7 +78,8 @@ class Dynamic extends Component {
       hasNext: true,
       pageNum: 0,
       dataList: [],
-      isPersonal: 1
+      isPersonal: 1,
+      wrong: {}
     };
   }
 
@@ -249,7 +250,7 @@ class Dynamic extends Component {
   }
 
   cancel() {
-    this.setState({ wrong: "" });
+    this.setState({ wrong: {} });
   }
 
   render() {
