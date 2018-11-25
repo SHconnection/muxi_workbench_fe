@@ -64,7 +64,10 @@ class AlertMoveFile extends Component {
                     // 取消选中
                     fatherId = el.router[el.router.length - 2];
                   }
-                  const fatherNode = FileTree.searchNode(fatherId, fileRootTemp);
+                  const fatherNode = FileTree.searchNode(
+                    fatherId,
+                    fileRootTemp
+                  );
                   fatherNode.finalSelected = true;
                   this.setState({
                     fileTree: fileRootTemp,
@@ -97,7 +100,7 @@ class AlertMoveFile extends Component {
           </div>
         </div>
       </div>
-      );
+    );
   }
 }
 

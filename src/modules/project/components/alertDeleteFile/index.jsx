@@ -47,9 +47,9 @@ class AlertDeleteFile extends Component {
               fontSize="14"
             />
           </div>
-        </div> 
+        </div>
       </div>
-      );
+    );
   }
 }
 

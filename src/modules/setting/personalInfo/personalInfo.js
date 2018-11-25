@@ -6,7 +6,7 @@ import { Route, NavLink, Link, Redirect, Switch } from "react-router-dom";
 import PropTypes from "prop-types";
 import PersonalAttention from "../components/personalAttention/personalAttention";
 import Dynamic from "../../feed/dynamic";
-import Progress from "../../status/progress/progress";
+import Progress from "../../status/index";
 import ManageService from "../../../service/manage";
 import WrongPage from "../../../components/common/wrongPage/wrongPage";
 import "../../../static/css/common.css";
