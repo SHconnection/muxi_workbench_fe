@@ -17,8 +17,13 @@ Loading.newInstance = function newInstance() {
   ReactDOM.render(React.createElement(Loading), div)
   return {
     destroy() {
-      ReactDOM.unmountComponentAtNode(div)
-      document.body.removeChild(div)
+      // ReactDOM.unmountComponentAtNode(div)
+      // document.body.removeChild(div)
+      // console.log(div)
+      div.style.visibility = "hidden"
+    },
+    show() {
+      div.style.visibility = "visible"
     }
   }
 }
