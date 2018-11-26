@@ -6,7 +6,7 @@ import ProjectService from "../../../../service/project";
 import { FileTree } from "../../fileTree1";
 import WrongPage from "../../../../components/common/wrongPage/wrongPage";
 import Othercomments from "../../../../components/common/otherComments/comments";
-import Paging from "../../../../components/common/paging/index";
+// import Paging from "../../../../components/common/paging/index";
 import Avatar from "../../../../components/common/avatar/index";
 import Button from "../../../../components/common/button/index";
 import Goback from "../../../../components/common/goBack/index";
@@ -34,11 +34,11 @@ class DocPreview extends Component {
       // 评论列表
       commentList: [],
       // 发表评论的输入值
-      commentInput: "",
+      commentInput: ""
       // 评论当前页数
-      currentPage: 1,
+      // currentPage: 1,
       // 总页数
-      pageNums: 1
+      // pageNums: 1
     };
     this.getFileInfo = this.getFileInfo.bind(this);
     this.isFocus = this.isFocus.bind(this);
@@ -48,7 +48,7 @@ class DocPreview extends Component {
     this.handleChange = this.handleChange.bind(this);
     this.sendComment = this.sendComment.bind(this);
     this.getCommentList = this.getCommentList.bind(this);
-    this.selectPage = this.selectPage.bind(this);
+    // this.selectPage = this.selectPage.bind(this);
     this.cancel = this.cancel.bind(this);
   }
 
@@ -61,15 +61,15 @@ class DocPreview extends Component {
 
   // 获取当前页面评论列表
   getCommentList() {
-    const { id, pid, currentPage } = this.state;
-    ProjectService.getCommentList(pid, id, currentPage)
+    const { id, pid } = this.state;
+    ProjectService.getCommentList(pid, id)
       .then(res => {
         this.setState({
-          commentList: res.commentList,
-          pageNums:
-            res.count % 20 === 0
-              ? Math.floor(res.count / 20, 0)
-              : Math.floor(res.count / 20, 0) + 1
+          commentList: res.commentList
+          // pageNums:
+          //   res.count % 20 === 0
+          //     ? Math.floor(res.count / 20, 0)
+          //     : Math.floor(res.count / 20, 0) + 1
         });
       })
       .catch(error => {
@@ -209,21 +209,21 @@ class DocPreview extends Component {
   }
 
   // 跳转页面
-  selectPage(page) {
-    const { pid, id, pageNums, currentPage } = this.state;
-    if (page > 0 && page <= pageNums && page !== currentPage) {
-      ProjectService.getCommentList(pid, id, page)
-        .then(res => {
-          this.setState({
-            commentList: res.commentList,
-            currentPage: page
-          });
-        })
-        .catch(error => {
-          this.setState({ wrong: error });
-        });
-    }
-  }
+  // selectPage(page) {
+  //   const { pid, id, pageNums, currentPage } = this.state;
+  //   if (page > 0 && page <= pageNums && page !== currentPage) {
+  //     ProjectService.getCommentList(pid, id, page)
+  //       .then(res => {
+  //         this.setState({
+  //           commentList: res.commentList,
+  //           currentPage: page
+  //         });
+  //       })
+  //       .catch(error => {
+  //         this.setState({ wrong: error });
+  //       });
+  //   }
+  // }
 
   cancel() {
     this.setState({ wrong: "" });
@@ -238,8 +238,8 @@ class DocPreview extends Component {
       createTime,
       commentList,
       commentInput,
-      currentPage,
-      pageNums,
+      // currentPage,
+      // pageNums,
       isFocus,
       wrong
     } = this.state;
@@ -314,7 +314,7 @@ class DocPreview extends Component {
             ))}
           </div>
           {/* 分页功能 */}
-          {commentList.length ? (
+          {/* {commentList.length ? (
             <div className="filePreview-paging">
               <Paging
                 pageNums={pageNums}
@@ -324,7 +324,7 @@ class DocPreview extends Component {
             </div>
           ) : (
             ""
-          )}
+          )} */}
           {/* 发表评论 */}
           <div className="send">
             <Avatar

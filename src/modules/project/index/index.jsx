@@ -3,6 +3,7 @@ import ProjectItem from "../components/itemIcon/index";
 import Button from "../../../components/common/button";
 import ProjectService from "../../../service/project";
 import WrongPage from "../../../components/common/wrongPage/wrongPage";
+import Loading from "../../../components/common/loading/index";
 import "./index.css";
 
 class Index extends Component {
@@ -16,8 +17,10 @@ class Index extends Component {
 
   componentWillMount() {
     const userID = localStorage.id;
+    Loading.show();
     ProjectService.getAllProjectList(userID)
       .then(res => {
+        Loading.hide();
         const project = res
           .map(el => el.list)
           .reduce((el1, el2) => el1.concat(el2), [])
