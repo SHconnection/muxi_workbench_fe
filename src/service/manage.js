@@ -163,10 +163,29 @@ const ManageService = {
     return fetch(`/user/uploadAvatar/`, {
       method: "POST",
       headers: {
-        // accept-charset: 'Unicode',
         token: localStorage.token
       },
       body: data
+    }).then(response => {
+      switch (response.status) {
+        case 401:
+          throw new Error("未授权");
+
+        case 403:
+          throw new Error("没有权限访问");
+
+        case 404:
+          throw new Error("页面地址错误");
+
+        case 500:
+          throw new Error("服务器错误");
+
+        case 502:
+          throw new Error("网关错误");
+
+        default:
+          throw new Error("Wrong");
+      }
     });
   },
 

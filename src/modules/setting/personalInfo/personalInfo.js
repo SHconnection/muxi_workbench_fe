@@ -54,7 +54,11 @@ class PersonalInfo extends Component {
       <div className="subject minH">
         <div className="personal">
           <div className="personalInfo-personalInformation">
-            <img src={per.avatar} className="personalInfo-avatar" alt="" />
+            <img
+              src={per.avatar}
+              className="personalInfo-avatar"
+              alt="加载中..."
+            />
             <div className="personalIntro">
               <b className="personalName">{per.name}</b>
               <Link to={`${match.url}/personalSet`} className="fakeBtn">

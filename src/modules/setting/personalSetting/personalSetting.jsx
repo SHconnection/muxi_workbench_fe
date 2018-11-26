@@ -101,6 +101,7 @@ class PersonalSet extends Component {
     });
     ManageService.savePersonalAvatar(data)
       .then(response => {
+        console.log(response);
         if (response.status < 300) {
           this.setState({ ifSave: true });
 
