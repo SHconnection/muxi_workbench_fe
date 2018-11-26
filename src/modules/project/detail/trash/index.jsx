@@ -8,6 +8,7 @@ import AlertMoveFile from "../../components/alertMoveFile";
 import "./index.css";
 import ProjectService from "../../../../service/project";
 import WrongPage from "../../../../components/common/wrongPage/wrongPage";
+import Loading from "../../../../components/common/loading/index";
 
 class ProjectTrash extends Component {
   constructor(props) {
@@ -34,7 +35,9 @@ class ProjectTrash extends Component {
   // 获取文件树
   getFileTree() {
     const { pid } = this.state;
+    Loading.show();
     FileTree.getFileTree(pid).then(res => {
+      Loading.hide();
       this.setState({
         fileTree: res
       });
@@ -43,8 +46,10 @@ class ProjectTrash extends Component {
 
   getTrash() {
     const { pid } = this.state;
+    Loading.show();
     FileService.getProjectTrash(pid)
       .then(res => {
+        Loading.hide();
         this.setState({
           fileList: res.FileList
         });
@@ -116,11 +121,15 @@ class ProjectTrash extends Component {
             <div className="title">回收站</div>
           </div>
           <div className="projectDetail-allFile-list">
-            <div className="projectDetail-allFile-list-title">
-              <div className="projectDetail-allFile-list-name">文件名称</div>
-              <div className="trash-filelist-deletetime">删除日期</div>
-              <div className="trash-filelist-createtime">创建日期</div>
-            </div>
+            {fileList.length ? (
+              <div className="projectDetail-allFile-list-title">
+                <div className="projectDetail-allFile-list-name">文件名称</div>
+                <div className="trash-filelist-deletetime">删除日期</div>
+                <div className="trash-filelist-createtime">创建日期</div>
+              </div>
+            ) : (
+              ""
+            )}
             {fileList.map(el => (
               <TrashList item={el} restore={this.restore} key={el.id} />
             ))}

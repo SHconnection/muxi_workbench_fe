@@ -1,11 +1,11 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
-// import ReactSVG from "react-svg";
 import AlertMoveFile from "../../components/alertMoveFile";
 import AlertDeleteFile from "../../components/alertDeleteFile";
 import AlertCreateFolder from "../../components/alertCreateFolder";
 import { FileTree } from "../../fileTree1";
 import GoBack from "../../../../components/common/goBack/index";
+import Loading from "../../../../components/common/loading/index";
 import Icon from "../../../../components/common/icon/index";
 import Button from "../../../../components/common/button/index";
 import Select from "../../../../components/common/select/index";
@@ -13,7 +13,6 @@ import FolderItemDoc from "../../components/folderItemDoc/index";
 import DocItem from "../../components/docItem/index";
 import ProjectService from "../../../../service/project";
 import DocList from "../../components/docList/index";
-// import CreateFileAlertIcon from "../../../../assets/svg/commonIcon/editFileAlert.svg";
 import "./index.css";
 import "../../../../static/css/common.css";
 import FileService from "../../../../service/file";
@@ -129,6 +128,7 @@ class ProjectDetailAllFile extends Component {
   updateDocList(id) {
     const { pid } = this.state;
     const docRootId = id;
+    Loading.show();
     // 请求树
     FileTree.getDocTree(pid)
       .then(res => {
@@ -144,6 +144,7 @@ class ProjectDetailAllFile extends Component {
             this.setState({
               docList: res1
             });
+            Loading.hide();
             this.hideAlert();
           })
           .catch(res1 => {

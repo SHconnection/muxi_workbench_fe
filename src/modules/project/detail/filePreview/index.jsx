@@ -10,6 +10,7 @@ import Othercomments from "../../../../components/common/otherComments/comments"
 import Avatar from "../../../../components/common/avatar/index";
 import Button from "../../../../components/common/button/index";
 import Goback from "../../../../components/common/goBack/index";
+import Loading from "../../../../components/common/loading/index";
 import FileIcon from "../../components/fileIcon/index";
 import "../../../../static/css/common.css";
 import "./index.css";
@@ -80,12 +81,14 @@ class DocPreview extends Component {
   // 请求该文件的详情信息
   getFileInfo() {
     const { id } = this.state;
+    Loading.show();
     const postData = {
       folder: [],
       file: [id]
     };
     FileService.getFileList(postData)
       .then(res => {
+        Loading.hide();
         const { creator } = res.FileList[0];
         const regex = /\D/;
         const timeArr = res.FileList[0].create_time.split(regex);
@@ -104,8 +107,10 @@ class DocPreview extends Component {
   // 请求该文件所在的树
   getFileTree() {
     const { id, pid } = this.state;
+    Loading.show();
     FileTree.getFileTree(pid)
       .then(el => {
+        Loading.hide();
         this.getFileUrl(id, el);
       })
       .catch(error => {

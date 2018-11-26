@@ -8,12 +8,15 @@ const getLoadingInstance = () => {
 
 export default {
   show() {
-    getLoadingInstance();
+    if (loadingInstance) {
+      loadingInstance.show();
+    } else {
+      getLoadingInstance();
+    }
   },
   hide() {
     if (loadingInstance) {
       loadingInstance.destroy();
-      loadingInstance = null;
     }
   }
 };

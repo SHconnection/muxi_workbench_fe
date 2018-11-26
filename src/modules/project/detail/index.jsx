@@ -1,27 +1,22 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
-// import ReactSVG from "react-svg";
-// import { Scrollbars } from "react-custom-scrollbars";
 import GoBack from "../../../components/common/goBack/index";
 import Icon from "../../../components/common/icon/index";
-// import FileTreeComponent from "../components/fileTree/index";
 import { FileTree } from "../fileTree1";
 import AlertMoveFile from "../components/alertMoveFile";
 import AlertDeleteFile from "../components/alertDeleteFile";
 import AlertCreateFolder from "../components/alertCreateFolder";
-// import Button from "../../../components/common/button/index";
 import Select from "../../../components/common/select/index";
 import FolderItem from "../components/folderItem/index";
 import FileItem from "../components/fileItem/index";
 import FolderItemDoc from "../components/folderItemDoc/index";
 import DocItem from "../components/docItem/index";
-// import CreateFileAlertIcon from "../../../assets/svg/commonIcon/editFileAlert.svg";
 import ProjectService from "../../../service/project";
 import FileService from "../../../service/file";
+import Loading from "../../../components/common/loading";
 import "./index.css";
 import "../../../static/css/common.css";
-// import FileList from '../components/fileList/index';
 
 class ProjectDetailIndex extends Component {
   constructor(props) {
@@ -123,9 +118,11 @@ class ProjectDetailIndex extends Component {
 
   componentWillMount() {
     const { pid } = this.state;
+    Loading.show();
     // 获取项目基本信息
     ProjectService.getProjectInfo(pid)
       .then(res => {
+        Loading.hide();
         this.setState({
           projectInfo: res
         });
@@ -170,6 +167,7 @@ class ProjectDetailIndex extends Component {
   // 根据文件树更新当前视图的文件
   updateFilesList() {
     const { pid, fileRootId } = this.state;
+    Loading.show();
     // 请求树
     FileTree.getFileTree(pid)
       .then(res => {
@@ -182,6 +180,7 @@ class ProjectDetailIndex extends Component {
             this.setState({
               filesList: res1
             });
+            Loading.hide();
             this.hideAlert();
           })
           .catch(res1 => {
@@ -196,6 +195,7 @@ class ProjectDetailIndex extends Component {
   // 根据文档树更新当前视图
   updatedocList() {
     const { pid, docRootId } = this.state;
+    Loading.show();
     // 请求树
     FileTree.getDocTree(pid)
       .then(res => {
@@ -208,6 +208,7 @@ class ProjectDetailIndex extends Component {
             this.setState({
               docList: res1
             });
+            Loading.hide();
             this.hideAlert();
           })
           .catch(res1 => {
@@ -231,35 +232,33 @@ class ProjectDetailIndex extends Component {
       /*
       / 这里是上传文件
       */
+      Loading.show();
       const formData = new FormData();
       formData.append("project_id", pid);
       formData.append("file", index);
-      FileService.uploadFile(formData)
-        .then(res => {
-          if (res.status === 201) {
-            res.json().then(data => {
-              // 上传成功，更新文件树
-              const newNode = { folder: false, id: data.fid, name: data.name };
-              ProjectService.updateProjectFileTree(
-                pid,
-                JSON.stringify(
-                  FileTree.insertNode(newNode, fileRootId, fileTree)
-                )
-              )
-                .then(() => {
-                  // 更新视图
-                  this.updateFilesList();
-                })
-                .catch(res1 => {
-                  console.error(res1);
-                });
-              console.log(data);
-            });
-          }
-        })
-        .catch(res => {
-          console.error(res);
-        });
+      FileService.uploadFile(formData).then(res => {
+        Loading.hide();
+        if (res.status === 201) {
+          res.json().then(data => {
+            // 上传成功，更新文件树
+            const newNode = { folder: false, id: data.fid, name: data.name };
+            ProjectService.updateProjectFileTree(
+              pid,
+              JSON.stringify(FileTree.insertNode(newNode, fileRootId, fileTree))
+            )
+              .then(() => {
+                // 更新视图
+                this.updateFilesList();
+              })
+              .catch(res1 => {
+                console.error(res1);
+              });
+          });
+        }
+        if (res.status === 413) {
+          alert(res.statusText);
+        }
+      });
     }
   }
 

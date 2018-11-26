@@ -4,7 +4,7 @@ import AlertMoveFile from "../../components/alertMoveFile";
 import AlertDeleteFile from "../../components/alertDeleteFile";
 import { FileTree } from "../../fileTree1";
 import GoBack from "../../../../components/common/goBack/index";
-// import FileList from "../../components/fileList/index";
+import Loading from "../../../../components/common/loading/index";
 import FileListBatch from "../../components/fileListBatch/index";
 import ProjectService from "../../../../service/project";
 import FileService from "../../../../service/file";
@@ -83,6 +83,7 @@ class BatchFile extends Component {
   updateFilesList(id) {
     const { pid } = this.state;
     const fileRootId = id;
+    Loading.show();
     // 请求树
     FileTree.getFileTree(pid)
       .then(res => {
@@ -105,6 +106,7 @@ class BatchFile extends Component {
               fileList: res1.FileList,
               checkAll: false
             });
+            Loading.hide();
             this.hideAlert();
           })
           .catch(res1 => {

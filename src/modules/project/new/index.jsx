@@ -4,6 +4,7 @@ import Button from "../../../components/common/button/index";
 import Select from "../../../components/common/select/index";
 import ManageService from "../../../service/manage";
 import ProjectService from "../../../service/project";
+import Loading from "../../../components/common/loading";
 import WrongPage from "../../../components/common/wrongPage/wrongPage";
 import "../../../static/css/common.css";
 import "./index.css";
@@ -73,12 +74,16 @@ class NewProject extends Component {
     this.changeProjectintroText = this.changeProjectintroText.bind(this);
     this.transferMsgMem = this.transferMsgMem.bind(this);
     this.selAll = this.selAll.bind(this);
+    this.groupMemberInit = this.groupMemberInit.bind(this);
+    this.fetchGroupMember = this.fetchGroupMember.bind(this);
     this.createProject = this.createProject.bind(this);
     this.checkAll = this.checkAll.bind(this);
     this.changeGroupCheck = this.changeGroupCheck.bind(this);
+    this.groupMemberInit();
   }
 
-  componentWillMount() {
+  groupMemberInit() {
+    Loading.show();
     fetchGroups().then(el => {
       this.setState({
         groups: el,
@@ -91,6 +96,7 @@ class NewProject extends Component {
   // 请求group的所有组员
   fetchGroupMember(id) {
     return ManageService.getGroupAllMember(id).then(el => {
+      Loading.hide();
       usersByGroup[id] = el
         .map(item => item.list)
         .reduce((el1, el2) => el1.concat(el2), [])

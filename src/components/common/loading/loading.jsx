@@ -2,7 +2,7 @@ import React from "react";
 import ReactDOM from "react-dom";
 import "./loading.css";
 import "../../../static/css/common.css";
-import LoadGif from "./GIF1.gif";
+import LoadGif from "./GIF.gif";
 
 const Loading = () => (
   <div className="alertLayer">
@@ -16,8 +16,13 @@ Loading.newInstance = function newInstance() {
   ReactDOM.render(React.createElement(Loading), div);
   return {
     destroy() {
-      ReactDOM.unmountComponentAtNode(div);
-      document.body.removeChild(div);
+      // ReactDOM.unmountComponentAtNode(div)
+      // document.body.removeChild(div)
+      // console.log(div)
+      div.style.visibility = "hidden";
+    },
+    show() {
+      div.style.visibility = "visible";
     }
   };
 };

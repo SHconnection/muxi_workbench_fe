@@ -1,8 +1,5 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
-// import ReactSVG from "react-svg";
-// import { Scrollbars } from "react-custom-scrollbars";
-// import FileTreeComponent from "../../components/fileTree/index";
 import AlertMoveFile from "../../components/alertMoveFile";
 import AlertDeleteFile from "../../components/alertDeleteFile";
 import AlertCreateFolder from "../../components/alertCreateFolder";
@@ -16,6 +13,7 @@ import FolderItem from "../../components/folderItem/index";
 import FileList from "../../components/fileList/index";
 import ProjectService from "../../../../service/project";
 import FileService from "../../../../service/file";
+import Loading from "../../../../components/common/loading";
 import "./index.css";
 import "../../../../static/css/common.css";
 
@@ -132,6 +130,7 @@ class ProjectDetailAllFile extends Component {
   updateFilesList(id) {
     const { pid } = this.state;
     const fileRootId = id;
+    Loading.show();
     // 请求树
     FileTree.getFileTree(pid)
       .then(res => {
@@ -148,6 +147,7 @@ class ProjectDetailAllFile extends Component {
               filesList: res1
             });
             this.hideAlert();
+            Loading.hide();
           })
           .catch(res1 => {
             console.error(res1);
@@ -170,12 +170,13 @@ class ProjectDetailAllFile extends Component {
       /*
       / 这里是上传文件
       */
+      Loading.show();
       const formData = new FormData();
       formData.append("project_id", pid);
       formData.append("file", index);
       FileService.uploadFile(formData)
         .then(res => {
-          console.log(res);
+          Loading.hide();
           if (res.status === 201) {
             res.json().then(data => {
               // 上传成功，更新文件树
@@ -195,6 +196,9 @@ class ProjectDetailAllFile extends Component {
                 });
               console.log(data);
             });
+          }
+          if (res.status === 413) {
+            alert(res.statusText);
           }
         })
         .catch(res => {
