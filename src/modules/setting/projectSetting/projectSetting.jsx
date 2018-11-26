@@ -10,6 +10,7 @@ import Delete from "../components/delete/delete";
 import ProjectSetFirst from "../../project/components/projectSetFirst/projectSetFirst";
 import ProjectService from "../../../service/project";
 import WrongPage from "../../../components/common/wrongPage/wrongPage";
+import Loading from "../../../components/common/loading/index";
 import "../../../static/css/common.css";
 import "./projectSetting.css";
 
@@ -36,9 +37,11 @@ class SetProject extends Component {
         params: { id }
       }
     } = this.props;
+    Loading.show();
 
     ProjectService.getProjectInfo(id)
       .then(project => {
+        Loading.hide();
         if (project) {
           this.setState({
             inputValue: project.name,

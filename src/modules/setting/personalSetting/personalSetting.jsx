@@ -7,6 +7,7 @@ import Member from "../components/member/member";
 import Save from "../components/save/save";
 import ManageService from "../../../service/manage";
 import WrongPage from "../../../components/common/wrongPage/wrongPage";
+import Loading from "../../../components/common/loading/index";
 import "../../../static/css/common.css";
 import "./personalSetting.css";
 
@@ -38,8 +39,10 @@ class PersonalSet extends Component {
   }
 
   componentDidMount() {
+    Loading.show();
     ManageService.getPersonalSet(localStorage.per)
       .then(setting => {
+        Loading.hide();
         const { members } = this.state;
 
         members[0].selected = !!setting.message;

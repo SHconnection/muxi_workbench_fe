@@ -43,7 +43,7 @@ class Landing extends React.Component {
             localStorage.avatar = res.avatar;
           })
           .catch(error => {
-            this.setState({ wrong: error });
+            // this.setState({ wrong: error });
           });
         this.setState({
           loginSuccess: 1
@@ -57,7 +57,7 @@ class Landing extends React.Component {
             });
           })
           .catch(error => {
-            this.setState({ wrong: error });
+            // this.setState({ wrong: error });
           });
       });
   }

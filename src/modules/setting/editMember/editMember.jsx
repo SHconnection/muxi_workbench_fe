@@ -9,6 +9,7 @@ import FirstEditMember from "../../project/components/firstEditMember/firstEditM
 import ManageService from "../../../service/manage";
 import ProjectService from "../../../service/project";
 import WrongPage from "../../../components/common/wrongPage/wrongPage";
+import Loading from "../../../components/common/loading/index";
 import "./editMember.css";
 
 class EditMember extends Component {
@@ -50,12 +51,14 @@ class EditMember extends Component {
         params: { id }
       }
     } = this.props;
+    Loading.show();
 
     ManageService.getAllMem()
       .then(arr => {
         if (arr) {
           ManageService.getProMember(id)
             .then(member => {
+              Loading.hide();
               if (member) {
                 const idList = member.list.map(mem => mem.userID);
 

@@ -6,6 +6,7 @@ import React, { Component } from "react";
 import GoBack from "../../../components/common/goBack/index";
 import ManageService from "../../../service/manage";
 import WrongPage from "../../../components/common/wrongPage/wrongPage";
+import Loading from "../../../components/common/loading/index";
 import "../../../static/css/common.css";
 import "./joinApply.css";
 
@@ -25,8 +26,10 @@ class JoinApply extends Component {
   }
 
   componentDidMount() {
+    Loading.show();
     ManageService.getJoinApply()
       .then(persons => {
+        Loading.hide();
         const joinList = persons.list.map(person => {
           const obj = {};
 

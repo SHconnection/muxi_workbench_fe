@@ -9,6 +9,7 @@ import Member from "../components/member/member";
 import Save from "../components/save/save";
 import ManageService from "../../../service/manage";
 import WrongPage from "../../../components/common/wrongPage/wrongPage";
+import Loading from "../../../components/common/loading/index";
 import "../../../static/css/common.css";
 import "./setPermission.css";
 
@@ -34,6 +35,8 @@ class SetPermission extends Component {
         params: { userID }
       }
     } = this.props;
+    Loading.show();
+
     ManageService.getAllPro()
       .then(object => {
         const proList = object.list.map(project1 => {
@@ -49,6 +52,7 @@ class SetPermission extends Component {
 
         ManageService.getPersonalPro(userID)
           .then(obj => {
+            Loading.hide();
             const idList = obj.list.map(pro1 => pro1.projectID);
 
             proList.map(item1 => {

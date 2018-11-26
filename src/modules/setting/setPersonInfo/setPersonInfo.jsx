@@ -9,6 +9,7 @@ import Delete from "../components/delete/delete";
 import Save from "../components/save/save";
 import ManageService from "../../../service/manage";
 import WrongPage from "../../../components/common/wrongPage/wrongPage";
+import Loading from "../../../components/common/loading/index";
 import "../../../static/css/common.css";
 import "./setPersonInfo.css";
 
@@ -39,6 +40,7 @@ class SetPersonalInfo extends Component {
 
   componentDidMount() {
     const { identity, selIdentities } = this.state;
+    Loading.show();
 
     ManageService.getPersonalPro(localStorage.id)
       .then(project => {
@@ -57,6 +59,7 @@ class SetPersonalInfo extends Component {
 
           ManageService.getPersonalPro(localStorage.per)
             .then(pro => {
+              Loading.hide();
               let idList = [];
 
               if (pro) {

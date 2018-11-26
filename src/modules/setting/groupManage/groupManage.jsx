@@ -9,6 +9,7 @@ import GoBack from "../../../components/common/goBack/index";
 import Delete from "../components/delete/delete";
 import ManageService from "../../../service/manage";
 import WrongPage from "../../../components/common/wrongPage/wrongPage";
+import Loading from "../../../components/common/loading/index";
 import "../../../static/css/common.css";
 import "../joinApply/joinApply.css";
 import "./groupManage.css";
@@ -31,8 +32,10 @@ class GroupManage extends Component {
   }
 
   componentDidMount() {
+    Loading.show();
     ManageService.getAllGroup()
       .then(data => {
+        Loading.hide();
         if (data) {
           const arr = data.groupList.map(group => {
             const obj = {};

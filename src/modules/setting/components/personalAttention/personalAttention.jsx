@@ -6,6 +6,7 @@ import Delete from "../delete/delete";
 import File from "../../../../assets/img/file.png";
 import MessageService from "../../../../service/message";
 import WrongPage from "../../../../components/common/wrongPage/wrongPage";
+import Loading from "../../../../components/common/loading/index";
 import "../../../../static/css/common.css";
 import "./personalAttention.css";
 
@@ -25,8 +26,10 @@ class PersonalAttention extends Component {
   }
 
   componentDidMount() {
+    Loading.show();
     MessageService.getPersonalAttention(localStorage.per)
       .then(attention => {
+        Loading.hide();
         const arr = attention.list.map((item1, index) => {
           const item = item1;
           item.id = index;

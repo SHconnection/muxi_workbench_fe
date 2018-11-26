@@ -9,6 +9,7 @@ import Dynamic from "../../feed/dynamic";
 import Progress from "../../status/index";
 import ManageService from "../../../service/manage";
 import WrongPage from "../../../components/common/wrongPage/wrongPage";
+import Loading from "../../../components/common/loading/index";
 import "../../../static/css/common.css";
 import "./personalInfo.css";
 
@@ -24,10 +25,12 @@ class PersonalInfo extends Component {
   }
 
   componentDidMount() {
+    Loading.show();
     const id = parseInt(localStorage.per, 10);
 
     ManageService.getPersonalSet(id)
       .then(info => {
+        Loading.hide();
         const { per } = this.state;
 
         per.id = id;
