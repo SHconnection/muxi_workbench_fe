@@ -4,6 +4,7 @@ import AlertMoveFile from "../../components/alertMoveFile";
 import AlertDeleteFile from "../../components/alertDeleteFile";
 import { FileTree } from "../../fileTree1";
 import GoBack from "../../../../components/common/goBack/index";
+import Loading from "../../../../components/common/loading/index";
 import FileListBatch from "../../components/fileListBatch/index";
 import ProjectService from "../../../../service/project";
 import FileService from "../../../../service/file";
@@ -80,8 +81,9 @@ class BatchDoc extends Component {
 
   // 根据文件树更新当前视图的文件
   updateFilesList(id) {
-    const { pid } = this.state;
-    const fileRootId = id;
+    const { pid } = this.state
+    const fileRootId = id
+    Loading.show()
     // 请求树
     FileTree.getDocTree(pid)
       .then(res => {
@@ -90,13 +92,13 @@ class BatchDoc extends Component {
           currentRootName: FileTree.searchNode(fileRootId, res).name
         });
         // 算当前路径
-        this.getFileUrl(fileRootId, res);
+        this.getFileUrl(fileRootId, res)
         // 请求filelist
         FileService.getDocList(FileTree.findDocIdList(fileRootId, res))
           .then(res1 => {
             /* eslint-disable */
             res1.DocList.forEach(item => {
-              item.checked = false;
+              item.checked = false
             });
             /* eslint-disable */
             this.setState({
@@ -104,14 +106,15 @@ class BatchDoc extends Component {
               fileList: res1.DocList,
               checkAll: false
             });
-            this.hideAlert();
+            Loading.hide()
+            this.hideAlert()
           })
           .catch(res1 => {
-            console.error(res1);
+            console.error(res1)
           });
       })
       .catch(res => {
-        console.error(res);
+        console.error(res)
       });
   }
 
@@ -136,9 +139,9 @@ class BatchDoc extends Component {
 
   // 全选
   checkAll() {
-    const { fileList, checkedAll } = this.state;
+    const { fileList, checkedAll } = this.state
     fileList.forEach(el => {
-      el.checked = !checkedAll;
+      el.checked = !checkedAll
     });
     this.setState({
       checkedAll: !checkedAll
@@ -147,8 +150,8 @@ class BatchDoc extends Component {
 
   // 删除文件们
   deleteFiles() {
-    const { fileList } = this.state;
-    const fileDel = fileList.filter(el => el.checked);
+    const { fileList } = this.state
+    const fileDel = fileList.filter(el => el.checked)
     if (fileDel.length) {
       this.setState({
         showDleteFile: true
@@ -158,38 +161,38 @@ class BatchDoc extends Component {
 
   // 确认删除文件
   confirmDeleteFile() {
-    const { pid, fileRootId, fileList, fileTree } = this.state;
+    const { pid, fileRootId, fileList, fileTree } = this.state
     const nodeTemp = FileTree.searchNode(fileRootId, fileTree).child;
-    let fileStart = 0;
+    let fileStart = 0
     for (let i = 0; i < nodeTemp.length; i += 1) {
       if (nodeTemp[i].folder) {
-        fileStart += 1;
+        fileStart += 1
       } else {
         if (fileList[i - fileStart].checked) {
-          nodeTemp.splice(i, 1);
-          fileList.splice(i - fileStart, 1);
-          i -= 1;
+          nodeTemp.splice(i, 1)
+          fileList.splice(i - fileStart, 1)
+          i -= 1
         }
       }
     }
     ProjectService.updateProjectDocTree(pid, JSON.stringify(fileTree))
       .then(() => {
         // 更新视图
-        this.updateFilesList(fileRootId);
+        this.updateFilesList(fileRootId)
       })
       .catch(el => {
-        console.error(el);
+        console.error(el)
       });
   }
 
   // 移动文件们
   moveFiles() {
-    const { fileList } = this.state;
-    const fileMove = fileList.filter(el => el.checked);
+    const { fileList } = this.state
+    const fileMove = fileList.filter(el => el.checked)
     if (fileMove.length) {
       this.setState({
         showMoveFile: true
-      });
+      })
     }
   }
 

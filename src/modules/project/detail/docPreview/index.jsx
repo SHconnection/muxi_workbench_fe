@@ -1,9 +1,6 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { MarkdownPreview } from "react-marked-markdown";
-// import { Scrollbars } from "react-custom-scrollbars";
-// import FileTreeComponent from "../../components/fileTree/index";
-// import MessageService from "../../../../service/message";
 import AlertMoveFile from "../../components/alertMoveFile";
 import AlertDeleteFile from "../../components/alertDeleteFile";
 import FileService from "../../../../service/file";
@@ -12,10 +9,10 @@ import MessageService from "../../../../service/message";
 import WrongPage from "../../../../components/common/wrongPage/wrongPage";
 import { FileTree } from "../../fileTree1";
 import Othercomments from "../../../../components/common/otherComments/comments";
-// import Paging from "../../../../components/common/paging/index";
 import Avatar from "../../../../components/common/avatar/index";
 import Button from "../../../../components/common/button/index";
 import Goback from "../../../../components/common/goBack/index";
+import Loading from "../../../../components/common/loading/index";
 import "../../../../static/css/common.css";
 import "../../../status/markdown/edit.css";
 import "./index.css";
@@ -61,7 +58,6 @@ class DocPreview extends Component {
     this.getCommentList = this.getCommentList.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.sendComment = this.sendComment.bind(this);
-    // this.selectPage = this.selectPage.bind(this);
     this.startDeleteDoc = this.startDeleteDoc.bind(this);
     this.confirmDeleteDoc = this.confirmDeleteDoc.bind(this);
     this.moveDoc = this.moveDoc.bind(this);
@@ -83,7 +79,7 @@ class DocPreview extends Component {
 
   // 获取当前页面评论列表
   getCommentList() {
-    const { id, pid } = this.state;
+    const { id, pid } = this.state
     ProjectService.getCommentListForDoc(pid, id)
       .then(res => {
         this.setState({
@@ -101,9 +97,11 @@ class DocPreview extends Component {
 
   // 请求文档的详情信息
   getDocInfo() {
-    const { id } = this.state;
+    const { id } = this.state
+    Loading.show()
     FileService.getDocConnent(id)
       .then(res => {
+        Loading.hide()
         const regex = /\D/;
         const timeArr = res.create_time.split(regex);
         const timeStr = `${timeArr[0]}/${timeArr[1]}/${timeArr[2]} ${
@@ -136,9 +134,11 @@ class DocPreview extends Component {
 
   // 算出文档所在树
   getDocTree() {
-    const { id, pid } = this.state;
+    const { id, pid } = this.state
+    Loading.show()
     FileTree.getDocTree(pid)
       .then(el => {
+        Loading.hide()
         this.setState({
           docTree: el
         });
@@ -153,6 +153,8 @@ class DocPreview extends Component {
   getDocUrl(id, tree) {
     // 找到文档坐在节点
     const node = FileTree.searchNode(id, tree);
+    console.log(node)
+    Loading.show()
     if (node && node.router.length) {
       const docIdUrl = JSON.parse(JSON.stringify(node.router));
       docIdUrl.pop();
@@ -163,6 +165,7 @@ class DocPreview extends Component {
       };
       FileService.getDocList(postData)
         .then(res => {
+          Loading.hide()
           let docUrlWithId = [{ name: "全部文档", id: 0 }];
           if (res.FolderList.length) {
             docUrlWithId = docUrlWithId.concat(

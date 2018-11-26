@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import ProjectService from "../../../../service/project";
 import GoBack from "../../../../components/common/goBack/index";
 import MemberInfo from "../../../member/memberInfo/memberInfo";
+import Loading from "../../../../components/common/loading/index"
 import WrongPage from "../../../../components/common/wrongPage/wrongPage";
 import "./index.css";
 
@@ -17,26 +18,28 @@ class Member extends Component {
       wrong: ""
     };
     this.getUserList = this.getUserList.bind(this);
-    this.getUserList();
     this.cancel = this.cancel.bind(this);
+    this.getUserList();
   }
 
   getUserList() {
-    const { pid } = this.state;
+    const { pid } = this.state
+    Loading.show()
     ProjectService.getProjectUserList(pid)
       .then(res => {
-        res.memberList.shift();
+        Loading.hide()
+        res.memberList.shift()
         this.setState({
           memberList: res.memberList
         });
       })
       .catch(error => {
-        this.setState({ wrong: error });
+        this.setState({ wrong: error })
       });
   }
 
   cancel() {
-    this.setState({ wrong: "" });
+    this.setState({ wrong: "" })
   }
 
   render() {

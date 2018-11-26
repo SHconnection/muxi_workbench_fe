@@ -4,7 +4,7 @@ import AlertMoveFile from "../../components/alertMoveFile";
 import AlertDeleteFile from "../../components/alertDeleteFile";
 import { FileTree } from "../../fileTree1";
 import GoBack from "../../../../components/common/goBack/index";
-// import FileList from "../../components/fileList/index";
+import Loading from "../../../../components/common/loading/index"
 import FileListBatch from "../../components/fileListBatch/index";
 import ProjectService from "../../../../service/project";
 import FileService from "../../../../service/file";
@@ -81,8 +81,9 @@ class BatchFile extends Component {
 
   // 根据文件树更新当前视图的文件
   updateFilesList(id) {
-    const { pid } = this.state;
-    const fileRootId = id;
+    const { pid } = this.state
+    const fileRootId = id
+    Loading.show()
     // 请求树
     FileTree.getFileTree(pid)
       .then(res => {
@@ -91,35 +92,36 @@ class BatchFile extends Component {
           currentRootName: FileTree.searchNode(fileRootId, res).name
         });
         // 算当前路径
-        this.getFileUrl(fileRootId, res);
+        this.getFileUrl(fileRootId, res)
         // 请求filelist
         FileService.getFileList(FileTree.findFileIdList(fileRootId, res))
           .then(res1 => {
             /* eslint-disable */
             res1.FileList.forEach(item => {
-              item.checked = false;
+              item.checked = false
             });
             /* eslint-disable */
             this.setState({
               filesList: res1,
               fileList: res1.FileList,
               checkAll: false
-            });
-            this.hideAlert();
+            })
+            Loading.hide()
+            this.hideAlert()
           })
           .catch(res1 => {
-            console.error(res1);
+            console.error(res1)
           });
       })
       .catch(res => {
-        console.error(res);
+        console.error(res)
       });
   }
 
   // 勾选
   check(id, index) {
-    const { fileList, checkedAll } = this.state;
-    fileList[index].checked = !fileList[index].checked;
+    const { fileList, checkedAll } = this.state
+    fileList[index].checked = !fileList[index].checked
     if (checkAll) {
       this.setState({
         checkedAll: false

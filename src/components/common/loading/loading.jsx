@@ -2,7 +2,7 @@ import React from "react"
 import ReactDOM from 'react-dom'
 import './loading.css'
 import '../../../static/css/common.css'
-import LoadGif from './GIF1.gif'
+import LoadGif from './GIF.gif'
 
 const Loading = () => (
   <div className="alertLayer">
