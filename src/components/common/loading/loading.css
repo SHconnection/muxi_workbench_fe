@@ -1,8 +1,80 @@
-.loadingGif {
-  position: fixed;
-  margin:auto; 
-  left:0;
-  right:0;
-  top:0;
-  bottom:0;
+.loader{
+	margin:100px auto;
 }
+
+.loader img {
+  width: 50px;
+  height: 50px;
+  display:inline-block;
+	position:absolute;
+  left:50%;
+}
+
+.leftAnimate{
+	-webkit-animation: left 4s infinite linear;
+	-moz-animation: left 4s infinite linear;
+	-o-animation: left 4s infinite linear;
+}
+
+.middleAnimate {
+  -webkit-animation: middle 4s infinite linear;
+	-moz-animation: middle 4s infinite linear;
+	-o-animation: middle 4s infinite linear;
+}
+.rightAnimate{
+	-webkit-animation: right 4s infinite linear;
+	-moz-animation: right 4s infinite linear;
+	-o-animation: right 4s infinite linear;
+}
+
+ @-webkit-keyframes left {
+  0% {
+    -webkit-transform:translateX(-100px);
+  }
+  33% {
+    -webkit-transform:translateX(100px);
+  }
+  66% {
+    -webkit-transform:translateX(100px);
+    transform: scale(1.5);
+  }
+  100%{
+    -webkit-transform:translateX(-100px);
+    z-index:200;
+  }
+ }
+
+ @-webkit-keyframes middle {
+  0% {
+    transform: scale(1.5);
+  }
+  33% {
+    -webkit-transform:translateX(-100px);
+  }
+  66% {
+    -webkit-transform:translateX(100px);
+    z-index:10;
+  }
+  100% {
+    z-index:200;
+    transform: scale(1.5);
+  }
+ }
+
+
+@-webkit-keyframes right {
+  0% {
+    -webkit-transform:translateX(100px);
+  }
+  33% {
+    -webkit-transform:translateX(-100px);
+    transform: scale(1.5);
+    z-index:200;
+  }
+  66% {
+    -webkit-transform:translateX(-100px);
+  }
+  100% {
+    -webkit-transform:translateX(100px);
+  }
+} 
