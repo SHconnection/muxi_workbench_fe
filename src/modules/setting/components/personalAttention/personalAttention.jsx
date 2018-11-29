@@ -29,7 +29,6 @@ class PersonalAttention extends Component {
     Loading.show();
     MessageService.getPersonalAttention(localStorage.per)
       .then(attention => {
-        Loading.hide();
         const arr = attention.list.map((item1, index) => {
           const item = item1;
           item.id = index;
@@ -37,11 +36,13 @@ class PersonalAttention extends Component {
 
           return item;
         });
-
         this.setState({ members: arr });
       })
       .catch(error => {
         this.setState({ wrong: error });
+      })
+      .finally(() => {
+        Loading.hide();
       });
   }
 

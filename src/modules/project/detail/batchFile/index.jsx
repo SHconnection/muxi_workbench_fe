@@ -106,11 +106,13 @@ class BatchFile extends Component {
               fileList: res1.FileList,
               checkAll: false
             });
-            Loading.hide();
             this.hideAlert();
           })
           .catch(res1 => {
             console.error(res1);
+          })
+          .finally(() => {
+            Loading.hide();
           });
       })
       .catch(res => {

@@ -59,7 +59,6 @@ class SetPersonalInfo extends Component {
 
           ManageService.getPersonalPro(localStorage.per)
             .then(pro => {
-              Loading.hide();
               let idList = [];
 
               if (pro) {
@@ -92,6 +91,9 @@ class SetPersonalInfo extends Component {
             })
             .catch(error => {
               this.setState({ wrong: error });
+            })
+            .finally(() => {
+              Loading.hide();
             });
         }
       })
