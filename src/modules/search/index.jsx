@@ -156,6 +156,7 @@ class Search extends Component {
                 items={projectOption}
                 checkedIndex={projectCheckedIndex}
                 onChange={this.changeProject}
+                autoWidth
               />
             </div>
             <input
