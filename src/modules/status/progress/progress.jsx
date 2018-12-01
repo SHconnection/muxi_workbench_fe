@@ -48,6 +48,7 @@ function getWindowHeight() {
 class Progress extends Component {
   constructor(props) {
     super(props);
+    console.log(props);
     this.state = {
       count: props.count,
       page: props.page,
