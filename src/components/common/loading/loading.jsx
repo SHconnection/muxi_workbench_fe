@@ -4,22 +4,22 @@ import "./loading.css";
 import "../../../static/css/common.css";
 
 const Loading = () => (
-  <div className="alertLayer">
+  <div className="alertLayer transparentColor">
     <div className="loader">
       <img
         src="http://ossworkbench.muxixyz.com/loading1.png"
         alt="loading1"
-        className="leftAnimate"
+        className="leftAnimate loadImg"
       />
       <img
         src="http://ossworkbench.muxixyz.com/loading2.png"
         alt="loading2"
-        className="middleAnimate"
+        className="middleAnimate loadImg"
       />
       <img
         src="http://ossworkbench.muxixyz.com/loading3.png"
         alt="loading3"
-        className="rightAnimate"
+        className="rightAnimate loadImg"
       />
     </div>
   </div>

@@ -122,13 +122,15 @@ class ProjectDetailIndex extends Component {
     // 获取项目基本信息
     ProjectService.getProjectInfo(pid)
       .then(res => {
-        Loading.hide();
         this.setState({
           projectInfo: res
         });
       })
       .catch(res => {
         console.error("error", res);
+      })
+      .finally(() => {
+        Loading.hide();
       });
     // 更新文件与文档列表
     this.updateFilesList();
@@ -180,15 +182,18 @@ class ProjectDetailIndex extends Component {
             this.setState({
               filesList: res1
             });
-            Loading.hide();
             this.hideAlert();
           })
           .catch(res1 => {
             console.error(res1);
+          })
+          .finally(() => {
+            Loading.hide();
           });
       })
       .catch(res => {
         console.error(res);
+        Loading.hide();
       });
   }
 
@@ -208,11 +213,13 @@ class ProjectDetailIndex extends Component {
             this.setState({
               docList: res1
             });
-            Loading.hide();
             this.hideAlert();
           })
           .catch(res1 => {
             console.error(res1);
+          })
+          .finally(() => {
+            Loading.hide();
           });
       })
       .catch(res => {
@@ -236,29 +243,29 @@ class ProjectDetailIndex extends Component {
       const formData = new FormData();
       formData.append("project_id", pid);
       formData.append("file", index);
-      FileService.uploadFile(formData).then(res => {
-        Loading.hide();
-        if (res.status === 201) {
-          res.json().then(data => {
-            // 上传成功，更新文件树
-            const newNode = { folder: false, id: data.fid, name: data.name };
-            ProjectService.updateProjectFileTree(
-              pid,
-              JSON.stringify(FileTree.insertNode(newNode, fileRootId, fileTree))
-            )
-              .then(() => {
-                // 更新视图
-                this.updateFilesList();
-              })
-              .catch(res1 => {
-                console.error(res1);
-              });
-          });
-        }
-        if (res.status === 413) {
-          alert(res.statusText);
-        }
-      });
+      FileService.uploadFile(formData)
+        .then(res => {
+          if (res.status === 201) {
+            res.json().then(data => {
+              // 上传成功，更新文件树
+              const newNode = { folder: false, id: data.fid, name: data.name };
+              ProjectService.updateProjectFileTree(
+                pid,
+                JSON.stringify(FileTree.insertNode(newNode, fileRootId, fileTree))
+              )
+                .then(() => {
+                  // 更新视图
+                  this.updateFilesList();
+                })
+                .catch(res1 => {
+                  console.error(res1);
+                });
+            });
+          }
+        })
+        .finally(() => {
+          Loading.hide();
+        });
     }
   }
 

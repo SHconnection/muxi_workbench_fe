@@ -95,19 +95,22 @@ class NewProject extends Component {
 
   // 请求group的所有组员
   fetchGroupMember(id) {
-    return ManageService.getGroupAllMember(id).then(el => {
-      Loading.hide();
-      usersByGroup[id] = el
-        .map(item => item.list)
-        .reduce((el1, el2) => el1.concat(el2), [])
-        .map(el3 => {
-          const arr = { id: el3.userID, name: el3.username, selected: false };
-          return arr;
+    return ManageService.getGroupAllMember(id)
+      .then(el => {
+        usersByGroup[id] = el
+          .map(item => item.list)
+          .reduce((el1, el2) => el1.concat(el2), [])
+          .map(el3 => {
+            const arr = { id: el3.userID, name: el3.username, selected: false };
+            return arr;
+          });
+        this.setState({
+          members: usersByGroup[id]
         });
-      this.setState({
-        members: usersByGroup[id]
+      })
+      .finally(() => {
+        Loading.hide();
       });
-    });
   }
 
   changeProjectnameText(event) {
@@ -180,10 +183,22 @@ class NewProject extends Component {
 
   createProject() {
     const { members, projectname, intro } = this.state;
+    let chooseMe = false;
     const userlist = members.filter(el => el.selected).map(item => {
+      /* eslint-disable */
+      if (item.id == localStorage.id) {
+      /* eslint-enable */
+        chooseMe = true
+      }
       const user = { userID: item.id, userName: item.name };
       return user;
     });
+    if (!chooseMe) {
+      userlist.push({ userID: localStorage.id, userName: localStorage.name });
+    }
+    if (!(userlist.length && projectname && intro)) {
+      return
+    }
     const postData = {
       username: localStorage.username,
       projectname,

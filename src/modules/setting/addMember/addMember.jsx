@@ -29,11 +29,13 @@ class AddMem extends Component {
   link() {
     ManageService.invitePerson()
       .then(data => {
-        Loading.hide();
         this.setState({ inputValue: data.hash_id });
       })
       .catch(error => {
         this.setState({ wrong: error });
+      })
+      .finally(() => {
+        Loading.hide();
       });
   }
 

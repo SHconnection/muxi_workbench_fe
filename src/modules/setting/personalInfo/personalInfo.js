@@ -30,7 +30,6 @@ class PersonalInfo extends Component {
 
     ManageService.getPersonalSet(id)
       .then(info => {
-        Loading.hide();
         const { per } = this.state;
 
         per.id = id;
@@ -42,6 +41,9 @@ class PersonalInfo extends Component {
       })
       .catch(error => {
         this.setState({ wrong: error });
+      })
+      .finally(() => {
+        Loading.hide();
       });
   }
 

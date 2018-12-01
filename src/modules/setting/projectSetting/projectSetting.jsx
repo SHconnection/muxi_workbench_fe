@@ -41,7 +41,6 @@ class SetProject extends Component {
 
     ProjectService.getProjectInfo(id)
       .then(project => {
-        Loading.hide();
         if (project) {
           this.setState({
             inputValue: project.name,
@@ -51,6 +50,9 @@ class SetProject extends Component {
       })
       .catch(error => {
         this.setState({ wrong: error });
+      })
+      .finally(() => {
+        Loading.hide();
       });
   }
 

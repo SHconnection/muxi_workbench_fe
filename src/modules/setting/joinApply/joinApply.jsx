@@ -29,7 +29,6 @@ class JoinApply extends Component {
     Loading.show();
     ManageService.getJoinApply()
       .then(persons => {
-        Loading.hide();
         const joinList = persons.list.map(person => {
           const obj = {};
 
@@ -44,6 +43,9 @@ class JoinApply extends Component {
       })
       .catch(error => {
         this.setState({ wrong: error });
+      })
+      .finally(() => {
+        Loading.hide();
       });
   }
 

@@ -36,12 +36,15 @@ class ProjectTrash extends Component {
   getFileTree() {
     const { pid } = this.state;
     Loading.show();
-    FileTree.getFileTree(pid).then(res => {
-      Loading.hide();
-      this.setState({
-        fileTree: res
+    FileTree.getFileTree(pid)
+      .then(res => {
+        this.setState({
+          fileTree: res
+        });
+      })
+      .finally(() => {
+        Loading.hide();
       });
-    });
   }
 
   getTrash() {
@@ -49,13 +52,15 @@ class ProjectTrash extends Component {
     Loading.show();
     FileService.getProjectTrash(pid)
       .then(res => {
-        Loading.hide();
         this.setState({
           fileList: res.FileList
         });
       })
       .catch(error => {
         this.setState({ wrong: error });
+      })
+      .finally(() => {
+        Loading.hide();
       });
   }
 
