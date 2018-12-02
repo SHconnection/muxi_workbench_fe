@@ -18,11 +18,11 @@ app.use(async (ctx, next) => {
     await next();
   } else {
     // for develop
-    // ctx.redirect("https://pass.muxixyz.com/?landing=localhost:3000/landing")
+    ctx.redirect("https://pass.muxixyz.com/?landing=work.muxixyz.com/landing")
     // for production
-    ctx.redirect(
-      "https://pass.muxixyz.com/?landing=localhost:3000/landing"
-    );
+    // ctx.redirect(
+    //   "https://pass.muxixyz.com/?landing=localhost:3000/landing"
+    // );
   }
 });
 
