@@ -4,7 +4,7 @@ import "./loading.css";
 import "../../../static/css/common.css";
 
 const Loading = () => (
-  <div className="alertLayer transparentColor">
+  <div className="alertLayer">
     <div className="loader">
       <img
         src="http://ossworkbench.muxixyz.com/loading1.png"
