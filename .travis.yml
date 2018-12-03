@@ -1,7 +1,14 @@
 language: node_js
 node_js:
   - "node"
+services:
+  - docker
 install:
   - npm install -g qiniu-upload-tool
   - ls
+  - npm install
+  - npm run build
   - qiniu-upload
+  - docker build .
+script:
+  - echo "hello world"
