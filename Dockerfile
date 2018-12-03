@@ -15,7 +15,7 @@ COPY . /usr/src/app
 WORKDIR /usr/src/app/server
 
 #Build server file
-RUN npm install --registry=https://registry.npm.taobao.org
+RUN npm install
 
 # Bundle app source
 EXPOSE 3000
