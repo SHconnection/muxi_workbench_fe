@@ -8,7 +8,7 @@ const bodyParser = require("koa-bodyparser");
 const router = new Router();
 const app = new Koa();
 
-const templateRoot = path.join(__dirname, "../dist/");
+const templateRoot = path.join(__dirname, "../build/");
 
 app.use(userAgent);
 app.use(bodyParser());
@@ -18,23 +18,27 @@ app.use(async (ctx, next) => {
     await next();
   } else {
     // for develop
-    ctx.redirect("http://pass.muxixyz.com/?landing=work.muxixyz.com/landing")
+    // ctx.redirect("http://pass.muxixyz.com/?landing=work.muxixyz.com/landing")
     // for production
-    // ctx.redirect(
-    //   "https://user.muxixyz.com/?landing=localhost:3000/landing"
-    // );
+    ctx.redirect(
+      "https://user.muxixyz.com/?landing=localhost:3000/landing"
+    );
   }
 });
 
-router.get(/^\/webadmin\/static(?:\/|$)/, async ctx => {
-  await send(ctx, ctx.path, {
-    root: path.join(__dirname, "../dist")
+router.get(/^\/static(?:\/|$)/, async ctx => {
+  const filePath = ctx.path.replace(/static\//, "");
+  await send(ctx, filePath, {
+    root: path.join(__dirname, "../build")
   });
 });
 
-router.get(/^\/webadmin\/(.*)$/, function(ctx, next) {
-  let template = swig.compileFile(path.resolve(templateRoot, "index.html"));
-  ctx.body = template({});
+router.get(/^\/(.*)$/, ctx => {
+  ctx.cookies.set("landing", ctx.request.query.landing, {
+    httpOnly: false
+  });
+    const template = swig.compileFile(path.resolve(templateRoot, "index.html"));
+    ctx.body = template({});
 });
 
 app.use(router.routes()).use(router.allowedMethods());
