@@ -1,15 +1,15 @@
 import Fetch from "./fetch";
 
 const LandingService = {
-  getEmail() {
+  getUsername() {
     return window.location.href
       .split("?")[1]
       .split("&")[0]
       .split("=")[1];
   },
-  getUsername(email) {
+  getEmail(username) {
     return Fetch(
-      `https://user.muxixyz.com/api/user/?email=${decodeURIComponent(email)}`,
+      `https://pass.muxixyz.com/api/email/?username=${decodeURIComponent(username)}/`,
       {
         method: "GET"
       }

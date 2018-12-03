@@ -5,8 +5,9 @@ import LandingService from "../service/landing";
 import WrongPage from "../components/common/wrongPage/wrongPage";
 import Cookie from "../service/cookie";
 
-// const Email = decodeURIComponent(LandingService.getEmail());
-// const User = decodeURIComponent(LandingService.getUsername(Email));
+// const User = decodeURIComponent(LandingService.getUsername());
+// const Email = decodeURIComponent(LandingService.getEmail(User));
+
 const data = {
   username: "yanyuw",
   email: "",
