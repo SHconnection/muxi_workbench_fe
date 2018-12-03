@@ -11,7 +11,7 @@ install:
   # - ls ./build
   # - qiniu-upload
   # - export
-  - echo "$DOCKER_PWD" | docker login --username=zindex@muxi --password-stdin
+  - echo "$DOCKER_PWD" | docker login --username=zindex@muxi --password-stdin registry.us-west-1.aliyuncs.com
   - docker build . -t registry.us-west-1.aliyuncs.com/muxi_site/workbench_fe:$TRAVIS_TAG
   - docker push registry.us-west-1.aliyuncs.com/muxi_site/workbench_fe:$TRAVIS_TAG
 script:
