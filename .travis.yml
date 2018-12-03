@@ -1,0 +1,6 @@
+language: node_js
+node_js:
+  - "node"
+install:
+  - sudo npm install -g qiniu-upload-tool
+  - qinu-upload-tool
