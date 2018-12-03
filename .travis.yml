@@ -1,3 +1,4 @@
+if: tag =~ /^release/
 language: node_js
 node_js:
   - "node"
@@ -5,13 +6,13 @@ services:
   - docker
 install:
   - npm install -g qiniu-upload-tool
-  - ls
   - npm install
   - npm run build
+  - ls ./build
   - qiniu-upload
   - export
-  - docker login --username=zindex@muxi -p $DOCKER_PWD registry.cn-shenzhen.aliyuncs.com 
-  - docker build . -t registry.cn-shenzhen.aliyuncs.com/muxi_site/workbench_fe:release-0.1
-  - docker push registry.cn-shenzhen.aliyuncs.com/muxi_site/workbench_fe:release-0.1
+  - docker login --username=zindex@muxi -p $DOCKER_PWD registry.us-west-1.aliyuncs.com
+  - docker build . -t registry.us-west-1.aliyuncs.com/muxi_site/workbench_fe:$TRAVIS_TAG
+  - docker push registry.us-west-1.aliyuncs.com/muxi_site/workbench_fe:$TRAVIS_TAG
 script:
   - echo "hello world"
