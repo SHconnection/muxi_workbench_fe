@@ -1,0 +1,17 @@
+language: node_js
+node_js:
+  - "node"
+services:
+  - docker
+install:
+  - npm install -g qiniu-upload-tool
+  - ls
+  - npm install
+  - npm run build
+  - qiniu-upload
+  - export
+  - docker login --username=zindex@muxi -p $DOCKER_PWD registry.cn-shenzhen.aliyuncs.com 
+  - docker build . -t registry.cn-shenzhen.aliyuncs.com/muxi_site/workbench_fe:release-0.1
+  - docker push registry.cn-shenzhen.aliyuncs.com/muxi_site/workbench_fe:release-0.1
+script:
+  - echo "hello world"
