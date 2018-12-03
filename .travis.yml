@@ -3,4 +3,5 @@ node_js:
   - "node"
 install:
   - npm install -g qiniu-upload-tool
-  - qinu-upload-tool
+  - ls
+  - qiniu-upload
