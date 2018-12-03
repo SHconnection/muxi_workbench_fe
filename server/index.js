@@ -17,12 +17,10 @@ app.use(async (ctx, next) => {
   if (ctx.cookies.get("workbench_token") || /(static|landing)/.test(ctx.path)) {
     await next();
   } else {
-    // for develop
-    // ctx.redirect("http://pass.muxixyz.com/?landing=work.muxixyz.com/landing")
     // for production
-    ctx.redirect(
-      "https://user.muxixyz.com/?landing=localhost:3000/landing"
-    );
+    ctx.redirect("http://pass.muxixyz.com/?landing=work.muxixyz.com/landing")
+    // for development
+    // ctx.redirect( "https://user.muxixyz.com/?landing=localhost:3000/landing");
   }
 });
 
