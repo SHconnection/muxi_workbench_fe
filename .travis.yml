@@ -9,6 +9,8 @@ install:
   - npm install
   - npm run build
   - qiniu-upload
-  - docker build .
+  - docker login --username=zindex@muxi registry.cn-shenzhen.aliyuncs.com
+  - docker build . -t registry.cn-shenzhen.aliyuncs.com/muxi_site/workbench_fe:release-0.1
+  - docker push registry.cn-shenzhen.aliyuncs.com/muxi_site/workbench_fe:release-0.1
 script:
   - echo "hello world"
