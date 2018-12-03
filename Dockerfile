@@ -10,7 +10,7 @@ COPY . /usr/src/app
 
 # Build static file
 RUN npm install --registry=https://registry.npm.taobao.org
-RUN npm run build
+# RUN npm run build
 
 WORKDIR /usr/src/app/server
 
