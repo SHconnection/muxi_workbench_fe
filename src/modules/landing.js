@@ -5,17 +5,17 @@ import LandingService from "../service/landing";
 import WrongPage from "../components/common/wrongPage/wrongPage";
 import Cookie from "../service/cookie";
 
-const Email = decodeURIComponent(LandingService.getEmail());
-const User = decodeURIComponent(LandingService.getUsername(Email));
+// const Email = decodeURIComponent(LandingService.getEmail());
+// const User = decodeURIComponent(LandingService.getUsername(Email));
 const data = {
-  username: User,
-  email: Email,
+  username: "yanyuw",
+  email: "",
   avatar: null,
   tel: null,
   teamID: 0
 };
 const data1 = {
-  username: User
+  username: "yanyuw"
 };
 
 localStorage.username = data1.username;

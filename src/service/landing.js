@@ -16,13 +16,13 @@ const LandingService = {
     );
   },
   getToken(data) {
-    return Fetch("/auth/login/", {
+    return Fetch("/api/v1.0/auth/login/", {
       method: "POST",
       data
     });
   },
   SignUp(data) {
-    return Fetch("/auth/signup/", {
+    return Fetch("/api/v1.0/auth/signup/", {
       method: "POST",
       data
     });
