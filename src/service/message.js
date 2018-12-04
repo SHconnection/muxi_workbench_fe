@@ -30,12 +30,9 @@ const MessageService = {
     });
   },
 
-  getMessageList(page) {
-    return Fetch(`/api/v1.0/message/list/?page=${page}/`, {
-      token: localStorage.token,
-      data: {
-        page
-      }
+  getMessageList() {
+    return Fetch(`/api/v1.0/message/list/`, {
+      token: localStorage.token
     });
   },
 
