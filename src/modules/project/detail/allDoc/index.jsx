@@ -144,15 +144,18 @@ class ProjectDetailAllFile extends Component {
             this.setState({
               docList: res1
             });
-            Loading.hide();
             this.hideAlert();
           })
           .catch(res1 => {
             console.error(res1);
+          })
+          .finally(() => {
+            Loading.hide();
           });
       })
       .catch(error => {
         console.error(error);
+        Loading.hide();
       });
   }
 

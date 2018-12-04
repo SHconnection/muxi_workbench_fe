@@ -42,7 +42,6 @@ class PersonalSet extends Component {
     Loading.show();
     ManageService.getPersonalSet(localStorage.per)
       .then(setting => {
-        Loading.hide();
         const { members } = this.state;
 
         members[0].selected = !!setting.message;
@@ -58,6 +57,9 @@ class PersonalSet extends Component {
       })
       .catch(error => {
         this.setState({ wrong: error });
+      })
+      .finally(() => {
+        Loading.hide();
       });
   }
 

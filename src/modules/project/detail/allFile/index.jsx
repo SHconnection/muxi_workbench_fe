@@ -147,14 +147,18 @@ class ProjectDetailAllFile extends Component {
               filesList: res1
             });
             this.hideAlert();
-            Loading.hide();
+            // Loading.hide();
           })
           .catch(res1 => {
             console.error(res1);
+          })
+          .finally(() => {
+            Loading.hide();
           });
       })
       .catch(res => {
         console.error(res);
+        Loading.hide();
       });
   }
 
@@ -176,7 +180,6 @@ class ProjectDetailAllFile extends Component {
       formData.append("file", index);
       FileService.uploadFile(formData)
         .then(res => {
-          Loading.hide();
           if (res.status === 201) {
             res.json().then(data => {
               // 上传成功，更新文件树
@@ -203,6 +206,9 @@ class ProjectDetailAllFile extends Component {
         })
         .catch(res => {
           console.error(res);
+        })
+        .finally(() => {
+          Loading.hide();
         });
     }
   }

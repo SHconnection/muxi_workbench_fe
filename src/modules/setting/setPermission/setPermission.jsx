@@ -52,7 +52,6 @@ class SetPermission extends Component {
 
         ManageService.getPersonalPro(userID)
           .then(obj => {
-            Loading.hide();
             const idList = obj.list.map(pro1 => pro1.projectID);
 
             proList.map(item1 => {
@@ -70,6 +69,9 @@ class SetPermission extends Component {
           })
           .catch(error => {
             this.setState({ wrong: error });
+          })
+          .finally(() => {
+            Loading.hide();
           });
         return true;
       })

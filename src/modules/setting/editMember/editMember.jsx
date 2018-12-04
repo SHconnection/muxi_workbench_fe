@@ -58,7 +58,6 @@ class EditMember extends Component {
         if (arr) {
           ManageService.getProMember(id)
             .then(member => {
-              Loading.hide();
               if (member) {
                 const idList = member.list.map(mem => mem.userID);
 
@@ -75,6 +74,9 @@ class EditMember extends Component {
             })
             .catch(error => {
               this.setState({ wrong: error });
+            })
+            .finally(() => {
+              Loading.hide();
             });
         }
       })

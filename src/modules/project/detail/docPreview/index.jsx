@@ -101,7 +101,6 @@ class DocPreview extends Component {
     Loading.show();
     FileService.getDocConnent(id)
       .then(res => {
-        Loading.hide();
         const regex = /\D/;
         const timeArr = res.create_time.split(regex);
         const timeStr = `${timeArr[0]}/${timeArr[1]}/${timeArr[2]} ${
@@ -114,6 +113,9 @@ class DocPreview extends Component {
       })
       .catch(err => {
         this.setState({ wrong: err });
+      })
+      .finally(() => {
+        Loading.hide();
       });
     // FileService.getDocList(postData)
     //   .then(res => {
@@ -138,7 +140,6 @@ class DocPreview extends Component {
     Loading.show();
     FileTree.getDocTree(pid)
       .then(el => {
-        Loading.hide();
         this.setState({
           docTree: el
         });
@@ -146,6 +147,9 @@ class DocPreview extends Component {
       })
       .catch(error => {
         this.setState({ wrong: error });
+      })
+      .finally(() => {
+        Loading.hide();
       });
   }
 
@@ -153,7 +157,6 @@ class DocPreview extends Component {
   getDocUrl(id, tree) {
     // 找到文档坐在节点
     const node = FileTree.searchNode(id, tree);
-    console.log(node);
     Loading.show();
     if (node && node.router.length) {
       const docIdUrl = JSON.parse(JSON.stringify(node.router));
@@ -165,7 +168,6 @@ class DocPreview extends Component {
       };
       FileService.getDocList(postData)
         .then(res => {
-          Loading.hide();
           let docUrlWithId = [{ name: "全部文档", id: 0 }];
           if (res.FolderList.length) {
             docUrlWithId = docUrlWithId.concat(
@@ -179,6 +181,9 @@ class DocPreview extends Component {
         })
         .catch(err => {
           this.setState({ wrong: err });
+        })
+        .finally(() => {
+          Loading.hide();
         });
     }
   }

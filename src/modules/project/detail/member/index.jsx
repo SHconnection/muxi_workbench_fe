@@ -27,7 +27,6 @@ class Member extends Component {
     Loading.show();
     ProjectService.getProjectUserList(pid)
       .then(res => {
-        Loading.hide();
         res.memberList.shift();
         this.setState({
           memberList: res.memberList
@@ -35,6 +34,9 @@ class Member extends Component {
       })
       .catch(error => {
         this.setState({ wrong: error });
+      })
+      .finally(() => {
+        Loading.hide();
       });
   }
 

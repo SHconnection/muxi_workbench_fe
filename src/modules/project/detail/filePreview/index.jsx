@@ -88,7 +88,6 @@ class DocPreview extends Component {
     };
     FileService.getFileList(postData)
       .then(res => {
-        Loading.hide();
         const { creator } = res.FileList[0];
         const regex = /\D/;
         const timeArr = res.FileList[0].create_time.split(regex);
@@ -101,6 +100,9 @@ class DocPreview extends Component {
       })
       .catch(error => {
         this.setState({ wrong: error });
+      })
+      .finally(() => {
+        Loading.hide();
       });
   }
 
@@ -110,11 +112,13 @@ class DocPreview extends Component {
     Loading.show();
     FileTree.getFileTree(pid)
       .then(el => {
-        Loading.hide();
         this.getFileUrl(id, el);
       })
       .catch(error => {
         this.setState({ wrong: error });
+      })
+      .finally(() => {
+        Loading.hide();
       });
   }
 

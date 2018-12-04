@@ -42,7 +42,7 @@ class Select extends Component {
 
   render() {
     const { showInput } = this.state;
-    const { items, checkedIndex, onChange } = this.props;
+    const { items, checkedIndex, onChange, autoWidth } = this.props;
     if (items.length) {
       return (
         <div className="select-container">
@@ -56,7 +56,11 @@ class Select extends Component {
             <ReactSVG path={RectangleDown} />
           </div>
           {showInput && (
-            <div className="select-option-bar">
+            <div
+              className={
+                autoWidth ? "select-option-bar" : "select-option-bar width96"
+              }
+            >
               {items.map((el, index) => (
                 <div
                   key={el.id}
@@ -105,13 +109,15 @@ Select.propTypes = {
     })
   ),
   checkedIndex: PropTypes.number,
-  onChange: PropTypes.func
+  onChange: PropTypes.func,
+  autoWidth: PropTypes.bool
 };
 
 Select.defaultProps = {
   items: [],
   checkedIndex: 0,
-  onChange: () => {}
+  onChange: () => {},
+  autoWidth: false
 };
 
 export default Select;

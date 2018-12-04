@@ -106,11 +106,13 @@ class BatchDoc extends Component {
               fileList: res1.DocList,
               checkAll: false
             });
-            Loading.hide();
             this.hideAlert();
           })
           .catch(res1 => {
             console.error(res1);
+          })
+          .finally(() => {
+            Loading.hide();
           });
       })
       .catch(res => {

@@ -5,17 +5,18 @@ import LandingService from "../service/landing";
 import WrongPage from "../components/common/wrongPage/wrongPage";
 import Cookie from "../service/cookie";
 
-// const Email = LandingService.getEmail();
-// const user1 = LandingService.getUsername(Email);
+const User = decodeURIComponent(LandingService.getUsername());
+const Email = decodeURIComponent(LandingService.getEmail(User));
+
 const data = {
-  username: "darren",
-  email: null,
+  username: User,
+  email: Email,
   avatar: null,
   tel: null,
   teamID: 0
 };
 const data1 = {
-  username: "xuanye"
+  username: User
 };
 
 localStorage.username = data1.username;
@@ -43,7 +44,7 @@ class Landing extends React.Component {
             localStorage.avatar = res.avatar;
           })
           .catch(error => {
-            // this.setState({ wrong: error });
+            this.setState({ wrong: error });
           });
         this.setState({
           loginSuccess: 1
@@ -57,7 +58,7 @@ class Landing extends React.Component {
             });
           })
           .catch(error => {
-            // this.setState({ wrong: error });
+            this.setState({ wrong: error });
           });
       });
   }

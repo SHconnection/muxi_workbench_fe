@@ -35,7 +35,6 @@ class GroupManage extends Component {
     Loading.show();
     ManageService.getAllGroup()
       .then(data => {
-        Loading.hide();
         if (data) {
           const arr = data.groupList.map(group => {
             const obj = {};
@@ -52,6 +51,9 @@ class GroupManage extends Component {
       })
       .catch(error => {
         this.setState({ wrong: error });
+      })
+      .finally(() => {
+        Loading.hide();
       });
   }
 
