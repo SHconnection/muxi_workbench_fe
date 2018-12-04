@@ -12,7 +12,7 @@ const data = {
   email: null,
   avatar: null,
   tel: null,
-  teamID: 0
+  teamID: 1
 };
 const data1 = {
   username: User
