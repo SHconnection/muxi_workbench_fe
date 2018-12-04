@@ -20,7 +20,7 @@ app.use(async (ctx, next) => {
     // for production
     ctx.redirect("http://pass.muxixyz.com/?landing=work.muxixyz.com/landing")
     // for development
-    // ctx.redirect( "https://user.muxixyz.com/?landing=localhost:3000/landing");
+    // ctx.redirect( "http://pass.muxixyz.com/?landing=localhost:3000/landing");
   }
 });
 
