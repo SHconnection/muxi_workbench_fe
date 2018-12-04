@@ -1,8 +1,5 @@
 FROM node:latest
 
-# Environment Variables
-ENV PUBLIC_URL http://static.muxixyz.com/workbench/
-
 # Create app directory
 RUN mkdir -p /usr/src/app
 WORKDIR /usr/src/app
