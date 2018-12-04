@@ -3,7 +3,7 @@ import Fetch from "./fetch";
 const ManageService = {
   // post a new group
   addGroup(groupName, selMembers) {
-    return Fetch("/group/new/", {
+    return Fetch("/api/v1.0/group/new/", {
       token: localStorage.token,
       method: "POST",
       data: {
@@ -15,7 +15,7 @@ const ManageService = {
 
   // group user list
   getGroupMember(groupId, page = 1) {
-    return Fetch(`/group/${groupId}/userList`, {
+    return Fetch(`/api/v1.0/group/${groupId}/userList`, {
       token: localStorage.token,
       data: {
         page
@@ -36,7 +36,7 @@ const ManageService = {
 
   // get a group list
   getGroupList() {
-    return Fetch(`/group/list/`, {
+    return Fetch(`/api/v1.0/group/list/`, {
       token: localStorage.token
     });
   },
@@ -46,7 +46,7 @@ const ManageService = {
     if you are admin or superuser, get all projetc list
   */
   getProjectList(page) {
-    return Fetch(`/user/project/list`, {
+    return Fetch(`/api/v1.0/user/project/list`, {
       token: localStorage.token,
       data: {
         page
@@ -56,7 +56,7 @@ const ManageService = {
 
   // get project user list
   getProjectUserList(projectId, page) {
-    return Fetch(`/project/${projectId}/userList`, {
+    return Fetch(`/api/v1.0/project/${projectId}/userList`, {
       token: localStorage.token,
       data: {
         page
@@ -66,7 +66,7 @@ const ManageService = {
 
   // remove user out of team
   memberDelete(userID) {
-    return Fetch(`/user/${userID}`, {
+    return Fetch(`/api/v1.0/user/${userID}`, {
       method: "DELETE",
       token: localStorage.token
     });
@@ -74,14 +74,14 @@ const ManageService = {
 
   // get a list of admin
   getAdmin() {
-    return Fetch(`/user/admins/`, {
+    return Fetch(`/api/v1.0/user/admins/`, {
       method: "GET",
       token: localStorage.token
     });
   },
 
   addMember(userID) {
-    return Fetch("/user/2bMember/", {
+    return Fetch("/api/v1.0/user/2bMember/", {
       method: "POST",
       token: localStorage.token,
       data: {
@@ -91,19 +91,19 @@ const ManageService = {
   },
 
   groupMember(groupID) {
-    return Fetch(`/group/${groupID}/userList/`, {
+    return Fetch(`/api/v1.0/group/${groupID}/userList/`, {
       token: localStorage.token
     });
   },
 
   getProMember(proID) {
-    return Fetch(`/project/${proID}/userList/`, {
+    return Fetch(`/api/v1.0/project/${proID}/userList/`, {
       token: localStorage.token
     });
   },
 
   updateGroupMember(groupID, userList) {
-    return Fetch(`/group/${groupID}/manageUser/`, {
+    return Fetch(`/api/v1.0/group/${groupID}/manageUser/`, {
       method: "POST",
       token: localStorage.token,
       data: {
@@ -113,20 +113,20 @@ const ManageService = {
   },
 
   groupDelete(groupID) {
-    return Fetch(`/group/${groupID}/`, {
+    return Fetch(`/api/v1.0/group/${groupID}/`, {
       method: "DELETE",
       token: localStorage.token
     });
   },
 
   getPersonalPro(userID) {
-    return Fetch(`/user/${userID}/project/list/`, {
+    return Fetch(`/api/v1.0/user/${userID}/project/list/`, {
       token: localStorage.token
     });
   },
 
   setManager(userID) {
-    return Fetch("/user/addAdmin/", {
+    return Fetch("/api/v1.0/user/addAdmin/", {
       method: "POST",
       token: localStorage.token,
       data: {
@@ -146,13 +146,13 @@ const ManageService = {
   },
 
   getPersonalSet(userID) {
-    return Fetch(`/user/${userID}/setting/`, {
+    return Fetch(`/api/v1.0/user/${userID}/setting/`, {
       token: localStorage.token
     });
   },
 
   savePersonalSet(userID, obj) {
-    return Fetch(`/user/${userID}/setting/`, {
+    return Fetch(`/api/v1.0/user/${userID}/setting/`, {
       method: "POST",
       token: localStorage.token,
       data: obj
@@ -160,7 +160,7 @@ const ManageService = {
   },
 
   savePersonalAvatar(data) {
-    return fetch(`/user/uploadAvatar/`, {
+    return fetch(`/api/v1.0/user/uploadAvatar/`, {
       method: "POST",
       headers: {
         token: localStorage.token
@@ -190,7 +190,7 @@ const ManageService = {
   },
 
   savePersonalPermiss(userID, selMembers) {
-    return Fetch(`/user/${userID}/managePro/`, {
+    return Fetch(`/api/v1.0/user/${userID}/managePro/`, {
       method: "POST",
       token: localStorage.token,
       data: {
@@ -200,7 +200,7 @@ const ManageService = {
   },
 
   saveModifyMemberIdenty(userID, selIdentities) {
-    return Fetch(`/user/${userID}/setRole/`, {
+    return Fetch(`/api/v1.0/user/${userID}/setRole/`, {
       method: "POST",
       token: localStorage.token,
       data: {
@@ -210,7 +210,7 @@ const ManageService = {
   },
 
   saveModifyMemberPro(userID, selMembers) {
-    return Fetch(`/user/${userID}/managePro/`, {
+    return Fetch(`/api/v1.0/user/${userID}/managePro/`, {
       method: "POST",
       token: localStorage.token,
       data: {
@@ -220,20 +220,20 @@ const ManageService = {
   },
 
   getJoinApply() {
-    return Fetch("/team/applyList/", {
+    return Fetch("/api/v1.0/team/applyList/", {
       token: localStorage.token
     });
   },
 
   dealJoinApply(userID) {
-    return Fetch(`/team/apply/${userID}/`, {
+    return Fetch(`/api/v1.0/team/apply/${userID}/`, {
       method: "DELETE",
       token: localStorage.token
     });
   },
 
   getAdminList() {
-    return Fetch("/user/admins/", {
+    return Fetch("/api/v1.0/user/admins/", {
       token: localStorage.token
     });
   },
@@ -243,13 +243,13 @@ const ManageService = {
   },
 
   getAllGroup() {
-    return Fetch("/group/list/", {
+    return Fetch("/api/v1.0/group/list/", {
       token: localStorage.token
     });
   },
 
   invitePerson() {
-    return Fetch("/team/invite/", {
+    return Fetch("/api/v1.0/team/invite/", {
       token: localStorage.token
     });
   }
