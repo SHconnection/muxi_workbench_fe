@@ -6,11 +6,10 @@ import WrongPage from "../components/common/wrongPage/wrongPage";
 import Cookie from "../service/cookie";
 
 const User = decodeURIComponent(LandingService.getUsername());
-const Email = decodeURIComponent(LandingService.getEmail(User));
 
 const data = {
   username: User,
-  email: Email,
+  email: null,
   avatar: null,
   tel: null,
   teamID: 0
@@ -32,35 +31,39 @@ class Landing extends React.Component {
   }
 
   componentDidMount() {
-    LandingService.getToken(data1)
-      .then(response => {
-        localStorage.id = response.uid;
-        localStorage.token = response.token;
-        Cookie.setCookie("workbench_token", response.token);
-        localStorage.role = response.urole;
+    LandingService.getEmail(User).then(emailRes => {
+      data.email = emailRes.email;
 
-        ManageService.getPersonalSet(response.uid)
-          .then(res => {
-            localStorage.avatar = res.avatar;
-          })
-          .catch(error => {
-            this.setState({ wrong: error });
-          });
-        this.setState({
-          loginSuccess: 1
-        });
-      })
-      .catch(() => {
-        LandingService.SignUp(data)
-          .then(() => {
-            this.setState({
-              loginSuccess: 2
+      LandingService.getToken(data1)
+        .then(response => {
+          localStorage.id = response.uid;
+          localStorage.token = response.token;
+          Cookie.setCookie("workbench_token", response.token);
+          localStorage.role = response.urole;
+
+          ManageService.getPersonalSet(response.uid)
+            .then(res => {
+              localStorage.avatar = res.avatar;
+            })
+            .catch(error => {
+              this.setState({ wrong: error });
             });
-          })
-          .catch(error => {
-            this.setState({ wrong: error });
+          this.setState({
+            loginSuccess: 1
           });
-      });
+        })
+        .catch(() => {
+          LandingService.SignUp(data)
+            .then(() => {
+              this.setState({
+                loginSuccess: 2
+              });
+            })
+            .catch(error => {
+              this.setState({ wrong: error });
+            });
+        });
+    });
   }
 
   cancel() {
