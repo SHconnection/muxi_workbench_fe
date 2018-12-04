@@ -8,14 +8,14 @@ import Cookie from "../service/cookie";
 const User = decodeURIComponent(LandingService.getUsername());
 
 const data = {
-  username: User,
+  name: User,
   email: null,
   avatar: null,
   tel: null,
   teamID: 1
 };
 const data1 = {
-  username: User
+  name: User
 };
 
 localStorage.username = data1.username;
