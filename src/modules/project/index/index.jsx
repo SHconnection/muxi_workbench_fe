@@ -20,7 +20,7 @@ class Index extends Component {
     Loading.show();
     ProjectService.getAllProjectList(userID)
       .then(res => {
-        Loading.hide();
+        // Loading.hide();
         const project = res
           .map(el => el.list)
           .reduce((el1, el2) => el1.concat(el2), [])
