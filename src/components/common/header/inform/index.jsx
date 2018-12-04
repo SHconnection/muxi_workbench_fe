@@ -39,7 +39,7 @@ class Inform extends Component {
   }
 
   getMessage() {
-    MessageService.getMessageList().then(res => {
+    MessageService.getMessageList(1).then(res => {
       this.setState({
         MessageList: res.list.reverse().filter(item => item.readed === false)
       });

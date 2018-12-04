@@ -43,7 +43,7 @@ class Message extends Component {
   }
 
   getMessage() {
-    MessageService.getMessageList()
+    MessageService.getMessageList(1)
       .then(res => {
         // console.log(res);
         this.setState({
