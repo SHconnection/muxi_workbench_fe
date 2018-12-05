@@ -30,6 +30,7 @@ const FirstEditMember = ({
     <span
       className="fakeBtn editMember-fontSize"
       onKeyDown={selAll}
+      onClick={selAll}
       role="button"
       tabIndex="-1"
     >

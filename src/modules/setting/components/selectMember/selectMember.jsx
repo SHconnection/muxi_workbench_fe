@@ -129,7 +129,6 @@ class SelectMember extends Component {
   };
 
   selAll = () => {
-    console.log(123);
     this.setState(prevState => {
       const { members: arr1 } = prevState;
       const arr2 = [];

@@ -11,6 +11,7 @@ import ProjectSetFirst from "../../project/components/projectSetFirst/projectSet
 import ProjectService from "../../../service/project";
 import WrongPage from "../../../components/common/wrongPage/wrongPage";
 import Loading from "../../../components/common/loading/index";
+import Save from "../components/save/save";
 import "../../../static/css/common.css";
 import "./projectSetting.css";
 
@@ -22,7 +23,8 @@ class SetProject extends Component {
       textValue: "",
       deleteX: false,
       wrong: {},
-      inputIsNull: false
+      inputIsNull: false,
+      ifSave: false
     };
   }
 
@@ -87,6 +89,12 @@ class SetProject extends Component {
 
     ProjectService.saveProjectSet(id, textValue, inputValue)
       .then(() => {
+        this.setState({ ifSave: true });
+
+        setTimeout(() => {
+          this.setState({ ifSave: false });
+        }, 1000);
+
         this.props.history.push(`/project/${id}/editMem`);
       })
       .catch(error => {
@@ -99,7 +107,14 @@ class SetProject extends Component {
   };
 
   render() {
-    const { deleteX, inputValue, textValue, wrong, inputIsNull } = this.state;
+    const {
+      deleteX,
+      inputValue,
+      textValue,
+      wrong,
+      inputIsNull,
+      ifSave
+    } = this.state;
     const {
       match: {
         params: { id }
@@ -147,7 +162,7 @@ class SetProject extends Component {
           proDel
           proId={parseInt(id, 10)}
         />
-
+        <Save ifSave={ifSave} />
         <WrongPage info={wrong} cancel={this.cancel} />
       </div>
     );
