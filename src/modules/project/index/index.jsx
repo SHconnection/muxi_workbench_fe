@@ -47,7 +47,7 @@ class Index extends Component {
     const { project, wrong } = this.state;
     return (
       <div className="project">
-        {localStorage.role === "1" && (
+        {localStorage.role !== "1" && (
           <div className="project-create-bt">
             <Button to="project/new" text="新建项目" />
           </div>
