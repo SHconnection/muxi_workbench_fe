@@ -6,7 +6,6 @@
 import React, { Component } from "react";
 import GoBack from "../../../components/common/goBack/index";
 import SelectMember from "../components/selectMember/selectMember";
-import Loading from "../../../components/common/loading/index";
 import "../../../static/css/common.css";
 import "./addGroup.css";
 
