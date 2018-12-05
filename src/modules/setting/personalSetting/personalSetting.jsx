@@ -28,14 +28,6 @@ class PersonalSet extends Component {
       img: "",
       wrong: {}
     };
-
-    this.savePersonalSet = this.savePersonalSet.bind(this);
-    this.changeName = this.changeName.bind(this);
-    this.changeMailbox = this.changeMailbox.bind(this);
-    this.changePhone = this.changePhone.bind(this);
-    this.transferMsgMem = this.transferMsgMem.bind(this);
-    this.changeImg = this.changeImg.bind(this);
-    this.cancel = this.cancel.bind(this);
   }
 
   componentDidMount() {
@@ -63,32 +55,32 @@ class PersonalSet extends Component {
       });
   }
 
-  changeName(e) {
+  changeName = e => {
     this.setState({
       inputName: e.target.value
     });
-  }
+  };
 
-  changeMailbox(e) {
+  changeMailbox = e => {
     this.setState({
       inputMailbox: e.target.value
     });
-  }
+  };
 
-  changePhone(e) {
+  changePhone = e => {
     this.setState({
       inputPhone: e.target.value
     });
-  }
+  };
 
-  transferMsgMem(members, selMembers) {
+  transferMsgMem = (members, selMembers) => {
     this.setState({
       members,
       selMembers: selMembers || []
     });
-  }
+  };
 
-  savePersonalSet() {
+  savePersonalSet = () => {
     const { inputName, inputMailbox, inputPhone, selMembers } = this.state;
     const obj = {
       username: inputName,
@@ -118,9 +110,9 @@ class PersonalSet extends Component {
       .catch(error => {
         this.setState({ wrong: error });
       });
-  }
+  };
 
-  changeImg() {
+  changeImg = () => {
     const img = this.myAvatar.files[0];
 
     if (img) {
@@ -139,11 +131,11 @@ class PersonalSet extends Component {
     }
 
     return this;
-  }
+  };
 
-  cancel() {
+  cancel = () => {
     this.setState({ wrong: {} });
-  }
+  };
 
   render() {
     const {

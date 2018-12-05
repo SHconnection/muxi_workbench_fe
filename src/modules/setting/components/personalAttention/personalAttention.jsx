@@ -19,10 +19,6 @@ class PersonalAttention extends Component {
       members: [],
       wrong: {}
     };
-
-    this.transferMsgDel = this.transferMsgDel.bind(this);
-    this.delete = this.delete.bind(this);
-    this.cancel = this.cancel.bind(this);
   }
 
   componentDidMount() {
@@ -46,22 +42,22 @@ class PersonalAttention extends Component {
       });
   }
 
-  delete(data) {
+  delete = data => {
     this.setState({
       data,
       deleteX: true
     });
-  }
+  };
 
-  transferMsgDel(deleteX) {
+  transferMsgDel = deleteX => {
     this.setState({
       deleteX
     });
-  }
+  };
 
-  cancel() {
+  cancel = () => {
     this.setState({ wrong: {} });
-  }
+  };
 
   render() {
     const { data, deleteX, members, wrong } = this.state;

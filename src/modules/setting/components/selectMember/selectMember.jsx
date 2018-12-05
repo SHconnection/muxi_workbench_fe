@@ -34,11 +34,6 @@ class SelectMember extends Component {
       ifSave: false,
       wrong: {}
     };
-
-    this.selAll = this.selAll.bind(this);
-    this.transferMsgMem = this.transferMsgMem.bind(this);
-    this.save = this.save.bind(this);
-    this.cancel = this.cancel.bind(this);
   }
 
   componentDidMount() {
@@ -129,11 +124,11 @@ class SelectMember extends Component {
     }
   }
 
-  cancel() {
+  cancel = () => {
     this.setState({ wrong: {} });
-  }
+  };
 
-  selAll() {
+  selAll = () => {
     this.setState(prevState => {
       const { members: arr1 } = prevState;
       const arr2 = [];
@@ -163,16 +158,16 @@ class SelectMember extends Component {
 
       return { members: arr1, selMembers: arr2 };
     });
-  }
+  };
 
-  transferMsgMem(arr1, arr2) {
+  transferMsgMem = (arr1, arr2) => {
     this.setState({
       members: arr1,
       selMembers: arr2
     });
-  }
+  };
 
-  save() {
+  save = () => {
     const {
       groupMember,
       addGroup,
@@ -227,7 +222,7 @@ class SelectMember extends Component {
         return id;
       });
     }
-  }
+  };
 
   render() {
     const { members, selMembers, ifSave, wrong } = this.state;

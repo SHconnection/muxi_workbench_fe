@@ -29,13 +29,6 @@ class SetPersonalInfo extends Component {
       deled: false,
       wrong: {}
     };
-
-    this.transferMsgMem = this.transferMsgMem.bind(this);
-    this.transferMsgDel = this.transferMsgDel.bind(this);
-    this.selAll = this.selAll.bind(this);
-    this.saveModifyMember = this.saveModifyMember.bind(this);
-    this.transferMsgIden = this.transferMsgIden.bind(this);
-    this.cancel = this.cancel.bind(this);
   }
 
   componentDidMount() {
@@ -102,32 +95,32 @@ class SetPersonalInfo extends Component {
       });
   }
 
-  cancel() {
+  cancel = () => {
     this.setState({ wrong: {} });
-  }
+  };
 
-  transferMsgIden(mem, selMem) {
+  transferMsgIden = (mem, selMem) => {
     this.setState({
       identity: mem,
       selIdentities: selMem
     });
-  }
+  };
 
-  transferMsgDel(deleteX, deled) {
+  transferMsgDel = (deleteX, deled) => {
     this.setState({
       deleteX,
       deled
     });
-  }
+  };
 
-  transferMsgMem(members, selMembers) {
+  transferMsgMem = (members, selMembers) => {
     this.setState({
       members,
       selMembers: selMembers || []
     });
-  }
+  };
 
-  selAll() {
+  selAll = () => {
     this.setState(prevState => {
       const { members: arr1 } = prevState;
       const arr2 = [];
@@ -157,9 +150,9 @@ class SetPersonalInfo extends Component {
 
       return { members: arr1, selMembers: arr2 };
     });
-  }
+  };
 
-  saveModifyMember() {
+  saveModifyMember = () => {
     const { selIdentities, selMembers } = this.state;
 
     ManageService.saveModifyMemberIdenty(localStorage.per, selIdentities).catch(
@@ -178,7 +171,7 @@ class SetPersonalInfo extends Component {
       .catch(error => {
         this.setState({ wrong: error });
       });
-  }
+  };
 
   render() {
     const {

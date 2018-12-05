@@ -35,9 +35,6 @@ class TeamMember extends Component {
       redDot: false,
       wrong: {}
     };
-
-    this.present = this.present.bind(this);
-    this.cancel = this.cancel.bind(this);
   }
 
   componentDidMount() {
@@ -93,11 +90,11 @@ class TeamMember extends Component {
       });
   }
 
-  cancel() {
+  cancel = () => {
     this.setState({ wrong: {} });
-  }
+  };
 
-  present(id) {
+  present = id => {
     ManageService.groupMember(id)
       .then(member => {
         if (member) {
@@ -116,7 +113,7 @@ class TeamMember extends Component {
       .catch(error => {
         this.setState({ wrong: error });
       });
-  }
+  };
 
   render() {
     const { members, selectedID, groupList, wrong, redDot } = this.state;

@@ -16,9 +16,6 @@ class AddMem extends Component {
       inputValue: "",
       wrong: {}
     };
-    this.copy = this.copy.bind(this);
-    this.link = this.link.bind(this);
-    this.cancel = this.cancel.bind(this);
   }
 
   componentDidMount() {
@@ -26,7 +23,7 @@ class AddMem extends Component {
     this.link();
   }
 
-  link() {
+  link = () => {
     ManageService.invitePerson()
       .then(data => {
         this.setState({ inputValue: data.hash_id });
@@ -37,19 +34,19 @@ class AddMem extends Component {
       .finally(() => {
         Loading.hide();
       });
-  }
+  };
 
-  copy() {
+  copy = () => {
     const e = this.textInput;
 
     e.select();
 
     document.execCommand("copy");
-  }
+  };
 
-  cancel() {
+  cancel = () => {
     this.setState({ wrong: {} });
-  }
+  };
 
   render() {
     const { inputValue, wrong } = this.state;

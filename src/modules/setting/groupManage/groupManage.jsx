@@ -24,11 +24,6 @@ class GroupManage extends Component {
       members: [],
       wrong: {}
     };
-
-    this.transferMsgDel = this.transferMsgDel.bind(this);
-    this.delete = this.delete.bind(this);
-    this.onDragEnd = this.onDragEnd.bind(this);
-    this.cancel = this.cancel.bind(this);
   }
 
   componentDidMount() {
@@ -57,7 +52,7 @@ class GroupManage extends Component {
       });
   }
 
-  onDragEnd(result) {
+  onDragEnd = result => {
     // 没有释放在指定范围，取消拖拽
     if (!result.destination) {
       return;
@@ -70,22 +65,22 @@ class GroupManage extends Component {
     members.splice(result.destination.index, 0, item[0]);
 
     this.setState({ members });
-  }
+  };
 
-  transferMsgDel(deleteX) {
+  transferMsgDel = deleteX => {
     this.setState({ deleteX });
-  }
+  };
 
-  delete(mem) {
+  delete = mem => {
     this.setState({
       data: mem,
       deleteX: true
     });
-  }
+  };
 
-  cancel() {
+  cancel = () => {
     this.setState({ wrong: {} });
-  }
+  };
 
   render() {
     const { deleteX, data, members, wrong } = this.state;
