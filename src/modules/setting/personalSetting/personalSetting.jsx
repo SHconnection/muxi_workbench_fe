@@ -81,7 +81,7 @@ class PersonalSet extends Component {
   };
 
   savePersonalSet = () => {
-    const { inputName, inputMailbox, inputPhone, selMembers } = this.state;
+    const { inputName, inputMailbox, inputPhone, selMembers, img } = this.state;
     const obj = {
       username: inputName,
       address: inputMailbox,
@@ -89,23 +89,20 @@ class PersonalSet extends Component {
       message: selMembers.indexOf(1) !== -1,
       email: selMembers.indexOf(2) !== -1
     };
-    const img = this.myAvatar.files[0];
+    const fileImg = this.myAvatar.files[0] || img;
     const data = new FormData();
-    data.append("image", img);
+    data.append("image", fileImg);
 
     ManageService.savePersonalSet(localStorage.per, obj).catch(error => {
       this.setState({ wrong: error });
     });
     ManageService.savePersonalAvatar(data)
-      .then(response => {
-        console.log(response);
-        if (response.status < 300) {
-          this.setState({ ifSave: true });
+      .then(() => {
+        this.setState({ ifSave: true });
 
-          setTimeout(() => {
-            this.setState({ ifSave: false });
-          }, 1000);
-        }
+        setTimeout(() => {
+          this.setState({ ifSave: false });
+        }, 1000);
       })
       .catch(error => {
         this.setState({ wrong: error });
