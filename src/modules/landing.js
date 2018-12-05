@@ -9,14 +9,14 @@ import Cookie from "../service/cookie";
 const User = decodeURIComponent(LandingService.getUsername());
 
 const data = {
-  username: User,
+  name: User,
   email: null,
   avatar: null,
   tel: null,
-  teamID: 0
+  teamID: 1
 };
 const data1 = {
-  username: User
+  name: User
 };
 
 localStorage.username = data1.username;
@@ -32,39 +32,41 @@ class Landing extends React.Component {
   }
 
   componentDidMount() {
-    LandingService.getEmail(User).then(emailRes => {
-      data.email = emailRes.email;
+    LandingService.getEmail(User)
+      .then(emailRes => {
+        data.email = emailRes.email;
+      })
+      .then(() => {
+        LandingService.getToken(data1)
+          .then(response => {
+            localStorage.id = response.uid;
+            localStorage.token = response.token;
+            Cookie.setCookie("workbench_token", response.token);
+            localStorage.role = response.urole;
 
-      LandingService.getToken(data1)
-        .then(response => {
-          localStorage.id = response.uid;
-          localStorage.token = response.token;
-          Cookie.setCookie("workbench_token", response.token);
-          localStorage.role = response.urole;
-
-          ManageService.getPersonalSet(response.uid)
-            .then(res => {
-              localStorage.avatar = res.avatar;
-            })
-            .catch(error => {
-              this.setState({ wrong: error });
-            });
-          this.setState({
-            loginSuccess: 1
-          });
-        })
-        .catch(() => {
-          LandingService.SignUp(data)
-            .then(() => {
-              this.setState({
-                loginSuccess: 2
+            ManageService.getPersonalSet(response.uid)
+              .then(res => {
+                localStorage.avatar = res.avatar;
+              })
+              .catch(error => {
+                this.setState({ wrong: error });
               });
-            })
-            .catch(error => {
-              this.setState({ wrong: error });
+            this.setState({
+              loginSuccess: 1
             });
-        });
-    });
+          })
+          .catch(() => {
+            LandingService.SignUp(data)
+              .then(() => {
+                this.setState({
+                  loginSuccess: 2
+                });
+              })
+              .catch(error => {
+                this.setState({ wrong: error });
+              });
+          });
+      });
   }
 
   cancel() {
