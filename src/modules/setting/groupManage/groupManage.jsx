@@ -24,11 +24,6 @@ class GroupManage extends Component {
       members: [],
       wrong: {}
     };
-
-    this.transferMsgDel = this.transferMsgDel.bind(this);
-    this.delete = this.delete.bind(this);
-    this.onDragEnd = this.onDragEnd.bind(this);
-    this.cancel = this.cancel.bind(this);
   }
 
   componentDidMount() {
@@ -57,7 +52,7 @@ class GroupManage extends Component {
       });
   }
 
-  onDragEnd(result) {
+  onDragEnd = result => {
     // 没有释放在指定范围，取消拖拽
     if (!result.destination) {
       return;
@@ -70,22 +65,22 @@ class GroupManage extends Component {
     members.splice(result.destination.index, 0, item[0]);
 
     this.setState({ members });
-  }
+  };
 
-  transferMsgDel(deleteX) {
+  transferMsgDel = deleteX => {
     this.setState({ deleteX });
-  }
+  };
 
-  delete(mem) {
+  delete = mem => {
     this.setState({
       data: mem,
       deleteX: true
     });
-  }
+  };
 
-  cancel() {
+  cancel = () => {
     this.setState({ wrong: {} });
-  }
+  };
 
   render() {
     const { deleteX, data, members, wrong } = this.state;
@@ -95,18 +90,21 @@ class GroupManage extends Component {
       <div className="subject minH">
         <GoBack />
         <b className="title">分组管理</b>
-        <br />
-        <span className="groupManage-tip tip">上下拖动对分组排序</span>
         <Link to={`${match.url}/addGroup`}>
-          <button type="button" className="saveBtn btnFlo">
+          <button type="button" className="saveBtn joinApply-btnFlo">
             添加分组
           </button>
         </Link>
+        <br />
+        <span className="groupManage-tip tip">上下拖动对分组排序</span>
 
         <DragDropContext onDragEnd={this.onDragEnd}>
           <Droppable droppableId="droppable">
             {provided => (
-              <div ref={provided.innerRef} className="clear present">
+              <div
+                ref={provided.innerRef}
+                className="clear present joinApply-list"
+              >
                 {members.map((mem, index) => {
                   const groupMemberPath = {
                     pathname: `${match.url}/groupMember/`,
@@ -121,14 +119,16 @@ class GroupManage extends Component {
                           {...provided1.draggableProps}
                           {...provided1.dragHandleProps}
                           className={
-                            mem.dealed ? "none" : "groupManage-reCell cell"
+                            mem.dealed
+                              ? "none"
+                              : "groupManage-reCell joinApply-cell"
                           }
                         >
                           <b>{mem.name}</b>
-                          <span className="llSize pos groupManage-rePos">
-                            {mem.count}
+                          <span className="llSize joinApply-pos groupManage-rePos">
+                            {mem.count}人
                           </span>
-                          <div className="litSel">
+                          <div className="joinApply-littleSelect">
                             <Link to={groupMemberPath} className="fakeBtn">
                               编辑
                             </Link>

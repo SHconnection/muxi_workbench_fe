@@ -21,7 +21,6 @@ class PersonalInfo extends Component {
       per: {},
       wrong: {}
     };
-    this.cancel = this.cancel.bind(this);
   }
 
   componentDidMount() {
@@ -47,9 +46,9 @@ class PersonalInfo extends Component {
       });
   }
 
-  cancel() {
+  cancel = () => {
     this.setState({ wrong: {} });
-  }
+  };
 
   render() {
     const { per, wrong } = this.state;

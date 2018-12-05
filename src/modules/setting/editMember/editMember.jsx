@@ -37,12 +37,6 @@ class EditMember extends Component {
       checkedIndex: 0,
       wrong: {}
     };
-
-    this.selAll = this.selAll.bind(this);
-    this.transferMsgMem = this.transferMsgMem.bind(this);
-    this.editProjectMember = this.editProjectMember.bind(this);
-    this.changeGroupCheck = this.changeGroupCheck.bind(this);
-    this.cancel = this.cancel.bind(this);
   }
 
   componentDidMount() {
@@ -107,11 +101,11 @@ class EditMember extends Component {
       });
   }
 
-  cancel() {
+  cancel = () => {
     this.setState({ wrong: {} });
-  }
+  };
 
-  selAll() {
+  selAll = () => {
     this.setState(prevState => {
       const { members: arr1 } = prevState;
       const arr2 = [];
@@ -141,16 +135,16 @@ class EditMember extends Component {
 
       return { members: arr1, selMembers: arr2 };
     });
-  }
+  };
 
-  transferMsgMem(members, selMembers) {
+  transferMsgMem = (members, selMembers) => {
     this.setState({
       members,
       selMembers
     });
-  }
+  };
 
-  editProjectMember() {
+  editProjectMember = () => {
     const {
       match: {
         params: { id }
@@ -161,9 +155,9 @@ class EditMember extends Component {
     ProjectService.editProjectMember(id, selMembers).catch(error => {
       this.setState({ wrong: error });
     });
-  }
+  };
 
-  changeGroupCheck(index) {
+  changeGroupCheck = index => {
     ManageService.groupMember(index)
       .then(member => {
         if (member) {
@@ -180,7 +174,7 @@ class EditMember extends Component {
       .catch(error => {
         this.setState({ wrong: error });
       });
-  }
+  };
 
   render() {
     const { members, selMembers, groups, checkedIndex, wrong } = this.state;

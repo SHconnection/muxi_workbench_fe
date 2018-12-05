@@ -30,12 +30,9 @@ class Delete extends Component {
     this.state = {
       wrong: {}
     };
-
-    this.move = this.move.bind(this);
-    this.cancel = this.cancel.bind(this);
   }
 
-  move() {
+  move = () => {
     const {
       certain,
       del,
@@ -120,11 +117,11 @@ class Delete extends Component {
           this.setState({ wrong: error });
         });
     }
-  }
+  };
 
-  cancel() {
+  cancel = () => {
     this.setState({ wrong: {} });
-  }
+  };
 
   render() {
     const { name, cancel, deleteX, transferMsg } = this.props;

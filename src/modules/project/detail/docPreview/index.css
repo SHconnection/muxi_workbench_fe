@@ -1,7 +1,6 @@
 .docPreview-header-creator {
   margin-left: 13px;
   font-size:12px;
-  font-family: PingFangSC-Regular;
   font-weight: 400;
   color: rgba(116,117,118,1);
 }
@@ -9,7 +8,6 @@
 .docPreview-header-lasteditor {
   margin-left: 21px;
   font-size:14px;
-  font-family: MicrosoftYaHei;
   color: rgba(64,64,64,1);
 }
 
@@ -23,14 +21,12 @@
 
 .docPreview-header-url span {
   font-size: 14px;
-  font-family: PingFangSC-Regular;
   font-weight: 400;
   color: rgba(29,76,181,1);
 }
 
 .docPreview-header-url span a{
   font-size: 14px;
-  font-family: PingFangSC-Regular;
   font-weight: 400;
   color: rgba(29,76,181,1);
 }
@@ -44,7 +40,6 @@
 
 .docPreview-header-right div, .docPreview-header-right a {
   font-size: 16px;
-  font-family: PingFangSC-Regular;
   font-weight: 400;
   color: rgba(16,142,233,1);
   line-height: 22px;
@@ -54,7 +49,6 @@
 
 .docPreview-time {
   font-size: 14px;
-  font-family: MicrosoftYaHei;
   color: rgba(64,64,64,1);
   line-height: 19px;
   margin-bottom: 10px;

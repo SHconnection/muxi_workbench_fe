@@ -4,22 +4,22 @@ import ManageService from "../service/manage";
 import LandingService from "../service/landing";
 import WrongPage from "../components/common/wrongPage/wrongPage";
 import Cookie from "../service/cookie";
+import "../static/css/common.css";
 
 const User = decodeURIComponent(LandingService.getUsername());
-const Email = decodeURIComponent(LandingService.getEmail(User));
 
 const data = {
-  username: User,
-  email: Email,
-  avatar: null,
-  tel: null,
-  teamID: 0
+  name: User,
+  email: "",
+  avatar: "",
+  tel: "",
+  teamID: 1
 };
 const data1 = {
-  username: User
+  name: User
 };
 
-localStorage.username = data1.username;
+localStorage.username = User;
 
 class Landing extends React.Component {
   constructor(props) {
@@ -32,33 +32,39 @@ class Landing extends React.Component {
   }
 
   componentDidMount() {
-    LandingService.getToken(data1)
-      .then(response => {
-        localStorage.id = response.uid;
-        localStorage.token = response.token;
-        Cookie.setCookie("workbench_token", response.token);
-        localStorage.role = response.urole;
-
-        ManageService.getPersonalSet(response.uid)
-          .then(res => {
-            localStorage.avatar = res.avatar;
-          })
-          .catch(error => {
-            this.setState({ wrong: error });
-          });
-        this.setState({
-          loginSuccess: 1
-        });
+    LandingService.getEmail(User)
+      .then(emailRes => {
+        data.email = emailRes.email;
       })
-      .catch(() => {
-        LandingService.SignUp(data)
-          .then(() => {
+      .then(() => {
+        LandingService.getToken(data1)
+          .then(response => {
+            localStorage.id = response.uid;
+            localStorage.token = response.token || "";
+            Cookie.setCookie("workbench_token", response.token);
+            localStorage.role = response.urole || 1;
+
+            ManageService.getPersonalSet(response.uid)
+              .then(res => {
+                localStorage.avatar = res.avatar || "";
+              })
+              .catch(error => {
+                this.setState({ wrong: error });
+              });
             this.setState({
-              loginSuccess: 2
+              loginSuccess: 1
             });
           })
-          .catch(error => {
-            this.setState({ wrong: error });
+          .catch(() => {
+            LandingService.SignUp(data)
+              .then(() => {
+                this.setState({
+                  loginSuccess: 2
+                });
+              })
+              .catch(error => {
+                this.setState({ wrong: error });
+              });
           });
       });
   }
@@ -80,18 +86,21 @@ class Landing extends React.Component {
     if (loginSuccess === 2) {
       return (
         <div>
-          <div>成功向团队发起申请,请留意填写的邮箱</div>
+          <div className="subject alert">
+            <p>成功向团队发起申请,请留意填写的邮箱</p>
+          </div>
           <WrongPage info={wrong} cancel={this.cancel} />
         </div>
       );
     }
     return (
       <div>
-        <div>页面加载中···</div>
+        <div className="subject alert">
+          <p>页面加载中···</p>
+        </div>
         <WrongPage info={wrong} cancel={this.cancel} />
       </div>
     );
   }
 }
-
 export default Landing;

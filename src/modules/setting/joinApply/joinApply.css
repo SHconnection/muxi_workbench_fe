@@ -1,23 +1,27 @@
-.btnFlo {
+.joinApply-btnFlo {
   float: right;
   margin-bottom: 23px;
+  margin-right: 0;
 }
-.cell {
+.joinApply-list{
+  margin-left: 0;
+}
+.joinApply-cell {
   display: flex;
   position: relative;
   justify-content: space-between;
   border-top: 1px solid #979797;
-  width: 820px;
+  width: 860px;
   height: 90px;
   line-height: 90px;
   padding: 0 10px;
 }
-.litSel {
+.joinApply-littleSelect {
   display: flex;
   justify-content: space-between;
   width: 100px;
 }
-.pos {
+.joinApply-pos {
   position: absolute;
   left: 350px;
 }

@@ -15,7 +15,7 @@ class SearchItem extends Component {
         url: ""
       },
       docConetnt: "",
-      wrong: ""
+      wrong: {}
     };
     this.getFileInfo = this.getFileInfo.bind(this);
     this.getDocConnent = this.getDocConnent.bind(this);
@@ -67,7 +67,7 @@ class SearchItem extends Component {
   }
 
   cancel() {
-    this.setState({ wrong: "" });
+    this.setState({ wrong: {} });
   }
 
   render() {

@@ -14,31 +14,45 @@ class AddGroup extends Component {
     super(props);
 
     this.state = {
-      inputValue: ""
+      inputValue: "",
+      inputIsNull: false
     };
-
-    this.changeInput = this.changeInput.bind(this);
   }
 
-  changeInput(e) {
-    this.setState({ inputValue: e.target.value });
-  }
+  changeInput = e => {
+    if (e.target.value) {
+      this.setState({
+        inputValue: e.target.value,
+        inputIsNull: false
+      });
+    } else {
+      this.setState({
+        inputValue: e.target.value,
+        inputIsNull: true
+      });
+    }
+  };
 
   render() {
-    const { inputValue } = this.state;
+    const { inputValue, inputIsNull } = this.state;
 
     return (
       <div className="subject minH">
         <GoBack />
         <b className="title">添加成员分组</b>
-        <br />
-        <input
-          type="text"
-          className="inputSize addGroup-inputMarg"
-          placeholder="请为分组命名"
-          value={inputValue}
-          onChange={this.changeInput}
-        />
+        <div className="present addGroup-rePresent">
+          <input
+            type="text"
+            className="inputSize"
+            placeholder="请为分组命名"
+            value={inputValue}
+            onBlur={this.changeInput}
+            onChange={this.changeInput}
+          />
+          <p className={inputIsNull ? "warning" : "transparent"}>
+            输入框不能为空！
+          </p>
+        </div>
         <SelectMember addGroup groupName={inputValue} />
       </div>
     );

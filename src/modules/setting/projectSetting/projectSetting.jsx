@@ -23,12 +23,6 @@ class SetProject extends Component {
       deleteX: false,
       wrong: {}
     };
-
-    this.transferMsgDel = this.transferMsgDel.bind(this);
-    this.changeInput = this.changeInput.bind(this);
-    this.changeText = this.changeText.bind(this);
-    this.saveProjectSet = this.saveProjectSet.bind(this);
-    this.cancel = this.cancel.bind(this);
   }
 
   componentDidMount() {
@@ -56,25 +50,25 @@ class SetProject extends Component {
       });
   }
 
-  changeInput(e) {
+  changeInput = e => {
     this.setState({
       inputValue: e.target.value
     });
-  }
+  };
 
-  changeText(e) {
+  changeText = e => {
     this.setState({
       textValue: e.target.value
     });
-  }
+  };
 
-  transferMsgDel(deleteX) {
+  transferMsgDel = deleteX => {
     this.setState({
       deleteX
     });
-  }
+  };
 
-  saveProjectSet() {
+  saveProjectSet = () => {
     const {
       match: {
         params: { id }
@@ -85,11 +79,11 @@ class SetProject extends Component {
     ProjectService.saveProjectSet(id, textValue, inputValue).catch(error => {
       this.setState({ wrong: error });
     });
-  }
+  };
 
-  cancel() {
+  cancel = () => {
     this.setState({ wrong: {} });
-  }
+  };
 
   render() {
     const { deleteX, inputValue, textValue, wrong } = this.state;

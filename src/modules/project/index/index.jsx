@@ -11,7 +11,7 @@ class Index extends Component {
     super(props);
     this.state = {
       project: [],
-      wrong: ""
+      wrong: {}
     };
   }
 
@@ -39,6 +39,11 @@ class Index extends Component {
       });
   }
 
+  cancel() {
+    this.setState({
+      wrong: {}
+    });
+  }
   // componentDidMount() {
   //     //do something
   // }
@@ -47,9 +52,11 @@ class Index extends Component {
     const { project, wrong } = this.state;
     return (
       <div className="project">
-        <div className="project-create-bt">
-          <Button to="project/new" text="新建项目" />
-        </div>
+        {localStorage.role !== "1" && (
+          <div className="project-create-bt">
+            <Button to="project/new" text="新建项目" />
+          </div>
+        )}
         <div className="projects-container">
           {project.map(el => (
             <div key={el.id} className="project-item">

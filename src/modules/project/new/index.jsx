@@ -187,8 +187,8 @@ class NewProject extends Component {
     const userlist = members.filter(el => el.selected).map(item => {
       /* eslint-disable */
       if (item.id == localStorage.id) {
-      /* eslint-enable */
-        chooseMe = true
+        /* eslint-enable */
+        chooseMe = true;
       }
       const user = { userID: item.id, userName: item.name };
       return user;
@@ -197,7 +197,7 @@ class NewProject extends Component {
       userlist.push({ userID: localStorage.id, userName: localStorage.name });
     }
     if (!(userlist.length && projectname && intro)) {
-      return
+      return;
     }
     const postData = {
       username: localStorage.username,
