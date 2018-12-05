@@ -10,7 +10,7 @@ install:
   - npm install
   - npm run build
   - ls ./build
-  - qiniu-upload push -z huad -p ./build -b ccnustatic -f test110 -r yes
+  - qiniu-upload push -z huad -p ./build -b ccnustatic -f workbench -r yes
   - export
   - echo "$DOCKER_PWD" | docker login --username=zindex@muxi --password-stdin registry.ap-southeast-1.aliyuncs.com
   - docker build . -t registry.ap-southeast-1.aliyuncs.com/muxiauth/workbench_fe:$TRAVIS_TAG
