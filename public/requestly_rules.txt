@@ -1,0 +1,22 @@
+[
+  {
+    "creationDate": 1544013883741,
+    "description": "",
+    "groupId": "",
+    "id": "Redirect_1544013883741",
+    "name": "工作台",
+    "objectType": "rule",
+    "pairs": [
+      {
+        "destination": "http://localhost:3000/static/js/bundle.js",
+        "source": {
+          "key": "Url",
+          "operator": "Contains",
+          "value": "http://static.muxixyz.com/workbench/static/js/"
+        }
+      }
+    ],
+    "ruleType": "Redirect",
+    "status": "Active"
+  }
+]
