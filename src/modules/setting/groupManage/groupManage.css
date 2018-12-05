@@ -1,5 +1,5 @@
 .groupManage-tip {
-  margin-left: 41px;
+  margin-left: 30px;
 }
 .groupManage-rePos {
   left: 300px;
@@ -7,4 +7,7 @@
 .groupManage-reCell {
   height: 54px;
   line-height: 54px;
+}
+.groupManage-buttonMargin{
+  margin-right: 0;
 }

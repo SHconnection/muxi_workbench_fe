@@ -41,19 +41,19 @@ class AddGroup extends Component {
       <div className="subject minH">
         <GoBack />
         <b className="title">添加成员分组</b>
-        <br />
-        <input
-          type="text"
-          className="inputSize addGroup-inputMarg"
-          placeholder="请为分组命名"
-          value={inputValue}
-          onChange={this.changeInput}
-        />
-        <p
-          className={inputIsNull ? "warning addGroup-inputMarg" : "transparent"}
-        >
-          输入框不能为空！
-        </p>
+        <div className="present addGroup-rePresent">
+          <input
+            type="text"
+            className="inputSize"
+            placeholder="请为分组命名"
+            value={inputValue}
+            onBlur={this.changeInput}
+            onChange={this.changeInput}
+          />
+          <p className={inputIsNull ? "warning" : "transparent"}>
+            输入框不能为空！
+          </p>
+        </div>
         <SelectMember addGroup groupName={inputValue} />
       </div>
     );

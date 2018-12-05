@@ -55,12 +55,15 @@ class Member extends Component {
     const { wrap, members, dis } = this.props;
 
     return (
-      <div className="selectMem">
+      <div className="member-selectMem">
         {members.map((item1, index) => {
           const item = item1;
 
           return (
-            <div className={wrap ? "unit" : "unit nowrap"} key={item.id}>
+            <div
+              className={wrap ? "member-unit" : "member-unit member-nowrap"}
+              key={item.id}
+            >
               <input
                 type="checkbox"
                 checked={item.selected}
@@ -74,7 +77,7 @@ class Member extends Component {
               />
               <label
                 htmlFor={`check${item.name}${index}`}
-                className="fontColor"
+                className="member-name"
                 id="lab"
               >
                 {item.name}

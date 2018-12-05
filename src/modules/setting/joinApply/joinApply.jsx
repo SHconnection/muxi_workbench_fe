@@ -112,20 +112,23 @@ class JoinApply extends Component {
         <br />
         <button
           type="button"
-          className="saveBtn btnFlo"
+          className="saveBtn joinApply-btnFlo"
           onClick={this.saveAll.bind(this)}
         >
           全部同意
         </button>
-        <div className="clear present">
+        <div className="clear present joinApply-list">
           {members.map(mem1 => {
             const mem = mem1;
 
             return (
-              <div className={mem.dealed ? "none" : "cell"} key={mem.id}>
+              <div
+                className={mem.dealed ? "none" : "joinApply-cell"}
+                key={mem.id}
+              >
                 <b>{mem.name}</b>
-                <span className="llSize pos">{mem.email}</span>
-                <div className="litSel">
+                <span className="llSize joinApply-pos">{mem.email}</span>
+                <div className="joinApply-littleSelect">
                   <span
                     role="button"
                     tabIndex="-1"

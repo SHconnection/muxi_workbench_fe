@@ -95,18 +95,21 @@ class GroupManage extends Component {
       <div className="subject minH">
         <GoBack />
         <b className="title">分组管理</b>
-        <br />
-        <span className="groupManage-tip tip">上下拖动对分组排序</span>
         <Link to={`${match.url}/addGroup`}>
-          <button type="button" className="saveBtn btnFlo">
+          <button type="button" className="saveBtn joinApply-btnFlo">
             添加分组
           </button>
         </Link>
+        <br />
+        <span className="groupManage-tip tip">上下拖动对分组排序</span>
 
         <DragDropContext onDragEnd={this.onDragEnd}>
           <Droppable droppableId="droppable">
             {provided => (
-              <div ref={provided.innerRef} className="clear present">
+              <div
+                ref={provided.innerRef}
+                className="clear present joinApply-list"
+              >
                 {members.map((mem, index) => {
                   const groupMemberPath = {
                     pathname: `${match.url}/groupMember/`,
@@ -121,14 +124,16 @@ class GroupManage extends Component {
                           {...provided1.draggableProps}
                           {...provided1.dragHandleProps}
                           className={
-                            mem.dealed ? "none" : "groupManage-reCell cell"
+                            mem.dealed
+                              ? "none"
+                              : "groupManage-reCell joinApply-cell"
                           }
                         >
                           <b>{mem.name}</b>
-                          <span className="llSize pos groupManage-rePos">
+                          <span className="llSize joinApply-pos groupManage-rePos">
                             {mem.count}人
                           </span>
-                          <div className="litSel">
+                          <div className="joinApply-littleSelect">
                             <Link to={groupMemberPath} className="fakeBtn">
                               编辑
                             </Link>

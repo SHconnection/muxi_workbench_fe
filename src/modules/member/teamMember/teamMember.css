@@ -8,10 +8,6 @@
     width: 540px;
     overflow: scroll;
 }
-.teamMember-select::-webkit-scrollbar{
-    width:0;
-    height: 0;
-}
 .teamMember-selectItem{
     height: 31px;
     line-height: 31px;
