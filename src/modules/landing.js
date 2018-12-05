@@ -6,17 +6,17 @@ import WrongPage from "../components/common/wrongPage/wrongPage";
 import Cookie from "../service/cookie";
 import "../static/css/common.css";
 
-// const User = decodeURIComponent(LandingService.getUsername());
+const User = decodeURIComponent(LandingService.getUsername());
 
 const data = {
-  name: "xuanye",
+  name: User,
   email: null,
   avatar: null,
   tel: null,
   teamID: 1
 };
 const data1 = {
-  name: "xuanye"
+  name: User
 };
 
 localStorage.username = data1.name;
@@ -32,7 +32,7 @@ class Landing extends React.Component {
   }
 
   componentDidMount() {
-    LandingService.getEmail("xuanye")
+    LandingService.getEmail(User)
       .then(emailRes => {
         data.email = emailRes.email;
       })

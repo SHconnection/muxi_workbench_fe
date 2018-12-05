@@ -2,6 +2,9 @@ import Fetch from "./fetch";
 
 const LandingService = {
   getUsername() {
+    if (localStorage.username) {
+      return localStorage.username;
+    }
     return window.location.href
       .split("?")[1]
       .split("&")[0]
