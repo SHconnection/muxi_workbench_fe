@@ -4,6 +4,7 @@
 import React, { Component } from "react";
 import { Route, NavLink, Link, Redirect, Switch } from "react-router-dom";
 import PropTypes from "prop-types";
+import Avatar from "../../../components/common/avatar/index";
 import PersonalAttention from "../components/personalAttention/personalAttention";
 import Dynamic from "../../feed/dynamic";
 import Progress from "../../status/index";
@@ -58,12 +59,8 @@ class PersonalInfo extends Component {
       <div className="subject minH">
         <div className="personal">
           <div className="personalInfo-personalInformation">
-            <img
-              src={per.avatar}
-              className="personalInfo-avatar"
-              alt="加载中..."
-            />
-            <div className="personalIntro">
+            <Avatar src={per.avatar} width={114} height={114} />
+            <div className="personalInfo-personalIntro">
               <b className="personalName">{per.name}</b>
               <Link to={`${match.url}/personalSet`} className="fakeBtn">
                 {per.id === parseInt(localStorage.id, 10) ? "更改设置" : ""}

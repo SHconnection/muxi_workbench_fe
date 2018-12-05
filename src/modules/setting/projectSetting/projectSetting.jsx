@@ -21,7 +21,8 @@ class SetProject extends Component {
       inputValue: "",
       textValue: "",
       deleteX: false,
-      wrong: {}
+      wrong: {},
+      inputIsNull: false
     };
   }
 
@@ -51,9 +52,17 @@ class SetProject extends Component {
   }
 
   changeInput = e => {
-    this.setState({
-      inputValue: e.target.value
-    });
+    if (e.target.value) {
+      this.setState({
+        inputValue: e.target.value,
+        inputIsNull: false
+      });
+    } else {
+      this.setState({
+        inputValue: e.target.value,
+        inputIsNull: true
+      });
+    }
   };
 
   changeText = e => {
@@ -76,9 +85,13 @@ class SetProject extends Component {
     } = this.props;
     const { textValue, inputValue } = this.state;
 
-    ProjectService.saveProjectSet(id, textValue, inputValue).catch(error => {
-      this.setState({ wrong: error });
-    });
+    ProjectService.saveProjectSet(id, textValue, inputValue)
+      .then(() => {
+        this.props.history.push(`/project/${id}/editMem`);
+      })
+      .catch(error => {
+        this.setState({ wrong: error });
+      });
   };
 
   cancel = () => {
@@ -86,7 +99,7 @@ class SetProject extends Component {
   };
 
   render() {
-    const { deleteX, inputValue, textValue, wrong } = this.state;
+    const { deleteX, inputValue, textValue, wrong, inputIsNull } = this.state;
     const {
       match: {
         params: { id }
@@ -100,18 +113,19 @@ class SetProject extends Component {
           textValue={textValue}
           changeInput={this.changeInput}
           changeText={this.changeText}
+          inputIsNull={inputIsNull}
         />
 
-        <div className="select">
-          <Link to={`/project/${id}/editMem`}>
-            <button
-              type="button"
-              className="saveBtn"
-              onClick={this.saveProjectSet}
-            >
-              保存
-            </button>
-          </Link>
+        <div className="setProject-select">
+          {/* <Link to={`/project/${id}/editMem`}> */}
+          <button
+            type="button"
+            className="saveBtn"
+            onClick={this.saveProjectSet}
+          >
+            保存
+          </button>
+          {/* </Link> */}
           <button
             type="button"
             className="delBtn"
@@ -131,7 +145,7 @@ class SetProject extends Component {
           deleteX={deleteX}
           transferMsg={this.transferMsgDel}
           proDel
-          id={id}
+          proId={parseInt(id, 10)}
         />
 
         <WrongPage info={wrong} cancel={this.cancel} />

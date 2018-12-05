@@ -12,21 +12,25 @@ class Header extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      showInput: false
+      showInput: false,
+      userAvatar: ""
     };
-    this.searchRef = React.createRef();
-    this.enterSearch = this.enterSearch.bind(this);
-    this.searchText = "";
   }
 
-  clickSearchIcon() {
+  componentDidMount() {
+    const { avatar } = localStorage;
+
+    this.setState({ userAvatar: avatar });
+  }
+
+  clickSearchIcon = () => {
     const that = this;
     this.setState({
       showInput: !that.state.showInput
     });
-  }
+  };
 
-  searchItem() {
+  searchItem = () => {
     const { value } = this.searchRef.current;
     // console.log(value);
     if (value !== "") {
@@ -37,9 +41,9 @@ class Header extends Component {
       const { history } = this.props;
       history.push(`${url}`);
     }
-  }
+  };
 
-  enterSearch(e) {
+  enterSearch = e => {
     if (e.keyCode === 13) {
       this.searchItem();
       const that = this;
@@ -47,10 +51,10 @@ class Header extends Component {
         showInput: !that.state.showInput
       });
     }
-  }
+  };
 
   render() {
-    const { showInput } = this.state;
+    const { showInput, userAvatar } = this.state;
     return (
       <div className="header-container">
         <div className="header-content">
@@ -101,7 +105,7 @@ class Header extends Component {
                 localStorage.per = localStorage.id;
               }}
             >
-              <Avatar src={localStorage.avatar} />
+              <Avatar src={userAvatar} />
             </Link>
             <div>
               <Inform />

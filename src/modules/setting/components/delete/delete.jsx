@@ -74,7 +74,7 @@ class Delete extends Component {
       ProjectService.projectDelete(proId)
         .then(() => {
           transferMsg(false);
-          window.history.back();
+          window.location.assign(`/project`);
         })
         .catch(error => {
           transferMsg(false);

@@ -11,20 +11,23 @@ const ProjectSetFirst = ({
   inputValue,
   changeInput,
   textValue,
-  changeText
+  changeText,
+  inputIsNull
 }) => (
   <div>
     <div className="title">项目设置</div>
     <br />
     <input
       type="text"
-      className="inputSize"
+      className="inputSize projectSetFirst-margin"
       placeholder="项目名称"
       value={inputValue}
       onChange={changeInput}
+      onBlur={changeInput}
     />
+    <p className={inputIsNull ? "warning" : "transparent"}>输入框不能为空！</p>
     <textarea
-      className="inputSize textareaSize"
+      className="inputSize projectSetFirst-textareaSize"
       placeholder="简单描述项目，便于其他人了解（选填）"
       value={textValue}
       onChange={changeText}

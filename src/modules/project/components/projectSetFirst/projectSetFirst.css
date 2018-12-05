@@ -1,5 +1,8 @@
-.textareaSize {
+.projectSetFirst-textareaSize {
   width: 585px;
   height: 101px;
+  margin-top: 10px;
 }
-
+.projectSetFirst-margin{
+  margin-top: 18px;
+}
