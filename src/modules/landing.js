@@ -5,17 +5,17 @@ import LandingService from "../service/landing";
 import WrongPage from "../components/common/wrongPage/wrongPage";
 import Cookie from "../service/cookie";
 
-const User = decodeURIComponent(LandingService.getUsername());
+// const User = decodeURIComponent(LandingService.getUsername());
 
 const data = {
-  name: User,
+  name: "xuanye",
   email: null,
   avatar: null,
   tel: null,
   teamID: 1
 };
 const data1 = {
-  name: User
+  name: "xuanye"
 };
 
 localStorage.username = data1.username;
@@ -31,7 +31,7 @@ class Landing extends React.Component {
   }
 
   componentDidMount() {
-    LandingService.getEmail(User)
+    LandingService.getEmail("xuanye")
       .then(emailRes => {
         data.email = emailRes.email;
       })
