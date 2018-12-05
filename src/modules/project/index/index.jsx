@@ -39,6 +39,11 @@ class Index extends Component {
       });
   }
 
+  cancel() {
+    this.setState({
+      wrong: {}
+    });
+  }
   // componentDidMount() {
   //     //do something
   // }

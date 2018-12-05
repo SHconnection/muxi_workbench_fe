@@ -19,7 +19,7 @@ const data1 = {
   name: User
 };
 
-localStorage.username = data1.name;
+localStorage.username = data1.username;
 
 class Landing extends React.Component {
   constructor(props) {
@@ -39,6 +39,7 @@ class Landing extends React.Component {
       .then(() => {
         LandingService.getToken(data1)
           .then(response => {
+            console.log(response);
             localStorage.id = response.uid;
             localStorage.token = response.token || "";
             Cookie.setCookie("workbench_token", response.token);

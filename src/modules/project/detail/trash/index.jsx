@@ -20,7 +20,7 @@ class ProjectTrash extends Component {
       fileTree: {},
       currentFile: {},
       showMoveAlert: false,
-      wrong: ""
+      wrong: {}
     };
     this.getTrash = this.getTrash.bind(this);
     this.restore = this.restore.bind(this);
@@ -72,7 +72,7 @@ class ProjectTrash extends Component {
   }
 
   cancel() {
-    this.setState({ wrong: "" });
+    this.setState({ wrong: {} });
   }
 
   // 确认移动文件

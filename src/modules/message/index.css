@@ -7,7 +7,6 @@
 }
 .message-all {
     font-size:24px;
-    font-family:MicrosoftYaHei-Bold;
     font-weight:bold;
     color:rgba(29,76,181,1);
     line-height:31px;
@@ -15,7 +14,6 @@
 .message-readed {
     float: right;
     font-size:16px;
-    font-family:MicrosoftYaHei;
     color:rgba(16,142,233,1);
     line-height:90px;
 }
@@ -39,7 +37,6 @@
     text-align: center;
     margin-top: 23px;
     font-size:16px;
-    font-family:MicrosoftYaHei;
     color:rgba(145,145,145,1);
     line-height:21px;
 }

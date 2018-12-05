@@ -11,13 +11,13 @@ center, u, b, i {
     padding: 0; 
     border: 0; 
     outline: none; 
+    font-family: "Microsoft YaHei",  Arial,  "WenQuanYi Micro Hei";
 }
 html, body, div, span, button, p, a, b, ol, ul, li, table, caption, tbody, tfoot, thead, tr, th, td{
     font-size: 16px;
 }
 body {
     background-color: #F2F2F2;
-    font-family: Helvetica, Tahoma, Arial, "Microsoft YaHei", "Hiragino Sans GB", "WenQuanYi Micro Hei", sans-serif;
 }
 a {
     text-decoration: none;
