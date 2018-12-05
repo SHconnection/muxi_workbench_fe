@@ -4,6 +4,7 @@ import ManageService from "../service/manage";
 import LandingService from "../service/landing";
 import WrongPage from "../components/common/wrongPage/wrongPage";
 import Cookie from "../service/cookie";
+import "../static/css/common.css";
 
 // const User = decodeURIComponent(LandingService.getUsername());
 
@@ -18,7 +19,7 @@ const data1 = {
   name: "xuanye"
 };
 
-localStorage.username = data1.username;
+localStorage.username = data1.name;
 
 class Landing extends React.Component {
   constructor(props) {
@@ -85,18 +86,21 @@ class Landing extends React.Component {
     if (loginSuccess === 2) {
       return (
         <div>
-          <div>成功向团队发起申请,请留意填写的邮箱</div>
+          <div className="subject alert">
+            <p>成功向团队发起申请,请留意填写的邮箱</p>
+          </div>
           <WrongPage info={wrong} cancel={this.cancel} />
         </div>
       );
     }
     return (
       <div>
-        <div>页面加载中···</div>
+        <div className="subject alert">
+          <p>页面加载中···</p>
+        </div>
         <WrongPage info={wrong} cancel={this.cancel} />
       </div>
     );
   }
 }
-
 export default Landing;
