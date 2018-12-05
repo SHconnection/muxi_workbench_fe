@@ -32,10 +32,7 @@ const MessageService = {
 
   getMessageList(page) {
     return Fetch(`/api/v1.0/message/list/?page=${page}/`, {
-      token: localStorage.token,
-      data: {
-        page
-      }
+      token: localStorage.token
     });
   },
 
