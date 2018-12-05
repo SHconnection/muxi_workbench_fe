@@ -35,11 +35,12 @@ class DocPreview extends Component {
       // 评论列表
       commentList: [],
       // 发表评论的输入值
-      commentInput: ""
+      commentInput: "",
       // 评论当前页数
       // currentPage: 1,
       // 总页数
       // pageNums: 1
+      wrong: {}
     };
     this.getFileInfo = this.getFileInfo.bind(this);
     this.isFocus = this.isFocus.bind(this);
@@ -235,7 +236,7 @@ class DocPreview extends Component {
   // }
 
   cancel() {
-    this.setState({ wrong: "" });
+    this.setState({ wrong: {} });
   }
 
   render() {

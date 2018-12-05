@@ -15,7 +15,7 @@ class Member extends Component {
     this.state = {
       pid: match.params.id,
       memberList: [],
-      wrong: ""
+      wrong: {}
     };
     this.getUserList = this.getUserList.bind(this);
     this.cancel = this.cancel.bind(this);
@@ -41,7 +41,7 @@ class Member extends Component {
   }
 
   cancel() {
-    this.setState({ wrong: "" });
+    this.setState({ wrong: {} });
   }
 
   render() {

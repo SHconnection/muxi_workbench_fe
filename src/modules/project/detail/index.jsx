@@ -251,7 +251,9 @@ class ProjectDetailIndex extends Component {
               const newNode = { folder: false, id: data.fid, name: data.name };
               ProjectService.updateProjectFileTree(
                 pid,
-                JSON.stringify(FileTree.insertNode(newNode, fileRootId, fileTree))
+                JSON.stringify(
+                  FileTree.insertNode(newNode, fileRootId, fileTree)
+                )
               )
                 .then(() => {
                   // 更新视图

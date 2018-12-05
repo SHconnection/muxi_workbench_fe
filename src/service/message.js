@@ -2,13 +2,13 @@ import Fetch from "./fetch";
 
 const MessageService = {
   getPersonalAttention(userID) {
-    return Fetch(`/user/attention/?id=${userID}`, {
+    return Fetch(`/api/v1.0/user/attention/?id=${userID}`, {
       token: localStorage.token
     });
   },
 
   attentionDel(filename) {
-    return Fetch("/user/attention/", {
+    return Fetch("/api/v1.0/user/attention/", {
       method: "DELETE",
       token: localStorage.token,
       data: {
@@ -18,7 +18,7 @@ const MessageService = {
   },
 
   makeNewMessage(receiver, maker, action) {
-    return Fetch("/message/new/", {
+    return Fetch("/api/v1.0/message/new/", {
       method: "POST",
       token: localStorage.token,
       data: {
@@ -31,16 +31,13 @@ const MessageService = {
   },
 
   getMessageList(page) {
-    return Fetch(`/message/list/?page=${page}/`, {
-      token: localStorage.token,
-      data: {
-        page
-      }
+    return Fetch(`/api/v1.0/message/list/?page=${page}/`, {
+      token: localStorage.token
     });
   },
 
   messageAllRead(username) {
-    return Fetch("/message/readAll/", {
+    return Fetch("/api/v1.0/message/readAll/", {
       method: "POST",
       token: localStorage.token,
       data: {
@@ -50,14 +47,14 @@ const MessageService = {
   },
 
   getAMessage(username, mid) {
-    return Fetch(`/message/${username}/${mid}/`, {
+    return Fetch(`/api/v1.0/message/${username}/${mid}/`, {
       token: localStorage.token
     });
   },
 
   // 关注某个文档（件）
   focusOnFile(id, kind) {
-    return Fetch(`/user/attention/`, {
+    return Fetch(`/api/v1.0/user/attention/`, {
       method: "POST",
       data: {
         fileID: id,
@@ -69,7 +66,7 @@ const MessageService = {
 
   // 取关某个文档（件）
   notFocusOnFile(id, kind) {
-    return Fetch(`/user/attention/`, {
+    return Fetch(`/api/v1.0/user/attention/`, {
       method: "DELETE",
       data: {
         fileID: id,
@@ -81,7 +78,7 @@ const MessageService = {
 
   // 查看我关注的文件们
   getMyAttentionFiles() {
-    return Fetch(`/user/attention/`, {
+    return Fetch(`/api/v1.0/user/attention/`, {
       method: "GET",
       token: localStorage.token
     });

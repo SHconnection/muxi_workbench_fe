@@ -16,7 +16,6 @@ input[type="text"].create-file-alert-input{
   border-radius: 0;
   padding: 0;
   font-size: 16px;
-  font-family: PingFangSC-Regular;
   font-weight: 400;
 }
 
@@ -54,7 +53,6 @@ input[type="text"].create-file-alert-input{
   width: 161px;
   height: 24px;
   font-size: 16px;
-  font-family: MicrosoftYaHei;
   color: rgba(64,64,64,1);
   line-height: 24px;
 }
@@ -78,7 +76,6 @@ input[type="text"].create-file-alert-input{
   width:185px;
   height:24px;
   font-size:16px;
-  font-family:MicrosoftYaHei;
   color:rgba(64,64,64,1);
   line-height:24px;
 }
@@ -162,7 +159,6 @@ input[type="text"].create-file-alert-input{
 
 .projectDetail-file-title {
   font-size:20px;
-  font-family:MicrosoftYaHei-Bold;
   font-weight:bold;
   color:rgba(29,76,181,1);
   line-height:26px;
