@@ -11,7 +11,7 @@ class Index extends Component {
     super(props);
     this.state = {
       project: [],
-      wrong: ""
+      wrong: {}
     };
   }
 
@@ -39,6 +39,11 @@ class Index extends Component {
       });
   }
 
+  cancel() {
+    this.setState({
+      wrong: {}
+    });
+  }
   // componentDidMount() {
   //     //do something
   // }

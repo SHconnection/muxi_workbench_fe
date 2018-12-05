@@ -15,7 +15,7 @@ class EditDoc extends Component {
       id: parseInt(match.params.id, 0),
       title: "",
       content: "",
-      wrong: ""
+      wrong: {}
     };
     this.save = this.save.bind(this);
     // this.getDocTree = this.getDocTree.bind(this);
@@ -71,6 +71,12 @@ class EditDoc extends Component {
       .catch(error => {
         this.setState({ wrong: error });
       });
+  }
+
+  cancel() {
+    this.setState({
+      wrong: {}
+    });
   }
 
   render() {

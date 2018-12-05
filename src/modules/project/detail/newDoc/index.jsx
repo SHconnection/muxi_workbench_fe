@@ -16,7 +16,7 @@ class NewDoc extends Component {
       docTree: {},
       pid: parseInt(match.params.pid, 0),
       docRootId: parseInt(match.params.id, 0),
-      wrong: ""
+      wrong: {}
     };
     this.save = this.save.bind(this);
     this.getDocTree = this.getDocTree.bind(this);
@@ -73,7 +73,7 @@ class NewDoc extends Component {
   }
 
   cancel() {
-    this.setState({ wrong: "" });
+    this.setState({ wrong: {} });
   }
 
   render() {
