@@ -147,11 +147,11 @@ class ProjectDetailAllFile extends Component {
             this.hideAlert();
           })
           .catch(res1 => {
-            console.error(res1)
+            console.error(res1);
           })
           .finally(() => {
             Loading.hide();
-          })
+          });
       })
       .catch(error => {
         console.error(error);

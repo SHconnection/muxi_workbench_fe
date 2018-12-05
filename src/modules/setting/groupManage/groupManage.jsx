@@ -126,7 +126,7 @@ class GroupManage extends Component {
                         >
                           <b>{mem.name}</b>
                           <span className="llSize pos groupManage-rePos">
-                            {mem.count}
+                            {mem.count}人
                           </span>
                           <div className="litSel">
                             <Link to={groupMemberPath} className="fakeBtn">
