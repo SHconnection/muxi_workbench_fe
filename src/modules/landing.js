@@ -3,8 +3,8 @@ import { Redirect } from "react-router";
 import ManageService from "../service/manage";
 import LandingService from "../service/landing";
 import WrongPage from "../components/common/wrongPage/wrongPage";
-import "../static/css/common.css";
 import Cookie from "../service/cookie";
+import "../static/css/common.css";
 
 const User = decodeURIComponent(LandingService.getUsername());
 
