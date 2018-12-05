@@ -10,9 +10,9 @@ const User = decodeURIComponent(LandingService.getUsername());
 
 const data = {
   name: User,
-  email: null,
-  avatar: null,
-  tel: null,
+  email: "",
+  avatar: "",
+  tel: "",
   teamID: 1
 };
 const data1 = {
@@ -40,13 +40,13 @@ class Landing extends React.Component {
         LandingService.getToken(data1)
           .then(response => {
             localStorage.id = response.uid;
-            localStorage.token = response.token;
+            localStorage.token = response.token || "";
             Cookie.setCookie("workbench_token", response.token);
-            localStorage.role = response.urole;
+            localStorage.role = response.urole || 1;
 
             ManageService.getPersonalSet(response.uid)
               .then(res => {
-                localStorage.avatar = res.avatar;
+                localStorage.avatar = res.avatar || "";
               })
               .catch(error => {
                 this.setState({ wrong: error });

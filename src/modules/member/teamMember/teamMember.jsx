@@ -185,9 +185,7 @@ class TeamMember extends Component {
           </div>
         </div>
 
-        {members.map(mem1 => {
-          const mem = mem1;
-
+        {members.map(mem => {
           return (
             <div className="teamMember-singleList" key={mem.id}>
               <MemberInfo mem={mem} />

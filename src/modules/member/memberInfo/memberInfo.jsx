@@ -15,7 +15,7 @@ const userLevelSet = {
 };
 
 const userGroup = group => {
-  if (group == null) {
+  if (!group) {
     return "NoneGroup";
   }
   return group;

@@ -11,7 +11,7 @@ class Index extends Component {
     super(props);
     this.state = {
       project: [],
-      wrong: ""
+      wrong: {}
     };
   }
 

@@ -6,6 +6,7 @@
 import React, { Component } from "react";
 import GoBack from "../../../components/common/goBack/index";
 import SelectMember from "../components/selectMember/selectMember";
+import Loading from "../../../components/common/loading/index";
 import "../../../static/css/common.css";
 import "./addGroup.css";
 
@@ -14,18 +15,27 @@ class AddGroup extends Component {
     super(props);
 
     this.state = {
-      inputValue: ""
+      inputValue: "",
+      inputIsNull: false
     };
-
-    this.changeInput = this.changeInput.bind(this);
   }
 
-  changeInput(e) {
-    this.setState({ inputValue: e.target.value });
-  }
+  changeInput = e => {
+    if (e.target.value) {
+      this.setState({
+        inputValue: e.target.value,
+        inputIsNull: false
+      });
+    } else {
+      this.setState({
+        inputValue: e.target.value,
+        inputIsNull: true
+      });
+    }
+  };
 
   render() {
-    const { inputValue } = this.state;
+    const { inputValue, inputIsNull } = this.state;
 
     return (
       <div className="subject minH">
@@ -39,6 +49,11 @@ class AddGroup extends Component {
           value={inputValue}
           onChange={this.changeInput}
         />
+        <p
+          className={inputIsNull ? "warning addGroup-inputMarg" : "transparent"}
+        >
+          输入框不能为空！
+        </p>
         <SelectMember addGroup groupName={inputValue} />
       </div>
     );
