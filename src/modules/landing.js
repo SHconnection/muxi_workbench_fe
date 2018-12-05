@@ -19,7 +19,7 @@ const data1 = {
   name: User
 };
 
-localStorage.username = data1.username;
+localStorage.username = data1.name;
 
 class Landing extends React.Component {
   constructor(props) {
