@@ -10,16 +10,16 @@ const User = decodeURIComponent(LandingService.getUsername());
 
 const data = {
   name: User,
-  email: null,
-  avatar: null,
-  tel: null,
+  email: "",
+  avatar: "",
+  tel: "",
   teamID: 1
 };
 const data1 = {
   name: User
 };
 
-localStorage.username = data1.username;
+localStorage.username = User;
 
 class Landing extends React.Component {
   constructor(props) {
@@ -28,7 +28,6 @@ class Landing extends React.Component {
       loginSuccess: 0,
       wrong: {}
     };
-    this.cancel = this.cancel.bind(this);
   }
 
   componentDidMount() {
@@ -39,16 +38,14 @@ class Landing extends React.Component {
       .then(() => {
         LandingService.getToken(data1)
           .then(response => {
-            console.log(response);
             localStorage.id = response.uid;
-            localStorage.token = response.token;
+            localStorage.token = response.token || "";
             Cookie.setCookie("workbench_token", response.token);
-            localStorage.role = response.urole;
-            console.log(response.urole);
+            localStorage.role = response.urole || 1;
 
             ManageService.getPersonalSet(response.uid)
               .then(res => {
-                localStorage.avatar = res.avatar;
+                localStorage.avatar = res.avatar || "";
               })
               .catch(error => {
                 this.setState({ wrong: error });
@@ -71,9 +68,9 @@ class Landing extends React.Component {
       });
   }
 
-  cancel() {
+  cancel = () => {
     this.setState({ wrong: {} });
-  }
+  };
 
   render() {
     const { loginSuccess, wrong } = this.state;

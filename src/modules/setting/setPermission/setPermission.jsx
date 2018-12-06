@@ -23,10 +23,6 @@ class SetPermission extends Component {
       ifSave: false,
       wrong: {}
     };
-
-    this.transferMsgMem = this.transferMsgMem.bind(this);
-    this.savePersonalPermiss = this.savePersonalPermiss.bind(this);
-    this.cancel = this.cancel.bind(this);
   }
 
   componentDidMount() {
@@ -80,14 +76,14 @@ class SetPermission extends Component {
       });
   }
 
-  transferMsgMem(members, selMembers) {
+  transferMsgMem = (members, selMembers) => {
     this.setState({
       members,
       selMembers: selMembers || []
     });
-  }
+  };
 
-  savePersonalPermiss() {
+  savePersonalPermiss = () => {
     const {
       match: {
         params: { userID }
@@ -106,11 +102,11 @@ class SetPermission extends Component {
       .catch(error => {
         this.setState({ wrong: error });
       });
-  }
+  };
 
-  cancel() {
+  cancel = () => {
     this.setState({ wrong: {} });
-  }
+  };
 
   render() {
     const { members, selMembers, ifSave, wrong } = this.state;

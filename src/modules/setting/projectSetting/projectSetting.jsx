@@ -11,6 +11,7 @@ import ProjectSetFirst from "../../project/components/projectSetFirst/projectSet
 import ProjectService from "../../../service/project";
 import WrongPage from "../../../components/common/wrongPage/wrongPage";
 import Loading from "../../../components/common/loading/index";
+import Save from "../components/save/save";
 import "../../../static/css/common.css";
 import "./projectSetting.css";
 
@@ -21,14 +22,10 @@ class SetProject extends Component {
       inputValue: "",
       textValue: "",
       deleteX: false,
-      wrong: {}
+      wrong: {},
+      inputIsNull: false,
+      ifSave: false
     };
-
-    this.transferMsgDel = this.transferMsgDel.bind(this);
-    this.changeInput = this.changeInput.bind(this);
-    this.changeText = this.changeText.bind(this);
-    this.saveProjectSet = this.saveProjectSet.bind(this);
-    this.cancel = this.cancel.bind(this);
   }
 
   componentDidMount() {
@@ -56,25 +53,33 @@ class SetProject extends Component {
       });
   }
 
-  changeInput(e) {
-    this.setState({
-      inputValue: e.target.value
-    });
-  }
+  changeInput = e => {
+    if (e.target.value) {
+      this.setState({
+        inputValue: e.target.value,
+        inputIsNull: false
+      });
+    } else {
+      this.setState({
+        inputValue: e.target.value,
+        inputIsNull: true
+      });
+    }
+  };
 
-  changeText(e) {
+  changeText = e => {
     this.setState({
       textValue: e.target.value
     });
-  }
+  };
 
-  transferMsgDel(deleteX) {
+  transferMsgDel = deleteX => {
     this.setState({
       deleteX
     });
-  }
+  };
 
-  saveProjectSet() {
+  saveProjectSet = () => {
     const {
       match: {
         params: { id }
@@ -82,17 +87,34 @@ class SetProject extends Component {
     } = this.props;
     const { textValue, inputValue } = this.state;
 
-    ProjectService.saveProjectSet(id, textValue, inputValue).catch(error => {
-      this.setState({ wrong: error });
-    });
-  }
+    ProjectService.saveProjectSet(id, textValue, inputValue)
+      .then(() => {
+        this.setState({ ifSave: true });
 
-  cancel() {
+        setTimeout(() => {
+          this.setState({ ifSave: false });
+        }, 1000);
+
+        this.props.history.push(`/project/${id}/editMem`);
+      })
+      .catch(error => {
+        this.setState({ wrong: error });
+      });
+  };
+
+  cancel = () => {
     this.setState({ wrong: {} });
-  }
+  };
 
   render() {
-    const { deleteX, inputValue, textValue, wrong } = this.state;
+    const {
+      deleteX,
+      inputValue,
+      textValue,
+      wrong,
+      inputIsNull,
+      ifSave
+    } = this.state;
     const {
       match: {
         params: { id }
@@ -106,18 +128,19 @@ class SetProject extends Component {
           textValue={textValue}
           changeInput={this.changeInput}
           changeText={this.changeText}
+          inputIsNull={inputIsNull}
         />
 
-        <div className="select">
-          <Link to={`/project/${id}/editMem`}>
-            <button
-              type="button"
-              className="saveBtn"
-              onClick={this.saveProjectSet}
-            >
-              保存
-            </button>
-          </Link>
+        <div className="setProject-select">
+          {/* <Link to={`/project/${id}/editMem`}> */}
+          <button
+            type="button"
+            className="saveBtn"
+            onClick={this.saveProjectSet}
+          >
+            保存
+          </button>
+          {/* </Link> */}
           <button
             type="button"
             className="delBtn"
@@ -137,9 +160,9 @@ class SetProject extends Component {
           deleteX={deleteX}
           transferMsg={this.transferMsgDel}
           proDel
-          id={id}
+          proId={parseInt(id, 10)}
         />
-
+        <Save ifSave={ifSave} />
         <WrongPage info={wrong} cancel={this.cancel} />
       </div>
     );

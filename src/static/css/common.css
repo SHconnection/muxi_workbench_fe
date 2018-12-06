@@ -67,12 +67,12 @@ textarea {
   width: 585px;
   height: 40px;
   border: 1px solid #1d4cb5;
-  margin-top: 18px;
 }
 textarea {
   resize: none;
 }
 button {
+  height: 40px;
   padding: 5px 20px;
   margin-right: 20px;
   border-radius: 4px;
@@ -80,7 +80,7 @@ button {
 }
 .saveBtn {
   background-color: #1d4cb5;
-  color: white;
+  color: #FBFBFB;
 }
 .delBtn {
   background-color: white;
@@ -104,8 +104,11 @@ button {
 .none {
   display: none;
 }
+.transparent{
+  opacity: 0;
+}
 .present {
-  margin: 25px 0 0 43px;
+  margin: 25px 0 0 32px;
 }
 .clear {
   clear: both;
@@ -133,6 +136,10 @@ button {
   display: inline-block;
   color: #919191;
   font-size: 14px;
+}
+.warning{
+  color: red;
+  font-size: 12px;
 }
 .circle {
   position: relative;
@@ -244,4 +251,8 @@ input[type="checkbox"]:checked + label::after {
   -moz-user-select: none;
   -ms-user-select: none;
   user-select: none;
+}
+*::-webkit-scrollbar{
+  width:0;
+  height: 0;
 }

@@ -21,9 +21,6 @@ class MemberGroup extends Component {
       members: [],
       wrong: {}
     };
-
-    this.transferMsgMem = this.transferMsgMem.bind(this);
-    this.cancel = this.cancel.bind(this);
   }
 
   componentDidMount() {
@@ -65,18 +62,18 @@ class MemberGroup extends Component {
     });
   }
 
-  cancel() {
+  cancel = () => {
     this.setState({ wrong: {} });
-  }
+  };
 
-  transferMsgMem(members, selMembers) {
+  transferMsgMem = (members, selMembers) => {
     this.setState({
       members,
       selMembers: selMembers || []
     });
-  }
+  };
 
-  modifyMemGroup() {
+  modifyMemGroup = () => {
     const {
       match: {
         params: {
@@ -89,7 +86,7 @@ class MemberGroup extends Component {
     ManageService.modifyMemGroup(id, selMembers).catch(error => {
       this.setState({ wrong: error });
     });
-  }
+  };
 
   render() {
     const { selMembers, members, wrong } = this.state;

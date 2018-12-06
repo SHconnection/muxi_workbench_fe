@@ -168,6 +168,9 @@ const ManageService = {
       body: data
     }).then(response => {
       switch (response.status) {
+        case 200:
+          break;
+
         case 401:
           throw new Error("未授权");
 
@@ -176,6 +179,9 @@ const ManageService = {
 
         case 404:
           throw new Error("页面地址错误");
+
+        case 413:
+          throw new Error("图片体积过大");
 
         case 500:
           throw new Error("服务器错误");

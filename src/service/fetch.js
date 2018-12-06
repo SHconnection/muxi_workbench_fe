@@ -65,6 +65,9 @@ export default function FetchData(url, opt = {}) {
         }
         return response.json();
 
+      case 304:
+        return response.json();
+
       case 401:
         throw new Error("未授权");
 

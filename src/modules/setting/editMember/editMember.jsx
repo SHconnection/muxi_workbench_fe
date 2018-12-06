@@ -10,6 +10,7 @@ import ManageService from "../../../service/manage";
 import ProjectService from "../../../service/project";
 import WrongPage from "../../../components/common/wrongPage/wrongPage";
 import Loading from "../../../components/common/loading/index";
+import Save from "../components/save/save";
 import "./editMember.css";
 
 class EditMember extends Component {
@@ -35,14 +36,9 @@ class EditMember extends Component {
       members: [],
       groups: [],
       checkedIndex: 0,
-      wrong: {}
+      wrong: {},
+      ifSave: false
     };
-
-    this.selAll = this.selAll.bind(this);
-    this.transferMsgMem = this.transferMsgMem.bind(this);
-    this.editProjectMember = this.editProjectMember.bind(this);
-    this.changeGroupCheck = this.changeGroupCheck.bind(this);
-    this.cancel = this.cancel.bind(this);
   }
 
   componentDidMount() {
@@ -107,11 +103,11 @@ class EditMember extends Component {
       });
   }
 
-  cancel() {
+  cancel = () => {
     this.setState({ wrong: {} });
-  }
+  };
 
-  selAll() {
+  selAll = () => {
     this.setState(prevState => {
       const { members: arr1 } = prevState;
       const arr2 = [];
@@ -141,16 +137,16 @@ class EditMember extends Component {
 
       return { members: arr1, selMembers: arr2 };
     });
-  }
+  };
 
-  transferMsgMem(members, selMembers) {
+  transferMsgMem = (members, selMembers) => {
     this.setState({
       members,
       selMembers
     });
-  }
+  };
 
-  editProjectMember() {
+  editProjectMember = () => {
     const {
       match: {
         params: { id }
@@ -158,12 +154,20 @@ class EditMember extends Component {
     } = this.props;
     const { selMembers } = this.state;
 
-    ProjectService.editProjectMember(id, selMembers).catch(error => {
-      this.setState({ wrong: error });
-    });
-  }
+    ProjectService.editProjectMember(id, selMembers)
+      .then(() => {
+        this.setState({ ifSave: true });
 
-  changeGroupCheck(index) {
+        setTimeout(() => {
+          this.setState({ ifSave: false });
+        }, 1000);
+      })
+      .catch(error => {
+        this.setState({ wrong: error });
+      });
+  };
+
+  changeGroupCheck = index => {
     ManageService.groupMember(index)
       .then(member => {
         if (member) {
@@ -180,10 +184,17 @@ class EditMember extends Component {
       .catch(error => {
         this.setState({ wrong: error });
       });
-  }
+  };
 
   render() {
-    const { members, selMembers, groups, checkedIndex, wrong } = this.state;
+    const {
+      members,
+      selMembers,
+      groups,
+      checkedIndex,
+      wrong,
+      ifSave
+    } = this.state;
     const {
       match: {
         params: { id }
@@ -208,10 +219,11 @@ class EditMember extends Component {
           className="saveBtn footerBtn"
           onClick={this.editProjectMember}
         >
-          保存项目成员
+          {ifSave ? "已保存" : "保存项目成员"}
         </button>
         <span className="fakeBtn footerBtn editMember-btnMarg">取消</span>
         <WrongPage info={wrong} cancel={this.cancel} />
+        <Save ifSave={ifSave} />
       </div>
     );
   }

@@ -3,6 +3,7 @@
 */
 import React, { Component } from "react";
 import GoBack from "../../../components/common/goBack/index";
+import Avatar from "../../../components/common/avatar/index";
 import Member from "../components/member/member";
 import Save from "../components/save/save";
 import ManageService from "../../../service/manage";
@@ -26,16 +27,11 @@ class PersonalSet extends Component {
       inputMailbox: "",
       inputPhone: "",
       img: "",
-      wrong: {}
+      wrong: {},
+      nameIsNull: false,
+      mailboxIsNull: false,
+      phoneIsNull: false
     };
-
-    this.savePersonalSet = this.savePersonalSet.bind(this);
-    this.changeName = this.changeName.bind(this);
-    this.changeMailbox = this.changeMailbox.bind(this);
-    this.changePhone = this.changePhone.bind(this);
-    this.transferMsgMem = this.transferMsgMem.bind(this);
-    this.changeImg = this.changeImg.bind(this);
-    this.cancel = this.cancel.bind(this);
   }
 
   componentDidMount() {
@@ -63,32 +59,56 @@ class PersonalSet extends Component {
       });
   }
 
-  changeName(e) {
-    this.setState({
-      inputName: e.target.value
-    });
-  }
+  changeName = e => {
+    if (e.target.value) {
+      this.setState({
+        inputName: e.target.value,
+        nameIsNull: false
+      });
+    } else {
+      this.setState({
+        inputName: e.target.value,
+        nameIsNull: true
+      });
+    }
+  };
 
-  changeMailbox(e) {
-    this.setState({
-      inputMailbox: e.target.value
-    });
-  }
+  changeMailbox = e => {
+    if (e.target.value) {
+      this.setState({
+        inputMailbox: e.target.value,
+        mailboxIsNull: false
+      });
+    } else {
+      this.setState({
+        inputMailbox: e.target.value,
+        mailboxIsNull: true
+      });
+    }
+  };
 
-  changePhone(e) {
-    this.setState({
-      inputPhone: e.target.value
-    });
-  }
+  changePhone = e => {
+    if (e.target.value) {
+      this.setState({
+        inputPhone: e.target.value,
+        phoneIsNull: false
+      });
+    } else {
+      this.setState({
+        inputPhone: e.target.value,
+        phoneIsNull: true
+      });
+    }
+  };
 
-  transferMsgMem(members, selMembers) {
+  transferMsgMem = (members, selMembers) => {
     this.setState({
       members,
       selMembers: selMembers || []
     });
-  }
+  };
 
-  savePersonalSet() {
+  savePersonalSet = () => {
     const { inputName, inputMailbox, inputPhone, selMembers } = this.state;
     const obj = {
       username: inputName,
@@ -97,30 +117,43 @@ class PersonalSet extends Component {
       message: selMembers.indexOf(1) !== -1,
       email: selMembers.indexOf(2) !== -1
     };
-    const img = this.myAvatar.files[0];
-    const data = new FormData();
-    data.append("image", img);
 
-    ManageService.savePersonalSet(localStorage.per, obj).catch(error => {
-      this.setState({ wrong: error });
-    });
-    ManageService.savePersonalAvatar(data)
-      .then(response => {
-        console.log(response);
-        if (response.status < 300) {
+    const fileImg = this.myAvatar.files[0];
+    if (fileImg) {
+      const data = new FormData();
+      data.append("image", fileImg);
+
+      ManageService.savePersonalSet(localStorage.per, obj).catch(error => {
+        this.setState({ wrong: error });
+      });
+
+      ManageService.savePersonalAvatar(data)
+        .then(() => {
           this.setState({ ifSave: true });
 
           setTimeout(() => {
             this.setState({ ifSave: false });
           }, 1000);
-        }
-      })
-      .catch(error => {
-        this.setState({ wrong: error });
-      });
-  }
+        })
+        .catch(error => {
+          this.setState({ wrong: error });
+        });
+    } else {
+      ManageService.savePersonalSet(localStorage.per, obj)
+        .then(() => {
+          this.setState({ ifSave: true });
 
-  changeImg() {
+          setTimeout(() => {
+            this.setState({ ifSave: false });
+          }, 1000);
+        })
+        .catch(error => {
+          this.setState({ wrong: error });
+        });
+    }
+  };
+
+  changeImg = () => {
     const img = this.myAvatar.files[0];
 
     if (img) {
@@ -139,11 +172,11 @@ class PersonalSet extends Component {
     }
 
     return this;
-  }
+  };
 
-  cancel() {
+  cancel = () => {
     this.setState({ wrong: {} });
-  }
+  };
 
   render() {
     const {
@@ -154,7 +187,9 @@ class PersonalSet extends Component {
       inputPhone,
       inputMailbox,
       img,
-      wrong
+      wrong,
+      nameIsNull,
+      mailboxIsNull
     } = this.state;
 
     return (
@@ -163,8 +198,8 @@ class PersonalSet extends Component {
         <b className="title">个人设置</b>
 
         <div className="main">
-          <img src={img} className="personalSet-avatar" alt="" />
-          <div className="avaTip">
+          <Avatar src={img} width={114} height={114} />
+          <div className="personalSet-avaTip">
             <b>
               选择新头像
               <input
@@ -180,34 +215,52 @@ class PersonalSet extends Component {
             </b>
             <p className="avaForm">你可以选择png/jpg图片作为头像</p>
           </div>
-          <div>
+          <div className="personalSet-inputList">
             <b>名字</b>
             <input
               type="text"
               placeholder="木小犀"
-              className="writeTip"
+              className="personalSet-writeTip"
               value={inputName}
               onChange={this.changeName}
+              onBlur={this.changeName}
             />
-            <br />
+            <p
+              className={
+                nameIsNull
+                  ? "warning personalSet-warning"
+                  : "transparent personalSet-warning"
+              }
+            >
+              输入框不能为空！
+            </p>
             <b>邮箱</b>
             <input
               type="text"
               placeholder="178107487@qq.com"
-              className="writeTip"
+              className="personalSet-writeTip"
               value={inputMailbox}
               onChange={this.changeMailbox}
+              onBlur={this.changeMailbox}
             />
-            <br />
+            <p
+              className={
+                mailboxIsNull
+                  ? "warning personalSet-warning"
+                  : "transparent personalSet-warning"
+              }
+            >
+              输入框不能为空！
+            </p>
             <b>手机</b>
             <input
               type="text"
               placeholder="13924173096"
-              className="writeTip"
+              className="personalSet-writeTip"
               value={inputPhone}
               onChange={this.changePhone}
+              onBlur={this.changePhone}
             />
-            <br />
           </div>
         </div>
 

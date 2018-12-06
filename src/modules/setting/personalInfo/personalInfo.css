@@ -7,20 +7,15 @@
     margin-right: 0;
     white-space: nowrap;
 }
-.personalInfo-avatar {
-    display: inline-block;
-    width: 114px;
-    height: 114px;
-    margin: 0 27px 15px 0;
-}
 .personalName{
     display: inline-block;
     font-size: 30px;
     margin-right: 21px;
     margin-bottom: 12px;
 }
-.personalIntro{
+.personalInfo-personalIntro{
     display: inline-block;
+    margin-left: 27px;
 }
 .personalInfo-personalInformation{
     display: flex;
@@ -34,6 +29,7 @@
     border-top: solid 1px #1D4CB5;
     border-bottom: solid 1px #1D4CB5;
     padding-left: 75px;
+    margin-top: 15px;
 }
 .selectItem{
     display: flex;

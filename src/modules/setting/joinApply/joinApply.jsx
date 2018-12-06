@@ -18,11 +18,6 @@ class JoinApply extends Component {
       members: [],
       wrong: {}
     };
-
-    this.save = this.save.bind(this);
-    this.del = this.del.bind(this);
-    this.saveAll = this.saveAll.bind(this);
-    this.cancel = this.cancel.bind(this);
   }
 
   componentDidMount() {
@@ -49,7 +44,7 @@ class JoinApply extends Component {
       });
   }
 
-  save(mem1) {
+  save = mem1 => {
     const mem = mem1;
     const { members } = this.state;
 
@@ -64,9 +59,9 @@ class JoinApply extends Component {
       .catch(error => {
         this.setState({ wrong: error });
       });
-  }
+  };
 
-  del(mem1) {
+  del = mem1 => {
     const mem = mem1;
     const { members } = this.state;
 
@@ -78,13 +73,13 @@ class JoinApply extends Component {
       .catch(error => {
         this.setState({ wrong: error });
       });
-  }
+  };
 
-  cancel() {
+  cancel = () => {
     this.setState({ wrong: {} });
-  }
+  };
 
-  saveAll() {
+  saveAll = () => {
     const { members: arr1 } = this.state;
 
     arr1.map(mem1 => {
@@ -100,7 +95,7 @@ class JoinApply extends Component {
 
       return mem;
     });
-  }
+  };
 
   render() {
     const { members, wrong } = this.state;
@@ -112,20 +107,23 @@ class JoinApply extends Component {
         <br />
         <button
           type="button"
-          className="saveBtn btnFlo"
+          className="saveBtn joinApply-btnFlo"
           onClick={this.saveAll.bind(this)}
         >
           全部同意
         </button>
-        <div className="clear present">
+        <div className="clear present joinApply-list">
           {members.map(mem1 => {
             const mem = mem1;
 
             return (
-              <div className={mem.dealed ? "none" : "cell"} key={mem.id}>
+              <div
+                className={mem.dealed ? "none" : "joinApply-cell"}
+                key={mem.id}
+              >
                 <b>{mem.name}</b>
-                <span className="llSize pos">{mem.email}</span>
-                <div className="litSel">
+                <span className="llSize joinApply-pos">{mem.email}</span>
+                <div className="joinApply-littleSelect">
                   <span
                     role="button"
                     tabIndex="-1"

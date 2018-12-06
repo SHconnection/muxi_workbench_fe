@@ -4,21 +4,17 @@
     margin-bottom: 16px;
 }
 .teamMember-select{
-    display: inline-block;
+    display: flex;
     width: 540px;
-    white-space:nowrap;
     overflow: scroll;
-}
-.teamMember-select::-webkit-scrollbar{
-    width:0;
-    height: 0;
 }
 .teamMember-selectItem{
     height: 31px;
     line-height: 31px;
     padding: 0 10px;
     border-radius:32px;
-    white-space:nowrap;
+    /*中文会换行*/
+    white-space: nowrap;
     margin-right: 12px;
 }
 .teamMember-singleItem{
