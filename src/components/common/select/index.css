@@ -30,7 +30,7 @@
   z-index: 2;
   position: absolute;
   margin-top: 3px;
-  /* width: 135px; */
+  width: 135px;
   padding-left: 11px;
   background-color: #FFFFFF;
   display: -webkit-flex; /* Safari */
@@ -43,7 +43,7 @@
 .select-option-item {
   display: inline-block;
   position: relative;
-  /* overflow: hidden; */
+  overflow: hidden;
   height: 29px;
   line-height: 29px;
   cursor: pointer;

@@ -445,6 +445,13 @@ class ProjectDetailAllFile extends Component {
       showMoveFile,
       fileUrl
     } = this.state;
+    let BatchBtStyle = !filesList.FileList.length
+      ? {
+          visibility: "hidden"
+        }
+      : {
+          visibility: "visible"
+        };
     return (
       <div className="projectDetail-container">
         <GoBack />
@@ -457,20 +464,22 @@ class ProjectDetailAllFile extends Component {
               </div>
             </div>
             <div className="projectDetail-header-right projectDetail-allFile-header-right">
-              <div>
+              <div style={BatchBtStyle}>
                 <Icon
                   type={itemLayOut ? "FileItemsSel" : "FileItems"}
                   onClick={this.changeLayoutToItem}
                 />
               </div>
-              <div>
+              <div style={BatchBtStyle}>
                 <Icon
                   type={itemLayOut ? "FileLists" : "FileListSel"}
                   onClick={this.changeLayoutToList}
                 />
               </div>
               <div>
-                <Button text="批量管理" to={`../batchFile/${fileRootId}`} />
+                <div style={BatchBtStyle}>
+                  <Button text="批量管理" to={`../batchFile/${fileRootId}`} />
+                </div>
               </div>
             </div>
           </div>
@@ -496,6 +505,11 @@ class ProjectDetailAllFile extends Component {
                   />
                 </div>
               ))}
+              {!filesList.FolderList.length && !filesList.FileList.length ? (
+                <div className="tip">什么都没有哦～</div>
+              ) : (
+                ""
+              )}
             </div>
           ) : (
             <div className="projectDetail-allFile-list">

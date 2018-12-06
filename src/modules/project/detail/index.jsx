@@ -616,7 +616,7 @@ class ProjectDetailIndex extends Component {
             <div className="projectDetail-header-right">
               <div className="projectDetail-header-icon-container">
                 <Icon
-                  text={`${projectInfo.userCount}`}
+                  text={`${projectInfo.userCount - 1}`}
                   tip="成员"
                   url="/member"
                   to={`/project/${pid}/member`}
@@ -665,9 +665,13 @@ class ProjectDetailIndex extends Component {
               ))}
             </div>
             <div className="projectDetail-file-footer">
-              <Link to={`/project/${pid}/fileFolder/0`} className="fakeBtn">
-                查看所有文件
-              </Link>
+              {filesList.FileList.length ? (
+                <Link to={`/project/${pid}/fileFolder/0`} className="fakeBtn">
+                  查看所有文件
+                </Link>
+              ) : (
+                <div className="tip">赶快上传第一份文件吧~</div>
+              )}
             </div>
           </div>
           {/* 文档内容 */}
@@ -701,9 +705,13 @@ class ProjectDetailIndex extends Component {
               ))}
             </div>
             <div className="projectDetail-file-footer">
-              <Link to={`/project/${pid}/docFolder/0`} className="fakeBtn">
-                查看所有文档
-              </Link>
+              {docList.DocList.length ? (
+                <Link to={`/project/${pid}/docFolder/0`} className="fakeBtn">
+                  查看所有文档
+                </Link>
+              ) : (
+                <div className="tip">赶快创建第一份文档吧～</div>
+              )}
             </div>
           </div>
           {/* 创建文件夹弹出框 */}

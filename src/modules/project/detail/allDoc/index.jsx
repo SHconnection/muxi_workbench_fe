@@ -380,6 +380,13 @@ class ProjectDetailAllFile extends Component {
       showMoveDoc,
       docTree
     } = this.state;
+    let BatchBtStyle = !docList.DocList.length
+      ? {
+          visibility: "hidden"
+        }
+      : {
+          visibility: "visible"
+        };
     return (
       <div className="projectDetail-container">
         <GoBack />
@@ -392,19 +399,19 @@ class ProjectDetailAllFile extends Component {
               </div>
             </div>
             <div className="projectDetail-header-right projectDetail-allFile-header-right">
-              <div>
+              <div style={BatchBtStyle}>
                 <Icon
                   type={itemLayOut ? "FileItemsSel" : "FileItems"}
                   onClick={this.changeLayoutToItem}
                 />
               </div>
-              <div>
+              <div style={BatchBtStyle}>
                 <Icon
                   type={itemLayOut ? "FileLists" : "FileListSel"}
                   onClick={this.changeLayoutToList}
                 />
               </div>
-              <div>
+              <div style={BatchBtStyle}>
                 <Button text="批量管理" to={`../batchDoc/${docRootId}`} />
               </div>
             </div>
@@ -431,10 +438,15 @@ class ProjectDetailAllFile extends Component {
                   />
                 </div>
               ))}
+              {!docList.FolderList.length && !docList.DocList.length ? (
+                <div className="tip">什么都没有哦～</div>
+              ) : (
+                ""
+              )}
             </div>
           ) : (
             <div className="projectDetail-allFile-list">
-              {!!docList.DocList.length ? (
+              {docList.DocList.length ? (
                 <div className="projectDetail-allFile-list-title">
                   <div className="projectDetail-allFile-list-name">
                     文件名称

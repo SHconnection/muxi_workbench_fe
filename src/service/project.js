@@ -120,8 +120,8 @@ const ProjectService = {
   },
 
   // 获取文件评论列表
-  getCommentList(pid, fid, page = 1) {
-    return Fetch(`/api/v1.0/project/${pid}/file/${fid}/comments/${page}/`, {
+  getCommentList(pid, fid) {
+    return Fetch(`/api/v1.0/project/${pid}/file/${fid}/comments/`, {
       token: localStorage.token
     });
   },
@@ -138,8 +138,8 @@ const ProjectService = {
   },
 
   // 获取文档评论列表
-  getCommentListForDoc(pid, fid, page = 1) {
-    return Fetch(`/api/v1.0/project/${pid}/doc/${fid}/comments/${page}/`, {
+  getCommentListForDoc(pid, fid) {
+    return Fetch(`/api/v1.0/project/${pid}/doc/${fid}/comments/`, {
       token: localStorage.token
     });
   }
