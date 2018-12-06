@@ -118,7 +118,7 @@ class ProjectDetailIndex extends Component {
 
   componentWillMount() {
     const { pid } = this.state;
-    // Loading.show();
+    Loading.show();
     // 获取项目基本信息
     ProjectService.getProjectInfo(pid)
       .then(res => {
