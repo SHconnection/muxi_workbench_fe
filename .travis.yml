@@ -10,7 +10,8 @@ install:
   - npm install
   - npm run build
   - ls ./build
-  - qiniu-upload push -z beim -p ./build -b usanode -f workbench -r yes
+  - rm ./build/precache-manifest.*.js
+  - qiniu-upload push -z huad -p ./build -b ccnustatic -f workbench -r yes
   - export
   - echo "$DOCKER_PWD" | docker login --username=zindex@muxi --password-stdin registry.cn-hongkong.aliyuncs.com
   - docker build . -t registry.cn-hongkong.aliyuncs.com/muxiauth/workbench_fe:$TRAVIS_TAG
