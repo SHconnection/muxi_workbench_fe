@@ -6,6 +6,7 @@ import logo from "../../../assets/img/logo@2x.png";
 import searchIcon from "../../../assets/svg/commonIcon/search.svg";
 import Avatar from "../avatar/index";
 import Inform from "./inform/index";
+import EventBus from "../eventBus/eventBus";
 import "./index.css";
 
 class Header extends Component {
@@ -13,14 +14,14 @@ class Header extends Component {
     super(props);
     this.state = {
       showInput: false,
-      userAvatar: ""
+      userAvatar: localStorage.avatar
     };
   }
 
   componentDidMount() {
-    const { avatar } = localStorage;
-
-    this.setState({ userAvatar: avatar });
+    EventBus.addListener("modifyUserAvatar", url => {
+      this.setState({ userAvatar: url });
+    });
   }
 
   clickSearchIcon = () => {
@@ -55,6 +56,7 @@ class Header extends Component {
 
   render() {
     const { showInput, userAvatar } = this.state;
+
     return (
       <div className="header-container">
         <div className="header-content">
@@ -84,7 +86,7 @@ class Header extends Component {
                 动态
               </NavLink>
               <NavLink
-                to="/member"
+                to="/teamMember"
                 className="header-tab-item"
                 activeClassName="header-tab-item header-tab-item-active"
               >
@@ -100,7 +102,7 @@ class Header extends Component {
             </div>
             <Link
               className="header-avatar"
-              to="/member/teamMember/personalInfo/personalSet"
+              to="/teamMember/personalInfo/personalSet"
               onClick={() => {
                 localStorage.per = localStorage.id;
               }}
@@ -137,9 +139,11 @@ class Header extends Component {
   }
 }
 Header.propTypes = {
-  history: PropTypes.shape({})
+  history: PropTypes.shape({}),
+  userAvatar: PropTypes.string
 };
 Header.defaultProps = {
-  history: {}
+  history: {},
+  userAvatar: ""
 };
 export default withRouter(Header);

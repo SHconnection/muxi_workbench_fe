@@ -9,6 +9,7 @@ import Save from "../components/save/save";
 import ManageService from "../../../service/manage";
 import WrongPage from "../../../components/common/wrongPage/wrongPage";
 import Loading from "../../../components/common/loading/index";
+import EventBus from "../../../components/common/eventBus/eventBus";
 import "../../../static/css/common.css";
 import "./personalSetting.css";
 
@@ -168,6 +169,8 @@ class PersonalSet extends Component {
         _this.setState({
           img: e.target.result
         });
+
+        EventBus.emit("modifyUserAvatar", e.target.result);
       };
     }
 

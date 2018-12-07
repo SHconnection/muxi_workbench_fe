@@ -100,7 +100,8 @@ class PersonalAttention extends Component {
                     }}
                     onKeyDown={this.handleClick}
                   >
-                    {parseInt(localStorage.id, 10) === localStorage.per
+                    {parseInt(localStorage.id, 10) ===
+                    parseInt(localStorage.per, 10)
                       ? "取消关注"
                       : ""}
                   </span>

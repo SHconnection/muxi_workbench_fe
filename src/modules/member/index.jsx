@@ -2,7 +2,7 @@
 团队成员入口文件
 */
 import React from "react";
-import { Route, Redirect, Switch } from "react-router-dom";
+import { Route, Switch } from "react-router-dom";
 import PropTypes from "prop-types";
 import TeamMember from "./teamMember/teamMember";
 import AddMember from "../setting/addMember/addMember";
@@ -17,36 +17,25 @@ import JoinApply from "../setting/joinApply/joinApply";
 
 const Member = ({ match }) => (
   <Switch>
-    <Redirect exact from={`${match.url}`} to={`${match.url}/teamMember`} />
-    <Route exact path={`${match.url}/teamMember`} component={TeamMember} />
-    <Route path={`${match.url}/teamMember/addMember`} component={AddMember} />
-    <Route path={`${match.url}/teamMember/joinApply`} component={JoinApply} />
+    <Route exact path={`${match.url}`} component={TeamMember} />
+    <Route path={`${match.url}/addMember`} component={AddMember} />
+    <Route path={`${match.url}/joinApply`} component={JoinApply} />
+    <Route exact path={`${match.url}/groupManage`} component={GroupManage} />
+    <Route path={`${match.url}/groupManage/addGroup`} component={AddGroup} />
     <Route
-      exact
-      path={`${match.url}/teamMember/groupManage`}
-      component={GroupManage}
-    />
-    <Route
-      path={`${match.url}/teamMember/groupManage/addGroup`}
-      component={AddGroup}
-    />
-    <Route
-      path={`${match.url}/teamMember/groupManage/groupMember`}
+      path={`${match.url}/groupManage/groupMember`}
       component={GroupMember}
     />
     <Route
-      path={`${match.url}/teamMember/personalInfo/personalSet`}
+      path={`${match.url}/personalInfo/personalSet`}
       component={PersonalSet}
     />
     <Route
-      path={`${match.url}/teamMember/personalInfo/setPersonalInfo/:name`}
+      path={`${match.url}/personalInfo/setPersonalInfo/:name`}
       component={SetPersonalInfo}
     />
-    <Route path={`${match.url}/teamMember/SetManager`} component={SetManager} />
-    <Route
-      path={`${match.url}/teamMember/personalInfo`}
-      component={PersonalInfo}
-    />
+    <Route path={`${match.url}/SetManager`} component={SetManager} />
+    <Route path={`${match.url}/personalInfo`} component={PersonalInfo} />
   </Switch>
 );
 

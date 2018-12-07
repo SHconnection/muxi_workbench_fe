@@ -23,7 +23,7 @@ const userGroup = group => {
 
 const MemberInfo = ({ mem, square }) => (
   <div className="memberInfo-contain">
-    <Link to="/member/teamMember/personalInfo">
+    <Link to="/teamMember/personalInfo">
       <div
         className="memberInfo-img"
         role="button"

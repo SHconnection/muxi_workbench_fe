@@ -29,7 +29,7 @@ ReactDOM.render(
         <Route path="/feed" component={Dynamic} />
         <Route path="/status" component={Progress} />
         <Route path="/edit" component={edit} />
-        <Route path="/member" component={Member} />
+        <Route path="/teamMember" component={Member} />
         <Route path="/message" component={Message} />
         <Route path="/search" component={Search} />
         <Route path="/landing" component={load} />
