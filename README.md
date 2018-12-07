@@ -1,4 +1,4 @@
-![logo](https://raw.githubusercontent.com/Muxi-X/muxi_workbench_fe/master/public/logo.png)
+![logo](https://raw.githubusercontent.com/Muxi-X/muxi_workbench_fe/master/logo.png)
 
 木犀团队出品的团队协作工具
 

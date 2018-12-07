@@ -9,6 +9,7 @@ import "./index.css";
 import ProjectService from "../../../../service/project";
 import WrongPage from "../../../../components/common/wrongPage/wrongPage";
 import Loading from "../../../../components/common/loading/index";
+import "../../../../static/css/common.css";
 
 class ProjectTrash extends Component {
   constructor(props) {
@@ -133,7 +134,7 @@ class ProjectTrash extends Component {
                 <div className="trash-filelist-createtime">创建日期</div>
               </div>
             ) : (
-              ""
+              <div className="tip">回收站很干净～</div>
             )}
             {fileList.map(el => (
               <TrashList item={el} restore={this.restore} key={el.id} />

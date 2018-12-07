@@ -241,6 +241,7 @@ class DocPreview extends Component {
 
   render() {
     const {
+      pid,
       fileInfo,
       // fileUrl,
       fileUrlWithId,
@@ -262,7 +263,8 @@ class DocPreview extends Component {
             {fileUrlWithId.map((el, index) => (
               <span key={el.id}>
                 {index ? <span> - </span> : ""}
-                <a href={`../fileFolder/${el.id}`}>{el.name}</a>
+                {/* <a href={`../fileFolder/${el.id}`}>{el.name}</a> */}
+                <a href={`/project/${pid}/fileFolder/${el.id}`}>{el.name}</a>
               </span>
             ))}
           </div>
