@@ -58,13 +58,13 @@ class Item extends Component {
 
   render() {
     const { whetherLike, likeNumber, sid, isPersonal, content } = this.state;
-    const { username, time, commentCount } = this.props;
+    const { username, time, commentCount, avatar } = this.props;
     return (
       <div className={isPersonal ? "presonal-status" : "status-item-container"}>
         <div className="status-head">
           <Avatar
             className="status-item-img"
-            src={localStorage.avatar}
+            src={avatar}
             width="60"
             height="60"
           />
@@ -117,7 +117,7 @@ Item.propTypes = {
   sid: PropTypes.number,
   username: PropTypes.string,
   time: PropTypes.string,
-  // avatar: PropTypes.string,
+  avatar: PropTypes.string,
   content: PropTypes.string,
   iflike: PropTypes.number,
   likeCount: PropTypes.number,
@@ -132,7 +132,7 @@ Item.defaultProps = {
   sid: 0,
   username: "",
   time: "00:00",
-  // avatar: "",
+  avatar: "",
   content: "",
   iflike: 0,
   likeCount: 0,
