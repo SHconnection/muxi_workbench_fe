@@ -110,7 +110,7 @@ class PersonalSet extends Component {
   };
 
   savePersonalSet = () => {
-    const { inputName, inputMailbox, inputPhone, selMembers } = this.state;
+    const { inputName, inputMailbox, inputPhone, selMembers, img } = this.state;
     const obj = {
       username: inputName,
       address: inputMailbox,
@@ -131,6 +131,7 @@ class PersonalSet extends Component {
       ManageService.savePersonalAvatar(data)
         .then(() => {
           this.setState({ ifSave: true });
+          EventBus.emit("modifyUserAvatar", img);
 
           setTimeout(() => {
             this.setState({ ifSave: false });
@@ -169,8 +170,6 @@ class PersonalSet extends Component {
         _this.setState({
           img: e.target.result
         });
-
-        EventBus.emit("modifyUserAvatar", e.target.result);
       };
     }
 
