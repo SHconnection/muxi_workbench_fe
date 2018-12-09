@@ -10,38 +10,6 @@
 .member-selectMem {
   width: 885px;
 }
-input[type="checkbox"] {
-  display: none;
-}
-input[type="checkbox"] + label {
-  cursor: pointer;
-  position: relative;
-}
-input[type="checkbox"] + label::before {
-  content: "";
-  display: inline-block;
-  width: 18px;
-  height: 18px;
-  border-radius: 1px;
-  margin-top: 0px;
-  margin-right: 6px;
-  background-clip: content-box;
-  border: 1px solid #d9d9d9;
-  vertical-align: middle;
-}
-input[type="checkbox"]:checked + label::before {
-  content: "";
-  background: url('../../../../assets/svg/commonIcon/select.svg') no-repeat center;
-}
-input[type="checkbox"]:checked + label::after {
-  content: "";
-  background-size: 18px 18px;
-  color: white;
-  font-size: 18px;
-  position: absolute;
-  top: -2px;
-  left: 4px;
-}
 .member-name {
   color: #404040;
   white-space: nowrap;

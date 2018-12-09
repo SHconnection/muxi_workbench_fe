@@ -156,7 +156,7 @@ class SetProject extends Component {
         </div>
 
         <Delete
-          name="确认要移除该项目吗?"
+          name="确认要删除该项目吗？"
           deleteX={deleteX}
           transferMsg={this.transferMsgDel}
           proDel

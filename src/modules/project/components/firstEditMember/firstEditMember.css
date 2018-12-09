@@ -8,7 +8,8 @@
   margin: 16px 484px 17px 0;
 }
 .editMember-fontSize {
-  font-size: 14px;
+  font-size: 16px;
+  color: #404040;
 }
 .FirstEditMember-inlineWidth{
   display: inline-block;

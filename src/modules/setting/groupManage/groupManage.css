@@ -1,13 +1,24 @@
 .groupManage-tip {
   margin-left: 30px;
 }
-.groupManage-rePos {
-  left: 300px;
+.groupManage-present{
+  margin-top: 9px;
 }
 .groupManage-reCell {
   height: 54px;
   line-height: 54px;
+  padding: 0 22px;
 }
 .groupManage-buttonMargin{
   margin-right: 0;
+}
+.groupManage-numPos{
+  margin-left: -300px;
+}
+.groupManage-fakeBtn{
+  font-size: 18px;
+}
+.groupManage-groupSize{
+  width: 151px;
+  overflow: scroll;
 }

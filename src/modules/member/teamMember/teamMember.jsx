@@ -7,6 +7,7 @@ import PropTypes from "prop-types";
 import ManageService from "../../../service/manage";
 import MemberInfo from "../memberInfo/memberInfo";
 import WrongPage from "../../../components/common/wrongPage/wrongPage";
+import Loading from "../../../components/common/loading/index";
 import "../../../static/css/common.css";
 import "./teamMember.css";
 
@@ -38,6 +39,7 @@ class TeamMember extends Component {
   }
 
   componentDidMount() {
+    Loading.show();
     ManageService.getAllMem()
       .then(member => {
         if (member) {
@@ -87,6 +89,9 @@ class TeamMember extends Component {
       })
       .catch(error => {
         this.setState({ wrong: error });
+      })
+      .finally(() => {
+        Loading.hide();
       });
   }
 
