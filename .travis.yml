@@ -2,6 +2,8 @@ if: tag =~ /^release/
 language: node_js
 node_js:
   - "node"
+env:
+  - INLINE_RUNTIME_CHUNK=false
 cache: npm
 services:
   - docker
