@@ -4,6 +4,7 @@ node_js:
   - "node"
 env:
   - INLINE_RUNTIME_CHUNK=false
+  - REACT_APP_VERSION=$TRAVIS_TAG
 cache: npm
 services:
   - docker

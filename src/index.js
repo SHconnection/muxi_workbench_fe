@@ -40,3 +40,8 @@ ReactDOM.render(
   document.getElementById("root")
 );
 registerServiceWorker();
+if (process.env.NODE_ENV === "production") {
+  console.log(
+    `Muxi Workbench FE version ${process.env.REACT_APP_VERSION} 😎🤣😂😅😇😘`
+  );
+}
