@@ -39,8 +39,10 @@
 .singleItem{
     width: 60px;
     text-align: center;
+    color: #404040;
 }
 .personalInfo-active{
     background-color: #ECF6FD;
     font-weight: bold;
+    color: #1D4CB5;
 }

@@ -27,15 +27,22 @@ const FirstEditMember = ({
       <div className="title littleSize">设置项目成员</div>
       <div className="editMember-tip">选择你要设置的成员</div>
     </div>
-    <span
+    <input
+      type="checkbox"
+      id="selectAll"
+      checked={members.length === selMembers.length ? true : false}
+    />
+    <label
+      htmlFor="selectAll"
       className="fakeBtn editMember-fontSize"
       onKeyDown={selAll}
       onClick={selAll}
       role="button"
       tabIndex="-1"
+      id="lab"
     >
       全选
-    </span>
+    </label>
     <div className="FirstEditMember-inlineWidth">
       <Select
         items={groups}

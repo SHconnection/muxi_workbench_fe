@@ -103,7 +103,7 @@ class GroupManage extends Component {
             {provided => (
               <div
                 ref={provided.innerRef}
-                className="clear present joinApply-list"
+                className="clear present joinApply-list groupManage-present"
               >
                 {members.map((mem, index) => {
                   const groupMemberPath = {
@@ -124,16 +124,19 @@ class GroupManage extends Component {
                               : "groupManage-reCell joinApply-cell"
                           }
                         >
-                          <b>{mem.name}</b>
-                          <span className="llSize joinApply-pos groupManage-rePos">
+                          <b className="groupManage-groupSize">{mem.name}</b>
+                          <span className="llSize groupManage-numPos">
                             {mem.count}人
                           </span>
                           <div className="joinApply-littleSelect">
-                            <Link to={groupMemberPath} className="fakeBtn">
+                            <Link
+                              to={groupMemberPath}
+                              className="fakeBtn groupManage-fakeBtn"
+                            >
                               编辑
                             </Link>
                             <span
-                              className="fakeBtn"
+                              className="fakeBtn groupManage-fakeBtn"
                               onClick={() => {
                                 this.delete(mem);
                               }}

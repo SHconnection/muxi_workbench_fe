@@ -171,7 +171,7 @@ input[type="checkbox"] + label::before {
   width: 18px;
   height: 18px;
   border-radius: 1px;
-  margin-top: -3px;
+  margin-top: 0px;
   margin-right: 6px;
   background-clip: content-box;
   border: 1px solid #d9d9d9;
@@ -179,10 +179,11 @@ input[type="checkbox"] + label::before {
 }
 input[type="checkbox"]:checked + label::before {
   content: "";
-  background-color: #1d4cb5;
+  background: url('../../assets/svg/commonIcon/select.svg') no-repeat center;
 }
 input[type="checkbox"]:checked + label::after {
-  content: "\2713";
+  content: "";
+  background-size: 18px 18px;
   color: white;
   font-size: 18px;
   position: absolute;
