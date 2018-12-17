@@ -57,6 +57,28 @@
   margin-left: 20px;
 }
 
+.newProject-member-container {
+  display: -webkit-flex; /* Safari */
+  display: flex;
+  flex-direction: row;
+  width: 885px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.newProject-member-item {
+  width: 16%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  margin-bottom: 20px;
+  height: 25px;
+}
+
+.newProject-member-over-helper {
+  width: 16%;
+}
+
 .newProject-bottom {
   display: -webkit-flex; /* Safari */
   display: flex;
