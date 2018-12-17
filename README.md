@@ -10,7 +10,7 @@ npm run build
 ```
 
 然后打开 work.muxixyz.com
-然后用 Requestly 映射线上资源到本地进行开发（[Requestly规则](https://github.com/Muxi-X/muxi_workbench_fe/blob/master/public/requestly_rules.txt)）
+然后用 Requestly 映射线上资源到本地进行开发（[Requestly规则](https://github.com/Muxi-X/muxi_workbench_fe/blob/master/requestly_rules.txt)）
 
 ### 部署
 
