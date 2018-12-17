@@ -18,7 +18,7 @@ class JoinApply extends Component {
     this.state = {
       members: [],
       wrong: {},
-      hasMember: true
+      noMember: true
     };
   }
 
@@ -37,7 +37,7 @@ class JoinApply extends Component {
         });
 
         if (joinList.length) {
-          this.setState({ hasMember: false });
+          this.setState({ noMember: false });
         }
 
         this.setState({ members: joinList });
@@ -106,10 +106,12 @@ class JoinApply extends Component {
 
       return mem;
     });
+
+    this.setState({ noMember: true });
   };
 
   render() {
-    const { members, wrong, hasMember } = this.state;
+    const { members, wrong, noMember } = this.state;
 
     return (
       <div className="subject minH">
@@ -123,7 +125,7 @@ class JoinApply extends Component {
         >
           全部同意
         </button> */}
-        <p className={hasMember ? "noneInfoTip" : ""}>暂无新成员加入～</p>
+        <p className={noMember ? "noneInfoTip" : "none"}>暂无新成员加入～</p>
         <div className="clear present joinApply-list">
           {members.map(mem1 => {
             const mem = mem1;

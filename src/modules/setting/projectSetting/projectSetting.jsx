@@ -83,7 +83,8 @@ class SetProject extends Component {
     const {
       match: {
         params: { id }
-      }
+      },
+      history
     } = this.props;
     const { textValue, inputValue } = this.state;
 
@@ -95,7 +96,7 @@ class SetProject extends Component {
           this.setState({ ifSave: false });
         }, 1000);
 
-        this.props.history.push(`/project/${id}/editMem`);
+        history.push(`/project/${id}/editMem`);
       })
       .catch(error => {
         this.setState({ wrong: error });
