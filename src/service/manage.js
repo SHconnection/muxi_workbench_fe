@@ -15,7 +15,7 @@ const ManageService = {
 
   // group user list
   getGroupMember(groupId, page = 1) {
-    return Fetch(`/api/v1.0/group/${groupId}/userList`, {
+    return Fetch(`/api/v1.0/group/${groupId}/userList/`, {
       token: localStorage.token,
       data: {
         page
@@ -45,18 +45,15 @@ const ManageService = {
     get a project list
     if you are admin or superuser, get all projetc list
   */
-  getProjectList(page) {
-    return Fetch(`/api/v1.0/user/project/list`, {
-      token: localStorage.token,
-      data: {
-        page
-      }
+  getProjectList(userID) {
+    return Fetch(`/api/v1.0/user/${userID}/project/list/`, {
+      token: localStorage.token
     });
   },
 
   // get project user list
   getProjectUserList(projectId, page) {
-    return Fetch(`/api/v1.0/project/${projectId}/userList`, {
+    return Fetch(`/api/v1.0/project/${projectId}/userList/`, {
       token: localStorage.token,
       data: {
         page
@@ -66,7 +63,7 @@ const ManageService = {
 
   // remove user out of team
   memberDelete(userID) {
-    return Fetch(`/api/v1.0/user/${userID}`, {
+    return Fetch(`/api/v1.0/user/${userID}/`, {
       method: "DELETE",
       token: localStorage.token
     });

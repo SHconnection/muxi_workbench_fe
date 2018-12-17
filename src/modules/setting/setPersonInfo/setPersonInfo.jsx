@@ -176,6 +176,11 @@ class SetPersonalInfo extends Component {
       });
   };
 
+  pathJump = () => {
+    this.transferMsgDel(false, false);
+    this.props.history.push(`/teamMember`);
+  };
+
   render() {
     const {
       identity,
@@ -254,7 +259,7 @@ class SetPersonalInfo extends Component {
           <Save ifSave={ifSave} />
 
           <Delete
-            name="确认要移除XXA吗?"
+            name={`确认要移除${name}吗?`}
             deleteX={deleteX}
             transferMsg={this.transferMsgDel}
             memDel
@@ -264,8 +269,9 @@ class SetPersonalInfo extends Component {
           <Delete
             name="移除成功"
             cancel
+            pathJump
             deleteX={deled}
-            transferMsg={this.transferMsgDel}
+            transferMsg={this.pathJump}
           />
         </div>
         <WrongPage info={wrong} cancel={this.cancel} />

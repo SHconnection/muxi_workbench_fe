@@ -1,20 +1,20 @@
 .memberInfo-contain{
-  /* min-width: 182px; */
+  width: 300px;
+  overflow: scroll;
   display: -webkit-flex;
   display: flex;
   flex-direction: row;
-  justify-content: center;
 }
 
 .memberInfo-personalIntro {
   display: -webkit-flex;
   display: flex;
-  flex-direction: row;
+  /* flex-direction: row; */
 }
 
 .memberInfo-mid {
   margin-left: 5px;
-  min-width: 45px;
+  min-width: 80px;
   height: 60px;
   display: -webkit-flex;
   display: flex;
@@ -26,7 +26,7 @@
   min-width: 120px;
   display: -webkit-flex;
   display: flex;
-  flex-direction: row;
+  /* flex-direction: row; */
   align-items: center;
 }
 
@@ -35,7 +35,8 @@
   font-size:10px;
   font-weight: 400;
   color: rgba(145,145,145,1);
-  line-height: 14px;
+  line-height: 14px; 
+  white-space: nowrap;
 }
 .memberInfo-img{
   display: inline-block;

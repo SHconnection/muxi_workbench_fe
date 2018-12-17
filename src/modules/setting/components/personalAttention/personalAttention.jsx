@@ -64,9 +64,9 @@ class PersonalAttention extends Component {
 
     return (
       <div className="present">
-        <div className="personalAttention-tip">
-          {members.length === 0 ? "暂时未关注文档~" : ""}
-        </div>
+        <p className={members.length === 0 ? "noneInfoTip" : ""}>
+          暂时未关注文档~
+        </p>
 
         {members.map(mem1 => {
           const mem = mem1;

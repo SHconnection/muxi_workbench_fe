@@ -1,6 +1,6 @@
 /*
 成员分组页面组件
-传入userID
+传入id
 */
 import React, { Component } from "react";
 import PropTypes from "prop-types";
@@ -27,13 +27,13 @@ class SetPermission extends Component {
 
   componentDidMount() {
     const {
-      match: {
-        params: { userID }
+      location: {
+        state: { id }
       }
     } = this.props;
     Loading.show();
 
-    ManageService.getAllPro()
+    ManageService.getProjectList(localStorage.id)
       .then(object => {
         const proList = object.list.map(project1 => {
           const project = {};
@@ -46,7 +46,7 @@ class SetPermission extends Component {
 
         if (!Array.isArray(proList)) return false;
 
-        ManageService.getPersonalPro(userID)
+        ManageService.getProjectList(id)
           .then(obj => {
             const idList = obj.list.map(pro1 => pro1.projectID);
 
@@ -65,9 +65,6 @@ class SetPermission extends Component {
           })
           .catch(error => {
             this.setState({ wrong: error });
-          })
-          .finally(() => {
-            Loading.hide();
           });
         return true;
       })
@@ -88,15 +85,18 @@ class SetPermission extends Component {
 
   savePersonalPermiss = () => {
     const {
-      match: {
-        params: { userID }
-      }
+      location: {
+        state: { id }
+      },
+      history
     } = this.props;
     const { selMembers } = this.state;
 
-    ManageService.savePersonalPermiss(userID, selMembers)
+    ManageService.savePersonalPermiss(id, selMembers)
       .then(() => {
         this.setState({ ifSave: true });
+
+        history.push(`/teamMember/joinApply`);
 
         setTimeout(() => {
           this.setState({ ifSave: false });
@@ -147,9 +147,9 @@ class SetPermission extends Component {
 export default SetPermission;
 
 SetPermission.propTypes = {
-  match: PropTypes.shape({
-    params: PropTypes.shape({
-      userID: PropTypes.number
+  location: PropTypes.shape({
+    state: PropTypes.shape({
+      id: PropTypes.number
     })
   })
 };
