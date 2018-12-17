@@ -14,12 +14,17 @@ import PersonalSet from "../setting/personalSetting/personalSetting";
 import SetPersonalInfo from "../setting/setPersonInfo/setPersonInfo";
 import SetManager from "../setting/setManager/setManager";
 import JoinApply from "../setting/joinApply/joinApply";
+import SetPermission from "../setting/setPermission/setPermission";
 
 const Member = ({ match }) => (
   <Switch>
     <Route exact path={`${match.url}`} component={TeamMember} />
     <Route path={`${match.url}/addMember`} component={AddMember} />
-    <Route path={`${match.url}/joinApply`} component={JoinApply} />
+    <Route exact path={`${match.url}/joinApply`} component={JoinApply} />
+    <Route
+      path={`${match.url}/joinApply/setPermission`}
+      component={SetPermission}
+    />
     <Route exact path={`${match.url}/groupManage`} component={GroupManage} />
     <Route path={`${match.url}/groupManage/addGroup`} component={AddGroup} />
     <Route

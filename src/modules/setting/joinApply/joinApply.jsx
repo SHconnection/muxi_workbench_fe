@@ -3,6 +3,7 @@
 成员数据members:{name:'', mailbox:'',dealed: false,id:0},
 */
 import React, { Component } from "react";
+import PropTypes from "prop-types";
 import GoBack from "../../../components/common/goBack/index";
 import ManageService from "../../../service/manage";
 import WrongPage from "../../../components/common/wrongPage/wrongPage";
@@ -16,7 +17,8 @@ class JoinApply extends Component {
 
     this.state = {
       members: [],
-      wrong: {}
+      wrong: {},
+      hasMember: true
     };
   }
 
@@ -34,6 +36,10 @@ class JoinApply extends Component {
           return obj;
         });
 
+        if (joinList.length) {
+          this.setState({ hasMember: false });
+        }
+
         this.setState({ members: joinList });
       })
       .catch(error => {
@@ -47,6 +53,7 @@ class JoinApply extends Component {
   save = mem1 => {
     const mem = mem1;
     const { members } = this.state;
+    const { match } = this.props;
 
     ManageService.addMember(mem.id).catch(error => {
       this.setState({ wrong: error });
@@ -55,6 +62,10 @@ class JoinApply extends Component {
       .then(() => {
         mem.dealed = true;
         this.setState({ members });
+        this.props.history.push({
+          pathname: `${match.url}/setPermission`,
+          state: { id: mem.id }
+        });
       })
       .catch(error => {
         this.setState({ wrong: error });
@@ -98,20 +109,21 @@ class JoinApply extends Component {
   };
 
   render() {
-    const { members, wrong } = this.state;
+    const { members, wrong, hasMember } = this.state;
 
     return (
       <div className="subject minH">
         <GoBack />
         <b className="title">未审核的加入申请</b>
         <br />
-        <button
+        {/* <button
           type="button"
           className="saveBtn joinApply-btnFlo"
           onClick={this.saveAll.bind(this)}
         >
           全部同意
-        </button>
+        </button> */}
+        <p className={hasMember ? "noneInfoTip" : ""}>暂无新成员加入～</p>
         <div className="clear present joinApply-list">
           {members.map(mem1 => {
             const mem = mem1;
@@ -158,3 +170,13 @@ class JoinApply extends Component {
 }
 
 export default JoinApply;
+
+JoinApply.propTypes = {
+  match: PropTypes.shape({
+    url: PropTypes.string
+  })
+};
+
+JoinApply.defaultProps = {
+  match: {}
+};

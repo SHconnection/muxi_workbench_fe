@@ -45,12 +45,9 @@ const ManageService = {
     get a project list
     if you are admin or superuser, get all projetc list
   */
-  getProjectList(page) {
-    return Fetch(`/api/v1.0/user/project/list`, {
-      token: localStorage.token,
-      data: {
-        page
-      }
+  getProjectList(userID) {
+    return Fetch(`/api/v1.0/user/${userID}/project/list`, {
+      token: localStorage.token
     });
   },
 

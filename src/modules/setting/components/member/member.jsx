@@ -66,7 +66,7 @@ class Member extends Component {
             >
               <input
                 type="checkbox"
-                checked={item.selected}
+                checked={item.selected || false}
                 onChange={
                   dis
                     ? this.onlyOne.bind(this, item)
