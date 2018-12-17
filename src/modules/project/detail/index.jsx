@@ -224,6 +224,9 @@ class ProjectDetailIndex extends Component {
       })
       .catch(res => {
         console.error(res);
+      })
+      .finally(() => {
+        Loading.hide();
       });
   }
 
@@ -261,6 +264,9 @@ class ProjectDetailIndex extends Component {
                 })
                 .catch(res1 => {
                   console.error(res1);
+                })
+                .finally(() => {
+                  Loading.hide();
                 });
             });
           }

@@ -70,7 +70,7 @@ class NewProject extends Component {
       projectname: "",
       intro: ""
     };
-    this.changeProjectnameText = this.changeProjectnameText.bind(this);
+    // this.changeProjectnameText = this.changeProjectnameText.bind(this);
     this.changeProjectintroText = this.changeProjectintroText.bind(this);
     this.transferMsgMem = this.transferMsgMem.bind(this);
     this.selAll = this.selAll.bind(this);
@@ -84,36 +84,35 @@ class NewProject extends Component {
 
   groupMemberInit() {
     Loading.show();
-    fetchGroups().then(el => {
+    fetchGroups().then(re => {
       this.setState({
-        groups: el,
-        groupCheckedIndex: el.length - 1
+        groups: re,
+        groupCheckedIndex: re.length - 1
+      }, () => {
+        console.log(this.state.groups)
+        this.fetchGroupMember();
       });
-      this.fetchGroupMember(el[el.length - 1].id);
     });
   }
 
   // 请求group的所有组员
-  fetchGroupMember(id) {
-    return ManageService.getGroupAllMember(id)
-      .then(el => {
-        usersByGroup[id] = el
-          .map(item => item.list)
-          .reduce((el1, el2) => el1.concat(el2), [])
-          .map(el3 => {
-            const arr = { id: el3.userID, name: el3.username, selected: false };
-            return arr;
-          });
+  fetchGroupMember() {
+    let myMembers = []
+    ManageService.groupMember(0)
+      .then(re => {
+        myMembers = re.list.map(el => {
+          return  {id: el.userID, name: el.username, groupID: el.groupID, selected: false}
+        })
         this.setState({
-          members: usersByGroup[id]
-        });
+          members: myMembers
+        })
       })
       .finally(() => {
         Loading.hide();
       });
   }
 
-  changeProjectnameText(event) {
+  changeProjectnameText = event => {
     this.setState({
       projectname: event.target.value
     });

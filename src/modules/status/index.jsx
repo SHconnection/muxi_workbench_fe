@@ -5,6 +5,7 @@ import Index from "./progress/progress";
 import Detail from "./details/detail";
 import Edit from "./markdown/edit";
 import StatusService from "../../service/status";
+import "./index.css";
 
 class Status extends Component {
   constructor(props) {
@@ -89,7 +90,7 @@ class Status extends Component {
   render() {
     const { match } = this.props;
     return (
-      <div>
+      <div className="statusContainer">
         <Route
           exact
           path={match.url}

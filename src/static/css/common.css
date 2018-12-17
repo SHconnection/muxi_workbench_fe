@@ -11,7 +11,7 @@ body {
 .subject {
   position: relative;
   width: 1035px;
-  margin: 54px auto 60px auto;
+  margin: 121px auto 60px auto;
   border-radius: 6px;
   background-color: #fbfbfb;
   padding: 43px 75px;
@@ -197,6 +197,18 @@ input[type="checkbox"]:checked + label::after {
   right: 0;
   bottom: 0;
   background: rgba(51,51,51,.5);
+  z-index: 10;
+}
+.loadLayer {
+  position: fixed;
+  top: 0px;
+  width: 1040px;
+  margin: 0 auto;
+  border-radius: 6px;
+  left: 50%;
+  transform: translateX(-50%);
+  bottom: 0;
+  background: #F2F2F2;;
   z-index: 8;
 }
 .createFileAlert {
@@ -211,7 +223,7 @@ input[type="checkbox"]:checked + label::after {
   right:0;
   top:0;
   bottom:0;
-  z-index: 9;
+  z-index: 10;
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
@@ -229,7 +241,7 @@ input[type="checkbox"]:checked + label::after {
   right:0;
   top:0;
   bottom:0;
-  z-index: 9;
+  z-index: 10;
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
@@ -247,7 +259,7 @@ input[type="checkbox"]:checked + label::after {
   right:0;
   top:0;
   bottom:0;
-  z-index: 9;
+  z-index: 10;
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;

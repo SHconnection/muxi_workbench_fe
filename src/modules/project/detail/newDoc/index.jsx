@@ -42,6 +42,9 @@ class NewDoc extends Component {
   }
 
   save(title, content) {
+    if (!title || !content) {
+      return
+    }
     const { docTree, pid, docRootId } = this.state;
     const postData = {
       mdname: title,

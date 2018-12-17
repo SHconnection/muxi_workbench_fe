@@ -155,6 +155,8 @@ class ProjectDetailAllFile extends Component {
       })
       .catch(error => {
         console.error(error);
+      })
+      .finally(() => {
         Loading.hide();
       });
   }

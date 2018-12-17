@@ -94,6 +94,9 @@ class Detail extends Component {
   }
 
   sendComment(value, sid) {
+    if (!value) {
+      return
+    }
     StatusService.postComments(sid, value).then(result => {
       if (result !== null) {
         StatusService.getStatuDetail(sid).then(comments => {

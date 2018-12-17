@@ -4,7 +4,7 @@ import "./loading.css";
 import "../../../static/css/common.css";
 
 const Loading = () => (
-  <div className="alertLayer">
+  <div className="loadLayer">
     <div className="loader">
       <div className="leftbase leftAnimate loadImg" />
       <div className="middlebase middleAnimate loadImg" />

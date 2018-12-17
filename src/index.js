@@ -22,7 +22,7 @@ import "./index.css";
 ReactDOM.render(
   <Router>
     <div className="app-container">
-      <Header className="header" />
+      <Header />
       <Switch>
         <Redirect exact from="/" to="/project" />
         <Route path="/project" component={Project} />

@@ -115,7 +115,7 @@ class FileItem extends Component {
           </div>
         </Link>
 
-        {hover && (
+        {true && (
           <div className="fileIcon-footer" onMouseLeave={this.leave.bind(this)}>
             <a
               className="fileIcon-downland"

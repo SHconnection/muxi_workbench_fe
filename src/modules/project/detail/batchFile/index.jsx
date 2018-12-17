@@ -117,6 +117,9 @@ class BatchFile extends Component {
       })
       .catch(res => {
         console.error(res);
+      })
+      .finally(() => {
+        Loading.hide();
       });
   }
 

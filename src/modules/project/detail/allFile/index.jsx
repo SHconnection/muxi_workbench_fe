@@ -158,6 +158,8 @@ class ProjectDetailAllFile extends Component {
       })
       .catch(res => {
         console.error(res);
+      })
+      .finally(() => {
         Loading.hide();
       });
   }
@@ -196,8 +198,10 @@ class ProjectDetailAllFile extends Component {
                 })
                 .catch(res1 => {
                   console.error(res1);
+                })
+                .finally(() => {
+                  Loading.hide();
                 });
-              console.log(data);
             });
           }
           if (res.status === 413) {

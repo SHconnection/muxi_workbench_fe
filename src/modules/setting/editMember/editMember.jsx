@@ -78,6 +78,9 @@ class EditMember extends Component {
       })
       .catch(error => {
         this.setState({ wrong: error });
+      })
+      .finally(() => {
+        Loading.hide();
       });
     ManageService.getAllGroup()
       .then(group => {
