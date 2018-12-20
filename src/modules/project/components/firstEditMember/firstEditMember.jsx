@@ -30,7 +30,7 @@ const FirstEditMember = ({
     <input
       type="checkbox"
       id="selectAll"
-      checked={members.length === selMembers.length ? true : false}
+      checked={members.length === selMembers.length}
     />
     <label
       htmlFor="selectAll"

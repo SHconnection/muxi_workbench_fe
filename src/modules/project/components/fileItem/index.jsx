@@ -66,23 +66,13 @@ class FileItem extends Component {
   }
 
   moveFile() {
-    const { 
-      fileItem, 
-      moveFile, 
-      pid 
-    } = this.props;
+    const { fileItem, moveFile, pid } = this.props;
     moveFile(fileItem.id, "file", pid);
   }
 
   render() {
-    const { 
-      fileItem, 
-      pid 
-    } = this.props;
-    const { 
-      hover, 
-      isImage
-    } = this.state;
+    const { fileItem, pid } = this.props;
+    const { hover, isImage } = this.state;
     let suffix = fileItem.name.split(".")[1];
     if (IconMap[suffix] == null) {
       suffix = "default";
@@ -98,7 +88,7 @@ class FileItem extends Component {
         onMouseEnter={this.enter.bind(this)}
         onMouseLeave={this.leave.bind(this)}
       >
-        <Link 
+        <Link
           className="fileItem-content"
           to={`/project/${pid}/file/${fileItem.id}`}
         >
@@ -115,7 +105,7 @@ class FileItem extends Component {
           </div>
         </Link>
 
-        {true && (
+        {hover && (
           <div className="fileIcon-footer" onMouseLeave={this.leave.bind(this)}>
             <a
               className="fileIcon-downland"

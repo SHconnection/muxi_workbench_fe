@@ -18,7 +18,8 @@ const LandingService = {
 
     if (flag === splitArr.length) {
       return splitStr;
-    } else if (localStorage.username && localStorage.username.length > 0) {
+    }
+    if (localStorage.username && localStorage.username.length > 0) {
       return localStorage.username;
     }
     return "";

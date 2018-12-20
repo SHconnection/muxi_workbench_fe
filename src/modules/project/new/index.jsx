@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import Member from "../../setting/components/member/member";
 import Button from "../../../components/common/button/index";
 import Select from "../../../components/common/select/index";
 import ManageService from "../../../service/manage";
@@ -12,9 +11,6 @@ import "./index.css";
 const gotoBack = () => {
   window.history.back();
 };
-
-// 每一组的user
-const usersByGroup = {};
 
 // 请求grouplist
 const fetchGroups = () =>
@@ -75,58 +71,66 @@ class NewProject extends Component {
   groupMemberInit = () => {
     Loading.show();
     fetchGroups().then(re => {
-      this.setState({
-        groups: re,
-        groupCheckedIndex: re.length - 1
-      }, () => {
-        this.fetchGroupMember();
-      });
+      this.setState(
+        {
+          groups: re,
+          groupCheckedIndex: re.length - 1
+        },
+        () => {
+          this.fetchGroupMember();
+        }
+      );
     });
-  }
+  };
 
   // 请求group的所有组员
   fetchGroupMember = () => {
     ManageService.groupMember(0)
       .then(re => {
         this.setState({
-          members: re.list.map(el => (
-            {id: el.userID, name: el.username, groupID: el.groupID, selected: false}
-          ))
-        })
+          members: re.list.map(el => ({
+            id: el.userID,
+            name: el.username,
+            groupID: el.groupID,
+            selected: false
+          }))
+        });
       })
       .finally(() => {
         Loading.hide();
       });
-  }
+  };
 
   changeProjectnameText = event => {
     this.setState({
       projectname: event.target.value
     });
-  }
+  };
 
-  changeProjectintroText = (event) => {
+  changeProjectintroText = event => {
     this.setState({
       intro: event.target.value
     });
-  }
+  };
 
   // 获取当前显示的组员
   currentMember = () => {
     const { groups, groupCheckedIndex, members } = this.state;
     if (groups[groupCheckedIndex] && groups[groupCheckedIndex].id === 0) {
-      return members
+      return members;
     }
-    return members.filter(item => groups[groupCheckedIndex].id === item.groupID)
-  }
+    return members.filter(
+      item => groups[groupCheckedIndex].id === item.groupID
+    );
+  };
 
   changeGroupCheck = (index, id) => {
     this.setState({
       groupCheckedIndex: index
     });
-  }
+  };
 
-  checkMember = (id) => {
+  checkMember = id => {
     const { members } = this.state;
     const len = members.length;
     for (let i = 0; i < len; i += 1) {
@@ -137,29 +141,33 @@ class NewProject extends Component {
     }
     this.setState({
       members
-    })
-  }
+    });
+  };
 
   checkAll = () => {
     const { groups, groupCheckedIndex, members } = this.state;
     const len = members.length;
     const isSelectedAll = this.selectedAll();
     for (let i = 0; i < len; i += 1) {
-      if (groups[groupCheckedIndex] && (groups[groupCheckedIndex].id === 0 || groups[groupCheckedIndex].id === members[i].groupID)) {
+      if (
+        groups[groupCheckedIndex] &&
+        (groups[groupCheckedIndex].id === 0 ||
+          groups[groupCheckedIndex].id === members[i].groupID)
+      ) {
         members[i].selected = !isSelectedAll;
       }
     }
     this.setState({
       members
-    })
-  }
+    });
+  };
 
   selectedAll = () => {
     if (this.currentMember().length === 0) {
-      return false
+      return false;
     }
-    return this.currentMember().every(item => item.selected)
-  }
+    return this.currentMember().every(item => item.selected);
+  };
 
   createProject = () => {
     const { members, projectname, intro } = this.state;
@@ -198,13 +206,10 @@ class NewProject extends Component {
       .catch(error => {
         this.setState({ wrong: error });
       });
-  }
+  };
 
   render() {
     const {
-      members,
-      selMembers,
-      selectedAll,
       groups,
       groupCheckedIndex,
       selectAllText,
@@ -234,19 +239,19 @@ class NewProject extends Component {
             <div className="newProject-member-option">
               <div className="tip">选择你要设置的成员</div>
               <div className="newProject-member-tip-right">
-                {
-                  this.currentMember().length ? (
-                    <div>
-                      <input
-                        type="checkbox"
-                        checked={this.selectedAll()}
-                        onChange={this.checkAll}
-                        id="memberCheckedAll"
-                      />
-                      <label htmlFor="memberCheckedAll">{selectAllText}</label>
-                    </div>
-                  ) : ''
-                }
+                {this.currentMember().length ? (
+                  <div>
+                    <input
+                      type="checkbox"
+                      checked={this.selectedAll()}
+                      onChange={this.checkAll}
+                      id="memberCheckedAll"
+                    />
+                    <label htmlFor="memberCheckedAll">{selectAllText}</label>
+                  </div>
+                ) : (
+                  ""
+                )}
                 <div className="newProject-group-select">
                   <Select
                     items={groups}
@@ -257,31 +262,29 @@ class NewProject extends Component {
               </div>
             </div>
             <div className="newProject-member-container">
-              {
-                this.currentMember().map((item, index) => (
-                  <div className="newProject-member-item" key={item.id}>
-                    <input 
-                      type="checkbox"
-                      checked={item.selected}
-                      onClick={() => {this.checkMember(item.id)}}
-                      id={item.id}
-                    />
-                     <label htmlFor={item.id}>
-                      {item.name}
-                     </label>
-                  </div>
-                ))
-              }
-              {
-                !this.currentMember().length ? (
-                  <div className="tip">还没有成员～</div>
-                ) : ''
-              }
-              <div className="newProject-member-over-helper"></div>
-              <div className="newProject-member-over-helper"></div>
-              <div className="newProject-member-over-helper"></div>
-              <div className="newProject-member-over-helper"></div>
-              <div className="newProject-member-over-helper"></div>
+              {this.currentMember().map((item, index) => (
+                <div className="newProject-member-item" key={item.id}>
+                  <input
+                    type="checkbox"
+                    checked={item.selected}
+                    onClick={() => {
+                      this.checkMember(item.id);
+                    }}
+                    id={item.id}
+                  />
+                  <label htmlFor={item.id}>{item.name}</label>
+                </div>
+              ))}
+              {!this.currentMember().length ? (
+                <div className="tip">还没有成员～</div>
+              ) : (
+                ""
+              )}
+              <div className="newProject-member-over-helper" />
+              <div className="newProject-member-over-helper" />
+              <div className="newProject-member-over-helper" />
+              <div className="newProject-member-over-helper" />
+              <div className="newProject-member-over-helper" />
             </div>
           </div>
           <div className="newProject-bottom">
