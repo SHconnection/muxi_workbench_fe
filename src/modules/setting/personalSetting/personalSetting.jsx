@@ -30,8 +30,8 @@ class PersonalSet extends Component {
       img: "",
       wrong: {},
       nameIsNull: false,
-      mailboxIsNull: false,
-      phoneIsNull: false
+      mailboxIsNull: false
+      // phoneIsNull: false
     };
   }
 
@@ -63,13 +63,13 @@ class PersonalSet extends Component {
   changeName = e => {
     if (e.target.value) {
       this.setState({
-        inputName: e.target.value,
-        nameIsNull: false
+        inputName: e.target.value
+        // nameIsNull: false
       });
     } else {
       this.setState({
-        inputName: e.target.value,
-        nameIsNull: true
+        inputName: e.target.value
+        // nameIsNull: true
       });
     }
   };
@@ -91,13 +91,13 @@ class PersonalSet extends Component {
   changePhone = e => {
     if (e.target.value) {
       this.setState({
-        inputPhone: e.target.value,
-        phoneIsNull: false
+        inputPhone: e.target.value
+        // phoneIsNull: false
       });
     } else {
       this.setState({
-        inputPhone: e.target.value,
-        phoneIsNull: true
+        inputPhone: e.target.value
+        // phoneIsNull: true
       });
     }
   };

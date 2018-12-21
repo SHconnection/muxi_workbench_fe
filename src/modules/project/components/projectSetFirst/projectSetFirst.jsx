@@ -41,12 +41,14 @@ ProjectSetFirst.propTypes = {
   inputValue: PropTypes.string,
   changeInput: PropTypes.func,
   textValue: PropTypes.string,
-  changeText: PropTypes.func
+  changeText: PropTypes.func,
+  inputIsNull: PropTypes.bool
 };
 
 ProjectSetFirst.defaultProps = {
   inputValue: "",
   changeInput: () => {},
   textValue: "",
-  changeText: () => {}
+  changeText: () => {},
+  inputIsNull: false
 };

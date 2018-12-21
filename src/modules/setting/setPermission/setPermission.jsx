@@ -151,9 +151,13 @@ SetPermission.propTypes = {
     state: PropTypes.shape({
       id: PropTypes.number
     })
+  }),
+  history: PropTypes.shape({
+    push: PropTypes.func
   })
 };
 
 SetPermission.defaultProps = {
-  match: {}
+  location: {},
+  history: {}
 };

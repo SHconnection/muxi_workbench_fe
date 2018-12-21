@@ -187,14 +187,12 @@ class TeamMember extends Component {
           </div>
         </div>
 
-        {members.map(mem => {
-          return (
-            <div className="teamMember-singleList" key={mem.id}>
-              <MemberInfo mem={mem} />
-              <span className="teamMember-emailMarg">{mem.email}</span>
-            </div>
-          );
-        })}
+        {members.map(mem => (
+          <div className="teamMember-singleList" key={mem.id}>
+            <MemberInfo mem={mem} />
+            <span className="teamMember-emailMarg">{mem.email}</span>
+          </div>
+        ))}
         <WrongPage info={wrong} cancel={this.cancel} />
       </div>
     );

@@ -3,8 +3,8 @@ import Fetch from "./fetch";
 const LandingService = {
   getUsername() {
     const splitArr = [{ "?": 1 }, { "&": 0 }, { "=": 1 }];
-    let flag = 0,
-      splitStr = window.location.href;
+    let flag = 0;
+    let splitStr = window.location.href;
 
     while (flag < splitArr.length) {
       const ch = Object.keys(splitArr[flag])[0];

@@ -8,6 +8,8 @@ module.exports = {
     // React Native includes images via require("../images/example.png")
     "global-require": 0,
 
+    "no-plusplus": 'off',
+
     "import/no-extraneous-dependencies": ["error", { "devDependencies": true }],
 
     "react/prefer-stateless-function": [2, { "ignorePureComponents": true }],
@@ -19,12 +21,19 @@ module.exports = {
       },
       "allowChildren": false
     }],
+    "jsx-a11y/label-has-associated-control": [ "error", {
+      "required": {
+        "some": [ "nesting", "id"  ]
+      }
+    }],
 
     "no-underscore-dangle": ["error", { "allow": ["_this"] }]
 
   },
+  "parser": "babel-eslint",
   "env": {
     "jest": true,
-    "browser": true
+    "browser": true,
+    "es6": true,
   }
 };

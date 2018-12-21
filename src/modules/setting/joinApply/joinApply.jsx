@@ -60,9 +60,11 @@ class JoinApply extends Component {
     });
     ManageService.dealJoinApply(mem.id)
       .then(() => {
+        const { history } = this.props;
+
         mem.dealed = true;
         this.setState({ members });
-        this.props.history.push({
+        history.push({
           pathname: `${match.url}/setPermission`,
           state: { id: mem.id }
         });
@@ -176,9 +178,13 @@ export default JoinApply;
 JoinApply.propTypes = {
   match: PropTypes.shape({
     url: PropTypes.string
+  }),
+  history: PropTypes.shape({
+    push: PropTypes.func
   })
 };
 
 JoinApply.defaultProps = {
-  match: {}
+  match: {},
+  history: {}
 };

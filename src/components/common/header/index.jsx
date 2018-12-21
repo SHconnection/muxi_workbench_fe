@@ -139,11 +139,9 @@ class Header extends Component {
   }
 }
 Header.propTypes = {
-  history: PropTypes.shape({}),
-  userAvatar: PropTypes.string
+  history: PropTypes.shape({})
 };
 Header.defaultProps = {
-  history: {},
-  userAvatar: ""
+  history: {}
 };
 export default withRouter(Header);

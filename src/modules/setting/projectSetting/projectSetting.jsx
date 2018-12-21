@@ -177,9 +177,13 @@ SetProject.propTypes = {
     params: PropTypes.shape({
       id: PropTypes.string
     })
+  }),
+  history: PropTypes.shape({
+    push: PropTypes.func
   })
 };
 
 SetProject.defaultProps = {
-  match: {}
+  match: {},
+  history: {}
 };

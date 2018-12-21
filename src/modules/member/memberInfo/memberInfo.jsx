@@ -34,7 +34,7 @@ const MemberInfo = ({ mem, square }) => (
           localStorage.perRole = mem.role;
         }}
       >
-        <Avatar width={60} height={60} src={mem.avatar} />
+        <Avatar width={60} height={60} src={mem.avatar} square={square} />
       </div>
     </Link>
     <div className="memberInfo-personalIntro">

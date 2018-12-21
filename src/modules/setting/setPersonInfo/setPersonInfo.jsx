@@ -177,8 +177,10 @@ class SetPersonalInfo extends Component {
   };
 
   pathJump = () => {
+    const { history } = this.props;
+
     this.transferMsgDel(false, false);
-    this.props.history.push(`/teamMember`);
+    history.push(`/teamMember`);
   };
 
   render() {
@@ -287,9 +289,13 @@ SetPersonalInfo.propTypes = {
     params: PropTypes.shape({
       name: PropTypes.string
     })
+  }),
+  history: PropTypes.shape({
+    push: PropTypes.func
   })
 };
 
 SetPersonalInfo.defaultProps = {
-  match: {}
+  match: {},
+  history: {}
 };

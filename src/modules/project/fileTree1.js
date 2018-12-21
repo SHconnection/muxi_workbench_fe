@@ -151,10 +151,10 @@ export const FileTree = {
         }
         return [];
       })
-      .catch(res => {
-        console.error("error", res);
-        return [];
-      });
+      .catch(res =>
+        // console.error("error", res);
+        []
+      );
   },
 
   // 请求文档树
@@ -166,10 +166,10 @@ export const FileTree = {
         }
         return [];
       })
-      .catch(res => {
-        console.error(res);
-        return [];
-      });
+      .catch(res =>
+        // console.error(res);
+        []
+      );
   },
 
   // 初始化节点均没有被选中
