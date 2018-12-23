@@ -66,5 +66,5 @@ MemberInfo.propTypes = {
 
 MemberInfo.defaultProps = {
   mem: {},
-  square: true
+  square: false
 };

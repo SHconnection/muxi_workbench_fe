@@ -108,7 +108,7 @@ class Delete extends Component {
     }
 
     if (attentionDel) {
-      MessageService.attentionDel(data.filename)
+      MessageService.attentionDel(data.fileName, data.fileKind)
         .then(() => {
           data.dealed = true;
           transferMsg(false);

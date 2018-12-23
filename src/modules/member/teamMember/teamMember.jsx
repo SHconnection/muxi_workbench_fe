@@ -80,19 +80,21 @@ class TeamMember extends Component {
       })
       .catch(error => {
         this.setState({ wrong: error });
-      });
-    ManageService.getJoinApply()
-      .then(obj => {
-        if (obj.list.length) {
-          this.setState({ redDot: true });
-        }
-      })
-      .catch(error => {
-        this.setState({ wrong: error });
       })
       .finally(() => {
         Loading.hide();
       });
+    if (parseInt(localStorage.role, 10) > 1) {
+      ManageService.getJoinApply()
+        .then(obj => {
+          if (obj.list.length) {
+            this.setState({ redDot: true });
+          }
+        })
+        .catch(error => {
+          this.setState({ wrong: error });
+        });
+    }
   }
 
   cancel = () => {
@@ -166,14 +168,14 @@ class TeamMember extends Component {
               className="fakeBtn teamMember-fakeMarg teamMember-applyList"
               to={`${match.url}/joinApply`}
             >
-              {localStorage.role > 1 ? "申请成员列表" : ""}
+              {parseInt(localStorage.role, 10) > 1 ? "申请成员列表" : ""}
               <div className={redDot ? "teamMember-inform" : "none"} />
             </Link>
             <Link
               className="fakeBtn teamMember-fakeMarg"
               to={`${match.url}/setManager`}
             >
-              {localStorage.role > 3 ? "设置管理员" : ""}
+              {parseInt(localStorage.role, 10) > 3 ? "设置管理员" : ""}
             </Link>
             <Link
               className="fakeBtn teamMember-fakeMarg"
@@ -182,7 +184,7 @@ class TeamMember extends Component {
               添加成员
             </Link>
             <Link className="fakeBtn" to={`${match.url}/groupManage`}>
-              {localStorage.role > 1 ? "管理分组" : ""}
+              {parseInt(localStorage.role, 10) > 1 ? "管理分组" : ""}
             </Link>
           </div>
         </div>

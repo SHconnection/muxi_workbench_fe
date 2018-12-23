@@ -64,7 +64,7 @@ class PersonalAttention extends Component {
 
     return (
       <div className="present">
-        <p className={members.length === 0 ? "noneInfoTip" : ""}>
+        <p className={members.length === 0 ? "noneInfoTip" : "none"}>
           暂时未关注文档~
         </p>
 
@@ -89,16 +89,20 @@ class PersonalAttention extends Component {
 
               <div className="IB">
                 <div className="personalAttention-litSel">
-                  <span className="personalAttention-size">{mem.userName}</span>
-                  <span className="personalAttention-size">{mem.date}</span>
+                  <span className="personalAttention-size IB">
+                    {mem.userName}
+                  </span>
+                  <span className="personalAttention-size IB">{mem.date}</span>
                   <span
                     role="button"
                     tabIndex="-1"
-                    className="fakeBtn"
+                    className="fakeBtn personalAttention-btnMargin"
+                    onKeyDown={() => {
+                      this.delete(mem);
+                    }}
                     onClick={() => {
                       this.delete(mem);
                     }}
-                    onKeyDown={this.handleClick}
                   >
                     {parseInt(localStorage.id, 10) ===
                     parseInt(localStorage.per, 10)

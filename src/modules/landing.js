@@ -33,7 +33,9 @@ class Landing extends React.Component {
   componentDidMount() {
     LandingService.getEmail(User)
       .then(emailRes => {
-        data.email = emailRes.email;
+        if (emailRes.email) {
+          data.email = emailRes.email;
+        }
       })
       .then(() => {
         LandingService.getToken(data1)
