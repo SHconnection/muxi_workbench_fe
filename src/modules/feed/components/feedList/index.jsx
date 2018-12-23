@@ -115,7 +115,7 @@ class feedItem extends Component {
                 localStorage.per = uid;
               }}
             >
-              <Link to="/member/teamMember/personalInfo" className="link">
+              <Link to="/teamMember/personalInfo" className="link">
                 {userName}
               </Link>
             </div>

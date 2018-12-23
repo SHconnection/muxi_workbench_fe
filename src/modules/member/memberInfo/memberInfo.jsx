@@ -30,7 +30,7 @@ const MemberInfo = ({ mem, square }) => (
         tabIndex="-1"
         onKeyDown={() => {}}
         onClick={() => {
-          localStorage.per = mem.id;
+          localStorage.per = mem.id || mem.userID;
           localStorage.perRole = mem.role;
         }}
       >
