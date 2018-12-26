@@ -103,6 +103,10 @@ class SetProject extends Component {
       });
   };
 
+  pageGoBack = () => {
+    window.history.back();
+  };
+
   cancel = () => {
     this.setState({ wrong: {} });
   };
@@ -151,9 +155,16 @@ class SetProject extends Component {
           >
             删除项目
           </button>
-          <Link className="fakeBtn" to={`/project/${id}/preview`}>
+          <span
+            className="fakeBtn"
+            role="button"
+            tabIndex="-1"
+            className="fakeBtn"
+            onClick={this.pageGoBack}
+            onKeyDown={this.handleClick}
+          >
             取消
-          </Link>
+          </span>
         </div>
 
         <Delete
