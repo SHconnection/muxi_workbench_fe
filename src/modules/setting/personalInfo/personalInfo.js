@@ -26,7 +26,14 @@ class PersonalInfo extends Component {
 
   componentDidMount() {
     Loading.show();
-    const id = parseInt(localStorage.per, 10);
+    const url = window.location.href;
+    const re = /\/(\d+)$/;
+    let id;
+    if (re.exec(url) && re.exec(url)[1]) {
+      id = re.exec(url)[1];
+    } else {
+      id = parseInt(localStorage.per, 10);
+    }
 
     ManageService.getPersonalSet(id)
       .then(info => {
@@ -53,7 +60,13 @@ class PersonalInfo extends Component {
 
   render() {
     const { per, wrong } = this.state;
-    const { match } = this.props;
+    const { match, location } = this.props;
+    let uid;
+    if (location.state && location.state.uid) {
+      uid = location.state.uid;
+    } else {
+      uid = per.id;
+    }
 
     return (
       <div className="subject minH">
@@ -103,7 +116,7 @@ class PersonalInfo extends Component {
             <NavLink
               activeClassName="personalInfo-active"
               className="llSize singleItem"
-              to={`${match.url}/personalAttention`}
+              to={`${match.url}/personalAttention/${per.id}`}
             >
               关注
             </NavLink>
@@ -112,15 +125,15 @@ class PersonalInfo extends Component {
         <Switch>
           <Redirect
             exact
-            path={`${match.url}`}
-            to={`${match.url}/personalAttention`}
+            path={`/teamMember/personalInfo`}
+            to={`${match.url}/personalAttention/${uid}`}
           />
           <Route
             path={`${match.url}/personalDynamic/:uid`}
             component={Dynamic}
           />
           <Route
-            path={`${match.url}/personalAttention`}
+            path={`${match.url}/personalAttention/:uid`}
             component={PersonalAttention}
           />
           <Route
@@ -140,9 +153,15 @@ export default PersonalInfo;
 PersonalInfo.propTypes = {
   match: PropTypes.shape({
     url: PropTypes.string
+  }),
+  location: PropTypes.shape({
+    state: PropTypes.shape({
+      uid: PropTypes.number
+    })
   })
 };
 
 PersonalInfo.defaultProps = {
-  match: {}
+  match: {},
+  location: {}
 };

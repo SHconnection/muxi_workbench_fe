@@ -4,7 +4,7 @@
 传入id
 */
 import React, { Component } from "react";
-import { Link } from "react-router-dom";
+// import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
 import Delete from "../components/delete/delete";
 import ProjectSetFirst from "../../project/components/projectSetFirst/projectSetFirst";
@@ -159,7 +159,6 @@ class SetProject extends Component {
             className="fakeBtn"
             role="button"
             tabIndex="-1"
-            className="fakeBtn"
             onClick={this.pageGoBack}
             onKeyDown={this.handleClick}
           >

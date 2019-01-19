@@ -228,7 +228,7 @@ class SelectMember extends Component {
     const { members, selMembers, ifSave, wrong } = this.state;
 
     return (
-      <div className="present">
+      <div className="present selectMember-present">
         <b className="title littleSize selectMember-vice">选择成员</b>
         <span
           className="fakeBtn"

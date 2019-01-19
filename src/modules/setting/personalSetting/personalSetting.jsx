@@ -208,7 +208,7 @@ class PersonalSet extends Component {
                 type="file"
                 className="personalSet-selectImg"
                 onChange={this.changeImg}
-                accept=".png, .jpg"
+                accept=".png, .jpg, .jpeg"
                 placeholder="选择新头像"
                 ref={e => {
                   this.myAvatar = e;

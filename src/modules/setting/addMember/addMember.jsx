@@ -6,6 +6,7 @@ import GoBack from "../../../components/common/goBack/index";
 import ManageService from "../../../service/manage";
 import WrongPage from "../../../components/common/wrongPage/wrongPage";
 import Loading from "../../../components/common/loading/index";
+import Save from "../components/save/save";
 import "../../../static/css/common.css";
 import "./addMember.css";
 
@@ -14,7 +15,8 @@ class AddMem extends Component {
     super(props);
     this.state = {
       inputValue: "",
-      wrong: {}
+      wrong: {},
+      ifSave: false
     };
   }
 
@@ -42,6 +44,11 @@ class AddMem extends Component {
     e.select();
 
     document.execCommand("copy");
+
+    this.setState({ ifSave: true });
+    setTimeout(() => {
+      this.setState({ ifSave: false });
+    }, 1000);
   };
 
   cancel = () => {
@@ -49,7 +56,7 @@ class AddMem extends Component {
   };
 
   render() {
-    const { inputValue, wrong } = this.state;
+    const { inputValue, wrong, ifSave } = this.state;
 
     return (
       <div className="subject minH">
@@ -66,6 +73,7 @@ class AddMem extends Component {
               this.textInput = c;
             }}
             value={inputValue}
+            readOnly
           />
           <button type="button" className="saveBtn" onClick={this.copy}>
             复制
@@ -84,6 +92,7 @@ class AddMem extends Component {
           </p>
         </div>
         <WrongPage info={wrong} cancel={this.cancel} />
+        <Save ifSave={ifSave} />
       </div>
     );
   }
