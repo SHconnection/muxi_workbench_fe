@@ -14,7 +14,8 @@ class Edit extends Component {
     const { content, title } = this.props;
     this.state = {
       content,
-      title
+      title,
+      textnone: false
     };
     this.handleChange = this.handleChange.bind(this);
     this.onChange = this.onChange.bind(this);
@@ -58,7 +59,7 @@ class Edit extends Component {
   }
 
   render() {
-    const { content, title } = this.state;
+    const { content, title, textnone } = this.state;
     const { save } = this.props;
     return (
       <div>
@@ -73,10 +74,19 @@ class Edit extends Component {
             onChange={this.handleChange}
             placeholder="请输入标题"
           />
+          {textnone && (
+            <span className="status-ifnone">*标题和内容不能为空！</span>
+          )}
           <div className="status-save-bt">
             <Button
               onClick={() => {
-                save(title, content);
+                if (title !== "" && content != "") {
+                  save(title, content);
+                } else {
+                  this.setState({
+                    textnone: true
+                  });
+                }
               }}
               text="保存并返回"
             />

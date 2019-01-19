@@ -184,7 +184,12 @@ class NewProject extends Component {
     if (!chooseMe) {
       userlist.push({ userID: localStorage.id, userName: localStorage.name });
     }
-    if (!(userlist.length && projectname && intro)) {
+    if (!(userlist.length && projectname)) {
+      this.setState({
+        wrong: {
+          message: "项目名称和成员不能为空！"
+        }
+      });
       return;
     }
     const postData = {
@@ -266,7 +271,9 @@ class NewProject extends Component {
                 <div className="newProject-member-item" key={item.id}>
                   <input
                     type="checkbox"
-                    checked={item.selected}
+                    /* eslint-disable */
+                    checked={item.selected || item.id == localStorage.id}
+                    /* eslint-enable */
                     onClick={() => {
                       this.checkMember(item.id);
                     }}
