@@ -2,6 +2,7 @@
 个人关注组件
 */
 import React, { Component } from "react";
+import PropTypes from "prop-types";
 import Delete from "../delete/delete";
 import File from "../../../../assets/img/file.png";
 import MessageService from "../../../../service/message";
@@ -22,8 +23,14 @@ class PersonalAttention extends Component {
   }
 
   componentDidMount() {
+    const {
+      match: {
+        params: { uid }
+      }
+    } = this.props;
+
     Loading.show();
-    MessageService.getPersonalAttention(localStorage.per)
+    MessageService.getPersonalAttention(uid)
       .then(attention => {
         const arr = attention.list.map((item1, index) => {
           const item = item1;
@@ -59,6 +66,12 @@ class PersonalAttention extends Component {
     this.setState({ wrong: {} });
   };
 
+  goFile = mem => {
+    const { history } = this.props;
+
+    history.push(mem.url);
+  };
+
   render() {
     const { data, deleteX, members, wrong } = this.state;
 
@@ -76,10 +89,27 @@ class PersonalAttention extends Component {
               className={mem.dealed ? "none" : "personalAttention-cell"}
               key={mem.id}
             >
-              <img src={File} className="personalAttention-imgSize" alt="" />
+              <img
+                src={File}
+                className="personalAttention-imgSize personalAttention-goFile"
+                alt=""
+                onClick={() => {
+                  this.goFile(mem);
+                }}
+              />
 
               <div className="personalAttention-vice IB">
-                <span className="llSize ">{mem.fileName}</span>
+                <span
+                  className="llSize personalAttention-goFile"
+                  role="button"
+                  tabIndex="-1"
+                  onClick={() => {
+                    this.goFile(mem);
+                  }}
+                  onKeyDown={this.handleClick}
+                >
+                  {mem.fileName}
+                </span>
                 <br />
                 <span className="tip">
                   项目：
@@ -130,3 +160,13 @@ class PersonalAttention extends Component {
 }
 
 export default PersonalAttention;
+
+PersonalAttention.propTypes = {
+  history: PropTypes.shape({
+    push: PropTypes.func
+  })
+};
+
+PersonalAttention.defaultProps = {
+  history: {}
+};

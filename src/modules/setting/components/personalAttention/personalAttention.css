@@ -34,3 +34,6 @@
 .personalAttention-btnMargin{
     margin-left: 30px;
 }
+.personalAttention-goFile{
+    cursor: pointer;
+}

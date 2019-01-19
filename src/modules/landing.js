@@ -20,6 +20,7 @@ const data1 = {
 };
 
 localStorage.username = User;
+localStorage.proxy = "http://work.muxixyz.com";
 
 class Landing extends React.Component {
   constructor(props) {

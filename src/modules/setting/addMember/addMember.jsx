@@ -28,7 +28,7 @@ class AddMem extends Component {
   link = () => {
     ManageService.invitePerson()
       .then(data => {
-        this.setState({ inputValue: data.hash_id });
+        this.setState({ inputValue: localStorage.proxy + data.invite_url });
       })
       .catch(error => {
         this.setState({ wrong: error });
