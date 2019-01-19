@@ -17,7 +17,8 @@ class edit extends Component {
     super(props);
     this.state = {
       content: "",
-      title: ""
+      title: "",
+      textnone: false
     };
     this.handleChange = this.handleChange.bind(this);
     this.onChange = this.onChange.bind(this);
@@ -66,6 +67,12 @@ class edit extends Component {
 
   save(title, content) {
     const { match } = this.props;
+    if (title === "" || content === "") {
+      this.setState({
+        textnone: true
+      });
+      return;
+    }
     if (match.path === "/edit") {
       StatusService.addNewStatu(title, content);
       window.history.back();
@@ -76,7 +83,7 @@ class edit extends Component {
   }
 
   render() {
-    const { content, title } = this.state;
+    const { content, title, textnone } = this.state;
     return (
       <div className="subject">
         <div className="head">
@@ -90,6 +97,9 @@ class edit extends Component {
             onChange={this.handleChange}
             placeholder="请输入标题"
           />
+          {textnone && (
+            <span className="status-ifnone">*标题和内容不能为空！</span>
+          )}
           <div className="status-save-bt">
             <Button
               onClick={() => {
