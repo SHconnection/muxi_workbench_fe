@@ -7,17 +7,6 @@ const MessageService = {
     });
   },
 
-  attentionDel(fileName, fileKind) {
-    return Fetch("/api/v1.0/user/attention/", {
-      method: "DELETE",
-      token: localStorage.token,
-      data: {
-        fileName,
-        fileKind
-      }
-    });
-  },
-
   makeNewMessage(receiver, maker, action) {
     return Fetch("/api/v1.0/message/new/", {
       method: "POST",

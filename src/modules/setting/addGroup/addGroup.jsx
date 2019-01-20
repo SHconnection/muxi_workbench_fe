@@ -26,11 +26,22 @@ class AddGroup extends Component {
         inputIsNull: false
       });
     } else {
+      this.groupName.placeholder = "请为分组命名";
       this.setState({
         inputValue: e.target.value,
         inputIsNull: true
       });
     }
+  };
+
+  transferMsg = inputIsNull => {
+    this.setState({
+      inputIsNull
+    });
+  };
+
+  onFocusCancelTip = () => {
+    this.groupName.placeholder = "";
   };
 
   render() {
@@ -45,15 +56,23 @@ class AddGroup extends Component {
             type="text"
             className="inputSize"
             placeholder="请为分组命名"
+            onFocus={this.onFocusCancelTip}
             value={inputValue}
             onBlur={this.changeInput}
             onChange={this.changeInput}
+            ref={e => {
+              this.groupName = e;
+            }}
           />
           <p className={inputIsNull ? "warning" : "transparent"}>
             输入框不能为空！
           </p>
         </div>
-        <SelectMember addGroup groupName={inputValue} />
+        <SelectMember
+          addGroup
+          groupName={inputValue}
+          transferMsg={this.transferMsg}
+        />
       </div>
     );
   }

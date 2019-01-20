@@ -28,6 +28,7 @@ class PersonalSet extends Component {
       inputMailbox: "",
       inputPhone: "",
       img: "",
+      imgFile: null,
       wrong: {},
       nameIsNull: false,
       mailboxIsNull: false
@@ -110,7 +111,14 @@ class PersonalSet extends Component {
   };
 
   savePersonalSet = () => {
-    const { inputName, inputMailbox, inputPhone, selMembers, img } = this.state;
+    const {
+      inputName,
+      inputMailbox,
+      inputPhone,
+      selMembers,
+      img,
+      imgFile
+    } = this.state;
     const obj = {
       username: inputName,
       address: inputMailbox,
@@ -119,10 +127,9 @@ class PersonalSet extends Component {
       email: selMembers.indexOf(2) !== -1
     };
 
-    const fileImg = this.myAvatar.files[0];
-    if (fileImg) {
+    if (imgFile) {
       const data = new FormData();
-      data.append("image", fileImg);
+      data.append("image", imgFile);
 
       ManageService.savePersonalSet(localStorage.per, obj).catch(error => {
         this.setState({ wrong: error });
@@ -135,6 +142,7 @@ class PersonalSet extends Component {
 
           setTimeout(() => {
             this.setState({ ifSave: false });
+            window.history.back();
           }, 1000);
         })
         .catch(error => {
@@ -147,6 +155,7 @@ class PersonalSet extends Component {
 
           setTimeout(() => {
             this.setState({ ifSave: false });
+            window.history.back();
           }, 1000);
         })
         .catch(error => {
@@ -155,20 +164,21 @@ class PersonalSet extends Component {
     }
   };
 
-  changeImg = () => {
-    const img = this.myAvatar.files[0];
+  changeImg = changeKind => {
+    const imgFile = this[changeKind].files[0];
 
-    if (img) {
-      if (!/image\/\w+/.test(img.type)) return false;
+    if (imgFile) {
+      if (!/image\/\w+/.test(imgFile.type)) return false;
 
       const reader = new FileReader();
       const _this = this;
       // 将文件以Data URL形式进行读入页面
-      reader.readAsDataURL(img);
+      reader.readAsDataURL(imgFile);
 
       reader.onload = e => {
         _this.setState({
-          img: e.target.result
+          img: e.target.result,
+          imgFile
         });
       };
     }
@@ -204,10 +214,12 @@ class PersonalSet extends Component {
           <input
             type="file"
             className="personalSet-imgSelectImg"
-            onChange={this.changeImg}
+            onChange={() => {
+              this.changeImg("imgSelectImg");
+            }}
             accept=".png, .jpg, .jpeg"
             ref={e => {
-              this.myAvatar = e;
+              this.imgSelectImg = e;
             }}
           />
           <div className="personalSet-avaTip">
@@ -216,10 +228,12 @@ class PersonalSet extends Component {
               <input
                 type="file"
                 className="personalSet-spanSelectImg"
-                onChange={this.changeImg}
+                onChange={() => {
+                  this.changeImg("spanSelectImg");
+                }}
                 accept=".png, .jpg, .jpeg"
                 ref={e => {
-                  this.myAvatar = e;
+                  this.spanSelectImg = e;
                 }}
               />
             </b>

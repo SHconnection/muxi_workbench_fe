@@ -32,6 +32,7 @@ class PersonalAttention extends Component {
     Loading.show();
     MessageService.getPersonalAttention(uid)
       .then(attention => {
+        console.log(attention);
         const arr = attention.list.map((item1, index) => {
           const item = item1;
           item.id = index;
