@@ -110,6 +110,10 @@ class EditMember extends Component {
     this.setState({ wrong: {} });
   };
 
+  return = () => {
+    window.history.back();
+  };
+
   selAll = () => {
     this.setState(prevState => {
       const { members: arr1 } = prevState;
@@ -167,6 +171,9 @@ class EditMember extends Component {
       })
       .catch(error => {
         this.setState({ wrong: error });
+      })
+      .then(() => {
+        window.history.back();
       });
   };
 
@@ -224,7 +231,12 @@ class EditMember extends Component {
         >
           {ifSave ? "已保存" : "保存项目成员"}
         </button>
-        <span className="fakeBtn footerBtn editMember-btnMarg">取消</span>
+        <span
+          className="fakeBtn footerBtn editMember-btnMarg"
+          onClick={this.return}
+        >
+          取消
+        </span>
         <WrongPage info={wrong} cancel={this.cancel} />
         <Save ifSave={ifSave} />
       </div>
