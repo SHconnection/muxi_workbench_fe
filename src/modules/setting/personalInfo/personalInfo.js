@@ -76,7 +76,9 @@ class PersonalInfo extends Component {
             <div className="personalInfo-personalIntro">
               <b className="personalName">{per.name}</b>
               <Link to={`${match.url}/personalSet`} className="fakeBtn">
-                {per.id === parseInt(localStorage.id, 10) ? "更改设置" : ""}
+                {parseInt(per.id, 10) === parseInt(localStorage.id, 10)
+                  ? "更改设置"
+                  : ""}
               </Link>
               <div className="llSize">{per.email}</div>
             </div>

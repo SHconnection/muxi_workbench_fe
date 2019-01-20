@@ -39,7 +39,8 @@
     "simi": "^1.0.1",
     "slate": "^0.44.6",
     "slate-react": "^0.21.12",
-    "start": "^5.1.0"
+    "start": "^5.1.0",
+    "webpack": "4.19.1"
   },
   "scripts": {
     "start": "react-scripts start",
