@@ -141,6 +141,9 @@ class EditMember extends Component {
       })
       .catch(error => {
         this.setState({ wrong: error });
+      })
+      .then(() => {
+        window.history.back();
       });
   };
 
@@ -165,6 +168,38 @@ class EditMember extends Component {
 
   goBack = () => {
     window.history.back();
+  };
+
+  selAll = () => {
+    this.setState(prevState => {
+      const { members: arr1 } = prevState;
+      const arr2 = [];
+      let num = 0;
+
+      if (arr1) {
+        arr1.map(i => {
+          if (i.selected) num += 1;
+          return i;
+        });
+
+        if (num === arr1.length) {
+          arr1.map(i => {
+            const j = i;
+            j.selected = false;
+            return j;
+          });
+        } else {
+          arr1.map(i => {
+            const j = i;
+            j.selected = true;
+            arr2.push(j.id);
+            return j;
+          });
+        }
+      }
+
+      return { members: arr1, selMembers: arr2 };
+    });
   };
 
   render() {
