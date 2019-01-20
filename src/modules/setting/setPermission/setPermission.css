@@ -4,3 +4,9 @@
 .setPermission-tip {
   margin-bottom: 49px;
 }
+.setPermission-selectAll{
+  float: right;
+  margin-right: 100px;
+  font-size: 16px;
+  color: #108ee9;
+}

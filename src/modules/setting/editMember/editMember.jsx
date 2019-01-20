@@ -65,7 +65,10 @@ class EditMember extends Component {
                   return mem;
                 });
 
-                this.setState({ members });
+                this.setState({
+                  members,
+                  selMembers: idList
+                });
               }
             })
             .catch(error => {
@@ -94,6 +97,7 @@ class EditMember extends Component {
           });
 
           groupList.push({ id: 0, value: "全部成员" });
+          console.log(groupList);
 
           this.setState({
             groups: groupList,
@@ -110,38 +114,6 @@ class EditMember extends Component {
     this.setState({ wrong: {} });
   };
 
-  selAll = () => {
-    this.setState(prevState => {
-      const { members: arr1 } = prevState;
-      const arr2 = [];
-      let num = 0;
-
-      if (arr1) {
-        arr1.map(i => {
-          if (i.selected) num += 1;
-          return i;
-        });
-
-        if (num === arr1.length) {
-          arr1.map(i => {
-            const j = i;
-            j.selected = false;
-            return j;
-          });
-        } else {
-          arr1.map(i => {
-            const j = i;
-            j.selected = true;
-            arr2.push(j.id);
-            return j;
-          });
-        }
-      }
-
-      return { members: arr1, selMembers: arr2 };
-    });
-  };
-
   transferMsgMem = (members, selMembers) => {
     this.setState({
       members,
@@ -153,7 +125,8 @@ class EditMember extends Component {
     const {
       match: {
         params: { id }
-      }
+      },
+      history
     } = this.props;
     const { selMembers } = this.state;
 
@@ -163,7 +136,8 @@ class EditMember extends Component {
 
         setTimeout(() => {
           this.setState({ ifSave: false });
-        }, 1000);
+          history.push(`/project`);
+        }, 500);
       })
       .catch(error => {
         this.setState({ wrong: error });
@@ -189,6 +163,10 @@ class EditMember extends Component {
       });
   };
 
+  goBack = () => {
+    window.history.back();
+  };
+
   render() {
     const {
       members,
@@ -205,7 +183,7 @@ class EditMember extends Component {
     } = this.props;
 
     return (
-      <div>
+      <div className="editMember-present">
         <FirstEditMember
           members={members}
           selMembers={selMembers}
@@ -224,7 +202,12 @@ class EditMember extends Component {
         >
           {ifSave ? "已保存" : "保存项目成员"}
         </button>
-        <span className="fakeBtn footerBtn editMember-btnMarg">取消</span>
+        <span
+          className="fakeBtn footerBtn editMember-btnMarg"
+          onClick={this.goBack}
+        >
+          取消
+        </span>
         <WrongPage info={wrong} cancel={this.cancel} />
         <Save ifSave={ifSave} />
       </div>
@@ -239,9 +222,13 @@ EditMember.propTypes = {
     params: PropTypes.shape({
       id: PropTypes.string
     })
+  }),
+  history: PropTypes.shape({
+    push: PropTypes.func
   })
 };
 
 EditMember.defaultProps = {
-  match: {}
+  match: {},
+  history: {}
 };

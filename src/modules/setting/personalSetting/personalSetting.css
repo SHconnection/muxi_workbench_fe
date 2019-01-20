@@ -1,4 +1,5 @@
 .main {
+  position: relative;
   margin-right: 75px;
   padding: 39px 0 54px 35px;
   border-bottom: 1px solid #979797;
@@ -37,12 +38,30 @@
   width: 400px;
   margin-left: 31px;
 }
+.personalSet-imgSelectImg{
+  position: absolute;
+  left: 35px;
+  top: 39px;
+  cursor: pointer;
+  font-size: 0;
+  width: 114px;
+  height: 114px;
+  border-radius: 50%;
+  opacity: 0;
+}
+.personalSet-spanSelectImg{
+  position: absolute;
+  left: 0;
+  top: 0;
+  cursor: pointer;
+  font-size: 0;
+  width: 0;
+  height: 0;
+  padding-left: 80px;
+  padding-bottom: 16px;
+  opacity: 0;
+}
 .personalSet-selectImg{
   position: relative;
-  left: -75px;
-  top: -2px;
   cursor: pointer;
-  font-size: 20px;
-  width: 5em;
-  opacity: 0;
 }

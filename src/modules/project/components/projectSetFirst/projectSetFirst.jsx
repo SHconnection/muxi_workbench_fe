@@ -21,6 +21,7 @@ const ProjectSetFirst = ({
       type="text"
       className="inputSize projectSetFirst-margin"
       placeholder="项目名称"
+      onFocus={(inputValue = "")}
       value={inputValue}
       onChange={changeInput}
       onBlur={changeInput}
@@ -29,8 +30,10 @@ const ProjectSetFirst = ({
     <textarea
       className="inputSize projectSetFirst-textareaSize"
       placeholder="简单描述项目，便于其他人了解（选填）"
+      onFocus={(textValue = "")}
       value={textValue}
       onChange={changeText}
+      onBlur={changeText}
     />
   </div>
 );

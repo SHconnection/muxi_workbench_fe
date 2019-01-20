@@ -88,6 +88,10 @@ class SetProject extends Component {
     } = this.props;
     const { textValue, inputValue } = this.state;
 
+    if (!inputValue || !id) {
+      return;
+    }
+
     ProjectService.saveProjectSet(id, textValue, inputValue)
       .then(() => {
         this.setState({ ifSave: true });

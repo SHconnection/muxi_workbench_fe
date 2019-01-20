@@ -201,15 +201,23 @@ class PersonalSet extends Component {
 
         <div className="main">
           <Avatar src={img} width={114} height={114} />
+          <input
+            type="file"
+            className="personalSet-imgSelectImg"
+            onChange={this.changeImg}
+            accept=".png, .jpg, .jpeg"
+            ref={e => {
+              this.myAvatar = e;
+            }}
+          />
           <div className="personalSet-avaTip">
-            <b>
+            <b className="personalSet-selectImg">
               选择新头像
               <input
                 type="file"
-                className="personalSet-selectImg"
+                className="personalSet-spanSelectImg"
                 onChange={this.changeImg}
                 accept=".png, .jpg, .jpeg"
-                placeholder="选择新头像"
                 ref={e => {
                   this.myAvatar = e;
                 }}
