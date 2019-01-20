@@ -31,6 +31,7 @@ const FirstEditMember = ({
       type="checkbox"
       id="selectAll"
       checked={members.length === selMembers.length}
+      readOnly
     />
     <label
       htmlFor="selectAll"

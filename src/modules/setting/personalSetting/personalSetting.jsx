@@ -68,6 +68,7 @@ class PersonalSet extends Component {
         nameIsNull: false
       });
     } else {
+      e.target.placeholder = "木小犀";
       this.setState({
         inputName: e.target.value,
         nameIsNull: true
@@ -82,6 +83,7 @@ class PersonalSet extends Component {
         mailboxIsNull: false
       });
     } else {
+      e.target.placeholder = "88888888@qq.com";
       this.setState({
         inputMailbox: e.target.value,
         mailboxIsNull: true
@@ -96,6 +98,7 @@ class PersonalSet extends Component {
         // phoneIsNull: false
       });
     } else {
+      e.target.placeholder = "88888888";
       this.setState({
         inputPhone: e.target.value
         // phoneIsNull: true
@@ -246,6 +249,9 @@ class PersonalSet extends Component {
               placeholder="木小犀"
               className="personalSet-writeTip"
               value={inputName}
+              onFocus={e => {
+                e.target.placeholder = "";
+              }}
               onChange={this.changeName}
               onBlur={this.changeName}
             />
@@ -261,9 +267,12 @@ class PersonalSet extends Component {
             <b>邮箱</b>
             <input
               type="text"
-              placeholder="178107487@qq.com"
+              placeholder="88888888@qq.com"
               className="personalSet-writeTip"
               value={inputMailbox}
+              onFocus={e => {
+                e.target.placeholder = "";
+              }}
               onChange={this.changeMailbox}
               onBlur={this.changeMailbox}
             />
@@ -279,9 +288,12 @@ class PersonalSet extends Component {
             <b>手机</b>
             <input
               type="text"
-              placeholder="13924173096"
+              placeholder="88888888"
               className="personalSet-writeTip"
               value={inputPhone}
+              onFocus={e => {
+                e.target.placeholder = "";
+              }}
               onChange={this.changePhone}
               onBlur={this.changePhone}
             />

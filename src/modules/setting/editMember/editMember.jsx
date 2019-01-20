@@ -97,7 +97,6 @@ class EditMember extends Component {
           });
 
           groupList.push({ id: 0, value: "全部成员" });
-          console.log(groupList);
 
           this.setState({
             groups: groupList,
