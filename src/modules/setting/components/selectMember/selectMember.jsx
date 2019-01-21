@@ -32,7 +32,8 @@ class SelectMember extends Component {
       selMembers: [],
       members: [],
       ifSave: false,
-      wrong: {}
+      wrong: {},
+      deleteAdmin: []
     };
   }
 
@@ -110,7 +111,8 @@ class SelectMember extends Component {
 
                 this.setState({
                   members: arr,
-                  selMembers: preArray
+                  selMembers: preArray,
+                  deleteAdmin: [...preArray]
                 });
               })
               .catch(error => {
@@ -176,15 +178,25 @@ class SelectMember extends Component {
       groupID,
       transferMsg
     } = this.props;
-    const { selMembers } = this.state;
+    const { selMembers, deleteAdmin } = this.state;
 
     if (groupMember) {
+      ManageService.updateGroupName(groupID, groupName).catch(error => {
+        this.setState({ wrong: error });
+      });
+
+      const { wrong } = this.state;
+      if (Object.keys(wrong).length !== 0) {
+        return;
+      }
+
       ManageService.updateGroupMember(groupID, selMembers)
         .then(() => {
           this.setState({ ifSave: true });
 
           setTimeout(() => {
             this.setState({ ifSave: false });
+            window.history.back();
           }, 1000);
         })
         .catch(error => {
@@ -212,23 +224,52 @@ class SelectMember extends Component {
     }
 
     if (setManager) {
-      selMembers.map((id, index) => {
-        if (index !== selMembers.length - 1) {
-          ManageService.setManager(id).catch(error => {
-            this.setState({ wrong: error });
-          });
-        } else {
-          ManageService.setManager(id).then(() => {
-            this.setState({ ifSave: true });
+      const deleteAdmins = deleteAdmin.filter(
+        num => selMembers.indexOf(num) === -1
+      );
+      const addMembers = selMembers.filter(
+        num => deleteAdmin.indexOf(num) === -1
+      );
 
-            setTimeout(() => {
-              this.setState({ ifSave: false });
-              window.history.back();
-            }, 1000);
-          });
-        }
+      deleteAdmins.map(id => {
+        ManageService.deleteManager(id).catch(error => {
+          this.setState({ wrong: error });
+        });
         return id;
       });
+
+      const { wrong } = this.state;
+      if (Object.keys(wrong).length !== 0) {
+        console.log(123);
+        return;
+      }
+
+      if (addMembers && addMembers.length) {
+        addMembers.map((id, index) => {
+          if (index !== addMembers.length - 1) {
+            ManageService.setManager(id).catch(error => {
+              this.setState({ wrong: error });
+            });
+          } else {
+            ManageService.setManager(id).then(() => {
+              this.setState({ ifSave: true });
+
+              setTimeout(() => {
+                this.setState({ ifSave: false });
+                window.history.back();
+              }, 1000);
+            });
+          }
+          return id;
+        });
+      } else {
+        this.setState({ ifSave: true });
+
+        setTimeout(() => {
+          this.setState({ ifSave: false });
+          window.history.back();
+        }, 1000);
+      }
     }
   };
 

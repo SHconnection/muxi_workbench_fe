@@ -165,7 +165,7 @@ class SetPersonalInfo extends Component {
     );
 
     const { wrong } = this.state;
-    if (wrong) {
+    if (Object.keys(wrong).length !== 0) {
       return;
     }
 

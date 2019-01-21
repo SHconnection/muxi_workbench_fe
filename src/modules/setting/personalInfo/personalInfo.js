@@ -90,7 +90,7 @@ class PersonalInfo extends Component {
             <button
               type="button"
               className={
-                localStorage.role > localStorage.perRole
+                parseInt(localStorage.role, 10) === 7
                   ? "saveBtn personalInfo-saveBtn"
                   : "none"
               }
@@ -127,7 +127,7 @@ class PersonalInfo extends Component {
         <Switch>
           <Redirect
             exact
-            path={`/teamMember/personalInfo`}
+            path="/teamMember/personalInfo"
             to={`${match.url}/personalAttention/${uid}`}
           />
           <Route
