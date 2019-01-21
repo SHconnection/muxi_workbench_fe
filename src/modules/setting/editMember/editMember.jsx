@@ -237,8 +237,11 @@ class EditMember extends Component {
           {ifSave ? "已保存" : "保存项目成员"}
         </button>
         <span
+          role="button"
+          tabIndex="-1"
           className="fakeBtn footerBtn editMember-btnMarg"
           onClick={this.goBack}
+          onKeyDown={this.handleClick}
         >
           取消
         </span>

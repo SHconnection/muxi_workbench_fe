@@ -240,7 +240,6 @@ class SelectMember extends Component {
 
       const { wrong } = this.state;
       if (Object.keys(wrong).length !== 0) {
-        console.log(123);
         return;
       }
 

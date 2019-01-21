@@ -27,7 +27,20 @@ module.exports = {
       }
     }],
 
-    "no-underscore-dangle": ["error", { "allow": ["_this"] }]
+    "no-underscore-dangle": ["error", { "allow": ["_this"] }],
+
+    "prefer-destructuring": ["error", {
+      "VariableDeclarator": {
+        "array": false,
+        "object": true
+      },
+      "AssignmentExpression": {
+        "array": false,
+        "object": true
+      }
+    }, {
+      "enforceForRenamedProperties": false
+    }]
 
   },
   "parser": "babel-eslint",

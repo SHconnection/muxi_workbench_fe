@@ -63,7 +63,10 @@ class PersonalInfo extends Component {
     const { match, location } = this.props;
     let uid;
     if (location.state && location.state.uid) {
-      uid = location.state.uid;
+      const {
+        state: { uid: id }
+      } = location;
+      uid = id;
     } else {
       uid = per.id;
     }

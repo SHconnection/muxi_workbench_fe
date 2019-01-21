@@ -2,6 +2,7 @@
 个人关注组件
 */
 import React, { Component } from "react";
+import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
 import Delete from "../delete/delete";
 import File from "../../../../assets/img/file.png";
@@ -32,7 +33,6 @@ class PersonalAttention extends Component {
     Loading.show();
     MessageService.getPersonalAttention(uid)
       .then(attention => {
-        console.log(attention);
         const arr = attention.list.map((item1, index) => {
           const item = item1;
           item.id = index;
@@ -67,12 +67,6 @@ class PersonalAttention extends Component {
     this.setState({ wrong: {} });
   };
 
-  goFile = mem => {
-    const { history } = this.props;
-
-    history.push(mem.url);
-  };
-
   render() {
     const { data, deleteX, members, wrong } = this.state;
 
@@ -90,27 +84,19 @@ class PersonalAttention extends Component {
               className={mem.dealed ? "none" : "personalAttention-cell"}
               key={mem.id}
             >
-              <img
-                src={File}
-                className="personalAttention-imgSize personalAttention-goFile"
-                alt=""
-                onClick={() => {
-                  this.goFile(mem);
-                }}
-              />
-
+              <Link to={mem.url}>
+                <img
+                  src={File}
+                  className="personalAttention-imgSize personalAttention-goFile"
+                  alt=""
+                />
+              </Link>
               <div className="personalAttention-vice IB">
-                <span
-                  className="llSize personalAttention-goFile"
-                  role="button"
-                  tabIndex="-1"
-                  onClick={() => {
-                    this.goFile(mem);
-                  }}
-                  onKeyDown={this.handleClick}
-                >
-                  {mem.fileName}
-                </span>
+                <Link to={mem.url}>
+                  <span className="llSize personalAttention-goFile">
+                    {mem.fileName}
+                  </span>
+                </Link>
                 <br />
                 <span className="tip">
                   项目：
@@ -165,9 +151,15 @@ export default PersonalAttention;
 PersonalAttention.propTypes = {
   history: PropTypes.shape({
     push: PropTypes.func
+  }),
+  match: PropTypes.shape({
+    params: PropTypes.shape({
+      uid: PropTypes.string
+    })
   })
 };
 
 PersonalAttention.defaultProps = {
-  history: {}
+  history: {},
+  match: {}
 };
