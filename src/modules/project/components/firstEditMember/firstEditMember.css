@@ -1,17 +1,17 @@
-.editMember-tip {
+.firstEditMember-tip {
   margin-top: 2px;
   font-size: 14px;
   color: #919191;
 }
-.editMember-vice {
+.firstEditMember-vice {
   display: inline-block;
   margin: 16px 484px 17px 0;
 }
-.editMember-fontSize {
+.firstEditMember-fontSize {
   font-size: 16px;
   color: #404040;
 }
-.FirstEditMember-inlineWidth{
+.firstEditMember-inlineWidth{
   display: inline-block;
   width: 96px;
   margin-left: 15px;

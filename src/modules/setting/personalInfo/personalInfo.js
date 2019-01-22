@@ -63,7 +63,10 @@ class PersonalInfo extends Component {
     const { match, location } = this.props;
     let uid;
     if (location.state && location.state.uid) {
-      uid = location.state.uid;
+      const {
+        state: { uid: id }
+      } = location;
+      uid = id;
     } else {
       uid = per.id;
     }
@@ -76,7 +79,9 @@ class PersonalInfo extends Component {
             <div className="personalInfo-personalIntro">
               <b className="personalName">{per.name}</b>
               <Link to={`${match.url}/personalSet`} className="fakeBtn">
-                {per.id === parseInt(localStorage.id, 10) ? "更改设置" : ""}
+                {parseInt(per.id, 10) === parseInt(localStorage.id, 10)
+                  ? "更改设置"
+                  : ""}
               </Link>
               <div className="llSize">{per.email}</div>
             </div>
@@ -88,7 +93,7 @@ class PersonalInfo extends Component {
             <button
               type="button"
               className={
-                localStorage.role > localStorage.perRole
+                parseInt(localStorage.role, 10) === 7
                   ? "saveBtn personalInfo-saveBtn"
                   : "none"
               }
@@ -125,7 +130,7 @@ class PersonalInfo extends Component {
         <Switch>
           <Redirect
             exact
-            path={`/teamMember/personalInfo`}
+            path="/teamMember/personalInfo"
             to={`${match.url}/personalAttention/${uid}`}
           />
           <Route

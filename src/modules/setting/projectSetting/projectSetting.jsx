@@ -60,6 +60,7 @@ class SetProject extends Component {
         inputIsNull: false
       });
     } else {
+      e.target.placeholder = "项目名称";
       this.setState({
         inputValue: e.target.value,
         inputIsNull: true
@@ -68,6 +69,9 @@ class SetProject extends Component {
   };
 
   changeText = e => {
+    if (!e.target.value) {
+      e.target.placeholder = "简单描述项目，便于其他人了解（选填）";
+    }
     this.setState({
       textValue: e.target.value
     });
@@ -87,6 +91,13 @@ class SetProject extends Component {
       history
     } = this.props;
     const { textValue, inputValue } = this.state;
+
+    if (!inputValue) {
+      this.setState({
+        inputIsNull: true
+      });
+      return;
+    }
 
     ProjectService.saveProjectSet(id, textValue, inputValue)
       .then(() => {

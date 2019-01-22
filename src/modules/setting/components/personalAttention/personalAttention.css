@@ -4,11 +4,13 @@
     align-items: center;
     overflow: scroll;
     white-space: nowrap;
-    width: 320px;
+    width: 400px;
 }
 .personalAttention-size{
     font-size: 14px;
     margin-left: 20px;
+    width: 150px;
+    overflow: scroll;
 }
 .personalAttention-vice{
     width: 400px;

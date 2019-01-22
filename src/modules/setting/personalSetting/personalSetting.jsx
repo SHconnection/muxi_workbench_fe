@@ -28,6 +28,7 @@ class PersonalSet extends Component {
       inputMailbox: "",
       inputPhone: "",
       img: "",
+      imgFile: null,
       wrong: {},
       nameIsNull: false,
       mailboxIsNull: false
@@ -37,7 +38,7 @@ class PersonalSet extends Component {
 
   componentDidMount() {
     Loading.show();
-    ManageService.getPersonalSet(localStorage.per)
+    ManageService.getPersonalSet(localStorage.id)
       .then(setting => {
         const { members } = this.state;
 
@@ -67,6 +68,7 @@ class PersonalSet extends Component {
         nameIsNull: false
       });
     } else {
+      e.target.placeholder = "木小犀";
       this.setState({
         inputName: e.target.value,
         nameIsNull: true
@@ -81,6 +83,7 @@ class PersonalSet extends Component {
         mailboxIsNull: false
       });
     } else {
+      e.target.placeholder = "88888888@qq.com";
       this.setState({
         inputMailbox: e.target.value,
         mailboxIsNull: true
@@ -95,6 +98,7 @@ class PersonalSet extends Component {
         // phoneIsNull: false
       });
     } else {
+      e.target.placeholder = "88888888";
       this.setState({
         inputPhone: e.target.value
         // phoneIsNull: true
@@ -110,7 +114,14 @@ class PersonalSet extends Component {
   };
 
   savePersonalSet = () => {
-    const { inputName, inputMailbox, inputPhone, selMembers, img } = this.state;
+    const {
+      inputName,
+      inputMailbox,
+      inputPhone,
+      selMembers,
+      img,
+      imgFile
+    } = this.state;
     const obj = {
       username: inputName,
       address: inputMailbox,
@@ -119,12 +130,11 @@ class PersonalSet extends Component {
       email: selMembers.indexOf(2) !== -1
     };
 
-    const fileImg = this.myAvatar.files[0];
-    if (fileImg) {
+    if (imgFile) {
       const data = new FormData();
-      data.append("image", fileImg);
+      data.append("image", imgFile);
 
-      ManageService.savePersonalSet(localStorage.per, obj).catch(error => {
+      ManageService.savePersonalSet(localStorage.id, obj).catch(error => {
         this.setState({ wrong: error });
       });
 
@@ -135,18 +145,20 @@ class PersonalSet extends Component {
 
           setTimeout(() => {
             this.setState({ ifSave: false });
+            window.history.back();
           }, 1000);
         })
         .catch(error => {
           this.setState({ wrong: error });
         });
     } else {
-      ManageService.savePersonalSet(localStorage.per, obj)
+      ManageService.savePersonalSet(localStorage.id, obj)
         .then(() => {
           this.setState({ ifSave: true });
 
           setTimeout(() => {
             this.setState({ ifSave: false });
+            window.history.back();
           }, 1000);
         })
         .catch(error => {
@@ -155,20 +167,21 @@ class PersonalSet extends Component {
     }
   };
 
-  changeImg = () => {
-    const img = this.myAvatar.files[0];
+  changeImg = changeKind => {
+    const imgFile = this[changeKind].files[0];
 
-    if (img) {
-      if (!/image\/\w+/.test(img.type)) return false;
+    if (imgFile) {
+      if (!/image\/\w+/.test(imgFile.type)) return false;
 
       const reader = new FileReader();
       const _this = this;
       // 将文件以Data URL形式进行读入页面
-      reader.readAsDataURL(img);
+      reader.readAsDataURL(imgFile);
 
       reader.onload = e => {
         _this.setState({
-          img: e.target.result
+          img: e.target.result,
+          imgFile
         });
       };
     }
@@ -201,17 +214,29 @@ class PersonalSet extends Component {
 
         <div className="main">
           <Avatar src={img} width={114} height={114} />
+          <input
+            type="file"
+            className="personalSet-imgSelectImg"
+            onChange={() => {
+              this.changeImg("imgSelectImg");
+            }}
+            accept=".png, .jpg, .jpeg"
+            ref={e => {
+              this.imgSelectImg = e;
+            }}
+          />
           <div className="personalSet-avaTip">
-            <b>
+            <b className="personalSet-selectImg">
               选择新头像
               <input
                 type="file"
-                className="personalSet-selectImg"
-                onChange={this.changeImg}
+                className="personalSet-spanSelectImg"
+                onChange={() => {
+                  this.changeImg("spanSelectImg");
+                }}
                 accept=".png, .jpg, .jpeg"
-                placeholder="选择新头像"
                 ref={e => {
-                  this.myAvatar = e;
+                  this.spanSelectImg = e;
                 }}
               />
             </b>
@@ -224,6 +249,9 @@ class PersonalSet extends Component {
               placeholder="木小犀"
               className="personalSet-writeTip"
               value={inputName}
+              onFocus={e => {
+                e.target.placeholder = "";
+              }}
               onChange={this.changeName}
               onBlur={this.changeName}
             />
@@ -239,9 +267,12 @@ class PersonalSet extends Component {
             <b>邮箱</b>
             <input
               type="text"
-              placeholder="178107487@qq.com"
+              placeholder="88888888@qq.com"
               className="personalSet-writeTip"
               value={inputMailbox}
+              onFocus={e => {
+                e.target.placeholder = "";
+              }}
               onChange={this.changeMailbox}
               onBlur={this.changeMailbox}
             />
@@ -257,9 +288,12 @@ class PersonalSet extends Component {
             <b>手机</b>
             <input
               type="text"
-              placeholder="13924173096"
+              placeholder="88888888"
               className="personalSet-writeTip"
               value={inputPhone}
+              onFocus={e => {
+                e.target.placeholder = "";
+              }}
               onChange={this.changePhone}
               onBlur={this.changePhone}
             />

@@ -91,7 +91,14 @@ class GroupManage extends Component {
         <GoBack />
         <b className="title">分组管理</b>
         <Link to={`${match.url}/addGroup`}>
-          <button type="button" className="saveBtn joinApply-btnFlo">
+          <button
+            type="button"
+            className={
+              parseInt(localStorage.role, 10) === 7
+                ? "saveBtn joinApply-btnFlo"
+                : "none"
+            }
+          >
             添加分组
           </button>
         </Link>
@@ -107,7 +114,7 @@ class GroupManage extends Component {
               >
                 {members.map((mem, index) => {
                   const groupMemberPath = {
-                    pathname: `${match.url}/groupMember/`,
+                    pathname: `${match.url}/groupMember`,
                     state: { per: mem }
                   };
 

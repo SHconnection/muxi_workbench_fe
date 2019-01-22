@@ -109,6 +109,16 @@ const ManageService = {
     });
   },
 
+  updateGroupName(groupID, groupName) {
+    return Fetch(`/api/v1.0/group/${groupID}/rename/`, {
+      method: "POST",
+      token: localStorage.token,
+      data: {
+        rename: groupName
+      }
+    });
+  },
+
   groupDelete(groupID) {
     return Fetch(`/api/v1.0/group/${groupID}/`, {
       method: "DELETE",
@@ -128,6 +138,16 @@ const ManageService = {
       token: localStorage.token,
       data: {
         luckydog: userID
+      }
+    });
+  },
+
+  deleteManager(userID) {
+    return Fetch("/api/v1.0/user/delAdmin/", {
+      method: "POST",
+      token: localStorage.token,
+      data: {
+        unluckydog: userID
       }
     });
   },

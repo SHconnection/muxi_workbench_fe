@@ -23,18 +23,19 @@ const FirstEditMember = ({
   <div>
     <div className="title">编辑项目成员</div>
     <br />
-    <div className="editMember-vice">
+    <div className="firstEditMember-vice">
       <div className="title littleSize">设置项目成员</div>
-      <div className="editMember-tip">选择你要设置的成员</div>
+      <div className="firstEditMember-tip">选择你要设置的成员</div>
     </div>
     <input
       type="checkbox"
       id="selectAll"
       checked={members.length === selMembers.length}
+      readOnly
     />
     <label
       htmlFor="selectAll"
-      className="fakeBtn editMember-fontSize"
+      className="fakeBtn firstEditMember-fontSize"
       onKeyDown={selAll}
       onClick={selAll}
       role="button"
@@ -43,7 +44,7 @@ const FirstEditMember = ({
     >
       全选
     </label>
-    <div className="FirstEditMember-inlineWidth">
+    <div className="firstEditMember-inlineWidth">
       <Select
         items={groups}
         checkedIndex={checkedIndex}

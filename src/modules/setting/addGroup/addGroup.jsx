@@ -26,11 +26,18 @@ class AddGroup extends Component {
         inputIsNull: false
       });
     } else {
+      e.target.placeholder = "请为分组命名";
       this.setState({
         inputValue: e.target.value,
         inputIsNull: true
       });
     }
+  };
+
+  transferMsg = inputIsNull => {
+    this.setState({
+      inputIsNull
+    });
   };
 
   render() {
@@ -46,6 +53,9 @@ class AddGroup extends Component {
             className="inputSize"
             placeholder="请为分组命名"
             value={inputValue}
+            onFocus={e => {
+              e.target.placeholder = "";
+            }}
             onBlur={this.changeInput}
             onChange={this.changeInput}
           />
@@ -53,7 +63,11 @@ class AddGroup extends Component {
             输入框不能为空！
           </p>
         </div>
-        <SelectMember addGroup groupName={inputValue} />
+        <SelectMember
+          addGroup
+          groupName={inputValue}
+          transferMsg={this.transferMsg}
+        />
       </div>
     );
   }

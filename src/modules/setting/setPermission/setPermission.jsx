@@ -111,6 +111,38 @@ class SetPermission extends Component {
     this.setState({ wrong: {} });
   };
 
+  selAll = () => {
+    this.setState(prevState => {
+      const { members: arr1 } = prevState;
+      const arr2 = [];
+      let num = 0;
+
+      if (arr1) {
+        arr1.map(i => {
+          if (i.selected) num += 1;
+          return i;
+        });
+
+        if (num === arr1.length) {
+          arr1.map(i => {
+            const j = i;
+            j.selected = false;
+            return j;
+          });
+        } else {
+          arr1.map(i => {
+            const j = i;
+            j.selected = true;
+            arr2.push(j.id);
+            return j;
+          });
+        }
+      }
+
+      return { members: arr1, selMembers: arr2 };
+    });
+  };
+
   render() {
     const { members, selMembers, ifSave, wrong } = this.state;
 
@@ -122,6 +154,17 @@ class SetPermission extends Component {
           <span className="tip setPermission-tip">
             请选择该成员可参与的项目
           </span>
+          <label
+            htmlFor="selectAll"
+            className="fakeBtn setPermission-selectAll"
+            onKeyDown={this.selAll}
+            onClick={this.selAll}
+            role="button"
+            tabIndex="-1"
+            id="lab"
+          >
+            全选
+          </label>
           <Member
             members={members}
             selMembers={selMembers}

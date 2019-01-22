@@ -65,7 +65,10 @@ class EditMember extends Component {
                   return mem;
                 });
 
-                this.setState({ members });
+                this.setState({
+                  members,
+                  selMembers: idList
+                });
               }
             })
             .catch(error => {
@@ -110,7 +113,59 @@ class EditMember extends Component {
     this.setState({ wrong: {} });
   };
 
-  return = () => {
+  transferMsgMem = (members, selMembers) => {
+    this.setState({
+      members,
+      selMembers
+    });
+  };
+
+  editProjectMember = () => {
+    const {
+      match: {
+        params: { id }
+      },
+      history
+    } = this.props;
+    const { selMembers } = this.state;
+
+    ProjectService.editProjectMember(id, selMembers)
+      .then(() => {
+        this.setState({ ifSave: true });
+
+        setTimeout(() => {
+          this.setState({ ifSave: false });
+          history.push(`/project`);
+        }, 500);
+      })
+      .catch(error => {
+        this.setState({ wrong: error });
+      })
+      .then(() => {
+        window.history.back();
+      });
+  };
+
+  changeGroupCheck = index => {
+    ManageService.groupMember(index)
+      .then(member => {
+        if (member) {
+          const arr = member.list.map(mem =>
+            EditMember.changeGroupMemberFormat(mem)
+          );
+
+          this.setState({
+            checkedIndex: index,
+            members: arr
+          });
+        }
+      })
+      .catch(error => {
+        this.setState({ wrong: error });
+      });
+  };
+
+  goBack = () => {
     window.history.back();
   };
 
@@ -146,56 +201,6 @@ class EditMember extends Component {
     });
   };
 
-  transferMsgMem = (members, selMembers) => {
-    this.setState({
-      members,
-      selMembers
-    });
-  };
-
-  editProjectMember = () => {
-    const {
-      match: {
-        params: { id }
-      }
-    } = this.props;
-    const { selMembers } = this.state;
-
-    ProjectService.editProjectMember(id, selMembers)
-      .then(() => {
-        this.setState({ ifSave: true });
-
-        setTimeout(() => {
-          this.setState({ ifSave: false });
-        }, 1000);
-      })
-      .catch(error => {
-        this.setState({ wrong: error });
-      })
-      .then(() => {
-        window.history.back();
-      });
-  };
-
-  changeGroupCheck = index => {
-    ManageService.groupMember(index)
-      .then(member => {
-        if (member) {
-          const arr = member.list.map(mem =>
-            EditMember.changeGroupMemberFormat(mem)
-          );
-
-          this.setState({
-            checkedIndex: index,
-            members: arr
-          });
-        }
-      })
-      .catch(error => {
-        this.setState({ wrong: error });
-      });
-  };
-
   render() {
     const {
       members,
@@ -212,7 +217,7 @@ class EditMember extends Component {
     } = this.props;
 
     return (
-      <div>
+      <div className="editMember-present">
         <FirstEditMember
           members={members}
           selMembers={selMembers}
@@ -232,8 +237,11 @@ class EditMember extends Component {
           {ifSave ? "已保存" : "保存项目成员"}
         </button>
         <span
+          role="button"
+          tabIndex="-1"
           className="fakeBtn footerBtn editMember-btnMarg"
-          onClick={this.return}
+          onClick={this.goBack}
+          onKeyDown={this.handleClick}
         >
           取消
         </span>
@@ -251,9 +259,13 @@ EditMember.propTypes = {
     params: PropTypes.shape({
       id: PropTypes.string
     })
+  }),
+  history: PropTypes.shape({
+    push: PropTypes.func
   })
 };
 
 EditMember.defaultProps = {
-  match: {}
+  match: {},
+  history: {}
 };

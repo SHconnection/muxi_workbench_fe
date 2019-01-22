@@ -44,7 +44,8 @@
     "slate-html-serializer": "^0.7.33",
     "slate-plain-serializer": "^0.6.33",
     "slate-react": "^0.21.15",
-    "start": "^5.1.0"
+    "start": "^5.1.0",
+    "webpack": "4.19.1"
   },
   "scripts": {
     "start": "react-scripts start",

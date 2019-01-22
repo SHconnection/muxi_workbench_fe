@@ -32,7 +32,8 @@ class SelectMember extends Component {
       selMembers: [],
       members: [],
       ifSave: false,
-      wrong: {}
+      wrong: {},
+      deleteAdmin: []
     };
   }
 
@@ -110,7 +111,8 @@ class SelectMember extends Component {
 
                 this.setState({
                   members: arr,
-                  selMembers: preArray
+                  selMembers: preArray,
+                  deleteAdmin: [...preArray]
                 });
               })
               .catch(error => {
@@ -173,17 +175,28 @@ class SelectMember extends Component {
       addGroup,
       groupName,
       setManager,
-      groupID
+      groupID,
+      transferMsg
     } = this.props;
-    const { selMembers } = this.state;
+    const { selMembers, deleteAdmin } = this.state;
 
     if (groupMember) {
+      ManageService.updateGroupName(groupID, groupName).catch(error => {
+        this.setState({ wrong: error });
+      });
+
+      const { wrong } = this.state;
+      if (Object.keys(wrong).length !== 0) {
+        return;
+      }
+
       ManageService.updateGroupMember(groupID, selMembers)
         .then(() => {
           this.setState({ ifSave: true });
 
           setTimeout(() => {
             this.setState({ ifSave: false });
+            window.history.back();
           }, 1000);
         })
         .catch(error => {
@@ -192,12 +205,17 @@ class SelectMember extends Component {
     }
 
     if (addGroup) {
+      if (!groupName) {
+        transferMsg(true);
+        return;
+      }
       ManageService.addGroup(groupName, selMembers)
         .then(() => {
           this.setState({ ifSave: true });
 
           setTimeout(() => {
             this.setState({ ifSave: false });
+            window.history.back();
           }, 1000);
         })
         .catch(error => {
@@ -206,21 +224,51 @@ class SelectMember extends Component {
     }
 
     if (setManager) {
-      selMembers.map(id => {
-        ManageService.setManager(id)
-          .then(() => {
-            this.setState({ ifSave: true });
+      const deleteAdmins = deleteAdmin.filter(
+        num => selMembers.indexOf(num) === -1
+      );
+      const addMembers = selMembers.filter(
+        num => deleteAdmin.indexOf(num) === -1
+      );
 
-            setTimeout(() => {
-              this.setState({ ifSave: false });
-            }, 1000);
-          })
-          .catch(error => {
-            this.setState({ wrong: error });
-          });
-
+      deleteAdmins.map(id => {
+        ManageService.deleteManager(id).catch(error => {
+          this.setState({ wrong: error });
+        });
         return id;
       });
+
+      const { wrong } = this.state;
+      if (Object.keys(wrong).length !== 0) {
+        return;
+      }
+
+      if (addMembers && addMembers.length) {
+        addMembers.map((id, index) => {
+          if (index !== addMembers.length - 1) {
+            ManageService.setManager(id).catch(error => {
+              this.setState({ wrong: error });
+            });
+          } else {
+            ManageService.setManager(id).then(() => {
+              this.setState({ ifSave: true });
+
+              setTimeout(() => {
+                this.setState({ ifSave: false });
+                window.history.back();
+              }, 1000);
+            });
+          }
+          return id;
+        });
+      } else {
+        this.setState({ ifSave: true });
+
+        setTimeout(() => {
+          this.setState({ ifSave: false });
+          window.history.back();
+        }, 1000);
+      }
     }
   };
 
@@ -262,12 +310,14 @@ SelectMember.propTypes = {
   addGroup: PropTypes.bool,
   groupName: PropTypes.string,
   setManager: PropTypes.bool,
-  groupID: PropTypes.number
+  groupID: PropTypes.number,
+  transferMsg: PropTypes.func
 };
 SelectMember.defaultProps = {
   groupMember: false,
   addGroup: false,
   groupName: "",
   setManager: false,
-  groupID: 0
+  groupID: 0,
+  transferMsg: () => {}
 };

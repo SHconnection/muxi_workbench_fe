@@ -163,12 +163,19 @@ class SetPersonalInfo extends Component {
         this.setState({ wrong: error });
       }
     );
+
+    const { wrong } = this.state;
+    if (Object.keys(wrong).length !== 0) {
+      return;
+    }
+
     ManageService.saveModifyMemberPro(localStorage.per, selMembers)
       .then(() => {
         this.setState({ ifSave: true });
 
         setTimeout(() => {
           this.setState({ ifSave: false });
+          window.history.back();
         }, 1000);
       })
       .catch(error => {

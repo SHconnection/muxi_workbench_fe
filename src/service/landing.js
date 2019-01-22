@@ -20,7 +20,9 @@ const LandingService = {
       return splitStr;
     }
     if (localStorage.username && localStorage.username.length > 0) {
-      return localStorage.username;
+      // 去除localStorage字符串中的回车
+      const re = /(.*)([\r\n]*)$/;
+      return re.exec(localStorage.username)[1];
     }
     return "";
   },

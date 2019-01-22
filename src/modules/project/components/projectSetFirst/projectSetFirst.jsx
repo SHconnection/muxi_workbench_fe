@@ -22,6 +22,9 @@ const ProjectSetFirst = ({
       className="inputSize projectSetFirst-margin"
       placeholder="项目名称"
       value={inputValue}
+      onFocus={e => {
+        e.target.placeholder = "";
+      }}
       onChange={changeInput}
       onBlur={changeInput}
     />
@@ -30,7 +33,11 @@ const ProjectSetFirst = ({
       className="inputSize projectSetFirst-textareaSize"
       placeholder="简单描述项目，便于其他人了解（选填）"
       value={textValue}
+      onFocus={e => {
+        e.target.placeholder = "";
+      }}
       onChange={changeText}
+      onBlur={changeText}
     />
   </div>
 );
