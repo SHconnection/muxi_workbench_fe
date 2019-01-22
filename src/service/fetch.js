@@ -71,6 +71,9 @@ export default function FetchData(url, opt = {}) {
       case 401:
         throw new Error("未授权");
 
+      case 402:
+        throw new Error("修改失败");
+
       case 403:
         throw new Error("没有权限访问");
 

@@ -38,7 +38,7 @@ class PersonalSet extends Component {
 
   componentDidMount() {
     Loading.show();
-    ManageService.getPersonalSet(localStorage.per)
+    ManageService.getPersonalSet(localStorage.id)
       .then(setting => {
         const { members } = this.state;
 
@@ -134,7 +134,7 @@ class PersonalSet extends Component {
       const data = new FormData();
       data.append("image", imgFile);
 
-      ManageService.savePersonalSet(localStorage.per, obj).catch(error => {
+      ManageService.savePersonalSet(localStorage.id, obj).catch(error => {
         this.setState({ wrong: error });
       });
 
@@ -152,7 +152,7 @@ class PersonalSet extends Component {
           this.setState({ wrong: error });
         });
     } else {
-      ManageService.savePersonalSet(localStorage.per, obj)
+      ManageService.savePersonalSet(localStorage.id, obj)
         .then(() => {
           this.setState({ ifSave: true });
 
