@@ -4,6 +4,7 @@ import PropTypes from "prop-types";
 import { MarkdownPreview } from "react-marked-markdown";
 import Goback from "../../../components/common/goBack/index";
 import Button from "../../../components/common/button";
+import SlateEditor from "./slate/slateEditor";
 // import MarkdownPreview from './marked/preview';
 import MarkdownInput from "./marked/input";
 import "../../../static/css/common.css";
@@ -37,20 +38,21 @@ class edit extends Component {
             title: name,
             content: value
           });
+          localStorage.setItem("content", value);
         }
       });
     }
   }
 
   componentDidUpdate() {
-    const obj = document.querySelector(".field");
-    const back = document.querySelector(".preview");
-    obj.addEventListener("scroll", () => {
-      document.querySelector(".preview").scrollTop = obj.scrollTop;
-    });
-    back.addEventListener("scroll", () => {
-      document.querySelector(".field").scrollTop = back.scrollTop;
-    });
+    // const obj = document.querySelector(".field");
+    // const back = document.querySelector(".preview");
+    // obj.addEventListener("scroll", () => {
+    //   document.querySelector(".preview").scrollTop = obj.scrollTop;
+    // });
+    // back.addEventListener("scroll", () => {
+    //   document.querySelector(".field").scrollTop = back.scrollTop;
+    // });
   }
 
   onChange(event) {
@@ -65,8 +67,9 @@ class edit extends Component {
     });
   }
 
-  save(title, content) {
+  save(title) {
     const { match } = this.props;
+    const content = localStorage.getItem("content");
     if (title === "" || content === "") {
       this.setState({
         textnone: true
@@ -103,14 +106,14 @@ class edit extends Component {
           <div className="status-save-bt">
             <Button
               onClick={() => {
-                this.save(title, content);
+                this.save(title);
               }}
               text="保存并返回"
             />
           </div>
         </div>
         <div className="status-markdown">
-          <MarkdownInput
+          {/* <MarkdownInput
             className="field column"
             onChange={this.onChange}
             value={content}
@@ -131,7 +134,8 @@ class edit extends Component {
               smartLists: true,
               smartypants: true
             }}
-          />
+          /> */}
+          <SlateEditor />
         </div>
       </div>
     );
