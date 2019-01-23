@@ -1,5 +1,6 @@
 import React, { Component } from "react";
-// import Plain from 'slate-plain-serializer'
+import Plain from "slate-plain-serializer";
+import PropTypes from "prop-types";
 import ReactSVG from "react-svg";
 import { Editor } from "slate-react";
 import { Value } from "slate";
@@ -160,6 +161,10 @@ class SlateEditor extends Component {
   state = {
     value: html.deserialize(initialValue)
   };
+
+  componentDidMount() {
+    console.log(this.state.value);
+  }
 
   getType = chars => {
     switch (chars) {
@@ -443,26 +448,37 @@ class SlateEditor extends Component {
 
   // Render the editor.
   render() {
-    console.log(this.editor);
+    const { readOnly } = this.props;
     const { value } = this.state;
-    const style = {
-      width: "880px",
-      height: "90%"
-    };
+    let style;
+
+    if (readOnly) {
+      style = {};
+    } else {
+      style = {
+        width: "880px",
+        height: "90%"
+      };
+    }
+
     return (
       <div>
-        <Toolbar>
-          {this.renderMarkButton("bold", Bold)}
-          {this.renderMarkButton("italic", Italic)}
-          {this.renderMarkButton("underline", Underline)}
-          {this.renderMarkButton("code", Code)}
-          {/* {this.renderBlockButton('heading-one', 'looks_one')}
-          {this.renderBlockButton('heading-two', 'looks_two')} */}
-          {this.renderBlockButton("block-quote", Quote)}
-          {this.renderBlockButton("numbered-list", Orderlist)}
-          {this.renderBlockButton("bulleted-list", Ulist)}
-        </Toolbar>
+        {!readOnly && (
+          <Toolbar>
+            {this.renderMarkButton("bold", Bold)}
+            {this.renderMarkButton("italic", Italic)}
+            {this.renderMarkButton("underline", Underline)}
+            {this.renderMarkButton("code", Code)}
+            {/* {this.renderBlockButton('heading-one', 'looks_one')}
+            {this.renderBlockButton('heading-two', 'looks_two')} */}
+            {this.renderBlockButton("block-quote", Quote)}
+            {this.renderBlockButton("numbered-list", Orderlist)}
+            {this.renderBlockButton("bulleted-list", Ulist)}
+          </Toolbar>
+        )}
         <Editor
+          className="slateEditor"
+          readOnly={readOnly}
           value={value}
           onChange={this.onChange}
           onKeyDown={this.onKeyDown}
@@ -475,5 +491,13 @@ class SlateEditor extends Component {
     );
   }
 }
+
+SlateEditor.propTypes = {
+  readOnly: PropTypes.bool
+};
+
+SlateEditor.defaultProps = {
+  readOnly: false
+};
 
 export default SlateEditor;

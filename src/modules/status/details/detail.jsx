@@ -11,6 +11,7 @@ import Avatar from "../../../components/common/avatar/index";
 import Othercomments from "../../../components/common/otherComments/comments";
 import "../../../static/css/common.css";
 import Delete from "../../setting/components/delete/delete";
+import SlateEditor from "../markdown/slate/slateEditor";
 import StatusService from "../../../service/status";
 import "./detail.css";
 
@@ -95,7 +96,7 @@ class Detail extends Component {
 
   sendComment(value, sid) {
     if (!value) {
-      return
+      return;
     }
     StatusService.postComments(sid, value).then(result => {
       if (result !== null) {
@@ -189,7 +190,8 @@ class Detail extends Component {
           <div className="status-detail-love">{likeCount}</div>
         </div>
         <div className="status-details">
-          <MarkdownPreview value={content} />
+          {/* <MarkdownPreview value={content} /> */}
+          <SlateEditor readOnly />
         </div>
         <hr className="status-detail-line" />
         <div className="status-detail-comments">
