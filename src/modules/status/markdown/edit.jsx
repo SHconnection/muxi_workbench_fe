@@ -38,7 +38,6 @@ class edit extends Component {
             title: name,
             content: value
           });
-          localStorage.setItem("content", value);
         }
       });
     }
@@ -135,7 +134,7 @@ class edit extends Component {
               smartypants: true
             }}
           /> */}
-          <SlateEditor />
+          <SlateEditor content={content} />
         </div>
       </div>
     );

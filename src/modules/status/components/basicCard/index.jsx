@@ -93,7 +93,7 @@ class Item extends Component {
                 : "status-item-link-content"
             }
           >
-            <SlateEditor readOnly />
+            <SlateEditor readOnly inner content={content} />
           </Link>
         </div>
         <div className="others">
