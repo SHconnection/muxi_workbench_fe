@@ -190,7 +190,7 @@ class Detail extends Component {
         </div>
         <div className="status-details">
           {/* <MarkdownPreview value={content} /> */}
-          <SlateEditor readOnly />
+          <SlateEditor readOnly content={content} />
         </div>
         <hr className="status-detail-line" />
         <div className="status-detail-comments">

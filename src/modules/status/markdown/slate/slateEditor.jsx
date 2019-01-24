@@ -35,7 +35,8 @@ const BLOCK_TAGS = {
   h3: "heading-three",
   h4: "heading-four",
   h5: "heading-five",
-  h6: "heading-six"
+  h6: "heading-six",
+  hr: "hr"
 };
 
 // Add a dictionary of mark tags.
@@ -92,7 +93,10 @@ const rules = [
             return <h5>{children}</h5>;
           case "heading-six":
             return <h6>{children}</h6>;
+          case "hr":
+            return <hr />;
           default:
+            break;
         }
       }
     }
@@ -130,38 +134,26 @@ const rules = [
 // Create a new serializer instance with our `rules` from above.
 const html = new Html({ rules });
 
-// const initialValue = Value.fromJSON({
-//   document: {
-//     nodes: [
-//       {
-//         object: 'block',
-//         type: 'paragraph',
-//         nodes: [
-//           {
-//             object: 'text',
-//             leaves: [
-//               {
-//                 text: 'A line of text in a paragraph.',
-//               },
-//             ],
-//           },
-//         ],
-//       },
-//     ],
-//   },
-// })
-
-const initialValue = localStorage.getItem("content") || "<p></p>";
-
 // Define our app...
 class SlateEditor extends Component {
   // Set the initial value when the app is first constructed.
+  initialValue =
+    window.location.href.split("/").pop() === "reEdit"
+      ? localStorage.getItem("content")
+      : "<p></p>";
+
   state = {
-    value: html.deserialize(initialValue)
+    value: html.deserialize(this.initialValue)
   };
 
-  componentDidMount() {
-    // console.log(this.state.value);
+  componentWillReceiveProps(nextProps) {
+    const { readOnly, inner, content } = nextProps;
+    // console.log(content);
+    if (readOnly && !inner) {
+      this.setState({
+        value: html.deserialize(content)
+      });
+    }
   }
 
   getType = chars => {
@@ -184,6 +176,8 @@ class SlateEditor extends Component {
         return "heading-five";
       case "######":
         return "heading-six";
+      case "---":
+        return "hr";
       default:
         return null;
     }
@@ -247,7 +241,7 @@ class SlateEditor extends Component {
       startBlock.type !== "heading-four" &&
       startBlock.type !== "heading-five" &&
       startBlock.type !== "heading-six"
-      // && startBlock.type !== 'block-quote'
+      // && startBlock.type != 'block-quote'
     ) {
       return next();
     }
@@ -276,7 +270,8 @@ class SlateEditor extends Component {
       case "Enter":
         return this.onEnter(event, editor, next);
       default:
-        return next();
+        // return next();
+        break;
     }
 
     let mark;
@@ -286,7 +281,7 @@ class SlateEditor extends Component {
     } else if (isItalicHotkey(event)) {
       mark = "italic";
     } else if (isUnderlinedHotkey(event)) {
-      mark = "underlined";
+      mark = "underline";
     } else if (isCodeHotkey(event)) {
       mark = "code";
     } else {
@@ -310,7 +305,6 @@ class SlateEditor extends Component {
   onClickMark = (event, type) => {
     event.preventDefault();
     this.editor.toggleMark(type);
-    // console.log(type);
   };
 
   onClickBlock = (event, type) => {
@@ -336,10 +330,9 @@ class SlateEditor extends Component {
     } else {
       // Handle the extra wrapping required for list buttons.
       const isList = this.hasBlock("list-item");
-      const isType = value.blocks.some(
-        block =>
-          !!document.getClosest(block.key, parent => parent.type === type)
-      );
+      const isType = value.blocks.some(block => {
+        return !!document.getClosest(block.key, parent => parent.type === type);
+      });
 
       if (isList && isType) {
         editor
@@ -382,6 +375,13 @@ class SlateEditor extends Component {
         return <h5 {...attributes}>{children}</h5>;
       case "heading-six":
         return <h6 {...attributes}>{children}</h6>;
+      case "hr":
+        return (
+          <span {...attributes}>
+            <hr />
+            {children}
+          </span>
+        );
       default:
         return next();
     }
@@ -397,7 +397,7 @@ class SlateEditor extends Component {
         return <code {...attributes}>{children}</code>;
       case "italic":
         return <em {...attributes}>{children}</em>;
-      case "underlined":
+      case "underline":
         return <u {...attributes}>{children}</u>;
       default:
         return next();
@@ -447,7 +447,7 @@ class SlateEditor extends Component {
 
   // Render the editor.
   render() {
-    const { readOnly } = this.props;
+    const { readOnly, inner, content } = this.props;
     const { value } = this.state;
     let style;
 
@@ -456,9 +456,19 @@ class SlateEditor extends Component {
     } else {
       style = {
         width: "880px",
-        height: "90%"
+        "min-height": "650px"
       };
     }
+
+    const textareaStyle = {
+      width: "100%",
+      height: "130px",
+      background: "#fff",
+      border: "none",
+      padding: "0"
+    };
+
+    console.log(html.deserialize(content));
 
     return (
       <div>
@@ -475,28 +485,38 @@ class SlateEditor extends Component {
             {this.renderBlockButton("bulleted-list", Ulist)}
           </Toolbar>
         )}
-        <Editor
-          className="slateEditor"
-          readOnly={readOnly}
-          value={value}
-          onChange={this.onChange}
-          onKeyDown={this.onKeyDown}
-          renderNode={this.renderNode}
-          renderMark={this.renderMark}
-          style={style}
-          ref={this.ref}
-        />
+        {inner ? (
+          <textarea disabled style={textareaStyle}>
+            {Plain.serialize(html.deserialize(content))}
+          </textarea>
+        ) : (
+          <Editor
+            className="slateEditor"
+            readOnly={readOnly}
+            value={value}
+            onChange={this.onChange}
+            onKeyDown={this.onKeyDown}
+            renderNode={this.renderNode}
+            renderMark={this.renderMark}
+            style={style}
+            ref={this.ref}
+          />
+        )}
       </div>
     );
   }
 }
 
 SlateEditor.propTypes = {
-  readOnly: PropTypes.bool
+  readOnly: PropTypes.bool,
+  inner: PropTypes.bool,
+  content: PropTypes.string
 };
 
 SlateEditor.defaultProps = {
-  readOnly: false
+  readOnly: false,
+  inner: false,
+  content: ""
 };
 
 export default SlateEditor;
