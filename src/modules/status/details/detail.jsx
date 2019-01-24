@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import ReactSVG from "react-svg";
 import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
-import { MarkdownPreview } from "react-marked-markdown";
+// import { MarkdownPreview } from "react-marked-markdown";
 import Goback from "../../../components/common/goBack/index";
 import thumbs from "../../../assets/svg/commonIcon/thumbs.svg";
 import thumbsUp from "../../../assets/svg/commonIcon/thumbs_up.svg";
@@ -139,7 +139,6 @@ class Detail extends Component {
       commentList,
       value,
       title,
-      content,
       time,
       likeCount,
       iflike,
