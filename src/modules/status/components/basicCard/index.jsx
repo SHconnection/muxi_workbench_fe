@@ -7,7 +7,6 @@ import thumbsUp from "../../../../assets/svg/commonIcon/thumbs_up.svg";
 import comment from "../../../../assets/svg/commonIcon/comment.svg";
 import Avatar from "../../../../components/common/avatar/index";
 import SlateEditor from "../../markdown/slate/slateEditor";
-
 import StatusService from "../../../../service/status";
 import "./index.css";
 
@@ -27,20 +26,34 @@ class Item extends Component {
   }
 
   componentWillMount() {
-    const { content } = this.props;
-    let converted = "";
-    content.split("").forEach(str => {
-      if (str !== "\n") {
-        converted += `${str}`;
-      } else {
-        converted += "<br />";
-      }
-    });
-    const arr = converted.split(/<br\s*\/?>/i);
-    this.setState({
-      content: arr.reduce((el, a) => el.concat(a, <br />), [])
-    });
+    // const { content } = this.props;
+    // let converted = "";
+    // content.split("").forEach(str => {
+    //   if (str !== "\n") {
+    //     converted += `${str}`;
+    //   } else {
+    //     converted += "<br />";
+    //   }
+    // });
+    // const arr = converted.split(/<br\s*\/?>/i);
+    // this.setState({
+    //   content: arr.reduce((el, a) => el.concat(a, <br />), [])
+    // });
   }
+
+  // componentWillReceiveProps(nextProps){
+  //   const {sid} = nextProps;
+  //   StatusService.getStatuDetail(sid).then(doc => {
+  //     if (doc) {
+  //       const likeCounts = doc.likeCount;
+  //       const iflike1 = doc.iflike;
+  //       this.setState({
+  //         likeNumber: likeCounts,
+  //         whetherLike: iflike1,
+  //       });
+  //     }
+  //   });
+  // }
 
   changeLike(sid, whetherLike, likeNumber) {
     if (whetherLike === 0) {

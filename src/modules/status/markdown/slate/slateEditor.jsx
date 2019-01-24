@@ -125,7 +125,7 @@ const rules = [
           case "code":
             return <code>{children}</code>;
           default:
-            return;
+            return null;
         }
       }
     }
@@ -138,10 +138,12 @@ const html = new Html({ rules });
 // Define our app...
 class SlateEditor extends Component {
   // Set the initial value when the app is first constructed.
+  path = window.location.href.split("/");
+
   initialValue =
-    window.location.href.split("/").pop() === "reEdit"
-      ? localStorage.getItem("content")
-      : "<p></p>";
+    this.path.pop() === "edit" || this.path.pop() === "newDoc"
+      ? "<p></p>"
+      : localStorage.getItem("content");
 
   state = {
     value: html.deserialize(this.initialValue)
@@ -469,8 +471,6 @@ class SlateEditor extends Component {
       padding: "0"
     };
 
-    console.log(html.deserialize(content));
-
     return (
       <div>
         {!readOnly && (
@@ -487,9 +487,11 @@ class SlateEditor extends Component {
           </Toolbar>
         )}
         {inner ? (
-          <textarea disabled style={textareaStyle}>
-            {Plain.serialize(html.deserialize(content))}
-          </textarea>
+          <textarea
+            disabled
+            style={textareaStyle}
+            defaultValue={Plain.serialize(html.deserialize(content))}
+          />
         ) : (
           <Editor
             className="slateEditor"

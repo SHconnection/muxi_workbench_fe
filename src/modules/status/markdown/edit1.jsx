@@ -1,9 +1,10 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
-import { MarkdownPreview } from "react-marked-markdown";
+// import { MarkdownPreview } from "react-marked-markdown";
 import Goback from "../../../components/common/goBack/index";
 import Button from "../../../components/common/button";
-import MarkdownInput from "./marked/input";
+import SlateEditor from "./slate/slateEditor";
+// import MarkdownInput from "./marked/input";
 import "../../../static/css/common.css";
 import "./edit.css";
 import "../../../service/cookie";
@@ -36,14 +37,14 @@ class Edit extends Component {
   }
 
   componentDidUpdate() {
-    const obj = document.querySelector(".field");
-    const back = document.querySelector(".preview");
-    obj.addEventListener("scroll", () => {
-      document.querySelector(".preview").scrollTop = obj.scrollTop;
-    });
-    back.addEventListener("scroll", () => {
-      document.querySelector(".field").scrollTop = back.scrollTop;
-    });
+    // const obj = document.querySelector(".field");
+    // const back = document.querySelector(".preview");
+    // obj.addEventListener("scroll", () => {
+    //   document.querySelector(".preview").scrollTop = obj.scrollTop;
+    // });
+    // back.addEventListener("scroll", () => {
+    //   document.querySelector(".field").scrollTop = back.scrollTop;
+    // });
   }
 
   onChange(event) {
@@ -80,6 +81,7 @@ class Edit extends Component {
           <div className="status-save-bt">
             <Button
               onClick={() => {
+                const content = localStorage.getItem("content");
                 if (title !== "" && content != "") {
                   save(title, content);
                 } else {
@@ -93,7 +95,7 @@ class Edit extends Component {
           </div>
         </div>
         <div className="status-markdown">
-          <MarkdownInput
+          {/* <MarkdownInput
             className="field column"
             onChange={this.onChange}
             value={content}
@@ -113,7 +115,8 @@ class Edit extends Component {
               smartLists: true,
               smartypants: false
             }}
-          />
+          /> */}
+          <SlateEditor content={content} />
         </div>
       </div>
     );

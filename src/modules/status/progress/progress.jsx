@@ -91,7 +91,7 @@ class Progress extends Component {
 
   scroll() {
     if (getScrollTop() + getWindowHeight() === getScrollHeight()) {
-      this.getstatuList();
+      this.getstatuList(true);
     }
   }
 

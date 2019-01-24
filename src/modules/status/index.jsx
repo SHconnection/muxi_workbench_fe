@@ -19,11 +19,12 @@ class Status extends Component {
     this.getstatuList = this.getstatuList.bind(this);
   }
 
-  getstatuList() {
+  getstatuList(bool = false) {
     const { match } = this.props;
     const { page } = this.state;
+
     if (match.path === "/status") {
-      StatusService.getStatusList(page + 1)
+      StatusService.getStatusList(bool || !page ? page + 1 : page)
         .then(status => {
           if (status) {
             const arr1 = status.statuList.map(statu1 => {
@@ -42,10 +43,12 @@ class Status extends Component {
             const count1 = status.count;
             const changePage = status.page;
             const { statuList } = this.state;
+            const newStatuList =
+              bool || !page ? statuList.concat(arr1) : statuList;
             this.setState({
               count: count1,
               page: changePage,
-              statuList: statuList.concat(arr1),
+              statuList: newStatuList,
               isPersonal: 0
             });
           }

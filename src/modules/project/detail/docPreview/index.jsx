@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
-import { MarkdownPreview } from "react-marked-markdown";
+// import { MarkdownPreview } from "react-marked-markdown";
 import AlertMoveFile from "../../components/alertMoveFile";
 import AlertDeleteFile from "../../components/alertDeleteFile";
 import FileService from "../../../../service/file";
@@ -13,6 +13,7 @@ import Avatar from "../../../../components/common/avatar/index";
 import Button from "../../../../components/common/button/index";
 import Goback from "../../../../components/common/goBack/index";
 import Loading from "../../../../components/common/loading/index";
+import SlateEditor from "../../../status/markdown/slate/slateEditor";
 import "../../../../static/css/common.css";
 import "../../../status/markdown/edit.css";
 import "./index.css";
@@ -110,6 +111,7 @@ class DocPreview extends Component {
           docInfo: res,
           createTime: timeStr
         });
+        localStorage.setItem("content", res.content);
       })
       .catch(err => {
         this.setState({ wrong: err });
@@ -117,6 +119,7 @@ class DocPreview extends Component {
       .finally(() => {
         Loading.hide();
       });
+
     // FileService.getDocList(postData)
     //   .then(res => {
     //     const { creator } = res.DocList[0]
@@ -422,7 +425,7 @@ class DocPreview extends Component {
           {/* 时间 */}
           <div className="docPreview-time">{createTime}</div>
           <div className="docPreview-md-markdown">
-            <MarkdownPreview
+            {/* <MarkdownPreview
               value={docInfo.content}
               className="column docPreview-md-preview"
               markedOptions={{
@@ -436,7 +439,8 @@ class DocPreview extends Component {
                 smartLists: true,
                 smartypants: false
               }}
-            />
+            /> */}
+            <SlateEditor readOnly content={docInfo.content} />
           </div>
           <hr className="status-detail-line" />
           {/* 评论列表 */}

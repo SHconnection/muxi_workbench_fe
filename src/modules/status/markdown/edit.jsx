@@ -1,12 +1,12 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 // import LiveMarkdownTextarea  from './editor';
-import { MarkdownPreview } from "react-marked-markdown";
+// import { MarkdownPreview } from "react-marked-markdown";
 import Goback from "../../../components/common/goBack/index";
 import Button from "../../../components/common/button";
 import SlateEditor from "./slate/slateEditor";
 // import MarkdownPreview from './marked/preview';
-import MarkdownInput from "./marked/input";
+// import MarkdownInput from "./marked/input";
 import "../../../static/css/common.css";
 import StatusService from "../../../service/status";
 // import CustomEditor from "./editor";
