@@ -85,7 +85,7 @@ class edit extends Component {
   }
 
   render() {
-    const { title, textnone } = this.state;
+    const { title, textnone, content } = this.state;
     return (
       <div className="subject">
         <div className="head">

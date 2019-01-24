@@ -59,7 +59,7 @@ class Item extends Component {
   }
 
   render() {
-    const { whetherLike, likeNumber, sid, isPersonal } = this.state;
+    const { whetherLike, likeNumber, sid, isPersonal, content } = this.state;
     const { username, time, commentCount, avatar } = this.props;
     return (
       <div className={isPersonal ? "presonal-status" : "status-item-container"}>

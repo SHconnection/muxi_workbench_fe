@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-// import Plain from "slate-plain-serializer";
+import Plain from "slate-plain-serializer";
 import PropTypes from "prop-types";
 import ReactSVG from "react-svg";
 import { Editor } from "slate-react";

@@ -142,7 +142,8 @@ class Detail extends Component {
       time,
       likeCount,
       iflike,
-      username
+      username,
+      content
     } = this.state;
 
     return (
