@@ -5,6 +5,7 @@ import Index from "./progress/progress";
 import Detail from "./details/detail";
 import Edit from "./markdown/edit";
 import StatusService from "../../service/status";
+import Loading from "../../components/common/loading/index";
 import "./index.css";
 
 class Status extends Component {
@@ -17,6 +18,10 @@ class Status extends Component {
       statuList: []
     };
     this.getstatuList = this.getstatuList.bind(this);
+  }
+
+  componentDidMount() {
+    Loading.show();
   }
 
   getstatuList(bool = false) {
@@ -55,6 +60,9 @@ class Status extends Component {
         })
         .catch(error => {
           this.setState({ wrong: error });
+        })
+        .then(() => {
+          Loading.hide();
         });
     } else {
       StatusService.getPersonalStatus(match.params.uid, page + 1)

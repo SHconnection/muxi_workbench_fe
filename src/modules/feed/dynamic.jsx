@@ -4,6 +4,7 @@ import FeedItem from "./components/feedList/index";
 import Gotop from "../../components/common/toTop/top";
 import FeedService from "../../service/feed";
 import WrongPage from "../../components/common/wrongPage/wrongPage";
+import Loading from "../../components/common/loading/index";
 import "../../static/css/common.css";
 import "./dynamic.css";
 
@@ -85,6 +86,7 @@ class Dynamic extends Component {
   }
 
   componentWillMount() {
+    Loading.show();
     this.getFeedList();
   }
 
@@ -135,6 +137,9 @@ class Dynamic extends Component {
           })
           .catch(error => {
             this.setState({ wrong: error });
+          })
+          .then(() => {
+            Loading.hide();
           });
       }
     } else {

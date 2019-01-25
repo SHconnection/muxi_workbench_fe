@@ -42,16 +42,15 @@ class Search extends Component {
 
   componentDidMount() {
     const { projectOption } = this.state;
-    ProjectService.getProjectList(1)
+    ProjectService.getAllProjectList(localStorage.per)
       .then(res => {
-        // console.log(res.list);
-        const projectList = res.list;
-        const arr = projectList.map(el => {
-          const el1 = { id: 0, value: "" };
-          el1.id = el.projectID;
-          el1.value = el.projectName;
-          return el1;
-        });
+        const arr = res
+          .map(el => el.list)
+          .reduce((el1, el2) => el1.concat(el2), [])
+          .map(el => {
+            const item = { id: el.projectID, value: el.projectName };
+            return item;
+          });
         arr.unshift({ id: 0, value: "所有项目" });
         this.setState({
           projectOption: projectOption.concat(arr)

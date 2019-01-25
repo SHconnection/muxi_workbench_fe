@@ -59,7 +59,7 @@ class Inform extends Component {
   }
 
   readAll() {
-    MessageService.messageAllRead(localStorage.usermname).then(() => {
+    MessageService.messageAllRead(localStorage.username).then(() => {
       this.getMessage();
     });
   }
@@ -139,7 +139,7 @@ class Inform extends Component {
                 />
                 <Link
                   className="header-info-setting footer-text"
-                  to="/member/teamMember/personalInfo/personalSet"
+                  to="teamMember/personalInfo/personalSet"
                 >
                   通知设置
                 </Link>

@@ -16,6 +16,7 @@ class Header extends Component {
       showInput: false,
       userAvatar: localStorage.avatar
     };
+    this.searchRef = React.createRef();
   }
 
   componentDidMount() {
