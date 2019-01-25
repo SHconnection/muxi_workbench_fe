@@ -140,11 +140,11 @@ class Detail extends Component {
       commentList,
       value,
       title,
-      content,
       time,
       likeCount,
       iflike,
-      username
+      username,
+      content
     } = this.state;
 
     return (

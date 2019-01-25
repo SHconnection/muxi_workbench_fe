@@ -140,9 +140,6 @@ class EditMember extends Component {
       })
       .catch(error => {
         this.setState({ wrong: error });
-      })
-      .then(() => {
-        window.history.back();
       });
   };
 
