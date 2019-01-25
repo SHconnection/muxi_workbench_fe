@@ -330,9 +330,10 @@ class SlateEditor extends Component {
     } else {
       // Handle the extra wrapping required for list buttons.
       const isList = this.hasBlock("list-item");
-      const isType = value.blocks.some(block => {
-        return !!document.getClosest(block.key, parent => parent.type === type);
-      });
+      const isType = value.blocks.some(
+        block =>
+          !!document.getClosest(block.key, parent => parent.type === type)
+      );
 
       if (isList && isType) {
         editor
