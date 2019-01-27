@@ -93,7 +93,9 @@ class PersonalInfo extends Component {
             <button
               type="button"
               className={
-                parseInt(localStorage.role, 10) === 7
+                parseInt(localStorage.role, 10) === 7 &&
+                parseInt(localStorage.role, 10) !==
+                  parseInt(localStorage.perRole, 10)
                   ? "saveBtn personalInfo-saveBtn"
                   : "none"
               }

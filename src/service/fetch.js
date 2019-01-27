@@ -80,6 +80,9 @@ export default function FetchData(url, opt = {}) {
       case 404:
         throw new Error("页面地址错误");
 
+      case 409:
+        throw new Error("用户名称重复");
+
       case 500:
         throw new Error("服务器错误");
 

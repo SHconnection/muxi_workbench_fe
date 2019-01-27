@@ -31,9 +31,12 @@ class PersonalSet extends Component {
       imgFile: null,
       wrong: {},
       nameIsNull: false,
+      nameIsRepeat: false,
       mailboxIsNull: false
       // phoneIsNull: false
     };
+
+    this.changeImg = this.changeImg.bind(this);
   }
 
   componentDidMount() {
@@ -162,12 +165,13 @@ class PersonalSet extends Component {
           }, 1000);
         })
         .catch(error => {
+          // if()
           this.setState({ wrong: error });
         });
     }
   };
 
-  changeImg = changeKind => {
+  changeImg(changeKind) {
     const imgFile = this[changeKind].files[0];
 
     if (imgFile) {
@@ -187,7 +191,7 @@ class PersonalSet extends Component {
     }
 
     return this;
-  };
+  }
 
   cancel = () => {
     this.setState({ wrong: {} });
@@ -204,7 +208,8 @@ class PersonalSet extends Component {
       img,
       wrong,
       nameIsNull,
-      mailboxIsNull
+      mailboxIsNull,
+      nameIsRepeat
     } = this.state;
 
     return (
@@ -257,12 +262,16 @@ class PersonalSet extends Component {
             />
             <p
               className={
-                nameIsNull
+                nameIsNull || nameIsRepeat
                   ? "warning personalSet-warning"
                   : "transparent personalSet-warning"
               }
             >
-              输入框不能为空！
+              {nameIsNull
+                ? "输入框不能为空！"
+                : nameIsRepeat
+                  ? "成员名称已存在！"
+                  : ""}
             </p>
             <b>邮箱</b>
             <input
