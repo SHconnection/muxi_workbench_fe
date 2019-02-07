@@ -2,6 +2,7 @@
 团队成员页面组件
 */
 import React, { Component } from "react";
+import { List } from "react-virtualized";
 import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
 import ManageService from "../../../service/manage";
@@ -125,6 +126,14 @@ class TeamMember extends Component {
   render() {
     const { members, selectedID, groupList, wrong, redDot } = this.state;
     const { match } = this.props;
+    const renderRow = info => (
+      <div className="teamMember-singleList" key={info.key} style={info.style}>
+        <MemberInfo mem={members[info.index]} />
+        <span className="teamMember-emailMarg">
+          {members[info.index].email}
+        </span>
+      </div>
+    );
 
     return (
       <div className="subject minH">
@@ -189,12 +198,20 @@ class TeamMember extends Component {
           </div>
         </div>
 
-        {members.map(mem => (
-          <div className="teamMember-singleList" key={mem.id}>
-            <MemberInfo mem={mem} />
-            <span className="teamMember-emailMarg">{mem.email}</span>
-          </div>
-        ))}
+        <div className="noneInfoTip">
+          {members.length > 0 ? (
+            <List
+              width={880}
+              height={600}
+              rowHeight={100}
+              rowRenderer={renderRow}
+              rowCount={members.length}
+            />
+          ) : (
+            "该分类暂无成员～"
+          )}
+        </div>
+
         <WrongPage info={wrong} cancel={this.cancel} />
       </div>
     );

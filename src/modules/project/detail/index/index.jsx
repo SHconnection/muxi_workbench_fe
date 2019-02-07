@@ -91,7 +91,7 @@ class ProjectDetailIndex extends Component {
     };
   }
 
-  componentWillMount() {
+  componentDidMount() {
     const { match } = this.props;
     this.setState({
       pid: match.params.id

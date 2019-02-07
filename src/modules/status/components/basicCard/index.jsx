@@ -25,7 +25,7 @@ class Item extends Component {
     this.changeLike = this.changeLike.bind(this);
   }
 
-  componentWillMount() {
+  componentDidMount() {
     // const { content } = this.props;
     // let converted = "";
     // content.split("").forEach(str => {

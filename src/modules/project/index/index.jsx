@@ -15,7 +15,7 @@ class Index extends Component {
     };
   }
 
-  componentWillMount() {
+  componentDidMount() {
     const userID = localStorage.id;
     Loading.show();
     ProjectService.getAllProjectList(userID)

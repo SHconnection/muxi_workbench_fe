@@ -23,7 +23,7 @@ class NewDoc extends Component {
     this.cancel = this.cancel.bind(this);
   }
 
-  componentWillMount() {
+  componentDidMount() {
     this.getDocTree();
   }
 
@@ -43,7 +43,7 @@ class NewDoc extends Component {
 
   save(title, content) {
     if (!title || !content) {
-      return
+      return;
     }
     const { docTree, pid, docRootId } = this.state;
     const postData = {

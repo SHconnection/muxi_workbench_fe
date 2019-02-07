@@ -39,6 +39,7 @@
     "react-scroll-view": "^0.6.0",
     "react-scrollbar": "^0.5.4",
     "react-svg": "^5.0.16",
+    "react-virtualized": "^9.21.0",
     "simditor": "^2.3.19",
     "simi": "^1.0.1",
     "slate": "^0.44.9",

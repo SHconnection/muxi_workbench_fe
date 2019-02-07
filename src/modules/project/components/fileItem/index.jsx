@@ -38,7 +38,7 @@ class FileItem extends Component {
     };
   }
 
-  componentWillMount() {
+  componentDidMount() {
     const { fileItem } = this.props;
     const suffix = fileItem.name.split(".")[1] || "folder";
     if (suffix === "jpg" || suffix === "png") {
