@@ -1,17 +1,21 @@
-import React from "react";
+import React from 'react';
 // import ReactSVG from 'react-svg'
 // import backIcon from '../../../assets/svg/commonIcon/back.svg'
-import "../../../static/css/common.css";
-import "./index.css";
+import '../../../static/css/common.css';
+import './index.css';
 
-const goBack = () => {
-  window.history.back();
+const goBack = href => {
+  if (href) {
+    window.location.href = href;
+  } else {
+    window.history.back();
+  }
 };
 
-const GoBack = () => (
+const GoBack = ({ href }) => (
   <div
     className="reArrow back-icon"
-    onClick={goBack}
+    onClick={goBack.bind(this, href)}
     onKeyDown={() => {}}
     role="presentation"
   />

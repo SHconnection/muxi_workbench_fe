@@ -1,22 +1,22 @@
-import React, { Component } from "react";
-import PropTypes from "prop-types";
-import { Link } from "react-router-dom";
-import GoBack from "../../../components/common/goBack/index";
-import Icon from "../../../components/common/icon/index";
-import { FileTree } from "../fileTree1";
-import AlertMoveFile from "../components/alertMoveFile";
-import AlertDeleteFile from "../components/alertDeleteFile";
-import AlertCreateFolder from "../components/alertCreateFolder";
-import Select from "../../../components/common/select/index";
-import FolderItem from "../components/folderItem/index";
-import FileItem from "../components/fileItem/index";
-import FolderItemDoc from "../components/folderItemDoc/index";
-import DocItem from "../components/docItem/index";
-import ProjectService from "../../../service/project";
-import FileService from "../../../service/file";
-import Loading from "../../../components/common/loading";
-import "./index.css";
-import "../../../static/css/common.css";
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
+import GoBack from '../../../components/common/goBack/index';
+import Icon from '../../../components/common/icon/index';
+import { FileTree } from '../fileTree1';
+import AlertMoveFile from '../components/alertMoveFile';
+import AlertDeleteFile from '../components/alertDeleteFile';
+import AlertCreateFolder from '../components/alertCreateFolder';
+import Select from '../../../components/common/select/index';
+import FolderItem from '../components/folderItem/index';
+import FileItem from '../components/fileItem/index';
+import FolderItemDoc from '../components/folderItemDoc/index';
+import DocItem from '../components/docItem/index';
+import ProjectService from '../../../service/project';
+import FileService from '../../../service/file';
+import Loading from '../../../components/common/loading';
+import './index.css';
+import '../../../static/css/common.css';
 
 class ProjectDetailIndex extends Component {
   constructor(props) {
@@ -51,9 +51,9 @@ class ProjectDetailIndex extends Component {
       // finalMoveDocId: 0,
       // 项目信息
       projectInfo: {
-        name: "",
-        intro: "",
-        userCount: ""
+        name: '',
+        intro: '',
+        userCount: '',
       },
       // 文件树
       fileTree: {},
@@ -67,35 +67,35 @@ class ProjectDetailIndex extends Component {
       fileOption: [
         {
           id: 0,
-          value: "上传文件",
-          type: "file"
+          value: '上传文件',
+          type: 'file',
         },
         {
           id: 1,
-          value: "创建文件夹"
-        }
+          value: '创建文件夹',
+        },
       ],
       // 创建文档夹和创建文档选项
       docOption: [
         {
           id: 0,
-          value: "创建文档"
+          value: '创建文档',
         },
         {
           id: 1,
-          value: "创建文档夹"
-        }
+          value: '创建文档夹',
+        },
       ],
       // 文件（夹）列表
       filesList: {
         FolderList: [],
-        FileList: []
+        FileList: [],
       },
       // 文档（夹）列表
       docList: {
         FolderList: [],
-        DocList: []
-      }
+        DocList: [],
+      },
     };
     this.getFileTree = this.getFileTree.bind(this);
     this.getDocTree = this.getDocTree.bind(this);
@@ -123,11 +123,11 @@ class ProjectDetailIndex extends Component {
     ProjectService.getProjectInfo(pid)
       .then(res => {
         this.setState({
-          projectInfo: res
+          projectInfo: res,
         });
       })
       .catch(res => {
-        console.error("error", res);
+        console.error('error', res);
       })
       .finally(() => {
         Loading.hide();
@@ -143,7 +143,7 @@ class ProjectDetailIndex extends Component {
     FileTree.getFileTree(pid)
       .then(res => {
         this.setState({
-          fileTree: res
+          fileTree: res,
         });
       })
       .catch(() => {
@@ -157,7 +157,7 @@ class ProjectDetailIndex extends Component {
     FileTree.getDocTree(pid)
       .then(res => {
         this.setState({
-          docTree: res
+          docTree: res,
         });
         console.log(res);
       })
@@ -174,13 +174,13 @@ class ProjectDetailIndex extends Component {
     FileTree.getFileTree(pid)
       .then(res => {
         this.setState({
-          fileTree: res
+          fileTree: res,
         });
         // 请求filelist
         FileService.getFileList(FileTree.findFileIdList(fileRootId, res))
           .then(res1 => {
             this.setState({
-              filesList: res1
+              filesList: res1,
             });
             this.hideAlert();
           })
@@ -205,13 +205,13 @@ class ProjectDetailIndex extends Component {
     FileTree.getDocTree(pid)
       .then(res => {
         this.setState({
-          docTree: res
+          docTree: res,
         });
         // 请求doclist
         FileService.getDocList(FileTree.findDocIdList(docRootId, res))
           .then(res1 => {
             this.setState({
-              docList: res1
+              docList: res1,
             });
             this.hideAlert();
           })
@@ -236,7 +236,7 @@ class ProjectDetailIndex extends Component {
     if (index === 1) {
       this.hideAlert();
       this.setState({
-        showCreateFile: true
+        showCreateFile: true,
       });
     } else {
       /*
@@ -244,8 +244,8 @@ class ProjectDetailIndex extends Component {
       */
       Loading.show();
       const formData = new FormData();
-      formData.append("project_id", pid);
-      formData.append("file", index);
+      formData.append('project_id', pid);
+      formData.append('file', index);
       FileService.uploadFile(formData)
         .then(res => {
           if (res.status === 201) {
@@ -254,9 +254,7 @@ class ProjectDetailIndex extends Component {
               const newNode = { folder: false, id: data.fid, name: data.name };
               ProjectService.updateProjectFileTree(
                 pid,
-                JSON.stringify(
-                  FileTree.insertNode(newNode, fileRootId, fileTree)
-                )
+                JSON.stringify(FileTree.insertNode(newNode, fileRootId, fileTree))
               )
                 .then(() => {
                   // 更新视图
@@ -289,7 +287,7 @@ class ProjectDetailIndex extends Component {
             folder: true,
             id: res.id,
             name: inputText,
-            child: []
+            child: [],
           };
           ProjectService.updateProjectFileTree(
             pid,
@@ -299,7 +297,7 @@ class ProjectDetailIndex extends Component {
               // 更新视图
               this.updateFilesList();
               this.setState({
-                showCreateFile: false
+                showCreateFile: false,
               });
             })
             .catch(res1 => {
@@ -321,7 +319,7 @@ class ProjectDetailIndex extends Component {
     if (index === 1) {
       this.hideAlert();
       this.setState({
-        showCreateDocFile: true
+        showCreateDocFile: true,
       });
     }
   }
@@ -337,7 +335,7 @@ class ProjectDetailIndex extends Component {
             folder: true,
             id: res.id,
             name: inputText,
-            child: []
+            child: [],
           };
           // 更新文档树
           const newTree = FileTree.insertNode(newNode, docRootId, docTree);
@@ -347,7 +345,7 @@ class ProjectDetailIndex extends Component {
                 // 更新视图
                 this.updatedocList();
                 this.setState({
-                  showCreateDocFile: false
+                  showCreateDocFile: false,
                 });
               })
               .catch(res1 => {
@@ -365,15 +363,15 @@ class ProjectDetailIndex extends Component {
   startDeleteFile(id, str) {
     this.hideAlert();
     this.setState({
-      showDleteFile: true
+      showDleteFile: true,
     });
-    if (str === "file") {
+    if (str === 'file') {
       this.setState({
-        currentFileId: id
+        currentFileId: id,
       });
     } else {
       this.setState({
-        currentFileFolderId: id
+        currentFileFolderId: id,
       });
     }
   }
@@ -427,15 +425,15 @@ class ProjectDetailIndex extends Component {
   startDeleteDoc(id, str) {
     this.hideAlert();
     this.setState({
-      showDletedoc: true
+      showDletedoc: true,
     });
-    if (str === "doc") {
+    if (str === 'doc') {
       this.setState({
-        currentDocId: id
+        currentDocId: id,
       });
     } else {
       this.setState({
-        currentDocFolderId: id
+        currentDocFolderId: id,
       });
     }
   }
@@ -486,30 +484,30 @@ class ProjectDetailIndex extends Component {
   // 开始移动文件
   moveFile(id, str) {
     // 移动文件获文件夹
-    if (str === "file" || str === "fileFolder") {
+    if (str === 'file' || str === 'fileFolder') {
       this.setState({
-        showMoveFile: true
+        showMoveFile: true,
       });
-      if (str === "file") {
+      if (str === 'file') {
         this.setState({
-          currentFileId: id
+          currentFileId: id,
         });
       } else {
         this.setState({
-          currentFileFolderId: id
+          currentFileFolderId: id,
         });
       }
     } else {
       this.setState({
-        showMoveDoc: true
+        showMoveDoc: true,
       });
-      if (str === "doc") {
+      if (str === 'doc') {
         this.setState({
-          currentDocId: id
+          currentDocId: id,
         });
       } else {
         this.setState({
-          currentDocFolderId: id
+          currentDocFolderId: id,
         });
       }
     }
@@ -522,7 +520,7 @@ class ProjectDetailIndex extends Component {
       fileTree,
       // finalMoveFileId,
       currentFileFolderId,
-      currentFileId
+      currentFileId,
     } = this.state;
     const moveId = currentFileFolderId || currentFileId;
     const fileTreeTemp = JSON.parse(JSON.stringify(fileTree));
@@ -550,7 +548,7 @@ class ProjectDetailIndex extends Component {
       docTree,
       // finalMoveDocId,
       currentDocFolderId,
-      currentDocId
+      currentDocId,
     } = this.state;
     const moveId = currentDocFolderId || currentDocId;
     const docTreeTemp = JSON.parse(JSON.stringify(docTree));
@@ -583,7 +581,7 @@ class ProjectDetailIndex extends Component {
       currentFileId: undefined,
       currentFileFolderId: undefined,
       currentDocId: undefined,
-      currentDocFolderId: undefined
+      currentDocFolderId: undefined,
       // finalMoveFileId: 0,
       // finalMoveDocId: 0
     });
@@ -604,12 +602,12 @@ class ProjectDetailIndex extends Component {
       showMoveFile,
       showMoveDoc,
       fileTree,
-      docTree
+      docTree,
     } = this.state;
 
     return (
       <div className="projectDetail-container">
-        <GoBack />
+        <GoBack href="/project" />
         <div className="projectDetail-content">
           {/* 头部 */}
           <div className="projectDetail-header">
@@ -622,7 +620,7 @@ class ProjectDetailIndex extends Component {
             <div className="projectDetail-header-right">
               <div className="projectDetail-header-icon-container">
                 <Icon
-                  text={`${projectInfo.userCount - 1}`}
+                  text={`${projectInfo.userCount === 0 ? 0 : projectInfo.userCount - 1}`}
                   tip="成员"
                   url="/member"
                   to={`/project/${pid}/member`}
@@ -632,11 +630,7 @@ class ProjectDetailIndex extends Component {
                 <Icon type="trash" tip="回收站" to={`/project/${pid}/trash`} />
               </div>
               <div className="projectDetail-header-icon-container">
-                <Icon
-                  type="setting"
-                  tip="设置"
-                  to={`/project/${pid}/setting`}
-                />
+                <Icon type="setting" tip="设置" to={`/project/${pid}/setting`} />
               </div>
             </div>
           </div>
@@ -884,7 +878,7 @@ class ProjectDetailIndex extends Component {
               confirmMoveFile={this.confirmMoveFile}
             />
           ) : (
-            ""
+            ''
           )}
           {/* {showMoveFile && (
             <div className="moveFileAlert">
@@ -955,7 +949,7 @@ class ProjectDetailIndex extends Component {
               confirmMoveFile={this.confirmMoveDoc}
             />
           ) : (
-            ""
+            ''
           )}
           {/* {showMoveDoc && (
             <div className="moveFileAlert">
@@ -1026,12 +1020,12 @@ class ProjectDetailIndex extends Component {
 
 ProjectDetailIndex.propTypes = {
   match: PropTypes.shape({
-    url: PropTypes.string
-  })
+    url: PropTypes.string,
+  }),
 };
 
 ProjectDetailIndex.defaultProps = {
-  match: {}
+  match: {},
 };
 
 export default ProjectDetailIndex;

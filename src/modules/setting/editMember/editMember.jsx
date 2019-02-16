@@ -3,15 +3,15 @@
 承接自项目设置--项目信息页面
 接收项目信息参数
 */
-import React, { Component } from "react";
-import PropTypes from "prop-types";
-import FirstEditMember from "../../project/components/firstEditMember/firstEditMember";
-import ManageService from "../../../service/manage";
-import ProjectService from "../../../service/project";
-import WrongPage from "../../../components/common/wrongPage/wrongPage";
-import Loading from "../../../components/common/loading/index";
-import Save from "../components/save/save";
-import "./editMember.css";
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+import FirstEditMember from '../../project/components/firstEditMember/firstEditMember';
+import ManageService from '../../../service/manage';
+import ProjectService from '../../../service/project';
+import WrongPage from '../../../components/common/wrongPage/wrongPage';
+import Loading from '../../../components/common/loading/index';
+import Save from '../components/save/save';
+import './editMember.css';
 
 class EditMember extends Component {
   static changeGroupMemberFormat(mem) {
@@ -37,15 +37,15 @@ class EditMember extends Component {
       groups: [],
       checkedIndex: 0,
       wrong: {},
-      ifSave: false
+      ifSave: false,
     };
   }
 
   componentDidMount() {
     const {
       match: {
-        params: { id }
-      }
+        params: { id },
+      },
     } = this.props;
     Loading.show();
 
@@ -67,7 +67,7 @@ class EditMember extends Component {
 
                 this.setState({
                   members,
-                  selMembers: idList
+                  selMembers: idList,
                 });
               }
             })
@@ -96,11 +96,11 @@ class EditMember extends Component {
             return obj;
           });
 
-          groupList.push({ id: 0, value: "全部成员" });
+          groupList.push({ id: 0, value: '全部成员' });
 
           this.setState({
             groups: groupList,
-            checkedIndex: groupList.length - 1
+            checkedIndex: groupList.length - 1,
           });
         }
       })
@@ -116,16 +116,16 @@ class EditMember extends Component {
   transferMsgMem = (members, selMembers) => {
     this.setState({
       members,
-      selMembers
+      selMembers,
     });
   };
 
   editProjectMember = () => {
     const {
       match: {
-        params: { id }
+        params: { id },
       },
-      history
+      history,
     } = this.props;
     const { selMembers } = this.state;
 
@@ -135,7 +135,7 @@ class EditMember extends Component {
 
         setTimeout(() => {
           this.setState({ ifSave: false });
-          history.push(`/project`);
+          history.push(`/project/${id}/preview`);
         }, 500);
       })
       .catch(error => {
@@ -147,13 +147,11 @@ class EditMember extends Component {
     ManageService.groupMember(index)
       .then(member => {
         if (member) {
-          const arr = member.list.map(mem =>
-            EditMember.changeGroupMemberFormat(mem)
-          );
+          const arr = member.list.map(mem => EditMember.changeGroupMemberFormat(mem));
 
           this.setState({
             checkedIndex: index,
-            members: arr
+            members: arr,
           });
         }
       })
@@ -199,18 +197,11 @@ class EditMember extends Component {
   };
 
   render() {
-    const {
-      members,
-      selMembers,
-      groups,
-      checkedIndex,
-      wrong,
-      ifSave
-    } = this.state;
+    const { members, selMembers, groups, checkedIndex, wrong, ifSave } = this.state;
     const {
       match: {
-        params: { id }
-      }
+        params: { id },
+      },
     } = this.props;
 
     return (
@@ -226,12 +217,8 @@ class EditMember extends Component {
           proId={Number(id)}
         />
 
-        <button
-          type="button"
-          className="saveBtn footerBtn"
-          onClick={this.editProjectMember}
-        >
-          {ifSave ? "已保存" : "保存项目成员"}
+        <button type="button" className="saveBtn footerBtn" onClick={this.editProjectMember}>
+          {ifSave ? '已保存' : '保存项目成员'}
         </button>
         <span
           role="button"
@@ -254,15 +241,15 @@ export default EditMember;
 EditMember.propTypes = {
   match: PropTypes.shape({
     params: PropTypes.shape({
-      id: PropTypes.string
-    })
+      id: PropTypes.string,
+    }),
   }),
   history: PropTypes.shape({
-    push: PropTypes.func
-  })
+    push: PropTypes.func,
+  }),
 };
 
 EditMember.defaultProps = {
   match: {},
-  history: {}
+  history: {},
 };

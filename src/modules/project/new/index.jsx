@@ -1,12 +1,12 @@
-import React, { Component } from "react";
-import Button from "../../../components/common/button/index";
-import Select from "../../../components/common/select/index";
-import ManageService from "../../../service/manage";
-import ProjectService from "../../../service/project";
-import Loading from "../../../components/common/loading";
-import WrongPage from "../../../components/common/wrongPage/wrongPage";
-import "../../../static/css/common.css";
-import "./index.css";
+import React, { Component } from 'react';
+import Button from '../../../components/common/button/index';
+import Select from '../../../components/common/select/index';
+import ManageService from '../../../service/manage';
+import ProjectService from '../../../service/project';
+import Loading from '../../../components/common/loading';
+import WrongPage from '../../../components/common/wrongPage/wrongPage';
+import '../../../static/css/common.css';
+import './index.css';
 
 const gotoBack = () => {
   window.history.back();
@@ -16,13 +16,13 @@ const gotoBack = () => {
 const fetchGroups = () =>
   ManageService.getGroupList().then(res => {
     const arr = res.groupList.map(el => {
-      const el1 = { id: 0, value: "" };
+      const el1 = { id: 0, value: '' };
       el1.id = el.groupID;
       el1.value = el.groupName;
       el1.userCount = el.userCount;
       return el1;
     });
-    arr.push({ id: 0, value: "全部成员" });
+    arr.push({ id: 0, value: '全部成员' });
     return arr;
   });
 
@@ -31,24 +31,24 @@ const initProjectTree = pid => {
   const fileRoot = {
     folder: true,
     id: 0,
-    name: "全部文件",
+    name: '全部文件',
     router: [0],
     selected: true,
     finalSelected: true,
-    child: []
+    child: [],
   };
   const docRoot = {
     folder: true,
     id: 0,
-    name: "全部文档",
+    name: '全部文档',
     router: [0],
     selected: true,
     finalSelected: true,
-    child: []
+    child: [],
   };
   return Promise.all([
     ProjectService.updateProjectFileTree(pid, JSON.stringify(fileRoot)),
-    ProjectService.updateProjectDocTree(pid, JSON.stringify(docRoot))
+    ProjectService.updateProjectDocTree(pid, JSON.stringify(docRoot)),
   ]);
 };
 
@@ -56,14 +56,13 @@ class NewProject extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      selectAllText: "全选",
+      selectAllText: '全选',
       groups: [],
       groupCheckedIndex: 0,
       members: [],
-      selectedAll: false,
-      selMembers: [],
-      projectname: "",
-      intro: ""
+      projectname: '',
+      intro: '',
+      hasInputProjectName: false,
     };
     this.groupMemberInit();
   }
@@ -74,7 +73,7 @@ class NewProject extends Component {
       this.setState(
         {
           groups: re,
-          groupCheckedIndex: re.length - 1
+          groupCheckedIndex: re.length - 1,
         },
         () => {
           this.fetchGroupMember();
@@ -92,8 +91,8 @@ class NewProject extends Component {
             id: el.userID,
             name: el.username,
             groupID: el.groupID,
-            selected: false
-          }))
+            selected: false,
+          })),
         });
       })
       .finally(() => {
@@ -103,13 +102,14 @@ class NewProject extends Component {
 
   changeProjectnameText = event => {
     this.setState({
-      projectname: event.target.value
+      projectname: event.target.value,
+      hasInputProjectName: true,
     });
   };
 
   changeProjectintroText = event => {
     this.setState({
-      intro: event.target.value
+      intro: event.target.value,
     });
   };
 
@@ -119,14 +119,12 @@ class NewProject extends Component {
     if (groups[groupCheckedIndex] && groups[groupCheckedIndex].id === 0) {
       return members;
     }
-    return members.filter(
-      item => groups[groupCheckedIndex].id === item.groupID
-    );
+    return members.filter(item => groups[groupCheckedIndex].id === item.groupID);
   };
 
-  changeGroupCheck = (index, id) => {
+  changeGroupCheck = index => {
     this.setState({
-      groupCheckedIndex: index
+      groupCheckedIndex: index,
     });
   };
 
@@ -140,7 +138,7 @@ class NewProject extends Component {
       }
     }
     this.setState({
-      members
+      members,
     });
   };
 
@@ -151,14 +149,13 @@ class NewProject extends Component {
     for (let i = 0; i < len; i += 1) {
       if (
         groups[groupCheckedIndex] &&
-        (groups[groupCheckedIndex].id === 0 ||
-          groups[groupCheckedIndex].id === members[i].groupID)
+        (groups[groupCheckedIndex].id === 0 || groups[groupCheckedIndex].id === members[i].groupID)
       ) {
         members[i].selected = !isSelectedAll;
       }
     }
     this.setState({
-      members
+      members,
     });
   };
 
@@ -172,6 +169,7 @@ class NewProject extends Component {
   createProject = () => {
     const { members, projectname, intro } = this.state;
     let chooseMe = false;
+    const postProjectName = projectname.trim();
     const userlist = members.filter(el => el.selected).map(item => {
       /* eslint-disable */
       if (item.id == localStorage.id) {
@@ -182,21 +180,22 @@ class NewProject extends Component {
       return user;
     });
     if (!chooseMe) {
-      userlist.push({ userID: localStorage.id, userName: localStorage.name });
+      userlist.push({ userID: localStorage.id, userName: localStorage.username });
     }
-    if (!(userlist.length && projectname)) {
+    if (!(userlist.length && postProjectName)) {
       this.setState({
         wrong: {
-          message: "项目名称和成员不能为空！"
-        }
+          message: '项目名称和成员不能为空！',
+        },
+        hasInputProjectName: true,
       });
       return;
     }
     const postData = {
       username: localStorage.username,
-      projectname,
+      projectname: postProjectName,
       userlist,
-      intro
+      intro,
     };
     ProjectService.createProject(postData)
       .then(res => {
@@ -213,6 +212,14 @@ class NewProject extends Component {
       });
   };
 
+  cancel = () => {
+    this.setState({
+      wrong: {
+        message: '',
+      },
+    });
+  };
+
   render() {
     const {
       groups,
@@ -220,7 +227,8 @@ class NewProject extends Component {
       selectAllText,
       projectname,
       intro,
-      wrong
+      wrong,
+      hasInputProjectName,
     } = this.state;
     return (
       <div className="newProject-container">
@@ -233,6 +241,11 @@ class NewProject extends Component {
             value={projectname}
             onChange={this.changeProjectnameText}
           />
+          <p
+            className={hasInputProjectName && projectname.trim() === '' ? 'warning' : 'transparent'}
+          >
+            输入框不能为空！
+          </p>
           <textarea
             className="newProject-desc-textarea"
             placeholder="简单描述项目，便于他人了解（选填）"
@@ -255,7 +268,7 @@ class NewProject extends Component {
                     <label htmlFor="memberCheckedAll">{selectAllText}</label>
                   </div>
                 ) : (
-                  ""
+                  ''
                 )}
                 <div className="newProject-group-select">
                   <Select
@@ -282,11 +295,7 @@ class NewProject extends Component {
                   <label htmlFor={item.id}>{item.name}</label>
                 </div>
               ))}
-              {!this.currentMember().length ? (
-                <div className="tip">还没有成员～</div>
-              ) : (
-                ""
-              )}
+              {!this.currentMember().length ? <div className="tip">还没有成员～</div> : ''}
               <div className="newProject-member-over-helper" />
               <div className="newProject-member-over-helper" />
               <div className="newProject-member-over-helper" />

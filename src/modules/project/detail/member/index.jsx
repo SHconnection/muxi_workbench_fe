@@ -1,12 +1,12 @@
-import React, { Component } from "react";
-import PropTypes from "prop-types";
-import { Link } from "react-router-dom";
-import ProjectService from "../../../../service/project";
-import GoBack from "../../../../components/common/goBack/index";
-import MemberInfo from "../../../member/memberInfo/memberInfo";
-import Loading from "../../../../components/common/loading/index";
-import WrongPage from "../../../../components/common/wrongPage/wrongPage";
-import "./index.css";
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
+import ProjectService from '../../../../service/project';
+import GoBack from '../../../../components/common/goBack/index';
+import MemberInfo from '../../../member/memberInfo/memberInfo';
+import Loading from '../../../../components/common/loading/index';
+import WrongPage from '../../../../components/common/wrongPage/wrongPage';
+import './index.css';
 
 class Member extends Component {
   constructor(props) {
@@ -15,7 +15,7 @@ class Member extends Component {
     this.state = {
       pid: match.params.id,
       memberList: [],
-      wrong: {}
+      wrong: {},
     };
     this.getUserList = this.getUserList.bind(this);
     this.cancel = this.cancel.bind(this);
@@ -29,7 +29,7 @@ class Member extends Component {
       .then(res => {
         res.memberList.shift();
         this.setState({
-          memberList: res.memberList
+          memberList: res.memberList,
         });
       })
       .catch(error => {
@@ -62,6 +62,7 @@ class Member extends Component {
                 <MemberInfo mem={res} square={false} />
               </div>
             ))}
+            {memberList.length === 0 && <div className="tip">暂无成员～</div>}
           </div>
         </div>
 
@@ -73,12 +74,12 @@ class Member extends Component {
 
 Member.propTypes = {
   match: PropTypes.shape({
-    url: PropTypes.string
-  })
+    url: PropTypes.string,
+  }),
 };
 
 Member.defaultProps = {
-  match: {}
+  match: {},
 };
 
 export default Member;

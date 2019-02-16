@@ -1,26 +1,26 @@
-import React, { Component } from "react";
-import ReactSVG from "react-svg";
-import { NavLink, Link, withRouter } from "react-router-dom";
-import PropTypes from "prop-types";
-import logo from "../../../assets/img/logo@2x.png";
-import searchIcon from "../../../assets/svg/commonIcon/search.svg";
-import Avatar from "../avatar/index";
-import Inform from "./inform/index";
-import EventBus from "../eventBus/eventBus";
-import "./index.css";
+import React, { Component } from 'react';
+import ReactSVG from 'react-svg';
+import { NavLink, Link, withRouter } from 'react-router-dom';
+import PropTypes from 'prop-types';
+import logo from '../../../assets/img/logo@2x.png';
+import searchIcon from '../../../assets/svg/commonIcon/search.svg';
+import Avatar from '../avatar/index';
+import Inform from './inform/index';
+import EventBus from '../eventBus/eventBus';
+import './index.css';
 
 class Header extends Component {
   constructor(props) {
     super(props);
     this.state = {
       showInput: false,
-      userAvatar: localStorage.avatar
+      userAvatar: localStorage.avatar,
     };
     this.searchRef = React.createRef();
   }
 
   componentDidMount() {
-    EventBus.addListener("modifyUserAvatar", url => {
+    EventBus.addListener('modifyUserAvatar', url => {
       this.setState({ userAvatar: url });
     });
   }
@@ -28,14 +28,14 @@ class Header extends Component {
   clickSearchIcon = () => {
     const that = this;
     this.setState({
-      showInput: !that.state.showInput
+      showInput: !that.state.showInput,
     });
   };
 
   searchItem = () => {
     const { value } = this.searchRef.current;
     // console.log(value);
-    if (value !== "") {
+    if (value !== '') {
       this.searchText = value;
       const url = `/search/${encodeURIComponent(
         encodeURIComponent(encodeURIComponent(this.searchText))
@@ -50,7 +50,7 @@ class Header extends Component {
       this.searchItem();
       const that = this;
       this.setState({
-        showInput: !that.state.showInput
+        showInput: !that.state.showInput,
       });
     }
   };
@@ -63,7 +63,7 @@ class Header extends Component {
         <div className="header-content">
           <div className="header-left">
             <img className="header-logo-img" src={logo} alt="logo" />
-            <div className="header-logo-text">木犀工作台</div>
+            <div className="header-logo-text">木犀工作</div>
             <div className="header-tab-container">
               <NavLink
                 to="/project"
@@ -122,16 +122,8 @@ class Header extends Component {
                 // autoFocus
               />
             )}
-            <div
-              onClick={this.clickSearchIcon.bind(this)}
-              onKeyDown={() => {}}
-              role="presentation"
-            >
-              <ReactSVG
-                className="header-search-icon"
-                path={searchIcon}
-                svgStyle={{ width: 22 }}
-              />
+            <div onClick={this.clickSearchIcon.bind(this)} onKeyDown={() => {}} role="presentation">
+              <ReactSVG className="header-search-icon" path={searchIcon} svgStyle={{ width: 22 }} />
             </div>
           </div>
         </div>
@@ -140,9 +132,9 @@ class Header extends Component {
   }
 }
 Header.propTypes = {
-  history: PropTypes.shape({})
+  history: PropTypes.shape({}),
 };
 Header.defaultProps = {
-  history: {}
+  history: {},
 };
 export default withRouter(Header);
