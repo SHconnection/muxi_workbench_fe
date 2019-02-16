@@ -8,7 +8,7 @@ cache: npm
 services:
   - docker
 install:
-  - npm install -g qiniu-upload-tool muxi-react-scripts
+  - npm install -g qiniu-upload-tool
   - npm install
   - npm run build
   - ls ./build
