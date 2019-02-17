@@ -5,6 +5,7 @@ import React, { Component } from "react";
 import { List } from "react-virtualized";
 import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
+import { connect } from "react-redux";
 import Delete from "../delete/delete";
 import File from "../../../../assets/img/file.png";
 import MessageService from "../../../../service/message";
@@ -70,6 +71,8 @@ class PersonalAttention extends Component {
 
   render() {
     const { data, deleteX, members, wrong } = this.state;
+    const { storeId, storePer } = this.props;
+
     const renderRow = info => {
       const mem = members[info.index];
       return (
@@ -113,8 +116,7 @@ class PersonalAttention extends Component {
                   this.delete(mem);
                 }}
               >
-                {parseInt(localStorage.id, 10) ===
-                parseInt(localStorage.per, 10)
+                {parseInt(storeId, 10) === parseInt(storePer, 10)
                   ? "取消关注"
                   : ""}
               </span>
@@ -154,8 +156,6 @@ class PersonalAttention extends Component {
   }
 }
 
-export default PersonalAttention;
-
 PersonalAttention.propTypes = {
   history: PropTypes.shape({
     push: PropTypes.func
@@ -164,10 +164,21 @@ PersonalAttention.propTypes = {
     params: PropTypes.shape({
       uid: PropTypes.string
     })
-  })
+  }),
+  storeId: PropTypes.number,
+  storePer: PropTypes.number
 };
 
 PersonalAttention.defaultProps = {
   history: {},
-  match: {}
+  match: {},
+  storeId: 0,
+  storePer: 0
 };
+
+const mapStateToProps = state => ({
+  storeId: state.id,
+  storePer: state.per
+});
+
+export default connect(mapStateToProps)(PersonalAttention);

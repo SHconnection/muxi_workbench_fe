@@ -1,4 +1,6 @@
 import React, { Component } from "react";
+import { connect } from "react-redux";
+import PropTypes from "prop-types";
 import Button from "../../../components/common/button/index";
 import Select from "../../../components/common/select/index";
 import ManageService from "../../../service/manage";
@@ -60,8 +62,8 @@ class NewProject extends Component {
       groups: [],
       groupCheckedIndex: 0,
       members: [],
-      selectedAll: false,
-      selMembers: [],
+      // selectedAll: false,
+      // selMembers: [],
       projectname: "",
       intro: ""
     };
@@ -124,7 +126,7 @@ class NewProject extends Component {
     );
   };
 
-  changeGroupCheck = (index, id) => {
+  changeGroupCheck = index => {
     this.setState({
       groupCheckedIndex: index
     });
@@ -171,10 +173,12 @@ class NewProject extends Component {
 
   createProject = () => {
     const { members, projectname, intro } = this.state;
+    const { storeId, storeUsername } = this.props;
+
     let chooseMe = false;
     const userlist = members.filter(el => el.selected).map(item => {
       /* eslint-disable */
-      if (item.id == localStorage.id) {
+      if (item.id == storeId) {
         /* eslint-enable */
         chooseMe = true;
       }
@@ -182,7 +186,7 @@ class NewProject extends Component {
       return user;
     });
     if (!chooseMe) {
-      userlist.push({ userID: localStorage.id, userName: localStorage.name });
+      userlist.push({ userID: storeId, userName: storeUsername });
     }
     if (!(userlist.length && projectname)) {
       this.setState({
@@ -193,7 +197,7 @@ class NewProject extends Component {
       return;
     }
     const postData = {
-      username: localStorage.username,
+      username: storeUsername,
       projectname,
       userlist,
       intro
@@ -222,6 +226,8 @@ class NewProject extends Component {
       intro,
       wrong
     } = this.state;
+    const { storeId } = this.props;
+
     return (
       <div className="newProject-container">
         <div className="newProject-content">
@@ -267,12 +273,12 @@ class NewProject extends Component {
               </div>
             </div>
             <div className="newProject-member-container">
-              {this.currentMember().map((item, index) => (
+              {this.currentMember().map(item => (
                 <div className="newProject-member-item" key={item.id}>
                   <input
                     type="checkbox"
                     /* eslint-disable */
-                    checked={item.selected || item.id == localStorage.id}
+                    checked={item.selected || item.id == storeId}
                     /* eslint-enable */
                     onClick={() => {
                       this.checkMember(item.id);
@@ -313,4 +319,18 @@ class NewProject extends Component {
   }
 }
 
-export default NewProject;
+NewProject.propTypes = {
+  storeId: PropTypes.number,
+  storeUsername: PropTypes.string
+};
+NewProject.defaultProps = {
+  storeId: 0,
+  storeUsername: ""
+};
+
+const mapStateToProps = state => ({
+  storeId: state.id,
+  storeUsername: state.username
+});
+
+export default connect(mapStateToProps)(NewProject);

@@ -256,7 +256,10 @@ class SlateEditor extends Component {
   // On change, update the app's React state with the new editor value.
   onChange = ({ value }) => {
     // const content = JSON.stringify(this.state.value.toJSON())
-    if (value.document !== this.state.value.document) {
+    const {
+      value: { document: stateDocument }
+    } = this.state;
+    if (value.document !== stateDocument) {
       const string = html.serialize(value);
       localStorage.setItem("content", string);
     }

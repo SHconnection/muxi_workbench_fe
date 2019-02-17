@@ -3,6 +3,7 @@
 */
 import React, { Component } from "react";
 import PropTypes from "prop-types";
+import { connect } from "react-redux";
 import GoBack from "../../../components/common/goBack/index";
 import Member from "../components/member/member";
 import Delete from "../components/delete/delete";
@@ -33,9 +34,10 @@ class SetPersonalInfo extends Component {
 
   componentDidMount() {
     const { identity, selIdentities } = this.state;
+    const { storeId, storePer, storePerRole } = this.props;
     Loading.show();
 
-    ManageService.getPersonalPro(localStorage.id)
+    ManageService.getPersonalPro(storeId)
       .then(project => {
         if (project) {
           const proList = project.list.map(item => {
@@ -50,7 +52,7 @@ class SetPersonalInfo extends Component {
             return obj;
           });
 
-          ManageService.getPersonalPro(localStorage.per)
+          ManageService.getPersonalPro(storePer)
             .then(pro => {
               let idList = [];
 
@@ -69,10 +71,10 @@ class SetPersonalInfo extends Component {
               identity[0].selected = false;
               identity[1].selected = true;
               selIdentities[0] = 1;
-              if (parseInt(localStorage.perRole, 10) > 1) {
+              if (parseInt(storePerRole, 10) > 1) {
                 identity[0].selected = true;
                 identity[1].selected = false;
-                selIdentities[0] = parseInt(localStorage.perRole, 10);
+                selIdentities[0] = parseInt(storePerRole, 10);
               }
 
               this.setState({
@@ -157,8 +159,9 @@ class SetPersonalInfo extends Component {
 
   saveModifyMember = () => {
     const { selIdentities, selMembers } = this.state;
+    const { storePer } = this.props;
 
-    ManageService.saveModifyMemberIdenty(localStorage.per, selIdentities).catch(
+    ManageService.saveModifyMemberIdenty(storePer, selIdentities).catch(
       error => {
         this.setState({ wrong: error });
       }
@@ -169,7 +172,7 @@ class SetPersonalInfo extends Component {
       return;
     }
 
-    ManageService.saveModifyMemberPro(localStorage.per, selMembers)
+    ManageService.saveModifyMemberPro(storePer, selMembers)
       .then(() => {
         this.setState({ ifSave: true });
 
@@ -204,7 +207,8 @@ class SetPersonalInfo extends Component {
     const {
       match: {
         params: { name }
-      }
+      },
+      storePer
     } = this.props;
 
     return (
@@ -272,7 +276,7 @@ class SetPersonalInfo extends Component {
             deleteX={deleteX}
             transferMsg={this.transferMsgDel}
             memDel
-            userId={parseInt(localStorage.per, 10)}
+            userId={parseInt(storePer, 10)}
             certain
           />
           <Delete
@@ -289,8 +293,6 @@ class SetPersonalInfo extends Component {
   }
 }
 
-export default SetPersonalInfo;
-
 SetPersonalInfo.propTypes = {
   match: PropTypes.shape({
     params: PropTypes.shape({
@@ -299,10 +301,24 @@ SetPersonalInfo.propTypes = {
   }),
   history: PropTypes.shape({
     push: PropTypes.func
-  })
+  }),
+  storeId: PropTypes.number,
+  storePer: PropTypes.number,
+  storePerRole: PropTypes.number
 };
 
 SetPersonalInfo.defaultProps = {
   match: {},
-  history: {}
+  history: {},
+  storeId: 0,
+  storePer: 0,
+  storePerRole: 1
 };
+
+const mapStateToProps = state => ({
+  storeId: state.id,
+  storePer: state.per,
+  storePerRole: state.perRole
+});
+
+export default connect(mapStateToProps)(SetPersonalInfo);

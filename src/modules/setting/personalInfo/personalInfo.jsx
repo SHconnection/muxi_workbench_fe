@@ -4,6 +4,7 @@
 import React, { Component } from "react";
 import { Route, NavLink, Link, Redirect, Switch } from "react-router-dom";
 import PropTypes from "prop-types";
+import { connect } from "react-redux";
 import Avatar from "../../../components/common/avatar/index";
 import PersonalAttention from "../components/personalAttention/personalAttention";
 import Dynamic from "../../feed/dynamic";
@@ -25,6 +26,8 @@ class PersonalInfo extends Component {
   }
 
   componentDidMount() {
+    const { storePer } = this.props;
+
     Loading.show();
     const url = window.location.href;
     const re = /\/(\d+)$/;
@@ -32,7 +35,7 @@ class PersonalInfo extends Component {
     if (re.exec(url) && re.exec(url)[1]) {
       id = re.exec(url)[1];
     } else {
-      id = parseInt(localStorage.per, 10);
+      id = parseInt(storePer, 10);
     }
 
     ManageService.getPersonalSet(id)
@@ -60,7 +63,8 @@ class PersonalInfo extends Component {
 
   render() {
     const { per, wrong } = this.state;
-    const { match, location } = this.props;
+    const { match, location, storeId, storePerRole, storeRole } = this.props;
+
     let uid;
     if (location.state && location.state.uid) {
       const {
@@ -79,7 +83,7 @@ class PersonalInfo extends Component {
             <div className="personalInfo-personalIntro">
               <b className="personalName">{per.name}</b>
               <Link to={`${match.url}/personalSet`} className="fakeBtn">
-                {parseInt(per.id, 10) === parseInt(localStorage.id, 10)
+                {parseInt(per.id, 10) === parseInt(storeId, 10)
                   ? "更改设置"
                   : ""}
               </Link>
@@ -93,9 +97,8 @@ class PersonalInfo extends Component {
             <button
               type="button"
               className={
-                parseInt(localStorage.role, 10) === 7 &&
-                parseInt(localStorage.role, 10) !==
-                  parseInt(localStorage.perRole, 10)
+                parseInt(storeRole, 10) === 7 &&
+                parseInt(storeRole, 10) !== parseInt(storePerRole, 10)
                   ? "saveBtn personalInfo-saveBtn"
                   : "none"
               }
@@ -155,8 +158,6 @@ class PersonalInfo extends Component {
   }
 }
 
-export default PersonalInfo;
-
 PersonalInfo.propTypes = {
   match: PropTypes.shape({
     url: PropTypes.string
@@ -165,10 +166,27 @@ PersonalInfo.propTypes = {
     state: PropTypes.shape({
       uid: PropTypes.number
     })
-  })
+  }),
+  storeId: PropTypes.number,
+  storePer: PropTypes.number,
+  storeRole: PropTypes.number,
+  storePerRole: PropTypes.number
 };
 
 PersonalInfo.defaultProps = {
   match: {},
-  location: {}
+  location: {},
+  storeId: 0,
+  storeRole: 1,
+  storePer: 0,
+  storePerRole: 1
 };
+
+const mapStateToProps = state => ({
+  storeId: state.id,
+  storePer: state.per,
+  storePerRole: state.perRole,
+  storeRole: state.role
+});
+
+export default connect(mapStateToProps)(PersonalInfo);

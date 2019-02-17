@@ -2,6 +2,8 @@
 添加成员页面组件
 */
 import React, { Component } from "react";
+import { connect } from "react-redux";
+import PropTypes from "prop-types";
 import GoBack from "../../../components/common/goBack/index";
 import ManageService from "../../../service/manage";
 import WrongPage from "../../../components/common/wrongPage/wrongPage";
@@ -26,9 +28,11 @@ class AddMem extends Component {
   }
 
   link = () => {
+    const { storeProxy } = this.props;
+
     ManageService.invitePerson()
       .then(data => {
-        this.setState({ inputValue: localStorage.proxy + data.invite_url });
+        this.setState({ inputValue: storeProxy + data.invite_url });
       })
       .catch(error => {
         this.setState({ wrong: error });
@@ -98,4 +102,16 @@ class AddMem extends Component {
   }
 }
 
-export default AddMem;
+AddMem.propTypes = {
+  storeProxy: PropTypes.string
+};
+
+AddMem.defaultProps = {
+  storeProxy: ""
+};
+
+const mapStateToProps = state => ({
+  storeProxy: state.proxy
+});
+
+export default connect(mapStateToProps)(AddMem);

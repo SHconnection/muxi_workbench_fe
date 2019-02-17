@@ -5,6 +5,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
 import Avatar from "../../../components/common/avatar/index";
+import Store from "../../../store";
 import "../../../static/css/common.css";
 import "./memberInfo.css";
 
@@ -35,8 +36,14 @@ const MemberInfo = ({ mem, square }) => (
         tabIndex="-1"
         onKeyDown={() => {}}
         onClick={() => {
-          localStorage.per = mem.id || mem.userID;
-          localStorage.perRole = mem.role;
+          Store.dispatch({
+            type: "substitutePer",
+            payload: mem.id || mem.userID
+          });
+          Store.dispatch({
+            type: "substitutePerRole",
+            payload: mem.role || 1
+          });
         }}
       >
         <Avatar width={60} height={60} src={mem.avatar} square={square} />

@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import ReactSVG from "react-svg";
 import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
+import { connect } from "react-redux";
 // import { MarkdownPreview } from "react-marked-markdown";
 import Goback from "../../../components/common/goBack/index";
 import thumbs from "../../../assets/svg/commonIcon/thumbs.svg";
@@ -146,6 +147,7 @@ class Detail extends Component {
       username,
       content
     } = this.state;
+    const { storeAvatar } = this.props;
 
     return (
       <div className="subject">
@@ -210,7 +212,7 @@ class Detail extends Component {
         <div className="send">
           <Avatar
             className="comment-img"
-            src={localStorage.avatar}
+            src={storeAvatar}
             width={49}
             height={49}
           />
@@ -240,11 +242,17 @@ class Detail extends Component {
 Detail.propTypes = {
   match: PropTypes.shape({
     url: PropTypes.string
-  })
+  }),
+  storeAvatar: PropTypes.string
 };
 
 Detail.defaultProps = {
-  match: {}
+  match: {},
+  storeAvatar: ""
 };
 
-export default Detail;
+const mapStateToProps = state => ({
+  storeAvatar: state.avatar
+});
+
+export default connect(mapStateToProps)(Detail);

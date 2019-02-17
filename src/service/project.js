@@ -1,18 +1,19 @@
 import Fetch from "./fetch";
+import Store from "../store";
 // import { ContentMatch } from "prosemirror-model";
 
 const ProjectService = {
   projectDelete(proId) {
     return Fetch(`/api/v1.0/project/${proId}/`, {
       method: "DELETE",
-      token: localStorage.token
+      token: Store.getState().token
     });
   },
 
   editProjectMember(proId, selMembers) {
     return Fetch(`/api/v1.0/project/${proId}/member/`, {
       method: "PUT",
-      token: localStorage.token,
+      token: Store.getState().token,
       data: {
         userList: selMembers
       }
@@ -22,14 +23,14 @@ const ProjectService = {
   // 获取项目基本信息（name,intro,userCount）
   getProjectInfo(proId) {
     return Fetch(`/api/v1.0/project/${proId}/`, {
-      token: localStorage.token
+      token: Store.getState().token
     });
   },
 
   saveProjectSet(proId, textValue, inputValue) {
     return Fetch(`/api/v1.0/project/${proId}/`, {
       method: "POST",
-      token: localStorage.token,
+      token: Store.getState().token,
       data: {
         intro: textValue,
         name: inputValue
@@ -41,7 +42,7 @@ const ProjectService = {
   getProjectUserList(pid) {
     return Fetch(`/api/v1.0/project/${pid}/member/`, {
       method: "GET",
-      token: localStorage.token
+      token: Store.getState().token
     });
   },
 
@@ -49,7 +50,7 @@ const ProjectService = {
   createProject(postData) {
     return Fetch("/api/v1.0/project/new/", {
       method: "POST",
-      token: localStorage.token,
+      token: Store.getState().token,
       data: postData
     });
   },
@@ -57,7 +58,7 @@ const ProjectService = {
   // 获取项目列表(默认第一页)
   getProjectList(userID, page = 1) {
     return Fetch(`/api/v1.0/user/${userID}/project/list/?page=${page}`, {
-      token: localStorage.token
+      token: Store.getState().token
     });
   },
 
@@ -75,7 +76,7 @@ const ProjectService = {
   // 获取项目的文件树
   getProjectFileTree(pid) {
     return Fetch(`/api/v1.0/folder/filetree/${pid}/`, {
-      token: localStorage.token
+      token: Store.getState().token
     });
   },
 
@@ -86,14 +87,14 @@ const ProjectService = {
       data: {
         filetree: fileTreeStr
       },
-      token: localStorage.token
+      token: Store.getState().token
     });
   },
 
   // 获取项目文档树
   getProjectDocTree(pid) {
     return Fetch(`/api/v1.0/folder/doctree/${pid}/`, {
-      token: localStorage.token
+      token: Store.getState().token
     });
   },
 
@@ -104,7 +105,7 @@ const ProjectService = {
       data: {
         doctree: docTreeStr
       },
-      token: localStorage.token
+      token: Store.getState().token
     });
   },
 
@@ -115,14 +116,14 @@ const ProjectService = {
       data: {
         content
       },
-      token: localStorage.token
+      token: Store.getState().token
     });
   },
 
   // 获取文件评论列表
   getCommentList(pid, fid) {
     return Fetch(`/api/v1.0/project/${pid}/file/${fid}/comments/`, {
-      token: localStorage.token
+      token: Store.getState().token
     });
   },
 
@@ -133,14 +134,14 @@ const ProjectService = {
       data: {
         content
       },
-      token: localStorage.token
+      token: Store.getState().token
     });
   },
 
   // 获取文档评论列表
   getCommentListForDoc(pid, fid) {
     return Fetch(`/api/v1.0/project/${pid}/doc/${fid}/comments/`, {
-      token: localStorage.token
+      token: Store.getState().token
     });
   }
 };

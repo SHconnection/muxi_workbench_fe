@@ -18,6 +18,7 @@
     line-height: normal;
     vertical-align: middle;
     overflow: scroll;
+    text-align: left;
 }
 .IB{
     display: inline-block;

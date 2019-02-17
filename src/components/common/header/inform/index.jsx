@@ -1,6 +1,8 @@
 import React, { Component } from "react";
 import ReactSVG from "react-svg";
 import { Link } from "react-router-dom";
+import { connect } from "react-redux";
+import PropTypes from "prop-types";
 import SettingIcon from "../../../../assets/svg/commonIcon/setting.svg";
 import InfoRemindIcon from "../../../../assets/svg/commonIcon/infoRemind.svg";
 import InfoIcon from "../../../../assets/svg/commonIcon/info.svg";
@@ -22,6 +24,8 @@ function getPath(sourcekind, projectID, sourceID) {
       return `/`;
   }
 }
+let informCanGetMessage = true;
+let informIntervalPointer = null;
 
 class Inform extends Component {
   constructor(props) {
@@ -35,7 +39,31 @@ class Inform extends Component {
   }
 
   componentDidMount() {
-    this.getMessage();
+    // waiting for get token
+    setTimeout(() => {
+      const { storeLoginSuccess } = this.props;
+      if (informCanGetMessage && storeLoginSuccess === 1) {
+        this.getMessage();
+        informCanGetMessage = false;
+        setTimeout(() => {
+          informCanGetMessage = true;
+        }, 10000);
+      }
+    }, 1000);
+    informIntervalPointer = setInterval(() => {
+      const { storeLoginSuccess } = this.props;
+      if (informCanGetMessage && storeLoginSuccess === 1) {
+        this.getMessage();
+        informCanGetMessage = false;
+        setTimeout(() => {
+          informCanGetMessage = true;
+        }, 10000);
+      }
+    }, 10000);
+  }
+
+  componentWillUnmount() {
+    clearInterval(informIntervalPointer);
   }
 
   getMessage() {
@@ -50,6 +78,13 @@ class Inform extends Component {
     this.setState({
       hover: true
     });
+    if (informCanGetMessage) {
+      this.getMessage();
+      informCanGetMessage = false;
+      setTimeout(() => {
+        informCanGetMessage = true;
+      }, 10000);
+    }
   }
 
   leave() {
@@ -59,13 +94,20 @@ class Inform extends Component {
   }
 
   readAll() {
-    MessageService.messageAllRead(localStorage.username).then(() => {
+    const { storeUsername } = this.props;
+
+    MessageService.messageAllRead(storeUsername).then(() => {
       this.getMessage();
     });
   }
 
   render() {
     const { hover, MessageList } = this.state;
+    const { storeLoginSuccess } = this.props;
+    if (storeLoginSuccess !== 1) {
+      return <div />;
+    }
+
     const message = MessageList.length;
     return (
       <div onMouseLeave={this.leave.bind(this)}>
@@ -99,7 +141,8 @@ class Inform extends Component {
                     // console.log(index);
                     return (
                       !el.readed && (
-                        <div className="info-item" key={el.sourceID}>
+                        // sourceID is not unique
+                        <div className="info-item" key={el.time + el.sourceID}>
                           <div className="info-text">
                             {el.fromName}
                             {el.action}
@@ -155,4 +198,19 @@ class Inform extends Component {
   }
 }
 
-export default Inform;
+Inform.propTypes = {
+  storeUsername: PropTypes.string,
+  storeLoginSuccess: PropTypes.number
+};
+
+Inform.defaultProps = {
+  storeUsername: "",
+  storeLoginSuccess: 0
+};
+
+const mapStateToProps = state => ({
+  storeUsername: state.username,
+  storeLoginSuccess: state.loginSuccess
+});
+
+export default connect(mapStateToProps)(Inform);

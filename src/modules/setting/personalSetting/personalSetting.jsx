@@ -2,6 +2,8 @@
 个人设置页面组件
 */
 import React, { Component } from "react";
+import { connect } from "react-redux";
+import PropTypes from "prop-types";
 import GoBack from "../../../components/common/goBack/index";
 import Avatar from "../../../components/common/avatar/index";
 import Member from "../components/member/member";
@@ -9,7 +11,7 @@ import Save from "../components/save/save";
 import ManageService from "../../../service/manage";
 import WrongPage from "../../../components/common/wrongPage/wrongPage";
 import Loading from "../../../components/common/loading/index";
-import EventBus from "../../../components/common/eventBus/eventBus";
+import Store from "../../../store";
 import "../../../static/css/common.css";
 import "./personalSetting.css";
 
@@ -39,8 +41,10 @@ class PersonalSet extends Component {
   }
 
   componentDidMount() {
+    const { storeId } = this.props;
+
     Loading.show();
-    ManageService.getPersonalSet(localStorage.id)
+    ManageService.getPersonalSet(storeId)
       .then(setting => {
         const { members } = this.state;
 
@@ -124,6 +128,8 @@ class PersonalSet extends Component {
       img,
       imgFile
     } = this.state;
+    const { storeId } = this.props;
+
     const obj = {
       username: inputName,
       address: inputMailbox,
@@ -136,14 +142,17 @@ class PersonalSet extends Component {
       const data = new FormData();
       data.append("image", imgFile);
 
-      ManageService.savePersonalSet(localStorage.id, obj).catch(error => {
+      ManageService.savePersonalSet(storeId, obj).catch(error => {
         this.setState({ wrong: error });
       });
 
       ManageService.savePersonalAvatar(data)
         .then(() => {
           this.setState({ ifSave: true });
-          EventBus.emit("modifyUserAvatar", img);
+          Store.dispatch({
+            type: "substituteAvatar",
+            payload: img || ""
+          });
 
           setTimeout(() => {
             this.setState({ ifSave: false });
@@ -154,7 +163,7 @@ class PersonalSet extends Component {
           this.setState({ wrong: error });
         });
     } else {
-      ManageService.savePersonalSet(localStorage.id, obj)
+      ManageService.savePersonalSet(storeId, obj)
         .then(() => {
           this.setState({ ifSave: true });
 
@@ -331,4 +340,16 @@ class PersonalSet extends Component {
   }
 }
 
-export default PersonalSet;
+PersonalSet.propTypes = {
+  storeId: PropTypes.number
+};
+
+PersonalSet.defaultProps = {
+  storeId: 0
+};
+
+const mapStateToProps = state => ({
+  storeId: state.id
+});
+
+export default connect(mapStateToProps)(PersonalSet);

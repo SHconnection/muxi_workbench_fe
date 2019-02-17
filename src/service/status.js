@@ -1,9 +1,10 @@
 import Fetch from "./fetch";
+import Store from "../store";
 
 const StatusService = {
   addNewStatu(title, content) {
     return Fetch("/api/v1.0/status/new/", {
-      token: localStorage.token,
+      token: Store.getState().token,
       method: "POST",
       data: {
         content,
@@ -13,7 +14,7 @@ const StatusService = {
   },
   changeStatu(sid, title, content) {
     return Fetch(`/api/v1.0/status/${sid}/`, {
-      token: localStorage.token,
+      token: Store.getState().token,
       method: "PUT",
       data: {
         content,
@@ -24,48 +25,48 @@ const StatusService = {
 
   getStatusList(page) {
     return Fetch(`/api/v1.0/status/list/${page}/`, {
-      token: localStorage.token
+      token: Store.getState().token
     });
   },
   getPersonalStatus(uid, page) {
     return Fetch(`/api/v1.0/status/${uid}/list/${page}/`, {
-      token: localStorage.token
+      token: Store.getState().token
     });
   },
   getStatuDetail(sid) {
     return Fetch(`/api/v1.0/status/${sid}/`, {
-      token: localStorage.token
+      token: Store.getState().token
     });
   },
   editStatu(sid) {
     return Fetch(`/api/v1.0/status/${sid}/`, {
-      token: localStorage.token
+      token: Store.getState().token
     });
   },
   changeLike(sid, iflike) {
     return Fetch(`/api/v1.0/status/${sid}/like/`, {
       method: "PUT",
-      token: localStorage.token,
+      token: Store.getState().token,
       data: { iflike }
     });
   },
   postComments(sid, content) {
     return Fetch(`/api/v1.0/status/${sid}/comments/`, {
       method: "POST",
-      token: localStorage.token,
+      token: Store.getState().token,
       data: { content }
     });
   },
   commentDelete(cid, sid) {
     return Fetch(`/api/v1.0/status/${sid}/comment/${cid}/`, {
       method: "DELETE",
-      token: localStorage.token
+      token: Store.getState().token
     });
   },
   statusDelete(staId) {
     return Fetch(`/api/v1.0/status/${staId}/`, {
       method: "DELETE",
-      token: localStorage.token
+      token: Store.getState().token
     });
   }
 };
