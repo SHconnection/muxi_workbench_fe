@@ -25,6 +25,7 @@ ReactDOM.render(
   <Provider store={Store}>
     <Router>
       <div className="app-container">
+        <Header />
         <Switch>
           <Redirect exact from="/" to="/project" />
           <Route path="/project" component={Project} />
@@ -37,7 +38,6 @@ ReactDOM.render(
           <Route path="/landing" component={load} />
           <Route component={NoMatch} />
         </Switch>
-        <Header />
       </div>
     </Router>
   </Provider>,

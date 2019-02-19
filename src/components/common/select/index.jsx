@@ -24,9 +24,7 @@ class Select extends Component {
   }
 
   clearSelectOptionBar = e => {
-    if (e.target.classList.contains("clickFlag")) {
-      return;
-    } else {
+    if (!e.target.classList.contains("clickFlag")) {
       this.setState(preState => {
         if (preState.showInput) {
           return { showInput: false };

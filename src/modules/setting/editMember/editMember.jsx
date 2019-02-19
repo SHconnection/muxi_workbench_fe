@@ -185,20 +185,22 @@ class EditMember extends Component {
 
         if (num === arr1.length) {
           arr1.map(i => {
-            const idIndex = arr2.indexOf(i.id);
+            const j = i;
+            const idIndex = arr2.indexOf(j.id);
             if (idIndex !== -1) {
               arr2.splice(idIndex, 1);
             }
-            i.selected = false;
-            return i;
+            j.selected = false;
+            return j;
           });
         } else {
           arr1.map(i => {
-            if (!i.selected) {
-              i.selected = true;
-              arr2.push(i.id);
+            const j = i;
+            if (!j.selected) {
+              j.selected = true;
+              arr2.push(j.id);
             }
-            return i;
+            return j;
           });
         }
       }

@@ -168,6 +168,10 @@ class ProjectDetailIndex extends Component {
       });
   }
 
+  cancel = () => {
+    this.setState({ wrong: {} });
+  };
+
   // 根据文件树更新当前视图的文件
   updateFilesList() {
     const { pid, fileRootId } = this.state;
@@ -589,10 +593,6 @@ class ProjectDetailIndex extends Component {
       // finalMoveDocId: 0
     });
   }
-
-  cancel = () => {
-    this.setState({ wrong: {} });
-  };
 
   render() {
     const {

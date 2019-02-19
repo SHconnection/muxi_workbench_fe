@@ -8,41 +8,15 @@ import searchIcon from "../../../assets/svg/commonIcon/search.svg";
 import Avatar from "../avatar/index";
 import Inform from "./inform/index";
 import Store from "../../../store";
-import ManageService from "../../../service/manage";
-import LandingService from "../../../service/landing";
-import Cookie from "../../../service/cookie";
-import WrongPage from "../wrongPage/wrongPage";
 import "./index.css";
-
-const User = decodeURIComponent(LandingService.getUsername());
-const data = {
-  name: User,
-  email: "",
-  avatar: "",
-  tel: "",
-  teamID: 1
-};
-const data1 = {
-  name: User
-};
-
-Store.dispatch({
-  type: "substituteUserName",
-  payload: User || ""
-});
 
 class Header extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      showInput: false,
-      wrong: {}
+      showInput: false
     };
     this.searchRef = React.createRef();
-  }
-
-  componentDidMount() {
-    this.loginBeforeGetInform();
   }
 
   clickSearchIcon = () => {
@@ -75,150 +49,90 @@ class Header extends Component {
     }
   };
 
-  loginBeforeGetInform = () => {
-    LandingService.getToken(data1)
-      .then(response => {
-        Store.dispatch({
-          type: "substituteId",
-          payload: response.uid || 0
-        });
-        Store.dispatch({
-          type: "substituteToken",
-          payload: response.token || ""
-        });
-        Cookie.setCookie("workbench_token", response.token);
-        Store.dispatch({
-          type: "substituteRole",
-          payload: response.urole || 1
-        });
-        ManageService.getPersonalSet(response.uid)
-          .then(res => {
-            Store.dispatch({
-              type: "substituteAvatar",
-              payload: res.avatar || ""
-            });
-            Store.dispatch({
-              type: "substituteEmail",
-              payload: res.email || ""
-            });
-            Store.dispatch({
-              type: "substituteLoginSuccess",
-              payload: 1
-            });
-          })
-          .catch(error => {
-            this.setState({
-              wrong: error
-            });
-          });
-      })
-      .catch(() => {
-        LandingService.SignUp(data)
-          .then(() => {
-            Store.dispatch({
-              type: "substituteLoginSuccess",
-              payload: 2
-            });
-          })
-          .catch(error => {
-            this.setState({
-              wrong: error
-            });
-          });
-      });
-  };
-
-  cancel = () => {
-    this.setState({ wrong: {} });
-  };
-
   render() {
-    const { showInput, wrong } = this.state;
+    const { showInput } = this.state;
     const { storeAvatar, storeId } = this.props;
 
     return (
-      <div>
-        <div className="header-container">
-          <div className="header-content">
-            <div className="header-left">
-              <img className="header-logo-img" src={logo} alt="logo" />
-              <div className="header-logo-text">木犀工作台</div>
-              <div className="header-tab-container">
-                <NavLink
-                  to="/project"
-                  className="header-tab-item"
-                  activeClassName="header-tab-item-active"
-                >
-                  项目
-                </NavLink>
-                <NavLink
-                  to="/status"
-                  className="header-tab-item"
-                  activeClassName="header-tab-item-active"
-                >
-                  进度
-                </NavLink>
-                <NavLink
-                  to="/feed"
-                  className="header-tab-item"
-                  activeClassName="header-tab-item-active"
-                >
-                  动态
-                </NavLink>
-                <NavLink
-                  to="/teamMember"
-                  className="header-tab-item"
-                  activeClassName="header-tab-item-active"
-                >
-                  成员
-                </NavLink>
-              </div>
+      <div className="header-container">
+        <div className="header-content">
+          <div className="header-left">
+            <img className="header-logo-img" src={logo} alt="logo" />
+            <div className="header-logo-text">木犀工作台</div>
+            <div className="header-tab-container">
+              <NavLink
+                to="/project"
+                className="header-tab-item"
+                activeClassName="header-tab-item-active"
+              >
+                项目
+              </NavLink>
+              <NavLink
+                to="/status"
+                className="header-tab-item"
+                activeClassName="header-tab-item-active"
+              >
+                进度
+              </NavLink>
+              <NavLink
+                to="/feed"
+                className="header-tab-item"
+                activeClassName="header-tab-item-active"
+              >
+                动态
+              </NavLink>
+              <NavLink
+                to="/teamMember"
+                className="header-tab-item"
+                activeClassName="header-tab-item-active"
+              >
+                成员
+              </NavLink>
             </div>
-            <div className="header-right">
-              <div>
-                <NavLink to="/edit" className="header-write-progress">
-                  写进度
-                </NavLink>
-              </div>
-              <Link
-                className="header-avatar"
-                to="/teamMember/personalInfo/personalSet"
-                onClick={() => {
-                  Store.dispatch({
-                    type: "substitutePer",
-                    payload: storeId
-                  });
-                }}
-              >
-                <Avatar src={storeAvatar} />
-              </Link>
+          </div>
+          <div className="header-right">
+            <div>
+              <NavLink to="/edit" className="header-write-progress">
+                写进度
+              </NavLink>
+            </div>
+            <Link
+              className="header-avatar"
+              to="/teamMember/personalInfo/personalSet"
+              onClick={() => {
+                Store.dispatch({
+                  type: "substitutePer",
+                  payload: storeId
+                });
+              }}
+            >
+              <Avatar src={storeAvatar} />
+            </Link>
 
-              <Inform />
+            <Inform />
 
-              {showInput && (
-                <input
-                  className="header-search-input"
-                  ref={this.searchRef}
-                  onKeyUp={this.enterSearch}
-                  type="text"
-                  // autoFocus
-                />
-              )}
-              <div
-                onClick={this.clickSearchIcon.bind(this)}
-                onKeyDown={() => {}}
-                role="presentation"
-              >
-                <ReactSVG
-                  className="header-search-icon"
-                  path={searchIcon}
-                  svgStyle={{ width: 22 }}
-                />
-              </div>
+            {showInput && (
+              <input
+                className="header-search-input"
+                ref={this.searchRef}
+                onKeyUp={this.enterSearch}
+                type="text"
+                // autoFocus
+              />
+            )}
+            <div
+              onClick={this.clickSearchIcon.bind(this)}
+              onKeyDown={() => {}}
+              role="presentation"
+            >
+              <ReactSVG
+                className="header-search-icon"
+                path={searchIcon}
+                svgStyle={{ width: 22 }}
+              />
             </div>
           </div>
         </div>
-        <WrongPage info={wrong} cancel={this.cancel} />
       </div>
     );
   }
