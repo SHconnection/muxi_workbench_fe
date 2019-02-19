@@ -153,4 +153,4 @@ const mapStateToProps = state => ({
   storeId: state.id
 });
 
-export default connect(mapStateToProps)(withRouter(Header));
+export default withRouter(connect(mapStateToProps)(Header));
