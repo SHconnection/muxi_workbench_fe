@@ -1,4 +1,6 @@
 import React, { Component } from "react";
+import { connect } from "react-redux";
+import PropTypes from "prop-types";
 import ProjectItem from "../components/itemIcon/index";
 import Button from "../../../components/common/button";
 import ProjectService from "../../../service/project";
@@ -15,8 +17,9 @@ class Index extends Component {
     };
   }
 
-  componentWillMount() {
-    const userID = localStorage.id;
+  componentDidMount() {
+    const { storeId: userID } = this.props;
+
     Loading.show();
     ProjectService.getAllProjectList(userID)
       .then(res => {
@@ -50,9 +53,11 @@ class Index extends Component {
 
   render() {
     const { project, wrong } = this.state;
+    const { storeRole } = this.props;
+
     return (
       <div className="project">
-        {localStorage.role !== "1" && (
+        {storeRole !== 1 && (
           <div className="project-create-bt">
             <Button to="project/new" text="新建项目" />
           </div>
@@ -71,4 +76,18 @@ class Index extends Component {
   }
 }
 
-export default Index;
+Index.propTypes = {
+  storeId: PropTypes.number,
+  storeRole: PropTypes.number
+};
+Index.defaultProps = {
+  storeId: 0,
+  storeRole: 1
+};
+
+const mapStateToProps = state => ({
+  storeId: state.id,
+  storeRole: state.role
+});
+
+export default connect(mapStateToProps)(Index);

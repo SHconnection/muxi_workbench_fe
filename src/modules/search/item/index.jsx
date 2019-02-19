@@ -22,7 +22,7 @@ class SearchItem extends Component {
     this.cancel = this.cancel.bind(this);
   }
 
-  componentWillMount() {
+  componentDidMount() {
     const { item } = this.props;
     if (item.kind === 1) {
       this.getFileInfo(); // 请求文件信息以得到详细信息 url

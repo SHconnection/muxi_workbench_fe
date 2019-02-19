@@ -27,12 +27,12 @@ const FirstEditMember = ({
       <div className="title littleSize">设置项目成员</div>
       <div className="firstEditMember-tip">选择你要设置的成员</div>
     </div>
-    <input
+    {/* <input
       type="checkbox"
       id="selectAll"
-      checked={members.length === selMembers.length}
+      checked={hasSelectAll}
       readOnly
-    />
+    /> */}
     <label
       htmlFor="selectAll"
       className="fakeBtn firstEditMember-fontSize"

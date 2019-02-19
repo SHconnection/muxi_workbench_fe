@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
+import { connect } from "react-redux";
 // import { MarkdownPreview } from "react-marked-markdown";
 import AlertMoveFile from "../../components/alertMoveFile";
 import AlertDeleteFile from "../../components/alertDeleteFile";
@@ -364,6 +365,7 @@ class DocPreview extends Component {
       isFocus,
       wrong
     } = this.state;
+    const { storeAvatar } = this.props;
 
     return (
       <div className="projectDetail-container">
@@ -472,7 +474,7 @@ class DocPreview extends Component {
           <div className="send">
             <Avatar
               className="comment-img"
-              src={localStorage.avatar}
+              src={storeAvatar}
               width={49}
               height={49}
             />
@@ -607,11 +609,17 @@ class DocPreview extends Component {
 DocPreview.propTypes = {
   match: PropTypes.shape({
     url: PropTypes.string
-  })
+  }),
+  storeAvatar: PropTypes.string
 };
 
 DocPreview.defaultProps = {
-  match: {}
+  match: {},
+  storeAvatar: ""
 };
 
-export default DocPreview;
+const mapStateToProps = state => ({
+  storeAvatar: state.avatar
+});
+
+export default connect(mapStateToProps)(DocPreview);

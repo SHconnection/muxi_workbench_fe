@@ -3,8 +3,16 @@
   -moz-user-select: none;
   -ms-user-select: none;
   user-select: none;  
+  position: relative;
 }
-
+.select-mask{
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  cursor: pointer;
+}
 .select-bt {
   display: -webkit-flex; /* Safari */
   display: flex;

@@ -1,12 +1,14 @@
-import React, { Component } from 'react';
-import Button from '../../../components/common/button/index';
-import Select from '../../../components/common/select/index';
-import ManageService from '../../../service/manage';
-import ProjectService from '../../../service/project';
-import Loading from '../../../components/common/loading';
-import WrongPage from '../../../components/common/wrongPage/wrongPage';
-import '../../../static/css/common.css';
-import './index.css';
+import React, { Component } from "react";
+import { connect } from "react-redux";
+import PropTypes from "prop-types";
+import Button from "../../../components/common/button/index";
+import Select from "../../../components/common/select/index";
+import ManageService from "../../../service/manage";
+import ProjectService from "../../../service/project";
+import Loading from "../../../components/common/loading";
+import WrongPage from "../../../components/common/wrongPage/wrongPage";
+import "../../../static/css/common.css";
+import "./index.css";
 
 const gotoBack = () => {
   window.history.back();
@@ -16,13 +18,13 @@ const gotoBack = () => {
 const fetchGroups = () =>
   ManageService.getGroupList().then(res => {
     const arr = res.groupList.map(el => {
-      const el1 = { id: 0, value: '' };
+      const el1 = { id: 0, value: "" };
       el1.id = el.groupID;
       el1.value = el.groupName;
       el1.userCount = el.userCount;
       return el1;
     });
-    arr.push({ id: 0, value: '全部成员' });
+    arr.push({ id: 0, value: "全部成员" });
     return arr;
   });
 
@@ -31,24 +33,24 @@ const initProjectTree = pid => {
   const fileRoot = {
     folder: true,
     id: 0,
-    name: '全部文件',
+    name: "全部文件",
     router: [0],
     selected: true,
     finalSelected: true,
-    child: [],
+    child: []
   };
   const docRoot = {
     folder: true,
     id: 0,
-    name: '全部文档',
+    name: "全部文档",
     router: [0],
     selected: true,
     finalSelected: true,
-    child: [],
+    child: []
   };
   return Promise.all([
     ProjectService.updateProjectFileTree(pid, JSON.stringify(fileRoot)),
-    ProjectService.updateProjectDocTree(pid, JSON.stringify(docRoot)),
+    ProjectService.updateProjectDocTree(pid, JSON.stringify(docRoot))
   ]);
 };
 
@@ -56,13 +58,13 @@ class NewProject extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      selectAllText: '全选',
+      selectAllText: "全选",
       groups: [],
       groupCheckedIndex: 0,
       members: [],
-      projectname: '',
-      intro: '',
-      hasInputProjectName: false,
+      projectname: "",
+      intro: "",
+      hasInputProjectName: false
     };
     this.groupMemberInit();
   }
@@ -73,7 +75,7 @@ class NewProject extends Component {
       this.setState(
         {
           groups: re,
-          groupCheckedIndex: re.length - 1,
+          groupCheckedIndex: re.length - 1
         },
         () => {
           this.fetchGroupMember();
@@ -91,8 +93,8 @@ class NewProject extends Component {
             id: el.userID,
             name: el.username,
             groupID: el.groupID,
-            selected: false,
-          })),
+            selected: false
+          }))
         });
       })
       .finally(() => {
@@ -103,13 +105,13 @@ class NewProject extends Component {
   changeProjectnameText = event => {
     this.setState({
       projectname: event.target.value,
-      hasInputProjectName: true,
+      hasInputProjectName: true
     });
   };
 
   changeProjectintroText = event => {
     this.setState({
-      intro: event.target.value,
+      intro: event.target.value
     });
   };
 
@@ -119,12 +121,14 @@ class NewProject extends Component {
     if (groups[groupCheckedIndex] && groups[groupCheckedIndex].id === 0) {
       return members;
     }
-    return members.filter(item => groups[groupCheckedIndex].id === item.groupID);
+    return members.filter(
+      item => groups[groupCheckedIndex].id === item.groupID
+    );
   };
 
   changeGroupCheck = index => {
     this.setState({
-      groupCheckedIndex: index,
+      groupCheckedIndex: index
     });
   };
 
@@ -138,7 +142,7 @@ class NewProject extends Component {
       }
     }
     this.setState({
-      members,
+      members
     });
   };
 
@@ -149,13 +153,14 @@ class NewProject extends Component {
     for (let i = 0; i < len; i += 1) {
       if (
         groups[groupCheckedIndex] &&
-        (groups[groupCheckedIndex].id === 0 || groups[groupCheckedIndex].id === members[i].groupID)
+        (groups[groupCheckedIndex].id === 0 ||
+          groups[groupCheckedIndex].id === members[i].groupID)
       ) {
         members[i].selected = !isSelectedAll;
       }
     }
     this.setState({
-      members,
+      members
     });
   };
 
@@ -168,11 +173,13 @@ class NewProject extends Component {
 
   createProject = () => {
     const { members, projectname, intro } = this.state;
+    const { storeId, storeUsername } = this.props;
+
     let chooseMe = false;
     const postProjectName = projectname.trim();
     const userlist = members.filter(el => el.selected).map(item => {
       /* eslint-disable */
-      if (item.id == localStorage.id) {
+      if (item.id == storeId) {
         /* eslint-enable */
         chooseMe = true;
       }
@@ -180,22 +187,22 @@ class NewProject extends Component {
       return user;
     });
     if (!chooseMe) {
-      userlist.push({ userID: localStorage.id, userName: localStorage.username });
+      userlist.push({ userID: storeId, userName: storeUsername });
     }
     if (!(userlist.length && postProjectName)) {
       this.setState({
         wrong: {
-          message: '项目名称和成员不能为空！',
+          message: "项目名称和成员不能为空！"
         },
-        hasInputProjectName: true,
+        hasInputProjectName: true
       });
       return;
     }
     const postData = {
-      username: localStorage.username,
-      projectname: postProjectName,
+      username: storeUsername,
+      projectname,
       userlist,
-      intro,
+      intro
     };
     ProjectService.createProject(postData)
       .then(res => {
@@ -215,8 +222,8 @@ class NewProject extends Component {
   cancel = () => {
     this.setState({
       wrong: {
-        message: '',
-      },
+        message: ""
+      }
     });
   };
 
@@ -228,8 +235,10 @@ class NewProject extends Component {
       projectname,
       intro,
       wrong,
-      hasInputProjectName,
+      hasInputProjectName
     } = this.state;
+    const { storeId } = this.props;
+
     return (
       <div className="newProject-container">
         <div className="newProject-content">
@@ -242,7 +251,11 @@ class NewProject extends Component {
             onChange={this.changeProjectnameText}
           />
           <p
-            className={hasInputProjectName && projectname.trim() === '' ? 'warning' : 'transparent'}
+            className={
+              hasInputProjectName && projectname.trim() === ""
+                ? "warning"
+                : "transparent"
+            }
           >
             输入框不能为空！
           </p>
@@ -268,7 +281,7 @@ class NewProject extends Component {
                     <label htmlFor="memberCheckedAll">{selectAllText}</label>
                   </div>
                 ) : (
-                  ''
+                  ""
                 )}
                 <div className="newProject-group-select">
                   <Select
@@ -280,12 +293,12 @@ class NewProject extends Component {
               </div>
             </div>
             <div className="newProject-member-container">
-              {this.currentMember().map((item, index) => (
+              {this.currentMember().map(item => (
                 <div className="newProject-member-item" key={item.id}>
                   <input
                     type="checkbox"
                     /* eslint-disable */
-                    checked={item.selected || item.id == localStorage.id}
+                    checked={item.selected || item.id == storeId}
                     /* eslint-enable */
                     onClick={() => {
                       this.checkMember(item.id);
@@ -295,7 +308,11 @@ class NewProject extends Component {
                   <label htmlFor={item.id}>{item.name}</label>
                 </div>
               ))}
-              {!this.currentMember().length ? <div className="tip">还没有成员～</div> : ''}
+              {!this.currentMember().length ? (
+                <div className="tip">还没有成员～</div>
+              ) : (
+                ""
+              )}
               <div className="newProject-member-over-helper" />
               <div className="newProject-member-over-helper" />
               <div className="newProject-member-over-helper" />
@@ -322,4 +339,18 @@ class NewProject extends Component {
   }
 }
 
-export default NewProject;
+NewProject.propTypes = {
+  storeId: PropTypes.number,
+  storeUsername: PropTypes.string
+};
+NewProject.defaultProps = {
+  storeId: 0,
+  storeUsername: ""
+};
+
+const mapStateToProps = state => ({
+  storeId: state.id,
+  storeUsername: state.username
+});
+
+export default connect(mapStateToProps)(NewProject);

@@ -15,15 +15,33 @@ class Select extends Component {
     this.myRef = React.createRef();
   }
 
+  componentDidMount() {
+    document.addEventListener("click", this.clearSelectOptionBar);
+  }
+
+  componentWillUnmount() {
+    document.removeEventListener("click", this.clearSelectOptionBar);
+  }
+
+  clearSelectOptionBar = e => {
+    if (e.target.classList.contains("clickFlag")) {
+      return;
+    } else {
+      this.setState(preState => {
+        if (preState.showInput) {
+          return { showInput: false };
+        }
+      });
+    }
+  };
+
   showOption() {
-    const { showInput } = this.state;
-    this.setState({
-      showInput: !showInput
-    });
+    this.setState(preState => ({
+      showInput: !preState.showInput
+    }));
   }
 
   chooseFile(event) {
-    const { showInput } = this.state;
     const file = event.target.files[0];
     const file1 = document.getElementById("select-file").files[0];
     // console.log(file);
@@ -35,9 +53,7 @@ class Select extends Component {
     const { onChange } = this.props;
     onChange(file1);
 
-    this.setState({
-      showInput: !showInput
-    });
+    this.showOption();
   }
 
   render() {
@@ -45,20 +61,23 @@ class Select extends Component {
     const { items, checkedIndex, onChange, autoWidth } = this.props;
     if (items.length) {
       return (
-        <div className="select-container">
+        <div className="select-container clickFlag">
           <div
-            className="select-bt"
+            className="clickFlag select-mask"
             onClick={this.showOption.bind(this)}
             onKeyDown={() => {}}
             role="presentation"
-          >
+          />
+          <div className="select-bt">
             {items[checkedIndex].value}
             <ReactSVG path={RectangleDown} />
           </div>
           {showInput && (
             <div
               className={
-                autoWidth ? "select-option-bar" : "select-option-bar width96"
+                autoWidth
+                  ? "select-option-bar clickFlag"
+                  : "select-option-bar width96 clickFlag"
               }
             >
               {items.map((el, index) => (
@@ -66,8 +85,8 @@ class Select extends Component {
                   key={el.id}
                   className={
                     index === checkedIndex
-                      ? "select-option-item select-option-item-checked"
-                      : "select-option-item"
+                      ? "select-option-item select-option-item-checked clickFlag"
+                      : "select-option-item clickFlag"
                   }
                   onClick={() => {
                     if (el.type !== "file") {
@@ -85,6 +104,7 @@ class Select extends Component {
                     <input
                       type="file"
                       id="select-file"
+                      className="clickFlag"
                       ref={this.myRef}
                       onChange={this.chooseFile}
                     />

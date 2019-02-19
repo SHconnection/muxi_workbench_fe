@@ -1,4 +1,5 @@
 import Fetch from "./fetch";
+import Store from "../store";
 
 const FileService = {
   // 创建文件夹
@@ -9,7 +10,7 @@ const FileService = {
         foldername,
         project_id: pid
       },
-      token: localStorage.token
+      token: Store.getState().token
     });
   },
 
@@ -21,7 +22,7 @@ const FileService = {
         foldername,
         project_id: pid
       },
-      token: localStorage.token
+      token: Store.getState().token
     });
   },
 
@@ -30,7 +31,7 @@ const FileService = {
     return Fetch(`/api/v1.0/folder/file/children/`, {
       method: "POST",
       data: postData,
-      token: localStorage.token
+      token: Store.getState().token
     });
   },
 
@@ -39,7 +40,7 @@ const FileService = {
     return Fetch(`/api/v1.0/folder/doc/children/`, {
       method: "POST",
       data: postData,
-      token: localStorage.token
+      token: Store.getState().token
     });
   },
 
@@ -47,7 +48,7 @@ const FileService = {
   getDocContent(id) {
     return Fetch(`/api/v1.0/file/doc/${id}`, {
       method: "GET",
-      token: localStorage.token
+      token: Store.getState().token
     });
   },
 
@@ -57,7 +58,36 @@ const FileService = {
       method: "POST",
       body: formData,
       headers: {
-        token: localStorage.token
+        token: Store.getState().token
+      }
+    }).then(response => {
+      switch (response.status) {
+        case 200:
+          break;
+
+        case 201:
+          break;
+
+        case 401:
+          throw new Error("未授权");
+
+        case 403:
+          throw new Error("没有权限访问");
+
+        case 404:
+          throw new Error("页面地址错误");
+
+        case 413:
+          throw new Error("文件体积过大");
+
+        case 500:
+          throw new Error("服务器错误");
+
+        case 502:
+          throw new Error("网关错误");
+
+        default:
+          throw new Error("Wrong");
       }
     });
   },
@@ -67,7 +97,7 @@ const FileService = {
     return Fetch(`/api/v1.0/file/doc/`, {
       method: "POST",
       data: postData,
-      token: localStorage.token
+      token: Store.getState().token
     });
   },
 
@@ -75,7 +105,7 @@ const FileService = {
   deleteFile(id) {
     return Fetch(`/api/v1.0/file/file/${id}/`, {
       method: "DELETE",
-      token: localStorage.token
+      token: Store.getState().token
     });
   },
 
@@ -84,7 +114,7 @@ const FileService = {
     return Fetch(`/api/v1.0/folder/file/${id}/`, {
       method: "DELETE",
       data: postData,
-      token: localStorage.token
+      token: Store.getState().token
     });
   },
 
@@ -92,7 +122,7 @@ const FileService = {
   deleteDoc(id) {
     return Fetch(`/api/v1.0/file/doc/${id}/`, {
       method: "DELETE",
-      token: localStorage.token
+      token: Store.getState().token
     });
   },
 
@@ -101,14 +131,14 @@ const FileService = {
     return Fetch(`/api/v1.0/folder/doc/${id}/`, {
       method: "DELETE",
       data: postData,
-      token: localStorage.token
+      token: Store.getState().token
     });
   },
 
   // 获取文档内容
   getDocConnent(id) {
     return Fetch(`/api/v1.0/file/doc/${id}/`, {
-      token: localStorage.token
+      token: Store.getState().token
     });
   },
 
@@ -117,7 +147,7 @@ const FileService = {
     return Fetch(`/api/v1.0/file/doc/${id}/`, {
       method: "PUT",
       data: postData,
-      token: localStorage.token
+      token: Store.getState().token
     });
   },
 
@@ -125,7 +155,7 @@ const FileService = {
   getProjectTrash(pid) {
     return Fetch(`/api/v1.0/project/${pid}/re/`, {
       method: "GET",
-      token: localStorage.token
+      token: Store.getState().token
     });
   },
 
@@ -137,7 +167,7 @@ const FileService = {
         file: [fid],
         doc: []
       },
-      token: localStorage.token
+      token: Store.getState().token
     });
   }
 };

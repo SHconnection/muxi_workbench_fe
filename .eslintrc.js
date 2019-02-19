@@ -27,6 +27,10 @@ module.exports = {
       }
     }],
 
+    "consistent-return": 0,
+
+    "no-nested-ternary": 0,
+
     "no-underscore-dangle": ["error", { "allow": ["_this"] }],
 
     "prefer-destructuring": ["error", {

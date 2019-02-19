@@ -3,6 +3,8 @@
 */
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
+import { connect } from "react-redux";
+import PropTypes from "prop-types";
 import Gotop from "../../components/common/toTop/top";
 import WrongPage from "../../components/common/wrongPage/wrongPage";
 import MessageService from "../../service/message";
@@ -56,7 +58,9 @@ class Message extends Component {
   }
 
   readAll() {
-    MessageService.messageAllRead(localStorage.username)
+    const { storeUsername } = this.props;
+
+    MessageService.messageAllRead(storeUsername)
       .then(() => {
         this.getMessage();
       })
@@ -112,4 +116,16 @@ class Message extends Component {
   }
 }
 
-export default Message;
+Message.propTypes = {
+  storeUsername: PropTypes.string
+};
+
+Message.defaultProps = {
+  storeUsername: ""
+};
+
+const mapStateToProps = state => ({
+  storeUsername: state.username
+});
+
+export default connect(mapStateToProps)(Message);

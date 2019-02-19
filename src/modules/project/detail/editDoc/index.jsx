@@ -23,7 +23,7 @@ class EditDoc extends Component {
     // this.cancel = this.cancel.bind(this);
   }
 
-  componentWillMount() {
+  componentDidMount() {
     // this.getDocTree()
     this.getDocContent();
   }

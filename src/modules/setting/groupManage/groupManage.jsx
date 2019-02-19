@@ -5,6 +5,7 @@ import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import PropTypes from "prop-types";
+import { connect } from "react-redux";
 import GoBack from "../../../components/common/goBack/index";
 import Delete from "../components/delete/delete";
 import ManageService from "../../../service/manage";
@@ -84,7 +85,7 @@ class GroupManage extends Component {
 
   render() {
     const { deleteX, data, members, wrong } = this.state;
-    const { match } = this.props;
+    const { match, storeRole } = this.props;
 
     return (
       <div className="subject minH">
@@ -94,7 +95,7 @@ class GroupManage extends Component {
           <button
             type="button"
             className={
-              parseInt(localStorage.role, 10) === 7
+              parseInt(storeRole, 10) === 7
                 ? "saveBtn joinApply-btnFlo"
                 : "none"
             }
@@ -180,14 +181,20 @@ class GroupManage extends Component {
   }
 }
 
-export default GroupManage;
-
 GroupManage.propTypes = {
   match: PropTypes.shape({
     url: PropTypes.string
-  })
+  }),
+  storeRole: PropTypes.number
 };
 
 GroupManage.defaultProps = {
-  match: {}
+  match: {},
+  storeRole: 1
 };
+
+const mapStateToProps = state => ({
+  storeRole: state.role
+});
+
+export default connect(mapStateToProps)(GroupManage);

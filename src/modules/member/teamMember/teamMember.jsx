@@ -2,8 +2,10 @@
 团队成员页面组件
 */
 import React, { Component } from "react";
+import { List } from "react-virtualized";
 import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
+import { connect } from "react-redux";
 import ManageService from "../../../service/manage";
 import MemberInfo from "../memberInfo/memberInfo";
 import WrongPage from "../../../components/common/wrongPage/wrongPage";
@@ -39,6 +41,8 @@ class TeamMember extends Component {
   }
 
   componentDidMount() {
+    const { storeRole } = this.props;
+
     Loading.show();
     ManageService.getAllMem()
       .then(member => {
@@ -84,7 +88,7 @@ class TeamMember extends Component {
       .finally(() => {
         Loading.hide();
       });
-    if (parseInt(localStorage.role, 10) > 1) {
+    if (parseInt(storeRole, 10) > 1) {
       ManageService.getJoinApply()
         .then(obj => {
           if (obj.list.length) {
@@ -124,7 +128,15 @@ class TeamMember extends Component {
 
   render() {
     const { members, selectedID, groupList, wrong, redDot } = this.state;
-    const { match } = this.props;
+    const { match, storeRole } = this.props;
+    const renderRow = info => (
+      <div className="teamMember-singleList" key={info.key} style={info.style}>
+        <MemberInfo mem={members[info.index]} />
+        <span className="teamMember-emailMarg">
+          {members[info.index].email}
+        </span>
+      </div>
+    );
 
     return (
       <div className="subject minH">
@@ -168,14 +180,14 @@ class TeamMember extends Component {
               className="fakeBtn teamMember-fakeMarg teamMember-applyList"
               to={`${match.url}/joinApply`}
             >
-              {parseInt(localStorage.role, 10) > 1 ? "申请成员列表" : ""}
+              {parseInt(storeRole, 10) > 1 ? "申请成员列表" : ""}
               <div className={redDot ? "teamMember-inform" : "none"} />
             </Link>
             <Link
               className="fakeBtn teamMember-fakeMarg"
               to={`${match.url}/setManager`}
             >
-              {parseInt(localStorage.role, 10) > 3 ? "设置管理员" : ""}
+              {parseInt(storeRole, 10) > 3 ? "设置管理员" : ""}
             </Link>
             <Link
               className="fakeBtn teamMember-fakeMarg"
@@ -184,31 +196,45 @@ class TeamMember extends Component {
               添加成员
             </Link>
             <Link className="fakeBtn" to={`${match.url}/groupManage`}>
-              {parseInt(localStorage.role, 10) > 1 ? "管理分组" : ""}
+              {parseInt(storeRole, 10) > 1 ? "管理分组" : ""}
             </Link>
           </div>
         </div>
 
-        {members.map(mem => (
-          <div className="teamMember-singleList" key={mem.id}>
-            <MemberInfo mem={mem} />
-            <span className="teamMember-emailMarg">{mem.email}</span>
-          </div>
-        ))}
+        <div className="noneInfoTip">
+          {members.length > 0 ? (
+            <List
+              width={880}
+              height={600}
+              rowHeight={100}
+              rowRenderer={renderRow}
+              rowCount={members.length}
+            />
+          ) : (
+            "该分类暂无成员～"
+          )}
+        </div>
+
         <WrongPage info={wrong} cancel={this.cancel} />
       </div>
     );
   }
 }
 
-export default TeamMember;
-
 TeamMember.propTypes = {
   match: PropTypes.shape({
     url: PropTypes.string
-  })
+  }),
+  storeRole: PropTypes.number
 };
 
 TeamMember.defaultProps = {
-  match: {}
+  match: {},
+  storeRole: 1
 };
+
+const mapStateToProps = state => ({
+  storeRole: state.role
+});
+
+export default connect(mapStateToProps)(TeamMember);

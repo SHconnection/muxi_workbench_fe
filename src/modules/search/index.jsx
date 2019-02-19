@@ -4,6 +4,7 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
+import { connect } from "react-redux";
 import Select from "../../components/common/select/index";
 import Button from "../../components/common/button/index";
 import WrongPage from "../../components/common/wrongPage/wrongPage";
@@ -42,7 +43,9 @@ class Search extends Component {
 
   componentDidMount() {
     const { projectOption } = this.state;
-    ProjectService.getAllProjectList(localStorage.per)
+    const { storePer } = this.props;
+
+    ProjectService.getAllProjectList(storePer)
       .then(res => {
         const arr = res
           .map(el => el.list)
@@ -206,9 +209,16 @@ class Search extends Component {
   }
 }
 Search.propTypes = {
-  location: PropTypes.shape({})
+  location: PropTypes.shape({}),
+  storePer: PropTypes.number
 };
 Search.defaultProps = {
-  location: {}
+  location: {},
+  storePer: 0
 };
-export default Search;
+
+const mapStateToProps = state => ({
+  storePer: state.per
+});
+
+export default connect(mapStateToProps)(Search);

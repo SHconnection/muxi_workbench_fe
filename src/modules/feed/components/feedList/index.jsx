@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
 import Avatar from "../../../../components/common/avatar/index";
+import Store from "../../../../store";
 import "./index.css";
 
 function dividerName(kind, proName, userName) {
@@ -112,7 +113,10 @@ class feedItem extends Component {
               tabIndex="-1"
               onKeyDown={() => {}}
               onClick={() => {
-                localStorage.per = uid;
+                Store.dispatch({
+                  type: "substitutePer",
+                  payload: uid || 0
+                });
               }}
             >
               <Link to="/teamMember/personalInfo" className="link">

@@ -4,6 +4,7 @@
 */
 import React, { Component } from "react";
 import PropTypes from "prop-types";
+import { connect } from "react-redux";
 import GoBack from "../../../components/common/goBack/index";
 import Member from "../components/member/member";
 import Save from "../components/save/save";
@@ -29,11 +30,12 @@ class SetPermission extends Component {
     const {
       location: {
         state: { id }
-      }
+      },
+      storeId
     } = this.props;
     Loading.show();
 
-    ManageService.getProjectList(localStorage.id)
+    ManageService.getProjectList(storeId)
       .then(object => {
         const proList = object.list.map(project1 => {
           const project = {};
@@ -187,8 +189,6 @@ class SetPermission extends Component {
   }
 }
 
-export default SetPermission;
-
 SetPermission.propTypes = {
   location: PropTypes.shape({
     state: PropTypes.shape({
@@ -197,10 +197,18 @@ SetPermission.propTypes = {
   }),
   history: PropTypes.shape({
     push: PropTypes.func
-  })
+  }),
+  storeId: PropTypes.number
 };
 
 SetPermission.defaultProps = {
   location: {},
-  history: {}
+  history: {},
+  storeId: 0
 };
+
+const mapStateToProps = state => ({
+  storeId: state.id
+});
+
+export default connect(mapStateToProps)(SetPermission);

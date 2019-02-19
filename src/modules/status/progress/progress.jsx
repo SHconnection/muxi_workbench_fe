@@ -61,11 +61,8 @@ class Progress extends Component {
 
   // 返回给我总的条数，条数除以20=page
 
-  componentWillMount() {
-    this.getstatuList();
-  }
-
   componentDidMount() {
+    this.getstatuList();
     window.addEventListener("scroll", this.scroll);
   }
 

@@ -1,16 +1,17 @@
 import Fetch from "./fetch";
+import Store from "../store";
 
 const MessageService = {
   getPersonalAttention(userID) {
     return Fetch(`/api/v1.0/user/attention/?id=${userID}`, {
-      token: localStorage.token
+      token: Store.getState().token
     });
   },
 
   makeNewMessage(receiver, maker, action) {
     return Fetch("/api/v1.0/message/new/", {
       method: "POST",
-      token: localStorage.token,
+      token: Store.getState().token,
       data: {
         receiver,
         maker,
@@ -22,14 +23,14 @@ const MessageService = {
 
   getMessageList(page) {
     return Fetch(`/api/v1.0/message/list/?page=${page}/`, {
-      token: localStorage.token
+      token: Store.getState().token
     });
   },
 
   messageAllRead(username) {
     return Fetch("/api/v1.0/message/readAll/", {
       method: "POST",
-      token: localStorage.token,
+      token: Store.getState().token,
       data: {
         username
       }
@@ -38,7 +39,7 @@ const MessageService = {
 
   getAMessage(username, mid) {
     return Fetch(`/api/v1.0/message/${username}/${mid}/`, {
-      token: localStorage.token
+      token: Store.getState().token
     });
   },
 
@@ -50,7 +51,7 @@ const MessageService = {
         fileID: id,
         fileKind: kind
       },
-      token: localStorage.token
+      token: Store.getState().token
     });
   },
 
@@ -62,7 +63,7 @@ const MessageService = {
         fileID: id,
         fileKind: kind
       },
-      token: localStorage.token
+      token: Store.getState().token
     });
   },
 
@@ -70,7 +71,7 @@ const MessageService = {
   getMyAttentionFiles() {
     return Fetch(`/api/v1.0/user/attention/`, {
       method: "GET",
-      token: localStorage.token
+      token: Store.getState().token
     });
   }
 };
