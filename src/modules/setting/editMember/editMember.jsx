@@ -37,7 +37,8 @@ class EditMember extends Component {
       groups: [],
       checkedIndex: 0,
       wrong: {},
-      ifSave: false
+      ifSave: false,
+      hasSelectAll: false
     };
   }
 
@@ -143,13 +144,19 @@ class EditMember extends Component {
       });
   };
 
-  changeGroupCheck = index => {
-    ManageService.groupMember(index)
+  changeGroupCheck = (index, id) => {
+    const { selMembers } = this.state;
+
+    ManageService.groupMember(id)
       .then(member => {
         if (member) {
-          const arr = member.list.map(mem =>
-            EditMember.changeGroupMemberFormat(mem)
-          );
+          const arr = member.list.map(mem1 => {
+            const mem = EditMember.changeGroupMemberFormat(mem1);
+            if (selMembers.indexOf(mem.id) !== -1) {
+              mem.selected = true;
+            }
+            return mem;
+          });
 
           this.setState({
             checkedIndex: index,
@@ -168,9 +175,9 @@ class EditMember extends Component {
 
   selAll = () => {
     this.setState(prevState => {
-      const { members: arr1 } = prevState;
-      const arr2 = [];
+      const { members: arr1, selMembers: arr2 } = prevState;
       let num = 0;
+      let hasSelectAll = false;
 
       if (arr1) {
         arr1.map(i => {
@@ -180,21 +187,26 @@ class EditMember extends Component {
 
         if (num === arr1.length) {
           arr1.map(i => {
-            const j = i;
-            j.selected = false;
-            return j;
+            const idIndex = arr2.indexOf(i.id);
+            if (idIndex !== -1) {
+              arr2.splice(idIndex, 1);
+            }
+            i.selected = false;
+            return i;
           });
         } else {
+          hasSelectAll = true;
           arr1.map(i => {
-            const j = i;
-            j.selected = true;
-            arr2.push(j.id);
-            return j;
+            if (!i.selected) {
+              i.selected = true;
+              arr2.push(i.id);
+            }
+            return i;
           });
         }
       }
 
-      return { members: arr1, selMembers: arr2 };
+      return { members: arr1, selMembers: arr2, hasSelectAll: hasSelectAll };
     });
   };
 
@@ -205,7 +217,8 @@ class EditMember extends Component {
       groups,
       checkedIndex,
       wrong,
-      ifSave
+      ifSave,
+      hasSelectAll
     } = this.state;
     const {
       match: {
@@ -224,6 +237,7 @@ class EditMember extends Component {
           transferMsg={this.transferMsgMem}
           changeGroupCheck={this.changeGroupCheck}
           proId={Number(id)}
+          hasSelectAll={hasSelectAll}
         />
 
         <button

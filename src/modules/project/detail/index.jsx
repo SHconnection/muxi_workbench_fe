@@ -15,6 +15,7 @@ import DocItem from "../components/docItem/index";
 import ProjectService from "../../../service/project";
 import FileService from "../../../service/file";
 import Loading from "../../../components/common/loading";
+import WrongPage from "../../../components/common/wrongPage/wrongPage";
 import "./index.css";
 import "../../../static/css/common.css";
 
@@ -95,7 +96,8 @@ class ProjectDetailIndex extends Component {
       docList: {
         FolderList: [],
         DocList: []
-      }
+      },
+      wrong: {}
     };
     this.getFileTree = this.getFileTree.bind(this);
     this.getDocTree = this.getDocTree.bind(this);
@@ -248,6 +250,7 @@ class ProjectDetailIndex extends Component {
       formData.append("file", index);
       FileService.uploadFile(formData)
         .then(res => {
+          console.log(res);
           if (res.status === 201) {
             res.json().then(data => {
               // 上传成功，更新文件树
@@ -262,14 +265,17 @@ class ProjectDetailIndex extends Component {
                   // 更新视图
                   this.updateFilesList();
                 })
-                .catch(res1 => {
-                  console.error(res1);
+                .catch(error => {
+                  this.setState({ wrong: error });
                 })
                 .finally(() => {
                   Loading.hide();
                 });
             });
           }
+        })
+        .catch(error => {
+          this.setState({ wrong: error });
         })
         .finally(() => {
           Loading.hide();
@@ -589,6 +595,10 @@ class ProjectDetailIndex extends Component {
     });
   }
 
+  cancel = () => {
+    this.setState({ wrong: {} });
+  };
+
   render() {
     const {
       projectInfo,
@@ -604,7 +614,8 @@ class ProjectDetailIndex extends Component {
       showMoveFile,
       showMoveDoc,
       fileTree,
-      docTree
+      docTree,
+      wrong
     } = this.state;
 
     return (
@@ -1019,6 +1030,7 @@ class ProjectDetailIndex extends Component {
             </div>
           )} */}
         </div>
+        <WrongPage info={wrong} cancel={this.cancel} />
       </div>
     );
   }

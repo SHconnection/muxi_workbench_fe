@@ -60,6 +60,35 @@ const FileService = {
       headers: {
         token: Store.getState().token
       }
+    }).then(response => {
+      switch (response.status) {
+        case 200:
+          break;
+
+        case 201:
+          break;
+
+        case 401:
+          throw new Error("未授权");
+
+        case 403:
+          throw new Error("没有权限访问");
+
+        case 404:
+          throw new Error("页面地址错误");
+
+        case 413:
+          throw new Error("文件体积过大");
+
+        case 500:
+          throw new Error("服务器错误");
+
+        case 502:
+          throw new Error("网关错误");
+
+        default:
+          throw new Error("Wrong");
+      }
     });
   },
 
