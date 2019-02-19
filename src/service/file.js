@@ -63,10 +63,10 @@ const FileService = {
     }).then(response => {
       switch (response.status) {
         case 200:
-          break;
+          return response;
 
         case 201:
-          break;
+          return response;
 
         case 401:
           throw new Error("未授权");

@@ -250,29 +250,24 @@ class ProjectDetailIndex extends Component {
       formData.append("file", index);
       FileService.uploadFile(formData)
         .then(res => {
-          console.log(res);
-          if (res.status === 201) {
-            res.json().then(data => {
-              // 上传成功，更新文件树
-              const newNode = { folder: false, id: data.fid, name: data.name };
-              ProjectService.updateProjectFileTree(
-                pid,
-                JSON.stringify(
-                  FileTree.insertNode(newNode, fileRootId, fileTree)
-                )
-              )
-                .then(() => {
-                  // 更新视图
-                  this.updateFilesList();
-                })
-                .catch(error => {
-                  this.setState({ wrong: error });
-                })
-                .finally(() => {
-                  Loading.hide();
-                });
-            });
-          }
+          res.json().then(data => {
+            // 上传成功，更新文件树
+            const newNode = { folder: false, id: data.fid, name: data.name };
+            ProjectService.updateProjectFileTree(
+              pid,
+              JSON.stringify(FileTree.insertNode(newNode, fileRootId, fileTree))
+            )
+              .then(() => {
+                // 更新视图
+                this.updateFilesList();
+              })
+              .catch(error => {
+                this.setState({ wrong: error });
+              })
+              .finally(() => {
+                Loading.hide();
+              });
+          });
         })
         .catch(error => {
           this.setState({ wrong: error });
