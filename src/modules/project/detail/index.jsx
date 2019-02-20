@@ -1,6 +1,9 @@
+/* eslint-disable import/no-unresolved */
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
+import Loading from "components/common/loading";
+
 import GoBack from "../../../components/common/goBack/index";
 import Icon from "../../../components/common/icon/index";
 import { FileTree } from "../fileTree1";
@@ -14,7 +17,7 @@ import FolderItemDoc from "../components/folderItemDoc/index";
 import DocItem from "../components/docItem/index";
 import ProjectService from "../../../service/project";
 import FileService from "../../../service/file";
-import Loading from "../../../components/common/loading";
+
 import WrongPage from "../../../components/common/wrongPage/wrongPage";
 import "./index.css";
 import "../../../static/css/common.css";
@@ -24,6 +27,7 @@ class ProjectDetailIndex extends Component {
     super(props);
     const { match } = this.props;
     this.state = {
+      loading: false,
       // 当前项目id
       pid: parseInt(match.params.id, 0),
       // 当前正在操作的fileid
@@ -99,8 +103,7 @@ class ProjectDetailIndex extends Component {
       },
       wrong: {}
     };
-    this.getFileTree = this.getFileTree.bind(this);
-    this.getDocTree = this.getDocTree.bind(this);
+
     this.updateFilesList = this.updateFilesList.bind(this);
     this.updatedocList = this.updatedocList.bind(this);
     this.startCreateFile = this.startCreateFile.bind(this);
@@ -118,53 +121,29 @@ class ProjectDetailIndex extends Component {
     this.hideAlert = this.hideAlert.bind(this);
   }
 
-  componentWillMount() {
+  componentDidMount() {
     const { pid } = this.state;
-    Loading.show();
+    this.setState({
+      loading: true
+    });
     // 获取项目基本信息
     ProjectService.getProjectInfo(pid)
       .then(res => {
         this.setState({
           projectInfo: res
         });
+        // 更新文件与文档列表
+        Promise.all([this.updateFilesList(), this.updatedocList()]).then(() => {
+          this.setState({
+            loading: false
+          });
+        });
       })
       .catch(res => {
         console.error("error", res);
-      })
-      .finally(() => {
-        Loading.hide();
-      });
-    // 更新文件与文档列表
-    this.updateFilesList();
-    this.updatedocList();
-  }
-
-  // 获取最新文件树
-  getFileTree() {
-    const { pid } = this.state;
-    FileTree.getFileTree(pid)
-      .then(res => {
         this.setState({
-          fileTree: res
+          loading: false
         });
-      })
-      .catch(() => {
-        // console.error(res);
-      });
-  }
-
-  // 获取最新文档树
-  getDocTree() {
-    const { pid } = this.state;
-    FileTree.getDocTree(pid)
-      .then(res => {
-        this.setState({
-          docTree: res
-        });
-        console.log(res);
-      })
-      .catch(res => {
-        console.error(res);
       });
   }
 
@@ -175,65 +154,57 @@ class ProjectDetailIndex extends Component {
   // 根据文件树更新当前视图的文件
   updateFilesList() {
     const { pid, fileRootId } = this.state;
-    Loading.show();
-    // 请求树
-    FileTree.getFileTree(pid)
-      .then(res => {
-        this.setState({
-          fileTree: res
-        });
-        // 请求filelist
-        FileService.getFileList(FileTree.findFileIdList(fileRootId, res))
-          .then(res1 => {
+    return new Promise((resove, reject) => {
+      // 请求树
+      FileTree.getFileTree(pid)
+        .then(res => {
+          this.setState({
+            fileTree: res
+          });
+          // 请求filelist
+          FileService.getFileList(
+            FileTree.findFileIdList(fileRootId, res)
+          ).then(res1 => {
             this.setState({
               filesList: res1
             });
             this.hideAlert();
-          })
-          .catch(res1 => {
-            console.error(res1);
-          })
-          .finally(() => {
-            Loading.hide();
+            resove();
           });
-      })
-      .catch(res => {
-        console.error(res);
-        Loading.hide();
-      });
+        })
+        .catch(res => {
+          reject();
+          console.error(res);
+        });
+    });
   }
 
   // 根据文档树更新当前视图
   updatedocList() {
     const { pid, docRootId } = this.state;
-    Loading.show();
-    // 请求树
-    FileTree.getDocTree(pid)
-      .then(res => {
-        this.setState({
-          docTree: res
-        });
-        // 请求doclist
-        FileService.getDocList(FileTree.findDocIdList(docRootId, res))
-          .then(res1 => {
-            this.setState({
-              docList: res1
-            });
-            this.hideAlert();
-          })
-          .catch(res1 => {
-            console.error(res1);
-          })
-          .finally(() => {
-            Loading.hide();
+    return new Promise((resolve, reject) => {
+      // 请求树
+      FileTree.getDocTree(pid)
+        .then(res => {
+          this.setState({
+            docTree: res
           });
-      })
-      .catch(res => {
-        console.error(res);
-      })
-      .finally(() => {
-        Loading.hide();
-      });
+          // 请求doclist
+          FileService.getDocList(FileTree.findDocIdList(docRootId, res)).then(
+            res1 => {
+              this.setState({
+                docList: res1
+              });
+              this.hideAlert();
+              resolve();
+            }
+          );
+        })
+        .catch(res => {
+          console.error(res);
+          reject();
+        });
+    });
   }
 
   // 开始创建文件（夹）
@@ -248,7 +219,6 @@ class ProjectDetailIndex extends Component {
       /*
       / 这里是上传文件
       */
-      Loading.show();
       const formData = new FormData();
       formData.append("project_id", pid);
       formData.append("file", index);
@@ -268,17 +238,13 @@ class ProjectDetailIndex extends Component {
               .catch(error => {
                 this.setState({ wrong: error });
               })
-              .finally(() => {
-                Loading.hide();
-              });
+              .finally(() => {});
           });
         })
         .catch(error => {
           this.setState({ wrong: error });
         })
-        .finally(() => {
-          Loading.hide();
-        });
+        .finally(() => {});
     }
   }
 
@@ -610,11 +576,13 @@ class ProjectDetailIndex extends Component {
       showMoveDoc,
       fileTree,
       docTree,
-      wrong
+      wrong,
+      loading
     } = this.state;
 
     return (
       <div className="projectDetail-container">
+        <Loading loading={loading} />
         <GoBack href="/project" />
         <div className="projectDetail-content">
           {/* 头部 */}

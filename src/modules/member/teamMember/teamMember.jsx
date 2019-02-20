@@ -9,7 +9,7 @@ import { connect } from "react-redux";
 import ManageService from "../../../service/manage";
 import MemberInfo from "../memberInfo/memberInfo";
 import WrongPage from "../../../components/common/wrongPage/wrongPage";
-import Loading from "../../../components/common/loading/index";
+
 import "../../../static/css/common.css";
 import "./teamMember.css";
 
@@ -43,7 +43,6 @@ class TeamMember extends Component {
   componentDidMount() {
     const { storeRole } = this.props;
 
-    Loading.show();
     ManageService.getAllMem()
       .then(member => {
         if (member) {
@@ -85,9 +84,7 @@ class TeamMember extends Component {
       .catch(error => {
         this.setState({ wrong: error });
       })
-      .finally(() => {
-        Loading.hide();
-      });
+      .finally(() => {});
     if (parseInt(storeRole, 10) > 1) {
       ManageService.getJoinApply()
         .then(obj => {
@@ -139,7 +136,7 @@ class TeamMember extends Component {
     );
 
     return (
-      <div className="subject minH">
+      <div>
         <b className="teamMember-title">木犀团队</b>
 
         <div className="teamMember-present">

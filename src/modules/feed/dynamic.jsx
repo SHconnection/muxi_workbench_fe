@@ -1,10 +1,18 @@
+/* eslint-disable import/no-unresolved */
 import React, { Component } from "react";
 import PropTypes from "prop-types";
+import Loading from "components/common/loading";
+import {
+  getContainerHeight,
+  getScrollHeight,
+  getScrollTop
+} from "common/scroll";
+
 import FeedItem from "./components/feedList/index";
 import Gotop from "../../components/common/toTop/top";
 import FeedService from "../../service/feed";
 import WrongPage from "../../components/common/wrongPage/wrongPage";
-import Loading from "../../components/common/loading/index";
+
 import "../../static/css/common.css";
 import "./dynamic.css";
 
@@ -21,46 +29,6 @@ const today = new Date().toLocaleDateString();
 const yesterday = new Date(
   new Date().getTime() - 24 * 60 * 60 * 1000
 ).toLocaleDateString();
-
-function getScrollTop() {
-  let scrollTop = 0;
-  let bodyScrollTop = 0;
-  let documentScrollTop = 0;
-  if (document.body) {
-    bodyScrollTop = document.body.scrollTop;
-  }
-  if (document.documentElement) {
-    documentScrollTop = document.documentElement.scrollTop;
-  }
-  scrollTop =
-    bodyScrollTop - documentScrollTop > 0 ? bodyScrollTop : documentScrollTop;
-  return scrollTop;
-}
-function getScrollHeight() {
-  let scrollHeight = 0;
-  let bodyScrollHeight = 0;
-  let documentScrollHeight = 0;
-  if (document.body) {
-    bodyScrollHeight = document.body.scrollHeight;
-  }
-  if (document.documentElement) {
-    documentScrollHeight = document.documentElement.scrollHeight;
-  }
-  scrollHeight =
-    bodyScrollHeight - documentScrollHeight > 0
-      ? bodyScrollHeight
-      : documentScrollHeight;
-  return scrollHeight;
-}
-function getWindowHeight() {
-  let windowHeight = 0;
-  if (document.compatMode === "CSS1Compat") {
-    windowHeight = document.documentElement.clientHeight;
-  } else {
-    windowHeight = document.body.clientHeight;
-  }
-  return windowHeight;
-}
 
 class Dynamic extends Component {
   static chargeday(timeDay) {
@@ -79,28 +47,31 @@ class Dynamic extends Component {
       hasNext: true,
       pageNum: 0,
       dataList: [],
-      isPersonal: 1,
-      wrong: {}
+      // isPersonal: 1,
+      wrong: {},
+      loading: false
     };
     this.scroll = this.scroll.bind(this);
   }
 
-  componentWillMount() {
-    Loading.show();
-    this.getFeedList();
-  }
-
   componentDidMount() {
-    window.addEventListener("scroll", this.scroll);
+    this.getFeedList();
+    const appContainer = document.querySelector(".app-container");
+    if (appContainer) appContainer.addEventListener("scroll", this.scroll);
   }
 
   componentWillUnmount() {
-    window.removeEventListener("scroll", this.scroll);
+    const appContainer = document.querySelector(".app-container");
+    if (appContainer) appContainer.removeEventListener("scroll", this.scroll);
   }
 
   getFeedList() {
     const { match } = this.props;
-    const { pageNum, hasNext } = this.state;
+    const { pageNum, hasNext, loading } = this.state;
+    if (loading) return;
+    this.setState({
+      loading: true
+    });
     if (match.path === "/feed") {
       if (hasNext) {
         FeedService.getFeedList(pageNum + 1)
@@ -131,16 +102,15 @@ class Dynamic extends Component {
                 hasNext: next,
                 pageNum: page1,
                 dataList: dataList.concat(arr1),
-                isPersonal: 0
+                // isPersonal: 0,
+                loading: false
               });
             }
           })
           .catch(error => {
             this.setState({ wrong: error });
           })
-          .finally(() => {
-            Loading.hide();
-          });
+          .finally(() => {});
       }
     } else {
       const { uid } = match.params;
@@ -172,22 +142,21 @@ class Dynamic extends Component {
               this.setState({
                 hasNext: next,
                 pageNum: page1,
-                dataList: dataList.concat(arr1)
+                dataList: dataList.concat(arr1),
+                loading: false
               });
             }
           })
           .catch(error => {
             this.setState({ wrong: error });
           })
-          .finally(() => {
-            Loading.hide();
-          });
+          .finally(() => {});
       }
     }
   }
 
   scroll() {
-    if (getScrollTop() + getWindowHeight() === getScrollHeight()) {
+    if (getScrollTop() + getContainerHeight() >= getScrollHeight()) {
       this.getFeedList();
     }
   }
@@ -197,10 +166,18 @@ class Dynamic extends Component {
   }
 
   render() {
-    const { hasNext, dataList, isPersonal, wrong } = this.state;
+    const {
+      hasNext,
+      dataList,
+      // isPersonal,
+      wrong,
+      loading,
+      pageNum
+    } = this.state;
     return (
       <div className="feed">
-        <div className={isPersonal ? "" : "subject"}>
+        <Loading loading={loading && pageNum === 0} />
+        <div>
           <div className="feed-list">
             {dataList.map((feed, index) => (
               <div key={feed.feedid}>
@@ -234,7 +211,7 @@ class Dynamic extends Component {
             ))}
           </div>
           <div className="loadMore">
-            {hasNext ? "下拉加载更多..." : "最后一页啦"}
+            {hasNext ? "下拉加载更多..." : "我是有底线的"}
           </div>
         </div>
         <Gotop className="go-top" />

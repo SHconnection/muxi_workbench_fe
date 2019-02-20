@@ -11,7 +11,7 @@ import Dynamic from "../../feed/dynamic";
 import Progress from "../../status/index";
 import ManageService from "../../../service/manage";
 import WrongPage from "../../../components/common/wrongPage/wrongPage";
-import Loading from "../../../components/common/loading/index";
+
 import "../../../static/css/common.css";
 import "./personalInfo.css";
 
@@ -28,7 +28,6 @@ class PersonalInfo extends Component {
   componentDidMount() {
     const { storePer } = this.props;
 
-    Loading.show();
     const url = window.location.href;
     const re = /\/(\d+)$/;
     let id;
@@ -52,9 +51,7 @@ class PersonalInfo extends Component {
       .catch(error => {
         this.setState({ wrong: error });
       })
-      .finally(() => {
-        Loading.hide();
-      });
+      .finally(() => {});
   }
 
   cancel = () => {

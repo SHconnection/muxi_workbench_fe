@@ -23,7 +23,7 @@ const Project = props => {
   const { match } = props;
 
   return (
-    <div className="subject minH">
+    <div className="router-warpper">
       <Route exact path={match.url} component={Index} />
       <Route path={`${match.url}/new`} component={NewProject} />
       <Route path={`${match.url}/:id/preview`} component={ProjectDetail} />

@@ -10,7 +10,7 @@ import Member from "../components/member/member";
 import Save from "../components/save/save";
 import ManageService from "../../../service/manage";
 import WrongPage from "../../../components/common/wrongPage/wrongPage";
-import Loading from "../../../components/common/loading/index";
+
 import "../../../static/css/common.css";
 import "./setPermission.css";
 
@@ -33,7 +33,6 @@ class SetPermission extends Component {
       },
       storeId
     } = this.props;
-    Loading.show();
 
     ManageService.getProjectList(storeId)
       .then(object => {
@@ -73,9 +72,7 @@ class SetPermission extends Component {
       .catch(error => {
         this.setState({ wrong: error });
       })
-      .finally(() => {
-        Loading.hide();
-      });
+      .finally(() => {});
   }
 
   transferMsgMem = (members, selMembers) => {

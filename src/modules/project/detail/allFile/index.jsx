@@ -13,7 +13,7 @@ import FolderItem from "../../components/folderItem/index";
 import FileList from "../../components/fileList/index";
 import ProjectService from "../../../../service/project";
 import FileService from "../../../../service/file";
-import Loading from "../../../../components/common/loading";
+
 import "./index.css";
 import "../../../../static/css/common.css";
 
@@ -130,7 +130,6 @@ class ProjectDetailAllFile extends Component {
   updateFilesList(id) {
     const { pid } = this.state;
     const fileRootId = id;
-    Loading.show();
     // 请求树
     FileTree.getFileTree(pid)
       .then(res => {
@@ -147,21 +146,17 @@ class ProjectDetailAllFile extends Component {
               filesList: res1
             });
             this.hideAlert();
-            // Loading.hide();
+            //
           })
           .catch(res1 => {
             console.error(res1);
           })
-          .finally(() => {
-            Loading.hide();
-          });
+          .finally(() => {});
       })
       .catch(res => {
         console.error(res);
       })
-      .finally(() => {
-        Loading.hide();
-      });
+      .finally(() => {});
   }
 
   // 开始创建文件（夹）
@@ -176,7 +171,6 @@ class ProjectDetailAllFile extends Component {
       /*
       / 这里是上传文件
       */
-      Loading.show();
       const formData = new FormData();
       formData.append("project_id", pid);
       formData.append("file", index);
@@ -199,9 +193,7 @@ class ProjectDetailAllFile extends Component {
                 .catch(res1 => {
                   console.error(res1);
                 })
-                .finally(() => {
-                  Loading.hide();
-                });
+                .finally(() => {});
             });
           }
           if (res.status === 413) {
@@ -211,9 +203,7 @@ class ProjectDetailAllFile extends Component {
         .catch(res => {
           console.error(res);
         })
-        .finally(() => {
-          Loading.hide();
-        });
+        .finally(() => {});
     }
   }
 

@@ -10,7 +10,7 @@ import Member from "../components/member/member";
 import Save from "../components/save/save";
 import ManageService from "../../../service/manage";
 import WrongPage from "../../../components/common/wrongPage/wrongPage";
-import Loading from "../../../components/common/loading/index";
+
 import { Store } from "../../../store";
 import "../../../static/css/common.css";
 import "./personalSetting.css";
@@ -43,7 +43,6 @@ class PersonalSet extends Component {
   componentDidMount() {
     const { storeId } = this.props;
 
-    Loading.show();
     ManageService.getPersonalSet(storeId)
       .then(setting => {
         const { members } = this.state;
@@ -62,9 +61,7 @@ class PersonalSet extends Component {
       .catch(error => {
         this.setState({ wrong: error });
       })
-      .finally(() => {
-        Loading.hide();
-      });
+      .finally(() => {});
   }
 
   changeName = e => {

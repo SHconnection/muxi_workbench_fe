@@ -5,7 +5,7 @@ import AlertDeleteFile from "../../components/alertDeleteFile";
 import AlertCreateFolder from "../../components/alertCreateFolder";
 import { FileTree } from "../../fileTree1";
 import GoBack from "../../../../components/common/goBack/index";
-import Loading from "../../../../components/common/loading/index";
+
 import Icon from "../../../../components/common/icon/index";
 import Button from "../../../../components/common/button/index";
 import Select from "../../../../components/common/select/index";
@@ -128,7 +128,6 @@ class ProjectDetailAllFile extends Component {
   updateDocList(id) {
     const { pid } = this.state;
     const docRootId = id;
-    Loading.show();
     // 请求树
     FileTree.getDocTree(pid)
       .then(res => {
@@ -149,16 +148,12 @@ class ProjectDetailAllFile extends Component {
           .catch(res1 => {
             console.error(res1);
           })
-          .finally(() => {
-            Loading.hide();
-          });
+          .finally(() => {});
       })
       .catch(error => {
         console.error(error);
       })
-      .finally(() => {
-        Loading.hide();
-      });
+      .finally(() => {});
   }
 
   // 开始创建文档

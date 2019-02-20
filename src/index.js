@@ -1,3 +1,4 @@
+/* eslint-disable import/no-unresolved */
 import React from "react";
 import ReactDOM from "react-dom";
 import {
@@ -7,7 +8,9 @@ import {
   Redirect
 } from "react-router-dom";
 import { Provider } from "react-redux";
-import registerServiceWorker from "./registerServiceWorker";
+import CardContainer from "components/layouts/card";
+
+import { PersistGate } from "redux-persist/es/integration/react";
 import NoMatch from "./components/common/noMatch/index";
 import Project from "./modules/project/index";
 import Dynamic from "./modules/feed/dynamic";
@@ -19,7 +22,6 @@ import Header from "./components/common/header/index";
 import edit from "./modules/status/markdown/edit";
 import load from "./modules/landing";
 import { persistor, Store } from "./store";
-import { PersistGate } from "redux-persist/es/integration/react";
 import "./index.css";
 
 ReactDOM.render(
@@ -28,13 +30,35 @@ ReactDOM.render(
       <Router>
         <div className="app-container">
           <Header />
+
           <Switch>
             <Redirect exact from="/" to="/project" />
-            <Route path="/project" component={Project} />
-            <Route path="/feed" component={Dynamic} />
+            <Route
+              path="/project"
+              render={props => (
+                <CardContainer>
+                  <Project {...props} />
+                </CardContainer>
+              )}
+            />
+            <Route
+              path="/feed"
+              render={props => (
+                <CardContainer>
+                  <Dynamic {...props} />
+                </CardContainer>
+              )}
+            />
             <Route path="/status" component={Progress} />
             <Route path="/edit" component={edit} />
-            <Route path="/teamMember" component={Member} />
+            <Route
+              path="/teamMember"
+              render={props => (
+                <CardContainer>
+                  <Member {...props} />
+                </CardContainer>
+              )}
+            />
             <Route path="/message" component={Message} />
             <Route path="/search" component={Search} />
             <Route path="/landing" component={load} />
@@ -46,7 +70,7 @@ ReactDOM.render(
   </Provider>,
   document.getElementById("root")
 );
-registerServiceWorker();
+// registerServiceWorker();
 if (process.env.NODE_ENV === "production") {
   console.log(
     `Muxi Workbench FE version ${process.env.REACT_APP_VERSION} 😎🤣😂😅😇😘`

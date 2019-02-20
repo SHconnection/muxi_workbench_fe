@@ -1,49 +1,16 @@
+/* eslint-disable import/no-unresolved */
 import React, { Component } from "react";
 import PropTypes from "prop-types";
+import {
+  getContainerHeight,
+  getScrollHeight,
+  getScrollTop
+} from "common/scroll";
+
 import StatusItem from "../components/basicCard/index";
 import Gotop from "../../../components/common/toTop/top";
 import WrongPage from "../../../components/common/wrongPage/wrongPage";
 import "./progerss.css";
-
-function getScrollTop() {
-  let scrollTop = 0;
-  let bodyScrollTop = 0;
-  let documentScrollTop = 0;
-  if (document.body) {
-    bodyScrollTop = document.body.scrollTop;
-  }
-  if (document.documentElement) {
-    documentScrollTop = document.documentElement.scrollTop;
-  }
-  scrollTop =
-    bodyScrollTop - documentScrollTop > 0 ? bodyScrollTop : documentScrollTop;
-  return scrollTop;
-}
-function getScrollHeight() {
-  let scrollHeight = 0;
-  let bodyScrollHeight = 0;
-  let documentScrollHeight = 0;
-  if (document.body) {
-    bodyScrollHeight = document.body.scrollHeight;
-  }
-  if (document.documentElement) {
-    documentScrollHeight = document.documentElement.scrollHeight;
-  }
-  scrollHeight =
-    bodyScrollHeight - documentScrollHeight > 0
-      ? bodyScrollHeight
-      : documentScrollHeight;
-  return scrollHeight;
-}
-function getWindowHeight() {
-  let windowHeight = 0;
-  if (document.compatMode === "CSS1Compat") {
-    windowHeight = document.documentElement.clientHeight;
-  } else {
-    windowHeight = document.body.clientHeight;
-  }
-  return windowHeight;
-}
 
 class Progress extends Component {
   constructor(props) {
@@ -63,7 +30,8 @@ class Progress extends Component {
 
   componentDidMount() {
     this.getstatuList();
-    window.addEventListener("scroll", this.scroll);
+    const appContainer = document.querySelector(".app-container");
+    if (appContainer) appContainer.addEventListener("scroll", this.scroll);
   }
 
   componentWillReceiveProps(nextProps) {
@@ -83,11 +51,12 @@ class Progress extends Component {
   }
 
   componentWillUnmount() {
-    window.removeEventListener("scroll", this.scroll);
+    const appContainer = document.querySelector(".app-container");
+    if (appContainer) appContainer.removeEventListener("scroll", this.scroll);
   }
 
   scroll() {
-    if (getScrollTop() + getWindowHeight() === getScrollHeight()) {
+    if (getScrollTop() + getContainerHeight() === getScrollHeight()) {
       this.getstatuList(true);
     }
   }

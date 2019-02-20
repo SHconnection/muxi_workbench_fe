@@ -13,7 +13,7 @@ import Othercomments from "../../../../components/common/otherComments/comments"
 import Avatar from "../../../../components/common/avatar/index";
 import Button from "../../../../components/common/button/index";
 import Goback from "../../../../components/common/goBack/index";
-import Loading from "../../../../components/common/loading/index";
+
 import SlateEditor from "../../../status/markdown/slate/slateEditor";
 import "../../../../static/css/common.css";
 import "../../../status/markdown/edit.css";
@@ -100,7 +100,6 @@ class DocPreview extends Component {
   // 请求文档的详情信息
   getDocInfo() {
     const { id } = this.state;
-    Loading.show();
     FileService.getDocConnent(id)
       .then(res => {
         const regex = /\D/;
@@ -117,9 +116,7 @@ class DocPreview extends Component {
       .catch(err => {
         this.setState({ wrong: err });
       })
-      .finally(() => {
-        Loading.hide();
-      });
+      .finally(() => {});
 
     // FileService.getDocList(postData)
     //   .then(res => {
@@ -141,7 +138,6 @@ class DocPreview extends Component {
   // 算出文档所在树
   getDocTree() {
     const { id, pid } = this.state;
-    Loading.show();
     FileTree.getDocTree(pid)
       .then(el => {
         this.setState({
@@ -152,16 +148,13 @@ class DocPreview extends Component {
       .catch(error => {
         this.setState({ wrong: error });
       })
-      .finally(() => {
-        Loading.hide();
-      });
+      .finally(() => {});
   }
 
   // 算出文档的路径
   getDocUrl(id, tree) {
     // 找到文档坐在节点
     const node = FileTree.searchNode(id, tree);
-    Loading.show();
     if (node && node.router.length) {
       const docIdUrl = JSON.parse(JSON.stringify(node.router));
       docIdUrl.pop();
@@ -186,9 +179,7 @@ class DocPreview extends Component {
         .catch(err => {
           this.setState({ wrong: err });
         })
-        .finally(() => {
-          Loading.hide();
-        });
+        .finally(() => {});
     }
   }
 

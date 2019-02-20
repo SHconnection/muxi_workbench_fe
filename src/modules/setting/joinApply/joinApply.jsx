@@ -7,7 +7,7 @@ import PropTypes from "prop-types";
 import GoBack from "../../../components/common/goBack/index";
 import ManageService from "../../../service/manage";
 import WrongPage from "../../../components/common/wrongPage/wrongPage";
-import Loading from "../../../components/common/loading/index";
+
 import "../../../static/css/common.css";
 import "./joinApply.css";
 
@@ -23,7 +23,6 @@ class JoinApply extends Component {
   }
 
   componentDidMount() {
-    Loading.show();
     ManageService.getJoinApply()
       .then(persons => {
         const joinList = persons.list.map(person => {
@@ -45,9 +44,7 @@ class JoinApply extends Component {
       .catch(error => {
         this.setState({ wrong: error });
       })
-      .finally(() => {
-        Loading.hide();
-      });
+      .finally(() => {});
   }
 
   save = mem1 => {

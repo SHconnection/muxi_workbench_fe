@@ -10,7 +10,7 @@ import GoBack from "../../../components/common/goBack/index";
 import Delete from "../components/delete/delete";
 import ManageService from "../../../service/manage";
 import WrongPage from "../../../components/common/wrongPage/wrongPage";
-import Loading from "../../../components/common/loading/index";
+
 import "../../../static/css/common.css";
 import "../joinApply/joinApply.css";
 import "./groupManage.css";
@@ -28,7 +28,6 @@ class GroupManage extends Component {
   }
 
   componentDidMount() {
-    Loading.show();
     ManageService.getAllGroup()
       .then(data => {
         if (data) {
@@ -48,9 +47,7 @@ class GroupManage extends Component {
       .catch(error => {
         this.setState({ wrong: error });
       })
-      .finally(() => {
-        Loading.hide();
-      });
+      .finally(() => {});
   }
 
   onDragEnd = result => {

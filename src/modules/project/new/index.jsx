@@ -5,7 +5,7 @@ import Button from "../../../components/common/button/index";
 import Select from "../../../components/common/select/index";
 import ManageService from "../../../service/manage";
 import ProjectService from "../../../service/project";
-import Loading from "../../../components/common/loading";
+
 import WrongPage from "../../../components/common/wrongPage/wrongPage";
 import "../../../static/css/common.css";
 import "./index.css";
@@ -70,7 +70,6 @@ class NewProject extends Component {
   }
 
   groupMemberInit = () => {
-    Loading.show();
     fetchGroups().then(re => {
       this.setState(
         {
@@ -97,9 +96,7 @@ class NewProject extends Component {
           }))
         });
       })
-      .finally(() => {
-        Loading.hide();
-      });
+      .finally(() => {});
   };
 
   changeProjectnameText = event => {

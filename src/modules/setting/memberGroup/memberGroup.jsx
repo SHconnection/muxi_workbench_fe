@@ -8,7 +8,7 @@ import GoBack from "../../../components/common/goBack/index";
 import Member from "../components/member/member";
 import ManageService from "../../../service/manage";
 import WrongPage from "../../../components/common/wrongPage/wrongPage";
-import Loading from "../../../components/common/loading/index";
+
 import "../../../static/css/common.css";
 import "./memberGroup.css";
 
@@ -24,17 +24,12 @@ class MemberGroup extends Component {
   }
 
   componentDidMount() {
-    Loading.show();
     const arr = ManageService.getAllGroup()
-      .then(() => {
-        Loading.hide();
-      })
+      .then(() => {})
       .catch(error => {
         this.setState({ wrong: error });
       })
-      .finally(() => {
-        Loading.hide();
-      });
+      .finally(() => {});
     const {
       match: {
         params: {

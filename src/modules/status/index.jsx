@@ -1,11 +1,12 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { Route } from "react-router-dom";
+
 import Index from "./progress/progress";
 import Detail from "./details/detail";
 import Edit from "./markdown/edit";
 import StatusService from "../../service/status";
-import Loading from "../../components/common/loading/index";
+
 import "./index.css";
 
 class Status extends Component {
@@ -20,9 +21,7 @@ class Status extends Component {
     this.getstatuList = this.getstatuList.bind(this);
   }
 
-  componentDidMount() {
-    Loading.show();
-  }
+  componentDidMount() {}
 
   getstatuList(bool = false) {
     const { match } = this.props;
@@ -61,9 +60,7 @@ class Status extends Component {
         .catch(error => {
           this.setState({ wrong: error });
         })
-        .finally(() => {
-          Loading.hide();
-        });
+        .finally(() => {});
     } else {
       StatusService.getPersonalStatus(match.params.uid, page + 1)
         .then(status => {
@@ -95,9 +92,7 @@ class Status extends Component {
         .catch(error => {
           this.setState({ wrong: error });
         })
-        .finally(() => {
-          Loading.hide();
-        });
+        .finally(() => {});
     }
   }
 

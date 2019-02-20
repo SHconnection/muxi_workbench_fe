@@ -8,7 +8,7 @@ import AlertMoveFile from "../../components/alertMoveFile";
 import "./index.css";
 import ProjectService from "../../../../service/project";
 import WrongPage from "../../../../components/common/wrongPage/wrongPage";
-import Loading from "../../../../components/common/loading/index";
+
 import "../../../../static/css/common.css";
 
 class ProjectTrash extends Component {
@@ -36,21 +36,17 @@ class ProjectTrash extends Component {
   // 获取文件树
   getFileTree() {
     const { pid } = this.state;
-    Loading.show();
     FileTree.getFileTree(pid)
       .then(res => {
         this.setState({
           fileTree: res
         });
       })
-      .finally(() => {
-        Loading.hide();
-      });
+      .finally(() => {});
   }
 
   getTrash() {
     const { pid } = this.state;
-    Loading.show();
     FileService.getProjectTrash(pid)
       .then(res => {
         this.setState({
@@ -60,9 +56,7 @@ class ProjectTrash extends Component {
       .catch(error => {
         this.setState({ wrong: error });
       })
-      .finally(() => {
-        Loading.hide();
-      });
+      .finally(() => {});
   }
 
   restore(file) {

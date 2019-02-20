@@ -7,7 +7,7 @@ import PropTypes from "prop-types";
 import GoBack from "../../../components/common/goBack/index";
 import ManageService from "../../../service/manage";
 import WrongPage from "../../../components/common/wrongPage/wrongPage";
-import Loading from "../../../components/common/loading/index";
+
 import Save from "../components/save/save";
 import "../../../static/css/common.css";
 import "./addMember.css";
@@ -23,7 +23,6 @@ class AddMem extends Component {
   }
 
   componentDidMount() {
-    Loading.show();
     this.link();
   }
 
@@ -37,9 +36,7 @@ class AddMem extends Component {
       .catch(error => {
         this.setState({ wrong: error });
       })
-      .finally(() => {
-        Loading.hide();
-      });
+      .finally(() => {});
   };
 
   copy = () => {

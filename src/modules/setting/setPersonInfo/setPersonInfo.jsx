@@ -10,7 +10,7 @@ import Delete from "../components/delete/delete";
 import Save from "../components/save/save";
 import ManageService from "../../../service/manage";
 import WrongPage from "../../../components/common/wrongPage/wrongPage";
-import Loading from "../../../components/common/loading/index";
+
 import "../../../static/css/common.css";
 import "./setPersonInfo.css";
 
@@ -35,7 +35,6 @@ class SetPersonalInfo extends Component {
   componentDidMount() {
     const { identity, selIdentities } = this.state;
     const { storeId, storePer, storePerRole } = this.props;
-    Loading.show();
 
     ManageService.getPersonalPro(storeId)
       .then(project => {
@@ -87,17 +86,13 @@ class SetPersonalInfo extends Component {
             .catch(error => {
               this.setState({ wrong: error });
             })
-            .finally(() => {
-              Loading.hide();
-            });
+            .finally(() => {});
         }
       })
       .catch(error => {
         this.setState({ wrong: error });
       })
-      .finally(() => {
-        Loading.hide();
-      });
+      .finally(() => {});
   }
 
   cancel = () => {

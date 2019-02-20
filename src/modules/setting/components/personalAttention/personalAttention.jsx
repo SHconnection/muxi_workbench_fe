@@ -10,7 +10,7 @@ import Delete from "../delete/delete";
 import File from "../../../../assets/img/file.png";
 import MessageService from "../../../../service/message";
 import WrongPage from "../../../../components/common/wrongPage/wrongPage";
-import Loading from "../../../../components/common/loading/index";
+
 import "../../../../static/css/common.css";
 import "./personalAttention.css";
 
@@ -32,7 +32,6 @@ class PersonalAttention extends Component {
       }
     } = this.props;
 
-    Loading.show();
     MessageService.getPersonalAttention(uid)
       .then(attention => {
         const arr = attention.list.map((item1, index) => {
@@ -47,9 +46,7 @@ class PersonalAttention extends Component {
       .catch(error => {
         this.setState({ wrong: error });
       })
-      .finally(() => {
-        Loading.hide();
-      });
+      .finally(() => {});
   }
 
   delete = data => {

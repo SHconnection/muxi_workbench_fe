@@ -1,17 +1,21 @@
+/* eslint-disable import/no-unresolved */
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
+import Loading from "components/common/loading";
+
 import ProjectItem from "../components/itemIcon/index";
 import Button from "../../../components/common/button";
 import ProjectService from "../../../service/project";
 import WrongPage from "../../../components/common/wrongPage/wrongPage";
-import Loading from "../../../components/common/loading/index";
+
 import "./index.css";
 
 class Index extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      loading: false,
       project: [],
       wrong: {}
     };
@@ -19,9 +23,9 @@ class Index extends Component {
 
   componentDidMount() {
     const { storeId: userID } = this.props;
-
-    Loading.show();
-    console.log(123);
+    this.setState({
+      loading: true
+    });
     ProjectService.getAllProjectList(userID)
       .then(res => {
         const project = res
@@ -32,14 +36,17 @@ class Index extends Component {
             return item;
           });
         this.setState({
-          project
+          project,
+          loading: false
         });
       })
       .catch(error => {
         this.setState({ wrong: error });
       })
       .finally(() => {
-        Loading.hide();
+        this.setState({
+          loading: false
+        });
       });
   }
 
@@ -48,12 +55,9 @@ class Index extends Component {
       wrong: {}
     });
   }
-  // componentDidMount() {
-  //     //do something
-  // }
 
   render() {
-    const { project, wrong } = this.state;
+    const { project, wrong, loading } = this.state;
     const { storeRole } = this.props;
 
     return (
@@ -63,6 +67,7 @@ class Index extends Component {
             <Button to="project/new" text="新建项目" />
           </div>
         )}
+        <Loading loading={loading} />
         <div className="projects-container">
           {project.map(el => (
             <div key={el.id} className="project-item">

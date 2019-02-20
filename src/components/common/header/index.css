@@ -1,4 +1,5 @@
 .header-container {
+  position: fixed;
   width: 100%;
   min-width: 1080px;
   height: 67px;
@@ -8,7 +9,6 @@
   -moz-user-select: none;
   -ms-user-select: none;
   user-select: none;
-  position: absolute;
   top: 0;
   overflow: visible;
   z-index: 9;
