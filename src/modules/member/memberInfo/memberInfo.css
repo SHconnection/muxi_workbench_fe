@@ -31,7 +31,7 @@
 
 .memberInfo-nameSize {
   overflow: auto;
-  width: 60px;
+  max-width: 60px;
   display: flex;
   white-space: nowrap;
 }

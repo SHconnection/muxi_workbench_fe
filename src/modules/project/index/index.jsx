@@ -21,6 +21,7 @@ class Index extends Component {
     const { storeId: userID } = this.props;
 
     Loading.show();
+    console.log(123);
     ProjectService.getAllProjectList(userID)
       .then(res => {
         const project = res

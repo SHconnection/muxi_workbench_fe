@@ -1,5 +1,5 @@
 import Fetch from "./fetch";
-import Store from "../store";
+import { Store } from "../store";
 
 const SearchService = {
   getSearchResults(page, searchtext, pid) {

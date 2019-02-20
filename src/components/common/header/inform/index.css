@@ -106,3 +106,6 @@
     color:rgba(16,142,233,1);
     line-height:19px;
 }
+.inform-presentMessage{
+    overflow: visible;
+}

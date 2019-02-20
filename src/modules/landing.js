@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { Redirect } from "react-router";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
-import Store from "../store";
+import { Store } from "../store";
 import ManageService from "../service/manage";
 import LandingService from "../service/landing";
 import Cookie from "../service/cookie";
@@ -22,7 +22,7 @@ const data1 = {
 };
 
 Store.dispatch({
-  type: "substituteUserName",
+  type: "substituteUsername",
   payload: User || ""
 });
 

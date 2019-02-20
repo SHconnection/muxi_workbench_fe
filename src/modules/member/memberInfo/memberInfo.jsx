@@ -5,7 +5,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
 import Avatar from "../../../components/common/avatar/index";
-import Store from "../../../store";
+import { Store } from "../../../store";
 import "../../../static/css/common.css";
 import "./memberInfo.css";
 

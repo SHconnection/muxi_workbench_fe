@@ -18,28 +18,31 @@ import Search from "./modules/search/index";
 import Header from "./components/common/header/index";
 import edit from "./modules/status/markdown/edit";
 import load from "./modules/landing";
-import Store from "./store";
+import { persistor, Store } from "./store";
+import { PersistGate } from "redux-persist/es/integration/react";
 import "./index.css";
 
 ReactDOM.render(
   <Provider store={Store}>
-    <Router>
-      <div className="app-container">
-        <Header />
-        <Switch>
-          <Redirect exact from="/" to="/project" />
-          <Route path="/project" component={Project} />
-          <Route path="/feed" component={Dynamic} />
-          <Route path="/status" component={Progress} />
-          <Route path="/edit" component={edit} />
-          <Route path="/teamMember" component={Member} />
-          <Route path="/message" component={Message} />
-          <Route path="/search" component={Search} />
-          <Route path="/landing" component={load} />
-          <Route component={NoMatch} />
-        </Switch>
-      </div>
-    </Router>
+    <PersistGate persistor={persistor}>
+      <Router>
+        <div className="app-container">
+          <Header />
+          <Switch>
+            <Redirect exact from="/" to="/project" />
+            <Route path="/project" component={Project} />
+            <Route path="/feed" component={Dynamic} />
+            <Route path="/status" component={Progress} />
+            <Route path="/edit" component={edit} />
+            <Route path="/teamMember" component={Member} />
+            <Route path="/message" component={Message} />
+            <Route path="/search" component={Search} />
+            <Route path="/landing" component={load} />
+            <Route component={NoMatch} />
+          </Switch>
+        </div>
+      </Router>
+    </PersistGate>
   </Provider>,
   document.getElementById("root")
 );

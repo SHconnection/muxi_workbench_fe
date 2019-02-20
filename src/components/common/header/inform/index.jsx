@@ -110,7 +110,10 @@ class Inform extends Component {
 
     const message = MessageList.length;
     return (
-      <div onMouseLeave={this.leave.bind(this)}>
+      <div
+        onMouseLeave={this.leave.bind(this)}
+        className="inform-presentMessage"
+      >
         <div onMouseEnter={this.enter.bind(this)}>
           <ReactSVG
             className="header-info-icon"

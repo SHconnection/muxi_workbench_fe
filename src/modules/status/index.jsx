@@ -61,7 +61,7 @@ class Status extends Component {
         .catch(error => {
           this.setState({ wrong: error });
         })
-        .then(() => {
+        .finally(() => {
           Loading.hide();
         });
     } else {
@@ -94,6 +94,9 @@ class Status extends Component {
         })
         .catch(error => {
           this.setState({ wrong: error });
+        })
+        .finally(() => {
+          Loading.hide();
         });
     }
   }

@@ -10,7 +10,7 @@
   user-select: none;
   position: absolute;
   top: 0;
-  overflow: scroll;
+  overflow: visible;
   z-index: 9;
 }
 

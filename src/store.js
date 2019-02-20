@@ -1,4 +1,11 @@
-import { createStore, combineReducers } from "redux";
+import { createStore } from "redux";
+import { persistStore, persistCombineReducers } from "redux-persist";
+import storage from "redux-persist/es/storage";
+
+const persistConfig = {
+  key: "root",
+  storage
+};
 
 const createSubstituteReducer = (defaultState, actionCase = "") => (
   state = defaultState,
@@ -18,9 +25,9 @@ const proxy = (state = "http://work.muxixyz.com", action) => {
   }
 };
 
-const reducer = combineReducers({
+const reducer = persistCombineReducers(persistConfig, {
   proxy,
-  username: createSubstituteReducer("", "substituteUserName"),
+  username: createSubstituteReducer("", "substituteUsername"),
   token: createSubstituteReducer("", "substituteToken"),
   avatar: createSubstituteReducer("", "substituteAvatar"),
   email: createSubstituteReducer("", "substituteEmail"),
@@ -31,4 +38,7 @@ const reducer = combineReducers({
   loginSuccess: createSubstituteReducer(0, "substituteLoginSuccess")
 });
 
-export default createStore(reducer);
+const Store = createStore(reducer);
+const persistor = persistStore(Store);
+
+export { persistor, Store };

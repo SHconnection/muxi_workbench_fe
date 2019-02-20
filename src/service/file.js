@@ -1,5 +1,5 @@
 import Fetch from "./fetch";
-import Store from "../store";
+import { Store } from "../store";
 
 const FileService = {
   // 创建文件夹

@@ -138,7 +138,7 @@ class Dynamic extends Component {
           .catch(error => {
             this.setState({ wrong: error });
           })
-          .then(() => {
+          .finally(() => {
             Loading.hide();
           });
       }
@@ -178,6 +178,9 @@ class Dynamic extends Component {
           })
           .catch(error => {
             this.setState({ wrong: error });
+          })
+          .finally(() => {
+            Loading.hide();
           });
       }
     }

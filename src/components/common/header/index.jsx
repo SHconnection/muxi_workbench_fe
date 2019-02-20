@@ -7,7 +7,7 @@ import logo from "../../../assets/img/logo@2x.png";
 import searchIcon from "../../../assets/svg/commonIcon/search.svg";
 import Avatar from "../avatar/index";
 import Inform from "./inform/index";
-import Store from "../../../store";
+import { Store } from "../../../store";
 import "./index.css";
 
 class Header extends Component {
