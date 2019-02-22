@@ -5,12 +5,12 @@
 */
 import React, { Component } from "react";
 import PropTypes from "prop-types";
-import FirstEditMember from "../../project/components/firstEditMember/firstEditMember";
-import ManageService from "../../../service/manage";
-import ProjectService from "../../../service/project";
-import WrongPage from "../../../components/common/wrongPage/wrongPage";
-
+import ManageService from "service/manage";
+import ProjectService from "service/project";
+import Loading from "components/common/loading/index";
+import { Store } from "store";
 import Save from "../components/save/save";
+import FirstEditMember from "../../project/components/firstEditMember/firstEditMember";
 import "./editMember.css";
 
 class EditMember extends Component {
@@ -36,77 +36,91 @@ class EditMember extends Component {
       members: [],
       groups: [],
       checkedIndex: 0,
-      wrong: {},
-      ifSave: false
+      ifSave: false,
+      loading: true
     };
   }
 
   componentDidMount() {
-    const {
-      match: {
-        params: { id }
-      }
-    } = this.props;
-
-    ManageService.getAllMem()
-      .then(arr => {
-        if (arr) {
-          ManageService.getProMember(id)
-            .then(member => {
-              if (member) {
-                const idList = member.list.map(mem => mem.userID);
-
-                const members = arr.list.map(mem1 => {
-                  const mem = EditMember.changeGroupMemberFormat(mem1);
-
-                  if (idList.indexOf(mem.id) !== -1) mem.selected = true;
-
-                  return mem;
-                });
-
-                this.setState({
-                  members,
-                  selMembers: idList
-                });
-              }
-            })
-            .catch(error => {
-              this.setState({ wrong: error });
-            })
-            .finally(() => {});
-        }
+    Promise.all([this.editMemberGetAllGroup(), this.editMemberGetAllMem()])
+      .then(() => {
+        this.setState({ loading: false });
       })
       .catch(error => {
-        this.setState({ wrong: error });
-      })
-      .finally(() => {});
-    ManageService.getAllGroup()
-      .then(group => {
-        if (group) {
-          const groupList = group.groupList.map(group1 => {
-            const obj = {};
-            obj.value = group1.groupName;
-            obj.id = group1.groupID;
-
-            return obj;
-          });
-
-          groupList.push({ id: 0, value: "全部成员" });
-
-          this.setState({
-            groups: groupList,
-            checkedIndex: groupList.length - 1
-          });
-        }
-      })
-      .catch(error => {
-        this.setState({ wrong: error });
+        Store.dispatch({
+          type: "substituteWrongInfo",
+          payload: error
+        });
       });
   }
 
-  cancel = () => {
-    this.setState({ wrong: {} });
-  };
+  editMemberGetAllMem = () =>
+    new Promise((resolve, reject) => {
+      ManageService.getAllMem()
+        .then(arr => {
+          if (arr) {
+            const {
+              match: {
+                params: { id }
+              }
+            } = this.props;
+            ManageService.getProMember(id)
+              .then(member => {
+                if (member) {
+                  const idList = member.list.map(mem => mem.userID);
+
+                  const members = arr.list.map(mem1 => {
+                    const mem = EditMember.changeGroupMemberFormat(mem1);
+
+                    if (idList.indexOf(mem.id) !== -1) mem.selected = true;
+
+                    return mem;
+                  });
+
+                  this.setState({
+                    members,
+                    selMembers: idList
+                  });
+                  resolve();
+                }
+              })
+              .catch(error => {
+                reject(error);
+              });
+          }
+        })
+        .catch(error => {
+          reject(error);
+        });
+    });
+
+  editMemberGetAllGroup = () =>
+    new Promise((resolve, reject) => {
+      ManageService.getAllGroup()
+        .then(group => {
+          if (group) {
+            const groupList = group.groupList.map(group1 => {
+              const obj = {};
+              obj.value = group1.groupName;
+              obj.id = group1.groupID;
+
+              return obj;
+            });
+
+            groupList.push({ id: 0, value: "全部成员" });
+
+            this.setState({
+              groups: groupList,
+              checkedIndex: groupList.length - 1,
+              loading: false
+            });
+            resolve();
+          }
+        })
+        .catch(error => {
+          reject(error);
+        });
+    });
 
   transferMsgMem = (members, selMembers) => {
     this.setState({
@@ -134,11 +148,15 @@ class EditMember extends Component {
         }, 500);
       })
       .catch(error => {
-        this.setState({ wrong: error });
+        Store.dispatch({
+          type: "substituteWrongInfo",
+          payload: error
+        });
       });
   };
 
   changeGroupCheck = (index, id) => {
+    this.setState({ loading: true });
     const { selMembers } = this.state;
 
     ManageService.groupMember(id)
@@ -154,12 +172,16 @@ class EditMember extends Component {
 
           this.setState({
             checkedIndex: index,
-            members: arr
+            members: arr,
+            loading: false
           });
         }
       })
       .catch(error => {
-        this.setState({ wrong: error });
+        Store.dispatch({
+          type: "substituteWrongInfo",
+          payload: error
+        });
       });
   };
 
@@ -210,8 +232,8 @@ class EditMember extends Component {
       selMembers,
       groups,
       checkedIndex,
-      wrong,
-      ifSave
+      ifSave,
+      loading
     } = this.state;
     const {
       match: {
@@ -220,36 +242,41 @@ class EditMember extends Component {
     } = this.props;
 
     return (
-      <div className="editMember-present">
-        <FirstEditMember
-          members={members}
-          selMembers={selMembers}
-          selAll={this.selAll}
-          groups={groups}
-          checkedIndex={checkedIndex}
-          transferMsg={this.transferMsgMem}
-          changeGroupCheck={this.changeGroupCheck}
-          proId={Number(id)}
-        />
+      <div>
+        {loading ? (
+          <Loading loading />
+        ) : (
+          <div className="editMember-present">
+            <FirstEditMember
+              members={members}
+              selMembers={selMembers}
+              selAll={this.selAll}
+              groups={groups}
+              checkedIndex={checkedIndex}
+              transferMsg={this.transferMsgMem}
+              changeGroupCheck={this.changeGroupCheck}
+              proId={Number(id)}
+            />
 
-        <button
-          type="button"
-          className="saveBtn footerBtn"
-          onClick={this.editProjectMember}
-        >
-          {ifSave ? "已保存" : "保存项目成员"}
-        </button>
-        <span
-          role="button"
-          tabIndex="-1"
-          className="fakeBtn footerBtn editMember-btnMarg"
-          onClick={this.goBack}
-          onKeyDown={this.handleClick}
-        >
-          取消
-        </span>
-        <WrongPage info={wrong} cancel={this.cancel} />
-        <Save ifSave={ifSave} />
+            <button
+              type="button"
+              className="saveBtn footerBtn"
+              onClick={this.editProjectMember}
+            >
+              {ifSave ? "已保存" : "保存项目成员"}
+            </button>
+            <span
+              role="button"
+              tabIndex="-1"
+              className="fakeBtn footerBtn editMember-btnMarg"
+              onClick={this.goBack}
+              onKeyDown={this.handleClick}
+            >
+              取消
+            </span>
+            <Save ifSave={ifSave} />
+          </div>
+        )}
       </div>
     );
   }

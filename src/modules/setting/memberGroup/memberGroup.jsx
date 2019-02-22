@@ -4,12 +4,12 @@
 */
 import React, { Component } from "react";
 import PropTypes from "prop-types";
-import GoBack from "../../../components/common/goBack/index";
+import GoBack from "components/common/goBack/index";
+import ManageService from "service/manage";
+import Loading from "components/common/loading/index";
+import { Store } from "store";
 import Member from "../components/member/member";
-import ManageService from "../../../service/manage";
-import WrongPage from "../../../components/common/wrongPage/wrongPage";
-
-import "../../../static/css/common.css";
+import "static/css/common.css";
 import "./memberGroup.css";
 
 class MemberGroup extends Component {
@@ -19,47 +19,47 @@ class MemberGroup extends Component {
     this.state = {
       selMembers: [],
       members: [],
-      wrong: {}
+      loading: true
     };
   }
 
   componentDidMount() {
-    const arr = ManageService.getAllGroup()
-      .then(() => {})
-      .catch(error => {
-        this.setState({ wrong: error });
+    ManageService.getAllGroup()
+      .then(arr => {
+        const {
+          match: {
+            params: {
+              per: { group }
+            }
+          }
+        } = this.props;
+
+        arr.map(item1 => {
+          const item = item1;
+
+          if (item.id === group) {
+            item.selected = true;
+          }
+
+          return item;
+        });
+
+        const array = [];
+        array.push(group);
+
+        this.setState({
+          members: arr,
+          selMembers: array,
+          loading: false
+        });
       })
-      .finally(() => {});
-    const {
-      match: {
-        params: {
-          per: { group }
-        }
-      }
-    } = this.props;
-
-    arr.map((item1, index) => {
-      const item = item1;
-
-      if (item.id === group) {
-        arr[index].selected = true;
-      }
-
-      return item;
-    });
-
-    const array = [];
-    array.push(group);
-
-    this.setState({
-      members: arr,
-      selMembers: array
-    });
+      .catch(error => {
+        Store.dispatch({
+          type: "substituteWrongInfo",
+          payload: error
+        });
+      });
   }
-
-  cancel = () => {
-    this.setState({ wrong: {} });
-  };
 
   transferMsgMem = (members, selMembers) => {
     this.setState({
@@ -79,35 +79,42 @@ class MemberGroup extends Component {
     const { selMembers } = this.state;
 
     ManageService.modifyMemGroup(id, selMembers).catch(error => {
-      this.setState({ wrong: error });
+      Store.dispatch({
+        type: "substituteWrongInfo",
+        payload: error
+      });
     });
   };
 
   render() {
-    const { selMembers, members, wrong } = this.state;
+    const { selMembers, members, loading } = this.state;
 
     return (
-      <div className="subject minH">
-        <GoBack />
-        <b className="title">选择成员分组</b>
-        <div className="present memberGroup-preMarg">
-          <span className="memberGroup-tip tip">请选择该成员所属分组</span>
-          <Member
-            members={members}
-            selMembers={selMembers}
-            transferMsg={this.transferMsgMem}
-            dis
-          />
-        </div>
-        <button
-          type="button"
-          className="saveBtn memberGroup-btnMarg"
-          onClick={this.modifyMemGroup}
-        >
-          下一步
-        </button>
-
-        <WrongPage info={wrong} cancel={this.cancel} />
+      <div>
+        {loading ? (
+          <Loading loading />
+        ) : (
+          <div>
+            <GoBack />
+            <b className="title">选择成员分组</b>
+            <div className="present memberGroup-preMarg">
+              <span className="memberGroup-tip tip">请选择该成员所属分组</span>
+              <Member
+                members={members}
+                selMembers={selMembers}
+                transferMsg={this.transferMsgMem}
+                dis
+              />
+            </div>
+            <button
+              type="button"
+              className="saveBtn memberGroup-btnMarg"
+              onClick={this.modifyMemGroup}
+            >
+              下一步
+            </button>
+          </div>
+        )}
       </div>
     );
   }

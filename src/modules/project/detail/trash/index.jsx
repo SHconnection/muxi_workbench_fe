@@ -1,15 +1,14 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
-import GoBack from "../../../../components/common/goBack/index";
+import GoBack from "components/common/goBack/index";
+import FileService from "service/file";
+import ProjectService from "service/project";
+import { Store } from "store";
 import TrashList from "./list/index";
-import FileService from "../../../../service/file";
 import { FileTree } from "../../fileTree1";
 import AlertMoveFile from "../../components/alertMoveFile";
 import "./index.css";
-import ProjectService from "../../../../service/project";
-import WrongPage from "../../../../components/common/wrongPage/wrongPage";
-
-import "../../../../static/css/common.css";
+import "static/css/common.css";
 
 class ProjectTrash extends Component {
   constructor(props) {
@@ -19,16 +18,13 @@ class ProjectTrash extends Component {
       pid: match.params.id,
       fileList: [],
       fileTree: {},
-      currentFile: {},
-      showMoveAlert: false,
-      wrong: {}
+      currentFile: {}
     };
     this.getTrash = this.getTrash.bind(this);
     this.restore = this.restore.bind(this);
     this.getFileTree = this.getFileTree.bind(this);
     this.confirmMoveFile = this.confirmMoveFile.bind(this);
     this.hideAlert = this.hideAlert.bind(this);
-    this.cancel = this.cancel.bind(this);
     this.getTrash();
     this.getFileTree();
   }
@@ -54,7 +50,10 @@ class ProjectTrash extends Component {
         });
       })
       .catch(error => {
-        this.setState({ wrong: error });
+        Store.dispatch({
+          type: "substituteWrongInfo",
+          payload: error
+        });
       })
       .finally(() => {});
   }
@@ -64,10 +63,6 @@ class ProjectTrash extends Component {
       currentFile: file,
       showMoveAlert: true
     });
-  }
-
-  cancel() {
-    this.setState({ wrong: {} });
   }
 
   // 确认移动文件
@@ -98,7 +93,10 @@ class ProjectTrash extends Component {
             });
           })
           .catch(error => {
-            this.setState({ wrong: error });
+            Store.dispatch({
+              type: "substituteWrongInfo",
+              payload: error
+            });
           });
       }
     }
@@ -112,7 +110,7 @@ class ProjectTrash extends Component {
   }
 
   render() {
-    const { fileList, fileTree, showMoveAlert, wrong } = this.state;
+    const { fileList, fileTree, showMoveAlert } = this.state;
     return (
       <div className="projectDetail-container">
         <GoBack />
@@ -144,7 +142,6 @@ class ProjectTrash extends Component {
         ) : (
           ""
         )}
-        <WrongPage info={wrong} cancel={this.cancel} />
       </div>
     );
   }

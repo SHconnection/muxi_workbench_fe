@@ -7,12 +7,10 @@ import {
   getScrollHeight,
   getScrollTop
 } from "common/scroll";
-
+import { Store } from "store";
 import FeedItem from "./components/feedList/index";
 import Gotop from "../../components/common/toTop/top";
 import FeedService from "../../service/feed";
-import WrongPage from "../../components/common/wrongPage/wrongPage";
-
 import "../../static/css/common.css";
 import "./dynamic.css";
 
@@ -47,9 +45,8 @@ class Dynamic extends Component {
       hasNext: true,
       pageNum: 0,
       dataList: [],
-      // isPersonal: 1,
-      wrong: {},
-      loading: false
+      isPersonal: 1,
+      loading: true
     };
     this.scroll = this.scroll.bind(this);
   }
@@ -67,12 +64,9 @@ class Dynamic extends Component {
 
   getFeedList() {
     const { match } = this.props;
-    const { pageNum, hasNext, loading } = this.state;
-    if (loading) return;
-    this.setState({
-      loading: true
-    });
+    const { pageNum, hasNext } = this.state;
     if (match.path === "/feed") {
+      this.setState({ isPersonal: 0 });
       if (hasNext) {
         FeedService.getFeedList(pageNum + 1)
           .then(feeds => {
@@ -102,15 +96,16 @@ class Dynamic extends Component {
                 hasNext: next,
                 pageNum: page1,
                 dataList: dataList.concat(arr1),
-                // isPersonal: 0,
                 loading: false
               });
             }
           })
           .catch(error => {
-            this.setState({ wrong: error });
-          })
-          .finally(() => {});
+            Store.dispatch({
+              type: "substituteWrongInfo",
+              payload: error
+            });
+          });
       }
     } else {
       const { uid } = match.params;
@@ -148,9 +143,11 @@ class Dynamic extends Component {
             }
           })
           .catch(error => {
-            this.setState({ wrong: error });
-          })
-          .finally(() => {});
+            Store.dispatch({
+              type: "substituteWrongInfo",
+              payload: error
+            });
+          });
       }
     }
   }
@@ -161,61 +158,56 @@ class Dynamic extends Component {
     }
   }
 
-  cancel() {
-    this.setState({ wrong: {} });
-  }
-
   render() {
-    const {
-      hasNext,
-      dataList,
-      // isPersonal,
-      wrong,
-      loading,
-      pageNum
-    } = this.state;
+    const { hasNext, dataList, isPersonal, loading } = this.state;
     return (
       <div className="feed">
-        <Loading loading={loading && pageNum === 0} />
-        <div>
-          <div className="feed-list">
-            {dataList.map((feed, index) => (
-              <div key={feed.feedid}>
-                {(index === 0 ||
-                  dataList[index - 1].timeDay !== feed.timeDay) && (
-                  <div
-                    className={
-                      today === feed.timeDay || yesterday === feed.timeDay
-                        ? "feed-today"
-                        : "feed-day"
-                    }
-                  >
-                    {Dynamic.chargeday(feed.timeDay)}
-                  </div>
-                )}
-                <FeedItem
-                  timeDay={feed.timeDay}
-                  timeHour={feed.timeHour}
-                  avatarUrl={feed.avatarUrl}
-                  uid={feed.uid}
-                  userName={feed.userName}
-                  action={feed.action}
-                  kind={feed.kind}
-                  sourceName={feed.sourceName}
-                  sourceID={feed.sourceID}
-                  sourcePro={feed.sourcePro}
-                  proName={feed.proName}
-                  ifSplit={feed.ifSplit}
-                />
-              </div>
-            ))}
+        {loading ? (
+          isPersonal ? (
+            <Loading loading offsetTop={{ top: "235px", height: "55%" }} />
+          ) : (
+            <Loading loading />
+          )
+        ) : (
+          <div>
+            <div className="feed-list">
+              {dataList.map((feed, index) => (
+                <div key={feed.feedid}>
+                  {(index === 0 ||
+                    dataList[index - 1].timeDay !== feed.timeDay) && (
+                    <div
+                      className={
+                        today === feed.timeDay || yesterday === feed.timeDay
+                          ? "feed-today"
+                          : "feed-day"
+                      }
+                    >
+                      {Dynamic.chargeday(feed.timeDay)}
+                    </div>
+                  )}
+                  <FeedItem
+                    timeDay={feed.timeDay}
+                    timeHour={feed.timeHour}
+                    avatarUrl={feed.avatarUrl}
+                    uid={feed.uid}
+                    userName={feed.userName}
+                    action={feed.action}
+                    kind={feed.kind}
+                    sourceName={feed.sourceName}
+                    sourceID={feed.sourceID}
+                    sourcePro={feed.sourcePro}
+                    proName={feed.proName}
+                    ifSplit={feed.ifSplit}
+                  />
+                </div>
+              ))}
+            </div>
+            <div className="loadMore">
+              {hasNext ? "下拉加载更多..." : "我是有底线的"}
+            </div>
+            <Gotop className="go-top" />
           </div>
-          <div className="loadMore">
-            {hasNext ? "下拉加载更多..." : "我是有底线的"}
-          </div>
-        </div>
-        <Gotop className="go-top" />
-        <WrongPage info={wrong} cancel={this.cancel} />
+        )}
       </div>
     );
   }

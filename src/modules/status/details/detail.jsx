@@ -4,16 +4,19 @@ import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 // import { MarkdownPreview } from "react-marked-markdown";
-import Goback from "../../../components/common/goBack/index";
-import thumbs from "../../../assets/svg/commonIcon/thumbs.svg";
-import thumbsUp from "../../../assets/svg/commonIcon/thumbs_up.svg";
-import Button from "../../../components/common/button/index";
-import Avatar from "../../../components/common/avatar/index";
-import Othercomments from "../../../components/common/otherComments/comments";
-import "../../../static/css/common.css";
-import Delete from "../../setting/components/delete/delete";
+import Goback from "components/common/goBack/index";
+import thumbs from "assets/svg/commonIcon/thumbs.svg";
+import thumbsUp from "assets/svg/commonIcon/thumbs_up.svg";
+import Button from "components/common/button/index";
+import Avatar from "components/common/avatar/index";
+import Othercomments from "components/common/otherComments/comments";
+import "static/css/common.css";
+import StatusService from "service/status";
+import Loading from "components/common/loading/index";
+import CardContainer from "components/layouts/card/index";
+import { Store } from "store";
 import SlateEditor from "../markdown/slate/slateEditor";
-import StatusService from "../../../service/status";
+import Delete from "../../setting/components/delete/delete";
 import "./detail.css";
 
 const Goods = [thumbs, thumbsUp];
@@ -31,7 +34,8 @@ class Detail extends Component {
       iflike: 0,
       username: "",
       value: "",
-      commentList: []
+      commentList: [],
+      loading: true
     };
     this.transferMsgDel = this.transferMsgDel.bind(this);
     this.changeLike = this.changeLike.bind(this);
@@ -39,41 +43,49 @@ class Detail extends Component {
     this.handleChange = this.handleChange.bind(this);
   }
 
-  componentWillMount() {
+  componentDidMount() {
     const { match } = this.props;
     this.setState({
       sid: match.params.id
     });
-    StatusService.getStatuDetail(match.params.id).then(doc => {
-      if (doc) {
-        const sid1 = doc.sid;
-        const name = doc.title;
-        const value = doc.content;
-        const time1 = doc.time;
-        const likeCounts = doc.likeCount;
-        const iflike1 = doc.iflike;
-        const arr1 = doc.commentList.map(comments => {
-          const comment = comments;
-          const obj = {};
-          obj.cid = comment.cid;
-          obj.username = comment.username;
-          obj.avatar = comment.avatar;
-          obj.time = comment.time;
-          obj.content = comment.content;
-          return obj;
+    StatusService.getStatuDetail(match.params.id)
+      .then(doc => {
+        if (doc) {
+          const sid1 = doc.sid;
+          const name = doc.title;
+          const value = doc.content;
+          const time1 = doc.time;
+          const likeCounts = doc.likeCount;
+          const iflike1 = doc.iflike;
+          const arr1 = doc.commentList.map(comments => {
+            const comment = comments;
+            const obj = {};
+            obj.cid = comment.cid;
+            obj.username = comment.username;
+            obj.avatar = comment.avatar;
+            obj.time = comment.time;
+            obj.content = comment.content;
+            return obj;
+          });
+          this.setState({
+            sid: sid1,
+            title: name,
+            content: value,
+            time: time1,
+            likeCount: likeCounts,
+            iflike: iflike1,
+            commentList: arr1,
+            loading: false
+          });
+          localStorage.setItem("content", value);
+        }
+      })
+      .catch(error => {
+        Store.dispatch({
+          type: "substituteWrongInfo",
+          payload: error
         });
-        this.setState({
-          sid: sid1,
-          title: name,
-          content: value,
-          time: time1,
-          likeCount: likeCounts,
-          iflike: iflike1,
-          commentList: arr1
-        });
-        localStorage.setItem("content", value);
-      }
-    });
+      });
   }
 
   handleChange(event) {
@@ -145,12 +157,17 @@ class Detail extends Component {
       likeCount,
       iflike,
       username,
-      content
+      content,
+      loading
     } = this.state;
     const { storeAvatar } = this.props;
 
-    return (
-      <div className="subject">
+    return loading ? (
+      <CardContainer>
+        <Loading loading />
+      </CardContainer>
+    ) : (
+      <div className="subject cardContainer">
         <div className="status-detail-head">
           <Goback className="status-detail-back" width="33px" height="33px" />
           <div className="stauts-detail-second">

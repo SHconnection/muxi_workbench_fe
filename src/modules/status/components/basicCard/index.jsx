@@ -73,9 +73,17 @@ class Item extends Component {
 
   render() {
     const { whetherLike, likeNumber, sid, isPersonal, content } = this.state;
-    const { username, time, commentCount, avatar } = this.props;
+    const { username, time, commentCount, avatar, isFirstItem } = this.props;
     return (
-      <div className={isPersonal ? "presonal-status" : "status-item-container"}>
+      <div
+        className={
+          isPersonal
+            ? "presonal-status"
+            : isFirstItem
+              ? "status-item-container status-firstItem-container"
+              : "status-item-container"
+        }
+      >
         <div className="status-head">
           <Avatar
             className="status-item-img"
@@ -140,7 +148,8 @@ Item.propTypes = {
   isPersonal: PropTypes.number,
   match: PropTypes.shape({
     url: PropTypes.string
-  })
+  }),
+  isFirstItem: PropTypes.bool
 };
 
 Item.defaultProps = {
@@ -155,7 +164,8 @@ Item.defaultProps = {
   isPersonal: 0,
   match: {
     url: "/status"
-  }
+  },
+  isFirstItem: false
 };
 
 export default Item;

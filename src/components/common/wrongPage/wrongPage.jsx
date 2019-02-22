@@ -3,25 +3,48 @@
 */
 import React, { Component } from "react";
 import PropTypes from "prop-types";
-import "../../../static/css/common.css";
+import { connect } from "react-redux";
+import "static/css/common.css";
+import "./wrongPage.css";
 
 class WrongPage extends Component {
-  render() {
-    const { info, cancel } = this.props;
+  shouldComponentUpdate(nextProps) {
+    const {
+      storeWrongInfo: { message: prevMessage }
+    } = this.props;
+    const {
+      storeWrongInfo: { message: nextMessage }
+    } = nextProps;
+    if (prevMessage === nextMessage) {
+      this.contain.style.display = "block";
+      return false;
+    }
+    return true;
+  }
 
-    return (
+  componentDidUpdate() {
+    this.contain.style.display = "block";
+  }
+
+  render() {
+    const {
+      storeWrongInfo: { message }
+    } = this.props;
+
+    return !message ? null : (
       <div
-        className={info.message ? "contain minH" : "none"}
+        className="contain minH wrongPage-wrongTip"
         ref={c => {
           this.contain = c;
         }}
       >
         <div className="subject alert">
-          <p>{info.message}</p>
+          <p>{message}</p>
           <button
             type="button"
             className="delBtn delete-btnMarg"
             onClick={() => {
+              this.contain.style.display = "none";
               window.history.back();
             }}
             onKeyDown={this.handleClick}
@@ -32,7 +55,7 @@ class WrongPage extends Component {
             type="button"
             className="certainBtn delete-btnMarg"
             onClick={() => {
-              cancel();
+              this.contain.style.display = "none";
             }}
             onKeyDown={this.handleClick}
           >
@@ -44,16 +67,18 @@ class WrongPage extends Component {
   }
 }
 
-export default WrongPage;
-
 WrongPage.propTypes = {
-  info: PropTypes.shape({
+  storeWrongInfo: PropTypes.shape({
     message: PropTypes.string
-  }),
-  cancel: PropTypes.func
+  })
 };
 
 WrongPage.defaultProps = {
-  info: {},
-  cancel: () => {}
+  storeWrongInfo: new Error("")
 };
+
+const mapStateToProps = state => ({
+  storeWrongInfo: state.wrongInfo
+});
+
+export default connect(mapStateToProps)(WrongPage);

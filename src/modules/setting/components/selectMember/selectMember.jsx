@@ -3,11 +3,12 @@
 */
 import React, { Component } from "react";
 import PropTypes from "prop-types";
-import Member from "../member/member";
+import ManageService from "service/manage";
+import Loading from "components/common/loading/index";
+import { Store } from "store";
 import Save from "../save/save";
-import ManageService from "../../../../service/manage";
-import WrongPage from "../../../../components/common/wrongPage/wrongPage";
-import "../../../../static/css/common.css";
+import Member from "../member/member";
+import "static/css/common.css";
 import "./selectMember.css";
 
 class SelectMember extends Component {
@@ -32,8 +33,8 @@ class SelectMember extends Component {
       selMembers: [],
       members: [],
       ifSave: false,
-      wrong: {},
-      deleteAdmin: []
+      deleteAdmin: [],
+      loading: true
     };
   }
 
@@ -68,19 +69,26 @@ class SelectMember extends Component {
 
                   this.setState({
                     members: arr,
-                    selMembers: preArray
+                    selMembers: preArray,
+                    loading: false
                   });
                 })
                 .catch(error => {
-                  this.setState({ wrong: error });
+                  Store.dispatch({
+                    type: "substituteWrongInfo",
+                    payload: error
+                  });
                 });
             } else {
-              this.setState({ members: arr });
+              this.setState({ members: arr, loading: false });
             }
           }
         })
         .catch(error => {
-          this.setState({ wrong: error });
+          Store.dispatch({
+            type: "substituteWrongInfo",
+            payload: error
+          });
         });
     }
 
@@ -112,23 +120,26 @@ class SelectMember extends Component {
                 this.setState({
                   members: arr,
                   selMembers: preArray,
-                  deleteAdmin: [...preArray]
+                  deleteAdmin: [...preArray],
+                  loading: false
                 });
               })
               .catch(error => {
-                this.setState({ wrong: error });
+                Store.dispatch({
+                  type: "substituteWrongInfo",
+                  payload: error
+                });
               });
           }
         })
         .catch(error => {
-          this.setState({ wrong: error });
+          Store.dispatch({
+            type: "substituteWrongInfo",
+            payload: error
+          });
         });
     }
   }
-
-  cancel = () => {
-    this.setState({ wrong: {} });
-  };
 
   selAll = () => {
     this.setState(prevState => {
@@ -200,7 +211,10 @@ class SelectMember extends Component {
           }, 1000);
         })
         .catch(error => {
-          this.setState({ wrong: error });
+          Store.dispatch({
+            type: "substituteWrongInfo",
+            payload: error
+          });
         });
     }
 
@@ -219,7 +233,10 @@ class SelectMember extends Component {
           }, 1000);
         })
         .catch(error => {
-          this.setState({ wrong: error });
+          Store.dispatch({
+            type: "substituteWrongInfo",
+            payload: error
+          });
         });
     }
 
@@ -233,7 +250,10 @@ class SelectMember extends Component {
 
       deleteAdmins.map(id => {
         ManageService.deleteManager(id).catch(error => {
-          this.setState({ wrong: error });
+          Store.dispatch({
+            type: "substituteWrongInfo",
+            payload: error
+          });
         });
         return id;
       });
@@ -247,7 +267,10 @@ class SelectMember extends Component {
         addMembers.map((id, index) => {
           if (index !== addMembers.length - 1) {
             ManageService.setManager(id).catch(error => {
-              this.setState({ wrong: error });
+              Store.dispatch({
+                type: "substituteWrongInfo",
+                payload: error
+              });
             });
           } else {
             ManageService.setManager(id).then(() => {
@@ -273,31 +296,40 @@ class SelectMember extends Component {
   };
 
   render() {
-    const { members, selMembers, ifSave, wrong } = this.state;
+    const { members, selMembers, ifSave, loading } = this.state;
 
     return (
-      <div className="present selectMember-present">
-        <b className="title littleSize selectMember-vice">选择成员</b>
-        <span
-          className="fakeBtn"
-          onClick={this.selAll}
-          onKeyDown={this.handleClick}
-          role="button"
-          tabIndex="-1"
-        >
-          全选
-        </span>
-        <Member
-          members={members}
-          selMembers={selMembers}
-          transferMsg={this.transferMsgMem}
-        />
-        <button type="button" className="saveBtn footerBtn" onClick={this.save}>
-          {ifSave ? "已保存" : "保存设置"}
-        </button>
+      <div>
+        {loading ? (
+          <Loading loading />
+        ) : (
+          <div className="present selectMember-present">
+            <b className="title littleSize selectMember-vice">选择成员</b>
+            <span
+              className="fakeBtn"
+              onClick={this.selAll}
+              onKeyDown={this.handleClick}
+              role="button"
+              tabIndex="-1"
+            >
+              全选
+            </span>
+            <Member
+              members={members}
+              selMembers={selMembers}
+              transferMsg={this.transferMsgMem}
+            />
+            <button
+              type="button"
+              className="saveBtn footerBtn"
+              onClick={this.save}
+            >
+              {ifSave ? "已保存" : "保存设置"}
+            </button>
 
-        <Save ifSave={ifSave} />
-        <WrongPage info={wrong} cancel={this.cancel} />
+            <Save ifSave={ifSave} />
+          </div>
+        )}
       </div>
     );
   }

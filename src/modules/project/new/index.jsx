@@ -1,13 +1,12 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
-import Button from "../../../components/common/button/index";
-import Select from "../../../components/common/select/index";
-import ManageService from "../../../service/manage";
-import ProjectService from "../../../service/project";
-
-import WrongPage from "../../../components/common/wrongPage/wrongPage";
-import "../../../static/css/common.css";
+import Button from "components/common/button/index";
+import Select from "components/common/select/index";
+import ManageService from "service/manage";
+import ProjectService from "service/project";
+import { Store } from "store";
+import "static/css/common.css";
 import "./index.css";
 
 const gotoBack = () => {
@@ -188,10 +187,11 @@ class NewProject extends Component {
     }
     if (!(userlist.length && postProjectName)) {
       this.setState({
-        wrong: {
-          message: "项目名称和成员不能为空！"
-        },
         hasInputProjectName: true
+      });
+      Store.dispatch({
+        type: "substituteWrongInfo",
+        payload: new Error("项目名称和成员不能为空！")
       });
       return;
     }
@@ -208,20 +208,18 @@ class NewProject extends Component {
             window.location.href = `./${res.project_id}/preview`;
           })
           .catch(error => {
-            this.setState({ wrong: error });
+            Store.dispatch({
+              type: "substituteWrongInfo",
+              payload: error
+            });
           });
       })
       .catch(error => {
-        this.setState({ wrong: error });
+        Store.dispatch({
+          type: "substituteWrongInfo",
+          payload: error
+        });
       });
-  };
-
-  cancel = () => {
-    this.setState({
-      wrong: {
-        message: ""
-      }
-    });
   };
 
   render() {
@@ -231,7 +229,6 @@ class NewProject extends Component {
       selectAllText,
       projectname,
       intro,
-      wrong,
       hasInputProjectName
     } = this.state;
     const { storeId } = this.props;
@@ -329,8 +326,6 @@ class NewProject extends Component {
             </div>
           </div>
         </div>
-
-        <WrongPage info={wrong} cancel={this.cancel} />
       </div>
     );
   }

@@ -6,13 +6,13 @@
 import React, { Component } from "react";
 // import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
+import ProjectService from "service/project";
+import Loading from "components/common/loading/index";
+import { Store } from "store";
 import Delete from "../components/delete/delete";
 import ProjectSetFirst from "../../project/components/projectSetFirst/projectSetFirst";
-import ProjectService from "../../../service/project";
-import WrongPage from "../../../components/common/wrongPage/wrongPage";
-
 import Save from "../components/save/save";
-import "../../../static/css/common.css";
+import "static/css/common.css";
 import "./projectSetting.css";
 
 class SetProject extends Component {
@@ -22,9 +22,9 @@ class SetProject extends Component {
       inputValue: "",
       textValue: "",
       deleteX: false,
-      wrong: {},
       inputIsNull: false,
-      ifSave: false
+      ifSave: false,
+      loading: true
     };
   }
 
@@ -40,14 +40,17 @@ class SetProject extends Component {
         if (project) {
           this.setState({
             inputValue: project.name,
-            textValue: project.intro
+            textValue: project.intro,
+            loading: false
           });
         }
       })
       .catch(error => {
-        this.setState({ wrong: error });
-      })
-      .finally(() => {});
+        Store.dispatch({
+          type: "substituteWrongInfo",
+          payload: error
+        });
+      });
   }
 
   changeInput = e => {
@@ -107,7 +110,10 @@ class SetProject extends Component {
         history.push(`/project/${id}/editMem`);
       })
       .catch(error => {
-        this.setState({ wrong: error });
+        Store.dispatch({
+          type: "substituteWrongInfo",
+          payload: error
+        });
       });
   };
 
@@ -115,18 +121,14 @@ class SetProject extends Component {
     window.history.back();
   };
 
-  cancel = () => {
-    this.setState({ wrong: {} });
-  };
-
   render() {
     const {
       deleteX,
       inputValue,
       textValue,
-      wrong,
       inputIsNull,
-      ifSave
+      ifSave,
+      loading
     } = this.state;
     const {
       match: {
@@ -136,53 +138,58 @@ class SetProject extends Component {
 
     return (
       <div>
-        <ProjectSetFirst
-          inputValue={inputValue}
-          textValue={textValue}
-          changeInput={this.changeInput}
-          changeText={this.changeText}
-          inputIsNull={inputIsNull}
-        />
+        {loading ? (
+          <Loading loading />
+        ) : (
+          <div>
+            <ProjectSetFirst
+              inputValue={inputValue}
+              textValue={textValue}
+              changeInput={this.changeInput}
+              changeText={this.changeText}
+              inputIsNull={inputIsNull}
+            />
 
-        <div className="setProject-select">
-          {/* <Link to={`/project/${id}/editMem`}> */}
-          <button
-            type="button"
-            className="saveBtn"
-            onClick={this.saveProjectSet}
-          >
-            保存
-          </button>
-          {/* </Link> */}
-          <button
-            type="button"
-            className="delBtn"
-            onClick={() => {
-              this.transferMsgDel(true);
-            }}
-          >
-            删除项目
-          </button>
-          <span
-            className="fakeBtn"
-            role="button"
-            tabIndex="-1"
-            onClick={this.pageGoBack}
-            onKeyDown={this.handleClick}
-          >
-            取消
-          </span>
-        </div>
+            <div className="setProject-select">
+              {/* <Link to={`/project/${id}/editMem`}> */}
+              <button
+                type="button"
+                className="saveBtn"
+                onClick={this.saveProjectSet}
+              >
+                保存
+              </button>
+              {/* </Link> */}
+              <button
+                type="button"
+                className="delBtn"
+                onClick={() => {
+                  this.transferMsgDel(true);
+                }}
+              >
+                删除项目
+              </button>
+              <span
+                className="fakeBtn"
+                role="button"
+                tabIndex="-1"
+                onClick={this.pageGoBack}
+                onKeyDown={this.handleClick}
+              >
+                取消
+              </span>
+            </div>
 
-        <Delete
-          name="确认要删除该项目吗？"
-          deleteX={deleteX}
-          transferMsg={this.transferMsgDel}
-          proDel
-          proId={parseInt(id, 10)}
-        />
-        <Save ifSave={ifSave} />
-        <WrongPage info={wrong} cancel={this.cancel} />
+            <Delete
+              name="确认要删除该项目吗？"
+              deleteX={deleteX}
+              transferMsg={this.transferMsgDel}
+              proDel
+              proId={parseInt(id, 10)}
+            />
+            <Save ifSave={ifSave} />
+          </div>
+        )}
       </div>
     );
   }

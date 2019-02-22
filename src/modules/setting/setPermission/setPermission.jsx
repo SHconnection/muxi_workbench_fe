@@ -5,13 +5,13 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import GoBack from "../../../components/common/goBack/index";
-import Member from "../components/member/member";
+import GoBack from "components/common/goBack/index";
+import ManageService from "service/manage";
+import Loading from "components/common/loading/index";
+import { Store } from "store";
 import Save from "../components/save/save";
-import ManageService from "../../../service/manage";
-import WrongPage from "../../../components/common/wrongPage/wrongPage";
-
-import "../../../static/css/common.css";
+import Member from "../components/member/member";
+import "static/css/common.css";
 import "./setPermission.css";
 
 class SetPermission extends Component {
@@ -22,7 +22,7 @@ class SetPermission extends Component {
       selMembers: [],
       members: [],
       ifSave: false,
-      wrong: {}
+      loading: true
     };
   }
 
@@ -61,18 +61,24 @@ class SetPermission extends Component {
 
             this.setState({
               members: proList,
-              selMembers: idList
+              selMembers: idList,
+              loading: false
             });
           })
           .catch(error => {
-            this.setState({ wrong: error });
+            Store.dispatch({
+              type: "substituteWrongInfo",
+              payload: error
+            });
           });
         return true;
       })
       .catch(error => {
-        this.setState({ wrong: error });
-      })
-      .finally(() => {});
+        Store.dispatch({
+          type: "substituteWrongInfo",
+          payload: error
+        });
+      });
   }
 
   transferMsgMem = (members, selMembers) => {
@@ -102,12 +108,11 @@ class SetPermission extends Component {
         }, 1000);
       })
       .catch(error => {
-        this.setState({ wrong: error });
+        Store.dispatch({
+          type: "substituteWrongInfo",
+          payload: error
+        });
       });
-  };
-
-  cancel = () => {
-    this.setState({ wrong: {} });
   };
 
   selAll = () => {
@@ -143,44 +148,48 @@ class SetPermission extends Component {
   };
 
   render() {
-    const { members, selMembers, ifSave, wrong } = this.state;
+    const { members, selMembers, ifSave, loading } = this.state;
 
     return (
-      <div className="subject minH">
-        <GoBack />
-        <b className="title">设置权限</b>
-        <div className="present setPermission-preMarg">
-          <span className="tip setPermission-tip">
-            请选择该成员可参与的项目
-          </span>
-          <label
-            htmlFor="selectAll"
-            className="fakeBtn setPermission-selectAll"
-            onKeyDown={this.selAll}
-            onClick={this.selAll}
-            role="button"
-            tabIndex="-1"
-            id="lab"
-          >
-            全选
-          </label>
-          <Member
-            members={members}
-            selMembers={selMembers}
-            transferMsg={this.transferMsgMem}
-          />
+      <div>
+        {loading ? (
+          <Loading loading />
+        ) : (
+          <div>
+            <GoBack />
+            <b className="title">设置权限</b>
+            <div className="present setPermission-preMarg">
+              <span className="tip setPermission-tip">
+                请选择该成员可参与的项目
+              </span>
+              <label
+                htmlFor="selectAll"
+                className="fakeBtn setPermission-selectAll"
+                onKeyDown={this.selAll}
+                onClick={this.selAll}
+                role="button"
+                tabIndex="-1"
+                id="lab"
+              >
+                全选
+              </label>
+              <Member
+                members={members}
+                selMembers={selMembers}
+                transferMsg={this.transferMsgMem}
+              />
 
-          <button
-            type="button"
-            className="saveBtn footerBtn setPermission-btnMarg"
-            onClick={this.savePersonalPermiss}
-          >
-            {ifSave ? "已保存" : "保存设置"}
-          </button>
-        </div>
-        <Save ifSave={ifSave} />
-
-        <WrongPage info={wrong} cancel={this.cancel} />
+              <button
+                type="button"
+                className="saveBtn footerBtn setPermission-btnMarg"
+                onClick={this.savePersonalPermiss}
+              >
+                {ifSave ? "已保存" : "保存设置"}
+              </button>
+            </div>
+            <Save ifSave={ifSave} />
+          </div>
+        )}
       </div>
     );
   }

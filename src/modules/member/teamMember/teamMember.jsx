@@ -6,11 +6,11 @@ import { List } from "react-virtualized";
 import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import ManageService from "../../../service/manage";
+import ManageService from "service/manage";
+import Loading from "components/common/loading/index";
+import { Store } from "store";
 import MemberInfo from "../memberInfo/memberInfo";
-import WrongPage from "../../../components/common/wrongPage/wrongPage";
-
-import "../../../static/css/common.css";
+import "static/css/common.css";
 import "./teamMember.css";
 
 class TeamMember extends Component {
@@ -36,73 +36,113 @@ class TeamMember extends Component {
       groupList: [],
       selectedID: 0,
       redDot: false,
-      wrong: {}
+      loading: true
     };
   }
 
   componentDidMount() {
     const { storeRole } = this.props;
-
-    ManageService.getAllMem()
-      .then(member => {
-        if (member) {
-          const arr = member.list.map(mem => {
-            const obj = TeamMember.changeGroupMemberFormat(mem);
-
-            return obj;
-          });
-
-          this.setState({
-            members: arr
-          });
-        }
-      })
-      .catch(error => {
-        this.setState({ wrong: error });
-      });
-    ManageService.getAllGroup()
-      .then(group => {
-        if (group) {
-          const arr = group.groupList.map(mem1 => {
-            const mem = mem1;
-            const obj = {};
-
-            obj.name = mem.groupName;
-            obj.id = mem.groupID;
-            obj.count = mem.userCount;
-            obj.selected = false;
-            obj.dealed = false;
-
-            return obj;
-          });
-
-          this.setState({
-            groupList: arr
-          });
-        }
-      })
-      .catch(error => {
-        this.setState({ wrong: error });
-      })
-      .finally(() => {});
     if (parseInt(storeRole, 10) > 1) {
-      ManageService.getJoinApply()
-        .then(obj => {
-          if (obj.list.length) {
-            this.setState({ redDot: true });
-          }
+      Promise.all([
+        this.teamMemberGetAllMem(),
+        this.teamMemberGetAllGroup(),
+        this.teamMemberGetJoinApply()
+      ])
+        .then(() => {
+          this.setState({
+            loading: false
+          });
         })
         .catch(error => {
-          this.setState({ wrong: error });
+          Store.dispatch({
+            type: "substituteWrongInfo",
+            payload: error
+          });
+        });
+    } else {
+      Promise.all([this.teamMemberGetAllMem(), this.teamMemberGetAllGroup()])
+        .then(() => {
+          this.setState({
+            loading: false
+          });
+        })
+        .catch(error => {
+          Store.dispatch({
+            type: "substituteWrongInfo",
+            payload: error
+          });
         });
     }
   }
 
-  cancel = () => {
-    this.setState({ wrong: {} });
-  };
+  teamMemberGetAllMem = () =>
+    new Promise((resolve, reject) => {
+      ManageService.getAllMem()
+        .then(member => {
+          if (member) {
+            const arr = member.list.map(mem => {
+              const obj = TeamMember.changeGroupMemberFormat(mem);
+
+              return obj;
+            });
+            this.setState({
+              members: arr
+            });
+            resolve();
+          }
+        })
+        .catch(error => {
+          reject(error);
+        });
+    });
+
+  teamMemberGetAllGroup = () =>
+    new Promise((resolve, reject) => {
+      ManageService.getAllGroup()
+        .then(group => {
+          if (group) {
+            const arr = group.groupList.map(mem1 => {
+              const mem = mem1;
+              const obj = {};
+
+              obj.name = mem.groupName;
+              obj.id = mem.groupID;
+              obj.count = mem.userCount;
+              obj.selected = false;
+              obj.dealed = false;
+
+              return obj;
+            });
+
+            this.setState({
+              groupList: arr
+            });
+            resolve();
+          }
+        })
+        .catch(error => {
+          reject(error);
+        });
+    });
+
+  teamMemberGetJoinApply = () =>
+    new Promise((resolve, reject) => {
+      ManageService.getJoinApply()
+        .then(obj => {
+          if (obj.list.length) {
+            this.setState({
+              redDot: true
+            });
+          }
+          resolve();
+        })
+        .catch(error => {
+          reject(error);
+        });
+    });
 
   present = id => {
+    this.setState({ loading: true });
     ManageService.groupMember(id)
       .then(member => {
         if (member) {
@@ -114,17 +154,21 @@ class TeamMember extends Component {
 
           this.setState({
             members: arr,
-            selectedID: id
+            selectedID: id,
+            loading: false
           });
         }
       })
       .catch(error => {
-        this.setState({ wrong: error });
+        Store.dispatch({
+          type: "substituteWrongInfo",
+          payload: error
+        });
       });
   };
 
   render() {
-    const { members, selectedID, groupList, wrong, redDot } = this.state;
+    const { members, selectedID, groupList, redDot, loading } = this.state;
     const { match, storeRole } = this.props;
     const renderRow = info => (
       <div className="teamMember-singleList" key={info.key} style={info.style}>
@@ -137,82 +181,86 @@ class TeamMember extends Component {
 
     return (
       <div>
-        <b className="teamMember-title">木犀团队</b>
+        {loading ? (
+          <Loading loading />
+        ) : (
+          <div>
+            <b className="teamMember-title">木犀团队</b>
 
-        <div className="teamMember-present">
-          <div className="teamMember-select">
-            <button
-              type="button"
-              className={`teamMember-singleItem teamMember-selectItem ${
-                selectedID === 0 ? "teamMember-singleItemSelected" : ""
-              }`}
-              onClick={() => {
-                this.present(0);
-              }}
-            >
-              团队成员
-            </button>
-            {groupList.map(group1 => {
-              const group = group1;
-              return (
+            <div className="teamMember-present">
+              <div className="teamMember-select">
                 <button
                   type="button"
                   className={`teamMember-singleItem teamMember-selectItem ${
-                    group.id === selectedID
-                      ? "teamMember-singleItemSelected"
-                      : ""
+                    selectedID === 0 ? "teamMember-singleItemSelected" : ""
                   }`}
-                  key={group.id}
                   onClick={() => {
-                    this.present(group.id);
+                    this.present(0);
                   }}
                 >
-                  {group.name}
+                  团队成员
                 </button>
-              );
-            })}
-          </div>
-          <div className="teamMember-selectBtn">
-            <Link
-              className="fakeBtn teamMember-fakeMarg teamMember-applyList"
-              to={`${match.url}/joinApply`}
-            >
-              {parseInt(storeRole, 10) > 1 ? "申请成员列表" : ""}
-              <div className={redDot ? "teamMember-inform" : "none"} />
-            </Link>
-            <Link
-              className="fakeBtn teamMember-fakeMarg"
-              to={`${match.url}/setManager`}
-            >
-              {parseInt(storeRole, 10) > 3 ? "设置管理员" : ""}
-            </Link>
-            <Link
-              className="fakeBtn teamMember-fakeMarg"
-              to={`${match.url}/addMember`}
-            >
-              添加成员
-            </Link>
-            <Link className="fakeBtn" to={`${match.url}/groupManage`}>
-              {parseInt(storeRole, 10) > 1 ? "管理分组" : ""}
-            </Link>
-          </div>
-        </div>
+                {groupList.map(group1 => {
+                  const group = group1;
+                  return (
+                    <button
+                      type="button"
+                      className={`teamMember-singleItem teamMember-selectItem ${
+                        group.id === selectedID
+                          ? "teamMember-singleItemSelected"
+                          : ""
+                      }`}
+                      key={group.id}
+                      onClick={() => {
+                        this.present(group.id);
+                      }}
+                    >
+                      {group.name}
+                    </button>
+                  );
+                })}
+              </div>
+              <div className="teamMember-selectBtn">
+                <Link
+                  className="fakeBtn teamMember-fakeMarg teamMember-applyList"
+                  to={`${match.url}/joinApply`}
+                >
+                  {parseInt(storeRole, 10) > 1 ? "申请成员列表" : ""}
+                  <div className={redDot ? "teamMember-inform" : "none"} />
+                </Link>
+                <Link
+                  className="fakeBtn teamMember-fakeMarg"
+                  to={`${match.url}/setManager`}
+                >
+                  {parseInt(storeRole, 10) > 3 ? "设置管理员" : ""}
+                </Link>
+                <Link
+                  className="fakeBtn teamMember-fakeMarg"
+                  to={`${match.url}/addMember`}
+                >
+                  添加成员
+                </Link>
+                <Link className="fakeBtn" to={`${match.url}/groupManage`}>
+                  {parseInt(storeRole, 10) > 1 ? "管理分组" : ""}
+                </Link>
+              </div>
+            </div>
 
-        <div className="noneInfoTip">
-          {members.length > 0 ? (
-            <List
-              width={880}
-              height={600}
-              rowHeight={100}
-              rowRenderer={renderRow}
-              rowCount={members.length}
-            />
-          ) : (
-            "该分类暂无成员～"
-          )}
-        </div>
-
-        <WrongPage info={wrong} cancel={this.cancel} />
+            <div className="noneInfoTip">
+              {members.length > 0 ? (
+                <List
+                  width={880}
+                  height={600}
+                  rowHeight={100}
+                  rowRenderer={renderRow}
+                  rowCount={members.length}
+                />
+              ) : (
+                "该分类暂无成员～"
+              )}
+            </div>
+          </div>
+        )}
       </div>
     );
   }

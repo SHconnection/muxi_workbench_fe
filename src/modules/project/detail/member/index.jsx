@@ -1,10 +1,10 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
-import ProjectService from "../../../../service/project";
-import GoBack from "../../../../components/common/goBack/index";
+import ProjectService from "service/project";
+import GoBack from "components/common/goBack/index";
+import { Store } from "store";
 import MemberInfo from "../../../member/memberInfo/memberInfo";
-import WrongPage from "../../../../components/common/wrongPage/wrongPage";
 import "./index.css";
 
 class Member extends Component {
@@ -13,11 +13,9 @@ class Member extends Component {
     const { match } = this.props;
     this.state = {
       pid: match.params.id,
-      memberList: [],
-      wrong: {}
+      memberList: []
     };
     this.getUserList = this.getUserList.bind(this);
-    this.cancel = this.cancel.bind(this);
     this.getUserList();
   }
 
@@ -31,17 +29,16 @@ class Member extends Component {
         });
       })
       .catch(error => {
-        this.setState({ wrong: error });
+        Store.dispatch({
+          type: "substituteWrongInfo",
+          payload: error
+        });
       })
       .finally(() => {});
   }
 
-  cancel() {
-    this.setState({ wrong: {} });
-  }
-
   render() {
-    const { memberList, wrong } = this.state;
+    const { memberList } = this.state;
     return (
       <div className="projectDetail-container">
         <GoBack />
@@ -61,8 +58,6 @@ class Member extends Component {
             {memberList.length === 0 && <div className="tip">暂无成员～</div>}
           </div>
         </div>
-
-        <WrongPage info={wrong} cancel={this.cancel} />
       </div>
     );
   }

@@ -9,7 +9,7 @@ import {
 } from "react-router-dom";
 import { Provider } from "react-redux";
 import CardContainer from "components/layouts/card";
-
+import WrongPage from "components/common/wrongPage/wrongPage";
 import { PersistGate } from "redux-persist/es/integration/react";
 import NoMatch from "./components/common/noMatch/index";
 import Project from "./modules/project/index";
@@ -64,6 +64,8 @@ ReactDOM.render(
             <Route path="/landing" component={load} />
             <Route component={NoMatch} />
           </Switch>
+
+          <WrongPage />
         </div>
       </Router>
     </PersistGate>

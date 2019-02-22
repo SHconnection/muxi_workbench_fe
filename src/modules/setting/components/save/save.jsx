@@ -4,7 +4,7 @@ ifSave判断是否显示
 */
 import React from "react";
 import PropTypes from "prop-types";
-import "../../../../static/css/common.css";
+import "static/css/common.css";
 import "./save.css";
 
 const Save = ({ ifSave }) => (

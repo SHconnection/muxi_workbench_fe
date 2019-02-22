@@ -2,18 +2,17 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 // import { MarkdownPreview } from "react-marked-markdown";
+import { Store } from "store";
 import AlertMoveFile from "../../components/alertMoveFile";
 import AlertDeleteFile from "../../components/alertDeleteFile";
 import FileService from "../../../../service/file";
 import ProjectService from "../../../../service/project";
 import MessageService from "../../../../service/message";
-import WrongPage from "../../../../components/common/wrongPage/wrongPage";
 import { FileTree } from "../../fileTree1";
 import Othercomments from "../../../../components/common/otherComments/comments";
 import Avatar from "../../../../components/common/avatar/index";
 import Button from "../../../../components/common/button/index";
 import Goback from "../../../../components/common/goBack/index";
-
 import SlateEditor from "../../../status/markdown/slate/slateEditor";
 import "../../../../static/css/common.css";
 import "../../../status/markdown/edit.css";
@@ -49,10 +48,9 @@ class DocPreview extends Component {
       // 是否显示删除文档
       showDletedoc: false,
       // 是否显示移动文档
-      showMoveDoc: false,
+      showMoveDoc: false
       // 移动文档最终选择的id
       // finalMoveDocId: 0,
-      wrong: ""
     };
     this.getDocInfo = this.getDocInfo.bind(this);
     this.getDocTree = this.getDocTree.bind(this);
@@ -93,7 +91,10 @@ class DocPreview extends Component {
         });
       })
       .catch(error => {
-        this.setState({ wrong: error });
+        Store.dispatch({
+          type: "substituteWrongInfo",
+          payload: error
+        });
       });
   }
 
@@ -113,8 +114,11 @@ class DocPreview extends Component {
         });
         localStorage.setItem("content", res.content);
       })
-      .catch(err => {
-        this.setState({ wrong: err });
+      .catch(error => {
+        Store.dispatch({
+          type: "substituteWrongInfo",
+          payload: error
+        });
       })
       .finally(() => {});
 
@@ -130,9 +134,12 @@ class DocPreview extends Component {
     //       creator
     //     })
     //   })
-    //   .catch(error => {
-    //     this.setState({ wrong: error });
-    //   });
+    // .catch(error => {
+    //   Store.dispatch({
+    //     type: "substituteWrongInfo",
+    //     payload: error
+    //   })
+    // });
   }
 
   // 算出文档所在树
@@ -146,7 +153,10 @@ class DocPreview extends Component {
         this.getDocUrl(id, el);
       })
       .catch(error => {
-        this.setState({ wrong: error });
+        Store.dispatch({
+          type: "substituteWrongInfo",
+          payload: error
+        });
       })
       .finally(() => {});
   }
@@ -176,8 +186,11 @@ class DocPreview extends Component {
             docUrlWithId
           });
         })
-        .catch(err => {
-          this.setState({ wrong: err });
+        .catch(error => {
+          Store.dispatch({
+            type: "substituteWrongInfo",
+            payload: error
+          });
         })
         .finally(() => {});
     }
@@ -200,7 +213,10 @@ class DocPreview extends Component {
           this.getCommentList();
         })
         .catch(error => {
-          this.setState({ wrong: error });
+          Store.dispatch({
+            type: "substituteWrongInfo",
+            payload: error
+          });
         });
     }
   }
@@ -217,7 +233,10 @@ class DocPreview extends Component {
   //         });
   //       })
   //       .catch(error => {
-  //         this.setState({ wrong: error });
+  //         Store.dispatch({
+  //           type: "substituteWrongInfo",
+  //           payload: error
+  //         })
   //       });
   //   }
   // }
@@ -244,13 +263,19 @@ class DocPreview extends Component {
               this.hideAlert();
               window.history.back();
             })
-            .catch(err => {
-              this.setState({ wrong: err });
+            .catch(error => {
+              Store.dispatch({
+                type: "substituteWrongInfo",
+                payload: error
+              });
             });
         }
       })
       .catch(error => {
-        this.setState({ wrong: error });
+        Store.dispatch({
+          type: "substituteWrongInfo",
+          payload: error
+        });
       });
   }
 
@@ -283,7 +308,10 @@ class DocPreview extends Component {
           this.hideAlert();
         })
         .catch(error => {
-          this.setState({ wrong: error });
+          Store.dispatch({
+            type: "substituteWrongInfo",
+            payload: error
+          });
         });
     }
   }
@@ -311,7 +339,10 @@ class DocPreview extends Component {
         }
       })
       .catch(error => {
-        this.setState({ wrong: error });
+        Store.dispatch({
+          type: "substituteWrongInfo",
+          payload: error
+        });
       });
   }
 
@@ -320,23 +351,25 @@ class DocPreview extends Component {
     const { id, isFocus } = this.state;
     if (isFocus) {
       MessageService.notFocusOnFile(id, 0).catch(error => {
-        this.setState({ wrong: error });
+        Store.dispatch({
+          type: "substituteWrongInfo",
+          payload: error
+        });
       });
       this.setState({
         isFocus: false
       });
     } else {
       MessageService.focusOnFile(id, 0).catch(error => {
-        this.setState({ wrong: error });
+        Store.dispatch({
+          type: "substituteWrongInfo",
+          payload: error
+        });
       });
       this.setState({
         isFocus: true
       });
     }
-  }
-
-  cancel() {
-    this.setState({ wrong: "" });
   }
 
   render() {
@@ -353,8 +386,7 @@ class DocPreview extends Component {
       // pageNums,
       showDletedoc,
       showMoveDoc,
-      isFocus,
-      wrong
+      isFocus
     } = this.state;
     const { storeAvatar } = this.props;
 
@@ -591,7 +623,6 @@ class DocPreview extends Component {
             </div>
           </div>
         )} */}
-        <WrongPage info={wrong} cancel={this.cancel} />
       </div>
     );
   }

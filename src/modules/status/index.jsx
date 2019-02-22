@@ -1,12 +1,11 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { Route } from "react-router-dom";
-
+import { Store } from "store";
 import Index from "./progress/progress";
 import Detail from "./details/detail";
 import Edit from "./markdown/edit";
 import StatusService from "../../service/status";
-
 import "./index.css";
 
 class Status extends Component {
@@ -15,8 +14,9 @@ class Status extends Component {
     this.state = {
       count: 0,
       page: 0,
-      isPersonal: 0,
-      statuList: []
+      isPersonal: 1,
+      statuList: [],
+      loading: true
     };
     this.getstatuList = this.getstatuList.bind(this);
   }
@@ -28,6 +28,7 @@ class Status extends Component {
     const { page } = this.state;
 
     if (match.path === "/status") {
+      this.setState({ isPersonal: 0 });
       StatusService.getStatusList(bool || !page ? page + 1 : page)
         .then(status => {
           if (status) {
@@ -53,15 +54,18 @@ class Status extends Component {
               count: count1,
               page: changePage,
               statuList: newStatuList,
-              isPersonal: 0
+              loading: false
             });
           }
         })
         .catch(error => {
-          this.setState({ wrong: error });
-        })
-        .finally(() => {});
+          Store.dispatch({
+            type: "substituteWrongInfo",
+            payload: error
+          });
+        });
     } else {
+      this.setState({ isPersonal: 1 });
       StatusService.getPersonalStatus(match.params.uid, page + 1)
         .then(status => {
           if (status) {
@@ -85,26 +89,37 @@ class Status extends Component {
               count: count1,
               page: changePage,
               statuList: statuList.concat(arr1),
-              isPersonal: 1
+              loading: false
             });
           }
         })
         .catch(error => {
-          this.setState({ wrong: error });
-        })
-        .finally(() => {});
+          Store.dispatch({
+            type: "substituteWrongInfo",
+            payload: error
+          });
+        });
     }
   }
 
   render() {
     const { match } = this.props;
+    const { loading, isPersonal } = this.state;
     return (
-      <div className="statusContainer">
+      <div
+        className={
+          isPersonal ? "statusContainer status-noMargin" : "statusContainer"
+        }
+      >
         <Route
           exact
           path={match.url}
           render={() => (
-            <Index {...this.state} getstatuList={this.getstatuList} />
+            <Index
+              {...this.state}
+              getstatuList={this.getstatuList}
+              loading={loading}
+            />
           )}
         />
         <Route exact path={`${match.url}/:id`} component={Detail} />

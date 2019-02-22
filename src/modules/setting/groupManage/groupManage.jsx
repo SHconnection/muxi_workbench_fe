@@ -6,12 +6,12 @@ import { Link } from "react-router-dom";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import GoBack from "../../../components/common/goBack/index";
+import GoBack from "components/common/goBack/index";
+import ManageService from "service/manage";
+import Loading from "components/common/loading/index";
+import { Store } from "store";
 import Delete from "../components/delete/delete";
-import ManageService from "../../../service/manage";
-import WrongPage from "../../../components/common/wrongPage/wrongPage";
-
-import "../../../static/css/common.css";
+import "static/css/common.css";
 import "../joinApply/joinApply.css";
 import "./groupManage.css";
 
@@ -23,7 +23,7 @@ class GroupManage extends Component {
       deleteX: false,
       data: undefined,
       members: [],
-      wrong: {}
+      loading: true
     };
   }
 
@@ -41,13 +41,18 @@ class GroupManage extends Component {
             return obj;
           });
 
-          this.setState({ members: arr });
+          this.setState({
+            members: arr,
+            loading: false
+          });
         }
       })
       .catch(error => {
-        this.setState({ wrong: error });
-      })
-      .finally(() => {});
+        Store.dispatch({
+          type: "substituteWrongInfo",
+          payload: error
+        });
+      });
   }
 
   onDragEnd = result => {
@@ -76,103 +81,109 @@ class GroupManage extends Component {
     });
   };
 
-  cancel = () => {
-    this.setState({ wrong: {} });
-  };
-
   render() {
-    const { deleteX, data, members, wrong } = this.state;
+    const { deleteX, data, members, loading } = this.state;
     const { match, storeRole } = this.props;
 
     return (
-      <div className="subject minH">
-        <GoBack />
-        <b className="title">分组管理</b>
-        <Link to={`${match.url}/addGroup`}>
-          <button
-            type="button"
-            className={
-              parseInt(storeRole, 10) === 7
-                ? "saveBtn joinApply-btnFlo"
-                : "none"
-            }
-          >
-            添加分组
-          </button>
-        </Link>
-        <br />
-        <span className="groupManage-tip tip">上下拖动对分组排序</span>
-
-        <DragDropContext onDragEnd={this.onDragEnd}>
-          <Droppable droppableId="droppable">
-            {provided => (
-              <div
-                ref={provided.innerRef}
-                className="clear present joinApply-list groupManage-present"
+      <div>
+        {loading ? (
+          <Loading loading />
+        ) : (
+          <div>
+            <GoBack />
+            <b className="title">分组管理</b>
+            <Link to={`${match.url}/addGroup`}>
+              <button
+                type="button"
+                className={
+                  parseInt(storeRole, 10) === 7
+                    ? "saveBtn joinApply-btnFlo"
+                    : "none"
+                }
               >
-                {members.map((mem, index) => {
-                  const groupMemberPath = {
-                    pathname: `${match.url}/groupMember`,
-                    state: { per: mem }
-                  };
+                添加分组
+              </button>
+            </Link>
+            <br />
+            <span className="groupManage-tip tip">上下拖动对分组排序</span>
 
-                  return (
-                    <Draggable key={mem.id} draggableId={mem.id} index={index}>
-                      {provided1 => (
-                        <div
-                          ref={provided1.innerRef}
-                          {...provided1.draggableProps}
-                          {...provided1.dragHandleProps}
-                          className={
-                            mem.dealed
-                              ? "none"
-                              : "groupManage-reCell joinApply-cell"
-                          }
+            <DragDropContext onDragEnd={this.onDragEnd}>
+              <Droppable droppableId="droppable">
+                {provided => (
+                  <div
+                    ref={provided.innerRef}
+                    className="clear present joinApply-list groupManage-present"
+                  >
+                    {members.map((mem, index) => {
+                      const groupMemberPath = {
+                        pathname: `${match.url}/groupMember`,
+                        state: { per: mem }
+                      };
+
+                      return (
+                        <Draggable
+                          key={mem.id}
+                          draggableId={mem.id}
+                          index={index}
                         >
-                          <b className="groupManage-groupSize">{mem.name}</b>
-                          <span className="llSize groupManage-numPos">
-                            {mem.count}人
-                          </span>
-                          <div className="joinApply-littleSelect">
-                            <Link
-                              to={groupMemberPath}
-                              className="fakeBtn groupManage-fakeBtn"
+                          {provided1 => (
+                            <div
+                              ref={provided1.innerRef}
+                              {...provided1.draggableProps}
+                              {...provided1.dragHandleProps}
+                              className={
+                                mem.dealed
+                                  ? "none"
+                                  : "groupManage-reCell joinApply-cell"
+                              }
                             >
-                              编辑
-                            </Link>
-                            <span
-                              className="fakeBtn groupManage-fakeBtn"
-                              onClick={() => {
-                                this.delete(mem);
-                              }}
-                              onKeyDown={this.handleClick}
-                              role="button"
-                              tabIndex="-1"
-                            >
-                              删除
-                            </span>
-                          </div>
-                        </div>
-                      )}
-                    </Draggable>
-                  );
-                })}
-                {provided.placeholder}
-              </div>
-            )}
-          </Droppable>
-        </DragDropContext>
+                              <b className="groupManage-groupSize">
+                                {mem.name}
+                              </b>
+                              <span className="llSize groupManage-numPos">
+                                {mem.count}人
+                              </span>
+                              <div className="joinApply-littleSelect">
+                                <Link
+                                  to={groupMemberPath}
+                                  className="fakeBtn groupManage-fakeBtn"
+                                >
+                                  编辑
+                                </Link>
+                                <span
+                                  className="fakeBtn groupManage-fakeBtn"
+                                  onClick={() => {
+                                    this.delete(mem);
+                                  }}
+                                  onKeyDown={this.handleClick}
+                                  role="button"
+                                  tabIndex="-1"
+                                >
+                                  删除
+                                </span>
+                              </div>
+                            </div>
+                          )}
+                        </Draggable>
+                      );
+                    })}
+                    {provided.placeholder}
+                  </div>
+                )}
+              </Droppable>
+            </DragDropContext>
 
-        <Delete
-          name="确认要移除该组吗?"
-          deleteX={deleteX}
-          transferMsg={this.transferMsgDel}
-          data={data}
-          // del
-          groupDel
-        />
-
-        <WrongPage info={wrong} cancel={this.cancel} />
+            <Delete
+              name="确认要移除该组吗?"
+              deleteX={deleteX}
+              transferMsg={this.transferMsgDel}
+              data={data}
+              // del
+              groupDel
+            />
+          </div>
+        )}
       </div>
     );
   }

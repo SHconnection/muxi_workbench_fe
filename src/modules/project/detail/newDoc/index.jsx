@@ -1,11 +1,11 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
-import { FileTree } from "../../fileTree1";
+import FileService from "service/file";
+import ProjectService from "service/project";
+import { Store } from "store";
 import Edit from "../../../status/markdown/edit1";
-import FileService from "../../../../service/file";
-import ProjectService from "../../../../service/project";
-import WrongPage from "../../../../components/common/wrongPage/wrongPage";
-import "../../../../static/css/common.css";
+import { FileTree } from "../../fileTree1";
+import "static/css/common.css";
 import "./index.css";
 
 class NewDoc extends Component {
@@ -15,12 +15,10 @@ class NewDoc extends Component {
     this.state = {
       docTree: {},
       pid: parseInt(match.params.pid, 0),
-      docRootId: parseInt(match.params.id, 0),
-      wrong: {}
+      docRootId: parseInt(match.params.id, 0)
     };
     this.save = this.save.bind(this);
     this.getDocTree = this.getDocTree.bind(this);
-    this.cancel = this.cancel.bind(this);
   }
 
   componentDidMount() {
@@ -37,7 +35,10 @@ class NewDoc extends Component {
         });
       })
       .catch(error => {
-        this.setState({ wrong: error });
+        Store.dispatch({
+          type: "substituteWrongInfo",
+          payload: error
+        });
       });
   }
 
@@ -66,26 +67,25 @@ class NewDoc extends Component {
               window.history.back();
             })
             .catch(error => {
-              this.setState({ wrong: error });
+              Store.dispatch({
+                type: "substituteWrongInfo",
+                payload: error
+              });
             });
         }
       })
       .catch(error => {
-        this.setState({ wrong: error });
+        Store.dispatch({
+          type: "substituteWrongInfo",
+          payload: error
+        });
       });
   }
 
-  cancel() {
-    this.setState({ wrong: {} });
-  }
-
   render() {
-    const { wrong } = this.state;
     return (
       <div>
         <Edit content="" title="" save={this.save} />
-
-        <WrongPage info={wrong} cancel={this.cancel} />
       </div>
     );
   }

@@ -16,9 +16,6 @@ center, u, b, i {
 html, body, div, span, button, p, a, b, ol, ul, li, table, caption, tbody, tfoot, thead, tr, th, td{
     font-size: 16px;
 }
-body {
-    background-color: #F2F2F2;
-}
 a {
     text-decoration: none;
     color:#000; 

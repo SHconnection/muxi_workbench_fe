@@ -5,10 +5,10 @@ import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
-import Gotop from "../../components/common/toTop/top";
-import WrongPage from "../../components/common/wrongPage/wrongPage";
+import Gotop from "components/common/toTop/top";
+import { Store } from "store";
 import MessageService from "../../service/message";
-import "../../static/css/common.css";
+import "static/css/common.css";
 import "./index.css";
 
 const kind = ["进度", "文件", "评论", "团队"];
@@ -32,12 +32,10 @@ class Message extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      MessageList: [],
-      wrong: {}
+      MessageList: []
     };
     this.readAll = this.readAll.bind(this);
     this.getMessage = this.getMessage.bind(this);
-    this.cancel = this.cancel.bind(this);
   }
 
   componentDidMount() {
@@ -53,7 +51,10 @@ class Message extends Component {
         });
       })
       .catch(error => {
-        this.setState({ wrong: error });
+        Store.dispatch({
+          type: "substituteWrongInfo",
+          payload: error
+        });
       });
   }
 
@@ -65,16 +66,15 @@ class Message extends Component {
         this.getMessage();
       })
       .catch(error => {
-        this.setState({ wrong: error });
+        Store.dispatch({
+          type: "substituteWrongInfo",
+          payload: error
+        });
       });
   }
 
-  cancel() {
-    this.setState({ wrong: {} });
-  }
-
   render() {
-    const { MessageList, wrong } = this.state;
+    const { MessageList } = this.state;
     return (
       <div className="subject">
         <div className="message-container">
@@ -110,7 +110,6 @@ class Message extends Component {
           <div className="message-none">没有更多通知了</div>
         </div>
         <Gotop className="go-top" />
-        <WrongPage info={wrong} cancel={this.cancel} />
       </div>
     );
   }

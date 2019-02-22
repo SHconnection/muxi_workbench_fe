@@ -2,12 +2,11 @@ import React, { Component } from "react";
 import { Redirect } from "react-router";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
-import { Store } from "../store";
-import ManageService from "../service/manage";
-import LandingService from "../service/landing";
-import Cookie from "../service/cookie";
-import WrongPage from "../components/common/wrongPage/wrongPage";
-import "../static/css/common.css";
+import { Store } from "store";
+import ManageService from "service/manage";
+import LandingService from "service/landing";
+import Cookie from "service/cookie";
+import "static/css/common.css";
 
 const User = decodeURIComponent(LandingService.getUsername());
 const data = {
@@ -27,13 +26,6 @@ Store.dispatch({
 });
 
 class Landing extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      wrong: {}
-    };
-  }
-
   componentDidMount() {
     this.loginBeforeGetInform();
   }
@@ -70,8 +62,9 @@ class Landing extends Component {
             });
           })
           .catch(error => {
-            this.setState({
-              wrong: error
+            Store.dispatch({
+              type: "substituteWrongInfo",
+              payload: error
             });
           });
       })
@@ -84,26 +77,21 @@ class Landing extends Component {
             });
           })
           .catch(error => {
-            this.setState({
-              wrong: error
+            Store.dispatch({
+              type: "substituteWrongInfo",
+              payload: error
             });
           });
       });
   };
 
-  cancel = () => {
-    this.setState({ wrong: {} });
-  };
-
   render() {
     const { storeLoginSuccess } = this.props;
-    const { wrong } = this.state;
 
     if (storeLoginSuccess === 1) {
       return (
         <div>
           <Redirect to="/" />
-          <WrongPage info={wrong} cancel={this.cancel} />
         </div>
       );
     }
@@ -113,7 +101,6 @@ class Landing extends Component {
           <div className="subject alert">
             <p>成功向团队发起申请,请留意填写的邮箱</p>
           </div>
-          <WrongPage info={wrong} cancel={this.cancel} />
         </div>
       );
     }
@@ -122,7 +109,6 @@ class Landing extends Component {
         <div className="subject alert">
           <p>页面加载中···</p>
         </div>
-        <WrongPage info={wrong} cancel={this.cancel} />
       </div>
     );
   }

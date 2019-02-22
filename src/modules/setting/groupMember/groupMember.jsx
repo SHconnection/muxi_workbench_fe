@@ -3,9 +3,9 @@
 */
 import React, { Component } from "react";
 import PropTypes from "prop-types";
-import GoBack from "../../../components/common/goBack/index";
+import GoBack from "components/common/goBack/index";
 import SelectMember from "../components/selectMember/selectMember";
-import "../../../static/css/common.css";
+import "static/css/common.css";
 import "./groupMember.css";
 
 class GroupMember extends Component {
@@ -54,7 +54,7 @@ class GroupMember extends Component {
     } = this.props;
 
     return (
-      <div className="subject minH">
+      <div>
         <GoBack />
         <b className="title">分组管理</b>
         <input

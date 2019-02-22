@@ -8,6 +8,8 @@ module.exports = {
     // React Native includes images via require("../images/example.png")
     "global-require": 0,
 
+    "import/no-unresolved": 0,
+
     "no-plusplus": 'off',
 
     "import/no-extraneous-dependencies": ["error", { "devDependencies": true }],

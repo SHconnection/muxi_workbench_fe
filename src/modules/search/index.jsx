@@ -5,13 +5,13 @@ import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import Select from "../../components/common/select/index";
-import Button from "../../components/common/button/index";
-import WrongPage from "../../components/common/wrongPage/wrongPage";
+import Select from "components/common/select/index";
+import Button from "components/common/button/index";
+import ProjectService from "service/project";
+import SearchService from "service/search";
+import { Store } from "store";
 import SearchItem from "./item/index";
-import ProjectService from "../../service/project";
-import SearchService from "../../service/search";
-import "../../static/css/common.css";
+import "static/css/common.css";
 import "./index.css";
 
 class Search extends Component {
@@ -23,7 +23,6 @@ class Search extends Component {
     this.changSearchText = this.changSearchText.bind(this);
     this.encode = window.location.href.split("/").pop(); // 编码后的url
     this.uncode = decodeURIComponent(decodeURIComponent(this.encode)); // 解码后的url
-    this.cancel = this.cancel.bind(this);
     this.state = {
       projectOption: [],
       projectCheckedIndex: 0,
@@ -36,8 +35,7 @@ class Search extends Component {
       },
       filterList: [],
       encodeText: this.encode,
-      searchText: this.uncode,
-      wrong: {}
+      searchText: this.uncode
     };
   }
 
@@ -63,7 +61,10 @@ class Search extends Component {
         this.searching();
       })
       .catch(error => {
-        this.setState({ wrong: error });
+        Store.dispatch({
+          type: "substituteWrongInfo",
+          payload: error
+        });
       });
   }
 
@@ -82,10 +83,6 @@ class Search extends Component {
         }
       );
     }
-  }
-
-  cancel() {
-    this.setState({ wrong: {} });
   }
 
   changeProject(index) {
@@ -122,7 +119,10 @@ class Search extends Component {
         // console.log(res.list);
       })
       .catch(error => {
-        this.setState({ wrong: error });
+        Store.dispatch({
+          type: "substituteWrongInfo",
+          payload: error
+        });
       });
     window.history.pushState(this.state, "", `${encodeText}`);
   }
@@ -146,8 +146,7 @@ class Search extends Component {
       projectOption,
       projectCheckedIndex,
       filterList,
-      searchText,
-      wrong
+      searchText
     } = this.state;
     return (
       <div className="subject">
@@ -203,7 +202,6 @@ class Search extends Component {
             )}
           </div>
         </div>
-        <WrongPage info={wrong} cancel={this.cancel} />
       </div>
     );
   }

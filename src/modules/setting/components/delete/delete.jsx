@@ -14,26 +14,19 @@
   地址跳转pathJump: false, 
 更新父组件数据transferMsg
 */
-import React, { Component } from "react";
+import React from "react";
 import PropTypes from "prop-types";
-import ProjectService from "../../../../service/project";
-import ManageService from "../../../../service/manage";
-import StatusService from "../../../../service/status";
-import MessageService from "../../../../service/message";
-import WrongPage from "../../../../components/common/wrongPage/wrongPage";
-import "../../../../static/css/common.css";
+import ProjectService from "service/project";
+import ManageService from "service/manage";
+import StatusService from "service/status";
+import MessageService from "service/message";
+import { Store } from "store";
+import "static/css/common.css";
 import "./delete.css";
 
-class Delete extends Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      wrong: {}
-    };
-  }
-
-  move = () => {
+const Delete = props => {
+  const { name, cancel, deleteX, transferMsg } = props;
+  const deleteMove = () => {
     const {
       certain,
       del,
@@ -42,13 +35,12 @@ class Delete extends Component {
       proId,
       staDel,
       staId,
-      transferMsg,
       groupDel,
       memDel,
       userId,
       attentionDel,
       pathJump
-    } = this.props;
+    } = props;
 
     if (certain) {
       transferMsg(false, true);
@@ -68,7 +60,10 @@ class Delete extends Component {
         })
         .catch(error => {
           transferMsg(false);
-          this.setState({ wrong: error });
+          Store.dispatch({
+            type: "substituteWrongInfo",
+            payload: error
+          });
         });
     }
 
@@ -80,7 +75,10 @@ class Delete extends Component {
         })
         .catch(error => {
           transferMsg(false);
-          this.setState({ wrong: error });
+          Store.dispatch({
+            type: "substituteWrongInfo",
+            payload: error
+          });
         });
     }
 
@@ -92,7 +90,10 @@ class Delete extends Component {
         })
         .catch(error => {
           transferMsg(false);
-          this.setState({ wrong: error });
+          Store.dispatch({
+            type: "substituteWrongInfo",
+            payload: error
+          });
         });
     }
 
@@ -103,7 +104,10 @@ class Delete extends Component {
         })
         .catch(error => {
           transferMsg(false);
-          this.setState({ wrong: error });
+          Store.dispatch({
+            type: "substituteWrongInfo",
+            payload: error
+          });
         });
     }
 
@@ -115,7 +119,10 @@ class Delete extends Component {
         })
         .catch(error => {
           transferMsg(false);
-          this.setState({ wrong: error });
+          Store.dispatch({
+            type: "substituteWrongInfo",
+            payload: error
+          });
         });
     }
 
@@ -124,49 +131,38 @@ class Delete extends Component {
     }
   };
 
-  cancel = () => {
-    this.setState({ wrong: {} });
-  };
-
-  render() {
-    const { name, cancel, deleteX, transferMsg } = this.props;
-    const { wrong } = this.state;
-
-    return (
-      <div>
-        <div className={deleteX ? "contain minH" : "none"}>
-          <div className="subject alert">
-            <p className="delete-infoMaxSize">{name}</p>
-            <div className="delete-alertMarg">
-              <button
-                type="button"
-                className={cancel ? "none" : "delBtn delete-btnMarg"}
-                onClick={() => {
-                  transferMsg(false);
-                }}
-                onKeyDown={this.handleClick}
-              >
-                取消
-              </button>
-              <button
-                type="button"
-                className="saveBtn delete-btnMarg"
-                onClick={() => {
-                  this.move();
-                }}
-                onKeyDown={this.handleClick}
-              >
-                确定
-              </button>
-            </div>
+  return (
+    <div>
+      <div className={deleteX ? "contain minH" : "none"}>
+        <div className="subject alert">
+          <p className="delete-infoMaxSize">{name}</p>
+          <div className="delete-alertMarg">
+            <button
+              type="button"
+              className={cancel ? "none" : "delBtn delete-btnMarg"}
+              onClick={() => {
+                transferMsg(false);
+              }}
+              onKeyDown={() => {}}
+            >
+              取消
+            </button>
+            <button
+              type="button"
+              className="saveBtn delete-btnMarg"
+              onClick={() => {
+                deleteMove(props);
+              }}
+              onKeyDown={() => {}}
+            >
+              确定
+            </button>
           </div>
         </div>
-
-        <WrongPage info={wrong} cancel={this.cancel} />
       </div>
-    );
-  }
-}
+    </div>
+  );
+};
 
 export default Delete;
 

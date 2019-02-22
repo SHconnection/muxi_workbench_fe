@@ -4,14 +4,14 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import GoBack from "../../../components/common/goBack/index";
+import GoBack from "components/common/goBack/index";
+import ManageService from "service/manage";
+import Loading from "components/common/loading/index";
+import { Store } from "store";
 import Member from "../components/member/member";
 import Delete from "../components/delete/delete";
 import Save from "../components/save/save";
-import ManageService from "../../../service/manage";
-import WrongPage from "../../../components/common/wrongPage/wrongPage";
-
-import "../../../static/css/common.css";
+import "static/css/common.css";
 import "./setPersonInfo.css";
 
 class SetPersonalInfo extends Component {
@@ -28,7 +28,7 @@ class SetPersonalInfo extends Component {
       ifSave: false,
       deleteX: false,
       deled: false,
-      wrong: {}
+      loading: true
     };
   }
 
@@ -75,29 +75,29 @@ class SetPersonalInfo extends Component {
                 identity[1].selected = false;
                 selIdentities[0] = parseInt(storePerRole, 10);
               }
-
               this.setState({
                 members: proList,
                 selMembers: idList,
                 identity,
-                selIdentities
+                selIdentities,
+                loading: false
               });
             })
             .catch(error => {
-              this.setState({ wrong: error });
-            })
-            .finally(() => {});
+              Store.dispatch({
+                type: "substituteWrongInfo",
+                payload: error
+              });
+            });
         }
       })
       .catch(error => {
-        this.setState({ wrong: error });
-      })
-      .finally(() => {});
+        Store.dispatch({
+          type: "substituteWrongInfo",
+          payload: error
+        });
+      });
   }
-
-  cancel = () => {
-    this.setState({ wrong: {} });
-  };
 
   transferMsgIden = (mem, selMem) => {
     this.setState({
@@ -158,7 +158,10 @@ class SetPersonalInfo extends Component {
 
     ManageService.saveModifyMemberIdenty(storePer, selIdentities).catch(
       error => {
-        this.setState({ wrong: error });
+        Store.dispatch({
+          type: "substituteWrongInfo",
+          payload: error
+        });
       }
     );
 
@@ -177,7 +180,10 @@ class SetPersonalInfo extends Component {
         }, 1000);
       })
       .catch(error => {
-        this.setState({ wrong: error });
+        Store.dispatch({
+          type: "substituteWrongInfo",
+          payload: error
+        });
       });
   };
 
@@ -197,7 +203,7 @@ class SetPersonalInfo extends Component {
       ifSave,
       deleteX,
       deled,
-      wrong
+      loading
     } = this.state;
     const {
       match: {
@@ -207,82 +213,89 @@ class SetPersonalInfo extends Component {
     } = this.props;
 
     return (
-      <div className="subject minH">
-        <GoBack />
-        <b className="title">
-          {name}
-          的设置
-        </b>
+      <div>
+        {loading ? (
+          <Loading loading />
+        ) : (
+          <div>
+            <GoBack />
+            <b className="title">
+              {name}
+              的设置
+            </b>
 
-        <div className="present">
-          <div className="move">
-            <p className="selectMember-fontColor llSize">从团队中移除XXA</p>
-            <p className="selectMember-fontSize tip">
-              被移除的成员将不能再访问工作台上的信息，但工作台上与他相关的信息将保留。
-            </p>
+            <div className="present">
+              <div className="move">
+                <p className="selectMember-fontColor llSize">从团队中移除XXA</p>
+                <p className="selectMember-fontSize tip">
+                  被移除的成员将不能再访问工作台上的信息，但工作台上与他相关的信息将保留。
+                </p>
+              </div>
+              <button
+                type="button"
+                className="moveBtn selectMember-btnMArg"
+                onClick={() => {
+                  this.transferMsgDel(true);
+                }}
+              >
+                确认移除
+              </button>
+              <br />
+
+              <b className="littleSize title selectMember-titleMarg">设置</b>
+              <Member
+                members={identity}
+                selMembers={selIdentities}
+                transferMsg={this.transferMsgIden}
+                dis
+              />
+
+              <b className="littleSize title selectMember-titleMarg">
+                参与的项目
+              </b>
+              <span
+                className="fakeBtn"
+                onClick={this.selAll}
+                onKeyDown={this.handleClick}
+                role="button"
+                tabIndex="-1"
+              >
+                全选
+              </span>
+              <Member
+                members={members}
+                selMembers={selMembers}
+                transferMsg={this.transferMsgMem}
+              />
+
+              <button
+                type="button"
+                className="footerBtn saveBtn"
+                onClick={this.saveModifyMember}
+              >
+                {ifSave ? "已保存" : "保存设置"}
+              </button>
+
+              <Save ifSave={ifSave} />
+
+              <Delete
+                name={`确认要移除${name}吗?`}
+                deleteX={deleteX}
+                transferMsg={this.transferMsgDel}
+                memDel
+                userId={parseInt(storePer, 10)}
+                certain
+              />
+              <Delete
+                name="移除成功"
+                cancel
+                pathJump
+                deleteX={deled}
+                transferMsg={this.pathJump}
+              />
+            </div>
           </div>
-          <button
-            type="button"
-            className="moveBtn selectMember-btnMArg"
-            onClick={() => {
-              this.transferMsgDel(true);
-            }}
-          >
-            确认移除
-          </button>
-          <br />
-
-          <b className="littleSize title selectMember-titleMarg">设置</b>
-          <Member
-            members={identity}
-            selMembers={selIdentities}
-            transferMsg={this.transferMsgIden}
-            dis
-          />
-
-          <b className="littleSize title selectMember-titleMarg">参与的项目</b>
-          <span
-            className="fakeBtn"
-            onClick={this.selAll}
-            onKeyDown={this.handleClick}
-            role="button"
-            tabIndex="-1"
-          >
-            全选
-          </span>
-          <Member
-            members={members}
-            selMembers={selMembers}
-            transferMsg={this.transferMsgMem}
-          />
-
-          <button
-            type="button"
-            className="footerBtn saveBtn"
-            onClick={this.saveModifyMember}
-          >
-            {ifSave ? "已保存" : "保存设置"}
-          </button>
-
-          <Save ifSave={ifSave} />
-
-          <Delete
-            name={`确认要移除${name}吗?`}
-            deleteX={deleteX}
-            transferMsg={this.transferMsgDel}
-            memDel
-            userId={parseInt(storePer, 10)}
-            certain
-          />
-          <Delete
-            name="移除成功"
-            cancel
-            pathJump
-            deleteX={deled}
-            transferMsg={this.pathJump}
-          />
-        </div>
-        <WrongPage info={wrong} cancel={this.cancel} />
+        )}
       </div>
     );
   }

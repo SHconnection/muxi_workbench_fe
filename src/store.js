@@ -35,7 +35,8 @@ const reducer = persistCombineReducers(persistConfig, {
   id: createSubstituteReducer(0, "substituteId"),
   per: createSubstituteReducer(0, "substitutePer"),
   perRole: createSubstituteReducer(1, "substitutePerRole"),
-  loginSuccess: createSubstituteReducer(0, "substituteLoginSuccess")
+  loginSuccess: createSubstituteReducer(0, "substituteLoginSuccess"),
+  wrongInfo: createSubstituteReducer("", "substituteWrongInfo")
 });
 
 const Store = createStore(reducer);

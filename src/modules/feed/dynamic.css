@@ -30,5 +30,6 @@
     align-items: center;
     height: 50px;
     border: 1px; 
-    color: rgb(133, 131, 131)
+    color: rgb(133, 131, 131);
+    margin: 10px;
   }

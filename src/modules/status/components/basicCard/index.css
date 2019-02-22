@@ -11,6 +11,9 @@
     -webkit-box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.1); /* for safari or chrome */
     box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.1); /* for opera or ie9 */
 }
+.status-firstItem-container{
+    margin-top: 0;
+}
 .presonal-status{
     border-bottom: solid 1px #919191;
     padding: 50px 75px;

@@ -1,17 +1,16 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
+import { Store } from "store";
 import MessageService from "../../../../service/message";
 import FileService from "../../../../service/file";
 import ProjectService from "../../../../service/project";
 import { FileTree } from "../../fileTree1";
-import WrongPage from "../../../../components/common/wrongPage/wrongPage";
 import Othercomments from "../../../../components/common/otherComments/comments";
 // import Paging from "../../../../components/common/paging/index";
 import Avatar from "../../../../components/common/avatar/index";
 import Button from "../../../../components/common/button/index";
 import Goback from "../../../../components/common/goBack/index";
-
 import FileIcon from "../../components/fileIcon/index";
 import "../../../../static/css/common.css";
 import "./index.css";
@@ -36,12 +35,11 @@ class DocPreview extends Component {
       // 评论列表
       commentList: [],
       // 发表评论的输入值
-      commentInput: "",
+      commentInput: ""
       // 评论当前页数
       // currentPage: 1,
       // 总页数
       // pageNums: 1
-      wrong: {}
     };
     this.getFileInfo = this.getFileInfo.bind(this);
     this.isFocus = this.isFocus.bind(this);
@@ -52,7 +50,6 @@ class DocPreview extends Component {
     this.sendComment = this.sendComment.bind(this);
     this.getCommentList = this.getCommentList.bind(this);
     // this.selectPage = this.selectPage.bind(this);
-    this.cancel = this.cancel.bind(this);
   }
 
   componentWillMount() {
@@ -76,7 +73,10 @@ class DocPreview extends Component {
         });
       })
       .catch(error => {
-        this.setState({ wrong: error });
+        Store.dispatch({
+          type: "substituteWrongInfo",
+          payload: error
+        });
       });
   }
 
@@ -100,7 +100,10 @@ class DocPreview extends Component {
         });
       })
       .catch(error => {
-        this.setState({ wrong: error });
+        Store.dispatch({
+          type: "substituteWrongInfo",
+          payload: error
+        });
       })
       .finally(() => {});
   }
@@ -113,7 +116,10 @@ class DocPreview extends Component {
         this.getFileUrl(id, el);
       })
       .catch(error => {
-        this.setState({ wrong: error });
+        Store.dispatch({
+          type: "substituteWrongInfo",
+          payload: error
+        });
       })
       .finally(() => {});
   }
@@ -146,7 +152,10 @@ class DocPreview extends Component {
           });
         })
         .catch(err => {
-          this.setState({ wrong: err });
+          Store.dispatch({
+            type: "substituteWrongInfo",
+            payload: err
+          });
         });
     }
   }
@@ -167,7 +176,10 @@ class DocPreview extends Component {
         }
       })
       .catch(error => {
-        this.setState({ wrong: error });
+        Store.dispatch({
+          type: "substituteWrongInfo",
+          payload: error
+        });
       });
   }
 
@@ -176,14 +188,20 @@ class DocPreview extends Component {
     const { id, isFocus } = this.state;
     if (isFocus) {
       MessageService.notFocusOnFile(id, 1).catch(error => {
-        this.setState({ wrong: error });
+        Store.dispatch({
+          type: "substituteWrongInfo",
+          payload: error
+        });
       });
       this.setState({
         isFocus: false
       });
     } else {
       MessageService.focusOnFile(id, 1).catch(error => {
-        this.setState({ wrong: error });
+        Store.dispatch({
+          type: "substituteWrongInfo",
+          payload: error
+        });
       });
       this.setState({
         isFocus: true
@@ -208,7 +226,10 @@ class DocPreview extends Component {
           this.getCommentList();
         })
         .catch(error => {
-          this.setState({ wrong: error });
+          Store.dispatch({
+            type: "substituteWrongInfo",
+            payload: error
+          });
         });
     }
   }
@@ -225,14 +246,13 @@ class DocPreview extends Component {
   //         });
   //       })
   //       .catch(error => {
-  //         this.setState({ wrong: error });
+  //         Store.dispatch({
+  //           type: "substituteWrongInfo",
+  //           payload: error
+  //         })
   //       });
   //   }
   // }
-
-  cancel() {
-    this.setState({ wrong: {} });
-  }
 
   render() {
     const {
@@ -246,8 +266,7 @@ class DocPreview extends Component {
       commentInput,
       // currentPage,
       // pageNums,
-      isFocus,
-      wrong
+      isFocus
     } = this.state;
     const { storeAvatar } = this.props;
 
@@ -359,7 +378,6 @@ class DocPreview extends Component {
             </div>
           </div>
         </div>
-        <WrongPage info={wrong} cancel={this.cancel} />
       </div>
     );
   }

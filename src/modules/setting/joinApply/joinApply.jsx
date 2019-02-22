@@ -4,11 +4,11 @@
 */
 import React, { Component } from "react";
 import PropTypes from "prop-types";
-import GoBack from "../../../components/common/goBack/index";
-import ManageService from "../../../service/manage";
-import WrongPage from "../../../components/common/wrongPage/wrongPage";
-
-import "../../../static/css/common.css";
+import GoBack from "components/common/goBack/index";
+import ManageService from "service/manage";
+import Loading from "components/common/loading/index";
+import { Store } from "store";
+import "static/css/common.css";
 import "./joinApply.css";
 
 class JoinApply extends Component {
@@ -17,8 +17,8 @@ class JoinApply extends Component {
 
     this.state = {
       members: [],
-      wrong: {},
-      noMember: true
+      noMember: true,
+      loading: true
     };
   }
 
@@ -36,15 +36,24 @@ class JoinApply extends Component {
         });
 
         if (joinList.length) {
-          this.setState({ noMember: false });
+          this.setState({
+            noMember: false,
+            loading: false,
+            members: joinList
+          });
+        } else {
+          this.setState({
+            loading: false,
+            members: joinList
+          });
         }
-
-        this.setState({ members: joinList });
       })
       .catch(error => {
-        this.setState({ wrong: error });
-      })
-      .finally(() => {});
+        Store.dispatch({
+          type: "substituteWrongInfo",
+          payload: error
+        });
+      });
   }
 
   save = mem1 => {
@@ -53,7 +62,10 @@ class JoinApply extends Component {
     const { match } = this.props;
 
     ManageService.addMember(mem.id).catch(error => {
-      this.setState({ wrong: error });
+      Store.dispatch({
+        type: "substituteWrongInfo",
+        payload: error
+      });
     });
     ManageService.dealJoinApply(mem.id)
       .then(() => {
@@ -67,7 +79,10 @@ class JoinApply extends Component {
         });
       })
       .catch(error => {
-        this.setState({ wrong: error });
+        Store.dispatch({
+          type: "substituteWrongInfo",
+          payload: error
+        });
       });
   };
 
@@ -81,12 +96,11 @@ class JoinApply extends Component {
         this.setState({ members });
       })
       .catch(error => {
-        this.setState({ wrong: error });
+        Store.dispatch({
+          type: "substituteWrongInfo",
+          payload: error
+        });
       });
-  };
-
-  cancel = () => {
-    this.setState({ wrong: {} });
   };
 
   saveAll = () => {
@@ -100,7 +114,10 @@ class JoinApply extends Component {
           mem.dealed = true;
         })
         .catch(error => {
-          this.setState({ wrong: error });
+          Store.dispatch({
+            type: "substituteWrongInfo",
+            payload: error
+          });
         });
 
       return mem;
@@ -110,61 +127,68 @@ class JoinApply extends Component {
   };
 
   render() {
-    const { members, wrong, noMember } = this.state;
+    const { members, noMember, loading } = this.state;
 
     return (
-      <div className="subject minH">
-        <GoBack />
-        <b className="title">未审核的加入申请</b>
-        <br />
-        {/* <button
-          type="button"
-          className="saveBtn joinApply-btnFlo"
-          onClick={this.saveAll.bind(this)}
-        >
-          全部同意
-        </button> */}
-        <p className={noMember ? "noneInfoTip" : "none"}>暂无新成员加入～</p>
-        <div className="clear present joinApply-list">
-          {members.map(mem1 => {
-            const mem = mem1;
+      <div>
+        {loading ? (
+          <Loading loading />
+        ) : (
+          <div>
+            <GoBack />
+            <b className="title">未审核的加入申请</b>
+            <br />
+            {/* <button
+              type="button"
+              className="saveBtn joinApply-btnFlo"
+              onClick={this.saveAll.bind(this)}
+            >
+              全部同意
+            </button> */}
+            <p className={noMember ? "noneInfoTip" : "none"}>
+              暂无新成员加入～
+            </p>
+            <div className="clear present joinApply-list">
+              {members.map(mem1 => {
+                const mem = mem1;
 
-            return (
-              <div
-                className={mem.dealed ? "none" : "joinApply-cell"}
-                key={mem.id}
-              >
-                <b>{mem.name}</b>
-                <span className="llSize joinApply-pos">{mem.email}</span>
-                <div className="joinApply-littleSelect">
-                  <span
-                    role="button"
-                    tabIndex="-1"
-                    className="fakeBtn"
-                    onClick={() => {
-                      this.del(mem);
-                    }}
-                    onKeyDown={this.handleClick}
+                return (
+                  <div
+                    className={mem.dealed ? "none" : "joinApply-cell"}
+                    key={mem.id}
                   >
-                    不同意
-                  </span>
-                  <span
-                    role="button"
-                    tabIndex="-1"
-                    className="fakeBtn"
-                    onClick={() => {
-                      this.save(mem);
-                    }}
-                    onKeyDown={this.handleClick}
-                  >
-                    同意
-                  </span>
-                </div>
-              </div>
-            );
-          }, this)}
-        </div>
-        <WrongPage info={wrong} cancel={this.cancel} />
+                    <b>{mem.name}</b>
+                    <span className="llSize joinApply-pos">{mem.email}</span>
+                    <div className="joinApply-littleSelect">
+                      <span
+                        role="button"
+                        tabIndex="-1"
+                        className="fakeBtn"
+                        onClick={() => {
+                          this.del(mem);
+                        }}
+                        onKeyDown={this.handleClick}
+                      >
+                        不同意
+                      </span>
+                      <span
+                        role="button"
+                        tabIndex="-1"
+                        className="fakeBtn"
+                        onClick={() => {
+                          this.save(mem);
+                        }}
+                        onKeyDown={this.handleClick}
+                      >
+                        同意
+                      </span>
+                    </div>
+                  </div>
+                );
+              }, this)}
+            </div>
+          </div>
+        )}
       </div>
     );
   }

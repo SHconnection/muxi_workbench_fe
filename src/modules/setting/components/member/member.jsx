@@ -9,7 +9,7 @@ transferMsg更新父组件数据
 
 import React, { Component } from "react";
 import PropTypes from "prop-types";
-import "../../../../static/css/common.css";
+import "static/css/common.css";
 import "./member.css";
 
 class Member extends Component {
@@ -56,6 +56,7 @@ class Member extends Component {
 
     return (
       <div className="member-selectMem">
+        {!members.length ? <p className="noneInfoTip">暂无成员～</p> : null}
         {members.map((item1, index) => {
           const item = item1;
 

@@ -6,12 +6,12 @@ import { List } from "react-virtualized";
 import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
+import File from "assets/img/file.png";
+import MessageService from "service/message";
+import Loading from "components/common/loading/index";
+import { Store } from "store";
 import Delete from "../delete/delete";
-import File from "../../../../assets/img/file.png";
-import MessageService from "../../../../service/message";
-import WrongPage from "../../../../components/common/wrongPage/wrongPage";
-
-import "../../../../static/css/common.css";
+import "static/css/common.css";
 import "./personalAttention.css";
 
 class PersonalAttention extends Component {
@@ -21,7 +21,7 @@ class PersonalAttention extends Component {
       data: undefined,
       deleteX: false,
       members: [],
-      wrong: {}
+      loading: true
     };
   }
 
@@ -41,12 +41,14 @@ class PersonalAttention extends Component {
 
           return item;
         });
-        this.setState({ members: arr });
+        this.setState({ members: arr, loading: false });
       })
       .catch(error => {
-        this.setState({ wrong: error });
-      })
-      .finally(() => {});
+        Store.dispatch({
+          type: "substituteWrongInfo",
+          payload: error
+        });
+      });
   }
 
   delete = data => {
@@ -62,12 +64,8 @@ class PersonalAttention extends Component {
     });
   };
 
-  cancel = () => {
-    this.setState({ wrong: {} });
-  };
-
   render() {
-    const { data, deleteX, members, wrong } = this.state;
+    const { data, deleteX, members, loading } = this.state;
     const { storeId, storePer } = this.props;
 
     const renderRow = info => {
@@ -124,30 +122,34 @@ class PersonalAttention extends Component {
     };
 
     return (
-      <div className="present">
-        <div className="noneInfoTip">
-          {members.length > 0 ? (
-            <List
-              width={880}
-              height={500}
-              rowHeight={80}
-              rowRenderer={renderRow}
-              rowCount={members.length}
+      <div>
+        {loading ? (
+          <Loading loading offsetTop={{ top: "235px", height: "55%" }} />
+        ) : (
+          <div className="present">
+            <div className="noneInfoTip">
+              {members.length > 0 ? (
+                <List
+                  width={880}
+                  height={500}
+                  rowHeight={80}
+                  rowRenderer={renderRow}
+                  rowCount={members.length}
+                />
+              ) : (
+                "暂时未关注文档~"
+              )}
+            </div>
+
+            <Delete
+              name="确认要取消关注该项目吗?"
+              data={data}
+              deleteX={deleteX}
+              transferMsg={this.transferMsgDel}
+              attentionDel
             />
-          ) : (
-            "暂时未关注文档~"
-          )}
-        </div>
-
-        <Delete
-          name="确认要取消关注该项目吗?"
-          data={data}
-          deleteX={deleteX}
-          transferMsg={this.transferMsgDel}
-          attentionDel
-        />
-
-        <WrongPage info={wrong} cancel={this.cancel} />
+          </div>
+        )}
       </div>
     );
   }

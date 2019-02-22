@@ -2,16 +2,17 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 // import LiveMarkdownTextarea  from './editor';
 // import { MarkdownPreview } from "react-marked-markdown";
-import Goback from "../../../components/common/goBack/index";
-import Button from "../../../components/common/button";
-import SlateEditor from "./slate/slateEditor";
+import Goback from "components/common/goBack/index";
+import Button from "components/common/button";
 // import MarkdownPreview from './marked/preview';
 // import MarkdownInput from "./marked/input";
-import "../../../static/css/common.css";
-import StatusService from "../../../service/status";
+import "static/css/common.css";
+import StatusService from "service/status";
 // import CustomEditor from "./editor";
+import { Store } from "store";
+import SlateEditor from "./slate/slateEditor";
 import "./edit.css";
-import "../../../service/cookie";
+import "service/cookie";
 
 class edit extends Component {
   constructor(props) {
@@ -26,33 +27,40 @@ class edit extends Component {
     this.save = this.save.bind(this);
   }
 
-  componentWillMount() {
+  componentDidMount() {
     const { match } = this.props;
     if (match.path === `/edit`);
     else {
-      StatusService.getStatuDetail(match.params.id).then(doc => {
-        if (doc) {
-          const value = doc.content;
-          const name = doc.title;
-          this.setState({
-            title: name,
-            content: value
+      StatusService.getStatuDetail(match.params.id)
+        .then(doc => {
+          if (doc) {
+            const value = doc.content;
+            const name = doc.title;
+            this.setState({
+              title: name,
+              content: value
+            });
+          }
+        })
+        .catch(error => {
+          Store.dispatch({
+            type: "substituteWrongInfo",
+            payload: error
           });
-        }
-      });
+        });
     }
   }
 
-  componentDidUpdate() {
-    // const obj = document.querySelector(".field");
-    // const back = document.querySelector(".preview");
-    // obj.addEventListener("scroll", () => {
-    //   document.querySelector(".preview").scrollTop = obj.scrollTop;
-    // });
-    // back.addEventListener("scroll", () => {
-    //   document.querySelector(".field").scrollTop = back.scrollTop;
-    // });
-  }
+  // componentDidUpdate() {
+  //   const obj = document.querySelector(".field");
+  //   const back = document.querySelector(".preview");
+  //   obj.addEventListener("scroll", () => {
+  //     document.querySelector(".preview").scrollTop = obj.scrollTop;
+  //   });
+  //   back.addEventListener("scroll", () => {
+  //     document.querySelector(".field").scrollTop = back.scrollTop;
+  //   });
+  // }
 
   onChange(event) {
     this.setState({
@@ -76,10 +84,22 @@ class edit extends Component {
       return;
     }
     if (match.path === "/edit") {
-      StatusService.addNewStatu(title, content);
+      StatusService.addNewStatu(title, content).catch(error => {
+        Store.dispatch({
+          type: "substituteWrongInfo",
+          payload: error
+        });
+      });
       window.history.back();
     } else {
-      StatusService.changeStatu(match.params.id, title, content);
+      StatusService.changeStatu(match.params.id, title, content).catch(
+        error => {
+          Store.dispatch({
+            type: "substituteWrongInfo",
+            payload: error
+          });
+        }
+      );
       window.history.back();
     }
   }
@@ -87,7 +107,7 @@ class edit extends Component {
   render() {
     const { title, textnone, content } = this.state;
     return (
-      <div className="subject">
+      <div className="subject edit-marginHeader">
         <div className="head">
           <div className="last">
             <Goback width="33px" height="33px" />

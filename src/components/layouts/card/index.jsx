@@ -1,9 +1,10 @@
 import React from "react";
 import PropTypes from "prop-types";
+import "../../../static/css/common.css";
 
 export default function CardContainer(props) {
   const { children } = props;
-  return <div className="cardContainer">{children}</div>;
+  return <div className="subject cardContainer">{children}</div>;
 }
 
 CardContainer.propTypes = {

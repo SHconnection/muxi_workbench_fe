@@ -28,7 +28,6 @@ class Header extends Component {
 
   searchItem = () => {
     const { value } = this.searchRef.current;
-    // console.log(value);
     if (value !== "") {
       this.searchText = value;
       const url = `/search/${encodeURIComponent(

@@ -1,9 +1,9 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
+import FileService from "service/file";
+import { Store } from "store";
 import FileIcon from "../../project/components/fileIcon/index";
-import WrongPage from "../../../components/common/wrongPage/wrongPage";
-import FileService from "../../../service/file";
 import "./index.css";
 
 class SearchItem extends Component {
@@ -14,12 +14,10 @@ class SearchItem extends Component {
         name: "",
         url: ""
       },
-      docConetnt: "",
-      wrong: {}
+      docConetnt: ""
     };
     this.getFileInfo = this.getFileInfo.bind(this);
     this.getDocConnent = this.getDocConnent.bind(this);
-    this.cancel = this.cancel.bind(this);
   }
 
   componentDidMount() {
@@ -47,7 +45,10 @@ class SearchItem extends Component {
         });
       })
       .catch(error => {
-        this.setState({ wrong: error });
+        Store.dispatch({
+          type: "substituteWrongInfo",
+          payload: error
+        });
       });
   }
 
@@ -62,17 +63,16 @@ class SearchItem extends Component {
         });
       })
       .catch(error => {
-        this.setState({ wrong: error });
+        Store.dispatch({
+          type: "substituteWrongInfo",
+          payload: error
+        });
       });
-  }
-
-  cancel() {
-    this.setState({ wrong: {} });
   }
 
   render() {
     const { item } = this.props;
-    const { fileInfo, docConetnt, wrong } = this.state;
+    const { fileInfo, docConetnt } = this.state;
     return (
       <div className="search-item-content">
         {!item.kind ? (
@@ -101,7 +101,6 @@ class SearchItem extends Component {
             <div className="search-item-filecreator">{item.creator}</div>
           </div>
         )}
-        <WrongPage info={wrong} cancel={this.cancel} />
       </div>
     );
   }

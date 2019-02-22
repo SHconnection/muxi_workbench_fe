@@ -16,6 +16,11 @@ function encodeUrlParams(data) {
     .join("&");
 }
 
+const translateWrongInfo = new Map([
+  ["username can't be a empty string", "用户名为空"],
+  ["username can't be empty string", "用户名为空"]
+]);
+
 export default function FetchData(url, opt = {}) {
   // 设置请求方法
   opt.method = opt.method || "GET";
@@ -72,7 +77,13 @@ export default function FetchData(url, opt = {}) {
         throw new Error("未授权");
 
       case 402:
-        throw new Error("修改失败");
+        return response.json().then(msg => {
+          if (msg && msg.msg && translateWrongInfo.get(msg.msg)) {
+            throw new Error(translateWrongInfo.get(msg.msg));
+          } else {
+            throw new Error("修改失败");
+          }
+        });
 
       case 403:
         throw new Error("没有权限访问");

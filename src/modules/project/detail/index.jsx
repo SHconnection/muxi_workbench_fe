@@ -3,7 +3,7 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
 import Loading from "components/common/loading";
-
+import { Store } from "store";
 import GoBack from "../../../components/common/goBack/index";
 import Icon from "../../../components/common/icon/index";
 import { FileTree } from "../fileTree1";
@@ -17,8 +17,6 @@ import FolderItemDoc from "../components/folderItemDoc/index";
 import DocItem from "../components/docItem/index";
 import ProjectService from "../../../service/project";
 import FileService from "../../../service/file";
-
-import WrongPage from "../../../components/common/wrongPage/wrongPage";
 import "./index.css";
 import "../../../static/css/common.css";
 
@@ -100,8 +98,7 @@ class ProjectDetailIndex extends Component {
       docList: {
         FolderList: [],
         DocList: []
-      },
-      wrong: {}
+      }
     };
 
     this.updateFilesList = this.updateFilesList.bind(this);
@@ -133,23 +130,26 @@ class ProjectDetailIndex extends Component {
           projectInfo: res
         });
         // 更新文件与文档列表
-        Promise.all([this.updateFilesList(), this.updatedocList()]).then(() => {
-          this.setState({
-            loading: false
+        Promise.all([this.updateFilesList(), this.updatedocList()])
+          .then(() => {
+            this.setState({
+              loading: false
+            });
+          })
+          .catch(error => {
+            Store.dispatch({
+              type: "substituteWrongInfo",
+              payload: error
+            });
           });
-        });
       })
-      .catch(res => {
-        console.error("error", res);
-        this.setState({
-          loading: false
+      .catch(error => {
+        Store.dispatch({
+          type: "substituteWrongInfo",
+          payload: error
         });
       });
   }
-
-  cancel = () => {
-    this.setState({ wrong: {} });
-  };
 
   // 根据文件树更新当前视图的文件
   updateFilesList() {
@@ -162,19 +162,20 @@ class ProjectDetailIndex extends Component {
             fileTree: res
           });
           // 请求filelist
-          FileService.getFileList(
-            FileTree.findFileIdList(fileRootId, res)
-          ).then(res1 => {
-            this.setState({
-              filesList: res1
+          FileService.getFileList(FileTree.findFileIdList(fileRootId, res))
+            .then(res1 => {
+              this.setState({
+                filesList: res1
+              });
+              this.hideAlert();
+              resove();
+            })
+            .catch(error => {
+              reject(error);
             });
-            this.hideAlert();
-            resove();
-          });
         })
-        .catch(res => {
-          reject();
-          console.error(res);
+        .catch(error => {
+          reject(error);
         });
     });
   }
@@ -200,8 +201,11 @@ class ProjectDetailIndex extends Component {
             }
           );
         })
-        .catch(res => {
-          console.error(res);
+        .catch(error => {
+          Store.dispatch({
+            type: "substituteWrongInfo",
+            payload: error
+          });
           reject();
         });
     });
@@ -236,13 +240,19 @@ class ProjectDetailIndex extends Component {
                 this.updateFilesList();
               })
               .catch(error => {
-                this.setState({ wrong: error });
+                Store.dispatch({
+                  type: "substituteWrongInfo",
+                  payload: error
+                });
               })
               .finally(() => {});
           });
         })
         .catch(error => {
-          this.setState({ wrong: error });
+          Store.dispatch({
+            type: "substituteWrongInfo",
+            payload: error
+          });
         })
         .finally(() => {});
     }
@@ -273,12 +283,18 @@ class ProjectDetailIndex extends Component {
                 showCreateFile: false
               });
             })
-            .catch(res1 => {
-              console.error(res1);
+            .catch(error => {
+              Store.dispatch({
+                type: "substituteWrongInfo",
+                payload: error
+              });
             });
         })
-        .catch(res => {
-          console.error(res);
+        .catch(error => {
+          Store.dispatch({
+            type: "substituteWrongInfo",
+            payload: error
+          });
         });
     }
   }
@@ -576,7 +592,6 @@ class ProjectDetailIndex extends Component {
       showMoveDoc,
       fileTree,
       docTree,
-      wrong,
       loading
     } = this.state;
 
@@ -995,7 +1010,6 @@ class ProjectDetailIndex extends Component {
             </div>
           )} */}
         </div>
-        <WrongPage info={wrong} cancel={this.cancel} />
       </div>
     );
   }

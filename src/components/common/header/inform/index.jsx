@@ -3,10 +3,11 @@ import ReactSVG from "react-svg";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
-import SettingIcon from "../../../../assets/svg/commonIcon/setting.svg";
-import InfoRemindIcon from "../../../../assets/svg/commonIcon/infoRemind.svg";
-import InfoIcon from "../../../../assets/svg/commonIcon/info.svg";
-import MessageService from "../../../../service/message";
+import SettingIcon from "assets/svg/commonIcon/setting.svg";
+import InfoRemindIcon from "assets/svg/commonIcon/infoRemind.svg";
+import InfoIcon from "assets/svg/commonIcon/info.svg";
+import MessageService from "service/message";
+import { Store } from "store";
 import "./index.css";
 
 const kind = ["进度", "文件", "评论", "团队"];
@@ -59,7 +60,7 @@ class Inform extends Component {
           informCanGetMessage = true;
         }, 10000);
       }
-    }, 10000);
+    }, 5000);
   }
 
   componentWillUnmount() {
@@ -67,11 +68,15 @@ class Inform extends Component {
   }
 
   getMessage() {
-    MessageService.getMessageList(1).then(res => {
-      this.setState({
-        MessageList: res.list.reverse().filter(item => item.readed === false)
+    MessageService.getMessageList(1)
+      .then(res => {
+        this.setState({
+          MessageList: res.list.reverse().filter(item => item.readed === false)
+        });
+      })
+      .catch(error => {
+        console.error(error);
       });
-    });
   }
 
   enter() {
@@ -96,9 +101,16 @@ class Inform extends Component {
   readAll() {
     const { storeUsername } = this.props;
 
-    MessageService.messageAllRead(storeUsername).then(() => {
-      this.getMessage();
-    });
+    MessageService.messageAllRead(storeUsername)
+      .then(() => {
+        this.getMessage();
+      })
+      .catch(error => {
+        Store.dispatch({
+          type: "substituteWrongInfo",
+          payload: error
+        });
+      });
   }
 
   render() {

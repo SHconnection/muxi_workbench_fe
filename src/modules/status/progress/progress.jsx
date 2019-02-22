@@ -6,10 +6,10 @@ import {
   getScrollHeight,
   getScrollTop
 } from "common/scroll";
-
+import Loading from "components/common/loading/index";
+import Gotop from "components/common/toTop/top";
+import CardContainer from "components/layouts/card/index";
 import StatusItem from "../components/basicCard/index";
-import Gotop from "../../../components/common/toTop/top";
-import WrongPage from "../../../components/common/wrongPage/wrongPage";
 import "./progerss.css";
 
 class Progress extends Component {
@@ -19,8 +19,7 @@ class Progress extends Component {
       count: props.count,
       page: props.page,
       isPersonal: props.isPersonal,
-      statuList: props.statuList,
-      wrong: {}
+      statuList: props.statuList
     };
     this.scroll = this.scroll.bind(this);
     this.getstatuList = props.getstatuList;
@@ -34,20 +33,24 @@ class Progress extends Component {
     if (appContainer) appContainer.addEventListener("scroll", this.scroll);
   }
 
-  componentWillReceiveProps(nextProps) {
-    const { page, count } = this.state;
+  static getDerivedStateFromProps(nextProps, prevState) {
+    const { page, count } = prevState;
     if (page !== nextProps.page) {
-      this.setState({
+      return {
         page: nextProps.page,
-        statuList: nextProps.statuList
-      });
+        statuList: nextProps.statuList,
+        isPersonal: nextProps.isPersonal
+      };
     }
     if (count !== nextProps.count) {
-      this.setState({
+      return {
         count: nextProps.count,
         isPersonal: nextProps.isPersonal
-      });
+      };
     }
+    return {
+      isPersonal: nextProps.isPersonal
+    };
   }
 
   componentWillUnmount() {
@@ -61,17 +64,23 @@ class Progress extends Component {
     }
   }
 
-  cancel() {
-    this.setState({ wrong: {} });
-  }
-
   render() {
-    const { statuList, isPersonal, count, page, wrong } = this.state;
-    return (
+    const { statuList, isPersonal, count, page } = this.state;
+    const { loading } = this.props;
+
+    return loading ? (
+      isPersonal ? (
+        <Loading loading offsetTop={{ top: "235px", height: "55%" }} />
+      ) : (
+        <CardContainer>
+          <Loading loading />
+        </CardContainer>
+      )
+    ) : (
       <div>
         <div className={isPersonal ? "" : "status"}>
           <div className="status-container">
-            {statuList.map(card => (
+            {statuList.map((card, index) => (
               <div key={card.sid}>
                 <StatusItem
                   sid={card.sid}
@@ -83,6 +92,7 @@ class Progress extends Component {
                   likeCount={card.likeCount}
                   commentCount={card.commentCount}
                   isPersonal={isPersonal}
+                  isFirstItem={!index}
                 />
               </div>
             ))}
@@ -92,7 +102,6 @@ class Progress extends Component {
           {count / 20 >= page ? "下拉加载更多..." : "最后一页啦"}
         </div>
         <Gotop />
-        <WrongPage info={wrong} cancel={this.cancel} />
       </div>
     );
   }
@@ -103,7 +112,8 @@ Progress.propTypes = {
   page: PropTypes.number,
   isPersonal: PropTypes.number,
   statuList: PropTypes.instanceOf(Array),
-  getstatuList: PropTypes.func
+  getstatuList: PropTypes.func,
+  loading: PropTypes.bool
 };
 
 Progress.defaultProps = {
@@ -111,7 +121,8 @@ Progress.defaultProps = {
   page: 0,
   isPersonal: 0,
   statuList: [],
-  getstatuList: {}
+  getstatuList: {},
+  loading: false
 };
 
 export default Progress;
