@@ -5,9 +5,11 @@
 */
 import React from "react";
 import PropTypes from "prop-types";
+import Select from "components/common/select/index";
+import GoBack from "components/common/goBack/index";
+import Loading from "components/common/loading/index";
 import Member from "../../../setting/components/member/member";
-import Select from "../../../../components/common/select/index";
-import "../../../../static/css/common.css";
+import "static/css/common.css";
 import "./firstEditMember.css";
 
 const FirstEditMember = ({
@@ -18,9 +20,11 @@ const FirstEditMember = ({
   groups,
   changeGroupCheck,
   checkedIndex,
-  proId
+  proId,
+  memberLoading
 }) => (
   <div>
+    <GoBack />
     <div className="title">编辑项目成员</div>
     <br />
     <div className="firstEditMember-vice">
@@ -52,11 +56,15 @@ const FirstEditMember = ({
         proId={proId}
       />
     </div>
-    <Member
-      members={members}
-      selMembers={selMembers}
-      transferMsg={transferMsg}
-    />
+    {memberLoading ? (
+      <Loading loading />
+    ) : (
+      <Member
+        members={members}
+        selMembers={selMembers}
+        transferMsg={transferMsg}
+      />
+    )}
   </div>
 );
 
@@ -81,7 +89,8 @@ FirstEditMember.propTypes = {
   ),
   changeGroupCheck: PropTypes.func,
   checkedIndex: PropTypes.number,
-  proId: PropTypes.number
+  proId: PropTypes.number,
+  memberLoading: PropTypes.bool
 };
 
 FirstEditMember.defaultProps = {
@@ -92,5 +101,6 @@ FirstEditMember.defaultProps = {
   groups: [],
   changeGroupCheck: () => {},
   checkedIndex: 0,
-  proId: 0
+  proId: 0,
+  memberLoading: false
 };

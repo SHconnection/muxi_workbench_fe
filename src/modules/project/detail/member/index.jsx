@@ -1,31 +1,40 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
+import { connect } from "react-redux";
 import ProjectService from "service/project";
 import GoBack from "components/common/goBack/index";
 import { Store } from "store";
+import Loading from "components/common/loading/index";
 import MemberInfo from "../../../member/memberInfo/memberInfo";
 import "./index.css";
 
 class Member extends Component {
   constructor(props) {
     super(props);
-    const { match } = this.props;
     this.state = {
-      pid: match.params.id,
-      memberList: []
+      memberList: [],
+      loading: true
     };
     this.getUserList = this.getUserList.bind(this);
+  }
+
+  componentDidMount() {
     this.getUserList();
   }
 
   getUserList() {
-    const { pid } = this.state;
+    const {
+      match: {
+        params: { id: pid }
+      }
+    } = this.props;
     ProjectService.getProjectUserList(pid)
       .then(res => {
         res.memberList.shift();
         this.setState({
-          memberList: res.memberList
+          memberList: res.memberList,
+          loading: false
         });
       })
       .catch(error => {
@@ -33,21 +42,28 @@ class Member extends Component {
           type: "substituteWrongInfo",
           payload: error
         });
-      })
-      .finally(() => {});
+      });
   }
 
   render() {
-    const { memberList } = this.state;
-    return (
+    const { memberList, loading } = this.state;
+    const { storeRole } = this.props;
+    return loading ? (
+      <Loading loading />
+    ) : (
       <div className="projectDetail-container">
         <GoBack />
         <div className="projectDetail-content">
           <div className="project-member-header">
             <div className="title">项目成员</div>
-            <Link to="./editMem" className="project-member-header-edit fakeBtn">
-              编辑
-            </Link>
+            {storeRole > 1 ? (
+              <Link
+                to="./editMem"
+                className="project-member-header-edit fakeBtn"
+              >
+                编辑
+              </Link>
+            ) : null}
           </div>
           <div className="project-memberlist-container">
             {memberList.map(res => (
@@ -65,12 +81,20 @@ class Member extends Component {
 
 Member.propTypes = {
   match: PropTypes.shape({
-    url: PropTypes.string
-  })
+    params: PropTypes.shape({
+      id: PropTypes.string
+    })
+  }),
+  storeRole: PropTypes.number
 };
 
 Member.defaultProps = {
-  match: {}
+  match: {},
+  storeRole: 1
 };
 
-export default Member;
+const mapStateToProps = state => ({
+  storeRole: state.role
+});
+
+export default connect(mapStateToProps)(Member);

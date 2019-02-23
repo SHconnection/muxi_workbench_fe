@@ -70,7 +70,7 @@ class Progress extends Component {
 
     return loading ? (
       isPersonal ? (
-        <Loading loading offsetTop={{ top: "235px", height: "55%" }} />
+        <Loading loading />
       ) : (
         <CardContainer>
           <Loading loading />

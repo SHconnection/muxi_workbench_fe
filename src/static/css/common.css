@@ -214,6 +214,8 @@ input[type="checkbox"]:checked + label::after {
   position: absolute;
   left: 0;
   top: 0;
+  box-shadow: none;
+  background-color: transparent;
   height: 100%;
   width: 100%;
   background: #fbfbfb;
