@@ -37,7 +37,8 @@ class EditMember extends Component {
       groups: [],
       checkedIndex: 0,
       ifSave: false,
-      loading: true
+      loading: true,
+      memberLoading: false
     };
   }
 
@@ -111,8 +112,7 @@ class EditMember extends Component {
 
             this.setState({
               groups: groupList,
-              checkedIndex: groupList.length - 1,
-              loading: false
+              checkedIndex: groupList.length - 1
             });
             resolve();
           }
@@ -156,7 +156,7 @@ class EditMember extends Component {
   };
 
   changeGroupCheck = (index, id) => {
-    this.setState({ loading: true });
+    this.setState({ memberLoading: true });
     const { selMembers } = this.state;
 
     ManageService.groupMember(id)
@@ -173,7 +173,7 @@ class EditMember extends Component {
           this.setState({
             checkedIndex: index,
             members: arr,
-            loading: false
+            memberLoading: false
           });
         }
       })
@@ -233,7 +233,8 @@ class EditMember extends Component {
       groups,
       checkedIndex,
       ifSave,
-      loading
+      loading,
+      memberLoading
     } = this.state;
     const {
       match: {
@@ -256,6 +257,7 @@ class EditMember extends Component {
               transferMsg={this.transferMsgMem}
               changeGroupCheck={this.changeGroupCheck}
               proId={Number(id)}
+              memberLoading={memberLoading}
             />
 
             <button

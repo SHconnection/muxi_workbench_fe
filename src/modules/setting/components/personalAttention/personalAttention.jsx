@@ -122,11 +122,11 @@ class PersonalAttention extends Component {
     };
 
     return (
-      <div>
+      <div className="present">
         {loading ? (
-          <Loading loading offsetTop={{ top: "235px", height: "55%" }} />
+          <Loading loading />
         ) : (
-          <div className="present">
+          <div>
             <div className="noneInfoTip">
               {members.length > 0 ? (
                 <List
