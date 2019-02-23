@@ -6,7 +6,6 @@ import thumbs from "../../../../assets/svg/commonIcon/thumbs.svg";
 import thumbsUp from "../../../../assets/svg/commonIcon/thumbs_up.svg";
 import comment from "../../../../assets/svg/commonIcon/comment.svg";
 import Avatar from "../../../../components/common/avatar/index";
-import SlateEditor from "../../markdown/slate/slateEditor";
 import StatusService from "../../../../service/status";
 import "./index.css";
 

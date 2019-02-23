@@ -15,7 +15,6 @@ import StatusService from "service/status";
 import Loading from "components/common/loading/index";
 import CardContainer from "components/layouts/card/index";
 import { Store } from "store";
-import SlateEditor from "../markdown/slate/slateEditor";
 import Delete from "../../setting/components/delete/delete";
 import "./detail.css";
 
