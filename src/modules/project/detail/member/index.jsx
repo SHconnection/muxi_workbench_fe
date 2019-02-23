@@ -48,6 +48,7 @@ class Member extends Component {
   render() {
     const { memberList, loading } = this.state;
     const { storeRole } = this.props;
+
     return loading ? (
       <Loading loading />
     ) : (

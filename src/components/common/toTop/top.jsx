@@ -9,7 +9,11 @@ function toTop() {
     <div>
       <ReactSVG
         className="top"
-        onClick={() => scroll.scrollToTop()}
+        onClick={() =>
+          scroll.scrollToTop({
+            containerId: "app-container"
+          })
+        }
         path={top}
       />
     </div>

@@ -28,7 +28,7 @@ ReactDOM.render(
   <Provider store={Store}>
     <PersistGate persistor={persistor}>
       <Router>
-        <div className="app-container">
+        <div className="app-container" id="app-container">
           <Header />
 
           <Switch>
