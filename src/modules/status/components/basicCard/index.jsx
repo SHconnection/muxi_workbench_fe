@@ -114,7 +114,7 @@ class Item extends Component {
                 : "status-item-link-content"
             }
           >
-            <SlateEditor readOnly inner content={content} />
+            <div dangerouslySetInnerHTML={{ __html: content }} />
           </Link>
         </div>
         <div className="others">

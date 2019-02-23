@@ -217,6 +217,7 @@ input[type="checkbox"]:checked + label::after {
   height: 100%;
   width: 100%;
   background: #fbfbfb;
+  transform: none;
   z-index: 8;
   margin: 0;
 }

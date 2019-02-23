@@ -211,7 +211,7 @@ class Detail extends Component {
         </div>
         <div className="status-details">
           {/* <MarkdownPreview value={content} /> */}
-          <SlateEditor readOnly content={content} />
+          <div dangerouslySetInnerHTML={{ __html: content }} />
         </div>
         <hr className="status-detail-line" />
         <div className="status-detail-comments">

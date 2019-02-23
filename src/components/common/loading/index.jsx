@@ -9,7 +9,7 @@ const ICON = ICON_ARR[Math.floor(Math.random() * 3)];
 const Loading = props => {
   const { loading, offsetTop } = props;
   return loading ? (
-    <div className="subject loadLayer" style={offsetTop}>
+    <div className="loadLayer" style={offsetTop}>
       <div className={`${ICON} middleAnimate loadImg`} />
     </div>
   ) : null;
