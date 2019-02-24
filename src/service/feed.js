@@ -7,8 +7,8 @@ const FeedService = {
       token: Store.getState().token
     });
   },
-  getPersonalFeed(uid, page) {
-    return Fetch(`/api/v1.0/feed/list/${uid}/personal/${page}/`, {
+  getPersonalFeed({ uid, pageNum }) {
+    return Fetch(`/api/v1.0/feed/list/${uid}/personal/${pageNum}/`, {
       token: Store.getState().token
     });
   }

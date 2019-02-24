@@ -1,53 +1,43 @@
 /* eslint-disable import/no-unresolved */
 import React, { Component } from "react";
 import PropTypes from "prop-types";
+import { connect } from "dva";
 import {
   getContainerHeight,
   getScrollHeight,
   getScrollTop
 } from "common/scroll";
-
 import StatusItem from "../components/basicCard/index";
 import Gotop from "../../../components/common/toTop/top";
 import WrongPage from "../../../components/common/wrongPage/wrongPage";
-import "./progerss.css";
+import Loading from "../../../components/common/loading";
 
-class Progress extends Component {
+import "./progress.css";
+
+class Status extends Component {
   constructor(props) {
     super(props);
+    const { statusList } = props;
+    const { wrong } = statusList;
     this.state = {
-      count: props.count,
-      page: props.page,
-      isPersonal: props.isPersonal,
-      statuList: props.statuList,
-      wrong: {}
+      wrong,
+      loading: false
     };
+    this.getStatusList = this.getStatusList.bind(this);
+    this.getPersonalList = this.getPersonalList.bind(this);
     this.scroll = this.scroll.bind(this);
-    this.getstatuList = props.getstatuList;
   }
-
-  // 返回给我总的条数，条数除以20=page
 
   componentDidMount() {
-    this.getstatuList();
+    const { match } = this.props;
+    console.log(match.params.id);
+    if (match.path === "/status") {
+      this.getStatusList();
+    } else {
+      this.getPersonalList(match.params.uid);
+    }
     const appContainer = document.querySelector(".app-container");
     if (appContainer) appContainer.addEventListener("scroll", this.scroll);
-  }
-
-  componentWillReceiveProps(nextProps) {
-    const { page, count } = this.state;
-    if (page !== nextProps.page) {
-      this.setState({
-        page: nextProps.page,
-        statuList: nextProps.statuList
-      });
-    }
-    if (count !== nextProps.count) {
-      this.setState({
-        count: nextProps.count,
-        isPersonal: nextProps.isPersonal
-      });
-    }
   }
 
   componentWillUnmount() {
@@ -55,9 +45,46 @@ class Progress extends Component {
     if (appContainer) appContainer.removeEventListener("scroll", this.scroll);
   }
 
+  getStatusList() {
+    const { loading } = this.state;
+    if (loading) return;
+    this.setState({
+      loading: true
+    });
+    const { dispatch, statusList } = this.props;
+    const { page, dataList } = statusList;
+    dispatch({
+      type: "statusList/getStatusList",
+      payload: page,
+      dataList
+    });
+  }
+
+  getPersonalList(uid) {
+    const { loading } = this.state;
+    if (loading) return;
+    this.setState({
+      loading: true
+    });
+    const { dispatch, statusList } = this.props;
+    const { page, dataList } = statusList;
+    dispatch({
+      type: "statusList/getPelsonalStatus",
+      payload: { uid, page },
+      dataList
+    });
+  }
+
   scroll() {
-    if (getScrollTop() + getContainerHeight() === getScrollHeight()) {
-      this.getstatuList(true);
+    const { match } = this.props;
+    const { statusList } = this.props;
+    const { isPersonal } = statusList;
+    if (getScrollTop() + getContainerHeight() >= getScrollHeight()) {
+      if (!isPersonal) {
+        this.getStatusList();
+      } else {
+        this.getPersonalList(match.params.id);
+      }
     }
   }
 
@@ -66,12 +93,15 @@ class Progress extends Component {
   }
 
   render() {
-    const { statuList, isPersonal, count, page, wrong } = this.state;
+    const { statusList } = this.props;
+    const { dataList, isPersonal, count, page } = statusList;
+    const { wrong, loading } = this.state;
     return (
-      <div>
+      <div className="statusContainer">
+        <Loading loading={loading && page === 0} />
         <div className={isPersonal ? "" : "status"}>
           <div className="status-container">
-            {statuList.map(card => (
+            {dataList.map(card => (
               <div key={card.sid}>
                 <StatusItem
                   sid={card.sid}
@@ -89,7 +119,7 @@ class Progress extends Component {
           </div>
         </div>
         <div className="loadMore">
-          {count / 20 >= page ? "下拉加载更多..." : "最后一页啦"}
+          {count / 20 >= page ? "下拉加载更多..." : "我是有底线的"}
         </div>
         <Gotop />
         <WrongPage info={wrong} cancel={this.cancel} />
@@ -98,20 +128,27 @@ class Progress extends Component {
   }
 }
 
-Progress.propTypes = {
-  count: PropTypes.number,
-  page: PropTypes.number,
-  isPersonal: PropTypes.number,
-  statuList: PropTypes.instanceOf(Array),
-  getstatuList: PropTypes.func
+Status.propTypes = {
+  match: PropTypes.shape({
+    url: PropTypes.string,
+    params: PropTypes.shape({
+      id: PropTypes.string
+    })
+  }),
+  wrong: PropTypes.shape({
+    msg: PropTypes.string
+  }),
+  dispatch: PropTypes.func
 };
 
-Progress.defaultProps = {
-  count: 0,
-  page: 0,
-  isPersonal: 0,
-  statuList: [],
-  getstatuList: {}
+Status.defaultProps = {
+  match: {},
+  wrong: {},
+  dispatch: () => {}
 };
 
-export default Progress;
+const mapStateToProps = state => ({
+  statusList: state.statusList
+});
+
+export default connect(mapStateToProps)(Status);

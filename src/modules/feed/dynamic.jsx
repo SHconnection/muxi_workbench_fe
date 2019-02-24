@@ -1,6 +1,7 @@
 /* eslint-disable import/no-unresolved */
 import React, { Component } from "react";
 import PropTypes from "prop-types";
+import { connect } from "dva";
 import Loading from "components/common/loading";
 import {
   getContainerHeight,
@@ -10,7 +11,6 @@ import {
 
 import FeedItem from "./components/feedList/index";
 import Gotop from "../../components/common/toTop/top";
-import FeedService from "../../service/feed";
 import WrongPage from "../../components/common/wrongPage/wrongPage";
 
 import "../../static/css/common.css";
@@ -43,19 +43,24 @@ class Dynamic extends Component {
 
   constructor(props) {
     super(props);
+    const { feedList } = props;
+    const { wrong } = feedList;
     this.state = {
-      hasNext: true,
-      pageNum: 0,
-      dataList: [],
-      // isPersonal: 1,
-      wrong: {},
+      wrong,
       loading: false
     };
+    this.getFeedList = this.getFeedList.bind(this);
+    this.getPersonalList = this.getPersonalList.bind(this);
     this.scroll = this.scroll.bind(this);
   }
 
   componentDidMount() {
-    this.getFeedList();
+    const { match } = this.props;
+    if (match.path === "/feed") {
+      this.getFeedList();
+    } else {
+      this.getPersonalList(match.params.uid);
+    }
     const appContainer = document.querySelector(".app-container");
     if (appContainer) appContainer.addEventListener("scroll", this.scroll);
   }
@@ -66,98 +71,44 @@ class Dynamic extends Component {
   }
 
   getFeedList() {
-    const { match } = this.props;
-    const { pageNum, hasNext, loading } = this.state;
+    const { loading } = this.state;
     if (loading) return;
     this.setState({
       loading: true
     });
-    if (match.path === "/feed") {
-      if (hasNext) {
-        FeedService.getFeedList(pageNum + 1)
-          .then(feeds => {
-            if (feeds) {
-              const arr1 = feeds.dataList.map(feed1 => {
-                const feedList = feed1;
-                const obj = {};
-                obj.timeDay = feedList.timeday;
-                obj.timeHour = feedList.timehm;
-                obj.ifSplit = feedList.ifsplit;
-                obj.action = feedList.action;
-                obj.feedid = feedList.feedid;
-                obj.sourceName = feedList.source.object_name;
-                obj.kind = feedList.source.kind_id;
-                obj.sourceID = feedList.source.object_id;
-                obj.sourcePro = feedList.source.project_id;
-                obj.avatarUrl = feedList.user.avatar_url;
-                obj.uid = feedList.user.id;
-                obj.proName = feedList.source.object_name;
-                obj.userName = feedList.user.name;
-                return obj;
-              });
-              const page1 = feeds.pageNum;
-              const next = feeds.hasNext;
-              const { dataList } = this.state;
-              this.setState({
-                hasNext: next,
-                pageNum: page1,
-                dataList: dataList.concat(arr1),
-                // isPersonal: 0,
-                loading: false
-              });
-            }
-          })
-          .catch(error => {
-            this.setState({ wrong: error });
-          })
-          .finally(() => {});
-      }
-    } else {
-      const { uid } = match.params;
-      if (hasNext) {
-        FeedService.getPersonalFeed(uid, pageNum + 1)
-          .then(feeds => {
-            if (feeds) {
-              const arr1 = feeds.dataList.map(feed1 => {
-                const feedList = feed1;
-                const obj = {};
-                obj.timeDay = feedList.timeday;
-                obj.timeHour = feedList.timehm;
-                obj.ifSplit = feedList.ifsplit;
-                obj.action = feedList.action;
-                obj.feedid = feedList.feedid;
-                obj.sourceName = feedList.source.object_name;
-                obj.kind = feedList.source.kind_id;
-                obj.sourceID = feedList.source.object_id;
-                obj.sourcePro = feedList.source.project_id;
-                obj.avatarUrl = feedList.user.avatar_url;
-                obj.uid = feedList.user.id;
-                obj.proName = feedList.source.object_name;
-                obj.userName = feedList.user.name;
-                return obj;
-              });
-              const page1 = feeds.pageNum;
-              const next = feeds.hasNext;
-              const { dataList } = this.state;
-              this.setState({
-                hasNext: next,
-                pageNum: page1,
-                dataList: dataList.concat(arr1),
-                loading: false
-              });
-            }
-          })
-          .catch(error => {
-            this.setState({ wrong: error });
-          })
-          .finally(() => {});
-      }
-    }
+    const { dispatch, feedList } = this.props;
+    const { pageNum, dataList } = feedList;
+    dispatch({
+      type: "feedList/getFeedList",
+      payload: pageNum,
+      dataList
+    });
+  }
+
+  getPersonalList(uid) {
+    const { loading } = this.state;
+    if (loading) return;
+    this.setState({
+      loading: true
+    });
+    const { dispatch, feedList } = this.props;
+    const { dataList, pageNum } = feedList;
+    dispatch({
+      type: "feedList/getPersonalFeed",
+      payload: { uid, pageNum },
+      dataList
+    });
   }
 
   scroll() {
+    const { feedList, match } = this.props;
+    const { isPersonal } = feedList;
     if (getScrollTop() + getContainerHeight() >= getScrollHeight()) {
-      this.getFeedList();
+      if (!isPersonal) {
+        this.getFeedList();
+      } else {
+        this.getPersonalList(match.params.uid);
+      }
     }
   }
 
@@ -166,14 +117,9 @@ class Dynamic extends Component {
   }
 
   render() {
-    const {
-      hasNext,
-      dataList,
-      // isPersonal,
-      wrong,
-      loading,
-      pageNum
-    } = this.state;
+    const { feedList } = this.props;
+    const { dataList, hasNext, pageNum } = feedList;
+    const { wrong, loading } = this.state;
     return (
       <div className="feed">
         <Loading loading={loading && pageNum === 0} />
@@ -182,30 +128,30 @@ class Dynamic extends Component {
             {dataList.map((feed, index) => (
               <div key={feed.feedid}>
                 {(index === 0 ||
-                  dataList[index - 1].timeDay !== feed.timeDay) && (
+                  dataList[index - 1].timeday !== feed.timeday) && (
                   <div
                     className={
-                      today === feed.timeDay || yesterday === feed.timeDay
+                      today === feed.timeday || yesterday === feed.timeday
                         ? "feed-today"
                         : "feed-day"
                     }
                   >
-                    {Dynamic.chargeday(feed.timeDay)}
+                    {Dynamic.chargeday(feed.timeday)}
                   </div>
                 )}
                 <FeedItem
-                  timeDay={feed.timeDay}
-                  timeHour={feed.timeHour}
-                  avatarUrl={feed.avatarUrl}
-                  uid={feed.uid}
-                  userName={feed.userName}
+                  timeDay={feed.timeday}
+                  timeHour={feed.timehm}
+                  avatarUrl={feed.user.avatar_url}
+                  uid={feed.user.id}
+                  userName={feed.user.name}
                   action={feed.action}
-                  kind={feed.kind}
-                  sourceName={feed.sourceName}
-                  sourceID={feed.sourceID}
-                  sourcePro={feed.sourcePro}
-                  proName={feed.proName}
-                  ifSplit={feed.ifSplit}
+                  kind={feed.source.kind_id}
+                  sourceName={feed.source.object_name}
+                  sourceID={feed.source.object_id}
+                  sourcePro={feed.source.project_id}
+                  proName={feed.source.project_name}
+                  ifSplit={feed.ifsplit}
                 />
               </div>
             ))}
@@ -227,11 +173,21 @@ Dynamic.propTypes = {
     params: PropTypes.shape({
       id: PropTypes.string
     })
-  })
+  }),
+  wrong: PropTypes.shape({
+    msg: PropTypes.string
+  }),
+  dispatch: PropTypes.func
 };
 
 Dynamic.defaultProps = {
-  match: {}
+  match: {},
+  wrong: {},
+  dispatch: () => {}
 };
 
-export default Dynamic;
+const mapStateToProps = state => ({
+  feedList: state.feedList
+});
+
+export default connect(mapStateToProps)(Dynamic);

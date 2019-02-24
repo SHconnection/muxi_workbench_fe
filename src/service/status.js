@@ -28,7 +28,7 @@ const StatusService = {
       token: Store.getState().token
     });
   },
-  getPersonalStatus(uid, page) {
+  getPersonalStatus({ uid, page }) {
     return Fetch(`/api/v1.0/status/${uid}/list/${page}/`, {
       token: Store.getState().token
     });
