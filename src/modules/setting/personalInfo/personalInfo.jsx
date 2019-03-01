@@ -28,28 +28,16 @@ class PersonalInfo extends Component {
   componentDidMount() {
     const { storePer } = this.props;
 
-    const url = window.location.href;
-    const re = /\/(\d+)$/;
-    let id;
-    if (re.exec(url) && re.exec(url)[1]) {
-      id = re.exec(url)[1];
-    } else {
-      id = parseInt(storePer, 10);
-    }
-
-    ManageService.getPersonalSet(id)
+    ManageService.getPersonalSet(storePer)
       .then(info => {
-        const { per } = this.state;
-
-        per.id = id;
-        per.name = info.name;
-        per.email = info.email;
-        per.avatar = info.avatar;
-
-        this.setState({
-          per,
+        this.setState(() => ({
+          per: {
+            name: info.name,
+            email: info.email,
+            avatar: info.avatar
+          },
           loading: false
-        });
+        }));
       })
       .catch(error => {
         Store.dispatch({
@@ -61,17 +49,7 @@ class PersonalInfo extends Component {
 
   render() {
     const { per, loading } = this.state;
-    const { match, location, storeId, storePerRole, storeRole } = this.props;
-
-    let uid;
-    if (location.state && location.state.uid) {
-      const {
-        state: { uid: id }
-      } = location;
-      uid = id;
-    } else {
-      uid = per.id;
-    }
+    const { match, storeId, storePerRole, storeRole, storePer } = this.props;
 
     return (
       <div>
@@ -85,7 +63,7 @@ class PersonalInfo extends Component {
                 <div className="personalInfo-personalIntro">
                   <b className="personalName">{per.name}</b>
                   <Link to={`${match.url}/personalSet`} className="fakeBtn">
-                    {parseInt(per.id, 10) === parseInt(storeId, 10)
+                    {parseInt(storePer, 10) === parseInt(storeId, 10)
                       ? "更改设置"
                       : ""}
                   </Link>
@@ -114,21 +92,21 @@ class PersonalInfo extends Component {
                 <NavLink
                   activeClassName="personalInfo-active"
                   className="llSize singleItem"
-                  to={`${match.url}/personalDynamic/${per.id}`}
+                  to={`${match.url}/personalDynamic/${storePer}`}
                 >
                   动态
                 </NavLink>
                 <NavLink
                   activeClassName="personalInfo-active"
                   className="llSize singleItem"
-                  to={`${match.url}/personalProgress/${per.id}`}
+                  to={`${match.url}/personalProgress/${storePer}`}
                 >
                   进度
                 </NavLink>
                 <NavLink
                   activeClassName="personalInfo-active"
                   className="llSize singleItem"
-                  to={`${match.url}/personalAttention/${per.id}`}
+                  to={`${match.url}/personalAttention/${storePer}`}
                 >
                   关注
                 </NavLink>
@@ -138,7 +116,7 @@ class PersonalInfo extends Component {
               <Redirect
                 exact
                 path="/teamMember/personalInfo"
-                to={`${match.url}/personalAttention/${uid}`}
+                to={`${match.url}/personalAttention/${storePer}`}
               />
               <Route
                 path={`${match.url}/personalDynamic/:uid`}

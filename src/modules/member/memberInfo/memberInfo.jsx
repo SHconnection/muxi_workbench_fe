@@ -25,27 +25,19 @@ const userGroup = group => {
 const MemberInfo = ({ mem, square }) => (
   <div className="memberInfo-contain">
     <Link
-      to={{
-        pathname: `/teamMember/personalInfo`,
-        state: { uid: mem.id || mem.userID }
+      to={`/teamMember/personalInfo`}
+      onClick={() => {
+        Store.dispatch({
+          type: "substitutePer",
+          payload: mem.id || mem.userID
+        });
+        Store.dispatch({
+          type: "substitutePerRole",
+          payload: mem.role || 1
+        });
       }}
     >
-      <div
-        className="memberInfo-img"
-        role="button"
-        tabIndex="-1"
-        onKeyDown={() => {}}
-        onClick={() => {
-          Store.dispatch({
-            type: "substitutePer",
-            payload: mem.id || mem.userID
-          });
-          Store.dispatch({
-            type: "substitutePerRole",
-            payload: mem.role || 1
-          });
-        }}
-      >
+      <div className="memberInfo-img">
         <Avatar width={60} height={60} src={mem.avatar} square={square} />
       </div>
     </Link>

@@ -26,12 +26,12 @@ class PersonalSet extends Component {
       ],
       ifSave: false,
       inputName: "",
-      inputMailbox: "",
+      // inputMailbox: "",
       inputPhone: "",
       img: "",
       imgFile: null,
       nameIsNull: false,
-      mailboxIsNull: false,
+      // mailboxIsNull: false,
       // phoneIsNull: false,
       loading: true
     };
@@ -52,7 +52,7 @@ class PersonalSet extends Component {
         this.setState({
           inputName: setting.name,
           inputPhone: setting.tel,
-          inputMailbox: setting.email,
+          // inputMailbox: setting.email,
           members,
           img: setting.avatar,
           loading: false
@@ -81,20 +81,20 @@ class PersonalSet extends Component {
     }
   };
 
-  changeMailbox = e => {
-    if (e.target.value) {
-      this.setState({
-        inputMailbox: e.target.value,
-        mailboxIsNull: false
-      });
-    } else {
-      e.target.placeholder = "88888888@qq.com";
-      this.setState({
-        inputMailbox: e.target.value,
-        mailboxIsNull: true
-      });
-    }
-  };
+  // changeMailbox = e => {
+  //   if (e.target.value) {
+  //     this.setState({
+  //       inputMailbox: e.target.value,
+  //       mailboxIsNull: false
+  //     });
+  //   } else {
+  //     e.target.placeholder = "88888888@qq.com";
+  //     this.setState({
+  //       inputMailbox: e.target.value,
+  //       mailboxIsNull: true
+  //     });
+  //   }
+  // };
 
   changePhone = e => {
     if (e.target.value) {
@@ -121,7 +121,7 @@ class PersonalSet extends Component {
   savePersonalSet = () => {
     const {
       inputName,
-      inputMailbox,
+      // inputMailbox,
       inputPhone,
       selMembers,
       img,
@@ -131,7 +131,7 @@ class PersonalSet extends Component {
 
     const obj = {
       username: inputName,
-      address: inputMailbox,
+      // address: inputMailbox,
       tel: inputPhone,
       message: selMembers.indexOf(1) !== -1,
       email: selMembers.indexOf(2) !== -1
@@ -216,10 +216,10 @@ class PersonalSet extends Component {
       ifSave,
       inputName,
       inputPhone,
-      inputMailbox,
+      // inputMailbox,
       img,
       nameIsNull,
-      mailboxIsNull,
+      // mailboxIsNull,
       loading
     } = this.state;
 
@@ -284,7 +284,7 @@ class PersonalSet extends Component {
                 >
                   输入框不能为空！
                 </p>
-                <b>邮箱</b>
+                {/* <b>邮箱</b>
                 <input
                   type="text"
                   placeholder="88888888@qq.com"
@@ -304,7 +304,7 @@ class PersonalSet extends Component {
                   }
                 >
                   输入框不能为空！
-                </p>
+                </p> */}
                 <b>手机</b>
                 <input
                   type="text"

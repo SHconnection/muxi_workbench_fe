@@ -11,6 +11,7 @@ import ProjectService from "service/project";
 import SearchService from "service/search";
 import { Store } from "store";
 import SearchItem from "./item/index";
+import Loading from "components/common/loading/index";
 import "static/css/common.css";
 import "./index.css";
 
@@ -35,7 +36,8 @@ class Search extends Component {
       },
       filterList: [],
       encodeText: this.encode,
-      searchText: this.uncode
+      searchText: this.uncode,
+      loading: true
     };
   }
 
@@ -59,6 +61,7 @@ class Search extends Component {
       })
       .then(() => {
         this.searching();
+        this.setState({ loading: false });
       })
       .catch(error => {
         Store.dispatch({
@@ -109,7 +112,14 @@ class Search extends Component {
       projectOption,
       projectCheckedIndex
     } = this.state;
-    const pid = projectOption[projectCheckedIndex].id;
+    let pid;
+    if (
+      projectCheckedIndex &&
+      projectOption[projectCheckedIndex] &&
+      projectOption[projectCheckedIndex].id
+    ) {
+      pid = projectOption[projectCheckedIndex].id;
+    }
     SearchService.getSearchResults(1, searchText, pid)
       .then(res => {
         this.setState({
@@ -146,62 +156,67 @@ class Search extends Component {
       projectOption,
       projectCheckedIndex,
       filterList,
-      searchText
+      searchText,
+      loading
     } = this.state;
     return (
-      <div className="subject">
-        <div className="search-container">
-          <div className="search-header">
-            <div className="search-select">
-              <Select
-                items={projectOption}
-                checkedIndex={projectCheckedIndex}
-                onChange={this.changeProject}
-                autoWidth
+      <div className="subject cardContainer">
+        {loading ? (
+          <Loading loading />
+        ) : (
+          <div className="search-container">
+            <div className="search-header">
+              <div className="search-select">
+                <Select
+                  items={projectOption}
+                  checkedIndex={projectCheckedIndex}
+                  onChange={this.changeProject}
+                  autoWidth
+                />
+              </div>
+              <input
+                type="text"
+                className="search-input"
+                placeholder=""
+                onKeyUp={this.enterSearch}
+                onChange={this.changSearchText}
+                value={searchText}
               />
+              <div className="search-but">
+                <Button
+                  text="搜索"
+                  onClick={this.searching}
+                  width="65"
+                  height="32"
+                  fontSize="14"
+                />
+              </div>
             </div>
-            <input
-              type="text"
-              className="search-input"
-              placeholder=""
-              onKeyUp={this.enterSearch}
-              onChange={this.changSearchText}
-              value={searchText}
-            />
-            <div className="search-but">
-              <Button
-                text="搜索"
-                onClick={this.searching}
-                width="65"
-                height="32"
-                fontSize="14"
-              />
-            </div>
-          </div>
-          <div className="search-results">
-            {filterList.length ? (
-              filterList.map(el => (
-                <div className="search-item" key={el.sourceID}>
-                  <div className="search-item-kind">
-                    {el.kind === 0 ? "文档：" : "文件："}
-                  </div>
-                  <SearchItem item={el} />
-                  <div className="search-item-footer">
-                    <div className="search-item-project">
-                      项目：
-                      <Link to={`/project/${el.projectID}/preview`}>
-                        {el.projectName}
-                      </Link>
+            <div className="search-results">
+              {filterList.length ? (
+                filterList.map(el => (
+                  <div className="search-item" key={el.sourceID}>
+                    <div className="search-item-kind">
+                      {el.kind === 0 ? "文档：" : "文件："}
                     </div>
-                    <span className="search-item-date">{el.time}</span>
+                    <SearchItem item={el} />
+                    <div className="search-item-footer">
+                      <div className="search-item-project">
+                        项目：
+                        <Link to={`/project/${el.projectID}/preview`}>
+                          {el.projectName}
+                        </Link>
+                      </div>
+                      <span className="search-item-date">{el.time}</span>
+                    </div>
                   </div>
-                </div>
-              ))
-            ) : (
-              <div className="search-item-none">没有找到相关内容！</div>
-            )}
+                ))
+              ) : (
+                <div className="search-item-none">没有找到相关内容！</div>
+              )}
+            </div>
           </div>
-        </div>
+        )}
       </div>
     );
   }

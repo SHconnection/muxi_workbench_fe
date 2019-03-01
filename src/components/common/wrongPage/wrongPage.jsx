@@ -8,22 +8,10 @@ import "static/css/common.css";
 import "./wrongPage.css";
 
 class WrongPage extends Component {
-  shouldComponentUpdate(nextProps) {
-    const {
-      storeWrongInfo: { message: prevMessage }
-    } = this.props;
-    const {
-      storeWrongInfo: { message: nextMessage }
-    } = nextProps;
-    if (prevMessage === nextMessage) {
-      this.contain.style.display = "block";
-      return false;
-    }
-    return true;
-  }
-
   componentDidUpdate() {
-    this.contain.style.display = "block";
+    if (this.contain) {
+      this.contain.style.display = "block";
+    }
   }
 
   render() {

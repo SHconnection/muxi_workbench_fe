@@ -30,10 +30,7 @@ const LandingService = {
     return Fetch(
       `http://pass.muxixyz.com/api/email/?username=${decodeURIComponent(
         username
-      )}`,
-      {
-        method: "GET"
-      }
+      )}`
     );
   },
   getToken(data) {

@@ -9,15 +9,13 @@ import Cookie from "service/cookie";
 import "static/css/common.css";
 
 const User = decodeURIComponent(LandingService.getUsername());
+// LandingService.getEmail('ruyunC');
 const data = {
   name: User,
   email: "",
   avatar: "",
   tel: "",
   teamID: 1
-};
-const data1 = {
-  name: User
 };
 
 Store.dispatch({
@@ -27,63 +25,71 @@ Store.dispatch({
 
 class Landing extends Component {
   componentDidMount() {
-    this.loginBeforeGetInform();
-  }
-
-  loginBeforeGetInform = () => {
-    LandingService.getToken(data1)
-      .then(response => {
+    LandingService.getEmail(User)
+      .then(({ email }) => {
+        const data1 = {
+          email
+        };
         Store.dispatch({
-          type: "substituteId",
-          payload: response.uid || 0
+          type: "substituteEmail",
+          payload: email || ""
         });
-        Store.dispatch({
-          type: "substituteToken",
-          payload: response.token || ""
-        });
-        Cookie.setCookie("workbench_token", response.token);
-        Store.dispatch({
-          type: "substituteRole",
-          payload: response.urole || 1
-        });
-        ManageService.getPersonalSet(response.uid)
-          .then(res => {
+        LandingService.getToken(data1)
+          .then(response => {
             Store.dispatch({
-              type: "substituteAvatar",
-              payload: res.avatar || ""
+              type: "substituteId",
+              payload: response.uid || 0
             });
             Store.dispatch({
-              type: "substituteEmail",
-              payload: res.email || ""
+              type: "substituteToken",
+              payload: response.token || ""
             });
+            Cookie.setCookie("workbench_token", response.token);
             Store.dispatch({
-              type: "substituteLoginSuccess",
-              payload: 1
+              type: "substituteRole",
+              payload: response.urole || 1
             });
+            ManageService.getPersonalSet(response.uid)
+              .then(res => {
+                Store.dispatch({
+                  type: "substituteAvatar",
+                  payload: res.avatar || ""
+                });
+                Store.dispatch({
+                  type: "substituteLoginSuccess",
+                  payload: 1
+                });
+              })
+              .catch(error => {
+                Store.dispatch({
+                  type: "substituteWrongInfo",
+                  payload: error
+                });
+              });
           })
-          .catch(error => {
-            Store.dispatch({
-              type: "substituteWrongInfo",
-              payload: error
-            });
+          .catch(() => {
+            LandingService.SignUp(data)
+              .then(() => {
+                Store.dispatch({
+                  type: "substituteLoginSuccess",
+                  payload: 2
+                });
+              })
+              .catch(error => {
+                Store.dispatch({
+                  type: "substituteWrongInfo",
+                  payload: error
+                });
+              });
           });
       })
-      .catch(() => {
-        LandingService.SignUp(data)
-          .then(() => {
-            Store.dispatch({
-              type: "substituteLoginSuccess",
-              payload: 2
-            });
-          })
-          .catch(error => {
-            Store.dispatch({
-              type: "substituteWrongInfo",
-              payload: error
-            });
-          });
+      .catch(error => {
+        Store.dispatch({
+          type: "substituteWrongInfo",
+          payload: error
+        });
       });
-  };
+  }
 
   render() {
     const { storeLoginSuccess } = this.props;

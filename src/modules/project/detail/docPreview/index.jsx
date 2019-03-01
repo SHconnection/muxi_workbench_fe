@@ -23,8 +23,8 @@ class DocPreview extends Component {
     super(props);
     const { match } = this.props;
     this.state = {
-      pid: parseInt(match.params.pid, 0),
-      id: parseInt(match.params.id, 0),
+      pid: parseInt(match.params.pid, 10),
+      id: parseInt(match.params.id, 10),
       isFocus: false,
       // 文档信息
       docInfo: {
@@ -65,7 +65,6 @@ class DocPreview extends Component {
     this.hideAlert = this.hideAlert.bind(this);
     this.focusDoc = this.focusDoc.bind(this);
     this.isFocus = this.isFocus.bind(this);
-    this.cancel = this.cancel.bind(this);
   }
 
   componentWillMount() {

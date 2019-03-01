@@ -45,7 +45,6 @@ class Dynamic extends Component {
       hasNext: true,
       pageNum: 0,
       dataList: [],
-      isPersonal: 1,
       loading: true
     };
     this.scroll = this.scroll.bind(this);
@@ -66,7 +65,6 @@ class Dynamic extends Component {
     const { match } = this.props;
     const { pageNum, hasNext } = this.state;
     if (match.path === "/feed") {
-      this.setState({ isPersonal: 0 });
       if (hasNext) {
         FeedService.getFeedList(pageNum + 1)
           .then(feeds => {
@@ -159,15 +157,11 @@ class Dynamic extends Component {
   }
 
   render() {
-    const { hasNext, dataList, isPersonal, loading } = this.state;
+    const { hasNext, dataList, loading } = this.state;
     return (
       <div className="feed">
         {loading ? (
-          isPersonal ? (
-            <Loading loading offsetTop={{ top: "235px", height: "55%" }} />
-          ) : (
-            <Loading loading />
-          )
+          <Loading loading />
         ) : (
           <div>
             <div className="feed-list">
