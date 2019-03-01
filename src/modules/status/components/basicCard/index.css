@@ -1,12 +1,12 @@
 .status-item-container{
     position: relative;
-    width: 1035px;
-    height: 322px;
+    width: 884px;
+    height: auto;
     overflow: hidden;
     margin: 54px auto 60px auto;
     border-radius: 6px;
     background-color: #fbfbfb;
-    padding: 43px 75px;
+    padding: 28px 30px 21px 30px;
     -moz-box-shadow: 0px 2px 8px rgba(8, 5, 5, 0.1); /* for firefox */
     -webkit-box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.1); /* for safari or chrome */
     box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.1); /* for opera or ie9 */
@@ -28,18 +28,22 @@
     margin-left: 11px;
 }
 .status-item-time{
+    color: #919191;
     font-size: 12px;
     margin-left: 11px;
+    margin-top: 4px;
 }
 .open{
     position: absolute;
     font-size: 16px;
-    right: 120px;
+    right: 30px;
     margin-top: -25px;
 }
 .status-item-content{
     width: 722px;
-    height: 130px;
+    height: auto;
+    max-height: 130px;
+    min-height: 90px;
     overflow: hidden;
     font-size: 16px;
     margin-left: 70px;
@@ -65,11 +69,12 @@
 .others{
     display: flex;
     align-items: center;
+    justify-content: flex-end;
 }
 .status-item-good{
-    margin-left: 80%;
-    width: 25px;
-    height: 25px;
+    margin-top: 3px;
+    width: 21px;
+    height: 21px;
     cursor: pointer;
 }
 .status-item-goodnumber{
@@ -77,9 +82,10 @@
     font-size: 14px;
 }
 .status-item-commet{
-    margin-left: 59px;
-    width: 25px;
-    height: 25px;
+    margin-top: 3px;
+    margin-left: 26px;
+    width: 21px;
+    height: 21px;
 }
 .status-item-comments{
     margin-left: 6px;

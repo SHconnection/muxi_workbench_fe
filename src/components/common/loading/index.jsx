@@ -9,7 +9,7 @@ const ICON = ICON_ARR[Math.floor(Math.random() * 3)];
 const Loading = props => {
   const { loading } = props;
   return loading ? (
-    <div className="subject loadLayer">
+    <div className="loadLayer">
       <div className={`${ICON} middleAnimate loadImg`} />
     </div>
   ) : null;

@@ -1,220 +1,228 @@
 /* ↓ markdown样式表： */
-span{
-    font-size: inherit
+span {
+  font-size: inherit;
 }
 .status-markdown {
-    min-height: 700px;
-    margin-top: 20px;
-    width: 100%;
-    border: white;
-    /* display: flex;
+  min-height: 700px;
+  margin-top: 20px;
+  width: 100%;
+  border: white;
+  /* display: flex;
     display: -webkit-flex; */
-    line-height: 1.6;
-} 
-h1, h2, h3, h4, h5, h6 {
-    margin: 20px 0 10px;
-    -webkit-font-smoothing: antialiased;
+  line-height: 1.6;
+}
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  margin: 20px 0 10px;
+  -webkit-font-smoothing: antialiased;
 }
 
-ul,ol {
-    padding: 0;
-    padding-left: 24px;
-    margin: 0;
+ul,
+ol {
+  padding: 0;
+  padding-left: 24px;
+  margin: 0;
 }
 ul {
-    list-style:disc inside;
+  list-style: disc inside;
 }
 ol {
-    list-style:decimal inside;
+  list-style: decimal inside;
 }
 li {
-    line-height: 1.6;
-    margin: 0.5em 0;
+  line-height: 1.6;
+  margin: 0.5em 0;
 }
 
-li li{
-    list-style: circle inside;  
+li li {
+  list-style: circle inside;
 }
-li li li{
-    list-style: square inside;  
+li li li {
+  list-style: square inside;
 }
-li ol li{
-    list-style: upper-roman inside;  
+li ol li {
+  list-style: upper-roman inside;
 }
-li ol li ol li{
-    list-style: lower-roman inside;  
+li ol li ol li {
+  list-style: lower-roman inside;
 }
-p, ul, ol {
-    font-size: 16px;
-    line-height: 1.6;
+p,
+ul,
+ol {
+  font-size: 16px;
+  line-height: 1.6;
 }
-code, pre {
-    border-radius: 3px;
-    background-color:#f7f7f7;
-    color: inherit;
+code,
+pre {
+  border-radius: 3px;
+  background-color: #f7f7f7;
+  color: inherit;
 }
 
 code {
-    font-family: Consolas, Monaco, Andale Mono, monospace;
-    margin: 0 2px;
-    color: #666555;
+  font-family: Consolas, Monaco, Andale Mono, monospace;
+  margin: 0 2px;
+  color: #666555;
 }
 
 code span {
-    color: inherit;
+  color: inherit;
 }
 
 pre {
-    line-height: 1.5em;
-    /* overflow: auto; */
-    padding: 6px 10px;
-    /* margin-left: 20px; */
-    /* border-left: 5px solid #6CE26C; */
-    white-space: pre-wrap;       /* css-3 */ 
-    white-space: -moz-pre-wrap;  /* Mozilla, since 1999 */ 
-    white-space: -pre-wrap;      /* Opera 4-6 */ 
-    white-space: -o-pre-wrap;    /* Opera 7 */ 
-    word-wrap: break-word;       /* Internet Explorer 5.5+ */
+  line-height: 1.5em;
+  /* overflow: auto; */
+  padding: 6px 10px;
+  /* margin-left: 20px; */
+  /* border-left: 5px solid #6CE26C; */
+  white-space: pre-wrap; /* css-3 */
+  white-space: -moz-pre-wrap; /* Mozilla, since 1999 */
+  white-space: -pre-wrap; /* Opera 4-6 */
+  white-space: -o-pre-wrap; /* Opera 7 */
+  word-wrap: break-word; /* Internet Explorer 5.5+ */
 }
 pre > code {
-    border: 0;
-    display: inline;
-    max-width: initial;
-    padding: 0;
-    margin: 0;
-    overflow: initial;
-    line-height: inherit;
-    font-size: .85em;
-    /* white-space: pre; */
-    background: 0 0;
+  border: 0;
+  display: inline;
+  max-width: initial;
+  padding: 0;
+  margin: 0;
+  overflow: initial;
+  line-height: inherit;
+  font-size: 0.85em;
+  /* white-space: pre; */
+  background: 0 0;
 }
 
 aside {
-    display: block;
-    float: right;
-    width: 390px;
+  display: block;
+  float: right;
+  width: 390px;
 }
 blockquote {
-    border-left:.5em solid #eee;
-    padding: 0 0 0 2em;
-    margin-left:0;
+  border-left: 0.5em solid #eee;
+  padding: 0 0 0 2em;
+  margin-left: 0;
 }
-blockquote  cite {
-    font-size:14px;
-    line-height:20px;
-    color:#bfbfbf;
+blockquote cite {
+  font-size: 14px;
+  line-height: 20px;
+  color: #bfbfbf;
 }
 blockquote cite:before {
-    content: '\2014 \00A0';
+  content: "\2014 \00A0";
 }
 
 blockquote p {
-    color: #666;
+  color: #666;
 }
 hr {
-    text-align: left;
-    color: #999;
-    height: 2px;
-    padding: 0;
-    margin: 16px 0;
-    background-color: #e7e7e7;
-    border: 0 none;
+  text-align: left;
+  color: #999;
+  height: 2px;
+  padding: 0;
+  margin: 16px 0;
+  background-color: #e7e7e7;
+  border: 0 none;
 }
 table {
-    /* border-spacing: 0; */
-    border: 1px solid #ccc;
-    border-radius: 10px;
-    /* width: 100%; */
-    min-width: 300px;
+  /* border-spacing: 0; */
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  /* width: 100%; */
+  min-width: 300px;
 }
 table tr:hover {
-    background: #fbf8e9;
-    -o-transition: all 0.1s ease-in-out;
-    -webkit-transition: all 0.1s ease-in-out;
-    -moz-transition: all 0.1s ease-in-out;
-    -ms-transition: all 0.1s ease-in-out;
-    transition: all 0.1s ease-in-out;
+  background: #fbf8e9;
+  -o-transition: all 0.1s ease-in-out;
+  -webkit-transition: all 0.1s ease-in-out;
+  -moz-transition: all 0.1s ease-in-out;
+  -ms-transition: all 0.1s ease-in-out;
+  transition: all 0.1s ease-in-out;
 }
-table td{
-    border-left: 1px solid #ccc;
-    border-top: 1px solid #ccc;
-    padding: 10px;
-    text-align: left;
+table td {
+  border-left: 1px solid #ccc;
+  border-top: 1px solid #ccc;
+  padding: 10px;
+  text-align: left;
 }
 table th {
-    background-color: #e2e2e2;
-    border-top: none;
-    text-shadow: 0 1px 0 rgba(255,255,255,.5);
-    padding: 7px;
+  background-color: #e2e2e2;
+  border-top: none;
+  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.5);
+  padding: 7px;
 }
 
 /* ↑ markdown样式表： */
 .head {
-    width: 100%;
-    height: 70px;
-    display: flex;
-    align-items: center;
-    border-bottom:solid 0.5px rgb(209, 208, 208); 
-    margin-top: -30px;
+  width: 100%;
+  height: 70px;
+  display: flex;
+  align-items: center;
+  border-bottom: solid 0.5px rgb(209, 208, 208);
+  margin-top: -30px;
 }
 .last {
-    margin-left: 53px;
+  margin-left: 0;
 }
 .write-input {
-    width: 60%;
-    margin-left: 20px;
-    outline:none;
-    font-size: 18px;
-    border: 1px solid #1d4cb5;
+  width: 60%;
+  margin-left: 0;
+  outline: none;
+  font-size: 18px;
+  border: 1px solid #1d4cb5;
 }
 .status-save-bt {
-    position: absolute;
-    right: 83px;
+  position: absolute;
+  right: 75px;
 }
 
-
 .status-markdown a {
-    color: #0099ff;
-    margin: 0;
-    padding: 0;
-    vertical-align: baseline;
-    font-size: 16px;
+  color: #0099ff;
+  margin: 0;
+  padding: 0;
+  vertical-align: baseline;
+  font-size: 16px;
 }
 
 .status-markdown a:hover {
-    text-decoration: none;
-    color: #ff6600;
+  text-decoration: none;
+  color: #ff6600;
 }
 
-.field{
-    outline: hidden;
-    border: 1px solid white;
-    border-right: 3px solid lightgrey;
-    height: 700px;
-    font-size: 16px;
+.field {
+  outline: hidden;
+  border: 1px solid white;
+  border-right: 3px solid lightgrey;
+  height: 700px;
+  font-size: 16px;
 }
-.column{
-    flex: 1;
-    -webkit-flex: 1;
-    width: 50%;
+.column {
+  flex: 1;
+  -webkit-flex: 1;
+  width: 50%;
 }
 .preview {
-    height: 700px;
-    overflow-y: auto;
-    overflow-x: hidden;
-    word-break: break-all;
-    padding: 10px 20px;
+  height: 700px;
+  overflow-y: auto;
+  overflow-x: hidden;
+  word-break: break-all;
+  padding: 10px 20px;
 }
 
-.status-ifnone{
-    font-size: 12px;
-    color: red;
+.status-ifnone {
+  font-size: 12px;
+  color: red;
 }
 
-.menu-icon{
-    width: 20px;
+.menu-icon {
+  width: 20px;
 }
 
-.edit-marginHeader{
-    margin-top: 54px;
+.edit-marginHeader {
+  margin-top: 54px;
 }
