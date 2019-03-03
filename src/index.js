@@ -24,6 +24,7 @@ import edit from "./modules/status/markdown/edit";
 import load from "./modules/landing";
 import { persistor, Store } from "./store";
 import "./index.css";
+import "static/css/common.css";
 
 ReactDOM.render(
   <Provider store={Store}>

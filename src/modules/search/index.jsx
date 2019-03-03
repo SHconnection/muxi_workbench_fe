@@ -10,8 +10,8 @@ import Button from "components/common/button/index";
 import ProjectService from "service/project";
 import SearchService from "service/search";
 import { Store } from "store";
-import SearchItem from "./item/index";
 import Loading from "components/common/loading/index";
+import SearchItem from "./item/index";
 import "static/css/common.css";
 import "./index.css";
 

@@ -1,6 +1,7 @@
 .addMember-inputStyle {
   border-color: #979797;
   margin-right: 31px;
+  margin-top: 19px;
 }
 .addMember-fontStyle {
   color: #108ee9;
@@ -11,4 +12,12 @@
   font-size: 12px;
   color: #919191;
   margin-top: 9px;
+}
+.addMember-saveBtn{
+  height: 32px;
+  width: 65px;
+  font-size: 14px;
+  text-align: center;
+  padding: 0;
+  vertical-align: middle;
 }

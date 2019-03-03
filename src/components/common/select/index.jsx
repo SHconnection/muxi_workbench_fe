@@ -60,16 +60,18 @@ class Select extends Component {
     if (items.length) {
       return (
         <div className="select-container clickFlag">
+          <div className="select-bt">
+            {items[checkedIndex].value}
+            <div className="select-selectIcon clickFlag">
+              <ReactSVG path={RectangleDown} />
+            </div>
+          </div>
           <div
             className="clickFlag select-mask"
             onClick={this.showOption.bind(this)}
             onKeyDown={() => {}}
             role="presentation"
           />
-          <div className="select-bt">
-            {items[checkedIndex].value}
-            <ReactSVG path={RectangleDown} />
-          </div>
           {showInput && (
             <div
               className={

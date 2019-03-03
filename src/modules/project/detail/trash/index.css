@@ -1,7 +1,14 @@
 .trash-filelist-deletetime {
-  margin-left: 239px;
+  margin-left: 305px;
 }
 
 .trash-filelist-createtime {
   margin-left: 79px;
+}
+
+.trash-file-name{
+  width: 150px;
+  text-overflow:ellipsis;
+  overflow:hidden;
+  white-space:nowrap;
 }

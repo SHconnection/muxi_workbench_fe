@@ -27,13 +27,15 @@
     margin-top: 35px;
     margin-bottom: 20px;
     font-weight: bold;
-
+    max-width: 300px;
+    overflow: scroll;
 }
 .feed-details{
     display: flex;
     align-items: center;
     margin-bottom: 20px;
     margin-left: 70px;
+    overflow: scroll;
 }
 .feed-time{
     font-size: 14px;
@@ -49,11 +51,19 @@
     vertical-align: middle;
 }
 .link{
+    display: inline-block;
     font-size: 16px;
     vertical-align: middle;
+    max-width: 400px;
+    overflow: scroll;
+    white-space: nowrap;
 }
 .feed-action-word{
     color: #404040;
     vertical-align: middle;
     margin-left: 4px;
+}
+
+.feedItem-linkUername{
+    max-width: 100px;
 }

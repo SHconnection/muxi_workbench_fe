@@ -64,8 +64,7 @@ class TeamMember extends Component {
       Promise.all([this.teamMemberGetAllMem(), this.teamMemberGetAllGroup()])
         .then(() => {
           this.setState({
-            loading: false,
-            memberLoading: false
+            loading: false
           });
         })
         .catch(error => {
@@ -253,23 +252,21 @@ class TeamMember extends Component {
           </div>
         </div>
 
-        {memberLoading ? (
-          <Loading loading />
-        ) : (
-          <div className="noneInfoTip">
-            {members.length > 0 ? (
-              <List
-                width={880}
-                height={600}
-                rowHeight={100}
-                rowRenderer={renderRow}
-                rowCount={members.length}
-              />
-            ) : (
-              "该分类暂无成员～"
-            )}
-          </div>
-        )}
+        <div className="teamMember-memberLoadingContain">
+          {memberLoading ? (
+            <Loading loading />
+          ) : members.length > 0 ? (
+            <List
+              width={880}
+              height={600}
+              rowHeight={100}
+              rowRenderer={renderRow}
+              rowCount={members.length}
+            />
+          ) : (
+            <p className="noneInfoTip">该分类暂无成员～</p>
+          )}
+        </div>
       </div>
     );
   }
