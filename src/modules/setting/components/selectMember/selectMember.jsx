@@ -301,7 +301,7 @@ class SelectMember extends Component {
     return (
       <div>
         {loading ? (
-          <Loading loading />
+          <Loading />
         ) : (
           <div className="present selectMember-present">
             <b className="title littleSize selectMember-vice">选择成员</b>

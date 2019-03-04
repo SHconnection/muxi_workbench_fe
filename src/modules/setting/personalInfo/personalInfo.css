@@ -7,11 +7,15 @@
     margin-right: 0;
     white-space: nowrap;
 }
-.personalName{
+.personalInfo-personalName{
     display: inline-block;
     font-size: 30px;
     margin-right: 21px;
     margin-bottom: 12px;
+    width: 400px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
 }
 .personalInfo-personalIntro{
     display: inline-block;

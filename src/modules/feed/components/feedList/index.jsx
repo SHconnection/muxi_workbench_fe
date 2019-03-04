@@ -98,6 +98,7 @@ class feedItem extends Component {
           <Link
             to={`${findProject(kind, sourcePro, uid)}`}
             className={ifSplit ? "feed-project" : "feed-no-project"}
+            title={ifSplit ? `${dividerName(kind, proName, userName)}` : ""}
           >
             {ifSplit ? `${dividerName(kind, proName, userName)}` : ""}
           </Link>
@@ -122,6 +123,7 @@ class feedItem extends Component {
               <Link
                 to="/teamMember/personalInfo"
                 className="link feedItem-linkUername"
+                title={userName}
               >
                 {userName}
               </Link>
@@ -133,6 +135,7 @@ class feedItem extends Component {
               <Link
                 to={`${findKind(kind, sourceID, sourcePro)}`}
                 className="link"
+                title={sourceName}
               >
                 {sourceName}
               </Link>

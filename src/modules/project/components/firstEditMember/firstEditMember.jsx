@@ -57,7 +57,7 @@ const FirstEditMember = ({
       />
     </div>
     {memberLoading ? (
-      <Loading loading />
+      <Loading />
     ) : (
       <Member
         members={members}

@@ -25,7 +25,7 @@ const userGroup = group => {
 const MemberInfo = ({ mem, square }) => (
   <div className="memberInfo-contain">
     <Link
-      to="/teamMember/personalInfo"
+      to={`/teamMember/personalInfo`}
       onClick={() => {
         Store.dispatch({
           type: "substitutePer",
@@ -44,7 +44,9 @@ const MemberInfo = ({ mem, square }) => (
     <div className="memberInfo-personalIntro">
       <div className="memberInfo-mid">
         <div className="memberInfo-name">
-          <div className="memberInfo-nameSize">{mem.name || mem.username}</div>
+          <div className="memberInfo-nameSize" title={mem.name || mem.username}>
+            {mem.name || mem.username}
+          </div>
           <div className="memberInfo-role">{userLevelSet[mem.role]}</div>
         </div>
         <div className="memberInfo-group">

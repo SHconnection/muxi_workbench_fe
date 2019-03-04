@@ -163,7 +163,7 @@ class Detail extends Component {
 
     return loading ? (
       <CardContainer>
-        <Loading loading />
+        <Loading />
       </CardContainer>
     ) : (
       <div className="subject cardContainer">

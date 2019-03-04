@@ -56,7 +56,7 @@ class GroupMember extends Component {
     return (
       <div>
         <GoBack />
-        <b className="title">分组管理</b>
+        <b className="title groupMember-title">分组管理</b>
         <input
           className="groupMember-groupName"
           placeholder="组别名称"

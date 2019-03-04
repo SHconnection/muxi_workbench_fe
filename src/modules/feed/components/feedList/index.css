@@ -28,7 +28,9 @@
     margin-bottom: 20px;
     font-weight: bold;
     max-width: 300px;
-    overflow: scroll;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }
 .feed-details{
     display: flex;

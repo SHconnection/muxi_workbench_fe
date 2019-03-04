@@ -245,7 +245,7 @@ class EditMember extends Component {
     return (
       <div>
         {loading ? (
-          <Loading loading />
+          <Loading />
         ) : (
           <div className="editMember-present">
             <FirstEditMember

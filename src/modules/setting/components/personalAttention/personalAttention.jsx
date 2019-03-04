@@ -124,7 +124,7 @@ class PersonalAttention extends Component {
     return (
       <div className="present">
         {loading ? (
-          <Loading loading />
+          <Loading />
         ) : (
           <div>
             <div className="noneInfoTip">

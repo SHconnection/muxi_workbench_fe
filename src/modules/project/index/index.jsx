@@ -49,7 +49,7 @@ class Index extends Component {
     return (
       <div>
         {loading ? (
-          <Loading loading />
+          <Loading />
         ) : (
           <div className="project">
             {storeRole !== 1 && (
