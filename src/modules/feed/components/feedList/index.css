@@ -58,3 +58,6 @@
   vertical-align: middle;
   margin-left: 4px;
 }
+.feedItem-linkUername{
+    max-width: 100px;
+}

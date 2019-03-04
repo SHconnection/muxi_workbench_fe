@@ -119,7 +119,10 @@ class feedItem extends Component {
                 });
               }}
             >
-              <Link to="/teamMember/personalInfo" className="link">
+              <Link
+                to="/teamMember/personalInfo"
+                className="link feedItem-linkUername"
+              >
                 {userName}
               </Link>
             </div>

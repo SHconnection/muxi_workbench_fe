@@ -707,7 +707,7 @@ class ProjectDetailIndex extends Component {
                   查看所有文档
                 </Link>
               ) : (
-                <div className="tip">赶快创建第一份文档吧～</div>
+                <div className="noneInfoTip">赶快创建第一份文档吧～</div>
               )}
             </div>
           </div>

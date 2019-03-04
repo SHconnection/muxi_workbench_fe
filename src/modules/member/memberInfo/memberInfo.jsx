@@ -25,7 +25,7 @@ const userGroup = group => {
 const MemberInfo = ({ mem, square }) => (
   <div className="memberInfo-contain">
     <Link
-      to={`/teamMember/personalInfo`}
+      to="/teamMember/personalInfo"
       onClick={() => {
         Store.dispatch({
           type: "substitutePer",

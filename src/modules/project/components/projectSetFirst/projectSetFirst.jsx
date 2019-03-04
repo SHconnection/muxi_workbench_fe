@@ -4,7 +4,7 @@
 */
 import React from "react";
 import PropTypes from "prop-types";
-import "../../../../static/css/common.css";
+import "static/css/common.css";
 import "./projectSetFirst.css";
 
 const ProjectSetFirst = ({

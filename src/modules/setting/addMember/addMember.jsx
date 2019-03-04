@@ -81,7 +81,11 @@ class AddMem extends Component {
                 value={inputValue}
                 readOnly
               />
-              <button type="button" className="saveBtn" onClick={this.copy}>
+              <button
+                type="button"
+                className="saveBtn addMember-saveBtn"
+                onClick={this.copy}
+              >
                 复制
               </button>
               <p className="addMember-fontMargin">

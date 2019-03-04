@@ -40,12 +40,17 @@
 .teamMember-singleList{
     display: flex;
     align-items: center;
+    justify-content: space-between;
     width: 100%;
     border-top: solid 1px #979797;
     padding: 16px 0;
 }
 .teamMember-emailMarg{
-    margin-left: 200px;
+    margin-right: 100px;
+    width: 250px;
+    text-overflow:ellipsis;
+    overflow:hidden;
+    white-space:nowrap;
 }
 .teamMember-applyList{
     position: relative;
@@ -59,4 +64,10 @@
     height: 8px;
     border-radius: 50% 50%;
     background-color: red;
+}
+.teamMember-memberLoadingContain{
+    position: relative;
+    left: 0;
+    top: 0;
+    height: 600px;
 }
