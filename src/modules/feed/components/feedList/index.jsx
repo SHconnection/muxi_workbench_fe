@@ -65,7 +65,7 @@ function findProject(kind, sourcePro, uid) {
     case 4:
       return `/project/${sourcePro}/preview/`;
     case 6:
-      return `/member/teamMember/personalInfo/personalProgress/${uid}/`;
+      return `/teamMember/personalInfo/personalProgress/${uid}/`;
     default:
       return `/`;
   }
