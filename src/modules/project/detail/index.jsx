@@ -133,7 +133,7 @@ class ProjectDetailIndex extends Component {
         Promise.all([this.updateFilesList(), this.updatedocList()])
           .then(() => {
             this.setState({
-              // loading: false
+              loading: false
             });
           })
           .catch(error => {
