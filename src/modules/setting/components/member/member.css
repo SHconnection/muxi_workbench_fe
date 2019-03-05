@@ -11,6 +11,12 @@
   width: 885px;
 }
 .member-name {
+  display: inline-block;
   color: #404040;
+  width: 80px;
+  text-align: right;
+  overflow: hidden;
   white-space: nowrap;
+  text-overflow: ellipsis;
+  vertical-align: middle;
 }

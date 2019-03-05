@@ -50,7 +50,7 @@ class Member extends Component {
     const { storeRole } = this.props;
 
     return loading ? (
-      <Loading loading />
+      <Loading />
     ) : (
       <div className="projectDetail-container">
         <GoBack />

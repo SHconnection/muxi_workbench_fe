@@ -161,7 +161,7 @@ class Dynamic extends Component {
     return (
       <div className="feed">
         {loading ? (
-          <Loading loading />
+          <Loading />
         ) : (
           <div>
             <div className="feed-list">

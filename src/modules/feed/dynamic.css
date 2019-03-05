@@ -32,4 +32,8 @@
     border: 1px; 
     color: rgb(133, 131, 131);
     margin: 10px;
-  }
+}
+.feed-loadingContain{
+    position: relative;
+    height: 500px;
+}

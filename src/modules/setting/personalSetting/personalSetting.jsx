@@ -226,7 +226,7 @@ class PersonalSet extends Component {
     return (
       <div>
         {loading ? (
-          <Loading loading />
+          <Loading />
         ) : (
           <div>
             <GoBack />

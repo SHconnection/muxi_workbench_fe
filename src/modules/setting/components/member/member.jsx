@@ -76,12 +76,10 @@ class Member extends Component {
                 onClick={this.dealData}
                 id={`check${item.name}${index}`}
               />
-              <label
-                htmlFor={`check${item.name}${index}`}
-                className="member-name"
-                id="lab"
-              >
-                {item.name}
+              <label htmlFor={`check${item.name}${index}`} id="lab">
+                <span className="member-name" title={item.name}>
+                  {item.name}
+                </span>
               </label>
             </div>
           );

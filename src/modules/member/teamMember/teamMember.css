@@ -65,9 +65,3 @@
     border-radius: 50% 50%;
     background-color: red;
 }
-.teamMember-memberLoadingContain{
-    position: relative;
-    left: 0;
-    top: 0;
-    height: 600px;
-}

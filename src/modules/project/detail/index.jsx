@@ -597,7 +597,7 @@ class ProjectDetailIndex extends Component {
 
     return (
       <div className="projectDetail-container">
-        <Loading loading={loading} />
+        {loading ? <Loading /> : null}
         <GoBack href="/project" />
         <div className="projectDetail-content">
           {/* 头部 */}

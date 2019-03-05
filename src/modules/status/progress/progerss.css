@@ -1,8 +1,8 @@
 .loadMore {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 50px;
-    border: 1px; 
-    color: rgb(133, 131, 131)
-  }
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 50px;
+  border: 1px; 
+  color: rgb(133, 131, 131)
+}

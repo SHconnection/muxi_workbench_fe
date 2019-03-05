@@ -162,7 +162,7 @@ class Search extends Component {
     return (
       <div className="subject cardContainer">
         {loading ? (
-          <Loading loading />
+          <Loading />
         ) : (
           <div className="search-container">
             <div className="search-header">

@@ -97,7 +97,7 @@ class Header extends Component {
             </div>
             <Link
               className="header-avatar"
-              to="/teamMember/personalInfo"
+              to={`/teamMember/personalInfo`}
               onClick={() => {
                 Store.dispatch({
                   type: "substitutePer",

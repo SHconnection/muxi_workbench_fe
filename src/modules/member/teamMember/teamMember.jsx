@@ -181,14 +181,17 @@ class TeamMember extends Component {
     const renderRow = info => (
       <div className="teamMember-singleList" key={info.key} style={info.style}>
         <MemberInfo mem={members[info.index]} />
-        <span className="teamMember-emailMarg">
+        <span
+          className="teamMember-emailMarg"
+          title={members[info.index].email}
+        >
           {members[info.index].email}
         </span>
       </div>
     );
 
     return loading ? (
-      <Loading loading />
+      <Loading />
     ) : (
       <div>
         <b className="teamMember-title">木犀团队</b>
@@ -252,21 +255,19 @@ class TeamMember extends Component {
           </div>
         </div>
 
-        <div className="teamMember-memberLoadingContain">
-          {memberLoading ? (
-            <Loading loading />
-          ) : members.length > 0 ? (
-            <List
-              width={880}
-              height={600}
-              rowHeight={100}
-              rowRenderer={renderRow}
-              rowCount={members.length}
-            />
-          ) : (
-            <p className="noneInfoTip">该分类暂无成员～</p>
-          )}
-        </div>
+        {memberLoading ? (
+          <Loading />
+        ) : members.length > 0 ? (
+          <List
+            width={880}
+            height={600}
+            rowHeight={100}
+            rowRenderer={renderRow}
+            rowCount={members.length}
+          />
+        ) : (
+          <p className="noneInfoTip">该分类暂无成员～</p>
+        )}
       </div>
     );
   }

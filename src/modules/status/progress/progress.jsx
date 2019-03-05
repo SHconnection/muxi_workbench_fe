@@ -70,10 +70,10 @@ class Progress extends Component {
 
     return loading ? (
       isPersonal ? (
-        <Loading loading />
+        <Loading />
       ) : (
         <CardContainer>
-          <Loading loading />
+          <Loading />
         </CardContainer>
       )
     ) : (
