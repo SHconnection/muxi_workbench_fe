@@ -99,6 +99,7 @@ class feedItem extends Component {
             to={`${findProject(kind, sourcePro, uid)}`}
             className={ifSplit ? "feed-project" : "feed-no-project"}
             title={ifSplit ? `${dividerName(kind, proName, userName)}` : ""}
+            target="_blank"
           >
             {ifSplit ? `${dividerName(kind, proName, userName)}` : ""}
           </Link>
@@ -135,6 +136,7 @@ class feedItem extends Component {
               <Link
                 to={`${findKind(kind, sourceID, sourcePro)}`}
                 className="link"
+                target="_blank"
                 title={sourceName}
               >
                 {sourceName}
