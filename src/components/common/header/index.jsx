@@ -50,7 +50,7 @@ class Header extends Component {
 
   render() {
     const { showInput } = this.state;
-    const { storeAvatar, storeId } = this.props;
+    const { storeAvatar, storeId, storeRole } = this.props;
 
     return (
       <div className="header-container">
@@ -97,11 +97,15 @@ class Header extends Component {
             </div>
             <Link
               className="header-avatar"
-              to={`/teamMember/personalInfo`}
+              to={`/teamMember/personalInfo/${storeId}`}
               onClick={() => {
                 Store.dispatch({
                   type: "substitutePer",
                   payload: storeId
+                });
+                Store.dispatch({
+                  type: "substitutePerRole",
+                  payload: storeRole
                 });
               }}
             >
@@ -139,17 +143,20 @@ class Header extends Component {
 Header.propTypes = {
   history: PropTypes.shape({}),
   storeAvatar: PropTypes.string,
-  storeId: PropTypes.number
+  storeId: PropTypes.number,
+  storeRole: PropTypes.number
 };
 Header.defaultProps = {
   history: {},
   storeAvatar: "",
-  storeId: 0
+  storeId: 0,
+  storeRole: 1
 };
 
 const mapStateToProps = state => ({
   storeAvatar: state.avatar,
-  storeId: state.id
+  storeId: state.id,
+  storeRole: state.role
 });
 
 export default withRouter(connect(mapStateToProps)(Header));

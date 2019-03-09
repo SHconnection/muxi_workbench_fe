@@ -13,21 +13,23 @@ import PersonalAttention from "../components/personalAttention/personalAttention
 import Dynamic from "../../feed/dynamic";
 import Progress from "../../status/index";
 import "static/css/common.css";
-import "./personalInfo.scss";
+import "./personalInfo.css";
 
 const PersonalInfo = ({
-  match,
   storeId,
   storePerRole,
   storeRole,
-  storePer
+  match: {
+    params: { uid }
+  }
 }) => {
   const [per, setPer] = useState({});
   const [loading, setLoading] = useState(true);
 
   useEffect(
     () => {
-      ManageService.getPersonalSet(storePer)
+      setLoading(true);
+      ManageService.getPersonalSet(uid)
         .then(info => {
           setPer({
             name: info.name,
@@ -43,7 +45,7 @@ const PersonalInfo = ({
           });
         });
     },
-    [storePer]
+    [uid]
   );
 
   return (
@@ -59,8 +61,8 @@ const PersonalInfo = ({
                 <b className="personalInfo-personalName" title={per.name}>
                   {per.name}
                 </b>
-                <Link to={`${match.url}/personalSet`} className="fakeBtn">
-                  {parseInt(storePer, 10) === parseInt(storeId, 10)
+                <Link to="/teamMember/personalSet" className="fakeBtn">
+                  {parseInt(uid, 10) === parseInt(storeId, 10)
                     ? "更改设置"
                     : ""}
                 </Link>
@@ -68,7 +70,7 @@ const PersonalInfo = ({
               </div>
             </div>
             <Link
-              to={`${match.url}/setPersonalInfo/${per.name}`}
+              to={`/teamMember/setPersonalInfo/${per.name}`}
               className="personalInfo-btnMarg"
             >
               <button
@@ -89,21 +91,21 @@ const PersonalInfo = ({
               <NavLink
                 activeClassName="personalInfo-active"
                 className="llSize singleItem"
-                to={`${match.url}/personalDynamic/${storePer}`}
+                to={`/teamMember/personalInfo/${uid}/personalDynamic`}
               >
                 动态
               </NavLink>
               <NavLink
                 activeClassName="personalInfo-active"
                 className="llSize singleItem"
-                to={`${match.url}/personalProgress/${storePer}`}
+                to={`/teamMember/personalInfo/${uid}/personalProgress`}
               >
                 进度
               </NavLink>
               <NavLink
                 activeClassName="personalInfo-active"
                 className="llSize singleItem"
-                to={`${match.url}/personalAttention/${storePer}`}
+                to={`/teamMember/personalInfo/${uid}/personalAttention`}
               >
                 关注
               </NavLink>
@@ -112,19 +114,19 @@ const PersonalInfo = ({
           <Switch>
             <Redirect
               exact
-              path="/teamMember/personalInfo"
-              to={`${match.url}/personalAttention/${storePer}`}
+              path="/teamMember/personalInfo/:uid"
+              to={`/teamMember/personalInfo/${uid}/personalAttention`}
             />
             <Route
-              path={`${match.url}/personalDynamic/:uid`}
+              path="/teamMember/personalInfo/:uid/personalDynamic"
               component={Dynamic}
             />
             <Route
-              path={`${match.url}/personalAttention/:uid`}
+              path="/teamMember/personalInfo/:uid/personalAttention"
               component={PersonalAttention}
             />
             <Route
-              path={`${match.url}/personalProgress/:uid`}
+              path="/teamMember/personalInfo/:uid/personalProgress"
               component={Progress}
             />
           </Switch>
@@ -136,7 +138,9 @@ const PersonalInfo = ({
 
 PersonalInfo.propTypes = {
   match: PropTypes.shape({
-    url: PropTypes.string
+    params: PropTypes.shape({
+      uid: PropTypes.string
+    })
   }),
   storeId: PropTypes.number,
   storeRole: PropTypes.number,
@@ -145,18 +149,15 @@ PersonalInfo.propTypes = {
 
 PersonalInfo.defaultProps = {
   match: {},
-  location: {},
   storeId: 0,
   storeRole: 1,
-  storePerRole: 1,
-  storePer: 0
+  storePerRole: 1
 };
 
 const mapStateToProps = state => ({
   storeId: state.id,
   storePerRole: state.perRole,
-  storeRole: state.role,
-  storePer: state.per
+  storeRole: state.role
 });
 
 export default connect(mapStateToProps)(PersonalInfo);

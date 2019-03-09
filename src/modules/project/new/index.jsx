@@ -248,7 +248,7 @@ class NewProject extends Component {
             className={
               hasInputProjectName && projectname.trim() === ""
                 ? "warning"
-                : "transparent"
+                : "transparent warning"
             }
           >
             输入框不能为空！
@@ -272,7 +272,9 @@ class NewProject extends Component {
                       onChange={this.checkAll}
                       id="memberCheckedAll"
                     />
-                    <label htmlFor="memberCheckedAll">{selectAllText}</label>
+                    <label htmlFor="memberCheckedAll">
+                      <span className="newProject-name">{selectAllText}</span>
+                    </label>
                   </div>
                 ) : (
                   ""
@@ -297,9 +299,17 @@ class NewProject extends Component {
                     onClick={() => {
                       this.checkMember(item.id);
                     }}
+                    readOnly
                     id={item.id}
                   />
-                  <label htmlFor={item.id}>{item.name}</label>
+                  <label htmlFor={item.id}>
+                    <span
+                      className="newProject-name newProject-personalName"
+                      title={item.name}
+                    >
+                      {item.name}
+                    </span>
+                  </label>
                 </div>
               ))}
               {!this.currentMember().length ? (
