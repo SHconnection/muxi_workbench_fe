@@ -9,11 +9,8 @@ const Status = props => {
   const { match } = props;
   return (
     <div>
-      <Route
-        exact
-        path={match.url}
-        render={() => <Index uid={match.params.uid} />}
-      />
+      <Route exact path={match.url} render={() => <Index pathUrl={match} />} />
+      {/* <Route exact path={match.url} component={Index} /> */}
       <Route exact path={`${match.url}/:id`} component={Detail} />
       <Route path={`${match.url}/:id/reEdit`} component={Edit} />
     </div>
