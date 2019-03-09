@@ -28,7 +28,7 @@ class Landing extends Component {
     LandingService.getEmail(User)
       .then(({ email }) => {
         const data1 = {
-          email
+          name: email
         };
         Store.dispatch({
           type: "substituteEmail",

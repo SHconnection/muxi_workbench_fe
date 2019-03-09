@@ -1,53 +1,33 @@
 /*
-
 个人关注组件
-
 */
-
 import React, { useState, useEffect } from "react";
-
 import { List } from "react-virtualized";
-
 import { Link } from "react-router-dom";
-
 import PropTypes from "prop-types";
-
 import { connect } from "react-redux";
-
 import File from "assets/img/file.png";
-
 import MessageService from "service/message";
-
 import Loading from "components/common/loading/index";
-
 import { Store } from "store";
-
 import Delete from "../delete/delete";
-
 import "static/css/common.css";
-
 import "./personalAttention.css";
 
 const PersonalAttention = ({
   storeId,
-
   storePer,
-
   match: {
     params: { uid }
   }
 }) => {
   const [data, setData] = useState(undefined);
-
   const [deleteX, setDeleteX] = useState(false);
-
   const [members, setMembers] = useState([]);
-
   const [loading, setLoading] = useState(true);
 
   const deleteFunc = data => {
     setData(data);
-
     setDeleteX(true);
   };
 
@@ -58,25 +38,18 @@ const PersonalAttention = ({
   useEffect(
     () => {
       setLoading(true);
-
       MessageService.getPersonalAttention(uid)
-
         .then(attention => {
           const arr = attention.list.map((item1, index) => {
             const item = item1;
-
             item.id = index;
-
             item.dealed = false;
-
             return item;
           });
 
           setLoading(false);
-
           setMembers(arr);
         })
-
         .catch(error => {
           Store.dispatch({
             type: "substituteWrongInfo",
@@ -85,13 +58,11 @@ const PersonalAttention = ({
           });
         });
     },
-
     [uid]
   );
 
   const renderRow = info => {
     const mem = members[info.index];
-
     return (
       <div
         className={mem.dealed ? "none" : "personalAttention-cell"}
@@ -185,31 +156,24 @@ PersonalAttention.propTypes = {
   history: PropTypes.shape({
     push: PropTypes.func
   }),
-
   match: PropTypes.shape({
     params: PropTypes.shape({
       uid: PropTypes.string
     })
   }),
-
   storeId: PropTypes.number,
-
   storePer: PropTypes.number
 };
 
 PersonalAttention.defaultProps = {
   history: {},
-
   match: {},
-
   storeId: 0,
-
   storePer: 0
 };
 
 const mapStateToProps = state => ({
   storeId: state.id,
-
   storePer: state.per
 });
 

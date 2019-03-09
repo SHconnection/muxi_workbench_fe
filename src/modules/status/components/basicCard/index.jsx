@@ -95,7 +95,7 @@ class Item extends Component {
             <div className="status-item-time">{time}</div>
           </div>
           <div>
-            <Link to={`/status/${sid}`} className="open">
+            <Link to={`/status/${sid}`} className="open" target="_blank">
               展开
             </Link>
           </div>
@@ -112,6 +112,7 @@ class Item extends Component {
                 ? "status-personal-link-content"
                 : "status-item-link-content"
             }
+            target="_blank"
           >
             <div dangerouslySetInnerHTML={{ __html: content }} />
           </Link>
@@ -124,7 +125,7 @@ class Item extends Component {
           />
           <div className="status-item-goodnumber">{likeNumber}</div>
           <div>
-            <Link to={`/status/${sid}`}>
+            <Link to={`/status/${sid}`} target="_blank">
               <ReactSVG className="status-item-commet" path={comment} />
             </Link>
           </div>
