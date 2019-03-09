@@ -28,6 +28,7 @@ const PersonalInfo = ({
 
   useEffect(
     () => {
+      setLoading(true);
       ManageService.getPersonalSet(uid)
         .then(info => {
           setPer({
