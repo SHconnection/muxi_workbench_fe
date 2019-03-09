@@ -42,7 +42,7 @@ class Progress extends Component {
   }
 
   getStatuList() {
-    const { match } = this.props;
+    const { match, uid } = this.props;
     const { page } = this.state;
     if (match.path === "/status") {
       this.setState({ isPersonal: 0 });
@@ -66,7 +66,7 @@ class Progress extends Component {
         });
     } else {
       this.setState({ isPersonal: 1 });
-      StatusService.getPersonalStatus(match.params.uid, page + 1)
+      StatusService.getPersonalStatus(uid, page + 1)
         .then(status => {
           if (status) {
             const { statuList } = this.state;
@@ -95,7 +95,6 @@ class Progress extends Component {
 
   render() {
     const { statuList, isPersonal, count, page, loading } = this.state;
-
     return loading ? (
       isPersonal ? (
         <Loading />
@@ -141,11 +140,13 @@ Progress.propTypes = {
     params: PropTypes.shape({
       id: PropTypes.string
     })
-  })
+  }),
+  uid: PropTypes.number
 };
 
 Progress.defaultProps = {
-  match: {}
+  match: {},
+  uid: 0
 };
 
 export default Progress;
