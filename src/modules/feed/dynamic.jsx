@@ -64,36 +64,16 @@ class Dynamic extends Component {
   getFeedList() {
     const { match } = this.props;
     const { pageNum, hasNext } = this.state;
-    if (match.path === "/feed") {
-      if (hasNext) {
+    if (hasNext) {
+      if (match.path === "/feed") {
         FeedService.getFeedList(pageNum + 1)
           .then(feeds => {
             if (feeds) {
-              const arr1 = feeds.dataList.map(feed1 => {
-                const feedList = feed1;
-                const obj = {};
-                obj.timeDay = feedList.timeday;
-                obj.timeHour = feedList.timehm;
-                obj.ifSplit = feedList.ifsplit;
-                obj.action = feedList.action;
-                obj.feedid = feedList.feedid;
-                obj.sourceName = feedList.source.object_name;
-                obj.kind = feedList.source.kind_id;
-                obj.sourceID = feedList.source.object_id;
-                obj.sourcePro = feedList.source.project_id;
-                obj.avatarUrl = feedList.user.avatar_url;
-                obj.uid = feedList.user.id;
-                obj.proName = feedList.source.object_name;
-                obj.userName = feedList.user.name;
-                return obj;
-              });
-              const page1 = feeds.pageNum;
-              const next = feeds.hasNext;
               const { dataList } = this.state;
               this.setState({
-                hasNext: next,
-                pageNum: page1,
-                dataList: dataList.concat(arr1),
+                hasNext: feeds.hasNext,
+                pageNum: feeds.pageNum,
+                dataList: dataList.concat(feeds.dataList),
                 loading: false
               });
             }
@@ -104,38 +84,16 @@ class Dynamic extends Component {
               payload: error
             });
           });
-      }
-    } else {
-      const { uid } = match.params;
-      if (hasNext) {
+      } else {
+        const { uid } = match.params;
         FeedService.getPersonalFeed(uid, pageNum + 1)
           .then(feeds => {
             if (feeds) {
-              const arr1 = feeds.dataList.map(feed1 => {
-                const feedList = feed1;
-                const obj = {};
-                obj.timeDay = feedList.timeday;
-                obj.timeHour = feedList.timehm;
-                obj.ifSplit = feedList.ifsplit;
-                obj.action = feedList.action;
-                obj.feedid = feedList.feedid;
-                obj.sourceName = feedList.source.object_name;
-                obj.kind = feedList.source.kind_id;
-                obj.sourceID = feedList.source.object_id;
-                obj.sourcePro = feedList.source.project_id;
-                obj.avatarUrl = feedList.user.avatar_url;
-                obj.uid = feedList.user.id;
-                obj.proName = feedList.source.object_name;
-                obj.userName = feedList.user.name;
-                return obj;
-              });
-              const page1 = feeds.pageNum;
-              const next = feeds.hasNext;
               const { dataList } = this.state;
               this.setState({
-                hasNext: next,
-                pageNum: page1,
-                dataList: dataList.concat(arr1),
+                hasNext: feeds.hasNext,
+                pageNum: feeds.pageNum,
+                dataList: dataList.concat(feeds.dataList),
                 loading: false
               });
             }
@@ -168,30 +126,30 @@ class Dynamic extends Component {
               {dataList.map((feed, index) => (
                 <div key={feed.feedid}>
                   {(index === 0 ||
-                    dataList[index - 1].timeDay !== feed.timeDay) && (
+                    dataList[index - 1].timeday !== feed.timeday) && (
                     <div
                       className={
-                        today === feed.timeDay || yesterday === feed.timeDay
+                        today === feed.timeday || yesterday === feed.timeday
                           ? "feed-today"
                           : "feed-day"
                       }
                     >
-                      {Dynamic.chargeday(feed.timeDay)}
+                      {Dynamic.chargeday(feed.timeday)}
                     </div>
                   )}
                   <FeedItem
-                    timeDay={feed.timeDay}
-                    timeHour={feed.timeHour}
-                    avatarUrl={feed.avatarUrl}
-                    uid={feed.uid}
-                    userName={feed.userName}
+                    timeDay={feed.timeday}
+                    timeHour={feed.timehm}
+                    avatarUrl={feed.user.avatar_url}
+                    uid={feed.user.id}
+                    userName={feed.user.name}
                     action={feed.action}
-                    kind={feed.kind}
-                    sourceName={feed.sourceName}
-                    sourceID={feed.sourceID}
-                    sourcePro={feed.sourcePro}
-                    proName={feed.proName}
-                    ifSplit={feed.ifSplit}
+                    kind={feed.source.kind_id}
+                    sourceName={feed.source.object_name}
+                    sourceID={feed.source.object_id}
+                    sourcePro={feed.source.project_id}
+                    proName={feed.source.project_name}
+                    ifSplit={feed.ifsplit}
                   />
                 </div>
               ))}

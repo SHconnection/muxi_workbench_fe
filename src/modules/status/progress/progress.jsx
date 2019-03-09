@@ -6,51 +6,34 @@ import {
   getScrollHeight,
   getScrollTop
 } from "common/scroll";
+import { Store } from "store";
 import Loading from "components/common/loading/index";
 import Gotop from "components/common/toTop/top";
 import CardContainer from "components/layouts/card/index";
 import StatusItem from "../components/basicCard/index";
+import StatusService from "../../../service/status";
 import "./progerss.css";
 
 class Progress extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      count: props.count,
-      page: props.page,
-      isPersonal: props.isPersonal,
-      statuList: props.statuList
+      count: 0,
+      page: 0,
+      isPersonal: 0,
+      statuList: [],
+      loading: true
     };
     this.scroll = this.scroll.bind(this);
-    this.getstatuList = props.getstatuList;
+    this.getStatuList = this.getStatuList.bind(this);
   }
 
   // 返回给我总的条数，条数除以20=page
 
   componentDidMount() {
-    this.getstatuList();
+    this.getStatuList();
     const appContainer = document.querySelector(".app-container");
     if (appContainer) appContainer.addEventListener("scroll", this.scroll);
-  }
-
-  static getDerivedStateFromProps(nextProps, prevState) {
-    const { page, count } = prevState;
-    if (page !== nextProps.page) {
-      return {
-        page: nextProps.page,
-        statuList: nextProps.statuList,
-        isPersonal: nextProps.isPersonal
-      };
-    }
-    if (count !== nextProps.count) {
-      return {
-        count: nextProps.count,
-        isPersonal: nextProps.isPersonal
-      };
-    }
-    return {
-      isPersonal: nextProps.isPersonal
-    };
   }
 
   componentWillUnmount() {
@@ -58,15 +41,60 @@ class Progress extends Component {
     if (appContainer) appContainer.removeEventListener("scroll", this.scroll);
   }
 
+  getStatuList() {
+    const { match } = this.props;
+    const { page } = this.state;
+    if (match.path === "/status") {
+      this.setState({ isPersonal: 0 });
+      StatusService.getStatusList(page + 1)
+        .then(status => {
+          if (status) {
+            const { statuList } = this.state;
+            this.setState({
+              count: status.count,
+              page: status.page,
+              statuList: statuList.concat(status.statuList),
+              loading: false
+            });
+          }
+        })
+        .catch(error => {
+          Store.dispatch({
+            type: "substituteWrongInfo",
+            payload: error
+          });
+        });
+    } else {
+      this.setState({ isPersonal: 1 });
+      StatusService.getPersonalStatus(match.params.uid, page + 1)
+        .then(status => {
+          if (status) {
+            const { statuList } = this.state;
+            this.setState({
+              count: status.count,
+              page: status.page,
+              statuList: statuList.concat(status.statuList),
+              loading: false
+            });
+          }
+        })
+        .catch(error => {
+          Store.dispatch({
+            type: "substituteWrongInfo",
+            payload: error
+          });
+        });
+    }
+  }
+
   scroll() {
     if (getScrollTop() + getContainerHeight() === getScrollHeight()) {
-      this.getstatuList(true);
+      this.getStatuList();
     }
   }
 
   render() {
-    const { statuList, isPersonal, count, page } = this.state;
-    const { loading } = this.props;
+    const { statuList, isPersonal, count, page, loading } = this.state;
 
     return loading ? (
       isPersonal ? (
@@ -79,7 +107,7 @@ class Progress extends Component {
     ) : (
       <div>
         <div className={isPersonal ? "" : "status"}>
-          <div className="status-container">
+          <div className="statusContainer">
             {statuList.map((card, index) => (
               <div key={card.sid}>
                 <StatusItem
@@ -108,21 +136,16 @@ class Progress extends Component {
 }
 
 Progress.propTypes = {
-  count: PropTypes.number,
-  page: PropTypes.number,
-  isPersonal: PropTypes.number,
-  statuList: PropTypes.instanceOf(Array),
-  getstatuList: PropTypes.func,
-  loading: PropTypes.bool
+  match: PropTypes.shape({
+    url: PropTypes.string,
+    params: PropTypes.shape({
+      id: PropTypes.string
+    })
+  })
 };
 
 Progress.defaultProps = {
-  count: 0,
-  page: 0,
-  isPersonal: 0,
-  statuList: [],
-  getstatuList: {},
-  loading: false
+  match: {}
 };
 
 export default Progress;

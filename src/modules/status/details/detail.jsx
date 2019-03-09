@@ -31,7 +31,6 @@ class Detail extends Component {
       time: "",
       likeCount: 0,
       iflike: 0,
-      username: "",
       value: "",
       commentList: [],
       loading: true
@@ -50,33 +49,18 @@ class Detail extends Component {
     StatusService.getStatuDetail(match.params.id)
       .then(doc => {
         if (doc) {
-          const sid1 = doc.sid;
-          const name = doc.title;
-          const value = doc.content;
-          const time1 = doc.time;
-          const likeCounts = doc.likeCount;
-          const iflike1 = doc.iflike;
-          const arr1 = doc.commentList.map(comments => {
-            const comment = comments;
-            const obj = {};
-            obj.cid = comment.cid;
-            obj.username = comment.username;
-            obj.avatar = comment.avatar;
-            obj.time = comment.time;
-            obj.content = comment.content;
-            return obj;
-          });
           this.setState({
-            sid: sid1,
-            title: name,
-            content: value,
-            time: time1,
-            likeCount: likeCounts,
-            iflike: iflike1,
-            commentList: arr1,
+            sid: doc.sid,
+            title: doc.title,
+            authorId: doc.author_id,
+            content: doc.content,
+            time: doc.time,
+            likeCount: doc.likeCount,
+            iflike: doc.iflike,
+            commentList: doc.commentList,
             loading: false
           });
-          localStorage.setItem("content", value);
+          localStorage.setItem("content", doc.content);
         }
       })
       .catch(error => {
@@ -115,18 +99,8 @@ class Detail extends Component {
       if (result !== null) {
         StatusService.getStatuDetail(sid).then(comments => {
           if (comments) {
-            const arr1 = comments.commentList.map(comment => {
-              const comment1 = comment;
-              const obj = {};
-              obj.cid = comment1.cid;
-              obj.username = comment1.username;
-              obj.avatar = comment1.avatar;
-              obj.time = comment1.time;
-              obj.content = comment1.content;
-              return obj;
-            });
             this.setState({
-              commentList: arr1,
+              commentList: comments.commentList,
               value: ""
             });
           }
@@ -151,15 +125,15 @@ class Detail extends Component {
       deleteX,
       commentList,
       value,
+      authorId,
       title,
       time,
       likeCount,
       iflike,
-      username,
       content,
       loading
     } = this.state;
-    const { storeAvatar } = this.props;
+    const { storeAvatar, storeId } = this.props;
 
     return loading ? (
       <CardContainer>
@@ -171,32 +145,36 @@ class Detail extends Component {
           <Goback className="status-detail-back" width="33px" height="33px" />
           <div className="stauts-detail-second">
             <div className="status-detail-title">{title}</div>
-            <span className="status-detail-name">{username}</span>
             <span className="status-detail-time">{time}</span>
           </div>
-          <div className="status-detail-edit">
-            <Link to={`/status/${sid}/reEdit`} className="status-detail-editor">
-              编辑
-            </Link>
-            <span
-              className="status-detail-delete"
-              onClick={() => {
-                this.del();
-              }}
-              onKeyDown={this.handleKeyDown}
-              role="button"
-              tabIndex={0}
-            >
-              删除
-            </span>
-            <Delete
-              name="确认要删除该进度文档吗？"
-              deleteX={deleteX}
-              transferMsg={this.transferMsgDel}
-              staId={sid}
-              staDel
-            />
-          </div>
+          {storeId !== { authorId } ? null : (
+            <div className="status-detail-edit">
+              <Link
+                to={`/status/${sid}/reEdit`}
+                className="status-detail-editor"
+              >
+                编辑
+              </Link>
+              <span
+                className="status-detail-delete"
+                onClick={() => {
+                  this.del();
+                }}
+                onKeyDown={this.handleKeyDown}
+                role="button"
+                tabIndex={0}
+              >
+                删除
+              </span>
+              <Delete
+                name="确认要删除该进度文档吗？"
+                deleteX={deleteX}
+                transferMsg={this.transferMsgDel}
+                staId={sid}
+                staDel
+              />
+            </div>
+          )}
         </div>
         <div className="status-detail-good">
           <div>
@@ -259,16 +237,19 @@ Detail.propTypes = {
   match: PropTypes.shape({
     url: PropTypes.string
   }),
-  storeAvatar: PropTypes.string
+  storeAvatar: PropTypes.string,
+  storeId: PropTypes.number
 };
 
 Detail.defaultProps = {
   match: {},
-  storeAvatar: ""
+  storeAvatar: "",
+  storeId: 0
 };
 
 const mapStateToProps = state => ({
-  storeAvatar: state.avatar
+  storeAvatar: state.avatar,
+  storeId: state.id
 });
 
 export default connect(mapStateToProps)(Detail);

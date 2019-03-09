@@ -95,7 +95,11 @@ class Item extends Component {
             <div className="status-item-time">{time}</div>
           </div>
           <div>
-            <Link to={`/status/${sid}`} className="open" target="_blank">
+            <Link
+              to={`/status/${sid}`}
+              className={!isPersonal ? "open" : "open-person"}
+              target="_blank"
+            >
               展开
             </Link>
           </div>
