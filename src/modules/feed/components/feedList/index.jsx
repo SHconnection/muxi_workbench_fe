@@ -121,7 +121,7 @@ class feedItem extends Component {
               }}
             >
               <Link
-                to="/teamMember/personalInfo"
+                to={`/teamMember/personalInfo/${uid}`}
                 className="link feedItem-linkUername"
                 title={userName}
               >

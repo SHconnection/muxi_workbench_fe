@@ -12,10 +12,10 @@
     font-size: 30px;
     margin-right: 21px;
     margin-bottom: 12px;
-    width: 400px;
-    overflow: hidden;
+    max-width: 400px;
+    overflow: scroll;
     white-space: nowrap;
-    text-overflow: ellipsis;
+    vertical-align: middle;
 }
 .personalInfo-personalIntro{
     display: inline-block;

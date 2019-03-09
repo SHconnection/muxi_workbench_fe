@@ -31,16 +31,13 @@ const Member = ({ match }) => (
       path={`${match.url}/groupManage/groupMember`}
       component={GroupMember}
     />
+    <Route path={`${match.url}/personalSet`} component={PersonalSet} />
     <Route
-      path={`${match.url}/personalInfo/personalSet`}
-      component={PersonalSet}
-    />
-    <Route
-      path={`${match.url}/personalInfo/setPersonalInfo/:name`}
+      path={`${match.url}/setPersonalInfo/:name`}
       component={SetPersonalInfo}
     />
     <Route path={`${match.url}/SetManager`} component={SetManager} />
-    <Route path={`${match.url}/personalInfo`} component={PersonalInfo} />
+    <Route path={`${match.url}/personalInfo/:uid`} component={PersonalInfo} />
   </Switch>
 );
 

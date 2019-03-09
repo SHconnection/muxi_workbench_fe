@@ -141,44 +141,43 @@ class SelectMember extends Component {
     }
   }
 
-  selAll = () => {
-    this.setState(prevState => {
-      const { members: arr1 } = prevState;
-      const arr2 = [];
-      let num = 0;
-
-      if (arr1) {
-        arr1.map(i => {
-          if (i.selected) num += 1;
-          return i;
+  setManagerDeleteAdmins(deleteAdmins) {
+    return new Promise((resolve, reject) => {
+      if (deleteAdmins.length > 0) {
+        deleteAdmins.map(id => {
+          ManageService.deleteManager(id)
+            .then(() => {
+              resolve();
+            })
+            .catch(error => {
+              reject(error);
+            });
+          return id;
         });
-
-        if (num === arr1.length) {
-          arr1.map(i => {
-            const j = i;
-            j.selected = false;
-            return j;
-          });
-        } else {
-          arr1.map(i => {
-            const j = i;
-            j.selected = true;
-            arr2.push(j.id);
-            return j;
-          });
-        }
+      } else {
+        resolve(this);
       }
-
-      return { members: arr1, selMembers: arr2 };
     });
-  };
+  }
 
-  transferMsgMem = (arr1, arr2) => {
-    this.setState({
-      members: arr1,
-      selMembers: arr2
+  setManagerAddAdmins(addMembers) {
+    return new Promise((resolve, reject) => {
+      if (addMembers.length > 0) {
+        addMembers.map(id => {
+          ManageService.setManager(id)
+            .then(() => {
+              resolve();
+            })
+            .catch(error => {
+              reject(error);
+            });
+          return id;
+        });
+      } else {
+        resolve(this);
+      }
     });
-  };
+  }
 
   save = () => {
     const {
@@ -192,23 +191,23 @@ class SelectMember extends Component {
     const { selMembers, deleteAdmin } = this.state;
 
     if (groupMember) {
-      ManageService.updateGroupName(groupID, groupName).catch(error => {
-        this.setState({ wrong: error });
-      });
-
-      const { wrong } = this.state;
-      if (Object.keys(wrong).length !== 0) {
-        return;
-      }
-
-      ManageService.updateGroupMember(groupID, selMembers)
+      ManageService.updateGroupName(groupID, groupName)
         .then(() => {
-          this.setState({ ifSave: true });
+          ManageService.updateGroupMember(groupID, selMembers)
+            .then(() => {
+              this.setState({ ifSave: true });
 
-          setTimeout(() => {
-            this.setState({ ifSave: false });
-            window.history.back();
-          }, 1000);
+              setTimeout(() => {
+                this.setState({ ifSave: false });
+                window.history.back();
+              }, 1000);
+            })
+            .catch(error => {
+              Store.dispatch({
+                type: "substituteWrongInfo",
+                payload: error
+              });
+            });
         })
         .catch(error => {
           Store.dispatch({
@@ -248,51 +247,63 @@ class SelectMember extends Component {
         num => deleteAdmin.indexOf(num) === -1
       );
 
-      deleteAdmins.map(id => {
-        ManageService.deleteManager(id).catch(error => {
+      Promise.all([
+        this.setManagerDeleteAdmins(deleteAdmins),
+        this.setManagerAddAdmins(addMembers)
+      ])
+        .then(() => {
+          this.setState({ ifSave: true });
+          setTimeout(() => {
+            this.setState({ ifSave: false });
+            window.history.back();
+          }, 1000);
+        })
+        .catch(error => {
           Store.dispatch({
             type: "substituteWrongInfo",
             payload: error
           });
         });
-        return id;
-      });
-
-      const { wrong } = this.state;
-      if (Object.keys(wrong).length !== 0) {
-        return;
-      }
-
-      if (addMembers && addMembers.length) {
-        addMembers.map((id, index) => {
-          if (index !== addMembers.length - 1) {
-            ManageService.setManager(id).catch(error => {
-              Store.dispatch({
-                type: "substituteWrongInfo",
-                payload: error
-              });
-            });
-          } else {
-            ManageService.setManager(id).then(() => {
-              this.setState({ ifSave: true });
-
-              setTimeout(() => {
-                this.setState({ ifSave: false });
-                window.history.back();
-              }, 1000);
-            });
-          }
-          return id;
-        });
-      } else {
-        this.setState({ ifSave: true });
-
-        setTimeout(() => {
-          this.setState({ ifSave: false });
-          window.history.back();
-        }, 1000);
-      }
     }
+  };
+
+  transferMsgMem = (arr1, arr2) => {
+    this.setState({
+      members: arr1,
+      selMembers: arr2
+    });
+  };
+
+  selAll = () => {
+    this.setState(prevState => {
+      const { members: arr1 } = prevState;
+      const arr2 = [];
+      let num = 0;
+
+      if (arr1) {
+        arr1.map(i => {
+          if (i.selected) num += 1;
+          return i;
+        });
+
+        if (num === arr1.length) {
+          arr1.map(i => {
+            const j = i;
+            j.selected = false;
+            return j;
+          });
+        } else {
+          arr1.map(i => {
+            const j = i;
+            j.selected = true;
+            arr2.push(j.id);
+            return j;
+          });
+        }
+      }
+
+      return { members: arr1, selMembers: arr2 };
+    });
   };
 
   render() {
