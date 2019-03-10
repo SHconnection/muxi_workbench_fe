@@ -16,7 +16,6 @@ import "./personalAttention.css";
 
 const PersonalAttention = ({
   storeId,
-  storePer,
   match: {
     params: { uid }
   }
@@ -109,9 +108,7 @@ const PersonalAttention = ({
                 deleteFunc(mem);
               }}
             >
-              {parseInt(storeId, 10) === parseInt(storePer, 10)
-                ? "取消关注"
-                : ""}
+              {parseInt(storeId, 10) === parseInt(uid, 10) ? "取消关注" : ""}
             </span>
           </div>
         </div>
@@ -161,20 +158,17 @@ PersonalAttention.propTypes = {
       uid: PropTypes.string
     })
   }),
-  storeId: PropTypes.number,
-  storePer: PropTypes.number
+  storeId: PropTypes.number
 };
 
 PersonalAttention.defaultProps = {
   history: {},
   match: {},
-  storeId: 0,
-  storePer: 0
+  storeId: 0
 };
 
 const mapStateToProps = state => ({
-  storeId: state.id,
-  storePer: state.per
+  storeId: state.id
 });
 
 export default connect(mapStateToProps)(PersonalAttention);

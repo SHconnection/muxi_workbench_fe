@@ -168,7 +168,7 @@ class Detail extends Component {
     ) : (
       <div className="subject cardContainer">
         <div className="status-detail-head">
-          <Goback className="status-detail-back" width="33px" height="33px" />
+          <Goback />
           <div className="stauts-detail-second">
             <div className="status-detail-title">{title}</div>
             <span className="status-detail-name">{username}</span>

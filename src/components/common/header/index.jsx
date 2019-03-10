@@ -7,7 +7,6 @@ import logo from "../../../assets/img/logo@2x.png";
 import searchIcon from "../../../assets/svg/commonIcon/search.svg";
 import Avatar from "../avatar/index";
 import Inform from "./inform/index";
-import { Store } from "../../../store";
 import "./index.css";
 
 class Header extends Component {
@@ -97,16 +96,9 @@ class Header extends Component {
             </div>
             <Link
               className="header-avatar"
-              to={`/teamMember/personalInfo/${storeId}`}
-              onClick={() => {
-                Store.dispatch({
-                  type: "substitutePer",
-                  payload: storeId
-                });
-                Store.dispatch({
-                  type: "substitutePerRole",
-                  payload: storeRole
-                });
+              to={{
+                pathname: `/teamMember/personalInfo/${storeId}`,
+                state: { uRole: storeRole }
               }}
             >
               <Avatar src={storeAvatar} />

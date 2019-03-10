@@ -68,6 +68,7 @@ class Dynamic extends Component {
       if (hasNext) {
         FeedService.getFeedList(pageNum + 1)
           .then(feeds => {
+            console.log("feeds", feeds);
             if (feeds) {
               const arr1 = feeds.dataList.map(feed1 => {
                 const feedList = feed1;

@@ -58,8 +58,6 @@
   vertical-align: middle;
   margin-left: 4px;
 }
-<<<<<<< HEAD
-=======
 .feed-divider{
     display: flex;
     align-items: center;
@@ -123,7 +121,6 @@
     margin-left: 4px;
 }
 
->>>>>>> 2069d77f7a85c15ded7e93025307504d54b84481
 .feedItem-linkUername{
     max-width: 100px;
 }

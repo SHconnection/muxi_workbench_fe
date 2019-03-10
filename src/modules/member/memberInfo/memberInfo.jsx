@@ -5,7 +5,6 @@ import React from "react";
 import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
 import Avatar from "../../../components/common/avatar/index";
-import { Store } from "../../../store";
 import "../../../static/css/common.css";
 import "./memberInfo.css";
 
@@ -25,16 +24,9 @@ const userGroup = group => {
 const MemberInfo = ({ mem, square }) => (
   <div className="memberInfo-contain">
     <Link
-      to={`/teamMember/personalInfo/${mem.id || mem.userID}`}
-      onClick={() => {
-        Store.dispatch({
-          type: "substitutePer",
-          payload: mem.id || mem.userID
-        });
-        Store.dispatch({
-          type: "substitutePerRole",
-          payload: mem.role || 1
-        });
+      to={{
+        pathname: `/teamMember/personalInfo/${mem.id || mem.userID}`,
+        state: { uRole: mem.role || 1 }
       }}
     >
       <div className="memberInfo-img">
