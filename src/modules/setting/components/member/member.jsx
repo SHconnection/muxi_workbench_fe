@@ -10,7 +10,7 @@ transferMsg更新父组件数据
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import "static/css/common.css";
-import "./member.css";
+import "./member.scss";
 
 class Member extends Component {
   onlyOne(item1) {

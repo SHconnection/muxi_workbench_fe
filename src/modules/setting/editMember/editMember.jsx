@@ -243,7 +243,7 @@ class EditMember extends Component {
     } = this.props;
 
     return (
-      <div>
+      <div className="setting-editMember">
         {loading ? (
           <Loading />
         ) : (
@@ -259,23 +259,25 @@ class EditMember extends Component {
               proId={Number(id)}
               memberLoading={memberLoading}
             />
+            <div className="footer">
+              <button
+                type="button"
+                className="saveBtn"
+                onClick={this.editProjectMember}
+              >
+                {ifSave ? "已保存" : "保存项目成员"}
+              </button>
+              <span
+                role="button"
+                tabIndex="-1"
+                className="fakeBtn editMember-btnMarg"
+                onClick={this.goBack}
+                onKeyDown={this.handleClick}
+              >
+                取消
+              </span>
+            </div>
 
-            <button
-              type="button"
-              className="saveBtn footerBtn"
-              onClick={this.editProjectMember}
-            >
-              {ifSave ? "已保存" : "保存项目成员"}
-            </button>
-            <span
-              role="button"
-              tabIndex="-1"
-              className="fakeBtn footerBtn editMember-btnMarg"
-              onClick={this.goBack}
-              onKeyDown={this.handleClick}
-            >
-              取消
-            </span>
             <Save ifSave={ifSave} />
           </div>
         )}

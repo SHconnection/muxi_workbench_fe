@@ -14,9 +14,17 @@
   display: inline-block;
   color: #404040;
   width: 80px;
-  text-align: right;
+  text-align: left;
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
   vertical-align: middle;
+}
+.setting-editMember {
+  .footer {
+    margin-top: 70px;
+    padding: 0;
+    display: flex;
+    align-items: center;
+  }
 }
