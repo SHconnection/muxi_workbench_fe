@@ -282,6 +282,7 @@ input[type="checkbox"]:checked + label::after {
   height: 0;
 }
 .noneInfoTip {
+  padding: 20px 0;
   text-align: center;
   color: rgb(133, 131, 131);
 }
