@@ -125,28 +125,30 @@ const PersonalInfo = ({
               </NavLink>
             </div>
           </div>
-          <Switch>
-            <Redirect
-              exact
-              path="/teamMember/personalInfo/:uid"
-              to={{
-                pathname: `/teamMember/personalInfo/${uid}/personalAttention`,
-                state: { uRole }
-              }}
-            />
-            <Route
-              path="/teamMember/personalInfo/:uid/personalDynamic"
-              component={Dynamic}
-            />
-            <Route
-              path="/teamMember/personalInfo/:uid/personalAttention"
-              component={PersonalAttention}
-            />
-            <Route
-              path="/teamMember/personalInfo/:uid/personalProgress"
-              component={Progress}
-            />
-          </Switch>
+          <div className="personalInfo-tabLoadingContainer">
+            <Switch>
+              <Redirect
+                exact
+                path="/teamMember/personalInfo/:uid"
+                to={{
+                  pathname: `/teamMember/personalInfo/${uid}/personalAttention`,
+                  state: { uRole }
+                }}
+              />
+              <Route
+                path="/teamMember/personalInfo/:uid/personalDynamic"
+                component={Dynamic}
+              />
+              <Route
+                path="/teamMember/personalInfo/:uid/personalAttention"
+                component={PersonalAttention}
+              />
+              <Route
+                path="/teamMember/personalInfo/:uid/personalProgress"
+                component={Progress}
+              />
+            </Switch>
+          </div>
         </div>
       )}
     </div>

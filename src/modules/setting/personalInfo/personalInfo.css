@@ -50,3 +50,8 @@
     font-weight: bold;
     color: #1D4CB5;
 }
+.personalInfo-tabLoadingContainer{
+    position: relative;
+    min-height: 100px;
+    height: 100%;
+}

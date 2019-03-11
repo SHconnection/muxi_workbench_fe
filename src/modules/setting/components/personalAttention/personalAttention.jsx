@@ -82,9 +82,7 @@ const PersonalAttention = ({
               {mem.fileName}
             </span>
           </Link>
-
           <br />
-
           <span className="tip">
             项目：
             {mem.projectName}
@@ -93,17 +91,17 @@ const PersonalAttention = ({
 
         <div className="IB">
           <div className="personalAttention-litSel">
-            {mem.userName}
-
-            {mem.date}
-
+            <span className="personalAttention-name" title={mem.userName}>
+              {mem.userName}
+            </span>
+            <span className="personalAttention-name" title={mem.date}>
+              {mem.date}
+            </span>
             <span
               role="button"
               tabIndex="-1"
               className="fakeBtn personalAttention-btnMargin"
-              onKeyDown={() => {
-                deleteFunc(mem);
-              }}
+              onKeyDown={() => {}}
               onClick={() => {
                 deleteFunc(mem);
               }}
@@ -116,35 +114,31 @@ const PersonalAttention = ({
     );
   };
 
-  return (
+  return loading ? (
+    <Loading />
+  ) : (
     <div className="present">
-      {loading ? (
-        <Loading />
-      ) : (
-        <div>
-          <div className="noneInfoTip">
-            {members.length > 0 ? (
-              <List
-                width={880}
-                height={500}
-                rowHeight={80}
-                rowRenderer={renderRow}
-                rowCount={members.length}
-              />
-            ) : (
-              "暂时未关注文档~"
-            )}
-          </div>
-
-          <Delete
-            name="确认要取消关注该项目吗?"
-            data={data}
-            deleteX={deleteX}
-            transferMsg={transferMsgDel}
-            attentionDel
+      <div className="noneInfoTip">
+        {members.length > 0 ? (
+          <List
+            width={880}
+            height={500}
+            rowHeight={80}
+            rowRenderer={renderRow}
+            rowCount={members.length}
           />
-        </div>
-      )}
+        ) : (
+          "暂时未关注文档~"
+        )}
+      </div>
+
+      <Delete
+        name="确认要取消关注该项目吗?"
+        data={data}
+        deleteX={deleteX}
+        transferMsg={transferMsgDel}
+        attentionDel
+      />
     </div>
   );
 };
