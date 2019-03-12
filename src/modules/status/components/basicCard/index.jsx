@@ -100,7 +100,7 @@ class Item extends Component {
               className={!isPersonal ? "open" : "open-person"}
               target="_blank"
             >
-              展开
+              详情
             </Link>
           </div>
         </div>

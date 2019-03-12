@@ -1,0 +1,73 @@
+.teamMember {
+  .container {
+    position: relative;
+    min-height: 600px;
+  }
+}
+.teamMember-title {
+  display: block;
+  font-size: 24px;
+  margin-bottom: 16px;
+}
+.teamMember-select {
+  display: flex;
+  width: 540px;
+  overflow: scroll;
+}
+.teamMember-selectItem {
+  height: 31px;
+  line-height: 31px;
+  padding: 0 10px;
+  border-radius: 32px;
+  /*中文会换行*/
+  white-space: nowrap;
+  margin-right: 12px;
+}
+.teamMember-singleItem {
+  border: 0;
+  display: inline-block;
+  background-color: #d7f0ff;
+  font-size: 16px;
+  color: #919191;
+}
+.teamMember-singleItemSelected {
+  background-color: #1d4cb5;
+  color: #fbfbfb;
+}
+.teamMember-fakeMarg {
+  margin-right: 12px;
+}
+.teamMember-present {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+}
+.teamMember-singleList {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  border-top: solid 1px #979797;
+  padding: 16px 0;
+}
+.teamMember-emailMarg {
+  margin-right: 100px;
+  width: 250px;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+}
+.teamMember-applyList {
+  position: relative;
+}
+.teamMember-inform {
+  position: absolute;
+  left: 98%;
+  top: -25%;
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border-radius: 50% 50%;
+  background-color: red;
+}
