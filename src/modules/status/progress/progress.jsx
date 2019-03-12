@@ -99,9 +99,7 @@ class Progress extends Component {
       isPersonal ? (
         <Loading />
       ) : (
-        <CardContainer>
-          <Loading />
-        </CardContainer>
+        <Loading className="status-loading" />
       )
     ) : (
       <div>

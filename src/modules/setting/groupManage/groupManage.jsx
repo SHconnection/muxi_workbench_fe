@@ -106,7 +106,7 @@ class GroupManage extends Component {
               </button>
             </Link>
             <br />
-            <span className="groupManage-tip tip">上下拖动对分组排序</span>
+            {/* <span className="groupManage-tip tip">上下拖动对分组排序</span> */}
 
             <DragDropContext onDragEnd={this.onDragEnd}>
               <Droppable droppableId="droppable">

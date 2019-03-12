@@ -6,11 +6,10 @@
 import React from "react";
 import PropTypes from "prop-types";
 import Select from "components/common/select/index";
-import GoBack from "components/common/goBack/index";
 import Loading from "components/common/loading/index";
 import Member from "../../../setting/components/member/member";
 import "static/css/common.css";
-import "./firstEditMember.css";
+import "./firstEditMember.scss";
 
 const FirstEditMember = ({
   selAll,
@@ -23,39 +22,38 @@ const FirstEditMember = ({
   proId,
   memberLoading
 }) => (
-  <div>
-    <GoBack />
+  <div className="firstEditMember">
+    {/* <GoBack /> */}
     <div className="title">编辑项目成员</div>
     <br />
-    <div className="firstEditMember-vice">
-      <div className="title littleSize">设置项目成员</div>
-      <div className="firstEditMember-tip">选择你要设置的成员</div>
+    <div className="header">
+      <div className="firstEditMember-vice">
+        <div className="title littleSize">设置项目成员</div>
+        <div className="firstEditMember-tip">选择你要设置的成员</div>
+      </div>
+      <dir className="right">
+        <label
+          htmlFor="selectAll"
+          className="fakeBtn firstEditMember-fontSize"
+          onKeyDown={selAll}
+          onClick={selAll}
+          role="button"
+          tabIndex="-1"
+          id="lab"
+        >
+          {members.length === selMembers.length ? "取消全选" : "全选"}
+        </label>
+        <div className="firstEditMember-inlineWidth">
+          <Select
+            items={groups}
+            checkedIndex={checkedIndex}
+            onChange={changeGroupCheck}
+            proId={proId}
+          />
+        </div>
+      </dir>
     </div>
-    {/* <input
-      type="checkbox"
-      id="selectAll"
-      checked={hasSelectAll}
-      readOnly
-    /> */}
-    <label
-      htmlFor="selectAll"
-      className="fakeBtn firstEditMember-fontSize"
-      onKeyDown={selAll}
-      onClick={selAll}
-      role="button"
-      tabIndex="-1"
-      id="lab"
-    >
-      全选
-    </label>
-    <div className="firstEditMember-inlineWidth">
-      <Select
-        items={groups}
-        checkedIndex={checkedIndex}
-        onChange={changeGroupCheck}
-        proId={proId}
-      />
-    </div>
+
     {memberLoading ? (
       <Loading />
     ) : (

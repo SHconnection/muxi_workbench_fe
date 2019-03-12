@@ -216,10 +216,9 @@ input[type="checkbox"]:checked + label::after {
   left: 0;
   top: 0;
   box-shadow: none;
-  background-color: #fff;
+  background-color: #fbfbfb;
   height: 100%;
   width: 100%;
-  background: transparent;
   transform: none;
   z-index: 8;
   margin: 0;
@@ -283,6 +282,7 @@ input[type="checkbox"]:checked + label::after {
   height: 0;
 }
 .noneInfoTip {
+  padding: 20px 0;
   text-align: center;
   color: rgb(133, 131, 131);
 }

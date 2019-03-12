@@ -8,11 +8,11 @@ export const Button = styled("span")`
   background-color: ${props =>
     props.reversed
       ? props.active
-        ? "white"
-        : "white"
+        ? "transparent"
+        : "transparent"
       : props.active
         ? "#eee"
-        : "white"};
+        : "transparent"};
 `;
 
 export const Menu = styled("div")`

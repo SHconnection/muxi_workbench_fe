@@ -11,7 +11,7 @@ import Loading from "components/common/loading/index";
 import { Store } from "store";
 import MemberInfo from "../memberInfo/memberInfo";
 import "static/css/common.css";
-import "./teamMember.css";
+import "./teamMember.scss";
 
 class TeamMember extends Component {
   static changeGroupMemberFormat(mem) {
@@ -193,7 +193,7 @@ class TeamMember extends Component {
     return loading ? (
       <Loading />
     ) : (
-      <div>
+      <div className="teamMember">
         <b className="teamMember-title">木犀团队</b>
 
         <div className="teamMember-present">
@@ -254,20 +254,21 @@ class TeamMember extends Component {
             </Link>
           </div>
         </div>
-
-        {memberLoading ? (
-          <Loading />
-        ) : members.length > 0 ? (
-          <List
-            width={880}
-            height={600}
-            rowHeight={100}
-            rowRenderer={renderRow}
-            rowCount={members.length}
-          />
-        ) : (
-          <p className="noneInfoTip">该分类暂无成员～</p>
-        )}
+        <div className="container">
+          {memberLoading ? (
+            <Loading />
+          ) : members.length > 0 ? (
+            <List
+              width={880}
+              height={600}
+              rowHeight={100}
+              rowRenderer={renderRow}
+              rowCount={members.length}
+            />
+          ) : (
+            <p className="noneInfoTip">该分类暂无成员～</p>
+          )}
+        </div>
       </div>
     );
   }

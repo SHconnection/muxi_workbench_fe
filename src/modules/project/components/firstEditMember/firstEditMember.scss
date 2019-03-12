@@ -11,8 +11,20 @@
   font-size: 16px;
   color: #404040;
 }
-.firstEditMember-inlineWidth{
+.firstEditMember-inlineWidth {
   display: inline-block;
   width: 96px;
   margin-left: 15px;
+}
+.firstEditMember {
+  .header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    .right {
+      display: flex;
+      align-items: center;
+      padding-right: 55px;
+    }
+  }
 }

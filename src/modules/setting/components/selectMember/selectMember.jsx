@@ -9,7 +9,7 @@ import { Store } from "store";
 import Save from "../save/save";
 import Member from "../member/member";
 import "static/css/common.css";
-import "./selectMember.css";
+import "./selectMember.scss";
 
 class SelectMember extends Component {
   static changeGroupMemberFormat(mem) {
@@ -310,21 +310,24 @@ class SelectMember extends Component {
     const { members, selMembers, ifSave, loading } = this.state;
 
     return (
-      <div>
+      <div className="selectMember">
         {loading ? (
           <Loading />
         ) : (
           <div className="present selectMember-present">
-            <b className="title littleSize selectMember-vice">选择成员</b>
-            <span
-              className="fakeBtn"
-              onClick={this.selAll}
-              onKeyDown={this.handleClick}
-              role="button"
-              tabIndex="-1"
-            >
-              全选
-            </span>
+            <div className="header">
+              <b className="title littleSize selectMember-vice">选择成员</b>
+              <span
+                className="fakeBtn"
+                onClick={this.selAll}
+                onKeyDown={this.handleClick}
+                role="button"
+                tabIndex="-1"
+              >
+                {members.length === selMembers.length ? "取消全选" : "全选"}
+              </span>
+            </div>
+
             <Member
               members={members}
               selMembers={selMembers}

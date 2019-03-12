@@ -667,7 +667,7 @@ class ProjectDetailIndex extends Component {
                   查看所有文件
                 </Link>
               ) : (
-                <div className="tip">赶快上传第一份文件吧~</div>
+                <div className="noneInfoTip">赶快上传第一份文件吧~</div>
               )}
             </div>
           </div>
