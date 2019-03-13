@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
 import Avatar from "../../../../components/common/avatar/index";
-import { Store } from "../../../../store";
 import "./index.css";
 
 function dividerName(kind, proName, userName) {
@@ -110,19 +109,12 @@ class feedItem extends Component {
             <Avatar src={avatarUrl} width="60" height="60" />
           </div>
           <div className="feed-action">
-            <div
-              role="button"
-              tabIndex="-1"
-              onKeyDown={() => {}}
-              onClick={() => {
-                Store.dispatch({
-                  type: "substitutePer",
-                  payload: uid || 0
-                });
-              }}
-            >
+            <div role="button" tabIndex="-1" onKeyDown={() => {}}>
               <Link
-                to={`/teamMember/personalInfo/${uid}`}
+                to={{
+                  pathname: `/teamMember/personalInfo/${uid}`,
+                  state: { uRole: 1 }
+                }}
                 className="link feedItem-linkUername"
                 title={userName}
               >

@@ -397,9 +397,22 @@ class DocPreview extends Component {
           <div className="filePreview-header">
             {/* 头部左边 */}
             <div className="filePreview-header-left">
-              <div className="filePreview-header-fileName">{docInfo.name}</div>
-              <div className="docPreview-header-creator">{docInfo.creator}</div>
-              <div className="docPreview-header-lasteditor">
+              <div
+                className="filePreview-header-fileName overflowHiddenEllipsisTip"
+                title={docInfo.name}
+              >
+                {docInfo.name}
+              </div>
+              <div
+                className="docPreview-header-creator overflowHiddenEllipsisTip"
+                title={docInfo.creator}
+              >
+                {docInfo.creator}
+              </div>
+              <div
+                className="docPreview-header-lasteditor overflowHiddenEllipsisTip"
+                title={docInfo.lasteditor + "（最新编辑）"}
+              >
                 {docInfo.lasteditor}
                 <span>（最新编辑）</span>
               </div>

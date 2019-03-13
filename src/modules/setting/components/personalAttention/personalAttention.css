@@ -4,7 +4,7 @@
     align-items: center;
     overflow: scroll;
     white-space: nowrap;
-    width: 400px;
+    width: 500px;
 }
 .personalAttention-size{
     font-size: 14px;
@@ -39,4 +39,10 @@
 }
 .personalAttention-goFile{
     cursor: pointer;
+}
+.personalAttention-name{
+    display: inline-block;
+    width: 150px;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }

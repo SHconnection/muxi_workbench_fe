@@ -8,7 +8,7 @@ import Edit from "./markdown/edit";
 const Status = props => {
   const { match } = props;
   return (
-    <div>
+    <div className="statusContainer status-noMargin">
       <Route exact path={match.url} render={() => <Index pathUrl={match} />} />
       {/* <Route exact path={match.url} component={Index} /> */}
       <Route exact path={`${match.url}/:id`} component={Detail} />

@@ -43,9 +43,9 @@ class Search extends Component {
 
   componentDidMount() {
     const { projectOption } = this.state;
-    const { storePer } = this.props;
+    const { storeId } = this.props;
 
-    ProjectService.getAllProjectList(storePer)
+    ProjectService.getAllProjectList(storeId)
       .then(res => {
         const arr = res
           .map(el => el.list)
@@ -221,17 +221,18 @@ class Search extends Component {
     );
   }
 }
+
 Search.propTypes = {
   location: PropTypes.shape({}),
-  storePer: PropTypes.number
+  storeId: PropTypes.number
 };
 Search.defaultProps = {
   location: {},
-  storePer: 0
+  storeId: 0
 };
 
 const mapStateToProps = state => ({
-  storePer: state.per
+  storeId: state.id
 });
 
 export default connect(mapStateToProps)(Search);

@@ -17,8 +17,10 @@ import "./personalInfo.css";
 
 const PersonalInfo = ({
   storeId,
-  storePerRole,
   storeRole,
+  location: {
+    state: { uRole }
+  },
   match: {
     params: { uid }
   }
@@ -70,14 +72,17 @@ const PersonalInfo = ({
               </div>
             </div>
             <Link
-              to={`/teamMember/setPersonalInfo/${per.name}`}
+              to={{
+                pathname: `/teamMember/setPersonalInfo/${per.name}`,
+                state: { uid, uRole }
+              }}
               className="personalInfo-btnMarg"
             >
               <button
                 type="button"
                 className={
                   parseInt(storeRole, 10) === 7 &&
-                  parseInt(storeRole, 10) !== parseInt(storePerRole, 10)
+                  parseInt(storeRole, 10) !== parseInt(uRole, 10)
                     ? "saveBtn personalInfo-saveBtn"
                     : "none"
                 }
@@ -91,45 +96,59 @@ const PersonalInfo = ({
               <NavLink
                 activeClassName="personalInfo-active"
                 className="llSize singleItem"
-                to={`/teamMember/personalInfo/${uid}/personalDynamic`}
+                to={{
+                  pathname: `/teamMember/personalInfo/${uid}/personalDynamic`,
+                  state: { uRole }
+                }}
               >
                 动态
               </NavLink>
               <NavLink
                 activeClassName="personalInfo-active"
                 className="llSize singleItem"
-                to={`/teamMember/personalInfo/${uid}/personalProgress`}
+                to={{
+                  pathname: `/teamMember/personalInfo/${uid}/personalProgress`,
+                  state: { uRole }
+                }}
               >
                 进度
               </NavLink>
               <NavLink
                 activeClassName="personalInfo-active"
                 className="llSize singleItem"
-                to={`/teamMember/personalInfo/${uid}/personalAttention`}
+                to={{
+                  pathname: `/teamMember/personalInfo/${uid}/personalAttention`,
+                  state: { uRole }
+                }}
               >
                 关注
               </NavLink>
             </div>
           </div>
-          <Switch>
-            <Redirect
-              exact
-              path="/teamMember/personalInfo/:uid"
-              to={`/teamMember/personalInfo/${uid}/personalAttention`}
-            />
-            <Route
-              path="/teamMember/personalInfo/:uid/personalDynamic"
-              component={Dynamic}
-            />
-            <Route
-              path="/teamMember/personalInfo/:uid/personalAttention"
-              component={PersonalAttention}
-            />
-            <Route
-              path="/teamMember/personalInfo/:uid/personalProgress"
-              component={Progress}
-            />
-          </Switch>
+          <div className="personalInfo-tabLoadingContainer">
+            <Switch>
+              <Redirect
+                exact
+                path="/teamMember/personalInfo/:uid"
+                to={{
+                  pathname: `/teamMember/personalInfo/${uid}/personalAttention`,
+                  state: { uRole }
+                }}
+              />
+              <Route
+                path="/teamMember/personalInfo/:uid/personalDynamic"
+                component={Dynamic}
+              />
+              <Route
+                path="/teamMember/personalInfo/:uid/personalAttention"
+                component={PersonalAttention}
+              />
+              <Route
+                path="/teamMember/personalInfo/:uid/personalProgress"
+                component={Progress}
+              />
+            </Switch>
+          </div>
         </div>
       )}
     </div>
@@ -142,21 +161,24 @@ PersonalInfo.propTypes = {
       uid: PropTypes.string
     })
   }),
+  location: PropTypes.shape({
+    state: PropTypes.shape({
+      uRole: PropTypes.number
+    })
+  }),
   storeId: PropTypes.number,
-  storeRole: PropTypes.number,
-  storePerRole: PropTypes.number
+  storeRole: PropTypes.number
 };
 
 PersonalInfo.defaultProps = {
   match: {},
+  location: {},
   storeId: 0,
-  storeRole: 1,
-  storePerRole: 1
+  storeRole: 1
 };
 
 const mapStateToProps = state => ({
   storeId: state.id,
-  storePerRole: state.perRole,
   storeRole: state.role
 });
 

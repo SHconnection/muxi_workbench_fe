@@ -14,6 +14,7 @@ const goBack = (href, history) => {
       history.replace(href);
     }
   } else {
+    console.log(history);
     history.goBack();
   }
 };

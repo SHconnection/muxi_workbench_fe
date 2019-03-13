@@ -34,7 +34,12 @@ class SetPersonalInfo extends Component {
 
   componentDidMount() {
     const { identity, selIdentities } = this.state;
-    const { storeId, storePer, storePerRole } = this.props;
+    const {
+      storeId,
+      location: {
+        state: { uid, uRole }
+      }
+    } = this.props;
 
     ManageService.getPersonalPro(storeId)
       .then(project => {
@@ -51,7 +56,7 @@ class SetPersonalInfo extends Component {
             return obj;
           });
 
-          ManageService.getPersonalPro(storePer)
+          ManageService.getPersonalPro(uid)
             .then(pro => {
               let idList = [];
 
@@ -70,10 +75,10 @@ class SetPersonalInfo extends Component {
               identity[0].selected = false;
               identity[1].selected = true;
               selIdentities[0] = 1;
-              if (parseInt(storePerRole, 10) > 1) {
+              if (parseInt(uRole, 10) > 1) {
                 identity[0].selected = true;
                 identity[1].selected = false;
-                selIdentities[0] = parseInt(storePerRole, 10);
+                selIdentities[0] = parseInt(uRole, 10);
               }
               this.setState({
                 members: proList,
@@ -154,23 +159,21 @@ class SetPersonalInfo extends Component {
 
   saveModifyMember = () => {
     const { selIdentities, selMembers } = this.state;
-    const { storePer } = this.props;
+    const { uid } = this.props;
 
-    ManageService.saveModifyMemberIdenty(storePer, selIdentities).catch(
-      error => {
-        Store.dispatch({
-          type: "substituteWrongInfo",
-          payload: error
-        });
-      }
-    );
+    ManageService.saveModifyMemberIdenty(uid, selIdentities).catch(error => {
+      Store.dispatch({
+        type: "substituteWrongInfo",
+        payload: error
+      });
+    });
 
     const { wrong } = this.state;
     if (Object.keys(wrong).length !== 0) {
       return;
     }
 
-    ManageService.saveModifyMemberPro(storePer, selMembers)
+    ManageService.saveModifyMemberPro(uid, selMembers)
       .then(() => {
         this.setState({ ifSave: true });
 
@@ -209,7 +212,7 @@ class SetPersonalInfo extends Component {
       match: {
         params: { name }
       },
-      storePer
+      uid
     } = this.props;
 
     return (
@@ -283,7 +286,7 @@ class SetPersonalInfo extends Component {
                 deleteX={deleteX}
                 transferMsg={this.transferMsgDel}
                 memDel
-                userId={parseInt(storePer, 10)}
+                userId={parseInt(uid, 10)}
                 certain
               />
               <Delete
@@ -307,26 +310,27 @@ SetPersonalInfo.propTypes = {
       name: PropTypes.string
     })
   }),
+  location: PropTypes.shape({
+    state: PropTypes.shape({
+      uid: PropTypes.string,
+      uRole: PropTypes.number
+    })
+  }),
   history: PropTypes.shape({
     push: PropTypes.func
   }),
-  storeId: PropTypes.number,
-  storePer: PropTypes.number,
-  storePerRole: PropTypes.number
+  storeId: PropTypes.number
 };
 
 SetPersonalInfo.defaultProps = {
   match: {},
+  location: {},
   history: {},
-  storeId: 0,
-  storePer: 0,
-  storePerRole: 1
+  storeId: 0
 };
 
 const mapStateToProps = state => ({
-  storeId: state.id,
-  storePer: state.per,
-  storePerRole: state.perRole
+  storeId: state.id
 });
 
 export default connect(mapStateToProps)(SetPersonalInfo);
