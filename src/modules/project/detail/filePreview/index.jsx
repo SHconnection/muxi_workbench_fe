@@ -2,6 +2,8 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { Store } from "store";
+import Loading from "components/common/loading";
+
 import MessageService from "../../../../service/message";
 import FileService from "../../../../service/file";
 import ProjectService from "../../../../service/project";
@@ -13,13 +15,14 @@ import Button from "../../../../components/common/button/index";
 import Goback from "../../../../components/common/goBack/index";
 import FileIcon from "../../components/fileIcon/index";
 import "../../../../static/css/common.css";
-import "./index.css";
+import "./index.scss";
 
 class DocPreview extends Component {
   constructor(props) {
     super(props);
     const { match } = this.props;
     this.state = {
+      loading: true,
       pid: parseInt(match.params.pid, 0),
       id: parseInt(match.params.id, 0),
       isFocus: false,
@@ -53,16 +56,25 @@ class DocPreview extends Component {
   }
 
   componentWillMount() {
-    this.getFileInfo();
-    this.getFileTree();
-    this.isFocus();
-    this.getCommentList();
+    this.setState({
+      loading: true
+    });
+    Promise.all([
+      this.getFileInfo(),
+      this.getFileTree(),
+      this.isFocus(),
+      this.getCommentList()
+    ]).then(() => {
+      this.setState({
+        loading: false
+      });
+    });
   }
 
   // 获取当前页面评论列表
   getCommentList() {
     const { id, pid } = this.state;
-    ProjectService.getCommentList(pid, id)
+    return ProjectService.getCommentList(pid, id)
       .then(res => {
         this.setState({
           commentList: res.commentList
@@ -87,7 +99,7 @@ class DocPreview extends Component {
       folder: [],
       file: [id]
     };
-    FileService.getFileList(postData)
+    return FileService.getFileList(postData)
       .then(res => {
         const { creator } = res.FileList[0];
         const regex = /\D/;
@@ -104,14 +116,13 @@ class DocPreview extends Component {
           type: "substituteWrongInfo",
           payload: error
         });
-      })
-      .finally(() => {});
+      });
   }
 
   // 请求该文件所在的树
   getFileTree() {
     const { id, pid } = this.state;
-    FileTree.getFileTree(pid)
+    return FileTree.getFileTree(pid)
       .then(el => {
         this.getFileUrl(id, el);
       })
@@ -120,8 +131,7 @@ class DocPreview extends Component {
           type: "substituteWrongInfo",
           payload: error
         });
-      })
-      .finally(() => {});
+      });
   }
 
   // 算出文件的路径
@@ -164,7 +174,7 @@ class DocPreview extends Component {
   isFocus() {
     const { id } = this.state;
     // const { isFocus } = this.state
-    MessageService.getMyAttentionFiles()
+    return MessageService.getMyAttentionFiles()
       .then(res => {
         const find = res.list
           .filter(item => item.fileKind === 1)
@@ -234,26 +244,6 @@ class DocPreview extends Component {
     }
   }
 
-  // 跳转页面
-  // selectPage(page) {
-  //   const { pid, id, pageNums, currentPage } = this.state;
-  //   if (page > 0 && page <= pageNums && page !== currentPage) {
-  //     ProjectService.getCommentList(pid, id, page)
-  //       .then(res => {
-  //         this.setState({
-  //           commentList: res.commentList,
-  //           currentPage: page
-  //         });
-  //       })
-  //       .catch(error => {
-  //         Store.dispatch({
-  //           type: "substituteWrongInfo",
-  //           payload: error
-  //         })
-  //       });
-  //   }
-  // }
-
   render() {
     const {
       pid,
@@ -264,26 +254,55 @@ class DocPreview extends Component {
       createTime,
       commentList,
       commentInput,
+      loading,
       // currentPage,
       // pageNums,
       isFocus
     } = this.state;
     const { storeAvatar } = this.props;
 
-    return (
+    return loading ? (
+      <Loading />
+    ) : (
       <div className="projectDetail-container">
-        <Goback />
         <div className="filePreview-content">
-          <div className="filePreview-header-url">
-            路径：
-            {fileUrlWithId.map((el, index) => (
-              <span key={el.id}>
-                {index ? <span> - </span> : ""}
-                {/* <a href={`../fileFolder/${el.id}`}>{el.name}</a> */}
-                <a href={`/project/${pid}/fileFolder/${el.id}`}>{el.name}</a>
-              </span>
-            ))}
+          <div className="header">
+            <div className="left">
+              <Goback />
+              <div className="filePreview-header-url">
+                路径：
+                {fileUrlWithId.map((el, index) => (
+                  <span key={el.id}>
+                    {index ? <span> - </span> : ""}
+                    {/* <a href={`../fileFolder/${el.id}`}>{el.name}</a> */}
+                    <a href={`/project/${pid}/fileFolder/${el.id}`}>
+                      {el.name}
+                    </a>
+                  </span>
+                ))}
+              </div>
+            </div>
+
+            <div className="right">
+              <div
+                onClick={this.focusFile}
+                onMouseDown={() => {}}
+                role="presentation"
+                className="item"
+              >
+                {isFocus ? "取消关注" : "关注"}
+              </div>
+              {/* <div>编辑</div> */}
+              <a
+                className="item"
+                href={`${fileInfo.url}?attname=${fileInfo.name}`}
+                download={fileInfo.name}
+              >
+                下载
+              </a>
+            </div>
           </div>
+
           {/*  头部 */}
           <div className="filePreview-header">
             {/* 头部左边 */}
@@ -310,22 +329,7 @@ class DocPreview extends Component {
               </div>
             </div>
             {/* 头部右边 */}
-            <div className="filePreview-header-right">
-              <div
-                onClick={this.focusFile}
-                onMouseDown={() => {}}
-                role="presentation"
-              >
-                {isFocus ? "取消关注" : "关注"}
-              </div>
-              {/* <div>编辑</div> */}
-              <a
-                href={`${fileInfo.url}?attname=${fileInfo.name}`}
-                download={fileInfo.name}
-              >
-                下载
-              </a>
-            </div>
+            <div className="filePreview-header-right" />
           </div>
           <hr className="status-detail-line" />
           {/* 评论列表 */}

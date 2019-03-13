@@ -55,13 +55,12 @@ class FileIcon extends Component {
     if (suffix === "jpg" || suffix === "png") {
       imgStyle = {
         width: "135px",
-        height: "86px",
-        background: `url(${fileItem.url}) no-repeat center / contain`
+        height: "auto"
       };
       return (
         <div className="fileIcon-container">
           <div className="fileIcon-img">
-            <div style={imgStyle} />
+            <img alt="file icon" style={imgStyle} src={fileItem.url} />
           </div>
         </div>
       );

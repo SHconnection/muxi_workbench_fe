@@ -12,7 +12,7 @@
   left: 165px;
 }
 
-input[type="text"].create-file-alert-input{
+input[type="text"].create-file-alert-input {
   border-radius: 0;
   padding: 0;
   font-size: 16px;
@@ -53,7 +53,7 @@ input[type="text"].create-file-alert-input{
   width: 161px;
   height: 24px;
   font-size: 16px;
-  color: rgba(64,64,64,1);
+  color: rgba(64, 64, 64, 1);
   line-height: 24px;
 }
 
@@ -73,11 +73,11 @@ input[type="text"].create-file-alert-input{
   position: absolute;
   top: 15px;
   left: 31px;
-  width:185px;
-  height:24px;
-  font-size:16px;
-  color:rgba(64,64,64,1);
-  line-height:24px;
+  width: 185px;
+  height: 24px;
+  font-size: 16px;
+  color: rgba(64, 64, 64, 1);
+  line-height: 24px;
 }
 
 .move-file-alert-cancel {
@@ -96,10 +96,10 @@ input[type="text"].create-file-alert-input{
   position: absolute;
   top: 46px;
   left: 35px;
-  width:374px;
-  height:140px;
-  border-radius:2px;
-  border:1px solid rgba(189,189,189,1);
+  width: 374px;
+  height: 140px;
+  border-radius: 2px;
+  border: 1px solid rgba(189, 189, 189, 1);
 }
 
 .projectDetail-content {
@@ -158,10 +158,10 @@ input[type="text"].create-file-alert-input{
 }
 
 .projectDetail-file-title {
-  font-size:20px;
-  font-weight:bold;
-  color:rgba(29,76,181,1);
-  line-height:26px;
+  font-size: 20px;
+  font-weight: bold;
+  color: rgba(29, 76, 181, 1);
+  line-height: 26px;
 }
 
 .projectDetail-file-select {
@@ -176,10 +176,17 @@ input[type="text"].create-file-alert-input{
 }
 
 .file-item {
-  width: 25%;
+  margin-right: 104px;
   margin-top: 34px;
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
+.file-item:nth-child(3n + 1) {
+  margin-right: 0;
+}
+
+.file-item:first-child {
+  margin-right: 104px;
+}
