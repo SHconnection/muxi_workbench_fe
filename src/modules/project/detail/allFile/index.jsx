@@ -1,5 +1,7 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
+import Loading from "components/common/loading";
+
 import AlertMoveFile from "../../components/alertMoveFile";
 import AlertDeleteFile from "../../components/alertDeleteFile";
 import AlertCreateFolder from "../../components/alertCreateFolder";
@@ -22,6 +24,7 @@ class ProjectDetailAllFile extends Component {
     super(props);
     const { match } = this.props;
     this.state = {
+      loading: true,
       // 当前项目id
       pid: parseInt(match.params.pid, 0),
       // 当前正在操作的fileid
@@ -128,6 +131,9 @@ class ProjectDetailAllFile extends Component {
 
   // 根据文件树更新当前视图的文件
   updateFilesList(id) {
+    this.setState({
+      loading: true
+    });
     const { pid } = this.state;
     const fileRootId = id;
     // 请求树
@@ -143,20 +149,18 @@ class ProjectDetailAllFile extends Component {
         FileService.getFileList(FileTree.findFileIdList(fileRootId, res))
           .then(res1 => {
             this.setState({
-              filesList: res1
+              filesList: res1,
+              loading: false
             });
             this.hideAlert();
-            //
           })
           .catch(res1 => {
             console.error(res1);
-          })
-          .finally(() => {});
+          });
       })
       .catch(res => {
         console.error(res);
-      })
-      .finally(() => {});
+      });
   }
 
   // 开始创建文件（夹）
@@ -319,33 +323,6 @@ class ProjectDetailAllFile extends Component {
         currentFileFolderId: id
       });
     }
-    // if (str === "file" || str === "fileFolder") {
-    //   this.setState({
-    //     showMoveFile: true
-    //   });
-    //   if (str === "file") {
-    //     this.setState({
-    //       currentFileId: id
-    //     });
-    //   } else {
-    //     this.setState({
-    //       currentFileFolderId: id
-    //     });
-    //   }
-    // } else {
-    //   this.setState({
-    //     showMoveDoc: true
-    //   });
-    //   if (str === "doc") {
-    //     this.setState({
-    //       currentDocId: id
-    //     });
-    //   } else {
-    //     this.setState({
-    //       currentDocFolderId: id
-    //     });
-    //   }
-    // }
   }
 
   // 确认移动文件
@@ -446,7 +423,8 @@ class ProjectDetailAllFile extends Component {
       : {
           visibility: "visible"
         };
-    return (
+
+    return !this.state.loading ? (
       <div className="projectDetail-container">
         <GoBack />
         <div className="projectDetail-content">
@@ -501,9 +479,7 @@ class ProjectDetailAllFile extends Component {
               ))}
               {!filesList.FolderList.length && !filesList.FileList.length ? (
                 <div className="tip">什么都没有哦～</div>
-              ) : (
-                ""
-              )}
+              ) : null}
             </div>
           ) : (
             <div className="projectDetail-allFile-list">
@@ -520,9 +496,7 @@ class ProjectDetailAllFile extends Component {
                   </div>
                   <div className="projectDetail-allFile-list-url">路径</div>
                 </div>
-              ) : (
-                ""
-              )}
+              ) : null}
               {filesList.FileList.map((el, index) => (
                 <div key={el.id}>
                   <FileList
@@ -546,42 +520,6 @@ class ProjectDetailAllFile extends Component {
             confirmCreate={this.confirmCreateFile}
           />
         )}
-        {/* {showCreateFile && (
-          <div className="createFileAlert">
-            <ReactSVG
-              className="create-file-alert-icon"
-              path={CreateFileAlertIcon}
-            />
-            <input
-              className="create-file-alert-input"
-              type="text"
-              placeholder="编辑文件夹名"
-              value={newFileInputText}
-              onChange={this.changeNewFileInputText}
-            />
-            <div className="create-file-alert-cancel">
-              <Button
-                onClick={this.hideAlert}
-                text="取消"
-                width="65"
-                height="32"
-                border="1px solid RGBA(217, 217, 217, 1)"
-                bgColor="RGBA(255, 255, 255, 1)"
-                textColor="RGBA(64, 64, 64, 1)"
-                fontSize="14"
-              />
-            </div>
-            <div className="create-file-alert-done">
-              <Button
-                onClick={this.confirmCreateFile}
-                text="确定"
-                width="65"
-                height="32"
-                fontSize="14"
-              />
-            </div>
-          </div>
-        )} */}
         {/* 删除文件弹出框 */}
         {showDleteFile && (
           <AlertDeleteFile
@@ -590,32 +528,6 @@ class ProjectDetailAllFile extends Component {
             confirmDelete={this.confirmDeleteFile}
           />
         )}
-        {/* {showDleteFile && (
-          <div className="deleteFileAlert">
-            <div className="delete-file-alert-tip">确认要删除该文件吗</div>
-            <div className="delete-file-alert-cancel">
-              <Button
-                onClick={this.hideAlert}
-                text="取消"
-                width="65"
-                height="32"
-                border="1px solid RGBA(217, 217, 217, 1)"
-                bgColor="RGBA(255, 255, 255, 1)"
-                textColor="RGBA(64, 64, 64, 1)"
-                fontSize="14"
-              />
-            </div>
-            <div className="delete-file-alert-done">
-              <Button
-                onClick={this.confirmDeleteFile}
-                text="确定"
-                width="65"
-                height="32"
-                fontSize="14"
-              />
-            </div>
-          </div>
-        )} */}
         {/* 移动文件弹出框 */}
         {showMoveFile ? (
           <AlertMoveFile
@@ -623,71 +535,10 @@ class ProjectDetailAllFile extends Component {
             cancel={this.hideAlert}
             confirmMoveFile={this.confirmMoveFile}
           />
-        ) : (
-          ""
-        )}
-        {/* {showMoveFile && (
-          <div className="moveFileAlert">
-            <div className="move-file-alert-tip">选择保存路径</div>
-            <div className="move-file-tree-container">
-              <Scrollbars>
-                <FileTreeComponent
-                  root={fileTree}
-                  select={() => {
-                    const fileRootTemp = Object.assign({}, fileTree);
-                    fileRootTemp.selected = !fileRootTemp.selected;
-                    FileTree.initNodeSelected(fileRootTemp);
-                    this.setState({
-                      fileTree: fileRootTemp
-                    });
-                  }}
-                  finalSelect={el => {
-                    const fileRootTemp = Object.assign({}, fileTree);
-                    FileTree.initNodeFinalSelected(fileRootTemp);
-                    let fatherId;
-                    if (el.selected || el.router.length === 1) {
-                      fatherId = el.id;
-                    } else {
-                      // 取消选中
-                      fatherId = el.router[el.router.length - 2];
-                    }
-                    const fatherNode = FileTree.searchNode(
-                      fatherId,
-                      fileRootTemp
-                    );
-                    fatherNode.finalSelected = true;
-                    this.setState({
-                      fileTree: fileRootTemp,
-                      finalMoveFileId: fatherNode.id
-                    });
-                  }}
-                />
-              </Scrollbars>
-            </div>
-            <div className="move-file-alert-cancel">
-              <Button
-                onClick={this.hideAlert}
-                text="取消"
-                width="65"
-                height="32"
-                border="1px solid RGBA(217, 217, 217, 1)"
-                bgColor="RGBA(255, 255, 255, 1)"
-                textColor="RGBA(64, 64, 64, 1)"
-                fontSize="14"
-              />
-            </div>
-            <div className="move-file-alert-done">
-              <Button
-                onClick={this.confirmMoveFile}
-                text="确定"
-                width="65"
-                height="32"
-                fontSize="14"
-              />
-            </div>
-          </div>
-        )} */}
+        ) : null}
       </div>
+    ) : (
+      <Loading />
     );
   }
 }
