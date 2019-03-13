@@ -7,7 +7,7 @@ import logo from "../../../assets/img/logo@2x.png";
 import searchIcon from "../../../assets/svg/commonIcon/search.svg";
 import Avatar from "../avatar/index";
 import Inform from "./inform/index";
-import "./index.css";
+import "./index.scss";
 
 class Header extends Component {
   constructor(props) {
@@ -55,8 +55,10 @@ class Header extends Component {
       <div className="header-container">
         <div className="header-content">
           <div className="header-left">
-            <img className="header-logo-img" src={logo} alt="logo" />
-            <div className="header-logo-text">木犀工作台</div>
+            <NavLink to="/project" className="home-link">
+              <img className="header-logo-img" src={logo} alt="logo" />
+              <div className="header-logo-text">木犀工作台</div>
+            </NavLink>
             <div className="header-tab-container">
               <NavLink
                 to="/project"

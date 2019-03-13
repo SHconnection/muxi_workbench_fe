@@ -52,6 +52,6 @@
 }
 .personalInfo-tabLoadingContainer{
     position: relative;
-    min-height: 100px;
+    min-height: 500px;
     height: 100%;
 }

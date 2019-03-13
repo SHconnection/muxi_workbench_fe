@@ -463,7 +463,7 @@ class SlateEditor extends Component {
     } else {
       style = {
         width: "880px",
-        "min-height": "650px"
+        minHeight: "650px"
       };
     }
 

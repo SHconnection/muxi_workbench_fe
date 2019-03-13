@@ -181,9 +181,18 @@ input[type="text"].create-file-alert-input {
   display: flex;
   align-items: center;
   justify-content: center;
+  .uploading {
+    display: flex;
+    align-items: center;
+    .text {
+      margin-left: 4px;
+      font-size: 11px;
+      color: #919191;
+    }
+  }
 }
 
-.file-item:nth-child(3n + 1) {
+.file-item:nth-child(4n) {
   margin-right: 0;
 }
 

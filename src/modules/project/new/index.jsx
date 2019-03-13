@@ -5,6 +5,7 @@ import Button from "components/common/button/index";
 import Select from "components/common/select/index";
 import ManageService from "service/manage";
 import ProjectService from "service/project";
+import Loading from "components/common/loading";
 import { Store } from "store";
 import "static/css/common.css";
 import "./index.css";
@@ -57,6 +58,8 @@ class NewProject extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      submmitting: false,
+      loading: true,
       selectAllText: "全选",
       groups: [],
       groupCheckedIndex: 0,
@@ -69,6 +72,9 @@ class NewProject extends Component {
   }
 
   groupMemberInit = () => {
+    this.setState({
+      loading: true
+    });
     fetchGroups().then(re => {
       this.setState(
         {
@@ -84,18 +90,20 @@ class NewProject extends Component {
 
   // 请求group的所有组员
   fetchGroupMember = () => {
-    ManageService.groupMember(0)
-      .then(re => {
-        this.setState({
-          members: re.list.map(el => ({
-            id: el.userID,
-            name: el.username,
-            groupID: el.groupID,
-            selected: false
-          }))
-        });
-      })
-      .finally(() => {});
+    this.setState({
+      loading: true
+    });
+    ManageService.groupMember(0).then(re => {
+      this.setState({
+        loading: false,
+        members: re.list.map(el => ({
+          id: el.userID,
+          name: el.username,
+          groupID: el.groupID,
+          selected: false
+        }))
+      });
+    });
   };
 
   changeProjectnameText = event => {
@@ -168,9 +176,12 @@ class NewProject extends Component {
   };
 
   createProject = () => {
-    const { members, projectname, intro } = this.state;
+    const { members, projectname, intro, submmitting } = this.state;
     const { storeId, storeUsername } = this.props;
-
+    if (submmitting) return;
+    this.setState({
+      submmitting: true
+    });
     let chooseMe = false;
     const postProjectName = projectname.trim();
     const userlist = members.filter(el => el.selected).map(item => {
@@ -229,6 +240,8 @@ class NewProject extends Component {
       selectAllText,
       projectname,
       intro,
+      loading,
+      submmitting,
       hasInputProjectName
     } = this.state;
     const { storeId } = this.props;
@@ -276,9 +289,7 @@ class NewProject extends Component {
                       <span className="newProject-name">{selectAllText}</span>
                     </label>
                   </div>
-                ) : (
-                  ""
-                )}
+                ) : null}
                 <div className="newProject-group-select">
                   <Select
                     items={groups}
@@ -289,34 +300,36 @@ class NewProject extends Component {
               </div>
             </div>
             <div className="newProject-member-container">
-              {this.currentMember().map(item => (
-                <div className="newProject-member-item" key={item.id}>
-                  <input
-                    type="checkbox"
-                    /* eslint-disable */
-                    checked={item.selected || item.id == storeId}
-                    /* eslint-enable */
-                    onClick={() => {
-                      this.checkMember(item.id);
-                    }}
-                    readOnly
-                    id={item.id}
-                  />
-                  <label htmlFor={item.id}>
-                    <span
-                      className="newProject-name newProject-personalName"
-                      title={item.name}
-                    >
-                      {item.name}
-                    </span>
-                  </label>
-                </div>
-              ))}
-              {!this.currentMember().length ? (
+              {loading ? (
+                <Loading />
+              ) : !this.currentMember().length ? (
                 <div className="tip">还没有成员～</div>
               ) : (
-                ""
+                this.currentMember().map(item => (
+                  <div className="newProject-member-item" key={item.id}>
+                    <input
+                      type="checkbox"
+                      /* eslint-disable */
+                      checked={item.selected || item.id == storeId}
+                      /* eslint-enable */
+                      onClick={() => {
+                        this.checkMember(item.id);
+                      }}
+                      readOnly
+                      id={item.id}
+                    />
+                    <label htmlFor={item.id}>
+                      <span
+                        className="newProject-name newProject-personalName"
+                        title={item.name}
+                      >
+                        {item.name}
+                      </span>
+                    </label>
+                  </div>
+                ))
               )}
+
               <div className="newProject-member-over-helper" />
               <div className="newProject-member-over-helper" />
               <div className="newProject-member-over-helper" />
@@ -325,7 +338,10 @@ class NewProject extends Component {
             </div>
           </div>
           <div className="newProject-bottom">
-            <Button text="创建项目" onClick={this.createProject} />
+            <Button
+              text={submmitting ? "处理中" : "创建项目"}
+              onClick={this.createProject}
+            />
             <div
               className="newProject-bottom-text fakeBtn"
               onClick={gotoBack}
