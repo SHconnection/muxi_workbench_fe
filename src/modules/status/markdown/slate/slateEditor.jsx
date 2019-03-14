@@ -416,6 +416,7 @@ class SlateEditor extends Component {
 
     return (
       <Button
+        title={type}
         active={isActive}
         onMouseDown={event => this.onClickMark(event, type)}
       >

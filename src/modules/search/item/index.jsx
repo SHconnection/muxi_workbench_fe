@@ -4,7 +4,7 @@ import PropTypes from "prop-types";
 import FileService from "service/file";
 import { Store } from "store";
 import FileIcon from "../../project/components/fileIcon/index";
-import "./index.css";
+import "./index.scss";
 
 class SearchItem extends Component {
   constructor(props) {
