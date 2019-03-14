@@ -27,14 +27,14 @@ class Landing extends Component {
   componentDidMount() {
     LandingService.getEmail(User)
       .then(({ email }) => {
-        const data1 = {
-          name: email
+        const userInfo = {
+          email
         };
         Store.dispatch({
           type: "substituteEmail",
           payload: email || ""
         });
-        LandingService.getToken(data1)
+        LandingService.getToken(userInfo)
           .then(response => {
             Store.dispatch({
               type: "substituteId",

@@ -5,7 +5,7 @@ import Loading from "components/common/loading";
 import AlertMoveFile from "../../components/alertMoveFile";
 import AlertDeleteFile from "../../components/alertDeleteFile";
 import AlertCreateFolder from "../../components/alertCreateFolder";
-import { FileTree } from "../../fileTree1";
+import { FileTree } from "../../fileTree";
 import GoBack from "../../../../components/common/goBack/index";
 import Icon from "../../../../components/common/icon/index";
 import Button from "../../../../components/common/button/index";
@@ -15,6 +15,7 @@ import FolderItem from "../../components/folderItem/index";
 import FileList from "../../components/fileList/index";
 import ProjectService from "../../../../service/project";
 import FileService from "../../../../service/file";
+import Spin from "../../../../components/common/spin";
 
 import "./index.css";
 import "../../../../static/css/common.css";
@@ -24,6 +25,7 @@ class ProjectDetailAllFile extends Component {
     super(props);
     const { match } = this.props;
     this.state = {
+      uploading: false,
       loading: true,
       // 当前项目id
       pid: parseInt(match.params.pid, 0),
@@ -80,11 +82,6 @@ class ProjectDetailAllFile extends Component {
     this.updateFilesList(parseInt(match.params.id, 0));
   }
 
-  // componentWillMount() {
-  //   const { fileRootId } = this.state;
-  //   this.updateFilesList(fileRootId);
-  // }
-
   componentWillUpdate(nextProps) {
     /* eslint-disable */
     const { location } = this.props;
@@ -131,9 +128,6 @@ class ProjectDetailAllFile extends Component {
 
   // 根据文件树更新当前视图的文件
   updateFilesList(id) {
-    this.setState({
-      loading: true
-    });
     const { pid } = this.state;
     const fileRootId = id;
     // 请求树
@@ -175,6 +169,9 @@ class ProjectDetailAllFile extends Component {
       /*
       / 这里是上传文件
       */
+      this.setState({
+        uploading: true
+      });
       const formData = new FormData();
       formData.append("project_id", pid);
       formData.append("file", index);
@@ -193,6 +190,9 @@ class ProjectDetailAllFile extends Component {
                 .then(() => {
                   // 更新视图
                   this.updateFilesList(fileRootId);
+                  this.setState({
+                    uploading: false
+                  });
                 })
                 .catch(res1 => {
                   console.error(res1);
@@ -477,6 +477,14 @@ class ProjectDetailAllFile extends Component {
                   />
                 </div>
               ))}
+              {this.state.uploading ? (
+                <div className="file-item">
+                  <div className="uploading">
+                    <Spin />
+                    <div className="text">上传中</div>
+                  </div>
+                </div>
+              ) : null}
               {!filesList.FolderList.length && !filesList.FileList.length ? (
                 <div className="tip">什么都没有哦～</div>
               ) : null}

@@ -4,7 +4,7 @@ import FileService from "service/file";
 import ProjectService from "service/project";
 import { Store } from "store";
 import Edit from "../../../status/markdown/edit1";
-import { FileTree } from "../../fileTree1";
+import { FileTree } from "../../fileTree";
 import "static/css/common.css";
 import "./index.css";
 

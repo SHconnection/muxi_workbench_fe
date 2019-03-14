@@ -5,7 +5,7 @@ import Loading from "components/common/loading";
 import AlertMoveFile from "../../components/alertMoveFile";
 import AlertDeleteFile from "../../components/alertDeleteFile";
 import AlertCreateFolder from "../../components/alertCreateFolder";
-import { FileTree } from "../../fileTree1";
+import { FileTree } from "../../fileTree";
 import GoBack from "../../../../components/common/goBack/index";
 
 import Icon from "../../../../components/common/icon/index";

@@ -6,7 +6,7 @@ import Loading from "components/common/loading";
 import { Store } from "store";
 import GoBack from "../../../components/common/goBack/index";
 import Icon from "../../../components/common/icon/index";
-import { FileTree } from "../fileTree1";
+import { FileTree } from "../fileTree";
 import Spin from "../../../components/common/spin";
 import AlertMoveFile from "../components/alertMoveFile";
 import AlertDeleteFile from "../components/alertDeleteFile";

@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import Plain from "slate-plain-serializer";
 import PropTypes from "prop-types";
 import ReactSVG from "react-svg";
-import { Editor } from "slate-react";
+import { Editor } from "muxi-slate-react";
 // import { Value } from "slate";
 import { isKeyHotkey } from "is-hotkey";
 import Html from "slate-html-serializer";

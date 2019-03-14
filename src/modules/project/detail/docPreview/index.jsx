@@ -10,7 +10,7 @@ import AlertDeleteFile from "../../components/alertDeleteFile";
 import FileService from "../../../../service/file";
 import ProjectService from "../../../../service/project";
 import MessageService from "../../../../service/message";
-import { FileTree } from "../../fileTree1";
+import { FileTree } from "../../fileTree";
 import Othercomments from "../../../../components/common/otherComments/comments";
 import Avatar from "../../../../components/common/avatar/index";
 import Button from "../../../../components/common/button/index";

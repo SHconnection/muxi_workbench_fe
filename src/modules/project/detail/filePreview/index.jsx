@@ -7,7 +7,7 @@ import Loading from "components/common/loading";
 import MessageService from "../../../../service/message";
 import FileService from "../../../../service/file";
 import ProjectService from "../../../../service/project";
-import { FileTree } from "../../fileTree1";
+import { FileTree } from "../../fileTree";
 import Othercomments from "../../../../components/common/otherComments/comments";
 // import Paging from "../../../../components/common/paging/index";
 import Avatar from "../../../../components/common/avatar/index";
@@ -264,7 +264,7 @@ class DocPreview extends Component {
     return loading ? (
       <Loading />
     ) : (
-      <div className="projectDetail-container">
+      <div className="projectDetail-container filePreview-container">
         <div className="filePreview-content">
           <div className="header">
             <div className="left">
