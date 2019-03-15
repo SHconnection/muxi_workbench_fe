@@ -68,7 +68,6 @@ class Dynamic extends Component {
       if (match.path === "/feed") {
         FeedService.getFeedList(pageNum + 1)
           .then(feeds => {
-            console.log("feeds", feeds);
             if (feeds) {
               const { dataList } = this.state;
               this.setState({

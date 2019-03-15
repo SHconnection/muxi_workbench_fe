@@ -2,10 +2,13 @@ import React, { Component } from "react";
 import Plain from "slate-plain-serializer";
 import PropTypes from "prop-types";
 import ReactSVG from "react-svg";
+import { Block } from "slate";
 import { Editor } from "muxi-slate-react";
 // import { Value } from "slate";
 import { isKeyHotkey } from "is-hotkey";
 import Html from "slate-html-serializer";
+import ManageService from "service/manage";
+
 import { Button, Toolbar } from "../menu";
 import Italic from "../../../../assets/svg/MenuIcon/italic.svg";
 import Bold from "../../../../assets/svg/MenuIcon/bold.svg";
@@ -14,6 +17,7 @@ import Code from "../../../../assets/svg/MenuIcon/code.svg";
 import Quote from "../../../../assets/svg/MenuIcon/quote.svg";
 import Ulist from "../../../../assets/svg/MenuIcon/ulist.svg";
 import Orderlist from "../../../../assets/svg/MenuIcon/orderlist.svg";
+import Img from "../../../../assets/svg/MenuIcon/editor-image.svg";
 
 const DEFAULT_NODE = "paragraph";
 
@@ -36,7 +40,8 @@ const BLOCK_TAGS = {
   h4: "heading-four",
   h5: "heading-five",
   h6: "heading-six",
-  hr: "hr"
+  hr: "hr",
+  img: "image"
 };
 
 // Add a dictionary of mark tags.
@@ -56,6 +61,7 @@ const rules = [
           object: "block",
           type,
           data: {
+            src: el.getAttribute("src"),
             className: el.getAttribute("class")
           },
           nodes: next(el.childNodes)
@@ -95,6 +101,12 @@ const rules = [
             return <h6>{children}</h6>;
           case "hr":
             return <hr />;
+          case "image":
+            return (
+              <p style={{ textAlign: "center" }}>
+                <img alt="img" className="image" src={obj.data.get("src")} />
+              </p>
+            );
           default:
             break;
         }
@@ -132,6 +144,69 @@ const rules = [
   }
 ];
 
+/* eslint-disable */
+const schema = {
+  document: {
+    last: { type: "paragraph" },
+    normalize: (editor, { code, node, child }) => {
+      switch (code) {
+        case "last_child_type_invalid": {
+          const paragraph = Block.create("paragraph");
+          return editor.insertNodeByKey(node.key, node.nodes.size, paragraph);
+        }
+      }
+    }
+  },
+  blocks: {
+    image: {
+      isVoid: true
+    }
+  }
+};
+/* eslint-enable */
+
+/**
+ * A styled image block component.
+ *
+ * @type {Component}
+ */
+const Image = props => {
+  const { selected, src } = props;
+  return (
+    <p style={{ textAlign: "center" }}>
+      <img
+        {...props}
+        src={src}
+        alt="img"
+        style={{
+          maxWidth: "100%",
+          maxHeight: "20em",
+          boxShadow: `${selected ? "0 0 0 2px rgb(29, 76, 181)" : "none"}`
+        }}
+      />
+    </p>
+  );
+};
+
+/**
+ * A change function to standardize inserting images.
+ *
+ * @param {Editor} editor
+ * @param {String} src
+ * @param {Range} target
+ */
+
+function insertImage(editor, src, target) {
+  if (target) {
+    editor.select(target);
+  }
+
+  editor.insertBlock({
+    type: "image",
+    data: { src }
+  });
+}
+
 // Create a new serializer instance with our `rules` from above.
 const html = new Html({ rules });
 
@@ -150,14 +225,25 @@ class SlateEditor extends Component {
   };
 
   componentWillReceiveProps(nextProps) {
-    const { readOnly, inner, content } = nextProps;
-    // console.log(content);
-    if (readOnly && !inner) {
-      this.setState({
-        value: html.deserialize(content)
-      });
-    }
+    const { content } = nextProps;
+    this.setState({
+      value: html.deserialize(content)
+    });
   }
+
+  /**
+   * On clicking the image button, upload an image and insert it.
+   *
+   * @param {Event} event
+   */
+
+  onUploadImage = event => {
+    const data = new FormData();
+    data.append("image", event.target.files[0]);
+    ManageService.savePersonalAvatar(data).then(res => {
+      this.editor.command(insertImage, res.url);
+    });
+  };
 
   getType = chars => {
     switch (chars) {
@@ -314,6 +400,10 @@ class SlateEditor extends Component {
   };
 
   onClickBlock = (event, type) => {
+    if (type === "img") {
+      // this.onClickImage(event);
+      return;
+    }
     event.preventDefault();
 
     const { editor } = this;
@@ -359,9 +449,13 @@ class SlateEditor extends Component {
   };
 
   renderNode = (props, editor, next) => {
-    const { attributes, children, node } = props;
+    const { attributes, children, node, isFocused } = props;
 
     switch (node.type) {
+      case "image": {
+        const src = node.data.get("src");
+        return <Image src={src} selected={isFocused} {...attributes} />;
+      }
       case "block-quote":
         return <blockquote {...attributes}>{children}</blockquote>;
       case "bulleted-list":
@@ -449,6 +543,32 @@ class SlateEditor extends Component {
     );
   };
 
+  renderImgButton = (type, icon) => {
+    const isActive = this.hasBlock(type);
+
+    return (
+      <Button
+        active={isActive}
+        onMouseDown={event => this.onClickBlock(event, type)}
+      >
+        <label style={{ cursor: "pointer" }} htmlFor="img-upload">
+          <ReactSVG className="menu-icon" path={icon} />
+        </label>
+
+        <input
+          id="img-upload"
+          style={{
+            visibility: "hidden"
+          }}
+          onChange={this.onUploadImage}
+          type="file"
+          className="personalSet-imgSelectImg"
+          accept=".png, .jpg, .jpeg"
+        />
+      </Button>
+    );
+  };
+
   ref = editor => {
     this.editor = editor;
   };
@@ -489,6 +609,7 @@ class SlateEditor extends Component {
             {this.renderBlockButton("block-quote", Quote)}
             {this.renderBlockButton("numbered-list", Orderlist)}
             {this.renderBlockButton("bulleted-list", Ulist)}
+            {this.renderImgButton("img", Img)}
           </Toolbar>
         )}
         {inner ? (
@@ -502,6 +623,7 @@ class SlateEditor extends Component {
             className="slateEditor"
             readOnly={readOnly}
             value={value}
+            schema={schema}
             onChange={this.onChange}
             onKeyDown={this.onKeyDown}
             renderNode={this.renderNode}

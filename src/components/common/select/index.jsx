@@ -42,8 +42,6 @@ class Select extends Component {
   chooseFile(event) {
     const file = event.target.files[0];
     const file1 = document.getElementById("select-file").files[0];
-    // console.log(file);
-    // console.log(file1);
     const reader = new FileReader();
     if (file) {
       reader.readAsDataURL(file);

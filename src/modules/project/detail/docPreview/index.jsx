@@ -16,7 +16,7 @@ import Avatar from "../../../../components/common/avatar/index";
 import Button from "../../../../components/common/button/index";
 import Goback from "../../../../components/common/goBack/index";
 import "../../../../static/css/common.css";
-import "../../../status/markdown/edit.css";
+import "../../../status/markdown/edit.scss";
 import "./index.css";
 
 class DocPreview extends Component {

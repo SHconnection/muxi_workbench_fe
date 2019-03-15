@@ -6,7 +6,7 @@ import Button from "../../../components/common/button";
 import SlateEditor from "./slate/slateEditor";
 // import MarkdownInput from "./marked/input";
 import "../../../static/css/common.css";
-import "./edit.css";
+import "./edit.scss";
 import "../../../service/cookie";
 
 class Edit extends Component {

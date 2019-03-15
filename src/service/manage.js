@@ -187,8 +187,7 @@ const ManageService = {
     }).then(response => {
       switch (response.status) {
         case 200:
-          break;
-
+          return response.json();
         case 401:
           throw new Error("未授权");
 

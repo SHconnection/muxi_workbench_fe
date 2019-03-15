@@ -153,7 +153,6 @@ class Inform extends Component {
               <div className="header-info-content">
                 {MessageList.map((el, index) => {
                   if (index <= 5) {
-                    // console.log(index);
                     return (
                       !el.readed && (
                         // sourceID is not unique

@@ -45,7 +45,6 @@ class Message extends Component {
   getMessage() {
     MessageService.getMessageList(1)
       .then(res => {
-        // console.log(res);
         this.setState({
           MessageList: res.list.reverse()
         });
@@ -76,7 +75,7 @@ class Message extends Component {
   render() {
     const { MessageList } = this.state;
     return (
-      <div className="subject">
+      <div className="subject cardContainer">
         <div className="message-container">
           <div className="message-header">
             <span className="message-all">全部通知</span>
