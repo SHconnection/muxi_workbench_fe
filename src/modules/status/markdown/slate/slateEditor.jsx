@@ -219,7 +219,7 @@ class SlateEditor extends Component {
    */
   hasLinks = () => {
     const { value } = this.state;
-    return value.inlines.some(inline => inline.type == "link");
+    return value.inlines.some(inline => inline.type === "link");
   };
 
   hasBlock = type => {
