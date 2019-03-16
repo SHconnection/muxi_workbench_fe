@@ -10,7 +10,7 @@ import "static/css/common.css";
 
 const User = decodeURIComponent(LandingService.getUsername());
 // LandingService.getEmail('ruyunC');
-const data = {
+let data = {
   name: User,
   email: "",
   avatar: "",
@@ -30,6 +30,7 @@ class Landing extends Component {
         const userInfo = {
           email
         };
+        data.email = email;
         Store.dispatch({
           type: "substituteEmail",
           payload: email || ""
