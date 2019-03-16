@@ -620,7 +620,7 @@ class ProjectDetailIndex extends Component {
               <div className="projectDetail-header-icon-container">
                 <Icon
                   text={`${
-                    projectInfo.userCount === 0 ? 0 : projectInfo.userCount - 1
+                    projectInfo.userCount === 0 ? 0 : projectInfo.userCount
                   }`}
                   tip="成员"
                   url="/member"

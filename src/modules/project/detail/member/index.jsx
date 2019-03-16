@@ -31,7 +31,7 @@ class Member extends Component {
     } = this.props;
     ProjectService.getProjectUserList(pid)
       .then(res => {
-        res.memberList.shift();
+        // res.memberList.shift();
         this.setState({
           memberList: res.memberList,
           loading: false
