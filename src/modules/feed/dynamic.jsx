@@ -1,6 +1,7 @@
 /* eslint-disable import/no-unresolved */
 import React, { Component } from "react";
 import PropTypes from "prop-types";
+import { connect } from "react-redux";
 import Loading from "components/common/loading";
 import {
   getContainerHeight,
@@ -11,6 +12,7 @@ import { Store } from "store";
 import FeedItem from "./components/feedList/index";
 import Gotop from "../../components/common/toTop/top";
 import FeedService from "../../service/feed";
+import ProjectService from "../../service/project";
 import "../../static/css/common.css";
 import "./dynamic.css";
 
@@ -62,19 +64,43 @@ class Dynamic extends Component {
   }
 
   getFeedList() {
-    const { match } = this.props;
+    const { match, storeId: userID } = this.props;
     const { pageNum, hasNext } = this.state;
     if (hasNext) {
       if (match.path === "/feed") {
         FeedService.getFeedList(pageNum + 1)
           .then(feeds => {
             if (feeds) {
-              const { dataList } = this.state;
-              this.setState({
-                hasNext: feeds.hasNext,
-                pageNum: feeds.pageNum,
-                dataList: dataList.concat(feeds.dataList),
-                loading: false
+              ProjectService.getAllProjectList(userID).then(res => {
+                const project = res
+                  .map(el => el.list)
+                  .reduce((el1, el2) => el1.concat(el2), [])
+                  .map(el => {
+                    const item = el.projectName;
+                    return item;
+                  });
+                const proName = feeds.dataList.map(
+                  feed => feed.source.project_name
+                );
+                const kind = feeds.dataList.map(feed => feed.source.kind_id);
+                let k = -1;
+                for (let i = 0; i < proName.length; i++) {
+                  if (
+                    project.indexOf(proName[i]) === -1 &&
+                    kind[i] !== 1 &&
+                    kind[i] !== 6
+                  ) {
+                    k++;
+                    feeds.dataList.splice(i - k, 1);
+                  }
+                }
+                const { dataList } = this.state;
+                this.setState({
+                  hasNext: feeds.hasNext,
+                  pageNum: feeds.pageNum,
+                  dataList: dataList.concat(feeds.dataList),
+                  loading: false
+                });
               });
             }
           })
@@ -147,7 +173,7 @@ class Dynamic extends Component {
                     kind={feed.source.kind_id}
                     sourceName={feed.source.object_name}
                     sourceID={feed.source.object_id}
-                    sourcePro={feed.source.project_id}
+                    sourcePro={feed.source.c}
                     proName={feed.source.project_name}
                     ifSplit={feed.ifsplit}
                   />
@@ -171,11 +197,17 @@ Dynamic.propTypes = {
     params: PropTypes.shape({
       id: PropTypes.string
     })
-  })
+  }),
+  storeId: PropTypes.number
 };
 
 Dynamic.defaultProps = {
-  match: {}
+  match: {},
+  storeId: 0
 };
 
-export default Dynamic;
+const mapStateToProps = state => ({
+  storeId: state.id
+});
+
+export default connect(mapStateToProps)(Dynamic);
