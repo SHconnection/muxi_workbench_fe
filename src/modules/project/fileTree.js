@@ -101,16 +101,23 @@ export function getRoot() {
 }
 
 const FileTreeRecursion = {
-  searchNode(id, node, result) {
+  searchNode(id, node, result, tester) {
     /* eslint-disable */
     if (node.id == id) {
+      if (tester && tester(node)) {
+        result.node = node;
+        return true;
+      }
       result.node = node;
+      return true;
       /* eslint-enable */
     }
     if (node.child) {
-      node.child.forEach(el => {
-        FileTreeRecursion.searchNode(id, el, result);
-      });
+      for (let i = 0; i < node.child.length; i++) {
+        if (FileTreeRecursion.searchNode(id, node.child[i], result)) {
+          return true;
+        }
+      }
     }
   },
 
@@ -206,6 +213,18 @@ export const FileTree = {
     return temp.node;
   },
 
+  // 查找文档节点
+  searchFolder(id, root) {
+    // 在root的树中找到对应id的节点
+    // 成功返回该节点，失败返回null
+    /* eslint-disable */
+    let temp = { node: null };
+    /* eslint-enable */
+
+    FileTreeRecursion.searchNode(id, root, temp, item => !!item.folder);
+    return temp.node;
+  },
+
   // 返回某个文件节点下的id：{folder: [id1, id2, ...], file: [id1, id2, ...]}
   findFileIdList(id, root) {
     const parentNode = FileTree.searchNode(id, root);
@@ -235,7 +254,8 @@ export const FileTree = {
 
   // 返回某个文档节点下的id：{folder: [id1, id2, ...], doc: [id1, id2, ...]}
   findDocIdList(id, root) {
-    const parentNode = FileTree.searchNode(id, root);
+    const parentNode = FileTree.searchFolder(id, root);
+
     if (parentNode === null || !parentNode.folder) {
       return false;
     }
