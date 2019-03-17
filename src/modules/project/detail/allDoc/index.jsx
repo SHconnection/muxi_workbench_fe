@@ -88,7 +88,7 @@ class ProjectDetailAllFile extends Component {
       this.setState({
         docRootId: parseInt(nextProps.match.params.id, 0)
       });
-      this.updateDocList(parseInt(nextProps.match.params.id, 0));
+      // this.updateDocList(parseInt(nextProps.match.params.id, 0));
     }
   }
 
@@ -139,6 +139,7 @@ class ProjectDetailAllFile extends Component {
         // 算出当前路径
         this.getDocUrl(docRootId, res);
         // 请求doclist
+        console.log(res);
         FileService.getDocList(FileTree.findDocIdList(docRootId, res))
           .then(res1 => {
             this.setState({
