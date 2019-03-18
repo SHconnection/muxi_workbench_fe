@@ -159,7 +159,11 @@ class SetPersonalInfo extends Component {
 
   saveModifyMember = () => {
     const { selIdentities, selMembers } = this.state;
-    const { uid } = this.props;
+    const {
+      location: {
+        state: { uid }
+      }
+    } = this.props;
 
     ManageService.saveModifyMemberIdenty(uid, selIdentities).catch(error => {
       Store.dispatch({
@@ -212,7 +216,9 @@ class SetPersonalInfo extends Component {
       match: {
         params: { name }
       },
-      uid
+      location: {
+        state: { uid }
+      }
     } = this.props;
 
     return (

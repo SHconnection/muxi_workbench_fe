@@ -111,10 +111,7 @@ class feedItem extends Component {
           <div className="feed-action">
             <div role="button" tabIndex="-1" onKeyDown={() => {}}>
               <Link
-                to={{
-                  pathname: `/teamMember/personalInfo/${uid}`,
-                  state: { uRole: 1 }
-                }}
+                to={`/teamMember/personalInfo/${uid}`}
                 className="link feedItem-linkUername"
                 title={userName}
               >

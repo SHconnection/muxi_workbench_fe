@@ -600,7 +600,8 @@ class ProjectDetailIndex extends Component {
       showMoveDoc,
       fileTree,
       docTree,
-      loading
+      loading,
+      uploading
     } = this.state;
 
     return (
@@ -668,7 +669,7 @@ class ProjectDetailIndex extends Component {
                   />
                 </div>
               ))}
-              {this.state.uploading ? (
+              {uploading ? (
                 <div className="file-item">
                   <div className="uploading">
                     <Spin />

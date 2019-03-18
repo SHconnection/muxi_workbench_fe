@@ -10,7 +10,7 @@ import "static/css/common.css";
 
 const User = decodeURIComponent(LandingService.getUsername());
 // LandingService.getEmail('ruyunC');
-let data = {
+const data = {
   name: User,
   email: "",
   avatar: "",

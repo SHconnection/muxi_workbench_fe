@@ -386,7 +386,7 @@ class DocPreview extends Component {
               </div>
               <div
                 className="docPreview-header-lasteditor overflowHiddenEllipsisTip"
-                title={docInfo.lasteditor + "（最新编辑）"}
+                title={`${docInfo.lasteditor}（最新编辑）`}
               >
                 {docInfo.lasteditor}
                 <span>（最新编辑）</span>

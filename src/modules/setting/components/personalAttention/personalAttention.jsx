@@ -25,13 +25,13 @@ const PersonalAttention = ({
   const [members, setMembers] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  const deleteFunc = data => {
-    setData(data);
+  const deleteFunc = attentionData => {
+    setData(attentionData);
     setDeleteX(true);
   };
 
-  const transferMsgDel = deleteX => {
-    setDeleteX(deleteX);
+  const transferMsgDel = attentiondeleteX => {
+    setDeleteX(attentiondeleteX);
   };
 
   useEffect(
