@@ -16,7 +16,7 @@
   height: 40px;
   border: 1px solid #1d4cb5;
   margin-top: 18px;
-  outline:none;
+  outline: none;
   font-size: 16px;
 }
 
@@ -25,7 +25,7 @@
   min-height: 101px;
   border: 1px solid #1d4cb5;
   /* margin-top: 18px; */
-  outline:none;
+  outline: none;
   font-size: 16px;
 }
 
@@ -46,7 +46,7 @@
 }
 
 .newProject-member-tip-right {
-  margin-right: 70px;
+  margin-right: 55px;
   display: -webkit-flex; /* Safari */
   display: flex;
   flex-direction: row;
@@ -59,6 +59,7 @@
 }
 
 .newProject-member-container {
+  position: relative;
   display: -webkit-flex; /* Safari */
   display: flex;
   flex-direction: row;
@@ -93,13 +94,13 @@
   margin-left: 24px;
 }
 
-.newProject-name{
+.newProject-name {
   display: inline-block;
   vertical-align: middle;
 }
 
-.newProject-personalName{
-  text-align: right;
+.newProject-personalName {
+  text-align: left;
   width: 80px;
   overflow: hidden;
   white-space: nowrap;

@@ -1,6 +1,8 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
+import Loading from "components/common/loading";
+
 // import { MarkdownPreview } from "react-marked-markdown";
 import { Store } from "store";
 import AlertMoveFile from "../../components/alertMoveFile";
@@ -8,14 +10,13 @@ import AlertDeleteFile from "../../components/alertDeleteFile";
 import FileService from "../../../../service/file";
 import ProjectService from "../../../../service/project";
 import MessageService from "../../../../service/message";
-import { FileTree } from "../../fileTree1";
+import { FileTree } from "../../fileTree";
 import Othercomments from "../../../../components/common/otherComments/comments";
 import Avatar from "../../../../components/common/avatar/index";
 import Button from "../../../../components/common/button/index";
 import Goback from "../../../../components/common/goBack/index";
-import SlateEditor from "../../../status/markdown/slate/slateEditor";
 import "../../../../static/css/common.css";
-import "../../../status/markdown/edit.css";
+import "../../../status/markdown/edit.scss";
 import "./index.css";
 
 class DocPreview extends Component {
@@ -23,6 +24,7 @@ class DocPreview extends Component {
     super(props);
     const { match } = this.props;
     this.state = {
+      loading: true,
       pid: parseInt(match.params.pid, 10),
       id: parseInt(match.params.id, 10),
       isFocus: false,
@@ -70,16 +72,25 @@ class DocPreview extends Component {
   componentWillMount() {
     // const { match } = this.props;
     // const { sid } = match.params.id;
-    this.getDocInfo();
-    this.getDocTree();
-    this.isFocus();
-    this.getCommentList();
+    this.setState({
+      loading: true
+    });
+    Promise.all([
+      this.getDocInfo(),
+      this.getDocTree(),
+      this.isFocus(),
+      this.getCommentList()
+    ]).then(() => {
+      this.setState({
+        loading: false
+      });
+    });
   }
 
   // 获取当前页面评论列表
   getCommentList() {
     const { id, pid } = this.state;
-    ProjectService.getCommentListForDoc(pid, id)
+    return ProjectService.getCommentListForDoc(pid, id)
       .then(res => {
         this.setState({
           commentList: res.commentList
@@ -100,7 +111,7 @@ class DocPreview extends Component {
   // 请求文档的详情信息
   getDocInfo() {
     const { id } = this.state;
-    FileService.getDocConnent(id)
+    return FileService.getDocConnent(id)
       .then(res => {
         const regex = /\D/;
         const timeArr = res.create_time.split(regex);
@@ -120,31 +131,12 @@ class DocPreview extends Component {
         });
       })
       .finally(() => {});
-
-    // FileService.getDocList(postData)
-    //   .then(res => {
-    //     const { creator } = res.DocList[0]
-    //     const regex = /\D/
-    //     const timeArr = res.DocList[0].create_time.split(regex)
-    //     const timeStr = `${timeArr[0]}/${timeArr[1]}/${timeArr[2]} ${timeArr[3]}:${timeArr[4]}`
-    //     this.setState({
-    //       docInfo: res.DocList[0],
-    //       createTime: timeStr,
-    //       creator
-    //     })
-    //   })
-    // .catch(error => {
-    //   Store.dispatch({
-    //     type: "substituteWrongInfo",
-    //     payload: error
-    //   })
-    // });
   }
 
   // 算出文档所在树
   getDocTree() {
     const { id, pid } = this.state;
-    FileTree.getDocTree(pid)
+    return FileTree.getDocTree(pid)
       .then(el => {
         this.setState({
           docTree: el
@@ -219,26 +211,6 @@ class DocPreview extends Component {
         });
     }
   }
-
-  // 跳转页面
-  // selectPage(page) {
-  //   const { pid, id, pageNums, currentPage } = this.state;
-  //   if (page > 0 && page <= pageNums && page !== currentPage) {
-  //     ProjectService.getCommentList(pid, id, page)
-  //       .then(res => {
-  //         this.setState({
-  //           commentList: res.commentList,
-  //           currentPage: page
-  //         });
-  //       })
-  //       .catch(error => {
-  //         Store.dispatch({
-  //           type: "substituteWrongInfo",
-  //           payload: error
-  //         })
-  //       });
-  //   }
-  // }
 
   // 开始删除文档
   startDeleteDoc() {
@@ -326,7 +298,7 @@ class DocPreview extends Component {
   isFocus() {
     const { id } = this.state;
     // const { isFocus } = this.state
-    MessageService.getMyAttentionFiles()
+    return MessageService.getMyAttentionFiles()
       .then(res => {
         const find = res.list
           .filter(item => item.fileKind === 0)
@@ -385,11 +357,14 @@ class DocPreview extends Component {
       // pageNums,
       showDletedoc,
       showMoveDoc,
+      loading,
       isFocus
     } = this.state;
     const { storeAvatar } = this.props;
 
-    return (
+    return loading ? (
+      <Loading />
+    ) : (
       <div className="projectDetail-container">
         <Goback />
         <div className="filePreview-content">
@@ -448,7 +423,6 @@ class DocPreview extends Component {
               >
                 移动
               </div>
-              {/* <div onClick={() => { }} onMouseDown={() => { }} role="presentation">编辑</div> */}
               <a href={`../docEdit/${id}`}>编辑</a>
               <div
                 onClick={this.startDeleteDoc}
@@ -462,22 +436,7 @@ class DocPreview extends Component {
           {/* 时间 */}
           <div className="docPreview-time">{createTime}</div>
           <div className="docPreview-md-markdown">
-            {/* <MarkdownPreview
-              value={docInfo.content}
-              className="column docPreview-md-preview"
-              markedOptions={{
-                baseUrl: true,
-                headerIds: true,
-                gfm: true,
-                tables: true,
-                breaks: false,
-                pedantic: false,
-                sanitize: true,
-                smartLists: true,
-                smartypants: false
-              }}
-            /> */}
-            <SlateEditor readOnly content={docInfo.content} />
+            <div dangerouslySetInnerHTML={{ __html: docInfo.content }} />
           </div>
           <hr className="status-detail-line" />
           {/* 评论列表 */}
@@ -493,18 +452,6 @@ class DocPreview extends Component {
               </div>
             ))}
           </div>
-          {/* 分页功能 */}
-          {/* {commentList.length ? (
-            <div className="filePreview-paging">
-              <Paging
-                pageNums={pageNums}
-                currentPage={currentPage}
-                selectPage={this.selectPage}
-              />
-            </div>
-          ) : (
-            ""
-          )} */}
           {/* 发表评论 */}
           <div className="send">
             <Avatar
@@ -538,32 +485,6 @@ class DocPreview extends Component {
             confirmDelete={this.confirmDeleteDoc}
           />
         )}
-        {/* {showDletedoc && (
-          <div className="deleteFileAlert">
-            <div className="delete-file-alert-tip">确认要删除该文档吗</div>
-            <div className="delete-file-alert-cancel">
-              <Button
-                onClick={this.hideAlert}
-                text="取消"
-                width="65"
-                height="32"
-                border="1px solid RGBA(217, 217, 217, 1)"
-                bgColor="RGBA(255, 255, 255, 1)"
-                textColor="RGBA(64, 64, 64, 1)"
-                fontSize="14"
-              />
-            </div>
-            <div className="delete-file-alert-done">
-              <Button
-                onClick={this.confirmDeleteDoc}
-                text="确定"
-                width="65"
-                height="32"
-                fontSize="14"
-              />
-            </div>
-          </div>
-        )} */}
         {/* 移动文档弹出框 */}
         {showMoveDoc ? (
           <AlertMoveFile
@@ -571,70 +492,7 @@ class DocPreview extends Component {
             cancel={this.hideAlert}
             confirmMoveFile={this.confirmMoveDoc}
           />
-        ) : (
-          ""
-        )}
-        {/* {showMoveDoc && (
-          <div className="moveFileAlert">
-            <div className="move-file-alert-tip">选择保存路径</div>
-            <div className="move-file-tree-container">
-              <Scrollbars>
-                <FileTreeComponent
-                  root={docTree}
-                  select={() => {
-                    const fileRootTemp = Object.assign({}, docTree);
-                    fileRootTemp.selected = !fileRootTemp.selected;
-                    FileTree.initNodeSelected(fileRootTemp);
-                    this.setState({
-                      docTree: fileRootTemp
-                    });
-                  }}
-                  finalSelect={el => {
-                    const fileRootTemp = Object.assign({}, docTree);
-                    FileTree.initNodeFinalSelected(fileRootTemp);
-                    let fatherId;
-                    if (el.selected || el.router.length === 1) {
-                      fatherId = el.id;
-                    } else {
-                      // 取消选中
-                      fatherId = el.router[el.router.length - 2];
-                    }
-                    const fatherNode = FileTree.searchNode(
-                      fatherId,
-                      fileRootTemp
-                    );
-                    fatherNode.finalSelected = true;
-                    this.setState({
-                      docTree: fileRootTemp,
-                      finalMoveDocId: fatherNode.id
-                    });
-                  }}
-                />
-              </Scrollbars>
-            </div>
-            <div className="move-file-alert-cancel">
-              <Button
-                onClick={this.hideAlert}
-                text="取消"
-                width="65"
-                height="32"
-                border="1px solid RGBA(217, 217, 217, 1)"
-                bgColor="RGBA(255, 255, 255, 1)"
-                textColor="RGBA(64, 64, 64, 1)"
-                fontSize="14"
-              />
-            </div>
-            <div className="move-file-alert-done">
-              <Button
-                onClick={this.confirmMoveDoc}
-                text="确定"
-                width="65"
-                height="32"
-                fontSize="14"
-              />
-            </div>
-          </div>
-        )} */}
+        ) : null}
       </div>
     );
   }

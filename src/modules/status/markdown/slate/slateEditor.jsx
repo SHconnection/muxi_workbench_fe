@@ -2,10 +2,15 @@ import React, { Component } from "react";
 import Plain from "slate-plain-serializer";
 import PropTypes from "prop-types";
 import ReactSVG from "react-svg";
-import { Editor } from "slate-react";
-// import { Value } from "slate";
+import { Editor, getEventTransfer } from "muxi-slate-react";
+import isUrl from "is-url";
+
 import { isKeyHotkey } from "is-hotkey";
 import Html from "slate-html-serializer";
+import ManageService from "service/manage";
+
+import rules from "./rules";
+import { schema, unwrapLink, Image, wrapLink, insertImage } from "./helper";
 import { Button, Toolbar } from "../menu";
 import Italic from "../../../../assets/svg/MenuIcon/italic.svg";
 import Bold from "../../../../assets/svg/MenuIcon/bold.svg";
@@ -14,6 +19,8 @@ import Code from "../../../../assets/svg/MenuIcon/code.svg";
 import Quote from "../../../../assets/svg/MenuIcon/quote.svg";
 import Ulist from "../../../../assets/svg/MenuIcon/ulist.svg";
 import Orderlist from "../../../../assets/svg/MenuIcon/orderlist.svg";
+import Img from "../../../../assets/svg/MenuIcon/editor-image.svg";
+import LinkIcon from "../../../../assets/svg/MenuIcon/editor-link.svg";
 
 const DEFAULT_NODE = "paragraph";
 
@@ -22,115 +29,6 @@ const isBoldHotkey = isKeyHotkey("mod+b");
 const isItalicHotkey = isKeyHotkey("mod+i");
 const isUnderlinedHotkey = isKeyHotkey("mod+u");
 const isCodeHotkey = isKeyHotkey("mod+`");
-
-const BLOCK_TAGS = {
-  blockquote: "block-quote",
-  p: "paragraph",
-  pre: "code",
-  ol: "numbered-list",
-  ul: "bulleted-list",
-  li: "list-item",
-  h1: "heading-one",
-  h2: "heading-two",
-  h3: "heading-three",
-  h4: "heading-four",
-  h5: "heading-five",
-  h6: "heading-six",
-  hr: "hr"
-};
-
-// Add a dictionary of mark tags.
-const MARK_TAGS = {
-  em: "italic",
-  strong: "bold",
-  u: "underline",
-  code: "code"
-};
-
-const rules = [
-  {
-    deserialize(el, next) {
-      const type = BLOCK_TAGS[el.tagName.toLowerCase()];
-      if (type) {
-        return {
-          object: "block",
-          type,
-          data: {
-            className: el.getAttribute("class")
-          },
-          nodes: next(el.childNodes)
-        };
-      }
-    },
-    serialize(obj, children) {
-      if (obj.object === "block") {
-        switch (obj.type) {
-          case "code":
-            return (
-              <pre>
-                <code>{children}</code>
-              </pre>
-            );
-          case "paragraph":
-            return <p className={obj.data.get("className")}>{children}</p>;
-          case "block-quote":
-            return <blockquote>{children}</blockquote>;
-          case "list-item":
-            return <li>{children}</li>;
-          case "numbered-list":
-            return <ol>{children}</ol>;
-          case "bulleted-list":
-            return <ul>{children}</ul>;
-          case "heading-one":
-            return <h1>{children}</h1>;
-          case "heading-two":
-            return <h2>{children}</h2>;
-          case "heading-three":
-            return <h3>{children}</h3>;
-          case "heading-four":
-            return <h4>{children}</h4>;
-          case "heading-five":
-            return <h5>{children}</h5>;
-          case "heading-six":
-            return <h6>{children}</h6>;
-          case "hr":
-            return <hr />;
-          default:
-            break;
-        }
-      }
-    }
-  },
-  // Add a new rule that handles marks...
-  {
-    deserialize(el, next) {
-      const type = MARK_TAGS[el.tagName.toLowerCase()];
-      if (type) {
-        return {
-          object: "mark",
-          type,
-          nodes: next(el.childNodes)
-        };
-      }
-    },
-    serialize(obj, children) {
-      if (obj.object === "mark") {
-        switch (obj.type) {
-          case "bold":
-            return <strong>{children}</strong>;
-          case "italic":
-            return <em>{children}</em>;
-          case "underline":
-            return <u>{children}</u>;
-          case "code":
-            return <code>{children}</code>;
-          default:
-            return null;
-        }
-      }
-    }
-  }
-];
 
 // Create a new serializer instance with our `rules` from above.
 const html = new Html({ rules });
@@ -150,14 +48,30 @@ class SlateEditor extends Component {
   };
 
   componentWillReceiveProps(nextProps) {
-    const { readOnly, inner, content } = nextProps;
-    // console.log(content);
-    if (readOnly && !inner) {
+    const { content } = nextProps;
+
+    /* eslint-disable */
+    if (this.props.content !== nextProps.content) {
       this.setState({
         value: html.deserialize(content)
       });
     }
+    /* eslint-enable */
   }
+
+  /**
+   * On clicking the image button, upload an image and insert it.
+   *
+   * @param {Event} event
+   */
+
+  onUploadImage = event => {
+    const data = new FormData();
+    data.append("image", event.target.files[0]);
+    ManageService.uploadImage(data).then(res => {
+      this.editor.command(insertImage, res.image_url);
+    });
+  };
 
   getType = chars => {
     switch (chars) {
@@ -303,6 +217,16 @@ class SlateEditor extends Component {
     return value.activeMarks.some(mark => mark.type === type);
   };
 
+  /**
+   * Check whether the current selection has a link in it.
+   *
+   * @return {Boolean} hasLinks
+   */
+  hasLinks = () => {
+    const { value } = this.state;
+    return value.inlines.some(inline => inline.type === "link");
+  };
+
   hasBlock = type => {
     const { value } = this.state;
     return value.blocks.some(node => node.type === type);
@@ -358,10 +282,66 @@ class SlateEditor extends Component {
     }
   };
 
+  /**
+   * When clicking a link, if the selection has a link in it, remove the link.
+   * Otherwise, add a new link with an href and text.
+   *
+   * @param {Event} event
+   */
+  onClickLink = event => {
+    event.preventDefault();
+
+    const { editor } = this;
+    const { value } = editor;
+    const hasLinks = this.hasLinks();
+
+    if (hasLinks) {
+      editor.command(unwrapLink);
+    } else if (value.selection.isExpanded) {
+      const href = window.prompt("输入链接地址：");
+
+      if (href === null) {
+        return;
+      }
+
+      editor.command(wrapLink, href);
+    } else {
+      const href = window.prompt("输入链接地址：");
+
+      if (href === null) {
+        return;
+      }
+
+      const text = window.prompt("输入链接地址：");
+
+      if (text === null) {
+        return;
+      }
+
+      editor
+        .insertText(text)
+        .moveFocusBackward(text.length)
+        .command(wrapLink, href);
+    }
+  };
+
   renderNode = (props, editor, next) => {
-    const { attributes, children, node } = props;
+    const { attributes, children, node, isFocused } = props;
 
     switch (node.type) {
+      case "link": {
+        const { data } = node;
+        const href = data.get("href");
+        return (
+          <a {...attributes} href={href}>
+            {children}
+          </a>
+        );
+      }
+      case "image": {
+        const src = node.data.get("src");
+        return <Image src={src} selected={isFocused} {...attributes} />;
+      }
       case "block-quote":
         return <blockquote {...attributes}>{children}</blockquote>;
       case "bulleted-list":
@@ -416,6 +396,7 @@ class SlateEditor extends Component {
 
     return (
       <Button
+        title={type}
         active={isActive}
         onMouseDown={event => this.onClickMark(event, type)}
       >
@@ -440,6 +421,7 @@ class SlateEditor extends Component {
 
     return (
       <Button
+        title={type}
         active={isActive}
         onMouseDown={event => this.onClickBlock(event, type)}
       >
@@ -448,8 +430,68 @@ class SlateEditor extends Component {
     );
   };
 
+  renderImgButton = (type, icon) => {
+    const isActive = this.hasBlock(type);
+
+    return (
+      <Button active={isActive} title={type}>
+        <label style={{ cursor: "pointer" }} htmlFor="img-upload">
+          <ReactSVG className="menu-icon" path={icon} />
+        </label>
+
+        <input
+          id="img-upload"
+          style={{
+            visibility: "hidden"
+          }}
+          onChange={this.onUploadImage}
+          type="file"
+          className="personalSet-imgSelectImg"
+          accept=".png, .jpg, .jpeg"
+        />
+      </Button>
+    );
+  };
+
+  renderLinkButton = (type, icon) => {
+    const isActive = this.hasLinks();
+
+    return (
+      <Button
+        title={type}
+        active={isActive}
+        onMouseDown={event => this.onClickLink(event, type)}
+      >
+        <ReactSVG className="menu-icon" path={icon} />
+      </Button>
+    );
+  };
+
   ref = editor => {
     this.editor = editor;
+  };
+
+  /**
+   * On paste, if the text is a link, wrap the selection in a link.
+   *
+   * @param {Event} event
+   * @param {Editor} editor
+   * @param {Function} next
+   */
+
+  onPaste = (event, editor, next) => {
+    if (editor.value.selection.isCollapsed) return next();
+
+    const transfer = getEventTransfer(event);
+    const { type, text } = transfer;
+    if (type !== "text" && type !== "html") return next();
+    if (!isUrl(text)) return next();
+
+    if (this.hasLinks()) {
+      editor.command(unwrapLink);
+    }
+
+    editor.command(wrapLink, text);
   };
 
   // Render the editor.
@@ -463,7 +505,7 @@ class SlateEditor extends Component {
     } else {
       style = {
         width: "880px",
-        "min-height": "650px"
+        minHeight: "650px"
       };
     }
 
@@ -488,6 +530,8 @@ class SlateEditor extends Component {
             {this.renderBlockButton("block-quote", Quote)}
             {this.renderBlockButton("numbered-list", Orderlist)}
             {this.renderBlockButton("bulleted-list", Ulist)}
+            {this.renderImgButton("image", Img)}
+            {this.renderLinkButton("link", LinkIcon)}
           </Toolbar>
         )}
         {inner ? (
@@ -501,6 +545,7 @@ class SlateEditor extends Component {
             className="slateEditor"
             readOnly={readOnly}
             value={value}
+            schema={schema}
             onChange={this.onChange}
             onKeyDown={this.onKeyDown}
             renderNode={this.renderNode}

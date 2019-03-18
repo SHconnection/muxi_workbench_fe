@@ -2,13 +2,13 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 import AlertMoveFile from "../../components/alertMoveFile";
 import AlertDeleteFile from "../../components/alertDeleteFile";
-import { FileTree } from "../../fileTree1";
+import { FileTree } from "../../fileTree";
 import GoBack from "../../../../components/common/goBack/index";
 
 import FileListBatch from "../../components/fileListBatch/index";
 import ProjectService from "../../../../service/project";
 import FileService from "../../../../service/file";
-import "./index.css";
+import "./index.scss";
 import "../../../../static/css/common.css";
 
 class BatchFile extends Component {
@@ -261,7 +261,7 @@ class BatchFile extends Component {
       showMoveFile
     } = this.state;
     return (
-      <div className="projectDetail-container">
+      <div className="projectDetail-container batchFile">
         <GoBack />
         <div className="projectDetail-content">
           <div className="projectDetail-header">
@@ -274,7 +274,7 @@ class BatchFile extends Component {
                   onChange={this.checkAll}
                   id="checkAll"
                 />
-                <label htmlFor="checkAll">{`全选`}</label>
+                <label className="check-all" htmlFor="checkAll">{`全选`}</label>
               </div>
             ) : (
               ""

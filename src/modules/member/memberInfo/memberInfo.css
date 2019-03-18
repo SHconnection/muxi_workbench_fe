@@ -1,5 +1,5 @@
 .memberInfo-contain{
-  width: 300px;
+  width: 500px;
   overflow: scroll;
   display: -webkit-flex;
   display: flex;
@@ -31,7 +31,7 @@
 
 .memberInfo-nameSize {
   overflow: hidden;
-  max-width: 60px;
+  max-width: 350px;
   white-space: nowrap;
   text-overflow: ellipsis;
 }

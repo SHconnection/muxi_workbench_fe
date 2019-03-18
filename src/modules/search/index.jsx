@@ -119,6 +119,8 @@ class Search extends Component {
       projectOption[projectCheckedIndex].id
     ) {
       pid = projectOption[projectCheckedIndex].id;
+    } else {
+      pid = 0;
     }
     SearchService.getSearchResults(1, searchText, pid)
       .then(res => {

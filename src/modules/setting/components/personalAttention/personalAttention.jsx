@@ -121,7 +121,7 @@ const PersonalAttention = ({
       <div className="noneInfoTip">
         {members.length > 0 ? (
           <List
-            width={880}
+            width={853}
             height={500}
             rowHeight={80}
             rowRenderer={renderRow}

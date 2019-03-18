@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 import AlertMoveFile from "../../components/alertMoveFile";
 import AlertDeleteFile from "../../components/alertDeleteFile";
-import { FileTree } from "../../fileTree1";
+import { FileTree } from "../../fileTree";
 import GoBack from "../../../../components/common/goBack/index";
 
 import FileListBatch from "../../components/fileListBatch/index";

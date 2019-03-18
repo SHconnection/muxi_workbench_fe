@@ -6,7 +6,8 @@ import Loading from "components/common/loading";
 import { Store } from "store";
 import GoBack from "../../../components/common/goBack/index";
 import Icon from "../../../components/common/icon/index";
-import { FileTree } from "../fileTree1";
+import { FileTree } from "../fileTree";
+import Spin from "../../../components/common/spin";
 import AlertMoveFile from "../components/alertMoveFile";
 import AlertDeleteFile from "../components/alertDeleteFile";
 import AlertCreateFolder from "../components/alertCreateFolder";
@@ -17,7 +18,7 @@ import FolderItemDoc from "../components/folderItemDoc/index";
 import DocItem from "../components/docItem/index";
 import ProjectService from "../../../service/project";
 import FileService from "../../../service/file";
-import "./index.css";
+import "./index.scss";
 import "../../../static/css/common.css";
 
 class ProjectDetailIndex extends Component {
@@ -25,7 +26,8 @@ class ProjectDetailIndex extends Component {
     super(props);
     const { match } = this.props;
     this.state = {
-      loading: false,
+      uploading: false,
+      loading: true,
       // 当前项目id
       pid: parseInt(match.params.id, 0),
       // 当前正在操作的fileid
@@ -223,6 +225,9 @@ class ProjectDetailIndex extends Component {
       /*
       / 这里是上传文件
       */
+      this.setState({
+        uploading: true
+      });
       const formData = new FormData();
       formData.append("project_id", pid);
       formData.append("file", index);
@@ -238,6 +243,9 @@ class ProjectDetailIndex extends Component {
               .then(() => {
                 // 更新视图
                 this.updateFilesList();
+                this.setState({
+                  uploading: false
+                });
               })
               .catch(error => {
                 Store.dispatch({
@@ -592,7 +600,8 @@ class ProjectDetailIndex extends Component {
       showMoveDoc,
       fileTree,
       docTree,
-      loading
+      loading,
+      uploading
     } = this.state;
 
     return (
@@ -612,7 +621,7 @@ class ProjectDetailIndex extends Component {
               <div className="projectDetail-header-icon-container">
                 <Icon
                   text={`${
-                    projectInfo.userCount === 0 ? 0 : projectInfo.userCount - 1
+                    projectInfo.userCount === 0 ? 0 : projectInfo.userCount
                   }`}
                   tip="成员"
                   url="/member"
@@ -660,6 +669,14 @@ class ProjectDetailIndex extends Component {
                   />
                 </div>
               ))}
+              {uploading ? (
+                <div className="file-item">
+                  <div className="uploading">
+                    <Spin />
+                    <div className="text">上传中</div>
+                  </div>
+                </div>
+              ) : null}
             </div>
             <div className="projectDetail-file-footer">
               {filesList.FileList.length ? (
@@ -719,42 +736,7 @@ class ProjectDetailIndex extends Component {
               confirmCreate={this.confirmCreateFile}
             />
           )}
-          {/* {showCreateFile && (
-            <div className="createFileAlert">
-              <ReactSVG
-                className="create-file-alert-icon"
-                path={CreateFileAlertIcon}
-              />
-              <input
-                className="create-file-alert-input"
-                type="text"
-                placeholder="编辑文件夹名"
-                value={newFileInputText}
-                onChange={this.changeNewFileInputText}
-              />
-              <div className="create-file-alert-cancel">
-                <Button
-                  onClick={this.hideAlert}
-                  text="取消"
-                  width="65"
-                  height="32"
-                  border="1px solid RGBA(217, 217, 217, 1)"
-                  bgColor="RGBA(255, 255, 255, 1)"
-                  textColor="RGBA(64, 64, 64, 1)"
-                  fontSize="14"
-                />
-              </div>
-              <div className="create-file-alert-done">
-                <Button
-                  onClick={this.confirmCreateFile}
-                  text="确定"
-                  width="65"
-                  height="32"
-                  fontSize="14"
-                />
-              </div>
-            </div>
-          )} */}
+
           {/* 创建文档夹弹出框 */}
           {showCreateDocFile && (
             <AlertCreateFolder

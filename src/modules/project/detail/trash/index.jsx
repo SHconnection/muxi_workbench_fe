@@ -5,7 +5,7 @@ import FileService from "service/file";
 import ProjectService from "service/project";
 import { Store } from "store";
 import TrashList from "./list/index";
-import { FileTree } from "../../fileTree1";
+import { FileTree } from "../../fileTree";
 import AlertMoveFile from "../../components/alertMoveFile";
 import "./index.css";
 import "static/css/common.css";

@@ -142,12 +142,12 @@ class Detail extends Component {
     ) : (
       <div className="subject cardContainer">
         <div className="status-detail-head">
-          <Goback />
+          <Goback href="/status" />
           <div className="stauts-detail-second">
             <div className="status-detail-title">{title}</div>
             <span className="status-detail-time">{time}</span>
           </div>
-          {storeId !== { authorId } ? null : (
+          {storeId !== authorId ? null : (
             <div className="status-detail-edit">
               <Link
                 to={`/status/${sid}/reEdit`}

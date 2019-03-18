@@ -56,7 +56,7 @@ function findKind(kind, sourceID, sourcePro) {
 function findProject(kind, sourcePro, uid) {
   switch (kind) {
     case 1:
-      return `/member/teamMember/`;
+      return `/teamMember/`;
     case 2:
       return `/project/${sourcePro}/preview/`;
     case 3:
@@ -64,7 +64,7 @@ function findProject(kind, sourcePro, uid) {
     case 4:
       return `/project/${sourcePro}/preview/`;
     case 6:
-      return `/teamMember/personalInfo/personalProgress/${uid}/`;
+      return `/teamMember/personalInfo/${uid}/personalProgress/`;
     default:
       return `/`;
   }

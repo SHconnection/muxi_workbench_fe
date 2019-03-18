@@ -11,7 +11,7 @@ import StatusService from "service/status";
 // import CustomEditor from "./editor";
 import { Store } from "store";
 import SlateEditor from "./slate/slateEditor";
-import "./edit.css";
+import "./edit.scss";
 import "service/cookie";
 
 class edit extends Component {
@@ -50,17 +50,6 @@ class edit extends Component {
         });
     }
   }
-
-  // componentDidUpdate() {
-  //   const obj = document.querySelector(".field");
-  //   const back = document.querySelector(".preview");
-  //   obj.addEventListener("scroll", () => {
-  //     document.querySelector(".preview").scrollTop = obj.scrollTop;
-  //   });
-  //   back.addEventListener("scroll", () => {
-  //     document.querySelector(".field").scrollTop = back.scrollTop;
-  //   });
-  // }
 
   onChange(event) {
     this.setState({
@@ -132,28 +121,6 @@ class edit extends Component {
           </div>
         </div>
         <div className="status-markdown">
-          {/* <MarkdownInput
-            className="field column"
-            onChange={this.onChange}
-            value={content}
-            onScroll={this.handleScroll}
-          />
-
-          <MarkdownPreview
-            value={content}
-            className="column preview"
-            markedOptions={{
-              baseUrl: null,
-              headerIds: true,
-              gfm: true,
-              tables: true,
-              breaks: false,
-              pedantic: false,
-              sanitize: true,
-              smartLists: true,
-              smartypants: true
-            }}
-          /> */}
           <SlateEditor content={content} />
         </div>
       </div>
