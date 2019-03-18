@@ -104,17 +104,21 @@ const FileTreeRecursion = {
   searchNode(id, node, result, tester) {
     /* eslint-disable */
     if (node.id == id) {
-      if (tester && tester(node)) {
+      if (tester) {
+        if (tester(node)) {
+          result.node = node;
+          return true;
+        }
+      } else {
         result.node = node;
         return true;
       }
-      result.node = node;
-      return true;
-      /* eslint-enable */
     }
+    /* eslint-enable */
+
     if (node.child) {
       for (let i = 0; i < node.child.length; i++) {
-        if (FileTreeRecursion.searchNode(id, node.child[i], result)) {
+        if (FileTreeRecursion.searchNode(id, node.child[i], result, tester)) {
           return true;
         }
       }
@@ -255,7 +259,7 @@ export const FileTree = {
   // 返回某个文档节点下的id：{folder: [id1, id2, ...], doc: [id1, id2, ...]}
   findDocIdList(id, root) {
     const parentNode = FileTree.searchFolder(id, root);
-
+    console.log(parentNode);
     if (parentNode === null || !parentNode.folder) {
       return false;
     }

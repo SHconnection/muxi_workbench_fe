@@ -49,9 +49,14 @@ class SlateEditor extends Component {
 
   componentWillReceiveProps(nextProps) {
     const { content } = nextProps;
-    this.setState({
-      value: html.deserialize(content)
-    });
+
+    /* eslint-disable */
+    if (this.props.content !== nextProps.content) {
+      this.setState({
+        value: html.deserialize(content)
+      });
+    }
+    /* eslint-enable */
   }
 
   /**
@@ -63,8 +68,8 @@ class SlateEditor extends Component {
   onUploadImage = event => {
     const data = new FormData();
     data.append("image", event.target.files[0]);
-    ManageService.savePersonalAvatar(data).then(res => {
-      this.editor.command(insertImage, res.url);
+    ManageService.uploadImage(data).then(res => {
+      this.editor.command(insertImage, res.image_url);
     });
   };
 
