@@ -9,7 +9,6 @@ import {
 import { Store } from "store";
 import Loading from "components/common/loading/index";
 import Gotop from "components/common/toTop/top";
-import CardContainer from "components/layouts/card/index";
 import StatusItem from "../components/basicCard/index";
 import StatusService from "../../../service/status";
 import "./progerss.css";

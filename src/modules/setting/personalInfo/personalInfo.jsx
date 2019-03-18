@@ -7,6 +7,7 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import Avatar from "components/common/avatar/index";
 import ManageService from "service/manage";
+import LandingService from "service/landing";
 import Loading from "components/common/loading/index";
 import { Store } from "store";
 import PersonalAttention from "../components/personalAttention/personalAttention";
@@ -18,14 +19,12 @@ import "./personalInfo.css";
 const PersonalInfo = ({
   storeId,
   storeRole,
-  location: {
-    state: { uRole }
-  },
   match: {
     params: { uid }
   }
 }) => {
   const [per, setPer] = useState({});
+  const [uRole, setURole] = useState(1);
   const [loading, setLoading] = useState(true);
 
   useEffect(
@@ -33,12 +32,22 @@ const PersonalInfo = ({
       setLoading(true);
       ManageService.getPersonalSet(uid)
         .then(info => {
-          setPer({
-            name: info.name,
-            email: info.email,
-            avatar: info.avatar
-          });
-          setLoading(false);
+          LandingService.getToken({ email: info.email })
+            .then(response => {
+              setURole(response.urole || 1);
+              setPer({
+                name: info.name,
+                email: info.email,
+                avatar: info.avatar
+              });
+              setLoading(false);
+            })
+            .catch(error => {
+              Store.dispatch({
+                type: "substituteWrongInfo",
+                payload: error
+              });
+            });
         })
         .catch(error => {
           Store.dispatch({
@@ -96,30 +105,21 @@ const PersonalInfo = ({
               <NavLink
                 activeClassName="personalInfo-active"
                 className="llSize singleItem"
-                to={{
-                  pathname: `/teamMember/personalInfo/${uid}/personalDynamic`,
-                  state: { uRole }
-                }}
+                to={`/teamMember/personalInfo/${uid}/personalDynamic`}
               >
                 动态
               </NavLink>
               <NavLink
                 activeClassName="personalInfo-active"
                 className="llSize singleItem"
-                to={{
-                  pathname: `/teamMember/personalInfo/${uid}/personalProgress`,
-                  state: { uRole }
-                }}
+                to={`/teamMember/personalInfo/${uid}/personalProgress`}
               >
                 进度
               </NavLink>
               <NavLink
                 activeClassName="personalInfo-active"
                 className="llSize singleItem"
-                to={{
-                  pathname: `/teamMember/personalInfo/${uid}/personalAttention`,
-                  state: { uRole }
-                }}
+                to={`/teamMember/personalInfo/${uid}/personalAttention`}
               >
                 关注
               </NavLink>
@@ -130,10 +130,7 @@ const PersonalInfo = ({
               <Redirect
                 exact
                 path="/teamMember/personalInfo/:uid"
-                to={{
-                  pathname: `/teamMember/personalInfo/${uid}/personalAttention`,
-                  state: { uRole }
-                }}
+                to={`/teamMember/personalInfo/${uid}/personalAttention`}
               />
               <Route
                 path="/teamMember/personalInfo/:uid/personalDynamic"
@@ -161,18 +158,12 @@ PersonalInfo.propTypes = {
       uid: PropTypes.string
     })
   }),
-  location: PropTypes.shape({
-    state: PropTypes.shape({
-      uRole: PropTypes.number
-    })
-  }),
   storeId: PropTypes.number,
   storeRole: PropTypes.number
 };
 
 PersonalInfo.defaultProps = {
   match: {},
-  location: {},
   storeId: 0,
   storeRole: 1
 };

@@ -23,12 +23,7 @@ const userGroup = group => {
 
 const MemberInfo = ({ mem, square }) => (
   <div className="memberInfo-contain">
-    <Link
-      to={{
-        pathname: `/teamMember/personalInfo/${mem.id || mem.userID}`,
-        state: { uRole: mem.role || 1 }
-      }}
-    >
+    <Link to={`/teamMember/personalInfo/${mem.id || mem.userID}`}>
       <div className="memberInfo-img">
         <Avatar width={60} height={60} src={mem.avatar} square={square} />
       </div>

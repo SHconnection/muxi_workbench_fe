@@ -111,6 +111,7 @@ button {
 .footerBtn {
   position: absolute;
   top: 90%;
+  margin-bottom: 20px;
 }
 .none {
   display: none;
