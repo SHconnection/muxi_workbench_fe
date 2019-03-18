@@ -435,7 +435,10 @@ class SlateEditor extends Component {
 
     return (
       <Button active={isActive} title={type}>
-        <label style={{ cursor: "pointer" }} htmlFor="img-upload">
+        <label
+          style={{ cursor: "pointer", display: "block" }}
+          htmlFor="img-upload"
+        >
           <ReactSVG className="menu-icon" path={icon} />
         </label>
 
