@@ -173,7 +173,7 @@ class Dynamic extends Component {
                     kind={feed.source.kind_id}
                     sourceName={feed.source.object_name}
                     sourceID={feed.source.object_id}
-                    sourcePro={feed.source.c}
+                    sourcePro={feed.source.project_id}
                     proName={feed.source.project_name}
                     ifSplit={feed.ifsplit}
                   />
