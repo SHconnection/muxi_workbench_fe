@@ -25,10 +25,28 @@ const createweek = [
   " 周五",
   " 周六"
 ];
-const today = new Date().toLocaleDateString();
-const yesterday = new Date(
+let today = new Date().toLocaleDateString();
+let yesterday = new Date(
   new Date().getTime() - 24 * 60 * 60 * 1000
 ).toLocaleDateString();
+const tmp = today.split("/");
+const temp = yesterday.split("/");
+
+if (tmp[1].length !== 2) {
+  tmp[1] = `0${tmp[1]}`;
+}
+if (tmp[2].length !== 2) {
+  tmp[2] = `0${tmp[2]}`;
+}
+if (temp[1].length !== 2) {
+  temp[1] = `0${temp[1]}`;
+}
+if (temp[2].length !== 2) {
+  temp[2] = `0${temp[2]}`;
+}
+
+today = tmp.join("/");
+yesterday = temp.join("/");
 
 class Dynamic extends Component {
   static chargeday(timeDay) {
@@ -173,7 +191,7 @@ class Dynamic extends Component {
                     kind={feed.source.kind_id}
                     sourceName={feed.source.object_name}
                     sourceID={feed.source.object_id}
-                    sourcePro={feed.source.c}
+                    sourcePro={feed.source.project_id}
                     proName={feed.source.project_name}
                     ifSplit={feed.ifsplit}
                   />
