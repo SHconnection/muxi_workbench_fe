@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
 import Avatar from "../../../../components/common/avatar/index";
-import "./index.css";
+import "./index.scss";
 
 function dividerName(kind, proName, userName) {
   switch (kind) {
