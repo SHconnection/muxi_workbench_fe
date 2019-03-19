@@ -1,8 +1,8 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
-import Avatar from "../../../../components/common/avatar/index";
-import "./index.css";
+import Avatar from "components/common/avatar/index";
+import "./index.scss";
 
 function dividerName(kind, proName, userName) {
   switch (kind) {
@@ -96,7 +96,11 @@ class feedItem extends Component {
           <div className={ifSplit ? "line" : "no-line"} />
           <Link
             to={`${findProject(kind, sourcePro, uid)}`}
-            className={ifSplit ? "feed-project" : "feed-no-project"}
+            className={
+              ifSplit
+                ? "feed-project overflowHiddenEllipsisTip"
+                : "feed-no-project"
+            }
             title={ifSplit ? `${dividerName(kind, proName, userName)}` : ""}
             target="_blank"
           >
@@ -112,7 +116,7 @@ class feedItem extends Component {
             <div role="button" tabIndex="-1" onKeyDown={() => {}}>
               <Link
                 to={`/teamMember/personalInfo/${uid}`}
-                className="link feedItem-linkUername"
+                className="overflowHiddenEllipsisTip link feedItem-linkUername"
                 title={userName}
               >
                 {userName}
@@ -124,7 +128,7 @@ class feedItem extends Component {
             <div>
               <Link
                 to={`${findKind(kind, sourceID, sourcePro)}`}
-                className="link"
+                className="link overflowHiddenEllipsisTip"
                 target="_blank"
                 title={sourceName}
               >

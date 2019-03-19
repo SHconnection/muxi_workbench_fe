@@ -1,6 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import "./index.css";
+import "./index.scss";
 
 function DocList(props) {
   const { item, index, docUrl, deleteDoc, moveDoc, docToTop } = props;

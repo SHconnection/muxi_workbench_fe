@@ -91,8 +91,12 @@ class Item extends Component {
             height="60"
           />
           <div className="stauts-second">
-            <div className="status-item-name">{username}</div>
-            <div className="status-item-time">{time}</div>
+            <div className="status-item-name overflowHiddenEllipsisTip">
+              {username}
+            </div>
+            <div className="status-item-time overflowHiddenEllipsisTip">
+              {time}
+            </div>
           </div>
           <div>
             <Link

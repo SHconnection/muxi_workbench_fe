@@ -1,24 +1,22 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import Loading from "components/common/loading";
-
+import GoBack from "components/common/goBack/index";
+import Icon from "components/common/icon/index";
+import Button from "components/common/button/index";
+import Select from "components/common/select/index";
+import ProjectService from "service/project";
+import FileService from "service/file";
+import Spin from "components/common/spin";
 import AlertMoveFile from "../../components/alertMoveFile";
 import AlertDeleteFile from "../../components/alertDeleteFile";
 import AlertCreateFolder from "../../components/alertCreateFolder";
 import { FileTree } from "../../fileTree";
-import GoBack from "../../../../components/common/goBack/index";
-import Icon from "../../../../components/common/icon/index";
-import Button from "../../../../components/common/button/index";
-import Select from "../../../../components/common/select/index";
 import FileItem from "../../components/fileItem/index";
 import FolderItem from "../../components/folderItem/index";
 import FileList from "../../components/fileList/index";
-import ProjectService from "../../../../service/project";
-import FileService from "../../../../service/file";
-import Spin from "../../../../components/common/spin";
-
-import "./index.css";
-import "../../../../static/css/common.css";
+import "./index.scss";
+import "static/css/common.scss";
 
 class ProjectDetailAllFile extends Component {
   constructor(props) {

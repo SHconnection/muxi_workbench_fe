@@ -1,9 +1,9 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import ReactSVG from "react-svg";
-import Button from "../../../../components/common/button/index";
-import CreateFileAlertIcon from "../../../../assets/svg/commonIcon/editFileAlert.svg";
-import "../../../../static/css/common.css";
+import Button from "components/common/button/index";
+import CreateFileAlertIcon from "assets/svg/commonIcon/editFileAlert.svg";
+import "static/css/common.scss";
 
 class AlertCreateFolder extends Component {
   constructor(props) {

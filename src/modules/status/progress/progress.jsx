@@ -11,7 +11,7 @@ import Loading from "components/common/loading/index";
 import Gotop from "components/common/toTop/top";
 import StatusItem from "../components/basicCard/index";
 import StatusService from "../../../service/status";
-import "./progerss.css";
+import "./progerss.scss";
 
 class Progress extends Component {
   constructor(props) {

@@ -3,8 +3,8 @@ import PropTypes from "prop-types";
 import FileService from "service/file";
 import { Store } from "store";
 import Edit from "../../../status/markdown/edit1";
-import "static/css/common.css";
-import "./index.css";
+import "static/css/common.scss";
+import "./index.scss";
 
 class EditDoc extends Component {
   constructor(props) {

@@ -8,7 +8,7 @@ import Loading from "components/common/loading/index";
 import { Store } from "store";
 import Save from "../save/save";
 import Member from "../member/member";
-import "static/css/common.css";
+import "static/css/common.scss";
 import "./selectMember.scss";
 
 class SelectMember extends Component {
@@ -333,14 +333,11 @@ class SelectMember extends Component {
               selMembers={selMembers}
               transferMsg={this.transferMsgMem}
             />
-            <button
-              type="button"
-              className="saveBtn footerBtn"
-              onClick={this.save}
-            >
-              {ifSave ? "已保存" : "保存设置"}
-            </button>
-
+            <div className="footerBtn">
+              <button type="button" className="saveBtn" onClick={this.save}>
+                {ifSave ? "已保存" : "保存设置"}
+              </button>
+            </div>
             <Save ifSave={ifSave} />
           </div>
         )}

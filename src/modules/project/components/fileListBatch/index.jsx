@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
-import "./index.css";
-import "../../../../static/css/common.css";
+import "./index.scss";
+import "static/css/common.scss";
 
 class FileListBatch extends Component {
   constructor(props) {

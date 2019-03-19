@@ -10,7 +10,7 @@ import ManageService from "service/manage";
 import Loading from "components/common/loading/index";
 import { Store } from "store";
 import MemberInfo from "../memberInfo/memberInfo";
-import "static/css/common.css";
+import "static/css/common.scss";
 import "./teamMember.scss";
 
 class TeamMember extends Component {

@@ -8,8 +8,8 @@ import GoBack from "components/common/goBack/index";
 import ManageService from "service/manage";
 import Loading from "components/common/loading/index";
 import { Store } from "store";
-import "static/css/common.css";
-import "./joinApply.css";
+import "static/css/common.scss";
+import "./joinApply.scss";
 
 class JoinApply extends Component {
   constructor(props) {

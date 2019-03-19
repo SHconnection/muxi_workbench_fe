@@ -11,8 +11,8 @@ import Loading from "components/common/loading/index";
 import { Store } from "store";
 import Save from "../components/save/save";
 import Member from "../components/member/member";
-import "static/css/common.css";
-import "./setPermission.css";
+import "static/css/common.scss";
+import "./setPermission.scss";
 
 class SetPermission extends Component {
   constructor(props) {

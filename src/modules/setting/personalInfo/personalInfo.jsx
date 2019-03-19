@@ -13,8 +13,8 @@ import { Store } from "store";
 import PersonalAttention from "../components/personalAttention/personalAttention";
 import Dynamic from "../../feed/dynamic";
 import Progress from "../../status/index";
-import "static/css/common.css";
-import "./personalInfo.css";
+import "static/css/common.scss";
+import "./personalInfo.scss";
 
 const PersonalInfo = ({
   storeId,

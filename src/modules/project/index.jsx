@@ -16,8 +16,7 @@ import DocPreview from "./detail/docPreview/index";
 import FilePreview from "./detail/filePreview/index";
 import NewDoc from "./detail/newDoc/index";
 import EditDoc from "./detail/editDoc/index";
-
-import "../../static/css/common.css";
+import "static/css/common.scss";
 
 const Project = props => {
   const { match } = props;

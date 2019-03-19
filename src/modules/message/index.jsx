@@ -7,9 +7,9 @@ import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import Gotop from "components/common/toTop/top";
 import { Store } from "store";
-import MessageService from "../../service/message";
-import "static/css/common.css";
-import "./index.css";
+import MessageService from "service/message";
+import "static/css/common.scss";
+import "./index.scss";
 
 const kind = ["进度", "文件", "评论", "团队"];
 

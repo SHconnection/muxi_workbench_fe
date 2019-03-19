@@ -11,8 +11,8 @@ import Loading from "components/common/loading/index";
 import { Store } from "store";
 import Save from "../components/save/save";
 import Member from "../components/member/member";
-import "static/css/common.css";
-import "./personalSetting.css";
+import "static/css/common.scss";
+import "./personalSetting.scss";
 
 class PersonalSet extends Component {
   constructor(props) {

@@ -2,9 +2,9 @@ import React, { Component } from "react";
 import ReactSVG from "react-svg";
 import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
-import DocIcon from "../../../../assets/svg/fileIcon/doc.svg";
-import "./index.css";
-import "../../../../static/css/common.css";
+import DocIcon from "assets/svg/fileIcon/doc.svg";
+import "./index.scss";
+import "static/css/common.scss";
 
 class DocItem extends Component {
   constructor(props) {

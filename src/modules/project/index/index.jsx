@@ -7,7 +7,7 @@ import { Store } from "store";
 import ProjectItem from "../components/itemIcon/index";
 import Button from "../../../components/common/button";
 import ProjectService from "../../../service/project";
-import "./index.css";
+import "./index.scss";
 
 class Index extends Component {
   constructor(props) {

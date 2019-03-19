@@ -7,8 +7,8 @@ import { Store } from "store";
 import TrashList from "./list/index";
 import { FileTree } from "../../fileTree";
 import AlertMoveFile from "../../components/alertMoveFile";
-import "./index.css";
-import "static/css/common.css";
+import "./index.scss";
+import "static/css/common.scss";
 
 class ProjectTrash extends Component {
   constructor(props) {

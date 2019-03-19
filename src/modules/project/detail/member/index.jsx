@@ -7,7 +7,7 @@ import GoBack from "components/common/goBack/index";
 import { Store } from "store";
 import Loading from "components/common/loading/index";
 import MemberInfo from "../../../member/memberInfo/memberInfo";
-import "./index.css";
+import "./index.scss";
 
 class Member extends Component {
   constructor(props) {

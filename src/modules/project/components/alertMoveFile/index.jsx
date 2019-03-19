@@ -1,10 +1,10 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { Scrollbars } from "react-custom-scrollbars";
-import Button from "../../../../components/common/button/index";
+import Button from "components/common/button/index";
 import { FileTree } from "../../fileTree";
 import FileTreeComponent from "../fileTree/index";
-import "../../../../static/css/common.css";
+import "static/css/common.scss";
 
 class AlertMoveFile extends Component {
   constructor(props) {

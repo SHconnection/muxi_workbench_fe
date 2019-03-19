@@ -11,8 +11,8 @@ import MessageService from "service/message";
 import Loading from "components/common/loading/index";
 import { Store } from "store";
 import Delete from "../delete/delete";
-import "static/css/common.css";
-import "./personalAttention.css";
+import "static/css/common.scss";
+import "./personalAttention.scss";
 
 const PersonalAttention = ({
   storeId,

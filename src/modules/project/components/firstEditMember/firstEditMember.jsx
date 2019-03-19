@@ -8,7 +8,7 @@ import PropTypes from "prop-types";
 import Select from "components/common/select/index";
 import Loading from "components/common/loading/index";
 import Member from "../../../setting/components/member/member";
-import "static/css/common.css";
+import "static/css/common.scss";
 import "./firstEditMember.scss";
 
 const FirstEditMember = ({

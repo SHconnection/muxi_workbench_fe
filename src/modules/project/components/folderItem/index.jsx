@@ -2,9 +2,9 @@ import React, { Component } from "react";
 import ReactSVG from "react-svg";
 import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
-import FolderIcon from "../../../../assets/svg/fileIcon/folder.svg";
-import "./index.css";
-import "../../../../static/css/common.css";
+import FolderIcon from "assets/svg/fileIcon/folder.svg";
+import "./index.scss";
+import "static/css/common.scss";
 
 class FolderItem extends Component {
   constructor(props) {
@@ -37,10 +37,7 @@ class FolderItem extends Component {
   }
 
   render() {
-    const { 
-      folderItem, 
-      pid 
-    } = this.props;
+    const { folderItem, pid } = this.props;
     const { hover } = this.state;
     return (
       <div

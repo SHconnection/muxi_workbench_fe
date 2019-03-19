@@ -4,8 +4,8 @@ ifSave判断是否显示
 */
 import React from "react";
 import PropTypes from "prop-types";
-import "static/css/common.css";
-import "./save.css";
+import "static/css/common.scss";
+import "./save.scss";
 
 const Save = ({ ifSave }) => (
   <div className={ifSave ? "subject save-isSave" : "none"}>

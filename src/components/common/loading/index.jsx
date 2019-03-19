@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
-import "./loading.css";
-import "static/css/common.css";
+import "./loading.scss";
+import "static/css/common.scss";
 
 const ICON_ARR = ["middlebase", "leftbase", "rightbase"];
 const ICON = ICON_ARR[Math.floor(Math.random() * 3)];

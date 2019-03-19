@@ -2,9 +2,9 @@ import React from "react";
 import PropTypes from "prop-types";
 import { withRouter } from "react-router";
 // import ReactSVG from 'react-svg'
-// import backIcon from '../../../assets/svg/commonIcon/back.svg'
-import "../../../static/css/common.css";
-import "./index.css";
+// import backIcon from 'assets/svg/commonIcon/back.svg'
+import "static/css/common.scss";
+import "./index.scss";
 
 const goBack = (href, history) => {
   if (href) {

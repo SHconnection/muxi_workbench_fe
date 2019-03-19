@@ -1,11 +1,11 @@
 import React, { Component } from "react";
 import ReactSVG from "react-svg";
 import PropTypes from "prop-types";
-import FolderIcon from "../../../../assets/svg/commonIcon/fileTreeFolder.svg";
-import FolderIconToggel from "../../../../assets/svg/commonIcon/fileTreeFolderToggel.svg";
-import TriangelLeft from "../../../../assets/svg/commonIcon/fileTreeTriangelLeft.svg";
-import TriangelDown from "../../../../assets/svg/commonIcon/fileTreeTriangelDown.svg";
-import "./index.css";
+import FolderIcon from "assets/svg/commonIcon/fileTreeFolder.svg";
+import FolderIconToggel from "assets/svg/commonIcon/fileTreeFolderToggel.svg";
+import TriangelLeft from "assets/svg/commonIcon/fileTreeTriangelLeft.svg";
+import TriangelDown from "assets/svg/commonIcon/fileTreeTriangelDown.svg";
+import "./index.scss";
 
 function initNodeSelected(node) {
   const nodeTemp = node;

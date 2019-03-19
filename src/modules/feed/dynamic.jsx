@@ -9,12 +9,12 @@ import {
   getScrollTop
 } from "common/scroll";
 import { Store } from "store";
+import Gotop from "components/common/toTop/top";
+import FeedService from "service/feed";
+import ProjectService from "service/project";
 import FeedItem from "./components/feedList/index";
-import Gotop from "../../components/common/toTop/top";
-import FeedService from "../../service/feed";
-import ProjectService from "../../service/project";
-import "../../static/css/common.css";
-import "./dynamic.css";
+import "static/css/common.scss";
+import "./dynamic.scss";
 
 const createweek = [
   " 周日",

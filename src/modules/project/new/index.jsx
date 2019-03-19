@@ -7,8 +7,8 @@ import ManageService from "service/manage";
 import ProjectService from "service/project";
 import Loading from "components/common/loading";
 import { Store } from "store";
-import "static/css/common.css";
-import "./index.css";
+import "static/css/common.scss";
+import "./index.scss";
 
 const gotoBack = () => {
   window.history.back();

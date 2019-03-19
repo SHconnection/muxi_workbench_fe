@@ -4,8 +4,8 @@
 */
 import React from "react";
 import PropTypes from "prop-types";
-import "static/css/common.css";
-import "./projectSetFirst.css";
+import "static/css/common.scss";
+import "./projectSetFirst.scss";
 
 const ProjectSetFirst = ({
   inputValue,

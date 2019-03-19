@@ -6,8 +6,8 @@
 import React, { Component } from "react";
 import GoBack from "components/common/goBack/index";
 import SelectMember from "../components/selectMember/selectMember";
-import "static/css/common.css";
-import "./addGroup.css";
+import "static/css/common.scss";
+import "./addGroup.scss";
 
 class AddGroup extends Component {
   constructor(props) {
