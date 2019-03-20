@@ -27,13 +27,13 @@ class ProjectDetailAllFile extends Component {
       uploading: false,
       loading: true,
       // 当前项目id
-      pid: parseInt(match.params.pid, 0),
+      pid: parseInt(match.params.pid, 10),
       // 当前正在操作的fileid
       currentFileId: undefined,
       // 当前正在操作的fileFolderId
       currentFileFolderId: undefined,
       // 当前视图的文件树节点id
-      fileRootId: parseInt(match.params.id, 0),
+      fileRootId: parseInt(match.params.id, 10),
       // 当前视图name
       currentRootName: "",
       // 当前路径
@@ -78,18 +78,26 @@ class ProjectDetailAllFile extends Component {
     this.confirmMoveFile = this.confirmMoveFile.bind(this);
     this.fileToTop = this.fileToTop.bind(this);
     this.hideAlert = this.hideAlert.bind(this);
-    this.updateFilesList(parseInt(match.params.id, 0));
+  }
+
+  componentDidMount() {
+    const {
+      match: {
+        params: { id }
+      }
+    } = this.props;
+    this.updateFilesList(parseInt(id, 10));
   }
 
   componentWillUpdate(nextProps) {
-    /* eslint-disable */
-    const { location } = this.props;
-    /* eslint-disable */
-    if (location !== nextProps.location) {
-      this.setState({
-        fileRootId: parseInt(nextProps.match.params.id, 0)
-      });
-      this.updateFilesList(parseInt(nextProps.match.params.id, 0));
+    const { fileRootId } = this.state;
+    const {
+      match: {
+        params: { id }
+      }
+    } = nextProps;
+    if (fileRootId !== id) {
+      this.updateFilesList(parseInt(id, 10));
     }
   }
 
@@ -130,19 +138,22 @@ class ProjectDetailAllFile extends Component {
 
   // 根据文件树更新当前视图的文件
   updateFilesList(id) {
+    this.setState({
+      loading: true,
+      fileRootId: id
+    });
     const { pid } = this.state;
-    const fileRootId = id;
     // 请求树
     FileTree.getFileTree(pid)
       .then(res => {
         this.setState({
           fileTree: res,
-          currentRootName: FileTree.searchNode(fileRootId, res).name
+          currentRootName: FileTree.searchNode(id, res).name
         });
         // 算当前路径
-        this.getFileUrl(fileRootId, res);
+        this.getFileUrl(id, res);
         // 请求filelist
-        FileService.getFileList(FileTree.findFileIdList(fileRootId, res))
+        FileService.getFileList(FileTree.findFileIdList(id, res))
           .then(res1 => {
             this.setState({
               filesList: res1,
@@ -417,7 +428,7 @@ class ProjectDetailAllFile extends Component {
       showCreateFile: false,
       showDleteFile: false,
       showMoveFile: false,
-      newFileInputText: "",
+      // newFileInputText: "",
       currentFileId: undefined,
       currentFileFolderId: undefined
     });
@@ -429,6 +440,7 @@ class ProjectDetailAllFile extends Component {
       itemLayOut: false
     });
   }
+
   changeLayoutToItem() {
     this.setState({
       itemLayOut: true
@@ -447,9 +459,11 @@ class ProjectDetailAllFile extends Component {
       showCreateFile,
       showDleteFile,
       showMoveFile,
-      fileUrl
+      fileUrl,
+      loading,
+      uploading
     } = this.state;
-    let BatchBtStyle = !filesList.FileList.length
+    const BatchBtStyle = !filesList.FileList.length
       ? {
           visibility: "hidden"
         }
@@ -457,7 +471,7 @@ class ProjectDetailAllFile extends Component {
           visibility: "visible"
         };
 
-    return !this.state.loading ? (
+    return !loading ? (
       <div className="projectDetail-container">
         <GoBack />
         <div className="projectDetail-content">
@@ -510,7 +524,7 @@ class ProjectDetailAllFile extends Component {
                   />
                 </div>
               ))}
-              {this.state.uploading ? (
+              {uploading ? (
                 <div className="file-item">
                   <div className="uploading">
                     <Spin />
@@ -524,7 +538,7 @@ class ProjectDetailAllFile extends Component {
             </div>
           ) : (
             <div className="projectDetail-allFile-list">
-              {!!filesList.FileList.length ? (
+              {filesList.FileList.length ? (
                 <div className="projectDetail-allFile-list-title">
                   <div className="projectDetail-allFile-list-name">
                     文件名称

@@ -709,8 +709,11 @@ class ProjectDetailIndex extends Component {
               ) : null}
             </div>
             <div className="projectDetail-file-footer">
-              {filesList.FileList.length ? (
-                <Link to={`/project/${pid}/fileFolder/0`} className="fakeBtn">
+              {filesList.FolderList.length || filesList.FileList.length ? (
+                <Link
+                  to={`/project/${pid}/fileFolder/0`}
+                  className="fakeBtn projectDetailIndex-lookAtAllDoc"
+                >
                   查看所有文件
                 </Link>
               ) : (
@@ -749,8 +752,11 @@ class ProjectDetailIndex extends Component {
               ))}
             </div>
             <div className="projectDetail-file-footer">
-              {docList.DocList.length ? (
-                <Link to={`/project/${pid}/docFolder/0`} className="fakeBtn">
+              {docList.FolderList.length || docList.DocList.length ? (
+                <Link
+                  to={`/project/${pid}/docFolder/0`}
+                  className="fakeBtn projectDetailIndex-lookAtAllDoc"
+                >
                   查看所有文档
                 </Link>
               ) : (

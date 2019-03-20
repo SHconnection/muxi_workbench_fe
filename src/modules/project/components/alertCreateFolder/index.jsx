@@ -23,8 +23,9 @@ class AlertCreateFolder extends Component {
 
   confirmCreate() {
     const { InputText } = this.state;
-    const { confirmCreate } = this.props;
+    const { confirmCreate, cancel } = this.props;
     confirmCreate(InputText);
+    cancel();
   }
 
   // 输入新文件夹名字

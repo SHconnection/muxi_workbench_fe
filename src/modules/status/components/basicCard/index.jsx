@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import ReactSVG from "react-svg";
-// import { Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
 import thumbs from "../../../../assets/svg/commonIcon/thumbs.svg";
 import thumbsUp from "../../../../assets/svg/commonIcon/thumbs_up.svg";
@@ -69,12 +69,6 @@ class Item extends Component {
     }
   };
 
-  toStatusDetails = () => {
-    const { sid } = this.state;
-
-    window.open(`/status/${sid}`, `/status/${sid}`);
-  };
-
   render() {
     const { whetherLike, likeNumber, sid, isPersonal, content } = this.state;
     const { username, time, commentCount, avatar, isFirstItem } = this.props;
@@ -104,15 +98,13 @@ class Item extends Component {
             </div>
           </div>
           <div>
-            <span
+            <Link
+              to={`/status/${sid}`}
+              target="_blank"
               className={!isPersonal ? "open" : "open-person"}
-              onClick={this.toStatusDetails}
-              onKeyDown={this.handleClick}
-              role="button"
-              tabIndex="-1"
             >
               详情
-            </span>
+            </Link>
           </div>
         </div>
         <div
@@ -120,19 +112,17 @@ class Item extends Component {
             isPersonal ? "status-personal-content" : "status-item-content"
           }
         >
-          <div
+          <Link
+            to={`/status/${sid}`}
+            target="_blank"
             className={
               isPersonal
                 ? "status-personal-link-content"
                 : "status-item-link-content"
             }
-            onClick={this.toStatusDetails}
-            onKeyDown={this.handleClick}
-            role="button"
-            tabIndex="-1"
           >
             <div dangerouslySetInnerHTML={{ __html: content }} />
-          </div>
+          </Link>
         </div>
         <div className="others">
           <ReactSVG
@@ -142,14 +132,9 @@ class Item extends Component {
           />
           <div className="status-item-goodnumber">{likeNumber}</div>
           <div>
-            <div
-              onClick={this.toStatusDetails}
-              onKeyDown={this.handleClick}
-              role="button"
-              tabIndex="-1"
-            >
+            <Link to={`/status/${sid}`} target="_blank">
               <ReactSVG className="status-item-commet" path={comment} />
-            </div>
+            </Link>
           </div>
           <div className="status-item-comments">{commentCount}</div>
         </div>

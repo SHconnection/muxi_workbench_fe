@@ -17,16 +17,16 @@ import DocList from "../../components/docList/index";
 import "./index.scss";
 import "static/css/common.scss";
 
-class ProjectDetailAllFile extends Component {
+class ProjectDetailAllDoc extends Component {
   constructor(props) {
     super(props);
     const { match } = this.props;
     this.state = {
       loading: true,
       // 当前项目id
-      pid: parseInt(match.params.pid, 0),
+      pid: parseInt(match.params.pid, 10),
       // 当前视图的文档树节点id
-      docRootId: parseInt(match.params.id, 0),
+      docRootId: parseInt(match.params.id, 10),
       // 当前视图name
       currentRootName: "",
       // 当前路径
@@ -75,18 +75,26 @@ class ProjectDetailAllFile extends Component {
     this.hideAlert = this.hideAlert.bind(this);
     this.changeLayoutToItem = this.changeLayoutToItem.bind(this);
     this.changeLayoutToList = this.changeLayoutToList.bind(this);
-    this.updateDocList(parseInt(match.params.id, 0));
+  }
+
+  componentDidMount() {
+    const {
+      match: {
+        params: { id }
+      }
+    } = this.props;
+    this.updateDocList(parseInt(id, 10));
   }
 
   componentWillUpdate(nextProps) {
-    /* eslint-disable */
-    const { location } = this.props;
-    /* eslint-disable */
-    if (location !== nextProps.location) {
-      this.setState({
-        docRootId: parseInt(nextProps.match.params.id, 0)
-      });
-      // this.updateDocList(parseInt(nextProps.match.params.id, 0));
+    const { docRootId } = this.state;
+    const {
+      match: {
+        params: { id }
+      }
+    } = nextProps;
+    if (docRootId !== id) {
+      this.updateDocList(parseInt(id, 10));
     }
   }
 
@@ -123,21 +131,21 @@ class ProjectDetailAllFile extends Component {
   // 根据文档树更新当前视图的文档
   updateDocList(id) {
     this.setState({
-      loading: true
+      loading: true,
+      docRootId: id
     });
     const { pid } = this.state;
-    const docRootId = id;
     // 请求树
     FileTree.getDocTree(pid)
       .then(res => {
         this.setState({
           docTree: res,
-          currentRootName: FileTree.searchNode(docRootId, res).name
+          currentRootName: FileTree.searchNode(id, res).name
         });
         // 算出当前路径
-        this.getDocUrl(docRootId, res);
+        this.getDocUrl(id, res);
         // 请求doclist
-        FileService.getDocList(FileTree.findDocIdList(docRootId, res))
+        FileService.getDocList(FileTree.findDocIdList(id, res))
           .then(res1 => {
             this.setState({
               docList: res1,
@@ -342,9 +350,9 @@ class ProjectDetailAllFile extends Component {
       // 是否显示删除文档
       showDletedoc: false,
       // 是否显示移动文档
-      showMoveDoc: false,
+      showMoveDoc: false
       // 移动文档最终选择的id
-      finalMoveDocId: 0
+      // finalMoveDocId: 0
     });
   }
 
@@ -373,16 +381,17 @@ class ProjectDetailAllFile extends Component {
       showCreateDocFile,
       showDletedoc,
       showMoveDoc,
-      docTree
+      docTree,
+      loading
     } = this.state;
-    let BatchBtStyle = !docList.DocList.length
+    const BatchBtStyle = !docList.DocList.length
       ? {
           visibility: "hidden"
         }
       : {
           visibility: "visible"
         };
-    return this.state.loading ? (
+    return loading ? (
       <Loading />
     ) : (
       <div className="projectDetail-container">
@@ -501,14 +510,14 @@ class ProjectDetailAllFile extends Component {
   }
 }
 
-ProjectDetailAllFile.propTypes = {
+ProjectDetailAllDoc.propTypes = {
   match: PropTypes.shape({
     url: PropTypes.string
   })
 };
 
-ProjectDetailAllFile.defaultProps = {
+ProjectDetailAllDoc.defaultProps = {
   match: {}
 };
 
-export default ProjectDetailAllFile;
+export default ProjectDetailAllDoc;
