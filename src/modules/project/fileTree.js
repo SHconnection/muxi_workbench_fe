@@ -1,3 +1,4 @@
+import { Store } from "store";
 import ProjectService from "../../service/project";
 
 export const Root = {
@@ -162,8 +163,11 @@ export const FileTree = {
         }
         return [];
       })
-      .catch(res => {
-        console.error("error", res);
+      .catch(error => {
+        Store.dispatch({
+          type: "substituteWrongInfo",
+          payload: error
+        });
       });
   },
 
@@ -176,8 +180,11 @@ export const FileTree = {
         }
         return [];
       })
-      .catch(res => {
-        console.error(res);
+      .catch(error => {
+        Store.dispatch({
+          type: "substituteWrongInfo",
+          payload: error
+        });
       });
   },
 
@@ -259,7 +266,7 @@ export const FileTree = {
   // 返回某个文档节点下的id：{folder: [id1, id2, ...], doc: [id1, id2, ...]}
   findDocIdList(id, root) {
     const parentNode = FileTree.searchFolder(id, root);
-    console.log(parentNode);
+    // console.log(parentNode);
     if (parentNode === null || !parentNode.folder) {
       return false;
     }

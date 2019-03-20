@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import GoBack from "components/common/goBack/index";
 import ProjectService from "service/project";
 import FileService from "service/file";
+import { Store } from "store";
 import AlertMoveFile from "../../components/alertMoveFile";
 import AlertDeleteFile from "../../components/alertDeleteFile";
 import { FileTree } from "../../fileTree";
@@ -71,8 +72,11 @@ class BatchDoc extends Component {
               fileUrl
             });
           })
-          .catch(err => {
-            console.error(err);
+          .catch(error => {
+            Store.dispatch({
+              type: "substituteWrongInfo",
+              payload: error
+            });
           });
       }
     }
@@ -106,15 +110,19 @@ class BatchDoc extends Component {
             });
             this.hideAlert();
           })
-          .catch(res1 => {
-            console.error(res1);
-          })
-          .finally(() => {});
+          .catch(error => {
+            Store.dispatch({
+              type: "substituteWrongInfo",
+              payload: error
+            });
+          });
       })
-      .catch(res => {
-        console.error(res);
-      })
-      .finally(() => {});
+      .catch(error => {
+        Store.dispatch({
+          type: "substituteWrongInfo",
+          payload: error
+        });
+      });
   }
 
   // 勾选
@@ -179,8 +187,11 @@ class BatchDoc extends Component {
         // 更新视图
         this.updateFilesList(fileRootId);
       })
-      .catch(el => {
-        console.error(el);
+      .catch(error => {
+        Store.dispatch({
+          type: "substituteWrongInfo",
+          payload: error
+        });
       });
   }
 
@@ -226,8 +237,11 @@ class BatchDoc extends Component {
         // 更新视图
         this.updateFilesList(fileRootId);
       })
-      .catch(el => {
-        console.error(el);
+      .catch(error => {
+        Store.dispatch({
+          type: "substituteWrongInfo",
+          payload: error
+        });
       });
   }
 

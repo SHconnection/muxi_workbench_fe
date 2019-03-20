@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import ReactSVG from "react-svg";
-import { Link } from "react-router-dom";
+// import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
 import thumbs from "../../../../assets/svg/commonIcon/thumbs.svg";
 import thumbsUp from "../../../../assets/svg/commonIcon/thumbs_up.svg";
@@ -21,24 +21,23 @@ class Item extends Component {
       isPersonal: props.isPersonal,
       content: props.content
     };
-    this.changeLike = this.changeLike.bind(this);
   }
 
-  componentDidMount() {
-    // const { content } = this.props;
-    // let converted = "";
-    // content.split("").forEach(str => {
-    //   if (str !== "\n") {
-    //     converted += `${str}`;
-    //   } else {
-    //     converted += "<br />";
-    //   }
-    // });
-    // const arr = converted.split(/<br\s*\/?>/i);
-    // this.setState({
-    //   content: arr.reduce((el, a) => el.concat(a, <br />), [])
-    // });
-  }
+  // componentDidMount() {
+  //   const { content } = this.props;
+  //   let converted = "";
+  //   content.split("").forEach(str => {
+  //     if (str !== "\n") {
+  //       converted += `${str}`;
+  //     } else {
+  //       converted += "<br />";
+  //     }
+  //   });
+  //   const arr = converted.split(/<br\s*\/?>/i);
+  //   this.setState({
+  //     content: arr.reduce((el, a) => el.concat(a, <br />), [])
+  //   });
+  // }
 
   // componentWillReceiveProps(nextProps){
   //   const {sid} = nextProps;
@@ -54,7 +53,7 @@ class Item extends Component {
   //   });
   // }
 
-  changeLike(sid, whetherLike, likeNumber) {
+  changeLike = (sid, whetherLike, likeNumber) => {
     if (whetherLike === 0) {
       this.setState({
         whetherLike: 1,
@@ -68,7 +67,13 @@ class Item extends Component {
       });
       StatusService.changeLike(sid, 0);
     }
-  }
+  };
+
+  toStatusDetails = () => {
+    const { sid } = this.state;
+
+    window.open(`/status/${sid}`, `/status/${sid}`);
+  };
 
   render() {
     const { whetherLike, likeNumber, sid, isPersonal, content } = this.state;
@@ -99,13 +104,15 @@ class Item extends Component {
             </div>
           </div>
           <div>
-            <Link
-              to={`/status/${sid}`}
+            <span
               className={!isPersonal ? "open" : "open-person"}
-              target="_blank"
+              onClick={this.toStatusDetails}
+              onKeyDown={this.handleClick}
+              role="button"
+              tabIndex="-1"
             >
               详情
-            </Link>
+            </span>
           </div>
         </div>
         <div
@@ -113,17 +120,19 @@ class Item extends Component {
             isPersonal ? "status-personal-content" : "status-item-content"
           }
         >
-          <Link
-            to={`/status/${sid}`}
+          <div
             className={
               isPersonal
                 ? "status-personal-link-content"
                 : "status-item-link-content"
             }
-            target="_blank"
+            onClick={this.toStatusDetails}
+            onKeyDown={this.handleClick}
+            role="button"
+            tabIndex="-1"
           >
             <div dangerouslySetInnerHTML={{ __html: content }} />
-          </Link>
+          </div>
         </div>
         <div className="others">
           <ReactSVG
@@ -133,9 +142,14 @@ class Item extends Component {
           />
           <div className="status-item-goodnumber">{likeNumber}</div>
           <div>
-            <Link to={`/status/${sid}`} target="_blank">
+            <div
+              onClick={this.toStatusDetails}
+              onKeyDown={this.handleClick}
+              role="button"
+              tabIndex="-1"
+            >
               <ReactSVG className="status-item-commet" path={comment} />
-            </Link>
+            </div>
           </div>
           <div className="status-item-comments">{commentCount}</div>
         </div>

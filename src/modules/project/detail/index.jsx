@@ -345,13 +345,19 @@ class ProjectDetailIndex extends Component {
                   showCreateDocFile: false
                 });
               })
-              .catch(res1 => {
-                console.error(res1);
+              .catch(error => {
+                Store.dispatch({
+                  type: "substituteWrongInfo",
+                  payload: error
+                });
               });
           }
         })
-        .catch(res => {
-          console.error(res);
+        .catch(error => {
+          Store.dispatch({
+            type: "substituteWrongInfo",
+            payload: error
+          });
         });
     }
   }
@@ -383,8 +389,11 @@ class ProjectDetailIndex extends Component {
           // 删除成功
           this.deleteFileNode(currentFileId);
         })
-        .catch(el => {
-          console.error(el);
+        .catch(error => {
+          Store.dispatch({
+            type: "substituteWrongInfo",
+            payload: error
+          });
         });
     }
     // 文件夹
@@ -395,8 +404,11 @@ class ProjectDetailIndex extends Component {
           // 删除成功
           this.deleteFileNode(currentFileFolderId);
         })
-        .catch(el => {
-          console.error(el);
+        .catch(error => {
+          Store.dispatch({
+            type: "substituteWrongInfo",
+            payload: error
+          });
         });
     }
   }
@@ -412,8 +424,11 @@ class ProjectDetailIndex extends Component {
           // 更新视图
           this.updateFilesList();
         })
-        .catch(el => {
-          console.error(el);
+        .catch(error => {
+          Store.dispatch({
+            type: "substituteWrongInfo",
+            payload: error
+          });
         });
     }
   }
@@ -444,8 +459,11 @@ class ProjectDetailIndex extends Component {
           // 删除成功
           this.deleteDocNode(currentDocId);
         })
-        .catch(el => {
-          console.error(el);
+        .catch(error => {
+          Store.dispatch({
+            type: "substituteWrongInfo",
+            payload: error
+          });
         });
     }
     if (currentDocFolderId) {
@@ -455,8 +473,11 @@ class ProjectDetailIndex extends Component {
           // 删除成功
           this.deleteDocNode(currentDocFolderId);
         })
-        .catch(el => {
-          console.error(el);
+        .catch(error => {
+          Store.dispatch({
+            type: "substituteWrongInfo",
+            payload: error
+          });
         });
     }
   }
@@ -472,8 +493,11 @@ class ProjectDetailIndex extends Component {
           // 更新视图
           this.updatedocList();
         })
-        .catch(el => {
-          console.error(el);
+        .catch(error => {
+          Store.dispatch({
+            type: "substituteWrongInfo",
+            payload: error
+          });
         });
     }
   }
@@ -532,8 +556,11 @@ class ProjectDetailIndex extends Component {
           // 更新视图
           this.updateFilesList();
         })
-        .catch(el => {
-          console.error(el);
+        .catch(error => {
+          Store.dispatch({
+            type: "substituteWrongInfo",
+            payload: error
+          });
         });
     }
   }
@@ -560,8 +587,11 @@ class ProjectDetailIndex extends Component {
           // 更新视图
           this.updatedocList();
         })
-        .catch(el => {
-          console.error(el);
+        .catch(error => {
+          Store.dispatch({
+            type: "substituteWrongInfo",
+            payload: error
+          });
         });
     }
   }
