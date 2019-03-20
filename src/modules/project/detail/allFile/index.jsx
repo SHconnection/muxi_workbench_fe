@@ -8,6 +8,7 @@ import Select from "components/common/select/index";
 import ProjectService from "service/project";
 import FileService from "service/file";
 import Spin from "components/common/spin";
+import { Store } from "store";
 import AlertMoveFile from "../../components/alertMoveFile";
 import AlertDeleteFile from "../../components/alertDeleteFile";
 import AlertCreateFolder from "../../components/alertCreateFolder";
@@ -117,8 +118,11 @@ class ProjectDetailAllFile extends Component {
               fileUrl
             });
           })
-          .catch(err => {
-            console.error(err);
+          .catch(error => {
+            Store.dispatch({
+              type: "substituteWrongInfo",
+              payload: error
+            });
           });
       }
     }
@@ -146,12 +150,18 @@ class ProjectDetailAllFile extends Component {
             });
             this.hideAlert();
           })
-          .catch(res1 => {
-            console.error(res1);
+          .catch(error => {
+            Store.dispatch({
+              type: "substituteWrongInfo",
+              payload: error
+            });
           });
       })
-      .catch(res => {
-        console.error(res);
+      .catch(error => {
+        Store.dispatch({
+          type: "substituteWrongInfo",
+          payload: error
+        });
       });
   }
 
@@ -192,20 +202,24 @@ class ProjectDetailAllFile extends Component {
                     uploading: false
                   });
                 })
-                .catch(res1 => {
-                  console.error(res1);
-                })
-                .finally(() => {});
+                .catch(error => {
+                  Store.dispatch({
+                    type: "substituteWrongInfo",
+                    payload: error
+                  });
+                });
             });
           }
           if (res.status === 413) {
             alert(res.statusText);
           }
         })
-        .catch(res => {
-          console.error(res);
-        })
-        .finally(() => {});
+        .catch(error => {
+          Store.dispatch({
+            type: "substituteWrongInfo",
+            payload: error
+          });
+        });
     }
   }
 
@@ -234,12 +248,18 @@ class ProjectDetailAllFile extends Component {
                 showCreateFile: false
               });
             })
-            .catch(res1 => {
-              console.error(res1);
+            .catch(error => {
+              Store.dispatch({
+                type: "substituteWrongInfo",
+                payload: error
+              });
             });
         })
-        .catch(res => {
-          console.error(res);
+        .catch(error => {
+          Store.dispatch({
+            type: "substituteWrongInfo",
+            payload: error
+          });
         });
     }
   }
@@ -271,8 +291,11 @@ class ProjectDetailAllFile extends Component {
           // 删除成功
           this.deleteFileNode(currentFileId);
         })
-        .catch(el => {
-          console.error(el);
+        .catch(error => {
+          Store.dispatch({
+            type: "substituteWrongInfo",
+            payload: error
+          });
         });
     }
     // 文件夹
@@ -283,8 +306,11 @@ class ProjectDetailAllFile extends Component {
           // 删除成功
           this.deleteFileNode(currentFileFolderId);
         })
-        .catch(el => {
-          console.error(el);
+        .catch(error => {
+          Store.dispatch({
+            type: "substituteWrongInfo",
+            payload: error
+          });
         });
     }
   }
@@ -300,8 +326,11 @@ class ProjectDetailAllFile extends Component {
           // 更新视图
           this.updateFilesList(fileRootId);
         })
-        .catch(el => {
-          console.error(el);
+        .catch(error => {
+          Store.dispatch({
+            type: "substituteWrongInfo",
+            payload: error
+          });
         });
     }
   }
@@ -345,8 +374,11 @@ class ProjectDetailAllFile extends Component {
           // 更新视图
           this.updateFilesList(fileRootId);
         })
-        .catch(el => {
-          console.error(el);
+        .catch(error => {
+          Store.dispatch({
+            type: "substituteWrongInfo",
+            payload: error
+          });
         });
     }
   }
@@ -370,8 +402,11 @@ class ProjectDetailAllFile extends Component {
           // 更新视图
           this.updateFilesList(fileRootId);
         })
-        .catch(el => {
-          console.error(el);
+        .catch(error => {
+          Store.dispatch({
+            type: "substituteWrongInfo",
+            payload: error
+          });
         });
     }
   }

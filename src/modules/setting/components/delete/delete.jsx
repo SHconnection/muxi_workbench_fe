@@ -16,6 +16,7 @@
 */
 import React from "react";
 import PropTypes from "prop-types";
+import { withRouter } from "react-router";
 import ProjectService from "service/project";
 import ManageService from "service/manage";
 import StatusService from "service/status";
@@ -24,38 +25,42 @@ import { Store } from "store";
 import "static/css/common.scss";
 import "./delete.scss";
 
-const Delete = props => {
-  const { name, cancel, deleteX, transferMsg } = props;
+const Delete = ({
+  name,
+  cancel,
+  deleteX,
+  transferMsg,
+  certain,
+  del,
+  data,
+  proDel,
+  proId,
+  staDel,
+  staId,
+  groupDel,
+  memDel,
+  userId,
+  attentionDel,
+  history,
+  pathJump
+}) => {
   const deleteMove = () => {
-    const {
-      certain,
-      del,
-      data,
-      proDel,
-      proId,
-      staDel,
-      staId,
-      groupDel,
-      memDel,
-      userId,
-      attentionDel,
-      pathJump
-    } = props;
-
     if (certain) {
       transferMsg(false, true);
     }
 
     if (del) {
-      data.dealed = true;
+      const data1 = data;
+      data1.dealed = true;
 
-      transferMsg(data);
+      transferMsg(data1);
     }
 
     if (groupDel) {
       ManageService.groupDelete(data.id)
         .then(() => {
-          data.dealed = true;
+          const data1 = data;
+          data1.dealed = true;
           transferMsg(false);
         })
         .catch(error => {
@@ -86,7 +91,7 @@ const Delete = props => {
       StatusService.statusDelete(staId)
         .then(() => {
           transferMsg(false);
-          window.history.back();
+          history.push("/status");
         })
         .catch(error => {
           transferMsg(false);
@@ -114,7 +119,8 @@ const Delete = props => {
     if (attentionDel) {
       MessageService.notFocusOnFile(data.fileID, data.fileKind)
         .then(() => {
-          data.dealed = true;
+          const data1 = data;
+          data1.dealed = true;
           transferMsg(false);
         })
         .catch(error => {
@@ -150,9 +156,7 @@ const Delete = props => {
             <button
               type="button"
               className="saveBtn delete-btnMarg"
-              onClick={() => {
-                deleteMove(props);
-              }}
+              onClick={deleteMove}
               onKeyDown={() => {}}
             >
               确定
@@ -163,8 +167,6 @@ const Delete = props => {
     </div>
   );
 };
-
-export default Delete;
 
 Delete.propTypes = {
   name: PropTypes.string,
@@ -186,7 +188,10 @@ Delete.propTypes = {
   userId: PropTypes.number,
   attentionDel: PropTypes.bool,
   pathJump: PropTypes.bool,
-  transferMsg: PropTypes.func
+  transferMsg: PropTypes.func,
+  history: PropTypes.shape({
+    push: PropTypes.func
+  })
 };
 
 Delete.defaultProps = {
@@ -205,5 +210,8 @@ Delete.defaultProps = {
   userId: 0,
   attentionDel: false,
   pathJump: false,
-  transferMsg: () => {}
+  transferMsg: () => {},
+  history: {}
 };
+
+export default withRouter(Delete);

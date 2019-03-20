@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import GoBack from "components/common/goBack/index";
 import ProjectService from "service/project";
 import FileService from "service/file";
+import { Store } from "store";
 import AlertMoveFile from "../../components/alertMoveFile";
 import AlertDeleteFile from "../../components/alertDeleteFile";
 import { FileTree } from "../../fileTree";
@@ -71,8 +72,11 @@ class BatchFile extends Component {
               fileUrl
             });
           })
-          .catch(err => {
-            console.error(err);
+          .catch(error => {
+            Store.dispatch({
+              type: "substituteWrongInfo",
+              payload: error
+            });
           });
       }
     }
@@ -106,15 +110,19 @@ class BatchFile extends Component {
             });
             this.hideAlert();
           })
-          .catch(res1 => {
-            console.error(res1);
-          })
-          .finally(() => {});
+          .catch(error => {
+            Store.dispatch({
+              type: "substituteWrongInfo",
+              payload: error
+            });
+          });
       })
-      .catch(res => {
-        console.error(res);
-      })
-      .finally(() => {});
+      .catch(error => {
+        Store.dispatch({
+          type: "substituteWrongInfo",
+          payload: error
+        });
+      });
   }
 
   // 勾选
@@ -175,7 +183,7 @@ class BatchFile extends Component {
       }
     }
     const deleteData = { folder: [], file: [] };
-    console.log(fileTree);
+    // console.log(fileTree);
     deleteData.file = fileList.filter(el => el.checked).map(el => el.id);
     // 放入回收站
     FileService.deleteFileFolder(0, deleteData)
@@ -185,12 +193,18 @@ class BatchFile extends Component {
             // 更新视图
             this.updateFilesList(fileRootId);
           })
-          .catch(el => {
-            console.error(el);
+          .catch(error => {
+            Store.dispatch({
+              type: "substituteWrongInfo",
+              payload: error
+            });
           });
       })
-      .catch(err => {
-        console.error(err);
+      .catch(error => {
+        Store.dispatch({
+          type: "substituteWrongInfo",
+          payload: error
+        });
       });
   }
 
@@ -236,8 +250,11 @@ class BatchFile extends Component {
         // 更新视图
         this.updateFilesList(fileRootId);
       })
-      .catch(el => {
-        console.error(el);
+      .catch(error => {
+        Store.dispatch({
+          type: "substituteWrongInfo",
+          payload: error
+        });
       });
   }
 

@@ -11,7 +11,7 @@ const goBack = (href, history) => {
     if (history.length > 1) {
       history.goBack();
     } else {
-      history.replace(href);
+      history.push(href);
     }
   } else {
     history.goBack();
