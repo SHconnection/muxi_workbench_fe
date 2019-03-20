@@ -11,9 +11,9 @@ import ManageService from "service/manage";
 import Loading from "components/common/loading/index";
 import { Store } from "store";
 import Delete from "../components/delete/delete";
-import "static/css/common.css";
-import "../joinApply/joinApply.css";
-import "./groupManage.css";
+import "static/css/common.scss";
+import "../joinApply/joinApply.scss";
+import "./groupManage.scss";
 
 class GroupManage extends Component {
   constructor(props) {

@@ -5,8 +5,8 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 import GoBack from "components/common/goBack/index";
 import SelectMember from "../components/selectMember/selectMember";
-import "static/css/common.css";
-import "./groupMember.css";
+import "static/css/common.scss";
+import "./groupMember.scss";
 
 class GroupMember extends Component {
   constructor(props) {

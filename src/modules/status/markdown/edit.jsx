@@ -6,7 +6,7 @@ import Goback from "components/common/goBack/index";
 import Button from "components/common/button";
 // import MarkdownPreview from './marked/preview';
 // import MarkdownInput from "./marked/input";
-import "static/css/common.css";
+import "static/css/common.scss";
 import StatusService from "service/status";
 // import CustomEditor from "./editor";
 import { Store } from "store";

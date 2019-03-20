@@ -1,13 +1,13 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 // import { MarkdownPreview } from "react-marked-markdown";
-import Goback from "../../../components/common/goBack/index";
-import Button from "../../../components/common/button";
+import Goback from "components/common/goBack/index";
+import Button from "components/common/button";
 import SlateEditor from "./slate/slateEditor";
 // import MarkdownInput from "./marked/input";
-import "../../../static/css/common.css";
+import "static/css/common.scss";
 import "./edit.scss";
-import "../../../service/cookie";
+import "service/cookie";
 
 class Edit extends Component {
   constructor(props) {

@@ -21,8 +21,8 @@ import ManageService from "service/manage";
 import StatusService from "service/status";
 import MessageService from "service/message";
 import { Store } from "store";
-import "static/css/common.css";
-import "./delete.css";
+import "static/css/common.scss";
+import "./delete.scss";
 
 const Delete = props => {
   const { name, cancel, deleteX, transferMsg } = props;

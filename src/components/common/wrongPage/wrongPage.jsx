@@ -4,8 +4,8 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import "static/css/common.css";
-import "./wrongPage.css";
+import "static/css/common.scss";
+import "./wrongPage.scss";
 
 class WrongPage extends Component {
   componentDidUpdate() {

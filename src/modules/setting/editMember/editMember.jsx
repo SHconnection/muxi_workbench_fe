@@ -11,7 +11,7 @@ import Loading from "components/common/loading/index";
 import { Store } from "store";
 import Save from "../components/save/save";
 import FirstEditMember from "../../project/components/firstEditMember/firstEditMember";
-import "./editMember.css";
+import "./editMember.scss";
 
 class EditMember extends Component {
   static changeGroupMemberFormat(mem) {

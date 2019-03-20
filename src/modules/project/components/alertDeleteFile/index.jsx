@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
-import Button from "../../../../components/common/button/index";
-import "../../../../static/css/common.css";
+import Button from "components/common/button/index";
+import "static/css/common.scss";
 
 class AlertDeleteFile extends Component {
   constructor(props) {

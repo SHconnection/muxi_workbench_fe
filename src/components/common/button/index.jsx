@@ -1,9 +1,19 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
-import "./index.css";
+import "./index.scss";
 
-const Button = ({ width, height, text, to, onClick, bgColor, textColor, border, fontSize }) => {
+const Button = ({
+  width,
+  height,
+  text,
+  to,
+  onClick,
+  bgColor,
+  textColor,
+  border,
+  fontSize
+}) => {
   const style = {
     width: `${width}px`,
     height: `${height}px`,
@@ -15,7 +25,7 @@ const Button = ({ width, height, text, to, onClick, bgColor, textColor, border, 
   const btText = {
     color: `${textColor}`,
     fontSize: `${fontSize}px`
-  }
+  };
   return (
     <div style={style}>
       <div
@@ -29,7 +39,9 @@ const Button = ({ width, height, text, to, onClick, bgColor, textColor, border, 
             {text}
           </Link>
         ) : (
-          <div className="bt-text" style={btText}>{text}</div>
+          <div className="bt-text" style={btText}>
+            {text}
+          </div>
         )}
       </div>
     </div>

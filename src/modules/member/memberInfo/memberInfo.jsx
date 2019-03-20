@@ -4,9 +4,9 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
-import Avatar from "../../../components/common/avatar/index";
-import "../../../static/css/common.css";
-import "./memberInfo.css";
+import Avatar from "components/common/avatar/index";
+import "static/css/common.scss";
+import "./memberInfo.scss";
 
 const userLevelSet = {
   1: "普通用户",

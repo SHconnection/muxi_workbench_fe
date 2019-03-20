@@ -11,8 +11,8 @@ import { Store } from "store";
 import Member from "../components/member/member";
 import Delete from "../components/delete/delete";
 import Save from "../components/save/save";
-import "static/css/common.css";
-import "./setPersonInfo.css";
+import "static/css/common.scss";
+import "./setPersonInfo.scss";
 
 class SetPersonalInfo extends Component {
   constructor(props) {

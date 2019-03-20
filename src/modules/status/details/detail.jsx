@@ -10,7 +10,7 @@ import thumbsUp from "assets/svg/commonIcon/thumbs_up.svg";
 import Button from "components/common/button/index";
 import Avatar from "components/common/avatar/index";
 import Othercomments from "components/common/otherComments/comments";
-import "static/css/common.css";
+import "static/css/common.scss";
 import StatusService from "service/status";
 import Loading from "components/common/loading/index";
 import CardContainer from "components/layouts/card/index";

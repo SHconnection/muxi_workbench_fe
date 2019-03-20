@@ -1,23 +1,21 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import Loading from "components/common/loading";
-
+import GoBack from "components/common/goBack/index";
+import Icon from "components/common/icon/index";
+import Button from "components/common/button/index";
+import Select from "components/common/select/index";
+import ProjectService from "service/project";
+import FileService from "service/file";
 import AlertMoveFile from "../../components/alertMoveFile";
 import AlertDeleteFile from "../../components/alertDeleteFile";
 import AlertCreateFolder from "../../components/alertCreateFolder";
 import { FileTree } from "../../fileTree";
-import GoBack from "../../../../components/common/goBack/index";
-
-import Icon from "../../../../components/common/icon/index";
-import Button from "../../../../components/common/button/index";
-import Select from "../../../../components/common/select/index";
 import FolderItemDoc from "../../components/folderItemDoc/index";
 import DocItem from "../../components/docItem/index";
-import ProjectService from "../../../../service/project";
 import DocList from "../../components/docList/index";
-import "./index.css";
-import "../../../../static/css/common.css";
-import FileService from "../../../../service/file";
+import "./index.scss";
+import "static/css/common.scss";
 
 class ProjectDetailAllFile extends Component {
   constructor(props) {

@@ -5,8 +5,8 @@ import ProjectService from "service/project";
 import { Store } from "store";
 import Edit from "../../../status/markdown/edit1";
 import { FileTree } from "../../fileTree";
-import "static/css/common.css";
-import "./index.css";
+import "static/css/common.scss";
+import "./index.scss";
 
 class NewDoc extends Component {
   constructor(props) {

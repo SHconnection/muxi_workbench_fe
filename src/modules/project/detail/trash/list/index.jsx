@@ -1,6 +1,6 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import './index.css';
+import React, { Component } from "react";
+import PropTypes from "prop-types";
+import "./index.scss";
 
 class List extends Component {
   constructor(props) {
@@ -24,10 +24,14 @@ class List extends Component {
             {item.name}
           </div>
           <div className="trash-file-delete-time">
-            {`${deleteTimeArray[0]}/${deleteTimeArray[1]}/${deleteTimeArray[2]}`}
+            {`${deleteTimeArray[0]}/${deleteTimeArray[1]}/${
+              deleteTimeArray[2]
+            }`}
           </div>
           <div className="trash-file-create-time">
-            {`${createTimeArray[0]}/${createTimeArray[1]}/${createTimeArray[2]}`}
+            {`${createTimeArray[0]}/${createTimeArray[1]}/${
+              createTimeArray[2]
+            }`}
           </div>
         </div>
         <div className="trash-file-list-right">
@@ -50,19 +54,19 @@ List.propTypes = {
     id: PropTypes.number,
     name: PropTypes.string,
     create_time: PropTypes.string,
-    delete_time: PropTypes.string,
+    delete_time: PropTypes.string
   }),
-  restore: PropTypes.func,
+  restore: PropTypes.func
 };
 
 List.defaultProps = {
   item: {
     id: null,
-    name: '',
-    create_time: '',
-    delete_time: '',
+    name: "",
+    create_time: "",
+    delete_time: ""
   },
-  restore: () => {},
+  restore: () => {}
 };
 
 export default List;

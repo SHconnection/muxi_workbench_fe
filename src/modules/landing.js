@@ -6,7 +6,7 @@ import { Store } from "store";
 import ManageService from "service/manage";
 import LandingService from "service/landing";
 import Cookie from "service/cookie";
-import "static/css/common.css";
+import "static/css/common.scss";
 
 const User = decodeURIComponent(LandingService.getUsername());
 // LandingService.getEmail('ruyunC');

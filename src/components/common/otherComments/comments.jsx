@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import Avatar from "../avatar/index";
-import "./comments.css";
+import "./comments.scss";
 
 function otherComments(props) {
   const { avatar, name, day, text } = props;

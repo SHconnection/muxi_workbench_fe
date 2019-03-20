@@ -2,7 +2,7 @@ import React from "react";
 import ReactSVG from "react-svg";
 import { animateScroll as scroll } from "react-scroll";
 import top from "../../../assets/svg/commonIcon/top.svg";
-import "./top.css";
+import "./top.scss";
 
 function toTop() {
   return (

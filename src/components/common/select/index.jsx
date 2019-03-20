@@ -1,8 +1,8 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import ReactSVG from "react-svg";
-import RectangleDown from "../../../assets/svg/commonIcon/rectangle_down.svg";
-import "./index.css";
+import RectangleDown from "assets/svg/commonIcon/rectangle_down.svg";
+import "./index.scss";
 
 class Select extends Component {
   constructor(props) {

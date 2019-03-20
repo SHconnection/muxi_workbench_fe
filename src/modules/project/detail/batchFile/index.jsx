@@ -1,15 +1,14 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
+import GoBack from "components/common/goBack/index";
+import ProjectService from "service/project";
+import FileService from "service/file";
 import AlertMoveFile from "../../components/alertMoveFile";
 import AlertDeleteFile from "../../components/alertDeleteFile";
 import { FileTree } from "../../fileTree";
-import GoBack from "../../../../components/common/goBack/index";
-
 import FileListBatch from "../../components/fileListBatch/index";
-import ProjectService from "../../../../service/project";
-import FileService from "../../../../service/file";
 import "./index.scss";
-import "../../../../static/css/common.css";
+import "static/css/common.scss";
 
 class BatchFile extends Component {
   constructor(props) {

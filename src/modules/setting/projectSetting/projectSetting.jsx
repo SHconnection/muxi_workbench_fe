@@ -12,8 +12,8 @@ import { Store } from "store";
 import Delete from "../components/delete/delete";
 import ProjectSetFirst from "../../project/components/projectSetFirst/projectSetFirst";
 import Save from "../components/save/save";
-import "static/css/common.css";
-import "./projectSetting.css";
+import "static/css/common.scss";
+import "./projectSetting.scss";
 
 class SetProject extends Component {
   constructor(props) {

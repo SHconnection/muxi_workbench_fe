@@ -3,18 +3,17 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { Store } from "store";
 import Loading from "components/common/loading";
-
-import MessageService from "../../../../service/message";
-import FileService from "../../../../service/file";
-import ProjectService from "../../../../service/project";
+import MessageService from "service/message";
+import FileService from "service/file";
+import ProjectService from "service/project";
+import Othercomments from "components/common/otherComments/comments";
+// import Paging from "components/common/paging/index";
+import Avatar from "components/common/avatar/index";
+import Button from "components/common/button/index";
+import Goback from "components/common/goBack/index";
 import { FileTree } from "../../fileTree";
-import Othercomments from "../../../../components/common/otherComments/comments";
-// import Paging from "../../../../components/common/paging/index";
-import Avatar from "../../../../components/common/avatar/index";
-import Button from "../../../../components/common/button/index";
-import Goback from "../../../../components/common/goBack/index";
 import FileIcon from "../../components/fileIcon/index";
-import "../../../../static/css/common.css";
+import "static/css/common.scss";
 import "./index.scss";
 
 class DocPreview extends Component {

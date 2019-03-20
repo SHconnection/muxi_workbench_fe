@@ -4,22 +4,22 @@ import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
 import Loading from "components/common/loading";
 import { Store } from "store";
-import GoBack from "../../../components/common/goBack/index";
-import Icon from "../../../components/common/icon/index";
+import GoBack from "components/common/goBack/index";
+import Icon from "components/common/icon/index";
+import Spin from "components/common/spin";
+import Select from "components/common/select/index";
+import ProjectService from "service/project";
+import FileService from "service/file";
 import { FileTree } from "../fileTree";
-import Spin from "../../../components/common/spin";
 import AlertMoveFile from "../components/alertMoveFile";
 import AlertDeleteFile from "../components/alertDeleteFile";
 import AlertCreateFolder from "../components/alertCreateFolder";
-import Select from "../../../components/common/select/index";
 import FolderItem from "../components/folderItem/index";
 import FileItem from "../components/fileItem/index";
 import FolderItemDoc from "../components/folderItemDoc/index";
 import DocItem from "../components/docItem/index";
-import ProjectService from "../../../service/project";
-import FileService from "../../../service/file";
 import "./index.scss";
-import "../../../static/css/common.css";
+import "static/css/common.scss";
 
 class ProjectDetailIndex extends Component {
   constructor(props) {

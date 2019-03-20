@@ -2,9 +2,9 @@ import React, { Component } from "react";
 import ReactSVG from "react-svg";
 import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
-import DocFolderIcon from "../../../../assets/svg/fileIcon/docFolder.svg";
-import "./index.css";
-import "../../../../static/css/common.css";
+import DocFolderIcon from "assets/svg/fileIcon/docFolder.svg";
+import "./index.scss";
+import "static/css/common.scss";
 
 class FolderItemDoc extends Component {
   constructor(props) {

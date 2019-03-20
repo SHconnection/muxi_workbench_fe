@@ -8,7 +8,7 @@ import InfoRemindIcon from "assets/svg/commonIcon/infoRemind.svg";
 import InfoIcon from "assets/svg/commonIcon/info.svg";
 import MessageService from "service/message";
 import { Store } from "store";
-import "./index.css";
+import "./index.scss";
 
 const kind = ["进度", "文件", "评论", "团队"];
 function getPath(sourcekind, projectID, sourceID) {

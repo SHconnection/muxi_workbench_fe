@@ -7,10 +7,10 @@ import PropTypes from "prop-types";
 import GoBack from "components/common/goBack/index";
 import Loading from "components/common/loading/index";
 import { Store } from "store";
-import ManageService from "../../../service/manage";
+import ManageService from "service/manage";
 import Save from "../components/save/save";
-import "static/css/common.css";
-import "./addMember.css";
+import "static/css/common.scss";
+import "./addMember.scss";
 
 class AddMem extends Component {
   constructor(props) {

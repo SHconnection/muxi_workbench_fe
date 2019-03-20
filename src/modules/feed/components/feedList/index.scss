@@ -83,9 +83,6 @@
     margin-bottom: 20px;
     font-weight: bold;
     max-width: 300px;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
 }
 .feed-details{
     display: flex;
@@ -112,7 +109,6 @@
     font-size: 16px;
     vertical-align: middle;
     max-width: 400px;
-    overflow: scroll;
     white-space: nowrap;
 }
 .feed-action-word{

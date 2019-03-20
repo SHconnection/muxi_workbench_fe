@@ -9,12 +9,12 @@ import {
   getScrollTop
 } from "common/scroll";
 import { Store } from "store";
+import Gotop from "components/common/toTop/top";
+import FeedService from "service/feed";
+import ProjectService from "service/project";
 import FeedItem from "./components/feedList/index";
-import Gotop from "../../components/common/toTop/top";
-import FeedService from "../../service/feed";
-import ProjectService from "../../service/project";
-import "../../static/css/common.css";
-import "./dynamic.css";
+import "static/css/common.scss";
+import "./dynamic.scss";
 
 const createweek = [
   " 周日",
@@ -25,10 +25,28 @@ const createweek = [
   " 周五",
   " 周六"
 ];
-const today = new Date().toLocaleDateString();
-const yesterday = new Date(
+let today = new Date().toLocaleDateString();
+let yesterday = new Date(
   new Date().getTime() - 24 * 60 * 60 * 1000
 ).toLocaleDateString();
+const tmp = today.split("/");
+const temp = yesterday.split("/");
+
+if (tmp[1].length !== 2) {
+  tmp[1] = `0${tmp[1]}`;
+}
+if (tmp[2].length !== 2) {
+  tmp[2] = `0${tmp[2]}`;
+}
+if (temp[1].length !== 2) {
+  temp[1] = `0${temp[1]}`;
+}
+if (temp[2].length !== 2) {
+  temp[2] = `0${temp[2]}`;
+}
+
+today = tmp.join("/");
+yesterday = temp.join("/");
 
 class Dynamic extends Component {
   static chargeday(timeDay) {

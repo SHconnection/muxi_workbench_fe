@@ -25,12 +25,14 @@
 .status-item-name {
   font-size: 16px;
   margin-left: 11px;
+  max-width: 600px;
 }
 .status-item-time {
   color: #919191;
   font-size: 12px;
   margin-left: 11px;
   margin-top: 4px;
+  max-width: 600px;
 }
 .open {
   position: absolute;
