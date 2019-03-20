@@ -1,15 +1,15 @@
 .docPreview-header-creator {
   margin-left: 13px;
-  font-size:12px;
+  font-size: 12px;
   font-weight: 400;
-  color: rgba(116,117,118,1);
+  color: rgba(116, 117, 118, 1);
   max-width: 100px;
 }
 
 .docPreview-header-lasteditor {
   margin-left: 21px;
-  font-size:14px;
-  color: rgba(64,64,64,1);
+  font-size: 14px;
+  color: rgba(64, 64, 64, 1);
   max-width: 130px;
 }
 
@@ -25,13 +25,13 @@
 .docPreview-header-url span {
   font-size: 14px;
   font-weight: 400;
-  color: rgba(29,76,181,1);
+  color: rgba(29, 76, 181, 1);
 }
 
-.docPreview-header-url span a{
+.docPreview-header-url span a {
   font-size: 14px;
   font-weight: 400;
-  color: rgba(29,76,181,1);
+  color: rgba(29, 76, 181, 1);
 }
 
 .docPreview-header-right {
@@ -41,10 +41,11 @@
   align-items: center;
 }
 
-.docPreview-header-right div, .docPreview-header-right a {
+.docPreview-header-right div,
+.docPreview-header-right a {
   font-size: 16px;
   font-weight: 400;
-  color: rgba(16,142,233,1);
+  color: rgba(16, 142, 233, 1);
   line-height: 22px;
   margin-left: 27px;
   cursor: pointer;
@@ -53,7 +54,7 @@
 
 .docPreview-time {
   font-size: 14px;
-  color: rgba(64,64,64,1);
+  color: rgba(64, 64, 64, 1);
   line-height: 19px;
   margin-bottom: 10px;
 }
@@ -65,6 +66,15 @@
   border: white;
   display: felx;
   display: -webkit-flex;
+  div {
+    width: 100%;
+  }
+  .image-container {
+    img {
+      max-width: 100%;
+      height: auto;
+    }
+  }
 }
 
 .docPreview-md-preview {

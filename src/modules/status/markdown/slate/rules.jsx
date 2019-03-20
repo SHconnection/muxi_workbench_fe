@@ -93,7 +93,7 @@ const rules = [
             return <hr />;
           case "image":
             return (
-              <p style={{ textAlign: "center" }}>
+              <p className="image-container" style={{ textAlign: "center" }}>
                 <img alt="img" className="image" src={obj.data.get("src")} />
               </p>
             );
