@@ -110,8 +110,8 @@ button {
 }
 .footerBtn {
   position: absolute;
-  top: 86%;
-  padding-bottom: 20px;
+  top: 90%;
+  margin-bottom: 20px;
 }
 .none {
   display: none;

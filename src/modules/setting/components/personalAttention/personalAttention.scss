@@ -2,7 +2,6 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    overflow: scroll;
     white-space: nowrap;
     width: 500px;
 }
@@ -10,14 +9,12 @@
     font-size: 14px;
     margin-left: 20px;
     width: 150px;
-    overflow: scroll;
 }
 .personalAttention-vice{
     width: 400px;
     margin-left: 26px;
     line-height: normal;
     vertical-align: middle;
-    overflow: scroll;
     text-align: left;
 }
 .IB{
