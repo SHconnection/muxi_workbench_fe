@@ -1,0 +1,95 @@
+.status-details {
+  p {
+    min-height: 25px;
+  }
+}
+.status-detail-head {
+  width: 100%;
+}
+.status-detail-back {
+  display: inline-block;
+  vertical-align: middle;
+}
+.stauts-detail-second {
+  display: inline-block;
+  vertical-align: middle;
+  margin-top: -14px;
+}
+.status-detail-title {
+  margin-top: 20px;
+  color: #1d4cb5;
+  font-size: 24px;
+}
+.status-detail-time {
+  margin-top: 5px;
+  font-size: 14px;
+}
+.status-detail-name {
+  font-size: 14px;
+}
+.status-detail-edit {
+  margin-left: 5px;
+  display: inline-block;
+  vertical-align: middle;
+  margin-top: -10px;
+}
+.status-detail-editor {
+  font-size: 16px;
+  color: #1d4cb5;
+}
+.status-detail-delete {
+  margin-left: 27px;
+  font-size: 16px;
+  color: #1d4cb5;
+  cursor: pointer;
+}
+.status-detail-good {
+  position: absolute;
+  right: 100px;
+  top: 55px;
+  display: flex;
+  align-items: center;
+}
+.status-ifgood {
+  width: 25px;
+  height: 25px;
+}
+.status-detail-love {
+  margin-left: 10px;
+  font-size: 16px;
+}
+
+.status-details {
+  font-size: 16px;
+  width: 88%;
+  overflow-y: auto;
+  overflow-x: hidden;
+  word-break: break-all;
+  margin: 52px auto;
+}
+
+.status-detail-line {
+  width: 100%;
+  margin-top: 10%;
+  background-color: #cccaca;
+  border: 0;
+}
+.send {
+  display: flex;
+  width: 90%;
+  margin: 60px auto;
+}
+.send-comment {
+  border-radius: 4px;
+  height: 129px;
+  font-size: 16px;
+  width: 700px;
+  border: 1px solid #1d4cb5;
+}
+.push {
+  margin-left: 10px;
+}
+.comment-bt {
+  margin-top: 10px;
+  margin-bottom: 20px;
+}

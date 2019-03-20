@@ -17,7 +17,7 @@ import Button from "../../../../components/common/button/index";
 import Goback from "../../../../components/common/goBack/index";
 import "../../../../static/css/common.css";
 import "../../../status/markdown/edit.scss";
-import "./index.css";
+import "./index.scss";
 
 class DocPreview extends Component {
   constructor(props) {

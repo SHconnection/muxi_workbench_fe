@@ -16,7 +16,7 @@ import Loading from "components/common/loading/index";
 import CardContainer from "components/layouts/card/index";
 import { Store } from "store";
 import Delete from "../../setting/components/delete/delete";
-import "./detail.css";
+import "./detail.scss";
 
 const Goods = [thumbs, thumbsUp];
 
