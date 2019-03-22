@@ -60,7 +60,7 @@ class BatchDoc extends Component {
           folder: fileIdUrl.map(el => parseInt(el, 0)),
           file: []
         };
-        FileService.getDocList(postData)
+        FileService.getFileList(postData)
           .then(res => {
             let fileUrl = `${tree.name}`;
             if (res.FolderList && res.FolderList.length) {

@@ -86,7 +86,7 @@ class ProjectDetailAllDoc extends Component {
     this.updateDocList(parseInt(id, 10));
   }
 
-  componentWillUpdate(nextProps) {
+  componentWillReceiveProps(nextProps) {
     const { docRootId } = this.state;
     const {
       match: {
