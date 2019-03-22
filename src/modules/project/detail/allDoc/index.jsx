@@ -86,15 +86,23 @@ class ProjectDetailAllDoc extends Component {
     this.updateDocList(parseInt(id, 10));
   }
 
-  componentWillUpdate(nextProps) {
+  componentWillReceiveProps(nextProps) {
     const { docRootId } = this.state;
     const {
       match: {
         params: { id }
       }
     } = nextProps;
+
     if (docRootId !== id) {
-      this.updateDocList(parseInt(id, 10));
+      this.setState(
+        {
+          docRootId: id
+        },
+        () => {
+          this.updateDocList(parseInt(id, 10));
+        }
+      );
     }
   }
 
