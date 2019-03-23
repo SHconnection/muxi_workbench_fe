@@ -96,7 +96,7 @@ class ProjectDetailAllFile extends Component {
         params: { id }
       }
     } = nextProps;
-    if (fileRootId !== id) {
+    if (fileRootId !== parseInt(id, 10)) {
       this.updateFilesList(parseInt(id, 10));
     }
   }

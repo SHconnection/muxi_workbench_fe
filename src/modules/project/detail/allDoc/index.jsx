@@ -93,16 +93,8 @@ class ProjectDetailAllDoc extends Component {
         params: { id }
       }
     } = nextProps;
-
-    if (docRootId !== id) {
-      this.setState(
-        {
-          docRootId: id
-        },
-        () => {
-          this.updateDocList(parseInt(id, 10));
-        }
-      );
+    if (docRootId !== parseInt(id, 10)) {
+      this.updateDocList(parseInt(id, 10));
     }
   }
 
