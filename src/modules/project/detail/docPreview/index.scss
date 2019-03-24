@@ -66,6 +66,9 @@
   border: white;
   display: felx;
   display: -webkit-flex;
+  p {
+    min-height: 20px;
+  }
   div {
     width: 100%;
   }
