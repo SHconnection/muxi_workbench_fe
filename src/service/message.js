@@ -27,13 +27,10 @@ const MessageService = {
     });
   },
 
-  messageAllRead(username) {
+  messageAllRead() {
     return Fetch("/api/v1.0/message/readAll/", {
       method: "POST",
-      token: Store.getState().token,
-      data: {
-        username
-      }
+      token: Store.getState().token
     });
   },
 

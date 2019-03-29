@@ -26,7 +26,7 @@ function getPath(sourcekind, projectID, sourceID) {
   }
 }
 let informCanGetMessage = true;
-let informIntervalPointer = null;
+// let informIntervalPointer = null;
 
 class Inform extends Component {
   constructor(props) {
@@ -51,21 +51,21 @@ class Inform extends Component {
         }, 10000);
       }
     }, 1000);
-    informIntervalPointer = setInterval(() => {
-      const { storeLoginSuccess } = this.props;
-      if (informCanGetMessage && storeLoginSuccess === 1) {
-        this.getMessage();
-        informCanGetMessage = false;
-        setTimeout(() => {
-          informCanGetMessage = true;
-        }, 10000);
-      }
-    }, 5000);
+    // informIntervalPointer = setInterval(() => {
+    //   const { storeLoginSuccess } = this.props;
+    //   if (informCanGetMessage && storeLoginSuccess === 1) {
+    //     this.getMessage();
+    //     informCanGetMessage = false;
+    //     setTimeout(() => {
+    //       informCanGetMessage = true;
+    //     }, 10000);
+    //   }
+    // }, 5000);
   }
 
-  componentWillUnmount() {
-    clearInterval(informIntervalPointer);
-  }
+  // componentWillUnmount() {
+  //   clearInterval(informIntervalPointer);
+  // }
 
   getMessage() {
     MessageService.getMessageList(1)
@@ -99,9 +99,7 @@ class Inform extends Component {
   }
 
   readAll() {
-    const { storeUsername } = this.props;
-
-    MessageService.messageAllRead(storeUsername)
+    MessageService.messageAllRead()
       .then(() => {
         this.getMessage();
       })
@@ -162,11 +160,11 @@ class Inform extends Component {
                             {el.action}
                             <Link
                               className="info-item-to"
-                              to={`${getPath(
+                              to={getPath(
                                 el.sourceKind,
                                 el.projectID,
                                 el.sourceID
-                              )}`}
+                              )}
                             >
                               {kind[el.sourceKind]}
                             </Link>
@@ -196,7 +194,7 @@ class Inform extends Component {
                 />
                 <Link
                   className="header-info-setting footer-text"
-                  to="teamMember/personalInfo/personalSet"
+                  to={`/teamMember/personalSet`}
                 >
                   通知设置
                 </Link>
@@ -213,17 +211,14 @@ class Inform extends Component {
 }
 
 Inform.propTypes = {
-  storeUsername: PropTypes.string,
   storeLoginSuccess: PropTypes.number
 };
 
 Inform.defaultProps = {
-  storeUsername: "",
   storeLoginSuccess: 0
 };
 
 const mapStateToProps = state => ({
-  storeUsername: state.username,
   storeLoginSuccess: state.loginSuccess
 });
 
