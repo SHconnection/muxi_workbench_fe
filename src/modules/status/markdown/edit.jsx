@@ -66,7 +66,7 @@ class edit extends Component {
   save(title) {
     const { match } = this.props;
     const content = localStorage.getItem("content");
-    if (title === "" || content === "") {
+    if (title.trim() === "" || content.trim() === "") {
       this.setState({
         textnone: true
       });

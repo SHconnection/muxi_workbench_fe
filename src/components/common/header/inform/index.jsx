@@ -194,7 +194,7 @@ class Inform extends Component {
                 />
                 <Link
                   className="header-info-setting footer-text"
-                  to={`/teamMember/personalSet`}
+                  to="/teamMember/personalSet"
                 >
                   通知设置
                 </Link>

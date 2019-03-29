@@ -191,6 +191,10 @@ class SelectMember extends Component {
     const { selMembers, deleteAdmin } = this.state;
 
     if (groupMember) {
+      if (!groupName.trim()) {
+        transferMsg(true);
+        return;
+      }
       ManageService.updateGroupName(groupID, groupName)
         .then(() => {
           ManageService.updateGroupMember(groupID, selMembers)
@@ -218,7 +222,7 @@ class SelectMember extends Component {
     }
 
     if (addGroup) {
-      if (!groupName) {
+      if (!groupName.trim()) {
         transferMsg(true);
         return;
       }

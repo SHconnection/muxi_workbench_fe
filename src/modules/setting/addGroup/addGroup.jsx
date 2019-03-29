@@ -20,7 +20,7 @@ class AddGroup extends Component {
   }
 
   changeInput = e => {
-    if (e.target.value) {
+    if (e.target.value.trim()) {
       this.setState({
         inputValue: e.target.value,
         inputIsNull: false

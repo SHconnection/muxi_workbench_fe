@@ -67,7 +67,7 @@ class PersonalSet extends Component {
   }
 
   changeName = e => {
-    if (e.target.value) {
+    if (e.target.value.trim()) {
       this.setState({
         inputName: e.target.value,
         nameIsNull: false
@@ -97,7 +97,7 @@ class PersonalSet extends Component {
   // };
 
   changePhone = e => {
-    if (e.target.value) {
+    if (e.target.value.trim()) {
       this.setState({
         inputPhone: e.target.value
         // phoneIsNull: false
@@ -128,6 +128,10 @@ class PersonalSet extends Component {
       imgFile
     } = this.state;
     const { storeId } = this.props;
+    if (!inputName.trim()) {
+      this.setState({ nameIsNull: true });
+      return;
+    }
 
     const obj = {
       username: inputName,

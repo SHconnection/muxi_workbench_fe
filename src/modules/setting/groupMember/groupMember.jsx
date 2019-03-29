@@ -31,7 +31,7 @@ class GroupMember extends Component {
   }
 
   changeInput = e => {
-    if (e.target.value) {
+    if (e.target.value.trim()) {
       this.setState({
         inputValue: e.target.value,
         inputIsNull: false
@@ -43,6 +43,12 @@ class GroupMember extends Component {
         inputIsNull: true
       });
     }
+  };
+
+  transferMsg = inputIsNull => {
+    this.setState({
+      inputIsNull
+    });
   };
 
   render() {
@@ -74,7 +80,12 @@ class GroupMember extends Component {
         >
           输入框不能为空！
         </span>
-        <SelectMember groupMember groupID={per.id} groupName={inputValue} />
+        <SelectMember
+          groupMember
+          groupID={per.id}
+          groupName={inputValue}
+          transferMsg={this.transferMsg}
+        />
       </div>
     );
   }

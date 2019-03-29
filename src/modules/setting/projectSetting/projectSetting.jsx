@@ -54,7 +54,7 @@ class SetProject extends Component {
   }
 
   changeInput = e => {
-    if (e.target.value) {
+    if (e.target.value.trim()) {
       this.setState({
         inputValue: e.target.value,
         inputIsNull: false
@@ -92,7 +92,7 @@ class SetProject extends Component {
     } = this.props;
     const { textValue, inputValue } = this.state;
 
-    if (!inputValue) {
+    if (!inputValue.trim()) {
       this.setState({
         inputIsNull: true
       });
