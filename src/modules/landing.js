@@ -45,7 +45,7 @@ class Landing extends Component {
               type: "substituteToken",
               payload: response.token || ""
             });
-            Cookie.setCookie("workbench_token", response.token);
+            Cookie.setCookie("workbench_token", response.token, 36500);
             Store.dispatch({
               type: "substituteRole",
               payload: response.urole || 1

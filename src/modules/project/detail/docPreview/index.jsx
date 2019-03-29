@@ -423,7 +423,7 @@ class DocPreview extends Component {
               >
                 移动
               </div>
-              <a href={`../docEdit/${id}`}>编辑</a>
+              <a href={`/project/${pid}/docEdit/${id}`}>编辑</a>
               <div
                 onClick={this.startDeleteDoc}
                 onMouseDown={() => {}}
