@@ -558,6 +558,7 @@ class ProjectDetailAllFile extends Component {
                     item={el}
                     index={index}
                     fileUrl={fileUrl}
+                    pid={pid}
                     moveFile={this.moveFile}
                     deleteFile={this.startDeleteFile}
                     fileToTop={this.fileToTop}

@@ -468,6 +468,7 @@ class ProjectDetailAllDoc extends Component {
                 <div key={el.id}>
                   <DocList
                     item={el}
+                    pid={pid}
                     index={index}
                     docUrl={docUrl}
                     moveDoc={this.moveDoc}

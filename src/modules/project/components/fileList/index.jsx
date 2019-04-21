@@ -1,16 +1,21 @@
 import React from "react";
 import PropTypes from "prop-types";
+import { Link } from "react-router-dom";
 import "./index.scss";
 
 function FileList(props) {
-  const { item, index, fileUrl, deleteFile, moveFile, fileToTop } = props;
+  const { item, index, fileUrl, deleteFile, moveFile, fileToTop, pid } = props;
   const createTimeArray = item.create_time.split(/\D/);
   return (
     <div className="project-fileList-container">
       <div className="project-fileList-left">
-        <div title={item.name} className="project-fileList-name">
+        <Link
+          className="project-fileList-name"
+          to={`/project/${pid}/file/${item.id}`}
+          title={item.name}
+        >
           {item.name}
-        </div>
+        </Link>
         <div className="project-fileList-uploader">{item.creator}</div>
         <div className="project-fileList-time">
           {`${createTimeArray[0]}/${createTimeArray[1]}/${createTimeArray[2]}`}
@@ -72,7 +77,8 @@ FileList.propTypes = {
   fileUrl: PropTypes.string,
   deleteFile: PropTypes.func,
   moveFile: PropTypes.func,
-  fileToTop: PropTypes.func
+  fileToTop: PropTypes.func,
+  pid: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
 };
 
 FileList.defaultProps = {
@@ -87,7 +93,8 @@ FileList.defaultProps = {
   fileUrl: "",
   deleteFile: () => {},
   moveFile: () => {},
-  fileToTop: () => {}
+  fileToTop: () => {},
+  pid: ""
 };
 
 export default FileList;
