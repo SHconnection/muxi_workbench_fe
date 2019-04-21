@@ -140,7 +140,7 @@ class ProjectDetailAllDoc extends Component {
       .then(res => {
         this.setState({
           docTree: res,
-          currentRootName: FileTree.searchNode(id, res).name
+          currentRootName: FileTree.searchFolder(id, res).name
         });
         // 算出当前路径
         this.getDocUrl(id, res);

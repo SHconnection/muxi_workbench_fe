@@ -35,7 +35,7 @@ class BatchDoc extends Component {
       // 是否全部选中
       checkedAll: false
     };
-    this.getFileUrl = this.getFileUrl.bind(this);
+    this.getDocUrl = this.getDocUrl.bind(this);
     this.updateFilesList = this.updateFilesList.bind(this);
     this.check = this.check.bind(this);
     this.checkAll = this.checkAll.bind(this);
@@ -48,7 +48,7 @@ class BatchDoc extends Component {
   }
 
   // 算出文件的路径
-  getFileUrl(id, tree) {
+  getDocUrl(id, tree) {
     // 找到文件所在节点
     const node = FileTree.searchNode(id, tree);
     if (node) {
@@ -58,9 +58,9 @@ class BatchDoc extends Component {
         fileIdUrl.shift();
         const postData = {
           folder: fileIdUrl.map(el => parseInt(el, 0)),
-          file: []
+          doc: []
         };
-        FileService.getFileList(postData)
+        FileService.getDocList(postData)
           .then(res => {
             let fileUrl = `${tree.name}`;
             if (res.FolderList && res.FolderList.length) {
@@ -94,7 +94,7 @@ class BatchDoc extends Component {
           currentRootName: FileTree.searchNode(fileRootId, res).name
         });
         // 算当前路径
-        this.getFileUrl(fileRootId, res);
+        this.getDocUrl(fileRootId, res);
         // 请求filelist
         FileService.getDocList(FileTree.findDocIdList(fileRootId, res))
           .then(res1 => {
