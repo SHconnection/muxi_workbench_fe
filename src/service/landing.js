@@ -28,7 +28,7 @@ const LandingService = {
   },
   getEmail(username) {
     return Fetch(
-      `http://pass.muxixyz.com/api/email/?username=${decodeURIComponent(
+      `http://pass.test.com/api/email/?username=${decodeURIComponent(
         username
       )}`
     );
