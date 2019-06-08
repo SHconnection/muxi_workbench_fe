@@ -57,7 +57,7 @@ class Header extends Component {
           <div className="header-left">
             <NavLink to="/project" className="home-link">
               <img className="header-logo-img" src={logo} alt="logo" />
-              <div className="header-logo-text">木犀工作台</div>
+              <div className="header-logo-text">TEAM</div>
             </NavLink>
             <div className="header-tab-container">
               <NavLink
