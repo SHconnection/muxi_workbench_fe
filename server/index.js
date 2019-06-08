@@ -18,7 +18,7 @@ app.use(async (ctx, next) => {
     await next();
   } else {
     // for production
-    ctx.redirect("http://pass.test.com/?landing=work.test.com/landing")
+    ctx.redirect("http://pass.test.com/?landing=team.test.com/landing")
   }
 });
 
