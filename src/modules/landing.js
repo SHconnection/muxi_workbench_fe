@@ -20,7 +20,7 @@ const data = {
   teamID: 1
 };
 
-console.log("data: ",data)
+// console.log("data: ",data)
 Store.dispatch({
   type: "substituteUsername",
   payload: User || ""
@@ -38,19 +38,19 @@ class Landing extends Component {
           type: "substituteEmail",
           payload: email || ""
         });
-        console.log("email:", email) 
+        // console.log("email:", email)
         LandingService.getToken(userInfo)
           .then(response => {
             Store.dispatch({
               type: "substituteId",
               payload: response.uid || 0
             });
-            console.log("uid:", uid) 
+            // console.log("uid:", uid)
             Store.dispatch({
               type: "substituteToken",
               payload: response.token || ""
             });
-            console.log("token:", token) 
+            // console.log("token:", token)
             Cookie.setCookie("workbench_token", response.token, 36500);
             Store.dispatch({
               type: "substituteRole",
