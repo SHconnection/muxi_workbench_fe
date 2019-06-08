@@ -10,6 +10,7 @@ import "static/css/common.scss";
 import { emit } from "cluster";
 
 const User = decodeURIComponent(LandingService.getUsername());
+
 // LandingService.getEmail('ruyunC');
 const data = {
   name: User,
@@ -19,6 +20,7 @@ const data = {
   teamID: 1
 };
 
+console.log("data: ",data)
 Store.dispatch({
   type: "substituteUsername",
   payload: User || ""
