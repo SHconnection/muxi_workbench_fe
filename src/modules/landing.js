@@ -7,7 +7,6 @@ import ManageService from "service/manage";
 import LandingService from "service/landing";
 import Cookie from "service/cookie";
 import "static/css/common.scss";
-import { emit } from "cluster";
 
 const User = decodeURIComponent(LandingService.getUsername());
 

@@ -1,4 +1,4 @@
-FROM node:10.10.0
+FROM node:latest
 
 # Environment Variables
 # ENV PUBLIC_URL http://static.muxixyz.com/workbench/
